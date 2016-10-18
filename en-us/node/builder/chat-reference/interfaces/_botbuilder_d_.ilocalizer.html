@@ -163,29 +163,31 @@
 									<h2>Index</h2>
 									<section class="tsd-panel tsd-index-panel">
 										<div class="tsd-index-content">
-											<section class="tsd-index-section tsd-is-not-exported">
+											<section class="tsd-index-section ">
 												<h3>Methods</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.ilocalizer.html#gettext" class="tsd-kind-icon">gettext</a></li>
-													<li class="tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.ilocalizer.html#ngettext" class="tsd-kind-icon">ngettext</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.ilocalizer.html#gettext" class="tsd-kind-icon">gettext</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.ilocalizer.html#load" class="tsd-kind-icon">load</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.ilocalizer.html#ngettext" class="tsd-kind-icon">ngettext</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.ilocalizer.html#trygettext" class="tsd-kind-icon">trygettext</a></li>
 												</ul>
 											</section>
 										</div>
 									</section>
 								</section>
-								<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Methods</h2>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 										<a name="gettext" class="tsd-anchor"></a>
 										<h3>gettext</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-											<li class="tsd-signature tsd-kind-icon">gettext<span class="tsd-signature-symbol">(</span>language<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msgid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">gettext<span class="tsd-signature-symbol">(</span>locale<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msgid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L320">botbuilder.d.ts:320</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L345">botbuilder.d.ts:345</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -196,9 +198,9 @@
 												<h4 class="tsd-parameters-title">Parameters</h4>
 												<ul class="tsd-parameters">
 													<li>
-														<h5>language: <span class="tsd-signature-type">string</span></h5>
+														<h5>locale: <span class="tsd-signature-type">string</span></h5>
 														<div class="tsd-comment tsd-typography">
-															<p>Desired language of the string to return.</p>
+															<p>Desired locale of the string to return.</p>
 														</div>
 													</li>
 													<li>
@@ -207,16 +209,22 @@
 															<p>String to use as a key in the localized string table. Typically this will just be the english version of the string.</p>
 														</div>
 													</li>
+													<li>
+														<h5><span class="tsd-flag ts-flagOptional">Optional</span> namespace: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>(Optional) namespace for the msgid keys.</p>
+														</div>
+													</li>
 												</ul>
 												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 											</li>
 										</ul>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-										<a name="ngettext" class="tsd-anchor"></a>
-										<h3>ngettext</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
-											<li class="tsd-signature tsd-kind-icon">ngettext<span class="tsd-signature-symbol">(</span>language<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msgid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msgid_plural<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, count<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="load" class="tsd-anchor"></a>
+										<h3>load</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">load<span class="tsd-signature-symbol">(</span>locale<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
@@ -227,15 +235,70 @@
 												</aside>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
+														<p>Loads the localied table for the supplied locale, and call&#39;s the supplied callback once the load is complete.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>locale: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The locale to load.</p>
+														</div>
+													</li>
+													<li>
+														<h5>callback: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>callback that is called once the supplied locale has been loaded, or an error if the load fails.</p>
+														</div>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter-siganture">
+																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																</ul>
+																<ul class="tsd-descriptions">
+																	<li class="tsd-description">
+																		<h4 class="tsd-parameters-title">Parameters</h4>
+																		<ul class="tsd-parameters">
+																			<li>
+																				<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																			</li>
+																		</ul>
+																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="ngettext" class="tsd-anchor"></a>
+										<h3>ngettext</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">ngettext<span class="tsd-signature-symbol">(</span>locale<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msgid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msgid_plural<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, count<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, namespace<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L355">botbuilder.d.ts:355</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
 														<p>Loads the plural form of a localized string for the specified language.</p>
 													</div>
 												</div>
 												<h4 class="tsd-parameters-title">Parameters</h4>
 												<ul class="tsd-parameters">
 													<li>
-														<h5>language: <span class="tsd-signature-type">string</span></h5>
+														<h5>locale: <span class="tsd-signature-type">string</span></h5>
 														<div class="tsd-comment tsd-typography">
-															<p>Desired language of the string to return.</p>
+															<p>Desired locale of the string to return.</p>
 														</div>
 													</li>
 													<li>
@@ -254,6 +317,55 @@
 														<h5>count: <span class="tsd-signature-type">number</span></h5>
 														<div class="tsd-comment tsd-typography">
 															<p>Count to use when determining whether the singular or plural form of the string should be used.</p>
+														</div>
+													</li>
+													<li>
+														<h5><span class="tsd-flag ts-flagOptional">Optional</span> namespace: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>(Optional) namespace for the msgid and msgid_plural keys.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="trygettext" class="tsd-anchor"></a>
+										<h3>trygettext</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">trygettext<span class="tsd-signature-symbol">(</span>locale<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msgid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, namespace<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L337">botbuilder.d.ts:337</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Loads a localized string for the specified language.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>locale: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Desired locale of the string to return.</p>
+														</div>
+													</li>
+													<li>
+														<h5>msgid: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>String to use as a key in the localized string table. Typically this will just be the english version of the string.</p>
+														</div>
+													</li>
+													<li>
+														<h5><span class="tsd-flag ts-flagOptional">Optional</span> namespace: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>(Optional) namespace for the msgid keys.</p>
 														</div>
 													</li>
 												</ul>
@@ -278,14 +390,20 @@
 									<ul class="before-current">
 									</ul>
 									<ul class="current">
-										<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+										<li class="current tsd-kind-interface tsd-parent-kind-external-module">
 											<a href="_botbuilder_d_.ilocalizer.html" class="tsd-kind-icon">ILocalizer</a>
 											<ul>
-												<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.ilocalizer.html#gettext" class="tsd-kind-icon">gettext</a>
 												</li>
-												<li class=" tsd-kind-method tsd-parent-kind-interface tsd-is-not-exported">
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.ilocalizer.html#load" class="tsd-kind-icon">load</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.ilocalizer.html#ngettext" class="tsd-kind-icon">ngettext</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.ilocalizer.html#trygettext" class="tsd-kind-icon">trygettext</a>
 												</li>
 											</ul>
 										</li>

@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IPromptOptions | Bot Builder SDK Chat Reference Library | Bot Framework</title>
+	<title>IDefaultLocalizerSettings | Bot Builder SDK Chat Reference Library | Bot Framework</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
@@ -135,10 +135,10 @@
 										<a href="../modules/_botbuilder_d_.html">&quot;botbuilder.d&quot;</a>
 									</li>
 									<li>
-										<a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>
+										<a href="_botbuilder_d_.idefaultlocalizersettings.html">IDefaultLocalizerSettings</a>
 									</li>
 								</ul>
-								<h1>Interface IPromptOptions</h1>
+								<h1>Interface IDefaultLocalizerSettings</h1>
 							</div>
 						</div>
 						</header>				<div class="container container-main">
@@ -147,7 +147,7 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Options passed to built-in prompts.</p>
+											<p>Settings used to initialize an ILocalizer implementation.</p>
 										</div>
 									</div>
 								</section>
@@ -155,12 +155,7 @@
 									<h3>Hierarchy</h3>
 									<ul class="tsd-hierarchy">
 										<li>
-											<span class="target">IPromptOptions</span>
-											<ul class="tsd-hierarchy">
-												<li>
-													<a href="_botbuilder_d_.ipromptargs.html" class="tsd-signature-type">IPromptArgs</a>
-												</li>
-											</ul>
+											<span class="target">IDefaultLocalizerSettings</span>
 										</li>
 									</ul>
 								</section>
@@ -168,121 +163,46 @@
 									<h2>Index</h2>
 									<section class="tsd-panel tsd-index-panel">
 										<div class="tsd-index-content">
-											<section class="tsd-index-section ">
+											<section class="tsd-index-section tsd-is-not-exported">
 												<h3>Properties</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptoptions.html#liststyle" class="tsd-kind-icon">list<wbr>Style</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptoptions.html#localizationnamespace" class="tsd-kind-icon">localization<wbr>Namespace</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptoptions.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptoptions.html#promptafteraction" class="tsd-kind-icon">prompt<wbr>After<wbr>Action</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptoptions.html#refdate" class="tsd-kind-icon">ref<wbr>Date</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptoptions.html#retryprompt" class="tsd-kind-icon">retry<wbr>Prompt</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.idefaultlocalizersettings.html#botlocalepath" class="tsd-kind-icon">bot<wbr>Locale<wbr>Path</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_botbuilder_d_.idefaultlocalizersettings.html#defaultlocale" class="tsd-kind-icon">default<wbr>Locale</a></li>
 												</ul>
 											</section>
 										</div>
 									</section>
 								</section>
-								<section class="tsd-panel-group tsd-member-group ">
+								<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 									<h2>Properties</h2>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="liststyle" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> list<wbr>Style</h3>
-										<div class="tsd-signature tsd-kind-icon">list<wbr>Style<span class="tsd-signature-symbol">:</span> <a href="../enums/_botbuilder_d_.liststyle.html" class="tsd-signature-type">ListStyle</a></div>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+										<a name="botlocalepath" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> bot<wbr>Locale<wbr>Path</h3>
+										<div class="tsd-signature tsd-kind-icon">bot<wbr>Locale<wbr>Path<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L471">botbuilder.d.ts:471</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L316">botbuilder.d.ts:316</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>(Optional) type of list to render for PromptType.choice. Default value is ListStyle.auto.</p>
+												<p>The path to the parent of the bot&#39;s locale directory</p>
 											</div>
 										</div>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="localizationnamespace" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> localization<wbr>Namespace</h3>
-										<div class="tsd-signature tsd-kind-icon">localization<wbr>Namespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+										<a name="defaultlocale" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> default<wbr>Locale</h3>
+										<div class="tsd-signature tsd-kind-icon">default<wbr>Locale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L477">botbuilder.d.ts:477</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L319">botbuilder.d.ts:319</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>(Optional) namespace to use when localizing a passed in prompt.</p>
+												<p>The default locale of the bot</p>
 											</div>
-										</div>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="maxretries" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> max<wbr>Retries</h3>
-										<div class="tsd-signature tsd-kind-icon">max<wbr>Retries<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L465">botbuilder.d.ts:465</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>(Optional) maximum number of times to reprompt the user. By default the user will be reprompted indefinitely.</p>
-											</div>
-										</div>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="promptafteraction" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> prompt<wbr>After<wbr>Action</h3>
-										<div class="tsd-signature tsd-kind-icon">prompt<wbr>After<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L474">botbuilder.d.ts:474</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>(Optional) flag used to control the reprompting of a user after a dialog started by an action ends. The default value is true.</p>
-											</div>
-										</div>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="refdate" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> ref<wbr>Date</h3>
-										<div class="tsd-signature tsd-kind-icon">ref<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L468">botbuilder.d.ts:468</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>(Optional) reference date when recognizing times. Date expressed in ticks using Date.getTime().</p>
-											</div>
-										</div>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="retryprompt" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Prompt</h3>
-										<div class="tsd-signature tsd-kind-icon">retry<wbr>Prompt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.iismessage.html" class="tsd-signature-type">IIsMessage</a></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L462">botbuilder.d.ts:462</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>(Optional) retry prompt to send if the users response isn&#39;t understood. Default is to just
-													reprompt with the configured <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt">defaultRetryPrompt</a>
-												plus the original prompt.</p>
-											</div>
-											<p>Note that if the original prompt is an <em>IMessage</em> the retry prompt will be sent as a seperate
-												message followed by the original message. If the retryPrompt is also an <em>IMessage</em> it will
-											instead be sent in place of the original message.</p>
-											<ul>
-												<li><em>{string}</em> - Initial message to send the user.</li>
-												<li><em>{string[]}</em> - Array of possible messages to send user. One will be chosen at random.</li>
-												<li><em>{IMessage}</em> - Initial message to send the user. Message can contain attachments.</li>
-												<li><em>{IIsMessage}</em> - Instance of the <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html">Message</a> builder class.</li>
-											</ul>
 										</div>
 									</section>
 								</section>
@@ -302,26 +222,14 @@
 									<ul class="before-current">
 									</ul>
 									<ul class="current">
-										<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-											<a href="_botbuilder_d_.ipromptoptions.html" class="tsd-kind-icon">IPrompt<wbr>Options</a>
+										<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+											<a href="_botbuilder_d_.idefaultlocalizersettings.html" class="tsd-kind-icon">IDefault<wbr>Localizer<wbr>Settings</a>
 											<ul>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.ipromptoptions.html#liststyle" class="tsd-kind-icon">list<wbr>Style</a>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+													<a href="_botbuilder_d_.idefaultlocalizersettings.html#botlocalepath" class="tsd-kind-icon">bot<wbr>Locale<wbr>Path</a>
 												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.ipromptoptions.html#localizationnamespace" class="tsd-kind-icon">localization<wbr>Namespace</a>
-												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.ipromptoptions.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a>
-												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.ipromptoptions.html#promptafteraction" class="tsd-kind-icon">prompt<wbr>After<wbr>Action</a>
-												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.ipromptoptions.html#refdate" class="tsd-kind-icon">ref<wbr>Date</a>
-												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.ipromptoptions.html#retryprompt" class="tsd-kind-icon">retry<wbr>Prompt</a>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+													<a href="_botbuilder_d_.idefaultlocalizersettings.html#defaultlocale" class="tsd-kind-icon">default<wbr>Locale</a>
 												</li>
 											</ul>
 										</li>
