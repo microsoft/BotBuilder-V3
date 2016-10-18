@@ -95,6 +95,17 @@ export interface IChronoDuration extends IEntity {
 
 export class SimplePromptRecognizer implements IPromptRecognizer {
     public recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void, session?: ISession): void {
+        function findChoice(args: IPromptRecognizerArgs, text: string) {
+            var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
+            if (!best) {
+                var n = entities.EntityRecognizer.parseNumber(text);
+                if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
+                    best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
+                }
+            }
+            return best;
+        }
+
         // Recognize value
         var score = 0.0;
         var response: any;
@@ -119,11 +130,10 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
             case PromptType.confirm:
                 var b = entities.EntityRecognizer.parseBoolean(text);
                 if (typeof b !== 'boolean') {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= 2) {
-                        b = (n === 1);
+                    var best = findChoice(args, text);
+                    if (best) {
+                        b = (best.index === 0); // enumValues == ['yes', 'no']
                     }
-                    
                 }
                 if (typeof b == 'boolean') {
                     score = 1.0;
@@ -138,13 +148,7 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
                 } 
                 break;
             case PromptType.choice:
-                var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
-                if (!best) {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
-                        best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
-                    }
-                }
+                var best = findChoice(args, text);
                 if (best) {
                     score = best.score;
                     response = best;
