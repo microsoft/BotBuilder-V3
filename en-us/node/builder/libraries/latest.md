@@ -77,7 +77,7 @@ __Other Changes__
 
 * Added support for ordinal words to EntityRecognizer.parseNumber().
 * Added support for Facebook Quick Replies.
-* Added new Middleware.sendTyping()  function.   
+* Added new Session.sendTyping() function.   
 * Added optional callback param to sendBatch().
 * Added IntentDialog.matchesAny() method that takes an array of intents to match.
 * Fixed an issue for middleware that was causing session.beginDialog() calls to always run in the current dialogs library content which was often a system prompt. Now middleware assumes the default library context. 

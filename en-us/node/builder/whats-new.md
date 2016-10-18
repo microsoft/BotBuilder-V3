@@ -9,11 +9,17 @@ parent1: Bot Builder for Node.js
 * TOC
 {:toc}
 
+## v3.3
+Version 3.3 introduces a new file based [localization](/en-us/node/builder/chat/localization) system for building bots that support multiple languages.
+
+## v3.2
+Version 3.2 of the Node SDK includes bug fixes as well as a few new convenience methods like [Session.sendTyping()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#sendtyping) & [IntentDialog.matchesAny()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog#matchesany) and also includes support for g-zip `userData` & `conversationData` stored on the Bot Frameworks Bot State service. 
+
 ## v3.1
 Version 3.1 of the Node SDK fixes a few bugs, makes a general improvement to the way your waterfalls interact with the built-in prompts, and adds a major new concept called Actions.
 
 ### Actions
-Bot Builder includes a [DialogAction](<class/>dialogaction) which is a small set of _static_ functions that can be used to simplify implementing more coming tasks like sending a message, starting a dialog, or creating a new prompt with a built-in validation routine. In version 3.1 we’re extending Bot Builders action concept to include a new set of Named Dialog Actions. These new actions let you define code that should be run should some user initiated action occur like saying “help” or clicking a button on a [Persistent Menu](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu){:target="_blank"} in Facebook.
+Bot Builder includes a [DialogAction](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialogaction) which is a small set of _static_ functions that can be used to simplify implementing more coming tasks like sending a message, starting a dialog, or creating a new prompt with a built-in validation routine. In version 3.1 we’re extending Bot Builders action concept to include a new set of Named Dialog Actions. These new actions let you define code that should be run should some user initiated action occur like saying “help” or clicking a button on a [Persistent Menu](https://developers.facebook.com/docs/messenger-platform/thread-settings/persistent-menu){:target="_blank"} in Facebook.
 
 Up to this point, bots based on Bot Builder were limited to conducting a single guided conversation. If the bot shows a card with a `postBack` or `imBack` button the user needs to click the button immediately because once it scrolls up the feed the bot is no longer listening for the button to be clicked and therefore can’t take any action in response to the click. There was also no clean way for a bot to listen for commands from the user like “help” or “cancel” as again the bot can generally only listen for responses to the last questioned it asked the user. 
 
