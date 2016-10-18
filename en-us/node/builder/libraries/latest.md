@@ -22,6 +22,12 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.3.2
+* Fixed an issue with ordinal parsing in EntityRecognizer.parseNumber().
+* Fixed an issue with ListStyle.inline being used for Prompts.confirm() on text based channels.
+* Fixed a bug with localized Prompts.confirm() options not being recognized.
+* Updated LKG build and package.json version.
+
 ### v3.3.1
 * Added new locals for Spanish, Italian, and Chinese.
 * Fixed an issue with the preferred local not being passed to LuisRecognizer class.
