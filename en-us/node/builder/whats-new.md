@@ -10,7 +10,10 @@ parent1: Bot Builder for Node.js
 {:toc}
 
 ## v3.3
-Version 3.3 introduces a new file based [localization](/en-us/node/builder/chat/localization) system for building bots that support multiple languages.
+Version 3.3 includes general bug fixes & improvments along with improved localization support.
+
+### Localization
+Bot Builder now supports a rich file based [localization](/en-us/node/builder/chat/localization) system for building bots that support multiple languages. This new system also provides a way for English only bots to re-skin the SDK's built-in messages so should prove generally useful to all bot developers.
 
 ## v3.2
 Version 3.2 of the Node SDK includes bug fixes as well as a few new convenience methods like [Session.sendTyping()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#sendtyping) & [IntentDialog.matchesAny()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog#matchesany) and also includes support for g-zip `userData` & `conversationData` stored on the Bot Frameworks Bot State service. 
