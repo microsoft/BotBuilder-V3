@@ -687,9 +687,16 @@ namespace Microsoft.Bot.Builder.FormFlow
                                     }
                                     if (!_formState.FieldInputs.Any())
                                     {
-                                        _formState.ProcessInputs = false;
-                                        _formState.FieldInputs = null;
-                                        _formState.Step = 0;
+                                        if (_options.HasFlag(FormOptions.PromptFieldsWithValues))
+                                        {
+                                            _formState.Reset();
+                                        }
+                                        else
+                                        {
+                                            _formState.ProcessInputs = false;
+                                            _formState.FieldInputs = null;
+                                            _formState.Step = 0;
+                                        }
                                     }
                                     return foundInput;
                                 };

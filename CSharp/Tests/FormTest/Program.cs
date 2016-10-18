@@ -261,7 +261,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return new FormDialog<PizzaOrder>(new PizzaOrder()
                             { Size = SizeOptions.Large, Kind = PizzaOptions.BYOPizza },
                             () => PizzaOrder.BuildForm(),
-                            options: FormOptions.PromptInStart,
+                            options: FormOptions.PromptInStart | FormOptions.PromptFieldsWithValues,
                             entities: new Luis.Models.EntityRecommendation[] {
                                 new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress"),
                                 new Luis.Models.EntityRecommendation("Kind", "byo", "Kind"),
