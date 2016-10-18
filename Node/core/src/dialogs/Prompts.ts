@@ -252,7 +252,7 @@ export class Prompts extends dlg.Dialog {
                 if (style == ListStyle.auto) {
                     if (Channel.supportsKeyboards(session, args.enumValues.length)) {
                         style = ListStyle.button;
-                    } else if (!retry) {
+                    } else if (!retry && args.promptType == PromptType.choice) {
                         style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
                     } else {
                         style = ListStyle.none;
