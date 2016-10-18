@@ -34,6 +34,16 @@ var SimplePromptRecognizer = (function () {
     function SimplePromptRecognizer() {
     }
     SimplePromptRecognizer.prototype.recognize = function (args, callback, session) {
+        function findChoice(args, text) {
+            var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
+            if (!best) {
+                var n = entities.EntityRecognizer.parseNumber(text);
+                if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
+                    best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
+                }
+            }
+            return best;
+        }
         var score = 0.0;
         var response;
         var text = args.utterance.trim();
@@ -53,9 +63,9 @@ var SimplePromptRecognizer = (function () {
             case PromptType.confirm:
                 var b = entities.EntityRecognizer.parseBoolean(text);
                 if (typeof b !== 'boolean') {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= 2) {
-                        b = (n === 1);
+                    var best = findChoice(args, text);
+                    if (best) {
+                        b = (best.index === 0);
                     }
                 }
                 if (typeof b == 'boolean') {
@@ -71,13 +81,7 @@ var SimplePromptRecognizer = (function () {
                 }
                 break;
             case PromptType.choice:
-                var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
-                if (!best) {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
-                        best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
-                    }
-                }
+                var best = findChoice(args, text);
                 if (best) {
                     score = best.score;
                     response = best;
@@ -173,7 +177,7 @@ var Prompts = (function (_super) {
                     if (Channel.supportsKeyboards(session, args.enumValues.length)) {
                         style = ListStyle.button;
                     }
-                    else if (!retry) {
+                    else if (!retry && args.promptType == PromptType.choice) {
                         style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
                     }
                     else {
