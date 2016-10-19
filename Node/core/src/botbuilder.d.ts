@@ -380,8 +380,8 @@ export interface IDialogState {
   * Results returned by a child dialog to its parent via a call to session.endDialog(). 
   */
 export interface IDialogResult<T> {
-    /** The reason why the current dialog is being resumed. */
-    resumed: ResumeReason;
+    /** The reason why the current dialog is being resumed. Defaults to {ResumeReason.completed} */
+    resumed?: ResumeReason;
 
     /** ID of the child dialog thats ending. */
     childId?: string;
