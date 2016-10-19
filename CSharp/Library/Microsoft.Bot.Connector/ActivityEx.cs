@@ -12,6 +12,7 @@ namespace Microsoft.Bot.Connector
     using System.Net.Http;
     using System.Configuration;
     using System.Text;
+    using System.Security.Claims;
 
     public partial class Activity :
         IActivity,
@@ -100,6 +101,25 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Get StateClient appropriate for this activity
         /// </summary>
+        /// <param name="credentials">credentials for bot to access state api</param>
+        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
+        /// <param name="handlers"></param>
+        /// <returns></returns>
+        public StateClient GetStateClient(MicrosoftAppCredentials credentials, string serviceUrl = null, params DelegatingHandler[] handlers)
+        {
+            bool useServiceUrl = (this.ChannelId == "emulator" || (this.ChannelId.StartsWith("skype") && this.ChannelId.Length > "skype".Length));
+            if (useServiceUrl)
+                return new StateClient(new Uri(this.ServiceUrl), credentials: credentials, handlers: handlers);
+
+            if (serviceUrl != null)
+                return new StateClient(new Uri(serviceUrl), credentials: credentials, handlers: handlers);
+
+            return new StateClient(credentials, true, handlers);
+        }
+
+        /// <summary>
+        /// Get StateClient appropriate for this activity
+        /// </summary>
         /// <param name="microsoftAppId"></param>
         /// <param name="microsoftAppPassword"></param>
         /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
@@ -107,14 +127,27 @@ namespace Microsoft.Bot.Connector
         /// <returns></returns>
         public StateClient GetStateClient(string microsoftAppId = null, string microsoftAppPassword = null, string serviceUrl = null, params DelegatingHandler[] handlers)
         {
+            return GetStateClient(new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword), serviceUrl, handlers);
+        }
+
+        /// <summary>
+        /// Get StateClient appropriate for this activity
+        /// </summary>
+        /// <param name="credentialProvider">credential source to use</param>
+        /// <param name="claimsIdentity">claimsIdentity to use</param>
+        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
+        /// <param name="handlers"></param>
+        /// <returns></returns>
+        public StateClient GetStateClient(ICredentialProvider credentialProvider, ClaimsIdentity claimsIdentity=null, string serviceUrl = null, params DelegatingHandler[] handlers)
+        {
             bool useServiceUrl = (this.ChannelId == "emulator" || (this.ChannelId.StartsWith("skype") && this.ChannelId.Length > "skype".Length));
             if (useServiceUrl)
-                return new StateClient(new Uri(this.ServiceUrl), microsoftAppId, microsoftAppPassword, handlers);
+                return new StateClient(new Uri(this.ServiceUrl), credentialProvider:credentialProvider, claimsIdentity: claimsIdentity, handlers: handlers);
 
             if (serviceUrl != null)
-                return new StateClient(new Uri(serviceUrl), microsoftAppId, microsoftAppPassword, handlers);
+                return new StateClient(new Uri(serviceUrl), credentialProvider: credentialProvider, claimsIdentity: claimsIdentity, handlers: handlers);
 
-            return new StateClient(new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword), true, handlers);
+            return new StateClient(credentialProvider, claimsIdentity: claimsIdentity, handlers: handlers);
         }
 
         /// <summary>

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Threading;
+using System.Web;
 
 namespace Microsoft.Bot.Connector
 {
@@ -16,6 +19,26 @@ namespace Microsoft.Bot.Connector
         public ConnectorClient(Uri baseUri, string microsoftAppId = null, string microsoftAppPassword = null, params DelegatingHandler[] handlers)
             : this(baseUri, new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword), handlers: handlers)
         {
+        }
+
+        /// <summary>
+        /// Create a new instance of the ConnectorClient class using IAppIdSource
+        /// </summary>
+        /// <param name="baseUri">Base URI for the Connector service</param>
+        /// <param name="credentialProvider">Credential source to use</param>
+        /// <param name="claimsIdentity">ClaimsIDentity to create the client for</param>
+        /// <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        public ConnectorClient(Uri baseUri, ICredentialProvider credentialProvider, ClaimsIdentity claimsIdentity = null, params DelegatingHandler[] handlers)
+            : this(baseUri, handlers: handlers)
+        {
+            if (claimsIdentity == null)
+                claimsIdentity = HttpContext.Current.User.Identity as ClaimsIdentity ?? Thread.CurrentPrincipal.Identity as ClaimsIdentity;
+            if (claimsIdentity == null)
+                throw new ArgumentNullException("ClaimsIdentity not passed in and not available via Thread.CurrentPrincipal.Identity");
+
+            var appId = claimsIdentity.GetAppIdFromClaims();
+            var password = credentialProvider.GetAppPassword(appId).Result;
+            this.Credentials = new MicrosoftAppCredentials(appId, password);
         }
 
         /// <summary>

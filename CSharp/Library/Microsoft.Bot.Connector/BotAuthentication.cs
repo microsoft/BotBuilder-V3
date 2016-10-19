@@ -12,9 +12,20 @@ using System.Web.Http.Filters;
 
 namespace Microsoft.Bot.Connector
 {
-    public interface IAppIdSource
+    public interface ICredentialProvider
     {
+        /// <summary>
+        /// Return valid appids
+        /// </summary>
+        /// <returns></returns>
         Task<string[]> GetAppIds();
+
+        /// <summary>
+        /// Get the app password for a given bot appId
+        /// </summary>
+        /// <param name="appId">bot appid</param>
+        /// <returns>password</returns>
+        Task<string> GetAppPassword(string appId);
     }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
@@ -33,9 +44,9 @@ namespace Microsoft.Bot.Connector
         public bool DisableSelfIssuedTokens { get; set; }
         
         /// <summary>
-        /// Type which implements IAppIdSource interface to allow multiple bot AppIds to be registered for the same endpoint
+        /// Type which implements ICredentialProvider interface to allow multiple bot AppIds to be registered for the same endpoint
         /// </summary>
-        public Type AppIdSourceType { get; set; }
+        public Type CredentialProviderType { get; set; }
 
         public virtual string OpenIdConfigurationUrl { get; set; } = JwtConfig.ToBotFromChannelOpenIdMetadataUrl;
 
@@ -48,9 +59,9 @@ namespace Microsoft.Bot.Connector
                 return;
 
             string[] msAppIds;
-            if (AppIdSourceType != null)
+            if (CredentialProviderType != null)
             {
-                IAppIdSource appIdSource = Activator.CreateInstance(AppIdSourceType) as IAppIdSource;
+                ICredentialProvider appIdSource = Activator.CreateInstance(CredentialProviderType) as ICredentialProvider;
                 msAppIds = await appIdSource.GetAppIds().ConfigureAwait(false);
             }
             else
