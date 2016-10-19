@@ -398,11 +398,16 @@ export interface IRecognizeContext {
     /** Message that was received. */
     message: IMessage;
 
+    /** The users preferred locale for the message. */
+    locale: string;
+
     /** If true the Dialog is the active dialog on the callstack. */
     activeDialog: boolean;
 
     /** Data persisted for the current dialog. */
     dialogData: any;
+
+
 }
 
 /** Results from a call to a recognize() function. The implementation is free to add any additional properties to the result. */
