@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.Net.Compilers.1.2.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.2.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -54,10 +53,6 @@
       <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.2\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.2.1\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -66,17 +61,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -85,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectorEx\KeyboardCard.cs" />
     <Compile Include="Dialogs\DeleteProfileScorable.cs" />
     <Compile Include="Dialogs\DialogModule.cs" />
     <Compile Include="Dialogs\BotData.cs" />
@@ -95,8 +83,9 @@
     <Compile Include="Dialogs\Chain.cs" />
     <Compile Include="Dialogs\Exceptions.cs" />
     <Compile Include="Dialogs\Address.cs" />
+    <Compile Include="Dialogs\IActivityLogger.cs" />
     <Compile Include="Dialogs\ResumptionCookie.cs" />
-    <Compile Include="Dialogs\Scorable.cs" />
+    <Compile Include="Dialogs\ScorableDialogs.cs" />
     <Compile Include="Dialogs\DialogTask.cs" />
     <Compile Include="Dialogs\IBotDataBag.cs" />
     <Compile Include="Dialogs\IChannelCapability.cs" />
@@ -105,6 +94,7 @@
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\UrlToken.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
+    <Compile Include="Fibers\Pair.cs" />
     <Compile Include="Fibers\Range.cs" />
     <Compile Include="Fibers\Scope.cs" />
     <Compile Include="Fibers\Store.cs" />
@@ -113,6 +103,7 @@
     <Compile Include="Dialogs\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
+    <Compile Include="Fibers\Tasks.cs" />
     <Compile Include="FormFlow\FieldReflector.cs" />
     <Compile Include="Fibers\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
@@ -163,6 +154,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scorables\Binding.cs" />
+    <Compile Include="Scorables\ResolverScorable.cs" />
+    <Compile Include="Scorables\Scorable.cs" />
+    <Compile Include="Scorables\ScorableBase.cs" />
+    <Compile Include="Scorables\AttributeScorable.cs" />
+    <Compile Include="Scorables\LuisIntentScorable.cs" />
+    <Compile Include="Scorables\MethodScorable.cs" />
+    <Compile Include="Scorables\FoldScorable.cs" />
+    <Compile Include="Scorables\RegexMatchScorable.cs" />
+    <Compile Include="Scorables\Resolver.cs" />
+    <Compile Include="Scorables\Scorables.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -225,12 +227,6 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" />
   <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
     <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
-  </Target>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.2.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.2.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

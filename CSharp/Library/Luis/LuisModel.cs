@@ -59,9 +59,9 @@ namespace Microsoft.Bot.Builder.Luis
     /// <summary>
     /// The LUIS model information.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
     [Serializable]
-    public class LuisModelAttribute : Attribute, ILuisModel
+    public class LuisModelAttribute : Attribute, ILuisModel, IEquatable<ILuisModel>
     {
         private readonly string modelID;
         public string ModelID => modelID;
@@ -78,6 +78,24 @@ namespace Microsoft.Bot.Builder.Luis
         {
             SetField.NotNull(out this.modelID, nameof(modelID), modelID);
             SetField.NotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
+        }
+
+        public bool Equals(ILuisModel other)
+        {
+            return other != null
+                && object.Equals(this.ModelID, other.ModelID)
+                && object.Equals(this.SubscriptionKey, other.SubscriptionKey)
+                ;
+        }
+
+        public override bool Equals(object other)
+        {
+            return this.Equals(other as ILuisModel);
+        }
+
+        public override int GetHashCode()
+        {
+            return ModelID.GetHashCode() ^ SubscriptionKey.GetHashCode();
         }
     }
 }

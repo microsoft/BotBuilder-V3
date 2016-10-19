@@ -1,0 +1,29 @@
+﻿<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Microsoft.Bot.Builder.Azure</id>
+    <version>$version$</version>
+    <authors>Microsoft</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Provide Microsoft Azure extensions to the Microsoft Bot Builder.  In particular this includes:
+      * TableLogger -- Activity logger for table storage which allows recording and retrieving conversation activities.
+      * ReplayTranscript -- Replay activity history on any channel.
+    </description>
+    <projectUrl>https://github.com/Microsoft/BotBuilder</projectUrl>
+    <iconUrl>http://docs.botframework.com/images/bot_icon.png</iconUrl>
+    <summary>Microsoft Azure extensions for Microsoft Bot Builder.</summary>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="Microsoft.Bot.Builder.History" version="$history$"/>
+      <dependency id="Newtonsoft.Json" version="8.0.3" />
+      <dependency id="WindowsAzure.Storage" version="7.2.1" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\release\Microsoft.Bot.Builder.Azure.dll" target="lib\net46"/>
+    <file src="bin\release\Microsoft.Bot.Builder.Azure.xml" target="lib\net46" />
+    <file src="bin\release\Microsoft.Bot.Builder.Azure.pdb" target="lib\net46" />
+    <file src="**\*.cs" exclude="**\obj\**\*.cs" target="src" />
+  </files>
+</package>

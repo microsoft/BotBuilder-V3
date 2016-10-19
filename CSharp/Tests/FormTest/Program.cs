@@ -47,6 +47,7 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.History;
 
 using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
 using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
@@ -115,13 +116,14 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c => new BotIdResolver("testBot"))
-                .As<IBotIdResolver>()
-                .SingleInstance();
-
-            builder
                 .Register(c => new BotToUserTextWriter(new BotToUserQueue(message, new Queue<IMessageActivity>()), Console.Out))
                 .As<IBotToUser>()
+                .InstancePerLifetimeScope();
+
+            // Trace activities to debug output
+            builder
+                .RegisterType<TraceActivityLogger>()
+                .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
             using (var container = builder.Build())
@@ -139,6 +141,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
                 while (true)
                 {
+                    message.Timestamp = DateTime.UtcNow;
                     message.Text = await Console.In.ReadLineAsync();
                     message.Locale = Locale;
                     await task.PostAsync(message, CancellationToken.None);
@@ -258,7 +261,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             return new FormDialog<PizzaOrder>(new PizzaOrder()
                             { Size = SizeOptions.Large, Kind = PizzaOptions.BYOPizza },
                             () => PizzaOrder.BuildForm(),
-                            options: FormOptions.PromptInStart,
+                            options: FormOptions.PromptInStart | FormOptions.PromptFieldsWithValues,
                             entities: new Luis.Models.EntityRecommendation[] {
                                 new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress"),
                                 new Luis.Models.EntityRecommendation("Kind", "byo", "Kind"),

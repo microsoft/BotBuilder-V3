@@ -54,6 +54,10 @@ namespace Microsoft.Bot.Builder.Dialogs
     ///
     ///
 }
+/// <summary>
+/// Namespace for %Azure extensions to the %Microsoft %Bot %Builder %SDK.
+/// </summary>
+namespace Microsoft.Bot.Builder.Azure { }
 
 /// <summary>Root namespace for the %Microsoft %Bot %Connector %SDK.</summary>
 namespace Microsoft.Bot.Connector { }
@@ -78,6 +82,11 @@ namespace Microsoft.Bot.Builder.FormFlow { }
 /// Namespace for \ref FormFlow declaratively defined with JSON Schema.
 /// </summary>
 namespace Microsoft.Bot.Builder.FormFlow.Json { }
+
+/// <summary>
+/// Namespace for interfaces and classes for working with conversational history.
+/// </summary>
+namespace Microsoft.Bot.Builder.History { }
 
 /// <summary>
 /// Root namespace for the %Microsoft %Bot %Builder %Calling %SDK.

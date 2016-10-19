@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
 
             // register some objects dependent on the incoming message
             builder.Register(c => new RenderingAlarmService(new AlarmService(c.Resolve<IAlarmScheduler>(), c.Resolve<ResumptionCookie>()), c.Resolve<Func<IAlarmRenderer>>(), c.Resolve<IBotToUser>(), c.Resolve<IClock>())).Keyed<IAlarmService>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
-            builder.RegisterType<AlarmScorable>().Keyed<IScorable<double>>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
+            builder.RegisterType<AlarmScorable>().Keyed<AlarmScorable>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
             builder.RegisterType<AlarmRenderer>().Keyed<IAlarmRenderer>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
         }
     }

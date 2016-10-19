@@ -388,16 +388,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class PersistentDialogTask : IPostToBot
     {
         private readonly Lazy<IPostToBot> inner;
-        private readonly IConnectorClient client;
-        private readonly IMessageActivity message;
-        private readonly IBotToUser botToUser;
         private readonly IBotData botData;
 
-        public PersistentDialogTask(Func<IPostToBot> makeInner, IMessageActivity message, IConnectorClient client, IBotToUser botToUser, IBotData botData)
+        public PersistentDialogTask(Func<IPostToBot> makeInner, IBotData botData)
         {
-            SetField.NotNull(out this.message, nameof(message), message);
-            SetField.NotNull(out this.client, nameof(client), client);
-            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
             SetField.NotNull(out this.botData, nameof(botData), botData);
             SetField.CheckNull(nameof(makeInner), makeInner);
             this.inner = new Lazy<IPostToBot>(() => makeInner());
@@ -420,10 +414,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class SerializingDialogTask : IPostToBot
     {
         private readonly IPostToBot inner;
-        private readonly Address address;
-        private readonly IScope<Address> scopeForCookie;
+        private readonly IAddress address;
+        private readonly IScope<IAddress> scopeForCookie;
 
-        public SerializingDialogTask(IPostToBot inner, Address address, IScope<Address> scopeForCookie)
+        public SerializingDialogTask(IPostToBot inner, IAddress address, IScope<IAddress> scopeForCookie)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
             SetField.NotNull(out this.address, nameof(address), address);

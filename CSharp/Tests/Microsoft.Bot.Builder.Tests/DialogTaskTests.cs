@@ -41,6 +41,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Connector;
 
 using Autofac;
@@ -372,26 +373,34 @@ namespace Microsoft.Bot.Builder.Tests
             // ScoringDialogTask.IScorable
 
             dialogOne
-                .As<IScorable<double>>()
+                .As<IScorable<IActivity, double>>()
                 .Setup(s => s.PrepareAsync(It.IsAny<IMessageActivity>(), It.IsAny<CancellationToken>()))
                 .Returns<IMessageActivity, CancellationToken>(async (m, t) => m);
 
-            double scoreOne = 1.0;
+            const double scoreOne = 1.0;
             dialogOne
-                .As<IScorable<double>>()
-                .Setup(s => s.TryScore(It.IsAny<IMessageActivity>(), out scoreOne))
-                .Returns<IMessageActivity, double>((m, s) => m.Text == TriggerTextNew);
+                .As<IScorable<IActivity, double>>()
+                .Setup(s => s.HasScore(It.IsAny<IMessageActivity>(), It.IsAny<IMessageActivity>()))
+                .Returns<IMessageActivity, IMessageActivity>((m, s) => m.Text == TriggerTextNew);
+            dialogOne
+                .As<IScorable<IActivity, double>>()
+                .Setup(s => s.GetScore(It.IsAny<IMessageActivity>(), It.IsAny<IMessageActivity>()))
+                .Returns<IMessageActivity, IMessageActivity>((m, s) => scoreOne);
 
             dialogTwo
-                .As<IScorable<double>>()
+                .As<IScorable<IActivity, double>>()
                 .Setup(s => s.PrepareAsync(It.IsAny<IMessageActivity>(), It.IsAny<CancellationToken>()))
                 .Returns<IMessageActivity, CancellationToken>(async (m, t) => m);
 
-            double scoreTwo = 0.5;
+            const double scoreTwo = 0.5;
             dialogTwo
-                .As<IScorable<double>>()
-                .Setup(s => s.TryScore(It.IsAny<IMessageActivity>(), out scoreTwo))
-                .Returns<IMessageActivity, double>((m, s) => m.Text == TriggerTextNew);
+                .As<IScorable<IActivity, double>>()
+                .Setup(s => s.HasScore(It.IsAny<IMessageActivity>(), It.IsAny<IMessageActivity>()))
+                .Returns<IMessageActivity, IMessageActivity>((m, s) => m.Text == TriggerTextNew);
+            dialogTwo
+                .As<IScorable<IActivity, double>>()
+                .Setup(s => s.GetScore(It.IsAny<IMessageActivity>(), It.IsAny<IMessageActivity>()))
+                .Returns<IMessageActivity, IMessageActivity>((m, s) => scoreTwo);
 
             Func<IDialog<object>> MakeRoot = () => dialogOne.Object;
             var toBot = MakeTestMessage();
@@ -409,7 +418,7 @@ namespace Microsoft.Bot.Builder.Tests
 
                     // set up dialogOne to call dialogNew when triggered
                     dialogOne
-                        .As<IScorable<double>>()
+                        .As<IScorable<IActivity, double>>()
                         .Setup(s => s.PostAsync(It.IsAny<IMessageActivity>(), It.IsAny<IMessageActivity>(), It.IsAny<CancellationToken>()))
                         .Returns<IMessageActivity, IMessageActivity, CancellationToken>(async (message, state, token) =>
                         {
@@ -465,17 +474,21 @@ namespace Microsoft.Bot.Builder.Tests
             dialogNew.VerifyAll();
         }
 
-        public static Mock<IScorable<T>> MockScorable<T>(object item, object state, T score)
+        public static Mock<IScorable<object, T>> MockScorable<T>(object item, object state, T score)
         {
-            var scorable = new Mock<IScorable<T>>(MockBehavior.Strict);
+            var scorable = new Mock<IScorable<object, T>>(MockBehavior.Strict);
 
             scorable
                 .Setup(s => s.PrepareAsync(item, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(state);
 
             scorable
-                .Setup(s => s.TryScore(state, out score))
+                .Setup(s => s.HasScore(item, state))
                 .Returns(true);
+
+            scorable
+                .Setup(s => s.GetScore(item, state))
+                .Returns(score);
 
             return scorable;
         }
@@ -488,7 +501,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             var inner = new Mock<IPostToBot>();
             var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new CompositeScorable<double>(Comparer<double>.Default, new NormalizedTraits(), scorable.Object));
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
             stack
                 .SetupGet(i => i.Frames)
                     .Returns(Array.Empty<Delegate>());
@@ -518,12 +531,12 @@ namespace Microsoft.Bot.Builder.Tests
         public static async Task DialogTask_Frame_Scoring_Throws_Out_Of_Range(double score)
         {
             var state = new object();
-            var item = new object();
+            var item = new Activity();
             var scorable = MockScorable(item, state, score);
 
             var inner = new Mock<IPostToBot>();
             var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new CompositeScorable<double>(Comparer<double>.Default, new NormalizedTraits(), scorable.Object));
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
             stack
                 .SetupGet(i => i.Frames)
                     .Returns(Array.Empty<Delegate>());
@@ -559,11 +572,11 @@ namespace Microsoft.Bot.Builder.Tests
             var state1 = new object();
             var item = new object();
             var scorable1 = MockScorable(item, state1, 1.0);
-            var scorable2 = new Mock<IScorable<double>>(MockBehavior.Strict);
+            var scorable2 = new Mock<IScorable<object, double>>(MockBehavior.Strict);
 
             var inner = new Mock<IPostToBot>();
             var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new CompositeScorable<double>(Comparer<double>.Default, new NormalizedTraits(), scorable1.Object, scorable2.Object));
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new TraitsScorable<object, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable1.Object, scorable2.Object }));
             stack
                 .SetupGet(i => i.Frames)
                     .Returns(Array.Empty<Delegate>());
