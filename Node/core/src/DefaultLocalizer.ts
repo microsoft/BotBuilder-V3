@@ -51,7 +51,7 @@ export class DefaultLocalizer implements ILocalizer {
                 this.botLocalePath = this.botLocalePath + "/";
             }
         } else {
-            this.botLocalePath = "./"
+            this.botLocalePath = "./locale"
         }
         
         if (settings.defaultLocale) {
@@ -161,7 +161,7 @@ export class DefaultLocalizer implements ILocalizer {
                 
         fs.access(path, (err) => {
             if (err && err.code === 'ENOENT') {
-                logger.warn(null, "localizer::couldn't find directory: %s", path);                                
+                logger.debug(null, "localizer::couldn't find directory: %s", path);                                
                 cb(null, -1);
             } else if (err) {
                 cb(err, -1);
