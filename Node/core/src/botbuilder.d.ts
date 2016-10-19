@@ -406,8 +406,6 @@ export interface IRecognizeContext {
 
     /** Data persisted for the current dialog. */
     dialogData: any;
-
-
 }
 
 /** Results from a call to a recognize() function. The implementation is free to add any additional properties to the result. */
