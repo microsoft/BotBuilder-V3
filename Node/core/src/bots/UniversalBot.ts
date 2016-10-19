@@ -47,7 +47,6 @@ import events = require('events');
 export interface IUniversalBotSettings {
     defaultDialogId?: string;
     defaultDialogArgs?: any;
-    localizer?: ILocalizer;
     localizerSettings?: IDefaultLocalizerSettings;    
     lookupUser?: ILookupUser;
     processLimit?: number;
@@ -364,7 +363,6 @@ export class UniversalBot extends events.EventEmitter {
         this.getStorageData(storageCtx, (data) => {
             // Initialize session
             var session = new ses.Session({
-                localizer: this.settings.localizer,
                 localizerSettings: this.settings.localizerSettings,
                 autoBatchDelay: this.settings.autoBatchDelay,
                 library: this.lib,

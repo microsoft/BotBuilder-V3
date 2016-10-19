@@ -651,9 +651,6 @@ export interface ISessionOptions {
 
     /** (Optional) arguments to pass to the conversations initial dialog. */
     dialogArgs?: any;
-
-    /** (Optional) localizer to use when localizing the bots responses. */
-    localizer?: ILocalizer;
     
     /** (Optional) time to allow between each message sent as a batch. The default value is 250ms.  */
     autoBatchDelay?: number;
