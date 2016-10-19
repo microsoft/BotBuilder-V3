@@ -30,6 +30,7 @@ These examples show the basic techniques needed to build a great bot. All of the
 |[basics-logging](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-logging) | Shows how to add logging/filtering of incoming messages using a piece of middleware.
 |[basics-localization](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-localization) | Shows how to implement multiple language support for a bot.
 |[basics-customPrompt](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-customPrompt) | Shows how to create a custom prompt of arbitrary complexity. 
+|[basics-libraries](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples/basics-libraries) | Shows how to package up a set of dialogs as a library that can be shared across multiple bots. 
 
 ## Demo Bots
 These are bots designed to showcase what's possible on specific channels. They're great sources of code fragments if you're looking to have you bot lightup specific features for a channel.
