@@ -12,12 +12,31 @@ using System.Web.Http.Filters;
 
 namespace Microsoft.Bot.Connector
 {
+    public interface IAppIdSource
+    {
+        Task<string[]> GetAppIds();
+    }
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class BotAuthentication : ActionFilterAttribute
     {
+        /// <summary>
+        /// Mirosofot AppId for the bot (ignored if MicrosoftAppIdSettingName is used or AppIdSourceType is used)
+        /// </summary>
         public string MicrosoftAppId { get; set; }
+
+        /// <summary>
+        /// Setting in web.config which has the Microsoft AppId for the bot(ignored if MicrosoftAppId is used or AppIdSourceType is used)
+        /// </summary>
         public string MicrosoftAppIdSettingName { get; set; }
+
         public bool DisableSelfIssuedTokens { get; set; }
+        
+        /// <summary>
+        /// Type which implements IAppIdSource interface to allow multiple bot AppIds to be registered for the same endpoint
+        /// </summary>
+        public Type AppIdSourceType { get; set; }
+
         public virtual string OpenIdConfigurationUrl { get; set; } = JwtConfig.ToBotFromChannelOpenIdMetadataUrl;
 
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
@@ -28,24 +47,41 @@ namespace Microsoft.Bot.Connector
                 // then auth is disabled
                 return;
 
-            var tokenExtractor = new JwtTokenExtractor(JwtConfig.GetToBotFromChannelTokenValidationParameters(MicrosoftAppId), OpenIdConfigurationUrl);
-            var identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
-
-            // No identity? If we're allowed to, fall back to MSA
-            // This code path is used by the emulator
-            if (identity == null && !DisableSelfIssuedTokens)
+            string[] msAppIds;
+            if (AppIdSourceType != null)
             {
-                tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
-                identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
+                IAppIdSource appIdSource = Activator.CreateInstance(AppIdSourceType) as IAppIdSource;
+                msAppIds = await appIdSource.GetAppIds().ConfigureAwait(false);
+            }
+            else
+                msAppIds = new[] { MicrosoftAppId };
 
-                // Check to make sure the app ID in the token is ours
-                if (identity != null)
+            ClaimsIdentity identity = null;
+            JwtTokenExtractor tokenExtractor = null;
+            try
+            {
+                tokenExtractor = new JwtTokenExtractor(JwtConfig.GetToBotFromChannelTokenValidationParameters(msAppIds), OpenIdConfigurationUrl);
+                identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
+                
+                // No identity? If we're allowed to, fall back to MSA
+                // This code path is used by the emulator
+                if (identity == null && !DisableSelfIssuedTokens)
                 {
-                    // If it doesn't match, throw away the identity
-                    if (tokenExtractor.GetBotIdFromClaimsIdentity(identity) != MicrosoftAppId)
-                        identity = null;
+                    tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
+                    identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
+
+                    // Check to make sure the app ID in the token is ours
+                    if (identity != null)
+                    {
+                        // If it doesn't match, throw away the identity
+                        var appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
+                        if (msAppIds.Contains(appId) == false)
+                            identity = null;
+                    }
                 }
             }
+            catch (Exception) { }
+
 
             // Still no identity? Fail out.
             if (identity == null)

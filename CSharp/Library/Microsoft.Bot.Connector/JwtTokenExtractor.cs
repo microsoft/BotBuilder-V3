@@ -104,7 +104,7 @@ namespace Microsoft.Bot.Connector
             return false;
         }
 
-        public string GetBotIdFromClaimsIdentity(ClaimsIdentity identity)
+        public string GetAppIdFromClaimsIdentity(ClaimsIdentity identity)
         {
             if (identity == null)
                 return null;

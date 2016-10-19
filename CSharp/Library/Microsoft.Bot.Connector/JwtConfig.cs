@@ -17,14 +17,14 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// TO BOT FROM CHANNEL: Token validation parameters when connecting to a bot
         /// </summary>
-        public static TokenValidationParameters GetToBotFromChannelTokenValidationParameters(string msaAppId)
+        public static TokenValidationParameters GetToBotFromChannelTokenValidationParameters(string[] msaAppIds)
         {
             return new TokenValidationParameters()
             {
                 ValidateIssuer = true,
                 ValidIssuers = new[] { "https://api.botframework.com" },
                 ValidateAudience = true,
-                ValidAudiences = new[] { msaAppId },
+                ValidAudiences = msaAppIds,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.FromMinutes(5),
                 RequireSignedTokens = true

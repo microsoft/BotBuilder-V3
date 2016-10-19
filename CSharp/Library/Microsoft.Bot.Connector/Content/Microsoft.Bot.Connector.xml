@@ -1574,7 +1574,7 @@
             TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.JwtConfig.GetToBotFromChannelTokenValidationParameters(System.String)">
+        <member name="M:Microsoft.Bot.Connector.JwtConfig.GetToBotFromChannelTokenValidationParameters(System.String[])">
             <summary>
             TO BOT FROM CHANNEL: Token validation parameters when connecting to a bot
             </summary>
