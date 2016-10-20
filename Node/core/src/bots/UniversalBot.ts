@@ -96,6 +96,7 @@ export class UniversalBot extends events.EventEmitter {
     
     constructor(connector?: IConnector, settings?: IUniversalBotSettings) {
         super();
+        this.lib.localePath('./locale/');
         this.lib.library(dl.systemLib);
         if (settings) {
             for (var name in settings) {
@@ -116,6 +117,12 @@ export class UniversalBot extends events.EventEmitter {
     
     public set(name: string, value: any): this {
         (<any>this.settings)[name] = value;
+        if (value && name === 'localizerSettings') {
+            var settings = <IDefaultLocalizerSettings>value;
+            if (settings.botLocalePath) {
+                this.lib.localePath(settings.botLocalePath);
+            } 
+        }
         return this;
     }
     

@@ -35,6 +35,7 @@ import dlg = require('../dialogs/Dialog');
 import da = require('../dialogs/DialogAction');
 import sd = require('../dialogs/SimpleDialog');
 import consts = require('../consts');
+import path = require('path');
 
 export interface IDialogMap {
     [id: string]: dlg.Dialog;
@@ -127,3 +128,4 @@ export class Library {
 }
 
 export var systemLib = new Library(consts.Library.system);
+systemLib.localePath(path.join(__dirname, '../locale/'));
