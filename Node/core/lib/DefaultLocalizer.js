@@ -12,7 +12,7 @@ var DefaultLocalizer = (function () {
             }
         }
         else {
-            this.botLocalePath = "./";
+            this.botLocalePath = "./locale/";
         }
         if (settings.defaultLocale) {
             this.defaultLocale(settings.defaultLocale.toLowerCase());
@@ -114,7 +114,7 @@ var DefaultLocalizer = (function () {
         var path = localeDirPath + locale;
         fs.access(path, function (err) {
             if (err && err.code === 'ENOENT') {
-                logger.warn(null, "localizer::couldn't find directory: %s", path);
+                logger.debug(null, "localizer::couldn't find directory: %s", path);
                 cb(null, -1);
             }
             else if (err) {

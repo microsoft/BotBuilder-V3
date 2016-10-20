@@ -380,8 +380,8 @@ export interface IDialogState {
   * Results returned by a child dialog to its parent via a call to session.endDialog(). 
   */
 export interface IDialogResult<T> {
-    /** The reason why the current dialog is being resumed. */
-    resumed: ResumeReason;
+    /** The reason why the current dialog is being resumed. Defaults to {ResumeReason.completed} */
+    resumed?: ResumeReason;
 
     /** ID of the child dialog thats ending. */
     childId?: string;
@@ -397,6 +397,9 @@ export interface IDialogResult<T> {
 export interface IRecognizeContext {
     /** Message that was received. */
     message: IMessage;
+
+    /** The users preferred locale for the message. */
+    locale: string;
 
     /** If true the Dialog is the active dialog on the callstack. */
     activeDialog: boolean;
@@ -648,9 +651,6 @@ export interface ISessionOptions {
 
     /** (Optional) arguments to pass to the conversations initial dialog. */
     dialogArgs?: any;
-
-    /** (Optional) localizer to use when localizing the bots responses. */
-    localizer?: ILocalizer;
     
     /** (Optional) time to allow between each message sent as a batch. The default value is 250ms.  */
     autoBatchDelay?: number;

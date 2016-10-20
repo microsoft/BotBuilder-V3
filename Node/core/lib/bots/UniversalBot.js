@@ -232,7 +232,6 @@ var UniversalBot = (function (_super) {
         var loadedData;
         this.getStorageData(storageCtx, function (data) {
             var session = new ses.Session({
-                localizer: _this.settings.localizer,
                 localizerSettings: _this.settings.localizerSettings,
                 autoBatchDelay: _this.settings.autoBatchDelay,
                 library: _this.lib,
