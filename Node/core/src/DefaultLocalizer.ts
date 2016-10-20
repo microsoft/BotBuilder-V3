@@ -51,7 +51,7 @@ export class DefaultLocalizer implements ILocalizer {
                 this.botLocalePath = this.botLocalePath + "/";
             }
         } else {
-            this.botLocalePath = "./locale"
+            this.botLocalePath = "./locale/";
         }
         
         if (settings.defaultLocale) {
