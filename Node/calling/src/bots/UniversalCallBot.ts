@@ -370,6 +370,7 @@ export class UniversalCallBot extends events.EventEmitter {
     }
      
     private emitError(err: Error): void {
-        this.emit("error", err instanceof Error ? err : new Error(err.toString()));
+        var msg = err.toString();
+        this.emit("error", err instanceof Error ? err : new Error(msg));
     }
 }
