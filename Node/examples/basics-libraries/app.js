@@ -18,7 +18,11 @@ var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);
 
 // Initialize prompts and libraries
-localeTools.create(bot);
+// - For languageDetectionKey follow instructions at:
+//
+//      https://azure.microsoft.com/en-us/documentation/articles/cognitive-services-text-analytics-quick-start/
+// 
+localeTools.create(bot, { languageDetectionKey: process.env.LANGUAGE_DETECTION_KEY });
 
 bot.dialog("/", [
     function (session) {

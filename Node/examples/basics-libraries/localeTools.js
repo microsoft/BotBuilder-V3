@@ -12,6 +12,7 @@ it doesn't hurt to allways include the namespace.
 -----------------------------------------------------------------------------*/
 
 var builder = require('../../core/');
+var request = require('request');
 
 //=========================================================
 // Library creation
@@ -19,8 +20,14 @@ var builder = require('../../core/');
 
 var lib = new builder.Library('localeTools');
 
-exports.create = function (bot) {
+exports.create = function (bot, options) {
+    // Add Library to bot
     bot.library(lib);
+
+    // Install optional middleware
+    if (options && options.languageDetectionKey) {
+        bot.use(languageDetection(options.languageDetectionKey));
+    }
 }
 
 //=========================================================
@@ -62,3 +69,35 @@ lib.dialog('chooseLocale', [
         });
     }
 ]);
+
+function languageDetection(apiKey) {
+    return {
+        receive: function (event, next) {
+            if (event.text && !event.textLocale) {
+                var options = {
+                    method: 'POST',
+                    url: 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/languages?numberOfLanguagesToDetect=1',
+                    body: { documents: [{ id: 'message', text: event.text }]},
+                    json: true,
+                    headers: {
+                        'Ocp-Apim-Subscription-Key': apiKey
+                    }
+                };
+                request(options, function (error, response, body) {
+                    if (!error && body) {
+                        if (body.documents && body.documents.length > 0) {
+                            var languages = body.documents[0].detectedLanguages;
+                            if (languages && languages.length > 0) {
+                                event.textLocale = languages[0].iso6391Name;
+                            }
+                        }
+                    }
+                    next();
+                });
+            } else {
+                next();
+            }
+        }
+    };
+}
+
