@@ -26,6 +26,20 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
 
+### [v3.3](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.3)
+
+#### Breaking changes
+- Update [IScorable](https://github.com/Microsoft/BotBuilder/commit/36aea6c0fdfca8bebc4767c4ba1bf38b6aa14aa5#diff-8f76e9b3bfbb6254ab5173ddf2fe7252R50) interface. __Note__: This will only impact bots that leverage [ScoringDialogTask](https://github.com/Microsoft/BotBuilder/blob/10893730134135dd4af4250277de8e1b980f81c9/CSharp/Library/Dialogs/ScorableDialogs.cs#L49) and IScorable implementation to interrupt the conversation based on the score assigned to the incoming activity.
+
+#### Changes
+
+- General bug fixes
+- Remove unnecessary dependencies from bot.builder nuspec
+- Add support for keyboard card and Facebook quick replies
+- Add scorable dispatch support
+
+***
+
 ### [v3.2.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.2.1)
 
 #### Changes
