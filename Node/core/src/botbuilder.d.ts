@@ -1772,6 +1772,12 @@ export class Library {
     /** Creates a new instance of the library. */
     constructor(name: string);
 
+    /** 
+     * Gets or sets the path to the libraries "/locale/" folder containing its localized prompts.
+     * @param path (Optional) path to the libraries "/locale/" folder. If specified this will update the libraries path. 
+     */
+    localePath(path?: string): string;
+
     /**
      * Registers or returns a dialog from the library.
      * @param id Unique ID of the dialog being regsitered or retrieved.
@@ -1797,6 +1803,15 @@ export class Library {
      * @param dialogId Unique ID of the dialog within the library.
      */
     findDialog(libName: string, dialogId: string): Dialog;
+
+    /**
+     * Enumerates all of the libraries child libraries. The caller should take appropriate steps to
+     * avoid circular references when enumerating the hierarchy. Maintaining a map of visited 
+     * libraries should be enough.
+     * @param callback Iterator function to call with each child.
+     * @param callback.library The current child.
+     */
+    forEachLibrary(callback: (library: Library) => void): void;
 }
 
 /**

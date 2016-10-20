@@ -47,8 +47,16 @@ export interface ILibraryMap {
 export class Library {
     private dialogs = <IDialogMap>{};
     private libraries = <ILibraryMap>{};
+    private _localePath: string;
 
     constructor(public name: string) {
+    }
+
+    public localePath(path?: string): string {
+        if (path) {
+            this._localePath = path;
+        }
+        return this._localePath;
     }
 
     public dialog(id: string, dialog?: dlg.Dialog | da.IDialogWaterfallStep[] | da.IDialogWaterfallStep): dlg.Dialog {
@@ -109,6 +117,12 @@ export class Library {
             d = lib.dialog(dialogId);
         }
         return d;
+    }
+
+    public forEachLibrary(callback: (library: Library) => void): void {
+        for (var lib in this.libraries) {
+            callback(this.libraries[lib]);
+        }
     }
 }
 
