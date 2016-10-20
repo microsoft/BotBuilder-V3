@@ -135,12 +135,3 @@ The default localizer will search for a message ID across multiple files and if 
 The default localizer supports the namespacing of prompts to avoid collisions between message ID’s.  Name spaced prompts can also be overridden by the bot to essentially let a bot customize or re-skin the prompts from another namespace.  Today, you can leverage this capability to customize the SDK’s built-in messages, letting you either add support for additional languages or to simply re-word the SDK’s current messages.  For instance, you can change the SDK’s default error message by simply adding a file called `BotBuilder.json` to your bots locale directory and then adding an entry for the `default_error` message ID:
  
 ![Locale Namespacing](/en-us/images/builder/locale-namespacing.png)
-
-## Custom Localizer
-Bot Builder ships with a powerful text localization system built in but it is possibly to provide your own custom text localization system.  To do this you’ll need to provide a new implementation of [ILocalizer](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ilocalizer) when you construct your bot:
-
-{% highlight JavaScript %}
-var bot = new builder.UniversalBot(connector, {
-    localizer: new MyCustomLocalizer()
-});
-{% endhighlight %}

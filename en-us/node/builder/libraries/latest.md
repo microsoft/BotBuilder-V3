@@ -22,6 +22,13 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.3.3
+* Removed requirement for IDialogResult.resumed.
+* Removed ability to pass in a custom localizer. The new localizer system should be used instead.
+* Changed a warning that was getting emitted from localizer to a debug statement.
+* Fixed a bug where the localizers path wasn't defaulting to "./locale/"
+* Updated LKG build and package.json version.
+
 ### v3.3.2
 * Fixed an issue with ordinal parsing in EntityRecognizer.parseNumber().
 * Fixed an issue with ListStyle.inline being used for Prompts.confirm() on text based channels.
