@@ -85,7 +85,8 @@ var CallSession = (function (_super) {
         return this;
     };
     CallSession.prototype.error = function (err) {
-        err = err instanceof Error ? err : new Error(err.toString());
+        var msg = err.toString();
+        err = err instanceof Error ? err : new Error(msg);
         this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
         this.emit('error', err);
         return this;

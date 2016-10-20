@@ -252,7 +252,8 @@ var UniversalCallBot = (function (_super) {
         };
     };
     UniversalCallBot.prototype.emitError = function (err) {
-        this.emit("error", err instanceof Error ? err : new Error(err.toString()));
+        var msg = err.toString();
+        this.emit("error", err instanceof Error ? err : new Error(msg));
     };
     return UniversalCallBot;
 }(events.EventEmitter));

@@ -229,7 +229,8 @@ var CallConnector = (function () {
                     callback(null, data);
                 }
                 else {
-                    callback(err instanceof Error ? err : new Error(err.toString()), null);
+                    var msg = err.toString();
+                    callback(err instanceof Error ? err : new Error(msg), null);
                 }
             });
         }
@@ -279,7 +280,8 @@ var CallConnector = (function () {
                         callback(null);
                     }
                     else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var msg = err.toString();
+                        callback(err instanceof Error ? err : new Error(msg));
                     }
                 }
             });
