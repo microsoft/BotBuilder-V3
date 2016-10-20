@@ -15,12 +15,7 @@ var builder = require('../../core/');
 var localeTools = require('./localeTools');
 
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector, {
-    localizerSettings: { 
-        botLocalePath: "./locale", 
-        defaultLocale: "en" 
-    }
-});
+var bot = new builder.UniversalBot(connector);
 
 // Initialize prompts and libraries
 localeTools.create(bot);
