@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Connector
         /// Microsoft AppId for the bot 
         /// </summary>
         /// <remarks>
-        /// needs to be used with MicrosoftAppPassword.  Ignored if CredentialProviderType  is specified.
+        /// Needs to be used with MicrosoftAppPassword.  Ignored if CredentialProviderType is specified.
         /// </remarks>
         public string MicrosoftAppId { get; set; }
 
@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Connector
         /// Microsoft AppPassword for the bot (needs to be used with MicrosoftAppId)
         /// </summary>
         /// <remarks>
-        /// needs to be used with MicrosoftAppId.  Ignored if CredentialProviderType  is specified.
+        /// Needs to be used with MicrosoftAppId. Ignored if CredentialProviderType is specified.
         /// </remarks>
         public string MicrosoftAppPassword { get; set; }
 
@@ -36,7 +36,7 @@ namespace Microsoft.Bot.Connector
         /// Name of Setting in web.config which has the Microsoft AppId for the bot 
         /// </summary>
         /// <remarks>
-        /// needs to be used with MicrosoftAppPasswordSettingName.  Ignored if CredentialProviderType is specified.
+        /// Needs to be used with MicrosoftAppPasswordSettingName. Ignored if CredentialProviderType is specified.
         /// </remarks>
         public string MicrosoftAppIdSettingName { get; set; }
 
@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Connector
         /// Name of Setting in web.config which has the Microsoft App Password for the bot 
         /// </summary>
         /// <remarks>
-        /// needs to be used with MicrosoftAppIdSettingName.  Ignored if CredentialProviderType is specified.
+        /// Needs to be used with MicrosoftAppIdSettingName. Ignored if CredentialProviderType is specified.
         /// </remarks>
         public string MicrosoftAppPasswordSettingName { get; set; }
 
@@ -64,6 +64,8 @@ namespace Microsoft.Bot.Connector
             {
                 // if we have a credentialprovider type
                 credentialProvider = Activator.CreateInstance(CredentialProviderType) as ICredentialProvider;
+                if (credentialProvider == null)
+                    throw new ArgumentNullException($"The CredentialProviderType {CredentialProviderType.Name} couldn't be instantiated with no params or doesn't implement ICredentialProvider");
             }
             else if (MicrosoftAppId != null && MicrosoftAppPassword != null)
             {
@@ -86,32 +88,37 @@ namespace Microsoft.Bot.Connector
 
             ClaimsIdentity identity = null;
             JwtTokenExtractor tokenExtractor = null;
-            try
+
+            var parameters = JwtConfig.GetToBotFromChannelTokenValidationParameters((audiences, securityToken, validationParameters) => true);
+            tokenExtractor = new JwtTokenExtractor(parameters, OpenIdConfigurationUrl);
+            identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
+
+            // No identity? If we're allowed to, fall back to MSA
+            // This code path is used by the emulator
+            if (identity == null && !DisableSelfIssuedTokens)
             {
-                var parameters = JwtConfig.GetToBotFromChannelTokenValidationParameters((audiences, securityToken, validationParameters) => credentialProvider.ValidateAppId(audiences.First()).Result);
-                tokenExtractor = new JwtTokenExtractor(parameters, OpenIdConfigurationUrl);
+                tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
                 identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
+            }
 
-                // No identity? If we're allowed to, fall back to MSA
-                // This code path is used by the emulator
-                if (identity == null && !DisableSelfIssuedTokens)
+            if (identity != null)
+            {
+                var appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
+                if (await credentialProvider.IsValidAppIdAsync(appId) == false) // keep context
                 {
-                    tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
-                    identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
+                    // not valid appid, drop the identity
+                    identity = null;
                 }
-
-                if (identity != null)
+                else
                 {
-                    var appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
-                    var password = await credentialProvider.GetAppPassword(appId).ConfigureAwait(false);
+                    var password = await credentialProvider.GetAppPasswordAsync(appId); // Keep context
                     if (password != null)
                     {
-                        // add password as claim
+                        // add password as claim so that it is part of ClaimsIdentity and accessible by ConnectorClient() 
                         identity.AddClaim(new Claim(ClaimsIdentityEx.AppPasswordClaim, password));
                     }
                 }
             }
-            catch (Exception) { }
 
 
             // Still no identity? Fail out.

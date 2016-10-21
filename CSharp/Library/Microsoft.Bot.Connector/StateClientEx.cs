@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Connector
                 throw new ArgumentNullException("ClaimsIdentity not passed in and not available via Thread.CurrentPrincipal.Identity");
 
             var appId = claimsIdentity.GetAppIdFromClaims();
-            var password = credentialProvider.GetAppPassword(appId).Result;
+            var password = credentialProvider.GetAppPasswordAsync(appId).Result;
             this.Credentials = new MicrosoftAppCredentials(appId, password);
         }
 

@@ -105,19 +105,19 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ClaimsIdentityEx.GetCredentialsFromClaims(System.Security.Claims.ClaimsIdentity)">
             <summary>
-            Get the 
+            Get the MicrosoftAppCredentials using claims in the claims identity
             </summary>
             <param name="claimsIdentity"></param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.ValidateAppId(System.String)">
+        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.IsValidAppIdAsync(System.String)">
             <summary>
             Validate AppId
             </summary>
             <param name="appId"></param>
             <returns>true if it is a valid AppId for the controller</returns>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.GetAppPassword(System.String)">
+        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.GetAppPasswordAsync(System.String)">
             <summary>
             Get the app password for a given bot appId, if it is not a valid appId, return Null
             </summary>
@@ -1092,7 +1092,7 @@
             Microsoft AppId for the bot 
             </summary>
             <remarks>
-            needs to be used with MicrosoftAppPassword.  Ignored if CredentialProviderType  is specified.
+            Needs to be used with MicrosoftAppPassword.  Ignored if CredentialProviderType is specified.
             </remarks>
         </member>
         <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppPassword">
@@ -1100,7 +1100,7 @@
             Microsoft AppPassword for the bot (needs to be used with MicrosoftAppId)
             </summary>
             <remarks>
-            needs to be used with MicrosoftAppId.  Ignored if CredentialProviderType  is specified.
+            Needs to be used with MicrosoftAppId. Ignored if CredentialProviderType is specified.
             </remarks>
         </member>
         <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppIdSettingName">
@@ -1108,7 +1108,7 @@
             Name of Setting in web.config which has the Microsoft AppId for the bot 
             </summary>
             <remarks>
-            needs to be used with MicrosoftAppPasswordSettingName.  Ignored if CredentialProviderType is specified.
+            Needs to be used with MicrosoftAppPasswordSettingName. Ignored if CredentialProviderType is specified.
             </remarks>
         </member>
         <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppPasswordSettingName">
@@ -1116,7 +1116,7 @@
             Name of Setting in web.config which has the Microsoft App Password for the bot 
             </summary>
             <remarks>
-            needs to be used with MicrosoftAppIdSettingName.  Ignored if CredentialProviderType is specified.
+            Needs to be used with MicrosoftAppIdSettingName. Ignored if CredentialProviderType is specified.
             </remarks>
         </member>
         <member name="P:Microsoft.Bot.Connector.BotAuthentication.CredentialProviderType">

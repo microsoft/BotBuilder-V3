@@ -14,14 +14,14 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         /// <param name="appId"></param>
         /// <returns>true if it is a valid AppId for the controller</returns>
-        Task<bool> ValidateAppId(string appId);
+        Task<bool> IsValidAppIdAsync(string appId);
         
         /// <summary>
         /// Get the app password for a given bot appId, if it is not a valid appId, return Null
         /// </summary>
         /// <param name="appId">bot appid</param>
         /// <returns>password or null for invalid appid</returns>
-        Task<string> GetAppPassword(string appId);
+        Task<string> GetAppPasswordAsync(string appId);
     }
 
     internal class SimpleCredentialProvider : ICredentialProvider
@@ -30,12 +30,12 @@ namespace Microsoft.Bot.Connector
 
         public string Password { get; set; }
 
-        public Task<bool> ValidateAppId(string appId)
+        public Task<bool> IsValidAppIdAsync(string appId)
         {
             return Task.FromResult(appId == AppId);
         }
 
-        public Task<string> GetAppPassword(string appId)
+        public Task<string> GetAppPasswordAsync(string appId)
         {
             return Task.FromResult((appId == this.AppId) ? this.Password : null);
         }

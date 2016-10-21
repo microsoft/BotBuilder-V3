@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Security.Claims;
-using System.Threading;
-using System.Web;
 
 namespace Microsoft.Bot.Connector
 {
