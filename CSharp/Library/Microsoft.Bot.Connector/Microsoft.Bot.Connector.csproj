@@ -81,6 +81,7 @@
     <Compile Include="ConnectorAPI\Models\Error.cs" />
     <Compile Include="ConnectorAPI\Models\ErrorResponse.cs" />
     <Compile Include="ClaimsIdentityEx.cs" />
+    <Compile Include="CredentialProvider.cs" />
     <Compile Include="ErrorResponseEx.cs" />
     <Compile Include="SigninCardEx.cs" />
     <Compile Include="ConnectorAPI\Models\AnimationCard.cs" />

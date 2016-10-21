@@ -96,6 +96,44 @@
             <param name="identity"></param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ClaimsIdentityEx.GetAppPasswordFromClaims(System.Security.Claims.ClaimsIdentity)">
+            <summary>
+            Get the AppPassword from the Claims Identity
+            </summary>
+            <param name="identity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ClaimsIdentityEx.GetCredentialsFromClaims(System.Security.Claims.ClaimsIdentity)">
+            <summary>
+            Get the 
+            </summary>
+            <param name="claimsIdentity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.ValidateAppId(System.String)">
+            <summary>
+            Validate AppId
+            </summary>
+            <param name="appId"></param>
+            <returns>true if it is a valid AppId for the controller</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.GetAppPassword(System.String)">
+            <summary>
+            Get the app password for a given bot appId, if it is not a valid appId, return Null
+            </summary>
+            <param name="appId">bot appid</param>
+            <returns>password or null for invalid appid</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.StaticCredentialProvider">
+            <summary>
+            Static credential provider which has the appid and password static
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SettingsCredentialProvider">
+            <summary>
+            Credential provider which uses config settings to lookup appId and password
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ErrorCodes">
             <summary>
             Error codes to communicate when throwing an APIException
@@ -1049,28 +1087,37 @@
             This action will be activated when user taps on the card itself
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.GetAppIds">
-            <summary>
-            Return valid appids
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.GetAppPassword(System.String)">
-            <summary>
-            Get the app password for a given bot appId
-            </summary>
-            <param name="appId">bot appid</param>
-            <returns>password</returns>
-        </member>
         <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppId">
             <summary>
-            Mirosofot AppId for the bot (ignored if MicrosoftAppIdSettingName is used or AppIdSourceType is used)
+            Microsoft AppId for the bot 
             </summary>
+            <remarks>
+            needs to be used with MicrosoftAppPassword.  Ignored if CredentialProviderType  is specified.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppPassword">
+            <summary>
+            Microsoft AppPassword for the bot (needs to be used with MicrosoftAppId)
+            </summary>
+            <remarks>
+            needs to be used with MicrosoftAppId.  Ignored if CredentialProviderType  is specified.
+            </remarks>
         </member>
         <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppIdSettingName">
             <summary>
-            Setting in web.config which has the Microsoft AppId for the bot(ignored if MicrosoftAppId is used or AppIdSourceType is used)
+            Name of Setting in web.config which has the Microsoft AppId for the bot 
             </summary>
+            <remarks>
+            needs to be used with MicrosoftAppPasswordSettingName.  Ignored if CredentialProviderType is specified.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppPasswordSettingName">
+            <summary>
+            Name of Setting in web.config which has the Microsoft App Password for the bot 
+            </summary>
+            <remarks>
+            needs to be used with MicrosoftAppIdSettingName.  Ignored if CredentialProviderType is specified.
+            </remarks>
         </member>
         <member name="P:Microsoft.Bot.Connector.BotAuthentication.CredentialProviderType">
             <summary>
@@ -1609,7 +1656,7 @@
             TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.JwtConfig.GetToBotFromChannelTokenValidationParameters(System.String[])">
+        <member name="M:Microsoft.Bot.Connector.JwtConfig.GetToBotFromChannelTokenValidationParameters(System.IdentityModel.Tokens.AudienceValidator)">
             <summary>
             TO BOT FROM CHANNEL: Token validation parameters when connecting to a bot
             </summary>
@@ -2841,15 +2888,6 @@
             <param name="microsoftAppPassword">Optional. Your Microsoft app password. If null, this setting is read from settings["MicrosoftAppPassword"]</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Bot.Connector.ICredentialProvider,System.Security.Claims.ClaimsIdentity,System.Net.Http.DelegatingHandler[])">
-            <summary>
-            Create a new instance of the ConnectorClient class using IAppIdSource
-            </summary>
-            <param name="baseUri">Base URI for the Connector service</param>
-            <param name="credentialProvider">Credential source to use</param>
-            <param name="claimsIdentity">ClaimsIDentity to create the client for</param>
-            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
-        </member>
         <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Bot.Connector.MicrosoftAppCredentials,System.Boolean,System.Net.Http.DelegatingHandler[])">
             <summary>
             Create a new instance of the ConnectorClient class
@@ -3470,16 +3508,6 @@
             </summary>
             <param name="microsoftAppId"></param>
             <param name="microsoftAppPassword"></param>
-            <param name="serviceUrl">alternate serviceurl to use for state service</param>
-            <param name="handlers"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.GetStateClient(Microsoft.Bot.Connector.ICredentialProvider,System.Security.Claims.ClaimsIdentity,System.String,System.Net.Http.DelegatingHandler[])">
-            <summary>
-            Get StateClient appropriate for this activity
-            </summary>
-            <param name="credentialProvider">credential source to use</param>
-            <param name="claimsIdentity">claimsIdentity to use</param>
             <param name="serviceUrl">alternate serviceurl to use for state service</param>
             <param name="handlers"></param>
             <returns></returns>

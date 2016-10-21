@@ -30,9 +30,7 @@ namespace Microsoft.Bot.Connector
         }
 
         public string MicrosoftAppId { get; set; }
-        public string MicrosoftAppIdSettingName { get; set; }
         public string MicrosoftAppPassword { get; set; }
-        public string MicrosoftAppPasswordSettingName { get; set; }
 
         public virtual string OAuthEndpoint { get { return "https://login.microsoftonline.com/common/oauth2/v2.0/token"; } }
         public virtual string OAuthScope { get { return "https://graph.microsoft.com/.default"; } }
@@ -141,9 +139,6 @@ namespace Microsoft.Bot.Connector
 
         private async Task<OAuthResponse> RefreshTokenAsync()
         {
-            MicrosoftAppId = MicrosoftAppId ?? ConfigurationManager.AppSettings[MicrosoftAppIdSettingName ?? "MicrosoftAppId"];
-            MicrosoftAppPassword = MicrosoftAppPassword ?? ConfigurationManager.AppSettings[MicrosoftAppPasswordSettingName ?? "MicrosoftAppPassword"];
-
             OAuthResponse oauthResponse;
 
             using (HttpClient httpClient = new HttpClient())

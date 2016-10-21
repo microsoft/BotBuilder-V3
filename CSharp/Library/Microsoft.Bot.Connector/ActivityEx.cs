@@ -131,26 +131,6 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Get StateClient appropriate for this activity
-        /// </summary>
-        /// <param name="credentialProvider">credential source to use</param>
-        /// <param name="claimsIdentity">claimsIdentity to use</param>
-        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
-        /// <param name="handlers"></param>
-        /// <returns></returns>
-        public StateClient GetStateClient(ICredentialProvider credentialProvider, ClaimsIdentity claimsIdentity=null, string serviceUrl = null, params DelegatingHandler[] handlers)
-        {
-            bool useServiceUrl = (this.ChannelId == "emulator" || (this.ChannelId.StartsWith("skype") && this.ChannelId.Length > "skype".Length));
-            if (useServiceUrl)
-                return new StateClient(new Uri(this.ServiceUrl), credentialProvider:credentialProvider, claimsIdentity: claimsIdentity, handlers: handlers);
-
-            if (serviceUrl != null)
-                return new StateClient(new Uri(serviceUrl), credentialProvider: credentialProvider, claimsIdentity: claimsIdentity, handlers: handlers);
-
-            return new StateClient(credentialProvider, claimsIdentity: claimsIdentity, handlers: handlers);
-        }
-
-        /// <summary>
         /// Check if the message has content
         /// </summary>
         /// <returns>Returns true if this message has any content to send</returns>

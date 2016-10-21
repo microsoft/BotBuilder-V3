@@ -12,37 +12,44 @@ using System.Web.Http.Filters;
 
 namespace Microsoft.Bot.Connector
 {
-    public interface ICredentialProvider
-    {
-        /// <summary>
-        /// Return valid appids
-        /// </summary>
-        /// <returns></returns>
-        Task<string[]> GetAppIds();
-
-        /// <summary>
-        /// Get the app password for a given bot appId
-        /// </summary>
-        /// <param name="appId">bot appid</param>
-        /// <returns>password</returns>
-        Task<string> GetAppPassword(string appId);
-    }
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class BotAuthentication : ActionFilterAttribute
     {
         /// <summary>
-        /// Mirosofot AppId for the bot (ignored if MicrosoftAppIdSettingName is used or AppIdSourceType is used)
+        /// Microsoft AppId for the bot 
         /// </summary>
+        /// <remarks>
+        /// needs to be used with MicrosoftAppPassword.  Ignored if CredentialProviderType  is specified.
+        /// </remarks>
         public string MicrosoftAppId { get; set; }
 
         /// <summary>
-        /// Setting in web.config which has the Microsoft AppId for the bot(ignored if MicrosoftAppId is used or AppIdSourceType is used)
+        /// Microsoft AppPassword for the bot (needs to be used with MicrosoftAppId)
         /// </summary>
+        /// <remarks>
+        /// needs to be used with MicrosoftAppId.  Ignored if CredentialProviderType  is specified.
+        /// </remarks>
+        public string MicrosoftAppPassword { get; set; }
+
+        /// <summary>
+        /// Name of Setting in web.config which has the Microsoft AppId for the bot 
+        /// </summary>
+        /// <remarks>
+        /// needs to be used with MicrosoftAppPasswordSettingName.  Ignored if CredentialProviderType is specified.
+        /// </remarks>
         public string MicrosoftAppIdSettingName { get; set; }
 
+        /// <summary>
+        /// Name of Setting in web.config which has the Microsoft App Password for the bot 
+        /// </summary>
+        /// <remarks>
+        /// needs to be used with MicrosoftAppIdSettingName.  Ignored if CredentialProviderType is specified.
+        /// </remarks>
+        public string MicrosoftAppPasswordSettingName { get; set; }
+
         public bool DisableSelfIssuedTokens { get; set; }
-        
+
         /// <summary>
         /// Type which implements ICredentialProvider interface to allow multiple bot AppIds to be registered for the same endpoint
         /// </summary>
@@ -52,42 +59,55 @@ namespace Microsoft.Bot.Connector
 
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
-            MicrosoftAppId = MicrosoftAppId ?? ConfigurationManager.AppSettings[MicrosoftAppIdSettingName ?? "MicrosoftAppId"];
-
-            if (Debugger.IsAttached && String.IsNullOrEmpty(MicrosoftAppId))
-                // then auth is disabled
-                return;
-
-            string[] msAppIds;
+            ICredentialProvider credentialProvider = null;
             if (CredentialProviderType != null)
             {
-                ICredentialProvider appIdSource = Activator.CreateInstance(CredentialProviderType) as ICredentialProvider;
-                msAppIds = await appIdSource.GetAppIds().ConfigureAwait(false);
+                // if we have a credentialprovider type
+                credentialProvider = Activator.CreateInstance(CredentialProviderType) as ICredentialProvider;
+            }
+            else if (MicrosoftAppId != null && MicrosoftAppPassword != null)
+            {
+                // if we have raw values
+                var provider = new StaticCredentialProvider(MicrosoftAppId, MicrosoftAppPassword);
+                if (Debugger.IsAttached && String.IsNullOrEmpty(provider.AppId))
+                    // then auth is disabled
+                    return;
+                credentialProvider = provider as ICredentialProvider;
             }
             else
-                msAppIds = new[] { MicrosoftAppId };
+            {
+                // if we have setting name, or there is no parameters at all default to default setting name
+                var provider = new SettingsCredentialProvider(MicrosoftAppIdSettingName, MicrosoftAppPasswordSettingName);
+                if (Debugger.IsAttached && String.IsNullOrEmpty(provider.AppId))
+                    // then auth is disabled
+                    return;
+                credentialProvider = provider as ICredentialProvider;
+            }
 
             ClaimsIdentity identity = null;
             JwtTokenExtractor tokenExtractor = null;
             try
             {
-                tokenExtractor = new JwtTokenExtractor(JwtConfig.GetToBotFromChannelTokenValidationParameters(msAppIds), OpenIdConfigurationUrl);
+                var parameters = JwtConfig.GetToBotFromChannelTokenValidationParameters((audiences, securityToken, validationParameters) => credentialProvider.ValidateAppId(audiences.First()).Result);
+                tokenExtractor = new JwtTokenExtractor(parameters, OpenIdConfigurationUrl);
                 identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
-                
+
                 // No identity? If we're allowed to, fall back to MSA
                 // This code path is used by the emulator
                 if (identity == null && !DisableSelfIssuedTokens)
                 {
                     tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
                     identity = await tokenExtractor.GetIdentityAsync(actionContext.Request);
+                }
 
-                    // Check to make sure the app ID in the token is ours
-                    if (identity != null)
+                if (identity != null)
+                {
+                    var appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
+                    var password = await credentialProvider.GetAppPassword(appId).ConfigureAwait(false);
+                    if (password != null)
                     {
-                        // If it doesn't match, throw away the identity
-                        var appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
-                        if (msAppIds.Contains(appId) == false)
-                            identity = null;
+                        // add password as claim
+                        identity.AddClaim(new Claim(ClaimsIdentityEx.AppPasswordClaim, password));
                     }
                 }
             }
