@@ -45,7 +45,7 @@ intents.matches(/^version/i, function (session) {
 });
 {% endhighlight %}
 
-A [DialogAction](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.#dialogaction) that can provide a shortcut for implementing simpler closures:
+A [DialogAction](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialogaction.html) that can provide a shortcut for implementing simpler closures:
 
 {% highlight JavaScript %}
 var intents = new builder.IntentDialog();
@@ -66,7 +66,7 @@ bot.dialog('/', new builder.IntentDialog()
 {% endhighlight %}
 
 ## Intent Recognizers
-The IntentDialog class can be configured to use cloud based intent recognition services like [LUIS](http://luis.ai) through an extensible set of [recognizer](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintnetrecognizer) plugins.  Out of the box, Bot Builder comes with a [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) that can be used to call a machine learning model you’ve trained via their web site.  You can create a LuisRecognizer that’s pointed at your model and then pass that recognizer into your IntentDialog at creation time using the [options](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentdialogoptions) structure. 
+The IntentDialog class can be configured to use cloud based intent recognition services like [LUIS](http://luis.ai) through an extensible set of [recognizer](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer.html) plugins.  Out of the box, Bot Builder comes with a [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) that can be used to call a machine learning model you’ve trained via their web site.  You can create a LuisRecognizer that’s pointed at your model and then pass that recognizer into your IntentDialog at creation time using the [options](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentdialogoptions) structure. 
 
 {% highlight JavaScript %}
 var recognizer = new builder.LuisRecognizer('<your models url>');
