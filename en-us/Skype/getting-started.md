@@ -262,14 +262,14 @@ The [receipt card](/en-us/csharp/builder/sdkreference/attachments.html#receiptca
 
 **Property**|**Type**|**Description**
 |:----------------------------:|---------------------------------|---------------------------------
-title|Rich text|Title of the card. Maximum 2 lines
+title|Rich text|Title of the card.
+subtitle|Rich text|Appears below title.
+text|Rich text|Appears below substitle.
 facts:[]|Array of Fact key-value pairs|Fact key is left aligned, value is right aligned
 items:[]|Array of Purchased objects|Properties: title (Maximum 2 lines), subtitle (1 line), text (Up to 6 lines depending if title, subtitle and price are present), price, image (1:1 aspect ratio), tap
-total|Rich text|Title of the card. Maximum 2 lines
-tax|Rich text|Title of the card. Maximum 2 lines
-vat|Rich text|Title of the card. Maximum 2 lines
-items:[]|Rich text|Title of the card. Maximum 2 lines
-images:[]|Array of images|Image displayed with each item. Aspect ratio 16:9
+total|Rich text|Total purchase amount, mandatory for receipt card.
+tax|Rich text|Amount of tax charged.
+vat|Rich text|Amount of vat charged.
 buttons:[]|Array of action objects|Set of actions applicable to the current card
 tap|Action object|This action will be activated when the user taps on the card itself
 
