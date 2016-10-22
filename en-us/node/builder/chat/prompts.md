@@ -106,15 +106,15 @@ Or as an Object map. When an Object is passed in Objects keys will be used to de
 var salesData = {
     "west": {
         units: 200,
-        total: '$6,000"
+        total: "$6,000"
     },
     "central": {
         units: 100,
-        total: '$3,000"
+        total: "$3,000"
     },
     "east": {
         units: 300,
-        total: '$9,000"
+        total: "$9,000"
     }
 };
 
