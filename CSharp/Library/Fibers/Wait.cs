@@ -36,6 +36,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
@@ -46,7 +47,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     {
     }
 
-    public delegate Task<IWait<C>> Rest<C, in T>(IFiber<C> fiber, C context, IItem<T> item);
+    public delegate Task<IWait<C>> Rest<C, in T>(IFiber<C> fiber, C context, IItem<T> item, CancellationToken token);
 
     public enum Need { None, Wait, Poll, Call, Done };
 
@@ -62,7 +63,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
     public interface IWait<C> : IWait
     {
-        Task<IWait<C>> PollAsync(IFiber<C> fiber, C context);
+        Task<IWait<C>> PollAsync(IFiber<C> fiber, C context, CancellationToken token);
     }
 
     public sealed class NullWait<C> : IWait<C>
@@ -114,7 +115,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             throw new InvalidNeedException(this, Need.Wait);
         }
 
-        Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context)
+        Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context, CancellationToken token)
         {
             throw new InvalidNeedException(this, Need.Poll);
         }
@@ -237,14 +238,14 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        async Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context)
+        async Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context, CancellationToken token)
         {
             this.ValidateNeed(Need.Poll);
 
             this.need = Need.Call;
             try
             {
-                return await this.rest(fiber, context, this);
+                return await this.rest(fiber, context, this, token);
             }
             finally
             {

@@ -49,11 +49,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     public sealed class DialogTask : IDialogStack, IPostToBot
     {
-        private readonly Func<IDialogContext> makeContext;
+        private readonly Func<CancellationToken, IDialogContext> makeContext;
         private readonly IStore<IFiberLoop<DialogTask>> store;
         private readonly IFiberLoop<DialogTask> fiber;
         private readonly Frames frames;
-        public DialogTask(Func<IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store)
+        public DialogTask(Func<CancellationToken, IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store)
         {
             SetField.NotNull(out this.makeContext, nameof(makeContext), makeContext);
             SetField.NotNull(out this.store, nameof(store), store);
@@ -85,7 +85,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 }
             }
 
-            public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<object> item)
+            public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<object> item, CancellationToken token)
             {
                 var result = await item;
                 if (result != null)
@@ -93,7 +93,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     throw new ArgumentException(nameof(item));
                 }
 
-                await this.start(task.makeContext());
+                await this.start(task.makeContext(token));
                 return task.wait;
             }
         }
@@ -115,9 +115,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 }
             }
 
-            public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item)
+            public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item, CancellationToken token)
             {
-                await this.resume(task.makeContext(), item);
+                await this.resume(task.makeContext(token), item);
                 return task.wait;
             }
         }
@@ -235,7 +235,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             try
             {
-                await this.fiber.PollAsync(this);
+                await this.fiber.PollAsync(this, token);
 
                 // this line will throw an error if the code does not schedule the next callback
                 // to wait for the next message sent from the user to the bot.

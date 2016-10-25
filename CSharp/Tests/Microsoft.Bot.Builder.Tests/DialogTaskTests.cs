@@ -213,6 +213,46 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task DialogTask_CancellationToken_Propagated_Through_Context()
+        {
+            var dialog = new Mock<IDialogFrames<object>>(MockBehavior.Strict);
+
+            var source = new CancellationTokenSource();
+
+            dialog
+                .Setup(d => d.StartAsync(It.Is<IDialogContext>(c => c.CancellationToken.Equals(source.Token))))
+                .Returns<IDialogContext>(async context =>
+                {
+                    context.Wait(dialog.Object.ItemReceived);
+                });
+
+            dialog
+                .Setup(d => d.ItemReceived(It.Is<IDialogContext>(c => c.CancellationToken.Equals(source.Token)), It.IsAny<IAwaitable<IMessageActivity>>()))
+                .Returns<IDialogContext, IAwaitable<IMessageActivity>>(async (context, item) =>
+                {
+                    context.Wait(dialog.Object.ItemReceived);
+                });
+
+            var toBot = MakeTestMessage();
+
+            using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
+            using (var container = Build(Options.ResolveDialogFromContainer, dialog.Object))
+            {
+                var builder = new ContainerBuilder();
+                builder.RegisterInstance(dialog.Object).As<IDialog<object>>();
+                builder.Update(container);
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    await PostActivityAsync(container, toBot, source.Token);
+                    await PostActivityAsync(container, toBot, source.Token);
+                }
+            }
+
+            dialog.VerifyAll();
+        }
+
+        [TestMethod]
         public async Task DialogTask_Frames_After_Poll_No_Post()
         {
             var dialog = new Mock<IDialogFrames<object>>(MockBehavior.Loose);

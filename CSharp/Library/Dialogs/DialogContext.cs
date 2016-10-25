@@ -46,12 +46,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private readonly IBotToUser botToUser;
         private readonly IBotData botData;
         private readonly IDialogStack stack;
+        private readonly CancellationToken token;
 
-        public DialogContext(IBotToUser botToUser, IBotData botData, IDialogStack stack)
+        public DialogContext(IBotToUser botToUser, IBotData botData, IDialogStack stack, CancellationToken token)
         {
             SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
             SetField.NotNull(out this.botData, nameof(botData), botData);
             SetField.NotNull(out this.stack, nameof(stack), stack);
+            this.token = token;
         }
 
         IBotDataBag IBotData.ConversationData
@@ -123,7 +125,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IDialogStack.PollAsync(CancellationToken token)
         {
-            await this.stack.PollAsync(token);
+            throw new InvalidOperationException();
         }
 
         void IDialogStack.Reset()
@@ -140,5 +142,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             await this.botData.FlushAsync(cancellationToken);
         }
+
+        CancellationToken IBotContext.CancellationToken => this.token;
     }
 }
