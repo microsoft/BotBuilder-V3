@@ -28,7 +28,7 @@ The Bot Framework Developer Portal lets you connect your bot(s) seamlessly text/
 
 ![Developer Portal](/en-us/images/faq-overview/developer_portal_july.png)
 
-### Bot Directory (coming soon)
+### Bot Directory
 {:.no_toc}
 
 The Bot Directory is a public directory of all reviewed bots registered through the Developer Portal. Users will be able to discover, try, and add bots to their favorite conversation experiences from the Bot Directory. Initially the Bot Directory will feature bots demonstrated at [Microsoft Build 2016](http://build.microsoft.com/).
