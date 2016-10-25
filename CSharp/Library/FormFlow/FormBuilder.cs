@@ -112,33 +112,26 @@ namespace Microsoft.Bot.Builder.FormFlow
             var lang = resourceAssembly.GetCustomAttribute<NeutralResourcesLanguageAttribute>();
             if (lang != null && !string.IsNullOrWhiteSpace(lang.CultureName))
             {
-                try
+                IEnumerable<string> missing, extra;
+                string name = null;
+                foreach (var resource in resourceAssembly.GetManifestResourceNames())
                 {
-                    IEnumerable<string> missing, extra;
-                    string name = null;
-                    foreach (var resource in resourceAssembly.GetManifestResourceNames())
+                    if (resource.Contains(resourceName))
                     {
-                        if (resource.Contains(resourceName))
-                        {
-                            var pieces = resource.Split('.');
-                            name = string.Join(".", pieces.Take(pieces.Count() - 1));
-                            break;
-                        }
-                    }
-                    if (name != null)
-                    {
-                        var rm = new ResourceManager(name, resourceAssembly);
-                        var rs = rm.GetResourceSet(Thread.CurrentThread.CurrentUICulture, true, true);
-                        _form.Localize(rs.GetEnumerator(), out missing, out extra);
-                        if (missing.Any())
-                        {
-                            throw new MissingManifestResourceException($"Missing resources {missing}");
-                        }
+                        var pieces = resource.Split('.');
+                        name = string.Join(".", pieces.Take(pieces.Count() - 1));
+                        break;
                     }
                 }
-                catch (MissingManifestResourceException)
+                if (name != null)
                 {
-                    // Resource was not localized
+                    var rm = new ResourceManager(name, resourceAssembly);
+                    var rs = rm.GetResourceSet(Thread.CurrentThread.CurrentUICulture, true, true);
+                    _form.Localize(rs.GetEnumerator(), out missing, out extra);
+                    if (missing.Any())
+                    {
+                        throw new MissingManifestResourceException($"Missing resources {missing}");
+                    }
                 }
             }
             Validate();
