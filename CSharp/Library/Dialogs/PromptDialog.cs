@@ -35,6 +35,7 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Resource;
+using Microsoft.Bot.Builder.ConnectorEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,6 +52,16 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// Generate buttons for choices and let connector generate the right style based on channel capabilities
         /// </summary>
         Auto,
+
+        /// <summary>
+        /// Generate keyboard card for choices that will be mapped to a 
+        /// <see cref="HeroCard"/> or a keyboard, e.g. Facebook quick replies
+        /// </summary>
+        /// <remarks>
+        /// Make sure to use <see cref="MapToChannelData_BotToUser"/> with <see cref="KeyboardCardMapper"/>
+        /// when you use this option
+        /// </remarks>
+        Keyboard,
 
         /// <summary>
         /// Show choices as Text.
@@ -92,9 +103,18 @@ namespace Microsoft.Bot.Builder.Dialogs
         public readonly string Retry;
 
         /// <summary>
-        /// The prompt choices.
+        /// The choices to be returned when selected.
         /// </summary>
-        public readonly IList<T> Options;
+        public readonly IReadOnlyList<T> Options;
+
+        /// <summary>
+        /// The description of each possible option.
+        /// </summary>
+        /// <remarks>
+        /// If this is null, then the descriptions will be the options converted to strings.
+        /// Otherwise this should have the same number of values as Options and it contains the string to describe the value being selected.
+        /// </remarks>
+        public readonly IReadOnlyList<string> Descriptions;
 
         /// <summary>
         /// What to display when user didn't say a valid response after <see cref="Attempts"/>.
@@ -130,16 +150,18 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="prompt"> The prompt.</param>
         /// <param name="retry"> What to display on retry.</param>
         /// <param name="tooManyAttempts"> What to display when user didn't say a valid response after <see cref="Attempts"/>.</param>
-        /// <param name="options"> The prompt choices.</param>
+        /// <param name="options"> The prompt choice values.</param>
         /// <param name="attempts"> Maximum number of attempts.</param>
         /// <param name="promptStyler"> The prompt styler.</param>
-        public PromptOptions(string prompt, string retry = null, string tooManyAttempts = null, IList<T> options = null, int attempts = 3, PromptStyler promptStyler = null)
+        /// <param name="descriptions">Descriptions for each prompt.</param>
+        public PromptOptions(string prompt, string retry = null, string tooManyAttempts = null, IReadOnlyList<T> options = null, int attempts = 3, PromptStyler promptStyler = null, IReadOnlyList<string> descriptions = null)
         {
             SetField.NotNull(out this.Prompt, nameof(this.Prompt), prompt);
             this.Retry = retry;
             this.TooManyAttempts = tooManyAttempts ?? this.DefaultTooManyAttempts;
             this.Attempts = attempts;
             this.Options = options;
+            this.Descriptions = descriptions;
             this.DefaultRetry = prompt;
             if (promptStyler == null)
             {
@@ -173,10 +195,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="prompt"> The prompt.</param>
         /// <param name="options"> The options.</param>
         /// <param name="promptStyle"> The prompt style.</param>
-        public static void Apply<T>(ref IMessageActivity message, string prompt, IList<T> options, PromptStyle promptStyle)
+        /// <param name="descriptions">Descriptions for each option.</param>
+        public static void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, PromptStyle promptStyle, IReadOnlyList<string> descriptions = null)
         {
             var styler = new PromptStyler(promptStyle);
-            styler.Apply(ref message, prompt, options);
+            styler.Apply(ref message, prompt, options, descriptions);
         }
 
         /// <summary>
@@ -197,19 +220,32 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="message"> The message that will contain the prompt.</param>
         /// <param name="prompt"> The prompt.</param>
         /// <param name="options"> The options.</param>
+        /// <param name="descriptions">Descriptions to display for each option.</param>
         /// <remarks>
-        /// <typeparamref name="T"/> should implement <see cref="object.ToString"/>.
+        /// <typeparamref name="T"/> should implement <see cref="object.ToString"/> unless descriptions are supplied.
         /// </remarks>
-        public virtual void Apply<T>(ref IMessageActivity message, string prompt, IList<T> options)
+        public virtual void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, IReadOnlyList<string> descriptions = null)
         {
             SetField.CheckNull(nameof(prompt), prompt);
             SetField.CheckNull(nameof(options), options);
+            if (descriptions == null)
+            {
+                descriptions = (from option in options select option.ToString()).ToList();
+            }
             switch (PromptStyle)
             {
                 case PromptStyle.Auto:
+                case PromptStyle.Keyboard:
                     if (options != null && options.Any())
                     {
-                        message.AddHeroCard(prompt, options);
+                        if (PromptStyle == PromptStyle.Keyboard)
+                        {
+                            message.AddKeyboardCard(prompt, options, descriptions);
+                        }
+                        else
+                        {
+                            message.AddHeroCard(prompt, options, descriptions);
+                        }
                     }
                     else
                     {
@@ -217,14 +253,14 @@ namespace Microsoft.Bot.Builder.Dialogs
                     }
                     break;
                 case PromptStyle.AutoText:
-                    Apply(ref message, prompt, options, options?.Count() > 4 ? PromptStyle.PerLine : PromptStyle.Inline);
+                    Apply(ref message, prompt, options, options?.Count() > 4 ? PromptStyle.PerLine : PromptStyle.Inline, descriptions);
                     break;
                 case PromptStyle.Inline:
                     //TODO: Refactor buildlist function to a more generic namespace when changing prompt to use recognizers.
-                    message.Text = $"{prompt} {FormFlow.Advanced.Language.BuildList(options.Select(option => option.ToString()), Resources.DefaultChoiceSeparator, Resources.DefaultChoiceLastSeparator)}";
+                    message.Text = $"{prompt} {FormFlow.Advanced.Language.BuildList(descriptions, Resources.DefaultChoiceSeparator, Resources.DefaultChoiceLastSeparator)}";
                     break;
                 case PromptStyle.PerLine:
-                    message.Text = $"{prompt}\n{FormFlow.Advanced.Language.BuildList(options.Select(option => $"* {option.ToString()}"), "\n", "\n")}";
+                    message.Text = $"{prompt}\n{FormFlow.Advanced.Language.BuildList(descriptions.Select(description => $"* {description}"), "\n", "\n")}";
                     break;
                 case PromptStyle.None:
                 default:
@@ -306,9 +342,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="retry">    What to show on retry. </param>
         /// <param name="attempts"> The number of times to retry. </param>
         /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
-        public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto)
+        /// <param name="descriptions">Descriptions to display for choices.</param>
+        public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IEnumerable<T> options, string prompt, string retry = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto, IEnumerable<string> descriptions = null)
         {
-            Choice(context, resume, new PromptOptions<T>(prompt, retry, attempts: attempts, options: options.ToList(), promptStyler: new PromptStyler(promptStyle)));
+            Choice(context, resume, new PromptOptions<T>(prompt, retry, attempts: attempts, options: options.ToList(), promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()));
         }
 
         /// <summary>
@@ -495,7 +532,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>   Prompt for a choice from a set of choices. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Choice{T}(IDialogContext, ResumeAfter{T}, IEnumerable{T}, string, string, int, PromptStyle)"/>.</remarks>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Choice{T}(IDialogContext, ResumeAfter{T}, IEnumerable{T}, string, string, int, PromptStyle, IEnumerable{string})"/>.</remarks>
         [Serializable]
         public class PromptChoice<T> : Prompt<T, T>
         {
@@ -505,8 +542,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
-            public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto)
-                : this(new PromptOptions<T>(prompt, retry, options: options.ToList(), attempts: attempts, promptStyler: new PromptStyler(promptStyle)))
+            /// <param name="descriptions">Descriptions to show for each option.</param>
+            public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto, IEnumerable<string> descriptions = null)
+                : this(new PromptOptions<T>(prompt, retry, options: options.ToList(), attempts: attempts, promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()))
             {
             }
 
@@ -605,31 +643,69 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="message"> The message that the buttons will be added to.</param>
         /// <param name="text"> The text in the <see cref="HeroCard"/>.</param>
         /// <param name="options"> The options that cause generation of buttons.</param>
-        public static void AddHeroCard<T>(this IMessageActivity message, string text, IEnumerable<T> options)
+        /// <param name="descriptions">Descriptions for each option.</param>
+        public static void AddHeroCard<T>(this IMessageActivity message, string text, IEnumerable<T> options, IEnumerable<string> descriptions = null)
         {
             message.AttachmentLayout = AttachmentLayoutTypes.List;
-            message.Attachments = options.GenerateHeroCard(text);
+            message.Attachments = options.GenerateHeroCard(text, descriptions);
         }
 
-        internal static IList<Attachment> GenerateHeroCard<T>(this IEnumerable<T> options, string text)
+        /// <summary>
+        /// Generates buttons from options and add them to the message.
+        /// </summary>
+        /// <remarks>
+        /// <typeparamref name="T"/> should implement ToString().
+        /// </remarks>
+        /// <typeparam name="T"> Type of the options.</typeparam>
+        /// <param name="message"> The message that the buttons will be added to.</param>
+        /// <param name="text"> The text in the <see cref="HeroCard"/>.</param>
+        /// <param name="options"> The options that cause generation of buttons.</param>
+        /// <param name="descriptions">Descriptions for each option.</param>
+        public static void AddKeyboardCard<T>(this IMessageActivity message, string text, IEnumerable<T> options,
+            IEnumerable<string> descriptions = null)
         {
-            var actions = new List<CardAction>();
-            foreach (var option in options)
-            {
-                actions.Add(new CardAction
-                {
-                    Title = option.ToString(),
-                    Type = ActionTypes.ImBack,
-                    Value = option.ToString()
-                });
-            }
+            message.AttachmentLayout = AttachmentLayoutTypes.List;
+            message.Attachments = options.GenerateKeyboardCard(text, descriptions);
+        }
 
+        internal static IList<Attachment> GenerateHeroCard<T>(this IEnumerable<T> options, string text, IEnumerable<string> descriptions = null)
+        {
             var attachments = new List<Attachment>
             {
-                new HeroCard(text: text, buttons: actions).ToAttachment()
+                new HeroCard(text: text, buttons: GenerateButtons(options, descriptions)).ToAttachment()
             };
 
             return attachments;
+        }
+
+        internal static IList<Attachment> GenerateKeyboardCard<T>(this IEnumerable<T> options, string text, IEnumerable<string> descriptions = null)
+        {
+            var attachments = new List<Attachment>
+            {
+                new KeyboardCard(text: text, buttons: GenerateButtons(options, descriptions)).ToAttachment()
+            };
+
+            return attachments;
+        }
+
+        internal static IList<CardAction> GenerateButtons<T>(IEnumerable<T> options,
+            IEnumerable<string> descriptions = null)
+        {
+            var actions = new List<CardAction>();
+            int i = 0;
+            var adescriptions = descriptions?.ToArray();
+            foreach (var option in options)
+            {
+                var title = (adescriptions == null ? option.ToString() : adescriptions[i]);
+                actions.Add(new CardAction
+                {
+                    Title = title,
+                    Type = ActionTypes.ImBack,
+                    Value = option.ToString()
+                });
+                ++i;
+            }
+            return actions;
         }
     }
 }
@@ -650,7 +726,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IDialog<T>.StartAsync(IDialogContext context)
         {
-            await context.PostAsync(this.MakePrompt(context, promptOptions.Prompt, promptOptions.Options));
+            await context.PostAsync(this.MakePrompt(context, promptOptions.Prompt, promptOptions.Options, promptOptions.Descriptions));
             context.Wait(MessageReceivedAsync);
         }
 
@@ -680,12 +756,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         protected abstract bool TryParse(IMessageActivity message, out T result);
 
-        protected virtual IMessageActivity MakePrompt(IDialogContext context, string prompt, IList<U> options = null)
+        protected virtual IMessageActivity MakePrompt(IDialogContext context, string prompt, IReadOnlyList<U> options = null, IReadOnlyList<string> descriptions = null)
         {
             var msg = context.MakeMessage();
             if (options != null && options.Count > 0)
             {
-                promptOptions.PromptStyler.Apply(ref msg, prompt, options);
+                promptOptions.PromptStyler.Apply(ref msg, prompt, options, descriptions);
             }
             else
             {

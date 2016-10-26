@@ -1,3 +1,4 @@
+"use strict";
 var da = require('../dialogs/DialogAction');
 var sd = require('../dialogs/SimpleDialog');
 var consts = require('../consts');
@@ -42,7 +43,7 @@ var Library = (function () {
                 l = this.libraries[lib];
             }
             else {
-                for (name in this.libraries) {
+                for (var name in this.libraries) {
                     l = this.libraries[name].library(lib);
                     if (l) {
                         break;
@@ -64,6 +65,6 @@ var Library = (function () {
         return d;
     };
     return Library;
-})();
+}());
 exports.Library = Library;
 exports.systemLib = new Library(consts.Library.system);

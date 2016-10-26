@@ -67,7 +67,12 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             public int ReferenceCount = 0;
         }
 
-        private readonly Dictionary<T, KeyedGate> gateByItem = new Dictionary<T, KeyedGate>();
+        private readonly Dictionary<T, KeyedGate> gateByItem;
+
+        public LocalMutualExclusion(IEqualityComparer<T> comparer)
+        {
+            this.gateByItem = new Dictionary<T, KeyedGate>(comparer);
+        }
 
         public bool TryGetReferenceCount(T item, out int referenceCount)
         {

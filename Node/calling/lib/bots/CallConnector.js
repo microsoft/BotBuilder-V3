@@ -1,3 +1,4 @@
+"use strict";
 var request = require('request');
 var async = require('async');
 var url = require('url');
@@ -228,7 +229,8 @@ var CallConnector = (function () {
                     callback(null, data);
                 }
                 else {
-                    callback(err instanceof Error ? err : new Error(err.toString()), null);
+                    var msg = err.toString();
+                    callback(err instanceof Error ? err : new Error(msg), null);
                 }
             });
         }
@@ -278,7 +280,8 @@ var CallConnector = (function () {
                         callback(null);
                     }
                     else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var msg = err.toString();
+                        callback(err instanceof Error ? err : new Error(msg));
                     }
                 }
             });
@@ -304,6 +307,7 @@ var CallConnector = (function () {
             event.type = 'conversation';
             utils.copyFieldsTo(convo, event, 'callState|links|presentedModalityTypes');
             var address = event.address = {};
+            address.useAuth = true;
             address.channelId = event.source;
             address.correlationId = convo.correlationId;
             address.serviceUrl = this.settings.serviceUrl || 'https://skype.botframework.com';
@@ -494,5 +498,5 @@ var CallConnector = (function () {
         };
     };
     return CallConnector;
-})();
+}());
 exports.CallConnector = CallConnector;

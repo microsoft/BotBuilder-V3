@@ -24,11 +24,15 @@ var Session = (function (_super) {
         this.batchStarted = false;
         this.sendingBatch = false;
         this.inMiddleware = false;
+        this._locale = null;
+        this.localizer = null;
         this.library = options.library;
         if (!options.localizer) {
-            this.options.localizer = new dfLoc.DefaultLocalizer();
+            this.localizer = new dfLoc.DefaultLocalizer(options.localizerSettings);
         }
-        this.options.localizer.initialize(options.localizerSettings);
+        else {
+            this.localizer = options.localizer;
+        }
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;
         }
@@ -61,8 +65,8 @@ var Session = (function (_super) {
         if (!this.message.type) {
             this.message.type = consts.messageType;
         }
-        logger.debug("loading localizer");
-        this.options.localizer.load("en-us", function (err) {
+        var locale = this.preferredLocale();
+        this.localizer.load(locale, function (err) {
             if (err) {
                 _this.error(err);
             }
@@ -73,11 +77,41 @@ var Session = (function (_super) {
         return this;
     };
     Session.prototype.error = function (err) {
-        err = err instanceof Error ? err : new Error(err.toString());
         logger.info(this, 'session.error()');
-        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
+        if (this.options.dialogErrorMessage) {
+            this.endConversation(this.options.dialogErrorMessage);
+        }
+        else {
+            var locale = this.preferredLocale();
+            this.endConversation(this.localizer.gettext(locale, 'default_error', consts.Library.system));
+        }
+        var m = err.toString();
+        err = err instanceof Error ? err : new Error(m);
         this.emit('error', err);
         return this;
+    };
+    Session.prototype.preferredLocale = function (locale, callback) {
+        if (locale) {
+            this._locale = locale;
+            if (this.userData) {
+                this.userData[consts.Data.PreferredLocale] = locale;
+            }
+            if (this.localizer) {
+                this.localizer.load(locale, callback);
+            }
+        }
+        else if (!this._locale) {
+            if (this.userData && this.userData[consts.Data.PreferredLocale]) {
+                this._locale = this.userData[consts.Data.PreferredLocale];
+            }
+            else if (this.message && this.message.textLocale) {
+                this._locale = this.message.textLocale;
+            }
+            else if (this.localizer) {
+                this._locale = this.localizer.defaultLocale();
+            }
+        }
+        return this._locale;
     };
     Session.prototype.gettext = function (messageid) {
         var args = [];
@@ -88,8 +122,8 @@ var Session = (function (_super) {
     };
     Session.prototype.ngettext = function (messageid, messageid_plural, count) {
         var tmpl;
-        if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
+        if (this.localizer && this.message) {
+            tmpl = this.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
         }
         else if (count == 1) {
             tmpl = messageid;
@@ -134,7 +168,7 @@ var Session = (function (_super) {
         this.prepareMessage(m);
         this.batch.push(m);
         logger.info(this, 'session.sendTyping()');
-        this.startBatch();
+        this.sendBatch();
         return this;
     };
     Session.prototype.messageSent = function () {
@@ -334,6 +368,9 @@ var Session = (function (_super) {
                     if (_this.batchStarted) {
                         _this.startBatch();
                     }
+                    if (callback) {
+                        callback(err);
+                    }
                 }
             }
             else {
@@ -433,7 +470,8 @@ var Session = (function (_super) {
         var cur = this.curDialog();
         if (cur && this.message.text.indexOf('action?') !== 0) {
             var dialog = this.findDialog(cur.id);
-            dialog.recognize({ message: this.message, dialogData: cur.state, activeDialog: true }, done);
+            var locale = this.preferredLocale();
+            dialog.recognize({ message: this.message, locale: locale, dialogData: cur.state, activeDialog: true }, done);
         }
         else {
             done(null, { score: 0.0 });
@@ -484,8 +522,8 @@ var Session = (function (_super) {
     };
     Session.prototype.vgettext = function (messageid, args) {
         var tmpl;
-        if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.gettext(this.message.textLocale || '', messageid);
+        if (this.localizer && this.message) {
+            tmpl = this.localizer.gettext(this.preferredLocale() || this.message.textLocale || '', messageid);
         }
         else {
             tmpl = messageid;

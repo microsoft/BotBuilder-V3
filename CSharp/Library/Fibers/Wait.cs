@@ -315,7 +315,14 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
             get
             {
-                return this.need == Need.Call;
+                switch (this.need)
+                {
+                    case Need.Call:
+                    case Need.Done:
+                        return true;
+                    default:
+                        return false;
+                }
             }
         }
 

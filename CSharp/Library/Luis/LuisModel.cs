@@ -41,21 +41,33 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 namespace Microsoft.Bot.Builder.Luis
 {
     /// <summary>
-    /// The LUIS model information.
+    /// A mockable interface for the LUIS model.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    [Serializable]
-    public class LuisModelAttribute : Attribute
+    public interface ILuisModel
     {
         /// <summary>
         /// The LUIS model ID.
         /// </summary>
-        public readonly string ModelID;
+        string ModelID { get; }
 
         /// <summary>
         /// The LUIS subscription key.
         /// </summary>
-        public readonly string SubscriptionKey;
+        string SubscriptionKey { get; }
+    }
+
+    /// <summary>
+    /// The LUIS model information.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
+    [Serializable]
+    public class LuisModelAttribute : Attribute, ILuisModel, IEquatable<ILuisModel>
+    {
+        private readonly string modelID;
+        public string ModelID => modelID;
+
+        private readonly string subscriptionKey;
+        public string SubscriptionKey => subscriptionKey;
 
         /// <summary>
         /// Construct the LUIS model information.
@@ -64,8 +76,26 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="subscriptionKey">The LUIS subscription key.</param>
         public LuisModelAttribute(string modelID, string subscriptionKey)
         {
-            SetField.NotNull(out this.ModelID, nameof(modelID), modelID);
-            SetField.NotNull(out this.SubscriptionKey, nameof(subscriptionKey), subscriptionKey);
+            SetField.NotNull(out this.modelID, nameof(modelID), modelID);
+            SetField.NotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
+        }
+
+        public bool Equals(ILuisModel other)
+        {
+            return other != null
+                && object.Equals(this.ModelID, other.ModelID)
+                && object.Equals(this.SubscriptionKey, other.SubscriptionKey)
+                ;
+        }
+
+        public override bool Equals(object other)
+        {
+            return this.Equals(other as ILuisModel);
+        }
+
+        public override int GetHashCode()
+        {
+            return ModelID.GetHashCode() ^ SubscriptionKey.GetHashCode();
         }
     }
 }

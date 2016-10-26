@@ -120,7 +120,7 @@ var EntityRecognizer = (function () {
             if (match) {
                 return Number(match[0]);
             }
-            var oWordMatch = this.findBestMatch(this.ordinalWords, entity.entity, 0);
+            var oWordMatch = this.findBestMatch(this.ordinalWords, entity.entity, 1.0);
             if (oWordMatch) {
                 return oWordMatch.index + 1;
             }
@@ -171,7 +171,7 @@ var EntityRecognizer = (function () {
                 });
                 score = matched.length / value.length;
             }
-            if (score > threshold) {
+            if (score >= threshold) {
                 matches.push({ index: index, entity: choice, score: score });
             }
         });

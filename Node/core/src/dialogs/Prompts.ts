@@ -40,6 +40,7 @@ import Channel = require('../Channel');
 import dl = require('../bots/Library');
 import kb = require('../cards/Keyboard');
 import ca = require('../cards/CardAction');
+import logger = require('../logger');
 
 export enum PromptType { text, number, confirm, choice, time, attachment }
 
@@ -51,6 +52,7 @@ export interface IPromptOptions {
     refDate?: number;
     listStyle?: ListStyle;
     promptAfterAction?: boolean;
+    localizationNamespace?: string;
 }
 
 export interface IPromptArgs extends IPromptOptions {
@@ -93,6 +95,17 @@ export interface IChronoDuration extends IEntity {
 
 export class SimplePromptRecognizer implements IPromptRecognizer {
     public recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void, session?: ISession): void {
+        function findChoice(args: IPromptRecognizerArgs, text: string) {
+            var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
+            if (!best) {
+                var n = entities.EntityRecognizer.parseNumber(text);
+                if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
+                    best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
+                }
+            }
+            return best;
+        }
+
         // Recognize value
         var score = 0.0;
         var response: any;
@@ -117,11 +130,10 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
             case PromptType.confirm:
                 var b = entities.EntityRecognizer.parseBoolean(text);
                 if (typeof b !== 'boolean') {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= 2) {
-                        b = (n === 1);
+                    var best = findChoice(args, text);
+                    if (best) {
+                        b = (best.index === 0); // enumValues == ['yes', 'no']
                     }
-                    
                 }
                 if (typeof b == 'boolean') {
                     score = 1.0;
@@ -136,13 +148,7 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
                 } 
                 break;
             case PromptType.choice:
-                var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
-                if (!best) {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
-                        best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
-                    }
-                }
+                var best = findChoice(args, text);
                 if (best) {
                     score = best.score;
                     response = best;
@@ -170,13 +176,14 @@ export class Prompts extends dlg.Dialog {
         recognizer: new SimplePromptRecognizer(),
         promptAfterAction: true
     };
+    
     private static defaultRetryPrompt = {
-        text: "I didn't understand. Please try again.",
-        number: "I didn't recognize that as a number. Please enter a number.",
-        confirm: "I didn't understand. Please answer 'yes' or 'no'.",
-        choice: "I didn't understand. Please choose an option from the list.", 
-        time: "I didn't recognize the time you entered. Please try again.", 
-        attachment: "I didn't receive a file. Please try again."  
+        text: "default_text",
+        number: "default_number",
+        confirm: "default_confirm",
+        choice: "default_choice", 
+        time: "default_time", 
+        attachment: "default_file"  
     };
 
     public begin(session: ses.Session, args: IPromptArgs): void {
@@ -233,6 +240,8 @@ export class Prompts extends dlg.Dialog {
 
     
     private sendPrompt(session: ses.Session, args: IPromptArgs, retry = false): void {
+        logger.debug("prompts::sendPrompt called");                                               
+
         if (retry && typeof args.retryPrompt === 'object' && !Array.isArray(args.retryPrompt)) {
             // Send native IMessage
             session.send(args.retryPrompt);            
@@ -247,7 +256,7 @@ export class Prompts extends dlg.Dialog {
                 if (style == ListStyle.auto) {
                     if (Channel.supportsKeyboards(session, args.enumValues.length)) {
                         style = ListStyle.button;
-                    } else if (!retry) {
+                    } else if (!retry && args.promptType == PromptType.choice) {
                         style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
                     } else {
                         style = ListStyle.none;
@@ -263,15 +272,21 @@ export class Prompts extends dlg.Dialog {
                 } else {
                     var type = PromptType[args.promptType];
                     prompt = mb.Message.randomPrompt((<any>Prompts.defaultRetryPrompt)[type]);
+                    args.localizationNamespace = consts.Library.system;
+                    logger.debug("prompts::sendPrompt setting ns to %s", args.localizationNamespace);                                                                   
                 }
             } else {
                 prompt = mb.Message.randomPrompt(<any>args.prompt);
             }
+                                                                               
+            var locale:string = session.preferredLocale();
+            prompt = session.localizer.gettext(locale, prompt, args.localizationNamespace);
             
+                        
             // Append list
             var connector = '';
             var list: string;
-            var msg = new mb.Message(session);
+            var msg = new mb.Message();
             switch (style) {
                 case ListStyle.button:
                     var buttons: ca.CardAction[] = [];
@@ -284,10 +299,11 @@ export class Prompts extends dlg.Dialog {
                     break;
                 case ListStyle.inline:
                     list = ' (';
-                    args.enumValues.forEach((value, index) => {
-                        list += connector + (index + 1) + '. ' + value;
+                    args.enumValues.forEach((v, index) => {
+                        var value = v.toString();
+                        list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
                         if (index == args.enumValues.length - 2) {
-                            connector = index == 0 ? ' or ' : ', or ';
+                            connector = index == 0 ? session.localizer.gettext(locale, "list_or", consts.Library.system) : session.localizer.gettext(locale, "list_or_more", consts.Library.system);
                         } else {
                             connector = ', ';
                         } 
@@ -297,8 +313,9 @@ export class Prompts extends dlg.Dialog {
                     break;
                 case ListStyle.list:
                     list = '\n   ';
-                    args.enumValues.forEach((value, index) => {
-                        list += connector + (index + 1) + '. ' + value;
+                    args.enumValues.forEach((v, index) => {
+                        var value = v.toString();
+                        list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
                         connector = '\n   ';
                     });
                     msg.text(prompt + '%s', list);
@@ -324,11 +341,11 @@ export class Prompts extends dlg.Dialog {
         }
     }
 
-    static text(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage): void {
-        beginPrompt(session, {
-            promptType: PromptType.text,
-            prompt: prompt
-        });
+    static text(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        var args: IPromptArgs = <any>options || {};
+        args.promptType = PromptType.text;
+        args.prompt = prompt;
+        beginPrompt(session, args);
     }
 
     static number(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
@@ -339,10 +356,14 @@ export class Prompts extends dlg.Dialog {
     }
 
     static confirm(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        var locale:string = session.preferredLocale();
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
-        args.enumValues = ['yes','no'];
+        args.enumValues = [
+            session.localizer.gettext(locale, 'confirm_yes', consts.Library.system),
+            session.localizer.gettext(locale, 'confirm_no', consts.Library.system)
+        ];
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
         beginPrompt(session, args);
     }
@@ -352,7 +373,12 @@ export class Prompts extends dlg.Dialog {
         args.promptType = PromptType.choice;
         args.prompt = prompt;
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
-        args.enumValues = entities.EntityRecognizer.expandChoices(choices);
+        var c = entities.EntityRecognizer.expandChoices(choices);
+        if (c.length == 0) {
+            console.error("0 length choice for prompt:", prompt);
+            throw "0 length choice list supplied";
+        }
+        args.enumValues = c;
         beginPrompt(session, args);
     }
 

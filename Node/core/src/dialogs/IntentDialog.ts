@@ -108,7 +108,8 @@ export class IntentDialog extends dlg.Dialog {
 
     public replyReceived(session: ses.Session, recognizeResult?: dlg.IRecognizeResult): void {
         if (!recognizeResult) {
-            this.recognize({ message: session.message, dialogData: session.dialogData, activeDialog: true }, (err, result) => {
+            var locale = session.preferredLocale();
+            this.recognize({ message: session.message, locale: locale, dialogData: session.dialogData, activeDialog: true }, (err, result) => {
                 if (!err) {
                     this.invokeIntent(session, <IIntentRecognizerResult>result);
                 } else {
@@ -238,6 +239,12 @@ export class IntentDialog extends dlg.Dialog {
         return this;
     }
 
+    public recognizer(plugin: IIntentRecognizer): this {
+        // Append recognizer
+        this.options.recognizers.push(plugin);
+        return this;
+    }
+
     private recognizeInParallel(context: dlg.IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void {
         var result: IIntentRecognizerResult = { score: 0.0, intent: null };
         async.eachLimit(this.options.recognizers, this.options.processLimit, (recognizer, cb) => {
@@ -255,7 +262,8 @@ export class IntentDialog extends dlg.Dialog {
             if (!err) {
                 done(null, result);
             } else {
-                done(err instanceof Error ? err : new Error(err.toString()), null);
+                var m = err.toString();
+                done(err instanceof Error ? err : new Error(m), null);
             }
         });
     }
@@ -308,7 +316,8 @@ export class IntentDialog extends dlg.Dialog {
     }
 
     private emitError(session: ses.Session, err: Error): void {
-        err = err instanceof Error ? err : new Error(err.toString());
+        var m = err.toString();
+        err = err instanceof Error ? err : new Error(m);
         session.error(err);
     }
 }

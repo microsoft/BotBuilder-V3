@@ -51,7 +51,7 @@ export interface ISessionOptions {
     dialogId: string;
     dialogArgs?: any;
     localizer?: ILocalizer;
-    localizerSettings?: ILocalizerSettings;
+    localizerSettings?: IDefaultLocalizerSettings;
     autoBatchDelay?: number;
     dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
     actions?: actions.ActionSet;
@@ -70,15 +70,17 @@ export class Session extends events.EventEmitter implements ISession {
     private batchStarted = false;
     private sendingBatch = false;
     private inMiddleware = false;
+    private _locale:string = null;
 
     constructor(protected options: ISessionOptions) {
         super();
         this.library = options.library;
 
         if (!options.localizer) {
-            this.options.localizer = new dfLoc.DefaultLocalizer();           
+            this.localizer = new dfLoc.DefaultLocalizer(options.localizerSettings);           
+        } else {
+            this.localizer = options.localizer;
         }
-        this.options.localizer.initialize(options.localizerSettings);
         
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;  // 250ms delay
@@ -116,9 +118,9 @@ export class Session extends events.EventEmitter implements ISession {
             this.message.type = consts.messageType;
         }
 
-        // Localize message, then invoke middleware
-        logger.debug("loading localizer")
-        this.options.localizer.load(this.message.textLocale, (err:Error) => {
+        // Ensure localized prompts are loaded
+        var locale = this.preferredLocale();
+        this.localizer.load(locale, (err:Error) => {
             if (err) {
                     this.error(err);
             } else {
@@ -134,13 +136,45 @@ export class Session extends events.EventEmitter implements ISession {
     public conversationData: any;
     public privateConversationData: any;
     public dialogData: any;
+    public localizer:ILocalizer = null;
 
     public error(err: Error): ISession {
-        err = err instanceof Error ? err : new Error(err.toString());
         logger.info(this, 'session.error()');
-        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
+
+        // End conversation with a message
+        if (this.options.dialogErrorMessage) {
+            this.endConversation(this.options.dialogErrorMessage);
+        } else {
+            var locale = this.preferredLocale();
+            this.endConversation(this.localizer.gettext(locale, 'default_error', consts.Library.system));
+        }
+
+        // Log error
+        var m = err.toString();
+        err = err instanceof Error ? err : new Error(m);
         this.emit('error', err);
         return this;
+    }
+
+    public preferredLocale(locale?: string, callback?: ErrorCallback): string {
+        if (locale) {
+            this._locale = locale;
+            if (this.userData) {
+                this.userData[consts.Data.PreferredLocale] = locale;
+            }
+            if (this.localizer) {
+                this.localizer.load(locale, callback);
+            }
+        } else if (!this._locale) {
+            if (this.userData && this.userData[consts.Data.PreferredLocale]) {
+                this._locale = this.userData[consts.Data.PreferredLocale];
+            } else if (this.message && this.message.textLocale) {
+                this._locale = this.message.textLocale;
+            } else if (this.localizer) {
+                this._locale = this.localizer.defaultLocale();
+            }
+        }        
+        return this._locale;
     }
 
     public gettext(messageid: string, ...args: any[]): string {
@@ -149,8 +183,8 @@ export class Session extends events.EventEmitter implements ISession {
 
     public ngettext(messageid: string, messageid_plural: string, count: number): string {
         var tmpl: string;
-        if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
+        if (this.localizer && this.message) {
+            tmpl = this.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
         } else if (count == 1) {
             tmpl = messageid;
         } else {
@@ -190,7 +224,7 @@ export class Session extends events.EventEmitter implements ISession {
         this.prepareMessage(m);
         this.batch.push(m);
         logger.info(this, 'session.sendTyping()');            
-        this.startBatch();
+        this.sendBatch();
         return this;        
     }
 
@@ -416,6 +450,9 @@ export class Session extends events.EventEmitter implements ISession {
                     if (this.batchStarted) {
                         this.startBatch();
                     }
+                    if (callback) {
+                        callback(err);
+                    }
                 }
             } else {
                 this.sendingBatch = false;
@@ -522,7 +559,8 @@ export class Session extends events.EventEmitter implements ISession {
         var cur = this.curDialog();
         if (cur && this.message.text.indexOf('action?') !== 0) {
             var dialog = this.findDialog(cur.id);
-            dialog.recognize({ message: this.message, dialogData: cur.state, activeDialog: true }, done);
+            var locale = this.preferredLocale();
+            dialog.recognize({ message: this.message, locale: locale, dialogData: cur.state, activeDialog: true }, done);
         } else {
             done(null, { score: 0.0 });
         }
@@ -570,8 +608,8 @@ export class Session extends events.EventEmitter implements ISession {
  
     private vgettext(messageid: string, args?: any[]): string {
         var tmpl: string;
-        if (this.options.localizer && this.message) {
-            tmpl = this.options.localizer.gettext(this.message.textLocale || '', messageid);
+        if (this.localizer && this.message) {
+            tmpl = this.localizer.gettext(this.preferredLocale() || this.message.textLocale || '', messageid);
         } else {
             tmpl = messageid;
         }

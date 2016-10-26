@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -278,7 +279,7 @@ var Prompts = (function (_super) {
         invalidRecordingPrompt: "I'm sorry. There was a problem with your recording."
     };
     return Prompts;
-})(dlg.Dialog);
+}(dlg.Dialog));
 exports.Prompts = Prompts;
 dl.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 function beginPrompt(session, args) {

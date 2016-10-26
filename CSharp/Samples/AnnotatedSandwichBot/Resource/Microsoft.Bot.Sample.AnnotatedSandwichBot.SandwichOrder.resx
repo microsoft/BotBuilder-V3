@@ -498,4 +498,7 @@
   <data name="SandwichImage;VALUE" xml:space="preserve">
     <value>https://placeholdit.imgix.net/~text?txtsize=16&amp;txt=Sandwich&amp;w=125&amp;h=40&amp;txttrack=0&amp;txtclr=000&amp;txtfont=bold</value>
   </data>
+  <data name="StatusFormat;DeliveryTime;TEMPLATE" xml:space="preserve">
+    <value>{&amp;}: {:t}</value>
+  </data>
 </root>

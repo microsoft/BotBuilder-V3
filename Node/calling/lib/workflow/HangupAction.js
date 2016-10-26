@@ -1,3 +1,4 @@
+"use strict";
 var uuid = require('node-uuid');
 var HangupAction = (function () {
     function HangupAction(session) {
@@ -10,5 +11,5 @@ var HangupAction = (function () {
         return this.data;
     };
     return HangupAction;
-})();
+}());
 exports.HangupAction = HangupAction;

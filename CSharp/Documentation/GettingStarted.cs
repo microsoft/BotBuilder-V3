@@ -76,7 +76,7 @@ Use the %Bot Framework Emulator to test your %Bot application
 The %Bot Framework provides a a channel emulator that lets you test calls to your %Bot as if it were being called 
 by the %Bot Framework cloud service. To install the %Bot Framework Emulator, download it from <strong><a href="https://aka.ms/bf-bc-emulator" target="_blank">here</a></strong>.
 
-One installed, you're ready to test. First, start your %Bot in Visual Studio using a browser as the application
+Once installed, you're ready to test. First, start your %Bot in Visual Studio using a browser as the application
 host. The image below uses %Microsoft Edge.
 
 ![Start your Bot in VS2015 targeting the browser](/en-us/images/connector/connector-getstarted-start-bot-locally.png)

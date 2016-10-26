@@ -187,7 +187,7 @@ export class EntityRecognizer {
             if (match) {
                 return Number(match[0]);
             }
-            var oWordMatch = this.findBestMatch(this.ordinalWords, entity.entity, 0);
+            var oWordMatch = this.findBestMatch(this.ordinalWords, entity.entity, 1.0);
             if (oWordMatch) {
                 return oWordMatch.index+1;
             }
@@ -236,7 +236,7 @@ export class EntityRecognizer {
                 });
                 score = matched.length / value.length;
             }
-            if (score > threshold) {
+            if (score >= threshold) {
                 matches.push({ index: index, entity: choice, score: score });
             }
         });
@@ -257,7 +257,7 @@ export class EntityRecognizer {
             }
             return list;
         } else {
-            return [choices.toString()];
+            return [(<string>choices).toString()];
         }
     }
 }

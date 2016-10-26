@@ -19,12 +19,8 @@ namespace Microsoft.Bot.Sample.AlarmBot
                 // http://docs.autofac.org/en/latest/integration/webapi.html#quick-start
                 var builder = new ContainerBuilder();
 
-                const string BotId = "YourBotId";
-
                 // register the Bot Builder module
                 builder.RegisterModule(new DialogModule());
-                // register some configuration
-                builder.Register(c => new BotIdResolver(BotId)).AsImplementedInterfaces().SingleInstance();
                 // register the alarm dependencies
                 builder.RegisterModule(new AlarmModule());
 

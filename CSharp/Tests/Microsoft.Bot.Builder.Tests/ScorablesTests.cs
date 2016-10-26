@@ -35,6 +35,7 @@ using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -51,7 +52,7 @@ using System.Xml.XPath;
 namespace Microsoft.Bot.Builder.Tests
 {
     // temporary home for special-purpose IScorable
-    public sealed class CancelScorable : IScorable<double>
+    public sealed class CancelScorable : ScorableBase<IActivity, double?, double>
     {
         private readonly IDialogStack stack;
         private readonly Regex regex;
@@ -61,7 +62,7 @@ namespace Microsoft.Bot.Builder.Tests
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
 
-        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, CancellationToken token)
+        public override async Task<double?> PrepareAsync(IActivity item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -74,24 +75,17 @@ namespace Microsoft.Bot.Builder.Tests
                 }
             }
 
-            return false;
+            return null;
         }
-
-        bool IScorable<double>.TryScore(object state, out double score)
+        public override bool HasScore(IActivity item, double? state)
         {
-            if (state is double)
-            {
-                score = (double)state;
-                return true;
-            }
-            else
-            {
-                score = double.NaN;
-                return false;
-            }
+            return state.HasValue;
         }
-
-        async Task IScorable<double>.PostAsync<Item>(Item item, object state, CancellationToken token)
+        public override double GetScore(IActivity item, double? state)
+        {
+            return state.Value;
+        }
+        public override async Task PostAsync(IActivity item, double? state, CancellationToken token)
         {
             this.stack.Fail(new OperationCanceledException());
             await this.stack.PollAsync(token);
@@ -114,7 +108,7 @@ namespace Microsoft.Bot.Builder.Tests
                 var builder = new ContainerBuilder();
                 builder
                     .Register(c => new CancelScorable(c.Resolve<IDialogStack>(), new Regex("cancel")))
-                    .As<IScorable<double>>();
+                    .As<IScorable<IActivity, double>>();
                 builder.Update(container);
 
                 var toBot = MakeTestMessage();
@@ -156,7 +150,7 @@ namespace Microsoft.Bot.Builder.Tests
                 var builder = new ContainerBuilder();
                 builder
                     .Register(c => new CancelScorable(c.Resolve<IDialogStack>(), new Regex("cancel")))
-                    .As<IScorable<double>>();
+                    .As<IScorable<IActivity, double>>();
                 builder.Update(container);
 
                 var toBot = MakeTestMessage();
@@ -226,7 +220,7 @@ namespace Microsoft.Bot.Builder.Tests
     }
 
     // temporary home for special-purpose IScorable
-    public sealed class CalculatorScorable : IScorable<double>
+    public sealed class CalculatorScorable : ScorableBase<IActivity, string, double>
     {
         private readonly IDialogStack stack;
         private readonly Regex regex;
@@ -236,7 +230,7 @@ namespace Microsoft.Bot.Builder.Tests
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
 
-        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, CancellationToken token)
+        public override async Task<string> PrepareAsync(IActivity item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -251,23 +245,23 @@ namespace Microsoft.Bot.Builder.Tests
 
             return null;
         }
-
-        bool IScorable<double>.TryScore(object state, out double score)
+        public override bool HasScore(IActivity item, string state)
         {
-            bool matched = state != null;
-            score = matched ? 1.0 : double.NaN;
-            return matched;
+            return state != null;
         }
-
-        async Task IScorable<double>.PostAsync<Item>(Item item, object state, CancellationToken token)
+        public override double GetScore(IActivity item, string state)
+        {
+            return 1.0;
+        }
+        public override async Task PostAsync(IActivity item, string state, CancellationToken token)
         {
             var dialog = new CalculatorDialog();
 
             // let's strip off the prefix in favor of the actual arithmetic expression
-            var message = (IMessageActivity)(object)item;
-            message.Text = (string)state;
+            var message = (IMessageActivity)item;
+            message.Text = state;
 
-            await this.stack.Forward(dialog.Void<double, IMessageActivity>(), null, item, token);
+            await this.stack.Forward(dialog.Void<double, IMessageActivity>(), null, message, token);
             await this.stack.PollAsync(token);
         }
     }
@@ -288,7 +282,7 @@ namespace Microsoft.Bot.Builder.Tests
                     .As<IDialog<object>>();
                 builder
                     .Register(c => new CalculatorScorable(c.Resolve<IDialogStack>(), new Regex(@".*calculate\s*(.*)")))
-                    .As<IScorable<double>>();
+                    .As<IScorable<IActivity, double>>();
                 builder.Update(container);
 
                 await AssertScriptAsync(container,

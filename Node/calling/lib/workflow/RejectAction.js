@@ -1,3 +1,4 @@
+"use strict";
 var uuid = require('node-uuid');
 var RejectAction = (function () {
     function RejectAction(session) {
@@ -10,5 +11,5 @@ var RejectAction = (function () {
         return this.data;
     };
     return RejectAction;
-})();
+}());
 exports.RejectAction = RejectAction;

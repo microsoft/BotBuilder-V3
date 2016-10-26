@@ -63,17 +63,19 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class ConnectorClientFactory : IConnectorClientFactory
     {
         private readonly Uri serviceUri;
-        private readonly IMessageActivity message;
+        private readonly IAddress address;
         private readonly MicrosoftAppCredentials credentials;
-        private readonly bool? isEmulator;
-        public ConnectorClientFactory(IMessageActivity message, MicrosoftAppCredentials credentials)
+        public ConnectorClientFactory(IAddress address, MicrosoftAppCredentials credentials)
         {
-            SetField.NotNull(out this.message, nameof(message), message);
+            SetField.NotNull(out this.address, nameof(address), address);
             SetField.NotNull(out this.credentials, nameof(credentials), credentials);
-            SetField.CheckNull(nameof(message.ServiceUrl), message.ServiceUrl);
 
-            this.serviceUri = new Uri(message.ServiceUrl);
-            this.isEmulator = message.ChannelId?.Equals("emulator", StringComparison.OrdinalIgnoreCase);
+            this.serviceUri = new Uri(address.ServiceUrl);
+        }
+
+        public static bool IsEmulator(IAddress address)
+        {
+            return address.ChannelId.Equals("emulator", StringComparison.OrdinalIgnoreCase);
         }
 
         IConnectorClient IConnectorClientFactory.MakeConnectorClient()
@@ -83,15 +85,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         IStateClient IConnectorClientFactory.MakeStateClient()
         {
-            if (isEmulator ?? false)
+            if (IsEmulator(this.address))
             {
                 // for emulator we should use serviceUri of the emulator for storage
                 return new StateClient(this.serviceUri, this.credentials);
             }
             else
             {
-                // TODO: remove this when going to against production
-                //return new StateClient(new Uri("https://intercom-api-scratch.azurewebsites.net/"), this.credentials);
                 return new StateClient(this.credentials);
             }
         }

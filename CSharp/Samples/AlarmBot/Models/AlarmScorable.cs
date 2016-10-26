@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Internals.Scorables;
 
 namespace Microsoft.Bot.Sample.AlarmBot.Models
 {
@@ -21,7 +22,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
     }
 
     [Serializable]
-    public sealed class AlarmScorable : IAlarmActions, IScorable<double>
+    public sealed class AlarmScorable : ScorableBase<IActivity, Tuple<string, string>, double>, IAlarmActions
     {
         private readonly IAlarmService service;
         public AlarmScorable(IAlarmService service)
@@ -93,7 +94,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
             }
         }
 
-        async Task<object> IScorable<double>.PrepareAsync<Item>(Item item, CancellationToken token)
+        public override async Task<Tuple<string, string>> PrepareAsync(IActivity item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -109,17 +110,16 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
 
             return null;
         }
-
-        bool IScorable<double>.TryScore(object state, out double score)
+        public override bool HasScore(IActivity item, Tuple<string, string> verbTitle)
         {
-            bool matched = state != null;
-            score = matched ? 1.0 : double.NaN;
-            return matched;
+            return verbTitle != null;
         }
-
-        async Task IScorable<double>.PostAsync<Item>(Item item, object state, CancellationToken token)
+        public override double GetScore(IActivity item, Tuple<string, string> verbTitle)
         {
-            var verbTitle = (Tuple<string, string>)state;
+            return 1.0;
+        }
+        public override async Task PostAsync(IActivity item, Tuple<string, string> verbTitle, CancellationToken token)
+        {
             var verb = verbTitle.Item1;
             var title = verbTitle.Item2;
             switch (verb)

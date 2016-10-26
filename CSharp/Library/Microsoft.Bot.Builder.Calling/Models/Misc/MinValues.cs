@@ -7,13 +7,13 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Misc
         /// <summary>
         /// JSON Content Type
         /// </summary>
-        public static readonly TimeSpan RecordingDuration = TimeSpan.FromSeconds(10);
+        public static readonly TimeSpan RecordingDuration = TimeSpan.FromSeconds(2.0);
 
         ///<summary>
         /// Minimum allowed silence once the user has started speaking before we conclude 
         /// the user is done recording.
         /// </summary>
-        public static readonly TimeSpan SilenceTimeout = TimeSpan.FromSeconds(1);
+        public static readonly TimeSpan SilenceTimeout = TimeSpan.FromSeconds(0.0);
 
         /// <summary>
         /// Minimum initial silence allowed from the time we start the operation 

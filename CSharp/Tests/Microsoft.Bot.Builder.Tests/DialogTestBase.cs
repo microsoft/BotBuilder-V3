@@ -50,8 +50,6 @@ namespace Microsoft.Bot.Builder.Tests
 {
     public abstract class DialogTestBase
     {
-        protected static MockConnectorFactory mockConnectorFactory = new MockConnectorFactory(new BotIdResolver("testBot"));
-
         [Flags]
         public enum Options { None = 0, Reflection = 1, ScopedQueue = 2, MockConnectorFactory = 4, ResolveDialogFromContainer = 8, LastWriteWinsCachingBotDataStore = 16 };
 
@@ -67,15 +65,12 @@ namespace Microsoft.Bot.Builder.Tests
                 builder.RegisterModule(new DialogModule_MakeRoot());
             }
 
+            // make a "singleton" MockConnectorFactory per unit test execution
+            IConnectorClientFactory factory = null;
             builder
-                .Register(c => new BotIdResolver("testBot"))
-                .As<IBotIdResolver>()
-                .SingleInstance();
-
-            builder
-           .Register((c, p) => mockConnectorFactory)
-               .As<IConnectorClientFactory>()
-               .InstancePerLifetimeScope();
+                .Register((c, p) => factory ?? (factory = new MockConnectorFactory(c.Resolve<IAddress>().BotId)))
+                .As<IConnectorClientFactory>()
+                .InstancePerLifetimeScope();
 
             if (options.HasFlag(Options.Reflection))
             {
@@ -98,7 +93,13 @@ namespace Microsoft.Bot.Builder.Tests
 
             builder
                 .RegisterType<BotToUserQueue>()
-                .AsSelf()
+                .AsSelf()                
+                .InstancePerLifetimeScope();
+
+            builder
+                .Register(c => new MapToChannelData_BotToUser(
+                    c.Resolve<BotToUserQueue>(),
+                    new List<IMessageActivityMapper> { new KeyboardCardMapper() }))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 
@@ -134,7 +135,7 @@ namespace Microsoft.Bot.Builder.Tests
                 Conversation = new ConversationAccount { Id = Guid.NewGuid().ToString() },
                 Recipient = new ChannelAccount { Id = ChannelID.Bot },
                 ServiceUrl = "InvalidServiceUrl",
-                ChannelId = "Test"
+                ChannelId = "Test",
             };
         }
 

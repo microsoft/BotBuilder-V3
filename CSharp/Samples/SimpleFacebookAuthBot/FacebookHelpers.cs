@@ -86,11 +86,11 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         private static string GetOAuthCallBack(ResumptionCookie resumptionCookie, string facebookOauthCallback)
         {
             var uri = GetUri(facebookOauthCallback,
-                Tuple.Create("userId", TokenEncoder(resumptionCookie.UserId)),
-                Tuple.Create("botId", TokenEncoder(resumptionCookie.BotId)),
-                Tuple.Create("conversationId", TokenEncoder(resumptionCookie.ConversationId)),
-                Tuple.Create("serviceUrl", TokenEncoder(resumptionCookie.ServiceUrl)),
-                Tuple.Create("channelId", resumptionCookie.ChannelId),
+                Tuple.Create("userId", TokenEncoder(resumptionCookie.Address.UserId)),
+                Tuple.Create("botId", TokenEncoder(resumptionCookie.Address.BotId)),
+                Tuple.Create("conversationId", TokenEncoder(resumptionCookie.Address.ConversationId)),
+                Tuple.Create("serviceUrl", TokenEncoder(resumptionCookie.Address.ServiceUrl)),
+                Tuple.Create("channelId", resumptionCookie.Address.ChannelId),
                 Tuple.Create("locale", resumptionCookie.Locale ?? "en")
                 );
             return uri.ToString();

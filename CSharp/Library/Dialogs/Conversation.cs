@@ -94,7 +94,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             if (resumptionCookie.IsTrustedServiceUrl)
             {
-                MicrosoftAppCredentials.TrustServiceUrl(resumptionCookie.ServiceUrl);
+                MicrosoftAppCredentials.TrustServiceUrl(resumptionCookie.Address.ServiceUrl);
             }
 
             var continuationMessage = resumptionCookie.GetMessage();

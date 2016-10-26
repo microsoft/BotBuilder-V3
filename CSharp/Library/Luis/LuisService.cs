@@ -71,13 +71,13 @@ namespace Microsoft.Bot.Builder.Luis
     [Serializable]
     public sealed class LuisService : ILuisService
     {
-        private readonly LuisModelAttribute model;
+        private readonly ILuisModel model;
 
         /// <summary>
         /// Construct the LUIS service using the model information.
         /// </summary>
         /// <param name="model">The LUIS model information.</param>
-        public LuisService(LuisModelAttribute model)
+        public LuisService(ILuisModel model)
         {
             SetField.NotNull(out this.model, nameof(model), model);
         }

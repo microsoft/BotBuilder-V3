@@ -43,6 +43,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static Microsoft.Bot.Builder.Dialogs.PromptDialog;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -196,6 +197,15 @@ namespace Microsoft.Bot.Builder.Tests
         {
             var choices = new[] { "19", "9", "else" };
             await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "9", "9");
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Choice_Descriptions()
+        {
+
+            var choices = new[] { "19", "9", "else" };
+            await Script.VerifyDialogScript(@"..\..\ChoiceDescriptions.script", 
+                new PromptChoice<string>(choices, PromptText, null, 0, promptStyle: PromptStyle.Auto, descriptions: new List<string>() { "choice19", "choice9", "choiceelse" }), true, "9");
         }
     }
 

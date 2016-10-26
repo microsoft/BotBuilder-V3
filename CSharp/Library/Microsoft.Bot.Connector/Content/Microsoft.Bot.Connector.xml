@@ -2713,6 +2713,12 @@
             <param name="property">property name to change</param>
             <param name="data">new data</param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotData.RemoveProperty(System.String)">
+            <summary>
+            Remove a property from the BotData record
+            </summary>
+            <param name="property">property name to remove</param>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConnectorClient">
             <summary>
             ﻿The Bot Connector REST API allows your bot to send and receive

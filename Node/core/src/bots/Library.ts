@@ -35,6 +35,7 @@ import dlg = require('../dialogs/Dialog');
 import da = require('../dialogs/DialogAction');
 import sd = require('../dialogs/SimpleDialog');
 import consts = require('../consts');
+import path = require('path');
 
 export interface IDialogMap {
     [id: string]: dlg.Dialog;
@@ -47,8 +48,16 @@ export interface ILibraryMap {
 export class Library {
     private dialogs = <IDialogMap>{};
     private libraries = <ILibraryMap>{};
+    private _localePath: string;
 
     constructor(public name: string) {
+    }
+
+    public localePath(path?: string): string {
+        if (path) {
+            this._localePath = path;
+        }
+        return this._localePath;
     }
 
     public dialog(id: string, dialog?: dlg.Dialog | da.IDialogWaterfallStep[] | da.IDialogWaterfallStep): dlg.Dialog {
@@ -88,7 +97,7 @@ export class Library {
                 l = this.libraries[lib];
             } else {
                 // Search for lib
-                for (name in this.libraries) {
+                for (var name in this.libraries) {
                     l = this.libraries[name].library(lib);
                     if (l) {
                         break;
@@ -110,6 +119,13 @@ export class Library {
         }
         return d;
     }
+
+    public forEachLibrary(callback: (library: Library) => void): void {
+        for (var lib in this.libraries) {
+            callback(this.libraries[lib]);
+        }
+    }
 }
 
 export var systemLib = new Library(consts.Library.system);
+systemLib.localePath(path.join(__dirname, '../locale/'));

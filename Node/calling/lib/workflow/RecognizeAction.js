@@ -1,3 +1,4 @@
+"use strict";
 var uuid = require('node-uuid');
 var utils = require('../utils');
 exports.RecognitionCompletionReason = {
@@ -67,5 +68,5 @@ var RecognizeAction = (function () {
         return this.data;
     };
     return RecognizeAction;
-})();
+}());
 exports.RecognizeAction = RecognizeAction;

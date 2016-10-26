@@ -477,13 +477,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     // Status display of active results
                     var filled = expr.ToLower().Trim().EndsWith("filled");
                     var builder = new StringBuilder();
-                    var format = new Prompter<T>(Template(field, TemplateUsage.StatusFormat), _form, null);
                     if (match.Index > 0)
                     {
                         builder.Append("\n");
                     }
                     foreach (var entry in (from step in _fields where (!filled || !step.IsUnknown(state)) && step.Role == FieldRole.Value && step.Active(state) select step))
                     {
+                        var format = new Prompter<T>(Template(entry, TemplateUsage.StatusFormat), _form, null);
                         builder.Append("* ").AppendLine(format.Prompt(state, entry).Prompt);
                     }
                     substitute = builder.ToString();

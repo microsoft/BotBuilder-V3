@@ -304,7 +304,8 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                 if (!err) {
                     callback(null, data);
                 } else {
-                    callback(err instanceof Error ? err : new Error(err.toString()), null);
+                    var msg = err.toString();
+                    callback(err instanceof Error ? err : new Error(msg), null);
                 }
             });
         } catch (e) {
@@ -360,7 +361,8 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                     if (!err) {
                         callback(null);
                     } else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var msg = err.toString();
+                        callback(err instanceof Error ? err : new Error(msg));
                     }
                 }
             });
@@ -388,6 +390,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
 
             // Populate address
             var address = event.address = <ICallConnectorAddress>{};
+            address.useAuth = true;
             address.channelId = event.source;
             address.correlationId = convo.correlationId;
             address.serviceUrl = this.settings.serviceUrl || 'https://skype.botframework.com';

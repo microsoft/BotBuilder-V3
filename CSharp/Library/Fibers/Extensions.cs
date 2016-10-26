@@ -134,7 +134,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
             if (stack.Count == 0)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("Stack is empty");
             }
 
             return stack[stack.Count - 1];
@@ -150,6 +150,29 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
 
             return value;
+        }
+
+        public static bool Equals<T>(this IReadOnlyList<T> one, IReadOnlyList<T> two, IEqualityComparer<T> comparer)
+        {
+            if (object.Equals(one, two))
+            {
+                return true;
+            }
+
+            if (one.Count != two.Count)
+            {
+                return false;
+            }
+
+            for (int index = 0; index < one.Count; ++index)
+            {
+                if (!comparer.Equals(one[index], two[index]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

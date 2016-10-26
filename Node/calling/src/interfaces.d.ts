@@ -101,6 +101,7 @@ interface ICallConnectorAddress extends IAddress {
     subject?: string;
     correlationId?: string;
     serviceUrl?: string;
+    useAuth?: boolean;
 }
 
 interface IConversation extends IEvent {

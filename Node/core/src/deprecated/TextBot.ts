@@ -70,9 +70,6 @@ export class TextBot  {
         var oBot: ub.IUniversalBotSettings = {};
         for (var key in options) {
             switch (key) {
-                case 'localizer':
-                    oBot.localizer = options.localizer;
-                    break;
                 case 'defaultDialogId':
                     oBot.defaultDialogId = options.defaultDialogId;
                     break;

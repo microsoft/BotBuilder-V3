@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
         {
             base.Load(builder);
 
-            builder.Register(c => new LuisModelAttribute("c413b2ef-382c-45bd-8ff0-f76d60e2a821", "6d0966209c6e4f6b835ce34492f3e6d9")).AsSelf().SingleInstance();
+            builder.Register(c => new LuisModelAttribute("c413b2ef-382c-45bd-8ff0-f76d60e2a821", "6d0966209c6e4f6b835ce34492f3e6d9")).AsSelf().AsImplementedInterfaces().SingleInstance();
 
             // register the top level dialog
             builder.RegisterType<AlarmLuisDialog>().As<IDialog<object>>().InstancePerDependency();
@@ -38,7 +38,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
 
             // register some objects dependent on the incoming message
             builder.Register(c => new RenderingAlarmService(new AlarmService(c.Resolve<IAlarmScheduler>(), c.Resolve<ResumptionCookie>()), c.Resolve<Func<IAlarmRenderer>>(), c.Resolve<IBotToUser>(), c.Resolve<IClock>())).Keyed<IAlarmService>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
-            builder.RegisterType<AlarmScorable>().Keyed<IScorable<double>>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
+            builder.RegisterType<AlarmScorable>().Keyed<AlarmScorable>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
             builder.RegisterType<AlarmRenderer>().Keyed<IAlarmRenderer>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
         }
     }

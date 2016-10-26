@@ -1,3 +1,4 @@
+"use strict";
 var uuid = require('node-uuid');
 var prompt = require('./Prompt');
 var PlayPromptAction = (function () {
@@ -37,5 +38,5 @@ var PlayPromptAction = (function () {
         return new PlayPromptAction(session).prompts([prompt.Prompt.silence(session, time)]);
     };
     return PlayPromptAction;
-})();
+}());
 exports.PlayPromptAction = PlayPromptAction;

@@ -388,16 +388,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class PersistentDialogTask : IPostToBot
     {
         private readonly Lazy<IPostToBot> inner;
-        private readonly IConnectorClient client;
-        private readonly IMessageActivity message;
-        private readonly IBotToUser botToUser;
         private readonly IBotData botData;
 
-        public PersistentDialogTask(Func<IPostToBot> makeInner, IMessageActivity message, IConnectorClient client, IBotToUser botToUser, IBotData botData)
+        public PersistentDialogTask(Func<IPostToBot> makeInner, IBotData botData)
         {
-            SetField.NotNull(out this.message, nameof(message), message);
-            SetField.NotNull(out this.client, nameof(client), client);
-            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
             SetField.NotNull(out this.botData, nameof(botData), botData);
             SetField.CheckNull(nameof(makeInner), makeInner);
             this.inner = new Lazy<IPostToBot>(() => makeInner());
@@ -420,19 +414,19 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class SerializingDialogTask : IPostToBot
     {
         private readonly IPostToBot inner;
-        private readonly ResumptionCookie cookie;
-        private readonly IScope<ResumptionCookie> scopeForCookie;
+        private readonly IAddress address;
+        private readonly IScope<IAddress> scopeForCookie;
 
-        public SerializingDialogTask(IPostToBot inner, ResumptionCookie cookie, IScope<ResumptionCookie> scopeForCookie)
+        public SerializingDialogTask(IPostToBot inner, IAddress address, IScope<IAddress> scopeForCookie)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.cookie, nameof(cookie), cookie);
+            SetField.NotNull(out this.address, nameof(address), address);
             SetField.NotNull(out this.scopeForCookie, nameof(scopeForCookie), scopeForCookie);
         }
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
-            using (await this.scopeForCookie.WithScopeAsync(this.cookie, token))
+            using (await this.scopeForCookie.WithScopeAsync(this.address, token))
             {
                 await this.inner.PostAsync(item, token);
             }

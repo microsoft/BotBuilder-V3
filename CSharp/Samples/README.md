@@ -17,6 +17,12 @@ There are several samples in this directory.
 * [Microsoft.Bot.Sample.SimpleSandwichBot](SimpleSandwichBot/) -- FormFlow example of how easy it is to create a rich dialog with guided conversation, help and clarification. 
 * [Microsoft.Bot.Sample.AnnotatedSandwichBot](AnnotatedSandwichBot/) -- Builds on the previous example to add attributes, messages, confirmation and business logic.
 * [Microsoft.Bot.Sample.SimpleAlarmBot](SimpleAlarmBot/) -- Integration of http://luis.ai with the dialog system to set alarms.
+* [Microsoft.Bot.Sample.AlarmBot](AlarmBot/) -- Add alarm logic to previous bot and send alarms proactively
 * [Microsoft.Bot.Sample.PizzaBot](PizzaBot/) -- Integration of http://luis.ai with FormFlow.
-* [//Build/ 2016](Build-2016/) -- Sample application used in the //Build/ 2016 session [Building a Conversational Bot: From 0 to 60](https://channel9.msdn.com/Events/Build/2016/B821) 
-* [Stock_Bot](Stock_Bot/) -- Samples that show calling a web service, LUIS, and LUIS Dialog
+* [Microsoft.Bot.Sample.GraphBot](GraphBot/Microsoft.Bot.Sample.GraphBot) -- Integration of [Microsoft Graph Api](https://graph.microsoft.io) with dialog system.
+* [Microsoft.Bot.Sample.SimpleFacebookAuthBot](SimpleFacebookAuthBot/) -- A bot showcasing OAuth authentication using Facebook graph API.
+* [Microsoft.Bot.Sample.SimpleIVRBot](SimpleIVRBot/) -- A sample IVR bot using Skype calling API.
+* [Stock_Bot](Stock_Bot/) -- Samples that show calling a web service, LUIS, and LUIS Dialog.
+* [SearchPoweredBots](SearchPoweredBots) -- Samples that show integration of [Azure Search](https://azure.microsoft.com/en-us/services/search/) with dialogs.
+
+**You can find more samples in the [Bot Builder SDK Samples repo](https://github.com/Microsoft/BotBuilder-Samples/tree/master/CSharp)**

@@ -8,9 +8,6 @@ var TextBot = (function () {
         var oBot = {};
         for (var key in options) {
             switch (key) {
-                case 'localizer':
-                    oBot.localizer = options.localizer;
-                    break;
                 case 'defaultDialogId':
                     oBot.defaultDialogId = options.defaultDialogId;
                     break;

@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -251,8 +252,9 @@ var UniversalCallBot = (function (_super) {
         };
     };
     UniversalCallBot.prototype.emitError = function (err) {
-        this.emit("error", err instanceof Error ? err : new Error(err.toString()));
+        var msg = err.toString();
+        this.emit("error", err instanceof Error ? err : new Error(msg));
     };
     return UniversalCallBot;
-})(events.EventEmitter);
+}(events.EventEmitter));
 exports.UniversalCallBot = UniversalCallBot;

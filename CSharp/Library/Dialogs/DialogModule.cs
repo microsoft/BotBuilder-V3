@@ -37,12 +37,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.IO;
 using System.Resources;
-using System.Text;
+using System.Text.RegularExpressions;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Connector;
 
 using Autofac;
+using Microsoft.Bot.Builder.History;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -53,6 +55,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     {
         public const string BlobKey = "DialogState";
         public static readonly object LifetimeScopeTag = typeof(DialogModule);
+
+        public static readonly object Key_DeleteProfile_Regex = new object();
 
         public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, IMessageActivity message)
         {
@@ -79,9 +83,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register((c, p) => p.TypedAs<IMessageActivity>())
                 .AsSelf()
+                .AsImplementedInterfaces()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
-            // make the resumption cookie available for the lifetime scope
+            // make the address and cookie available for the lifetime scope
+
+            builder
+                .Register(c => Address.FromActivity(c.Resolve<IActivity>()))
+                .AsImplementedInterfaces()
+                .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
             builder
                 .RegisterType<ResumptionCookie>()
@@ -95,17 +105,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
-                .RegisterType<BotIdResolver>()
-                .As<IBotIdResolver>()
+                // not resolving IEqualityComparer<IAddress> from container because it's a very local policy
+                // and yet too broad of an interface.  could explore using tags for registration overrides.
+                .Register(c => new LocalMutualExclusion<IAddress>(new ConversationAddressComparer()))
+                .As<IScope<IAddress>>()
                 .SingleInstance();
 
             builder
-                .RegisterType<LocalMutualExclusion<ResumptionCookie>>()
-                .As<IScope<ResumptionCookie>>()
-                .SingleInstance();
-
-            builder
-                .Register(c => new ConnectorClientFactory(c.Resolve<IMessageActivity>(), c.Resolve<MicrosoftAppCredentials>()))
+                .Register(c => new ConnectorClientFactory(c.Resolve<IAddress>(), c.Resolve<MicrosoftAppCredentials>()))
                 .As<IConnectorClientFactory>()
                 .InstancePerLifetimeScope();
 
@@ -120,7 +127,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-               .Register(c => new DetectChannelCapability(c.Resolve<IMessageActivity>()))
+               .Register(c => new DetectChannelCapability(c.Resolve<IAddress>()))
                .As<IDetectChannelCapability>()
                .InstancePerLifetimeScope();
 
@@ -164,23 +171,33 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             // Scorable implementing "/deleteprofile"
             builder
-                .RegisterType<DeleteProfileScorable>()
-                .As<IScorable<double>>()
+                .Register(c => new Regex("^(\\s)*/deleteprofile", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
+                .Keyed<Regex>(Key_DeleteProfile_Regex)
+                .SingleInstance();
+
+            builder
+                .Register(c => new DeleteProfileScorable(c.Resolve<IDialogStack>(), c.Resolve<IBotData>(), c.Resolve<IBotToUser>(), c.ResolveKeyed<Regex>(Key_DeleteProfile_Regex)))
+                .As<IScorable<IActivity, double>>()
                 .InstancePerLifetimeScope();
 
             builder
                 .Register(c =>
                 {
                     var stack = c.Resolve<IDialogStack>();
-                    var fromStack = stack.Frames.Select(f => f.Target).OfType<IScorable<double>>();
-                    var fromGlobal = c.Resolve<IScorable<double>[]>();
+                    var fromStack = stack.Frames.Select(f => f.Target).OfType<IScorable<IActivity, double>>();
+                    var fromGlobal = c.Resolve<IScorable<IActivity, double>[]>();
                     // since the stack of scorables changes over time, this should be lazy
                     var lazyScorables = fromStack.Concat(fromGlobal);
-                    var scorable = new CompositeScorable<double>(c.Resolve<IComparer<double>>(), c.Resolve<ITraits<double>>(), lazyScorables);
+                    var scorable = new TraitsScorable<IActivity, double>(c.Resolve<ITraits<double>>(), c.Resolve<IComparer<double>>(), lazyScorables);
                     return scorable;
                 })
                 .InstancePerLifetimeScope()
                 .AsSelf();
+
+            builder
+                .RegisterType<NullActivityLogger>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
 
             builder
                 .Register(c =>
@@ -195,13 +212,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         post = new ReactiveDialogTask(post, stack, cc.Resolve<IStore<IFiberLoop<DialogTask>>>(), cc.Resolve<Func<IDialog<object>>>());
                         post = new ExceptionTranslationDialogTask(post);
                         post = new LocalizedDialogTask(post);
-                        post = new ScoringDialogTask<double>(post, stack, cc.Resolve<CompositeScorable<double>>());
+                        post = new ScoringDialogTask<double>(post, stack, cc.Resolve<TraitsScorable<IActivity, double>>());
                         return post;
                     };
 
-                    IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IMessageActivity>(), cc.Resolve<IConnectorClient>(), cc.Resolve<IBotToUser>(), cc.Resolve<IBotData>());
-                    outer = new SerializingDialogTask(outer, cc.Resolve<ResumptionCookie>(), c.Resolve<IScope<ResumptionCookie>>());
+                    IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IBotData>());
+                    outer = new SerializingDialogTask(outer, cc.Resolve<IAddress>(), c.Resolve<IScope<IAddress>>());
                     outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
+                    outer = new LogPostToBot(outer, cc.Resolve<IActivityLogger>());
                     return outer;
                 })
                 .As<IPostToBot>()
@@ -210,6 +228,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .RegisterType<AlwaysSendDirect_BotToUser>()
                 .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
+                .Register(c => new LogBotToUser(new MapToChannelData_BotToUser(
+                    c.Resolve<AlwaysSendDirect_BotToUser>(), 
+                    new List<IMessageActivityMapper> { new KeyboardCardMapper() }), c.Resolve<IActivityLogger>()))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 

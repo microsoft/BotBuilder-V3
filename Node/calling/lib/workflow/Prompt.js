@@ -1,3 +1,4 @@
+"use strict";
 var utils = require('../utils');
 exports.VoiceGender = {
     male: 'male',
@@ -95,5 +96,5 @@ var Prompt = (function () {
         return new Prompt(session).value(null).silenceLengthInMilliseconds(time);
     };
     return Prompt;
-})();
+}());
 exports.Prompt = Prompt;

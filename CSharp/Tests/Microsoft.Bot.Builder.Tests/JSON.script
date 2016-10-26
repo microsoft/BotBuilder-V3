@@ -41,7 +41,7 @@ ToUserText:"Total for your sandwich is $5.00 is that ok?"
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]}}
 FromUser:"n"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"What do you want to change? ","images":null,"buttons":[{"type":"imBack","title":"Sandwich(Black Forest Ham)","image":null,"value":"Sandwich"},{"type":"imBack","title":"Length(Six Inch)","image":null,"value":"Length"},{"type":"imBack","title":"Bread(Nine Grain Wheat)","image":null,"value":"Ingredients.Bread"},{"type":"imBack","title":"Cheese(American)","image":null,"value":"Ingredients.Cheese"},{"type":"imBack","title":"Toppings(Green Bell Peppers)","image":null,"value":"Ingredients.Toppings"},{"type":"imBack","title":"Sauces(Honey Mustard)","image":null,"value":"Ingredients.Sauces"},{"type":"imBack","title":"No Preference","image":null,"value":"No Preference"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":null,"subtitle":null,"text":"What do you want to change? ","images":null,"buttons":[{"type":"imBack","title":"Sandwich(Black Forest Ham)","image":null,"value":"Sandwich"},{"type":"imBack","title":"Length(Six Inch)","image":null,"value":"Length"},{"type":"imBack","title":"Bread(Nine Grain Wheat)","image":null,"value":"Bread"},{"type":"imBack","title":"Cheese(American)","image":null,"value":"Cheese"},{"type":"imBack","title":"Toppings(Green Bell Peppers)","image":null,"value":"Toppings"},{"type":"imBack","title":"Sauces(Honey Mustard)","image":null,"value":"Sauces"},{"type":"imBack","title":"No Preference","image":null,"value":"No Preference"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]}}
 FromUser:"no"
 1
@@ -64,16 +64,22 @@ FromUser:""
 1
 ToUserText:"Please enter a date and time for delivery time (current choice: No Preference)"
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st"}
-FromUser:""
+FromUser:"9/9/2016 1pm"
 1
-ToUserText:"Do you want to order your Six Inch Black Forest Ham on Nine Grain Wheat bread with {[American Green Bell Peppers Honey Mustard to be sent to 1 state st?"
-State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st"}
+ToUserText:"Do you want to order your Six Inch Black Forest Ham on Nine Grain Wheat bread with {[American Green Bell Peppers Honey Mustard to be sent to 1 state st at 9/9/2016 1:00:00 PM?"
+State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st","DeliveryTime":"2016-09-09T13:00:00"}
+FromUser:"status"
+2
+ToUserText:"* Sandwich: Black Forest Ham\r\n* Length: Six Inch\r\n* Bread: Nine Grain Wheat\r\n* Cheese: American\r\n* Toppings: Green Bell Peppers\r\n* Sauces: Honey Mustard\r\n* Delivery Address: 1 state st\r\n* Phone Number: No Preference\r\n* Delivery Time: 1:00 PM\r\n* your experience today: No Preference\r\n"
+ToUserText:"Do you want to order your Six Inch Black Forest Ham on Nine Grain Wheat bread with {[American Green Bell Peppers Honey Mustard to be sent to 1 state st at 9/9/2016 1:00:00 PM?"
+State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st","DeliveryTime":"2016-09-09T13:00:00"}
 FromUser:"y"
 1
 ToUserText:"Please enter a number between 1.0 and 5.0 for your experience today (current choice: No Preference)"
-State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st"}
+State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st","DeliveryTime":"2016-09-09T13:00:00"}
 FromUser:"2.5"
 2
 ToUserText:"Thanks for ordering your sandwich!"
 ToUserText:"We are currently processing your sandwich. We will message you the status."
-State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st","Rating":2.5}
+State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st","DeliveryTime":"2016-09-09T13:00:00","Rating":2.5}
+Result: {"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"],"Sauces":["HoneyMustard"]},"DeliveryAddress":"1 state st","DeliveryTime":"2016-09-09T13:00:00","Rating":2.5}
