@@ -67,8 +67,8 @@ export class DefaultLocalizer implements ILocalizer {
                     _that.localePaths.push(path);
                 }
             }
-            addPaths(root);
         }        
+        addPaths(root);
     }
 
     public defaultLocale(locale?: string): string {
@@ -161,7 +161,7 @@ export class DefaultLocalizer implements ILocalizer {
             entry.loaded = new Promise((resolve, reject) => {
                 // Load locale in all file paths
                 async.eachSeries(this.localePaths, (path, cb) => {
-
+                    this.loadLocalePath(locale, path).done(() => cb(), (err) => cb(err));
                 }, (err) => {
                     if (err) {
                         reject(err);
