@@ -349,12 +349,11 @@ namespace Microsoft.Bot.Connector
             // Deserialize Response
             if ((int)_statusCode == 200)
             {
-                _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    _result.Body = SafeJsonConvert.DeserializeObject<byte[]>(_responseContent, this.Client.DeserializationSettings);
+                    _result.Body = await _httpResponse.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
                 }
-                catch (JsonException ex)
+                catch (Exception ex)
                 {
                     _httpRequest.Dispose();
                     if (_httpResponse != null)
