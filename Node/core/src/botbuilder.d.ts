@@ -643,6 +643,9 @@ export interface ISessionOptions {
     /** The bots root library of dialogs. */
     library: Library;
 
+    /** The localizer to use for the session. */
+    localizer: ILocalizer;
+
     /** Array of session middleware to execute prior to each request. */
     middleware: ISessionMiddleware[];
 
@@ -735,9 +738,6 @@ export interface IUniversalBotSettings {
     
     /** (Optional) arguments to pass to the initial dialog for a conversation. */
     defaultDialogArgs?: any;
-
-    /** (Optional) cutstom localizer used to localize the bots responses to the user. */
-    localizer?: ILocalizer;
 
     /** (Optional) settings used to configure the frameworks built in default localizer. */
     localizerSettings?: IDefaultLocalizerSettings;
@@ -1766,14 +1766,23 @@ export class DialogAction {
  * include the library name prefix.  
  */
 export class Library {
-    /** Unique name of the library. */
-    name: string;
-
-    /** Creates a new instance of the library. */
-    constructor(name: string);
+    /** 
+     * The libraries unique namespace. This is used to issolate the libraries dialogs and localized
+     * prompts. 
+     */
+    namespace: string;
 
     /** 
-     * Gets or sets the path to the libraries "/locale/" folder containing its localized prompts.
+     * Creates a new instance of the library.
+     * @param namespace Unique namespace for the library. 
+     */
+    constructor(namespace: string);
+
+    /** 
+     * Gets or sets the path to the libraries "/locale/" folder containing its localized prompts. 
+     * The prompts for the library should be stored in a "/locale/<IETF_TAG>/<NAMESPACE>.json" file
+     * under this path where "<IETF_TAG>" representes the 2-3 digit language tage for the locale and
+     * "<NAMESPACE>" is a filename matching the libraries namespace. 
      * @param path (Optional) path to the libraries "/locale/" folder. If specified this will update the libraries path. 
      */
     localePath(path?: string): string;
