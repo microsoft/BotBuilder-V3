@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading;
@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Connector
         /// </remarks>
         public string MicrosoftAppPasswordSettingName { get; set; }
 
-        public bool DisableSelfIssuedTokens { get; set; }
+        public bool DisableEmulatorTokens { get; set; }
 
         /// <summary>
         /// Type which implements ICredentialProvider interface to allow multiple bot AppIds to be registered for the same endpoint
@@ -58,60 +58,73 @@ namespace Microsoft.Bot.Connector
 
         public virtual string OpenIdConfigurationUrl { get; set; } = JwtConfig.ToBotFromChannelOpenIdMetadataUrl;
 
+        public static HttpResponseMessage GenerateUnauthorizedResponse(HttpRequestMessage request)
+        {
+            string host = request.RequestUri.DnsSafeHost;
+            var response = request.CreateResponse(HttpStatusCode.Unauthorized);
+            response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
+            return response;
+        }
+
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
             var provider = this.GetCredentialProvider();
-            var botAuthenticator = new BotAuthenticator(provider, OpenIdConfigurationUrl, DisableSelfIssuedTokens);
-            var identityToken = await botAuthenticator.TryAuthenticate(actionContext.Request, cancellationToken);
+            var botAuthenticator = new BotAuthenticator(provider, OpenIdConfigurationUrl, DisableEmulatorTokens);
+            var identityToken = await botAuthenticator.TryAuthenticateAsync(actionContext.Request, cancellationToken);
 
-            // no authenticated Fail out.
-            if (!identityToken.Authenticed)
+            // the request is not authenticated, fail with 401.
+            if (!identityToken.Authenticated)
             {
-                actionContext.Response = JwtTokenExtractor.GenerateUnauthorizedResponse(actionContext.Request);
+                actionContext.Response = GenerateUnauthorizedResponse(actionContext.Request);
                 return;
             }
 
             // authenticated but no identity, auth is disabled;
-            if (identityToken.Authenticed && identityToken.Identity == null)
+            if (identityToken.Authenticated && identityToken.Identity == null)
             {
                 await base.OnActionExecutingAsync(actionContext, cancellationToken);
                 return;
             }
 
-            // trust the service url
-            var activity = actionContext.ActionArguments.Select(t => t.Value).OfType<Activity>().FirstOrDefault();
-            if (activity != null)
+            // trust the service url in activities
+            var activities = GetActivities(actionContext);
+            if (activities.Any())
             {
-                MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl);
+                foreach (var activity in activities)
+                {
+                    MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl);
+                }
             }
             else
             {
-                // No model binding to activity check if we can find JObject or JArray
-                var obj = actionContext.ActionArguments.Where(t => t.Value is JObject || t.Value is JArray).Select(t => t.Value).FirstOrDefault();
-                if (obj != null)
+                Trace.TraceWarning("No ServiceUrls added to trusted list");
+            }
+            
+            await base.OnActionExecutingAsync(actionContext, cancellationToken);
+        }
+
+        private IList<Activity> GetActivities(HttpActionContext actionContext)
+        {
+            var activties = actionContext.ActionArguments.Select(t => t.Value).OfType<Activity>().ToList();
+            if (activties.Any())
+            {
+                return activties;
+            }
+            else
+            {
+                var objects =
+                    actionContext.ActionArguments.Where(t => t.Value is JObject || t.Value is JArray)
+                        .Select(t => t.Value).ToArray();
+                if (objects.Any())
                 {
-                    Activity[] activities = (obj is JObject) ? new Activity[] { ((JObject)obj).ToObject<Activity>() } : ((JArray)obj).ToObject<Activity[]>();
-                    foreach (var jActivity in activities)
+                    activties = new List<Activity>();
+                    foreach (var obj in objects)
                     {
-                        if (!string.IsNullOrEmpty(jActivity.ServiceUrl))
-                        {
-                            MicrosoftAppCredentials.TrustServiceUrl(jActivity.ServiceUrl);
-                        }
+                        activties.AddRange((obj is JObject) ? new Activity[] { ((JObject)obj).ToObject<Activity>() } : ((JArray)obj).ToObject<Activity[]>());
                     }
                 }
-                else
-                {
-                    Trace.TraceWarning("No activity in the Bot Authentication Action Arguments");
-                }
             }
-
-            Thread.CurrentPrincipal = new ClaimsPrincipal(identityToken.Identity);
-
-            // Inside of ASP.NET this is required
-            if (HttpContext.Current != null)
-                HttpContext.Current.User = Thread.CurrentPrincipal;
-
-            await base.OnActionExecutingAsync(actionContext, cancellationToken);
+            return activties;
         }
 
         private ICredentialProvider GetCredentialProvider()
@@ -143,27 +156,27 @@ namespace Microsoft.Bot.Connector
     {
         private readonly ICredentialProvider credentialProvider;
         private readonly string openIdConfigurationUrl;
-        private readonly bool disableSelfIssuedTokens;
+        private readonly bool disableEmulatorTokens;
 
         /// <summary>
         /// Creates an instance of bot authenticator. 
         /// </summary>
-        /// <param name="MicrosoftAppId"> The Microsoft app Id.</param>
-        /// <param name="MicrosoftAppPassword"> The Microsoft app password.</param>
+        /// <param name="microsoftAppId"> The Microsoft app Id.</param>
+        /// <param name="microsoftAppPassword"> The Microsoft app password.</param>
         /// <remarks> This constructor sets the <see cref="openIdConfigurationUrl"/> to 
         /// <see cref="JwtConfig.ToBotFromChannelOpenIdMetadataUrl"/>  and doesn't disable 
         /// the self issued tokens used by emulator.
         /// </remarks>
-        public BotAuthenticator(string MicrosoftAppId, string MicrosoftAppPassword)
+        public BotAuthenticator(string microsoftAppId, string microsoftAppPassword)
         {
-            this.credentialProvider = new StaticCredentialProvider(MicrosoftAppId, MicrosoftAppPassword);
+            this.credentialProvider = new StaticCredentialProvider(microsoftAppId, microsoftAppPassword);
             this.openIdConfigurationUrl = JwtConfig.ToBotFromChannelOpenIdMetadataUrl;
-            // self issued tokens are used by emulator
-            this.disableSelfIssuedTokens = false;
+            // by default Authenticator is not disabling emulator tokens
+            this.disableEmulatorTokens = false;
         }
 
         public BotAuthenticator(ICredentialProvider credentialProvider, string openIdConfigurationUrl,
-            bool disableSelfIssuedTokens)
+            bool disableEmulatorTokens)
         {
             if (credentialProvider == null)
             {
@@ -171,7 +184,7 @@ namespace Microsoft.Bot.Connector
             }
             this.credentialProvider = credentialProvider;
             this.openIdConfigurationUrl = openIdConfigurationUrl;
-            this.disableSelfIssuedTokens = disableSelfIssuedTokens;
+            this.disableEmulatorTokens = disableEmulatorTokens;
 
         }
 
@@ -183,32 +196,25 @@ namespace Microsoft.Bot.Connector
         /// <param name="activities"> The activities extracted from request.</param>
         /// <param name="token"> The cancellation token.</param>
         /// <returns></returns>
-        public async Task<bool> TryAuthenticate(HttpRequestMessage request, IEnumerable<IActivity> activities,
+        public async Task<bool> TryAuthenticateAsync(HttpRequestMessage request, IEnumerable<IActivity> activities,
            CancellationToken token)
         {
-            var identityToken = await this.TryAuthenticate(request, token);
-            if (identityToken.Authenticed)
+            var identityToken = await this.TryAuthenticateAsync(request, token);
+            if (identityToken.Authenticated)
             {
                 foreach (var activity in activities)
                 {
                     MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl);
                 }
-
-                if (identityToken.Identity != null)
-                {
-                    Thread.CurrentPrincipal = new ClaimsPrincipal(identityToken.Identity);
-
-                    // Inside of ASP.NET this is required
-                    if (HttpContext.Current != null)
-                        HttpContext.Current.User = Thread.CurrentPrincipal;
-                }
             }
-            return identityToken.Authenticed;
+            return identityToken.Authenticated;
         }
 
-        internal async Task<IdentityToken> TryAuthenticate(HttpRequestMessage request,
+        internal async Task<IdentityToken> TryAuthenticateAsync(HttpRequestMessage request,
             CancellationToken token)
         {
+            // debugger is attached and no app Id is set, this implies that the auth is disabled
+            // and no token validation is necessary.
             if (Debugger.IsAttached && this.credentialProvider is SimpleCredentialProvider)
             {
                 if (String.IsNullOrEmpty(((SimpleCredentialProvider)this.credentialProvider).AppId))
@@ -224,7 +230,7 @@ namespace Microsoft.Bot.Connector
 
             // No identity? If we're allowed to, fall back to MSA
             // This code path is used by the emulator
-            if (identity == null && !this.disableSelfIssuedTokens)
+            if (identity == null && !this.disableEmulatorTokens)
             {
                 tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
                 identity = await tokenExtractor.GetIdentityAsync(request);
@@ -251,6 +257,12 @@ namespace Microsoft.Bot.Connector
 
             if (identity != null)
             {
+                Thread.CurrentPrincipal = new ClaimsPrincipal(identity);
+
+                // Inside of ASP.NET this is required
+                if (HttpContext.Current != null)
+                    HttpContext.Current.User = Thread.CurrentPrincipal;
+
                 return new IdentityToken(true, identity);
             }
 
@@ -267,12 +279,12 @@ namespace Microsoft.Bot.Connector
 
     internal sealed class IdentityToken
     {
-        public readonly bool Authenticed;
+        public readonly bool Authenticated;
         public readonly ClaimsIdentity Identity;
 
         public IdentityToken(bool authenticated, ClaimsIdentity identity)
         {
-            this.Authenticed = authenticated;
+            this.Authenticated = authenticated;
             this.Identity = identity;
         }
     }

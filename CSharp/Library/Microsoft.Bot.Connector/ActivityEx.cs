@@ -107,7 +107,7 @@ namespace Microsoft.Bot.Connector
         /// <returns></returns>
         public StateClient GetStateClient(MicrosoftAppCredentials credentials, string serviceUrl = null, params DelegatingHandler[] handlers)
         {
-            bool useServiceUrl = (this.ChannelId == "emulator" || (this.ChannelId.StartsWith("skype") && this.ChannelId.Length > "skype".Length));
+            bool useServiceUrl = (this.ChannelId == "emulator");
             if (useServiceUrl)
                 return new StateClient(new Uri(this.ServiceUrl), credentials: credentials, handlers: handlers);
 

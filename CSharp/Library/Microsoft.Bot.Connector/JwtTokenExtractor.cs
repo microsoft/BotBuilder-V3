@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Http.Controllers;
 using Microsoft.IdentityModel.Protocols;
 
 namespace Microsoft.Bot.Connector
@@ -82,14 +80,6 @@ namespace Microsoft.Bot.Connector
                 Trace.TraceWarning("Invalid token. " + e.ToString());
                 return null;
             }
-        }
-
-        public static HttpResponseMessage GenerateUnauthorizedResponse(HttpRequestMessage request)
-        {
-            string host = request.RequestUri.DnsSafeHost;
-            var response = request.CreateResponse(HttpStatusCode.Unauthorized);
-            response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
-            return response;
         }
 
         private bool HasAllowedIssuer(string jwtToken)
