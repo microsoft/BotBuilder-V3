@@ -1,33 +1,89 @@
 "use strict";
 var fs = require('fs');
 var async = require('async');
+var Promise = require('promise');
+var path = require('path');
 var logger = require('./logger');
 var DefaultLocalizer = (function () {
-    function DefaultLocalizer(settings) {
-        if (settings === void 0) { settings = {}; }
-        if (settings.botLocalePath) {
-            this.botLocalePath = settings.botLocalePath.toLowerCase();
-            if (this.botLocalePath.charAt(this.botLocalePath.length - 1) != '/') {
-                this.botLocalePath = this.botLocalePath + "/";
+    function DefaultLocalizer(root, defaultLocale) {
+        if (defaultLocale === void 0) { defaultLocale = 'en'; }
+        this.localePaths = [];
+        this.locales = {};
+        this.defaultLocale(defaultLocale);
+        var libsSeen = {};
+        var _that = this;
+        function addPaths(library) {
+            if (!libsSeen.hasOwnProperty(library.name)) {
+                libsSeen[library.name] = true;
+                library.forEachLibrary(function (child) {
+                    addPaths(child);
+                });
+                var path = library.localePath();
+                if (path) {
+                    _that.localePaths.push(path);
+                }
             }
         }
-        else {
-            this.botLocalePath = "./locale/";
-        }
-        if (settings.defaultLocale) {
-            this.defaultLocale(settings.defaultLocale.toLowerCase());
-        }
-        else {
-            this.defaultLocale("en");
-        }
+        addPaths(root);
     }
     DefaultLocalizer.prototype.defaultLocale = function (locale) {
         if (locale) {
-            this._defaultLocale = locale;
+            this._defaultLocale = locale.toLowerCase();
         }
         else {
             return this._defaultLocale;
         }
+    };
+    DefaultLocalizer.prototype.load = function (locale, done) {
+        var _this = this;
+        logger.debug("localizer.load(%s)", locale);
+        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        var fbDefault = this.getFallback(this._defaultLocale);
+        var fbLocale = this.getFallback(locale);
+        var locales = ['en'];
+        if (fbDefault !== 'en') {
+            locales.push(fbDefault);
+        }
+        if (this._defaultLocale !== fbDefault) {
+            locales.push(this._defaultLocale);
+        }
+        if (fbLocale !== fbDefault) {
+            locales.push(fbLocale);
+        }
+        if (locale !== fbLocale) {
+            locales.push(locale);
+        }
+        async.each(locales, function (locale, cb) {
+            _this.loadLocale(locale).done(function () { return cb(); }, function (err) { return cb(err); });
+        }, function (err) {
+            if (done) {
+                done(err);
+            }
+        });
+    };
+    DefaultLocalizer.prototype.trygettext = function (locale, msgid, ns) {
+        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        var fbDefault = this.getFallback(this._defaultLocale);
+        var fbLocale = this.getFallback(locale);
+        ns = ns ? ns.toLocaleLowerCase() : null;
+        var key = this.createKey(ns, msgid);
+        var text = this.getEntry(locale, key);
+        if (!text && fbLocale !== locale) {
+            text = this.getEntry(fbLocale, key);
+        }
+        if (!text && this._defaultLocale !== locale) {
+            text = this.getEntry(this._defaultLocale, key);
+        }
+        if (!text && fbDefault !== this._defaultLocale) {
+            text = this.getEntry(fbDefault, key);
+        }
+        return text ? this.getValue(text) : null;
+    };
+    DefaultLocalizer.prototype.gettext = function (locale, msgid, ns) {
+        return this.trygettext(locale, msgid, ns) || msgid;
+    };
+    DefaultLocalizer.prototype.ngettext = function (locale, msgid, msgid_plural, count, ns) {
+        return count == 1 ? this.gettext(locale, msgid, ns) : this.gettext(locale, msgid_plural, ns);
     };
     DefaultLocalizer.prototype.getFallback = function (locale) {
         if (locale) {
@@ -38,46 +94,100 @@ var DefaultLocalizer = (function () {
         }
         return this.defaultLocale();
     };
-    DefaultLocalizer.prototype.parseFile = function (localeDir, filename, locale, cb) {
+    DefaultLocalizer.prototype.loadLocale = function (locale) {
         var _this = this;
-        var filePath = (localeDir + "/" + filename).toLowerCase();
-        if (DefaultLocalizer.filesParsedMap[filePath]) {
-            cb(null, DefaultLocalizer.filesParsedMap[filePath]);
-        }
-        else {
-            logger.debug("localizer::parsing %s", filePath);
-            fs.readFile(filePath, 'utf8', function (err, data) {
-                if (err) {
-                    cb(err, -1);
-                    return;
-                }
-                ;
-                var parsedEntries;
-                try {
-                    parsedEntries = JSON.parse(data);
-                }
-                catch (error) {
-                    cb(err, -1);
-                    return;
-                }
-                var ns = filename.substring(0, filename.length - 5).toLowerCase();
-                var count = _this.loadInMap(locale, ns == "index" ? null : ns, parsedEntries);
-                DefaultLocalizer.filesParsedMap[filePath] = count;
-                cb(null, count);
+        if (!this.locales.hasOwnProperty(locale)) {
+            var entry;
+            this.locales[locale] = entry = { loaded: null, entries: {} };
+            entry.loaded = new Promise(function (resolve, reject) {
+                async.eachSeries(_this.localePaths, function (path, cb) {
+                    _this.loadLocalePath(locale, path).done(function () { return cb(); }, function (err) { return cb(err); });
+                }, function (err) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve(true);
+                    }
+                });
             });
         }
+        return this.locales[locale].loaded;
     };
-    DefaultLocalizer.prototype.loadInMap = function (locale, ns, entries) {
-        if (!DefaultLocalizer.map[locale]) {
-            DefaultLocalizer.map[locale] = {};
-        }
-        var i = 0;
-        for (var key in entries) {
-            var processedKey = this.createKey(ns, key);
-            DefaultLocalizer.map[locale][processedKey] = entries[key];
-            ++i;
-        }
-        return i;
+    DefaultLocalizer.prototype.loadLocalePath = function (locale, localePath) {
+        var _this = this;
+        var dir = path.join(localePath, locale);
+        var entryCount = 0;
+        var p = new Promise(function (resolve, reject) {
+            var access = Promise.denodeify(fs.access);
+            var readdir = Promise.denodeify(fs.readdir);
+            var asyncEach = Promise.denodeify(async.each);
+            access(dir)
+                .then(function () {
+                return readdir(dir);
+            })
+                .then(function (files) {
+                return asyncEach(files, function (file, cb) {
+                    if (file.substring(file.length - 5).toLowerCase() == ".json") {
+                        logger.debug("localizer.load(%s) - Loading %s/%s", locale, dir, file);
+                        _this.parseFile(locale, dir, file)
+                            .then(function (count) {
+                            entryCount += count;
+                            cb();
+                        }, function (err) {
+                            logger.error("localizer.load(%s) - Error reading %s/%s: %s", locale, dir, file, err.toString());
+                            cb();
+                        });
+                    }
+                    else {
+                        cb();
+                    }
+                });
+            })
+                .then(function () {
+                resolve(entryCount);
+            }, function (err) {
+                if (err.code === 'ENOENT') {
+                    logger.debug("localizer.load(%s) - Couldn't find directory: %s", locale, dir);
+                    resolve(-1);
+                }
+                else {
+                    logger.error('localizer.load(%s) - Error: %s', locale, err.toString());
+                    reject(err);
+                }
+            });
+        });
+        return p;
+    };
+    DefaultLocalizer.prototype.parseFile = function (locale, localeDir, filename) {
+        var _this = this;
+        var table = this.locales[locale];
+        return new Promise(function (resolve, reject) {
+            var filePath = path.join(localeDir, filename);
+            var readFile = Promise.denodeify(fs.readFile);
+            readFile(filePath, 'utf8')
+                .then(function (data) {
+                var ns = path.parse(filename).name;
+                if (ns == 'index') {
+                    ns = null;
+                }
+                try {
+                    var cnt = 0;
+                    var entries = JSON.parse(data);
+                    for (var key in entries) {
+                        var k = _this.createKey(ns, key);
+                        table.entries[k] = entries[key];
+                        ++cnt;
+                    }
+                    resolve(cnt);
+                }
+                catch (error) {
+                    return reject(error);
+                }
+            }, function (err) {
+                reject(err);
+            });
+        });
     };
     DefaultLocalizer.prototype.createKey = function (ns, msgid) {
         var escapedMsgId = this.escapeKey(msgid);
@@ -90,194 +200,16 @@ var DefaultLocalizer = (function () {
     DefaultLocalizer.prototype.escapeKey = function (key) {
         return key.replace(/:/g, "--").toLowerCase();
     };
+    DefaultLocalizer.prototype.getEntry = function (locale, key) {
+        return this.locales.hasOwnProperty(locale) && this.locales[locale].entries.hasOwnProperty(key) ? this.locales[locale].entries[key] : null;
+    };
+    DefaultLocalizer.prototype.getValue = function (text) {
+        return typeof text == "string" ? text : this.randomizeValue(text);
+    };
     DefaultLocalizer.prototype.randomizeValue = function (a) {
         var i = Math.floor(Math.random() * a.length);
         return this.getValue(a[i]);
     };
-    DefaultLocalizer.prototype.getValue = function (text) {
-        if (typeof text == "string") {
-            return text;
-        }
-        else if (Array.isArray(text)) {
-            return this.randomizeValue(text);
-        }
-        else {
-            return JSON.stringify(text);
-        }
-    };
-    DefaultLocalizer.prototype.loadLocale = function (localeDirPath, locale, cb) {
-        var _this = this;
-        if (!locale) {
-            cb(null, -1);
-            return;
-        }
-        var path = localeDirPath + locale;
-        fs.access(path, function (err) {
-            if (err && err.code === 'ENOENT') {
-                logger.debug(null, "localizer::couldn't find directory: %s", path);
-                cb(null, -1);
-            }
-            else if (err) {
-                cb(err, -1);
-            }
-            else {
-                fs.readdir(path, function (err, files) {
-                    logger.debug("localizer::in directory: %s", path);
-                    if (err) {
-                        cb(err, 0);
-                    }
-                    var entryCount = 0;
-                    async.each(files, function (file, callback) {
-                        logger.debug("localizer::in file: %s", file);
-                        if (file.substring(file.length - 5).toLowerCase() == ".json") {
-                            _this.parseFile(path, file, locale, function (e, c) {
-                                entryCount += c;
-                                callback();
-                            });
-                        }
-                        else {
-                            callback();
-                        }
-                    }, function (err) {
-                        if (err) {
-                            cb(err, -1);
-                        }
-                        else {
-                            logger.debug("localizer::directory complete: %s", path);
-                            cb(null, entryCount);
-                        }
-                    });
-                });
-            }
-        });
-    };
-    DefaultLocalizer.prototype.load = function (locale, done) {
-        var _this = this;
-        if (locale) {
-            locale = locale.toLowerCase();
-        }
-        var localeRequestKey = locale || "_*_";
-        logger.debug("localizer::load requested for: %s", localeRequestKey);
-        if (DefaultLocalizer.localeRequests[localeRequestKey]) {
-            logger.debug("localizer::already loaded requested locale: %s", localeRequestKey);
-            if (done) {
-                done(null);
-            }
-            return;
-        }
-        var fb = this.getFallback(locale);
-        async.series([
-            function (cb) {
-                _this.loadLocale(__dirname + "/locale/", "en", cb);
-            },
-            function (cb) {
-                _this.loadLocale(__dirname + "/locale/", _this.defaultLocale(), cb);
-            },
-            function (cb) {
-                if (_this.defaultLocale() != fb) {
-                    _this.loadLocale(__dirname + "/locale/", fb, cb);
-                }
-                else {
-                    cb(null, 0);
-                }
-            },
-            function (cb) {
-                if (_this.defaultLocale() != locale && fb != locale) {
-                    _this.loadLocale(__dirname + "/locale/", locale, cb);
-                }
-                else {
-                    cb(null, 0);
-                }
-            },
-            function (cb) {
-                if (_this.botLocalePath) {
-                    _this.loadLocale(_this.botLocalePath, _this.defaultLocale(), cb);
-                }
-                else {
-                    cb(null, 0);
-                }
-            },
-            function (cb) {
-                if (_this.botLocalePath && _this.defaultLocale() != fb) {
-                    _this.loadLocale(_this.botLocalePath, fb, cb);
-                }
-                else {
-                    cb(null, 0);
-                }
-            },
-            function (cb) {
-                if (_this.botLocalePath && _this.defaultLocale() != locale && fb != locale) {
-                    _this.loadLocale(_this.botLocalePath, locale, cb);
-                }
-                else {
-                    cb(null, 0);
-                }
-            },
-        ], function (err, results) {
-            if (!err) {
-                DefaultLocalizer.localeRequests[localeRequestKey] = true;
-                logger.debug("localizer::loaded requested locale: %s", localeRequestKey);
-            }
-            if (done) {
-                done(err);
-            }
-        });
-    };
-    DefaultLocalizer.prototype.trygettext = function (locale, msgid, namespace) {
-        if (locale) {
-            locale = locale.toLowerCase();
-        }
-        else {
-            locale = "";
-        }
-        if (namespace) {
-            namespace = namespace.toLocaleLowerCase();
-        }
-        else {
-            namespace = "";
-        }
-        var fb = this.getFallback(locale);
-        var processedKey = this.createKey(namespace, msgid);
-        logger.debug("localizer::trygettext locale:%s msgid:%s ns:%s fb:%s key:%s", locale, msgid, namespace, fb, processedKey);
-        var text = null;
-        if (DefaultLocalizer.map[locale] && DefaultLocalizer.map[locale][processedKey]) {
-            text = DefaultLocalizer.map[locale][processedKey];
-        }
-        else if (DefaultLocalizer.map[fb] && DefaultLocalizer.map[fb][processedKey]) {
-            text = DefaultLocalizer.map[fb][processedKey];
-        }
-        else if (DefaultLocalizer.map[this.defaultLocale()] && DefaultLocalizer.map[this.defaultLocale()][processedKey]) {
-            text = DefaultLocalizer.map[this.defaultLocale()][processedKey];
-        }
-        if (text) {
-            text = this.getValue(text);
-        }
-        logger.debug("localizer::trygettext returning: %s", text);
-        return text;
-    };
-    DefaultLocalizer.prototype.gettext = function (locale, msgid, namespace) {
-        logger.debug("localizer::gettext locale:%s msgid:%s ns:%s", locale, msgid, namespace);
-        var t = this.trygettext(locale, msgid, namespace);
-        if (!t) {
-            t = msgid;
-        }
-        logger.debug("localizer::gettext returning: %s", t);
-        return t;
-    };
-    DefaultLocalizer.prototype.ngettext = function (locale, msgid, msgid_plural, count, namespace) {
-        logger.debug("localizer::ngettext locale:%s count: %d, msgid:%s msgid_plural:%s ns:%s", locale, count, msgid, msgid_plural, namespace);
-        var t = "";
-        if (count == 1) {
-            t = this.trygettext(locale, msgid, namespace) || msgid;
-        }
-        else {
-            t = this.trygettext(locale, msgid_plural, namespace) || msgid_plural;
-        }
-        return t;
-    };
-    DefaultLocalizer.localeRequests = {};
-    DefaultLocalizer.filesParsedMap = {};
-    DefaultLocalizer.map = {};
     return DefaultLocalizer;
 }());
 exports.DefaultLocalizer = DefaultLocalizer;

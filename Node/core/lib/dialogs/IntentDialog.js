@@ -112,7 +112,7 @@ var IntentDialog = (function (_super) {
             }
         }
         var result = { score: 0.0, intent: null };
-        if (context.message && context.message.text) {
+        if (context.message) {
             if (this.expressions) {
                 for (var i = 0; i < this.expressions.length; i++) {
                     var exp = this.expressions[i];

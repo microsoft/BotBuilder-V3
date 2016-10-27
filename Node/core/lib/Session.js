@@ -11,7 +11,6 @@ var events = require('events');
 var msg = require('./Message');
 var logger = require('./logger');
 var async = require('async');
-var dfLoc = require('./DefaultLocalizer');
 var Session = (function (_super) {
     __extends(Session, _super);
     function Session(options) {
@@ -27,12 +26,7 @@ var Session = (function (_super) {
         this._locale = null;
         this.localizer = null;
         this.library = options.library;
-        if (!options.localizer) {
-            this.localizer = new dfLoc.DefaultLocalizer(options.localizerSettings);
-        }
-        else {
-            this.localizer = options.localizer;
-        }
+        this.localizer = options.localizer;
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;
         }

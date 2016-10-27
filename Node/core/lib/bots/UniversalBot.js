@@ -12,6 +12,7 @@ var consts = require('../consts');
 var utils = require('../utils');
 var async = require('async');
 var events = require('events');
+var DefaultLocalizer_1 = require('../DefaultLocalizer');
 var UniversalBot = (function (_super) {
     __extends(UniversalBot, _super);
     function UniversalBot(connector, settings) {
@@ -27,6 +28,7 @@ var UniversalBot = (function (_super) {
         this.mwReceive = [];
         this.mwSend = [];
         this.mwSession = [];
+        this.lib.localePath('./locale/');
         this.lib.library(dl.systemLib);
         if (settings) {
             for (var name in settings) {
@@ -41,6 +43,12 @@ var UniversalBot = (function (_super) {
     }
     UniversalBot.prototype.set = function (name, value) {
         this.settings[name] = value;
+        if (value && name === 'localizerSettings') {
+            var settings = value;
+            if (settings.botLocalePath) {
+                this.lib.localePath(settings.botLocalePath);
+            }
+        }
         return this;
     };
     UniversalBot.prototype.get = function (name) {
@@ -231,8 +239,12 @@ var UniversalBot = (function (_super) {
         if (newStack === void 0) { newStack = false; }
         var loadedData;
         this.getStorageData(storageCtx, function (data) {
+            if (!_this.localizer) {
+                var defaultLocale = _this.settings.localizerSettings ? _this.settings.localizerSettings.defaultLocale : null;
+                _this.localizer = new DefaultLocalizer_1.DefaultLocalizer(_this.lib, defaultLocale);
+            }
             var session = new ses.Session({
-                localizerSettings: _this.settings.localizerSettings,
+                localizer: _this.localizer,
                 autoBatchDelay: _this.settings.autoBatchDelay,
                 library: _this.lib,
                 actions: _this.actions,

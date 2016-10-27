@@ -2,12 +2,19 @@
 var da = require('../dialogs/DialogAction');
 var sd = require('../dialogs/SimpleDialog');
 var consts = require('../consts');
+var path = require('path');
 var Library = (function () {
     function Library(name) {
         this.name = name;
         this.dialogs = {};
         this.libraries = {};
     }
+    Library.prototype.localePath = function (path) {
+        if (path) {
+            this._localePath = path;
+        }
+        return this._localePath;
+    };
     Library.prototype.dialog = function (id, dialog) {
         var d;
         if (dialog) {
@@ -64,7 +71,13 @@ var Library = (function () {
         }
         return d;
     };
+    Library.prototype.forEachLibrary = function (callback) {
+        for (var lib in this.libraries) {
+            callback(this.libraries[lib]);
+        }
+    };
     return Library;
 }());
 exports.Library = Library;
 exports.systemLib = new Library(consts.Library.system);
+exports.systemLib.localePath(path.join(__dirname, '../locale/'));
