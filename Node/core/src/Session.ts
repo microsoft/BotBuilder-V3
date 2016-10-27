@@ -47,11 +47,10 @@ export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
     onSend: (messages: IMessage[], done: (err: Error) => void) => void;
     library: dl.Library;
+    localizer: ILocalizer;
     middleware: ISessionMiddleware[];
     dialogId: string;
     dialogArgs?: any;
-    localizer?: ILocalizer;
-    localizerSettings?: IDefaultLocalizerSettings;
     autoBatchDelay?: number;
     dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
     actions?: actions.ActionSet;
@@ -75,12 +74,7 @@ export class Session extends events.EventEmitter implements ISession {
     constructor(protected options: ISessionOptions) {
         super();
         this.library = options.library;
-
-        if (!options.localizer) {
-            this.localizer = new dfLoc.DefaultLocalizer(options.localizerSettings);           
-        } else {
-            this.localizer = options.localizer;
-        }
+        this.localizer = options.localizer;
         
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;  // 250ms delay

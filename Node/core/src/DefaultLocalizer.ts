@@ -33,44 +33,118 @@
 
 import fs = require('fs');
 import async = require('async');
-
+import Promise = require('promise');
+import path = require('path');
 import logger = require('./logger');
+import lib = require('./bots/Library');
 
 export class DefaultLocalizer implements ILocalizer {
     private _defaultLocale: string;
-    private botLocalePath: string;
+    private localePaths = <string[]>[];
+    private locales: { [locale:string]: ILocaleEntry; } = {}
 
-    private static localeRequests: any = {};
-    private static filesParsedMap: any = {};
-    private static map: any = {};
+    constructor(root: lib.Library, defaultLocale = 'en') {
+        this.defaultLocale(defaultLocale);
 
-    constructor(settings: IDefaultLocalizerSettings = {}) {        
-        if (settings.botLocalePath) {
-            this.botLocalePath = settings.botLocalePath.toLowerCase();
-            if (this.botLocalePath.charAt(this.botLocalePath.length - 1) != '/') {
-                this.botLocalePath = this.botLocalePath + "/";
+        // Find all of the searchable 
+        var libsSeen = <any>{};
+        var _that = this;
+        function addPaths(library: lib.Library) {
+            // Protect against circular references.
+            if (!libsSeen.hasOwnProperty(library.name)) {
+                libsSeen[library.name] = true;
+
+                // Add paths for child libraries
+                library.forEachLibrary((child) => {
+                    addPaths(child);
+                });
+
+                // Add libraries '/locale/' folder to list of known paths.
+                // - Order is important here. We want the bots root path to be last so that any
+                //   overrides for the bot will be applied last.
+                var path = library.localePath();
+                if (path) {
+                    _that.localePaths.push(path);
+                }
             }
-        } else {
-            this.botLocalePath = "./locale/";
-        }
-        
-        if (settings.defaultLocale) {
-            this.defaultLocale(settings.defaultLocale.toLowerCase());
-        } else {
-            this.defaultLocale("en");
-        }
+            addPaths(root);
+        }        
     }
 
     public defaultLocale(locale?: string): string {
         if (locale) {
-            this._defaultLocale = locale;
+            this._defaultLocale = locale.toLowerCase();
         } else {
             return this._defaultLocale;
         }
-    }   
-    
+    }
 
-    private getFallback(locale: string): string {
+    public load(locale: string, done?: ErrorCallback): void {
+        logger.debug("localizer.load(%s)", locale);                                               
+
+        // Build list of locales to load
+        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        var fbDefault = this.getFallback(this._defaultLocale);
+        var fbLocale = this.getFallback(locale);
+        var locales = ['en'];
+        if (fbDefault !== 'en') {
+            locales.push(fbDefault);
+        }
+        if (this._defaultLocale !== fbDefault) {
+            locales.push(this._defaultLocale);
+        }
+        if (fbLocale !== fbDefault) {
+            locales.push(fbLocale);
+        }
+        if (locale !== fbLocale) {
+            locales.push(locale);
+        }
+
+        // Load locales in parallel
+        async.each(locales, (locale, cb) => {
+            this.loadLocale(locale).done(() => cb(), (err) => cb(err));
+        }, (err) => {
+            if (done) {
+                done(err);
+            }    
+        });
+    }
+
+    public trygettext(locale: string, msgid: string, ns: string): string {
+        // Calculate fallbacks
+        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        var fbDefault = this.getFallback(this._defaultLocale);
+        var fbLocale = this.getFallback(locale);
+
+        // Calculate namespaced key
+        ns = ns ? ns.toLocaleLowerCase() : null;
+        var key = this.createKey(ns, msgid);
+
+        // Lookup entry
+        var text = this.getEntry(locale, key);
+        if (!text && fbLocale !== locale) {
+            text = this.getEntry(fbLocale, key);
+        }
+        if (!text && this._defaultLocale !== locale) {
+            text = this.getEntry(this._defaultLocale, key);
+        }
+        if (!text && fbDefault !== this._defaultLocale) {
+            text = this.getEntry(fbDefault, key);
+        }
+
+        // Return localized message
+        return text ? this.getValue(text) : null;
+    }
+
+    public gettext(locale: string, msgid: string, ns: string): string {
+        return this.trygettext(locale, msgid, ns) || msgid;
+    } 
+
+    public ngettext(locale: string, msgid: string, msgid_plural: string, count: number, ns: string): string {
+        return count == 1 ? this.gettext(locale, msgid, ns) : this.gettext(locale, msgid_plural, ns);
+    }   
+
+    private getFallback(locale?: string): string {
         if (locale) {
             var split = locale.indexOf("-");
             if (split != -1) {
@@ -79,48 +153,105 @@ export class DefaultLocalizer implements ILocalizer {
         }
         return this.defaultLocale();
     }
+    private loadLocale(locale: string): Promise.IThenable<boolean> {
+        // Load local on first access
+        if (!this.locales.hasOwnProperty(locale)) {
+            var entry: ILocaleEntry;
+            this.locales[locale] = entry = { loaded: null, entries: {} };
+            entry.loaded = new Promise((resolve, reject) => {
+                // Load locale in all file paths
+                async.eachSeries(this.localePaths, (path, cb) => {
 
-    private parseFile(localeDir: string, filename: string, locale:string, cb:AsyncResultCallback<number>) {
-        var filePath = (localeDir + "/" + filename).toLowerCase();
-            
-        if (DefaultLocalizer.filesParsedMap[filePath]) {
-            cb(null, DefaultLocalizer.filesParsedMap[filePath])
-        } else {
-            logger.debug("localizer::parsing %s", filePath)
-            fs.readFile(filePath, 'utf8', (err, data) => {
-                if (err) {
-                    cb(err, -1)
-                    return;
-                };
-                
-                var parsedEntries:any;
-                try {
-                    parsedEntries = JSON.parse(data);                    
-                } catch (error) {
-                    cb(err, -1);
-                    return;
-                }
-
-                var ns = filename.substring(0, filename.length - 5).toLowerCase();            
-                var count = this.loadInMap(locale, ns == "index" ? null : ns, parsedEntries);
-                DefaultLocalizer.filesParsedMap[filePath] = count;
-                cb(null, count);                                
+                }, (err) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(true);
+                    }
+                });
             });
-        }
+        } 
+        return this.locales[locale].loaded;
     }
 
-    private loadInMap(locale: string, ns: string, entries:any): number {
-        if (!DefaultLocalizer.map[locale]) {
-            DefaultLocalizer.map[locale] = {};
-        }
-        
-        var i = 0;
-        for (var key in entries) {
-            var processedKey = this.createKey(ns, key);
-            DefaultLocalizer.map[locale][processedKey] = entries[key];
-            ++i;
-        }
-        return i;
+    private loadLocalePath(locale: string, localePath: string): Promise.IThenable<number> {
+        var dir = path.join(localePath, locale);
+        var entryCount = 0;
+        var p = new Promise<number>((resolve, reject) => {
+            var access = Promise.denodeify(fs.access);
+            var readdir = Promise.denodeify(fs.readdir);
+            var asyncEach = Promise.denodeify(async.each);
+            access(dir)
+                .then(() =>{
+                    // Directory exists
+                    return readdir(dir);
+                })
+                .then((files: string[]) => {
+                    // List of files retreived
+                    return asyncEach(files, (file: string, cb: ErrorCallback) => {
+                        if (file.substring(file.length - 5).toLowerCase() == ".json") {
+                            logger.debug("localizer.load(%s) - Loading %s/%s", locale, dir, file);
+                            this.parseFile(locale, dir, file)
+                                .then((count) => {
+                                    entryCount += count;
+                                    cb();
+                                }, (err) => {
+                                    logger.error("localizer.load(%s) - Error reading %s/%s: %s", locale, dir, file, err.toString());
+                                    cb();
+                                }); 
+                        } else {
+                            cb();
+                        }
+                    });
+                })
+                .then(() => {
+                    // Files successfully added
+                    resolve(entryCount);
+                }, (err) => {
+                    if (err.code === 'ENOENT') {
+                        // No local directory
+                        logger.debug("localizer.load(%s) - Couldn't find directory: %s", locale, dir);                                
+                        resolve(-1);
+                    } else {
+                        logger.error('localizer.load(%s) - Error: %s', locale, err.toString());
+                        reject(err);
+                    }                        
+                });
+        });
+        return p;
+    }
+
+    private parseFile(locale: string, localeDir: string, filename: string): Promise.IThenable<number> {
+        var table = this.locales[locale];
+        return new Promise<number>((resolve, reject) => {
+            var filePath = path.join(localeDir, filename);
+            var readFile = Promise.denodeify(fs.readFile);
+            readFile(filePath, 'utf8')
+                .then((data) => {
+                    // Find namespace 
+                    var ns = path.parse(filename).name;
+                    if (ns == 'index') {
+                        ns = null;
+                    }
+
+                    // Add entries to map
+                    try {
+                        // Parse locale file and add entries to table
+                        var cnt = 0;
+                        var entries = JSON.parse(data);
+                        for (var key in entries) {
+                            var k = this.createKey(ns, key);
+                            table.entries[k] = entries[key];
+                            ++cnt;
+                        }
+                        resolve(cnt);                        
+                    } catch (error) {
+                        return reject(error);
+                    }
+                }, (err) => {
+                    reject(err);
+                });
+        });
     }
 
     private createKey(ns: string, msgid: string) : string {
@@ -136,210 +267,23 @@ export class DefaultLocalizer implements ILocalizer {
         return key.replace(/:/g, "--").toLowerCase();
     }
 
+    private getEntry(locale: string, key: string): string|string[] {
+        return this.locales.hasOwnProperty(locale) && this.locales[locale].entries.hasOwnProperty(key) ? this.locales[locale].entries[key] : null;
+    }
+
+    private getValue(text: string|string[]) : string {
+        return typeof text == "string" ? text : this.randomizeValue(text);
+    }
+
     private randomizeValue(a: Array<any>): string {
         var i = Math.floor(Math.random() * a.length);
         return this.getValue(a[i]);
     }
+}
 
-    private getValue(text: any) : string {
-        if (typeof text == "string") {
-            return text;
-        } else if (Array.isArray(text)) {
-            return this.randomizeValue(text);
-        } else {
-            return JSON.stringify(text);
-        }
-    }
-
-    private loadLocale(localeDirPath: string, locale: string, cb:AsyncResultCallback<number>) : void {
-        if (!locale) {
-            cb(null, -1);
-            return
-        }
-
-        var path = localeDirPath + locale;
-                
-        fs.access(path, (err) => {
-            if (err && err.code === 'ENOENT') {
-                logger.debug(null, "localizer::couldn't find directory: %s", path);                                
-                cb(null, -1);
-            } else if (err) {
-                cb(err, -1);
-            } else {
-                fs.readdir(path, (err, files) => {
-                    logger.debug("localizer::in directory: %s", path);                                
-                
-                    // directory exists, but could not enumerate it                        
-                    if (err) { 
-                        cb(err, 0);
-                    }
-
-                    var entryCount = 0;
-                    
-                    async.each(files, (file, callback) => {
-                        logger.debug("localizer::in file: %s", file);                                
-                
-                        if (file.substring(file.length - 5).toLowerCase() == ".json") {
-                            this.parseFile(path, file, locale, (e:Error, c:number) => {
-                                entryCount += c;
-                                callback();
-                            });
-                        } else {
-                            callback();
-                        }
-                    }, function(err) {
-                        if (err) {
-                            cb(err, -1);
-                        } else {
-                            logger.debug("localizer::directory complete: %s", path);                                               
-                            cb(null, entryCount);                        
-                        }
-                    })                
-                });
-            }            
-        });
-    }
-    
-    public load(locale: string, done?: ErrorCallback): void {
-        if (locale) {
-            locale = locale.toLowerCase();
-        }
-        var localeRequestKey = locale || "_*_";
-
-        logger.debug("localizer::load requested for: %s", localeRequestKey);                                               
-
-        if (DefaultLocalizer.localeRequests[localeRequestKey]) {
-            logger.debug("localizer::already loaded requested locale: %s", localeRequestKey);                                               
-            if (done) {
-                done(null);
-            }
-            return;
-        }
-
-        var fb = this.getFallback(locale);
-        async.series([
-            // load the en locale from the lib folder -- system default
-            (cb:AsyncResultCallback<number>) => { 
-                this.loadLocale(__dirname + "/locale/" , "en", cb); 
-            },
-            
-            // load the default locale from the lib folder
-            (cb:AsyncResultCallback<number>) => { 
-                this.loadLocale(__dirname + "/locale/" , this.defaultLocale(), cb); 
-            },
-
-            // load the fallback locale the lib folder, if different from default
-            (cb:AsyncResultCallback<number>) => { 
-                if (this.defaultLocale() != fb) {
-                    this.loadLocale(__dirname + "/locale/", fb, cb); 
-                } else {
-                    cb(null, 0);
-                }
-            },
-            
-            // load the requested locale from the lib folder
-            (cb:AsyncResultCallback<number>) => {  
-                if (this.defaultLocale() != locale && fb != locale) {
-                    this.loadLocale(__dirname + "/locale/", locale, cb); 
-                } else {                    
-                    cb(null, 0);
-                }
-            },
-
-            // load the default locale from the botLocale folder if it exists 
-            (cb:AsyncResultCallback<number>) => { 
-                if (this.botLocalePath) {
-                    this.loadLocale(this.botLocalePath, this.defaultLocale(), cb); 
-                } else {
-                    cb(null, 0);
-                } 
-            },
-            
-            // load the fallback locale the lib folder, if different from default
-            (cb:AsyncResultCallback<number>) => { 
-                if (this.botLocalePath && this.defaultLocale() != fb) {
-                    this.loadLocale(this.botLocalePath, fb, cb); 
-                } else {                                
-                    cb(null, 0);
-                }
-            },
-            
-            // load the requested locale from the lib folder
-            (cb:AsyncResultCallback<number>) => { 
-                if (this.botLocalePath && this.defaultLocale() != locale && fb != locale) {
-                    this.loadLocale(this.botLocalePath, locale, cb); 
-                }  else {
-                    cb(null, 0);
-                } 
-            },
-            
-        ],
-        (err, results) => {
-            if (!err) {
-                DefaultLocalizer.localeRequests[localeRequestKey] = true;
-                logger.debug("localizer::loaded requested locale: %s", localeRequestKey);                            
-            }
-            if (done) {
-                done(err);
-            }
-        });
-    }
-
-    public trygettext(locale: string, msgid: string, namespace: string): string {
-        if (locale) {
-            locale = locale.toLowerCase();
-        } else {
-            locale = "";
-        }
-
-        if (namespace) {
-            namespace = namespace.toLocaleLowerCase();
-        } else {
-            namespace = "";
-        }
-        
-        var fb = this.getFallback(locale);
-        var processedKey = this.createKey(namespace, msgid);
-        
-        logger.debug("localizer::trygettext locale:%s msgid:%s ns:%s fb:%s key:%s", locale, msgid, namespace, fb, processedKey);                                                                               
-        var text:string = null;
-        if (DefaultLocalizer.map[locale] && DefaultLocalizer.map[locale][processedKey]) {
-            text = DefaultLocalizer.map[locale][processedKey];
-        } else if (DefaultLocalizer.map[fb] && DefaultLocalizer.map[fb][processedKey]) {
-            text = DefaultLocalizer.map[fb][processedKey];
-        } else if (DefaultLocalizer.map[this.defaultLocale()] && DefaultLocalizer.map[this.defaultLocale()][processedKey]) {
-            text = DefaultLocalizer.map[this.defaultLocale()][processedKey];
-        }
-
-        if (text) {
-            text = this.getValue(text);
-        }
-        
-        logger.debug("localizer::trygettext returning: %s", text);
-        return text;
-    }
-
-    public gettext(locale: string, msgid: string, namespace: string): string {
-        logger.debug("localizer::gettext locale:%s msgid:%s ns:%s", locale, msgid, namespace);                                                                               
-              
-        var t = this.trygettext(locale, msgid, namespace);
-        if (!t) {
-            t = msgid;
-        }
-        logger.debug("localizer::gettext returning: %s", t);        
-        return t;
-    } 
-
-    public ngettext(locale: string, msgid: string, msgid_plural: string, count: number, namespace: string): string {
-        logger.debug("localizer::ngettext locale:%s count: %d, msgid:%s msgid_plural:%s ns:%s", locale, count, msgid, msgid_plural, namespace);                                                                                       
-        
-        var t = "";
-        if (count == 1) {
-	        t = this.trygettext(locale, msgid, namespace) || msgid;
-        } else {
-            // 0 or more than 1
-	        t = this.trygettext(locale, msgid_plural, namespace) || msgid_plural;            
-        }
-        return t;
-    }   
+interface ILocaleEntry {
+    loaded: Promise.IThenable<boolean>;
+    entries: {
+        [key:string]: string|string[];
+    };
 }
