@@ -90,8 +90,7 @@
           "200": {
             "description": "﻿An array of bytes which represent the content.",
             "schema": {
-              "format": "byte",
-              "type": "string"
+              "type": "file"
             }
           },
           "301": { "description": "﻿The Location header describes where the content is now." },

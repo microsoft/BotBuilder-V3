@@ -256,6 +256,10 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
+        /// An optional partial-method to perform custom initialization.
+        ///</summary> 
+        partial void CustomInitialize();
+        /// <summary>
         /// Initializes client properties.
         /// </summary>
         private void Initialize()

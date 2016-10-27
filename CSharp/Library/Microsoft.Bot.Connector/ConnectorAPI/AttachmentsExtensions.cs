@@ -91,7 +91,52 @@ namespace Microsoft.Bot.Connector
         {
             using (var _result = await operations.GetAttachmentWithHttpMessagesAsync(attachmentId, viewId, null, cancellationToken).ConfigureAwait(false))
             {
-                return await _result.HandleErrorAsync<byte[]>().ConfigureAwait(false);
+                var stream = await _result.HandleErrorAsync<System.IO.Stream>().ConfigureAwait(false);
+                System.IO.MemoryStream memStream = new System.IO.MemoryStream();
+                await stream.CopyToAsync(memStream).ConfigureAwait(false);
+                return memStream.GetBuffer();
+            }
+        }
+
+        /// <summary>
+        /// GetAttachmentStream
+        /// </summary>
+        /// Get the named view as binary stream
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='attachmentId'>
+        /// attachment id
+        /// </param>
+        /// <param name='viewId'>
+        /// View id from attachmentInfo
+        /// </param>
+        public static System.IO.Stream GetAttachmentStream(this IAttachments operations, string attachmentId, string viewId)
+        {
+            return Task.Factory.StartNew(s => ((IAttachments)s).GetAttachmentStreamAsync(attachmentId, viewId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
+        }
+
+        /// <summary>
+        /// GetAttachmentStreamAsync
+        /// </summary>
+        /// Get the named view as binary content as a stream
+        /// <param name='operations'>
+        /// The operations group for this extension method.
+        /// </param>
+        /// <param name='attachmentId'>
+        /// attachment id
+        /// </param>
+        /// <param name='viewId'>
+        /// View id from attachmentInfo
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        public static async Task<System.IO.Stream> GetAttachmentStreamAsync(this IAttachments operations, string attachmentId, string viewId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            using (var _result = await operations.GetAttachmentWithHttpMessagesAsync(attachmentId, viewId, null, cancellationToken).ConfigureAwait(false))
+            {
+                return await _result.HandleErrorAsync<System.IO.Stream>().ConfigureAwait(false);
             }
         }
 

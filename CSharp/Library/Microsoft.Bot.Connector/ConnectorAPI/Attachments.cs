@@ -349,19 +349,7 @@ namespace Microsoft.Bot.Connector
             // Deserialize Response
             if ((int)_statusCode == 200)
             {
-                try
-                {
-                    _result.Body = await _httpResponse.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    _httpRequest.Dispose();
-                    if (_httpResponse != null)
-                    {
-                        _httpResponse.Dispose();
-                    }
-                    throw new SerializationException("Unable to deserialize the response.", _responseContent, ex);
-                }
+                _result.Body = await _httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
             }
             // Deserialize Response
             if ((int)_statusCode == 400)

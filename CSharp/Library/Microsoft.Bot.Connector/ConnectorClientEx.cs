@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Connector
         }
 
         // client defaults to sending the expect: continue header, which isn't very efficient, 
-        void CustomInitialize()
+        partial void CustomInitialize()
         {
             var servicePoint = ServicePointManager.FindServicePoint(this.BaseUri);
             servicePoint.Expect100Continue = false;
