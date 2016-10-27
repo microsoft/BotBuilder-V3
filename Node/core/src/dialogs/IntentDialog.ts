@@ -148,7 +148,7 @@ export class IntentDialog extends dlg.Dialog {
         }
 
         var result: IIntentRecognizerResult = { score: 0.0, intent: null };
-        if (context.message && context.message.text) {
+        if (context.message) {
             // Match regular expressions first
             if (this.expressions) {
                 for (var i = 0; i < this.expressions.length; i++ ) {
