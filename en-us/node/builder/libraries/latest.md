@@ -22,6 +22,12 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.4.0
+* Fixed a bug where path to localization files was being lowercased.
+* Added support for localizing prompts on a per/library basis. Each library can now have it's own /locale/ folder and prompts which can be overridden by the bot.
+* Removed a content.message.text guard from IntentDialog. Now you can recognize based on attachments as well as text.
+* Updated LKG build and package.json version.
+
 ### v3.3.3
 * Removed requirement for IDialogResult.resumed.
 * Removed ability to pass in a custom localizer. The new localizer system should be used instead.
