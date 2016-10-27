@@ -84,12 +84,12 @@ namespace Microsoft.Bot.Connector
             }
         }
 
-        public void GenerateUnauthorizedResponse(HttpActionContext actionContext)
+        public static HttpResponseMessage GenerateUnauthorizedResponse(HttpRequestMessage request)
         {
-            string host = actionContext.Request.RequestUri.DnsSafeHost;
-            actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
-            actionContext.Response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
-            return;
+            string host = request.RequestUri.DnsSafeHost;
+            var response = request.CreateResponse(HttpStatusCode.Unauthorized);
+            response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
+            return response;
         }
 
         private bool HasAllowedIssuer(string jwtToken)

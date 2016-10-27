@@ -1157,6 +1157,27 @@
             Type which implements ICredentialProvider interface to allow multiple bot AppIds to be registered for the same endpoint
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.#ctor(System.String,System.String)">
+            <summary>
+            Creates an instance of bot authenticator. 
+            </summary>
+            <param name="MicrosoftAppId"> The Microsoft app Id.</param>
+            <param name="MicrosoftAppPassword"> The Microsoft app password.</param>
+            <remarks> This constructor sets the <see cref="F:Microsoft.Bot.Connector.BotAuthenticator.openIdConfigurationUrl"/> to 
+            <see cref="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromChannelOpenIdMetadataUrl"/>  and doesn't disable 
+            the self issued tokens used by emulator.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.TryAuthenticate(System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{Microsoft.Bot.Connector.IActivity},System.Threading.CancellationToken)">
+            <summary>
+            Authenticates the incoming request and add the <see cref="P:Microsoft.Bot.Connector.IActivity.ServiceUrl"/> for each
+            activities to <see cref="F:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustedHostNames"/> if the request is authenticated.
+            </summary>
+            <param name="request"> The request that should be authenticated.</param>
+            <param name="activities"> The activities extracted from request.</param>
+            <param name="token"> The cancellation token.</param>
+            <returns></returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConversationsExtensions">
             <summary>
             Extension methods for Conversations.
