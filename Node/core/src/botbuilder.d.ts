@@ -393,7 +393,7 @@ export interface IDialogResult<T> {
     response?: T;
 }
 
-/** Context of the received message passed to the Dialog.recognize() method. */
+/** Context of the received message passed to various recognition methods. */
 export interface IRecognizeContext {
     /** Message that was received. */
     message: IMessage;
@@ -590,27 +590,39 @@ export interface IEntity {
     score?: number;
 }
 
-/** Options used to configure an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html). */
-export interface IIntentDialogOptions {
-    /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
+/** Options used to configure an [IntentRecognizerSet](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentrecognizerset.html). */
+export interface IIntentRecognizerSetOptions {
+    /** (optional) Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
     intentThreshold?: number;
 
-    /** Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
-    recognizeMode?: RecognizeMode;
-
-    /** The order in which the configured [recognizers](#recognizers) should be evaluated. The default order is parallel. */
+    /** (Optional) The order in which the configured [recognizers](#recognizers) should be evaluated. The default order is parallel. */
     recognizeOrder?: RecognizeOrder;
 
     /** (Optional) list of intent recognizers to run the users utterance through. */
     recognizers?: IIntentRecognizer[];
 
-    /** Maximum number of recognizers to evaluate at one time when [recognizerOrder](#recognizerorder) is parallel. */
+    /** (Optional) Maximum number of recognizers to evaluate at one time when [recognizerOrder](#recognizerorder) is parallel. */
     processLimit?: number;
+
+    /** (Optional) If true the recognition will stop when a score of 1.0 is encountered. The default value is true.  */
+    stopIfExactMatch?: boolean;
+}
+
+/** Options used to configure an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html). */
+export interface IIntentDialogOptions extends IIntentRecognizerSetOptions {
+    /** (Optional) Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
+    recognizeMode?: RecognizeMode;
 } 
 
-/** export interface implemented by intent recognizers like the LuisRecognizer class. */
+/** Interface implemented by intent recognizer plugins like the [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer.html) class. */
 export interface IIntentRecognizer {
-    /** Attempts to match a users text utterance to an intent. */
+    /** 
+     * Attempts to match a users text utterance to an intent.
+     * @param context Contextual information for a received message that's being recognized.
+     * @param callback Function to invoke with the results of the recognition operation.
+     * @param callback.error Any error that occured or `null`.
+     * @param callback.result The result of the recognition.
+     */
     recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
@@ -862,6 +874,11 @@ export interface IDialogWaterfallStep {
      * @param skip.results (Optional) results to pass to the next waterfall step. This lets you more accurately mimic the results returned from a prompt or dialog.
      */
     (session: Session, result?: any | IDialogResult<any>, skip?: (results?: IDialogResult<any>) => void): any;
+}
+
+/** A per/local mapping of regular expressions to use for a RegExpRecognizer.  */
+export interface IRegExpMap {
+    [local: string]: RegExp;
 }
 
 /** A per/local mapping of LUIS service url's to use for a LuisRecognizer.  */
@@ -1925,6 +1942,24 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
     recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void): void;
 }
 
+/** Federates a recognize() call across a set of intent recognizers. */
+export class IntentRecognizerSet implements IIntentRecognizer {
+    /**  
+     * Constructs a new instance of an IntentRecognizerSet.
+     * @param options (Optional) options used to initialize the set and control the flow of recognition.
+     */
+    constructor(options?: IIntentRecognizerSetOptions);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /**
+     * Adds a new recognizer plugin to the set.
+     * @param plugin The recognizer to add. 
+     */
+    recognizer(plugin: IIntentRecognizer): IntentDialog;
+}
+
 /** Identifies a users intent and optionally extracts entities from a users utterance. */
 export class IntentDialog extends Dialog {
     /**  
@@ -1998,19 +2033,35 @@ export class IntentDialog extends Dialog {
     recognizer(plugin: IIntentRecognizer): IntentDialog;
 }
 
+/** 
+ * Intent recognizer plugin that detects a users intent using a regular expression. Multiple
+ * expressions can be passed in to support recognizing across multiple languages. 
+ */
+export class RegExpRecognizer implements IIntentRecognizer {
+    /**
+     * Constructs a new instance of the recognizer.
+     * @param intent The name of the intent to return when the expression is matched.
+     * @param expressions Either an individual expression used for all utterances or a map of per/locale expressions conditionally used depending on the locale of the utterance. 
+     */
+    constructor(intent: string, expressions: RegExp|IRegExpMap);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+}
+
 /**
- * Routes incoming messages to a LUIS app hosted on http://luis.ai for intent recognition.
- * Once a messages intent has been recognized it will rerouted to a registered intent handler, along
- * with any entities, for further processing. 
+ * Intent recognizer plugin that detects a users intent using Microsofts [Language Understanding Intelligent Service (LUIS)](https://luis.ai)
+ * The service URLs for multiple LUIS models (apps) can be passed in to support recognition 
+ * across multiple languages. 
  */
 export class LuisRecognizer implements IIntentRecognizer {
     /**
-     * Constructs a new instance of a LUIS recognizer.
-     * @param models Either an individual LUIS model used for all utterances or a map of per/local models conditionally used depending on the local of the utterance. 
+     * Constructs a new instance of the recognizer.
+     * @param models Either an individual LUIS model used for all utterances or a map of per/locale models conditionally used depending on the locale of the utterance. 
      */
     constructor(models: string|ILuisModelMap);
 
-    /** Called by the IntentDialog to perform the actual recognition. */
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
     public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
     /**
