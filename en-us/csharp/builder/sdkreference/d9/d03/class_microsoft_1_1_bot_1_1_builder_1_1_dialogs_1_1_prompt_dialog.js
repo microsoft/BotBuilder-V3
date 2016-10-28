@@ -7,7 +7,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog =
     [ "PromptInt64", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_int64.html", "d4/d27/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_int64" ],
     [ "PromptString", "d3/d39/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_string.html", "d3/d39/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog_1_1_prompt_string" ],
     [ "Attachment", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#a0c78a00b0968727970e856e823754679", null ],
-    [ "Choice< T >", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#ac5a7087c517793c9a48e94aff0c7666d", null ],
+    [ "Choice< T >", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#a27c7bcc6d37046cc15895a9bbda14b6b", null ],
     [ "Choice< T >", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#af496bcdf80a5467cfbb0087809d8b591", null ],
     [ "Confirm", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#a3e9963cd37505fe6cb68ea46acbd639e", null ],
     [ "Confirm", "d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html#a7ba87d38805c0fb4a6a9bcb5acd7565c", null ],

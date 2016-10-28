@@ -31,6 +31,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers =
     [ "Methods", "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods.html", "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods" ],
     [ "NormalizedTraits", "d0/d39/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_normalized_traits.html", "d0/d39/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_normalized_traits" ],
     [ "NullWait", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait" ],
+    [ "Pair", "d8/d8c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_pair.html", null ],
     [ "PostStruct", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct.html", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct" ],
     [ "Range", "dc/de0/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_range.html", null ],
     [ "ReflectionSurrogateModule", "dc/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_reflection_surrogate_module.html", "dc/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_reflection_surrogate_module" ],
@@ -44,6 +45,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers =
       [ "SurrogateSelector", "d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector.html", "d5/d79/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_surrogate_selector" ]
     ] ],
     [ "SetField", "d7/dce/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_set_field.html", "d7/dce/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_set_field" ],
+    [ "Tasks", "d1/da1/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_tasks.html", "d1/da1/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_tasks" ],
     [ "Wait", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait.html", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait" ],
     [ "WaitFactory", "d6/dde/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait_factory.html", null ]
 ];

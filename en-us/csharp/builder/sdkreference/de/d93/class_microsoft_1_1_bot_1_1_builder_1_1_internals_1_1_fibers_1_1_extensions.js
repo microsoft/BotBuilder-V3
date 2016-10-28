@@ -4,6 +4,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions 
     [ "Call< C, T, R >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#ad6923af3201d79ef7bd0c2aad9e11ba6", null ],
     [ "Done< C, T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#ad2ad8e2b29dcb5cbe7d95fbd08fb6701", null ],
     [ "Enumerate", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#ad31ba3d346ac414c5c6c738d5d9e799e", null ],
+    [ "Equals< T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a0ba2a0093f204e8cd145a382e7cbd44d", null ],
     [ "Fail< C >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a7125125d65c386d07854582452ecb356", null ],
     [ "GetOrAdd< K, V >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a4011d4226ec4214d89547dc57b2757d2", null ],
     [ "Min< T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a40dad77177f0f5ccdd5e1efba7f7d704", null ],

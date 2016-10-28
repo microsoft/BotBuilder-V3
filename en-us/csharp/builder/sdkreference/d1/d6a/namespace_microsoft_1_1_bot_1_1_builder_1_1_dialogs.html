@@ -175,6 +175,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html">Extensions</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper methods.  <a href="../../d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html">IAddress</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The key that minimally and completely identifies a bot's conversation with a user on a channel.  <a href="../../dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">interface &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html">IAwaitable</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicit interface to support the compiling of async/await.  <a href="../../d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -246,11 +249,12 @@ Classes</h2></td></tr>
 Enumerations</h2></td></tr>
 <tr class="memitem:a8e0b95fd4acd5831ff99c381d8c65bea"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65bea">PromptStyle</a> { <br />
 &#160;&#160;<a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65beaa06b9281e396db002010bde1de57262eb">PromptStyle.Auto</a>, 
+<a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65beaa6ce4d85a628a88bbdb3ac24a8e5a9c2e">PromptStyle.Keyboard</a>, 
 <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65beaabd9d9e10eacd88dd09fcaad70374197d">PromptStyle.AutoText</a>, 
 <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65beaa0125cf5f3ca38b312ca5d3b511c45a13">PromptStyle.Inline</a>, 
-<a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65beaa2f15de9c45e5a145af424ac64d617aa0">PromptStyle.PerLine</a>, 
 <br />
-&#160;&#160;<a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65beaa6adf97f83acf6453d4a6a4b1070f3754">PromptStyle.None</a>
+&#160;&#160;<a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65beaa2f15de9c45e5a145af424ac64d617aa0">PromptStyle.PerLine</a>, 
+<a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65beaa6adf97f83acf6453d4a6a4b1070f3754">PromptStyle.None</a>
 <br />
  }<tr class="memdesc:a8e0b95fd4acd5831ff99c381d8c65bea"><td class="mdescLeft">&#160;</td><td class="mdescRight">The style of generated prompt  <a href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a8e0b95fd4acd5831ff99c381d8c65bea">More...</a><br /></td></tr>
 </td></tr>
@@ -301,6 +305,10 @@ Functions</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a8e0b95fd4acd5831ff99c381d8c65beaa06b9281e396db002010bde1de57262eb"></a>Auto&#160;</td><td class="fielddoc">
 <p>Generate buttons for choices and let connector generate the right style based on channel capabilities </p>
 </td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a8e0b95fd4acd5831ff99c381d8c65beaa6ce4d85a628a88bbdb3ac24a8e5a9c2e"></a>Keyboard&#160;</td><td class="fielddoc">
+<p>Generate keyboard card for choices that will be mapped to a HeroCard or a keyboard, e.g. Facebook quick replies </p>
+<p>Make sure to use MapToChannelData_BotToUser with KeyboardCardMapper when you use this option </p>
+</td></tr>
 <tr><td class="fieldname"><a class="anchor" id="a8e0b95fd4acd5831ff99c381d8c65beaabd9d9e10eacd88dd09fcaad70374197d"></a>AutoText&#160;</td><td class="fielddoc">
 <p>Show choices as Text. </p>
 <p>The prompt decides if it should generate the text inline or perline based on number of choices.</p>
@@ -316,7 +324,7 @@ Functions</h2></td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00048">48</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00049">49</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
 
 </div>
 </div>

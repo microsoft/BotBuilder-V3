@@ -13,6 +13,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs =
     [ "DetectChannelCapability", "d9/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_detect_channel_capability.html", "d9/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_detect_channel_capability" ],
     [ "DialogStackException", "d6/dc6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_dialog_stack_exception.html", "d6/dc6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_dialog_stack_exception" ],
     [ "Extensions", "d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html", "d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions" ],
+    [ "IAddress", "dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html", "dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address" ],
     [ "IAwaitable", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable" ],
     [ "IBotContext", "d1/d29/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_context.html", "d1/d29/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_context" ],
     [ "IBotDataBag", "d7/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_data_bag.html", "d7/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_data_bag" ],
