@@ -43,8 +43,8 @@ export class DefaultLocalizer implements ILocalizer {
     private localePaths = <string[]>[];
     private locales: { [locale:string]: ILocaleEntry; } = {}
 
-    constructor(root: lib.Library, defaultLocale = 'en') {
-        this.defaultLocale(defaultLocale);
+    constructor(root: lib.Library, defaultLocale: string) {
+        this.defaultLocale(defaultLocale || 'en');
 
         // Find all of the searchable 
         var libsSeen = <any>{};
