@@ -1787,13 +1787,13 @@ export class Library {
      * The libraries unique namespace. This is used to issolate the libraries dialogs and localized
      * prompts. 
      */
-    namespace: string;
+    name: string;
 
     /** 
      * Creates a new instance of the library.
-     * @param namespace Unique namespace for the library. 
+     * @param name Unique namespace for the library. 
      */
-    constructor(namespace: string);
+    constructor(name: string);
 
     /** 
      * Gets or sets the path to the libraries "/locale/" folder containing its localized prompts. 
