@@ -6,10 +6,9 @@ var path = require('path');
 var logger = require('./logger');
 var DefaultLocalizer = (function () {
     function DefaultLocalizer(root, defaultLocale) {
-        if (defaultLocale === void 0) { defaultLocale = 'en'; }
         this.localePaths = [];
         this.locales = {};
-        this.defaultLocale(defaultLocale);
+        this.defaultLocale(defaultLocale || 'en');
         var libsSeen = {};
         var _that = this;
         function addPaths(library) {
