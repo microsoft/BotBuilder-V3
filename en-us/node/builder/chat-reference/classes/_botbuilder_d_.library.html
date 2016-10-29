@@ -198,7 +198,9 @@
 												<ul class="tsd-index-list">
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.library.html#dialog" class="tsd-kind-icon">dialog</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.library.html#finddialog" class="tsd-kind-icon">find<wbr>Dialog</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.library.html#foreachlibrary" class="tsd-kind-icon">for<wbr>Each<wbr>Library</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.library.html#library" class="tsd-kind-icon">library</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.library.html#localepath" class="tsd-kind-icon">locale<wbr>Path</a></li>
 												</ul>
 											</section>
 										</div>
@@ -216,7 +218,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L1770">botbuilder.d.ts:1770</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1773">botbuilder.d.ts:1773</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -228,6 +230,11 @@
 												<ul class="tsd-parameters">
 													<li>
 														<h5>name: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<div class="lead">
+																<p>Unique namespace for the library.</p>
+															</div>
+														</div>
 													</li>
 												</ul>
 												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.library.html" class="tsd-signature-type">Library</a></h4>
@@ -243,12 +250,13 @@
 										<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L1770">botbuilder.d.ts:1770</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1773">botbuilder.d.ts:1773</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Unique name of the library.</p>
+												<p>The libraries unique namespace. This is used to issolate the libraries dialogs and localized
+												prompts.</p>
 											</div>
 										</div>
 									</section>
@@ -265,7 +273,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L1783">botbuilder.d.ts:1783</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1798">botbuilder.d.ts:1798</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -307,7 +315,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L1799">botbuilder.d.ts:1799</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1814">botbuilder.d.ts:1814</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -336,6 +344,60 @@
 										</ul>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+										<a name="foreachlibrary" class="tsd-anchor"></a>
+										<h3>for<wbr>Each<wbr>Library</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">for<wbr>Each<wbr>Library<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1823">botbuilder.d.ts:1823</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Enumerates all of the libraries child libraries. The caller should take appropriate steps to
+															avoid circular references when enumerating the hierarchy. Maintaining a map of visited
+														libraries should be enough.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>callback: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Iterator function to call with each child.</p>
+														</div>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter-siganture">
+																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>library<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.library.html" class="tsd-signature-type">Library</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																</ul>
+																<ul class="tsd-descriptions">
+																	<li class="tsd-description">
+																		<h4 class="tsd-parameters-title">Parameters</h4>
+																		<ul class="tsd-parameters">
+																			<li>
+																				<h5>library: <a href="_botbuilder_d_.library.html" class="tsd-signature-type">Library</a></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>The current child.</p>
+																				</div>
+																			</li>
+																		</ul>
+																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 										<a name="library" class="tsd-anchor"></a>
 										<h3>library</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -345,7 +407,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/src/botbuilder.d.ts#L1791">botbuilder.d.ts:1791</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1806">botbuilder.d.ts:1806</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -366,6 +428,40 @@
 													</li>
 												</ul>
 												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.library.html" class="tsd-signature-type">Library</a></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+										<a name="localepath" class="tsd-anchor"></a>
+										<h3>locale<wbr>Path</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">locale<wbr>Path<span class="tsd-signature-symbol">(</span>path<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1788">botbuilder.d.ts:1788</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Gets or sets the path to the libraries &quot;/locale/&quot; folder containing its localized prompts.
+															The prompts for the library should be stored in a &quot;/locale/<IETF_TAG>/<NAMESPACE>.json&quot; file
+																	under this path where &quot;<IETF_TAG>&quot; representes the 2-3 digit language tage for the locale and
+														&quot;<NAMESPACE>&quot; is a filename matching the libraries namespace.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5><span class="tsd-flag ts-flagOptional">Optional</span> path: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>(Optional) path to the libraries &quot;/locale/&quot; folder. If specified this will update the libraries path.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 											</li>
 										</ul>
 									</section>
@@ -402,7 +498,13 @@
 													<a href="_botbuilder_d_.library.html#finddialog" class="tsd-kind-icon">find<wbr>Dialog</a>
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class">
+													<a href="_botbuilder_d_.library.html#foreachlibrary" class="tsd-kind-icon">for<wbr>Each<wbr>Library</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-class">
 													<a href="_botbuilder_d_.library.html#library" class="tsd-kind-icon">library</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-class">
+													<a href="_botbuilder_d_.library.html#localepath" class="tsd-kind-icon">locale<wbr>Path</a>
 												</li>
 											</ul>
 										</li>
