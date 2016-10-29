@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 //
 // INTERFACES
 //
@@ -1164,7 +1164,7 @@ export class Session {
     /**
      * Ends the current dialog and optionally returns a result to the dialogs parent. 
      */
-    endDialogWithResult(result?: IDialogResult<any>): Session;
+    endDialogWithResult<T>(result?: IDialogResult<T>): Session;
     
     /** 
      * Cancels an existing dialog and optionally starts a new one it its place.  Unlike [endDialog()](#enddialog)
