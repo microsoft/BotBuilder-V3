@@ -22,6 +22,11 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.4.2
+* Fixed an exception being raised for bots without a default locale.
+* Fixed an inadvertent rename of `Library.name` to `Library.namespace` in the libraries typescript definition file.
+* Updated LKG build and package.json version.
+
 ### v3.4.0
 * Fixed a bug where path to localization files was being lowercased.
 * Added support for localizing prompts on a per/library basis. Each library can now have it's own /locale/ folder and prompts which can be overridden by the bot.
