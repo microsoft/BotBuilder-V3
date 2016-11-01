@@ -6,23 +6,16 @@ weight: 5010
 parent1: Skype bots
 ---
 
-## 08 Jul 16
+In July 16 Microsoft brought together the Skype Bot developer tools and the Microsoft Bot Framework into one environment called the Microsoft Bot Framework V3. You can now develop bots which use new Skype platform features – such as visual cards and group bots – and publish to multiple channels from one place.
 
-Microsoft has brought together the Skype Bot developer tools and the Microsoft Bot Framework into one environment which we’re calling the Microsoft Bot Framework “V3”. You can now develop bots which use new Skype platform features – such as visual cards and group bots – and publish to multiple channels from one place.
+Existing bots registered in the Skype Bot Portal and developed using the Skype Bot SDK are in the process of being deprecated and we recommend you move to the new environment as soon as possible to get access to the latest features and updates.
 
-Existing bots registered in the Skype Bot Portal and developed using the Skype Bot SDK will continue to work but we recommend you move to the new environment as soon as possible to get access to the latest features and updates.
-
-To update to the new environment you need to register a new bot with the Microsoft Bot Framework and update your bot to the latest API. If you have a published bot you can request migration of the existing Skype bot and users (see below).
-
-**Edit 03 Aug 16** Updated Skype apps supporting the latest features are now available for all mobile and desktop platforms.
-
+To update to the new environment you need to register a new bot with the Microsoft Bot Framework and update your bot to the latest API.
 
 * TOC
 {:toc}
 
 ## What's new
-
-<div class="docs-text-note">To test new features use the <a href="https://web.skype.com/en/?ecsoverride=developer" target='_blank'><b>developer version of the Skype Web App</b></a> until updated Skype apps for desktop and mobile are available at the end of July.</div>
 
 ### Cards
 {:.no_toc}
@@ -55,58 +48,31 @@ Make Skype Bots that are more productive - or just entertaining - for [groups](/
 
 ## How to update an existing bot
 
-**If your bot was already registered in the Microsoft Bot Framework and developed using the Microsoft Bot Framework SDK ("V1")** you can follow [this guide](https://aka.ms/bf-migrate) on how to upgrade it to use the latest SDK ("V3").
+This guide applies to bots registered in the [Skype Bot Portal](https://developer.microsoft.com/en-us/skype/bots).
 
-**If your bot was registered and developed using the Skype Bot Portal and Skype Bot SDK** follow these steps to update your bot:
-1.	[Register](https://dev.botframework.com/bots/new) a new bot in the Microsoft Bot Framework
-2.	Update your bot to use the new Microsoft Bot Framework V3
-3.	(For published bots only) Migrate your existing bot and users
+If your bot was already registered in the [Microsoft Bot Framework Portal](https://dev.botframework.com/) you can follow [this alternative guide](https://aka.ms/bf-migrate) to update your bot to the latest version of the SDK.
 
+For bots registered in the [Skype Bot Portal](https://developer.microsoft.com/en-us/skype/bots):
 
-### 1. Register a new bot in Microsoft Bot Framework
+### 1. Register a new bot in the Microsoft Bot Framework
 {:.no_toc}
 
-1.	Go to the Microsoft Bot Framework and tap “Register a bot”
+* Go to the Microsoft Bot Framework and tap “Register a bot”
 
 ![Microsoft Bot Framework](/en-us/images/skype/bot-framework.png)
 
-2.	Register your bot and get a new Microsoft App ID and Secret
+* Register the bot and get a new Microsoft App ID and Secret
 
 ![Microsoft App ID](/en-us/images/skype/bot-framework-app-id.png)
 
-You can continue to use the same bot webhook but the bot at that endpoint will need to be updated to the latest V3 API.
-
-If your existing bot is already published see below for how to migrate existing users.
-
-### 2. Update your bot to use the new V3 API
+### 2. Update your bot code to use the new V3 API
 {:.no_toc}
 
-Update your bot code to use the Microsoft Bot Framework V3 API. 
+* Update the code at your endpoint (which could be a new endpoint) to use the latest Microsoft Bot Framework API or SDK. See the [Skype Getting Started](/en-us/skype/getting-started) guide for details on the latest Skype bot platform features, plus the [C# SDK](/en-us/csharp/builder/sdkreference/index.html), [Node SDK](/en-us/node/builder/overview/#navtitle) or [Skype REST API](/en-us/skype/chat/#navtitle).
 
-See the [Skype Getting Started](/en-us/skype/getting-started) guide for details on the latest Skype bot platform features, plus the [C# SDK](/en-us/csharp/builder/sdkreference/index.html), [Node SDK](/en-us/node/builder/overview/#navtitle) or [Skype REST API](#).
+* Test using the [Microsoft Bot Framework Emulator](en-us/tools/bot-framework-emulator/) and the [latest public versions of Skype](http://www.skype.com/go/download).
 
-You can test using the Microsoft Bot Framework Emulator or using the latest version of Skype.
-
-### 3. (For published bots only) Migrate your existing bot and users
+### 3. Publish your bot
 {:.no_toc}
 
-If you have an approved published bot you may want to keep it running while you update to the new API, and then point the existing bot identity to the new bot.
-
-To do this you can:
-1.	Clone your existing bot and deploy it to a new endpoint as you update it to the new API, and test using the emulator and the developer version of the Skype Web app
-
-2.	Migrate your existing Bot ID to the new bot App ID, which will point the bot to your new endpoint
-
-To do this send an email to bothelp@microsoft.com with:
-
-* The existing bot name and Bot ID from the Skype Bot Portal
-
-![Skype Bot Portal My Bots](/en-us/images/skype/skype-bot-portal-my-bots.png)
-
-![Skype Bot Portal Bot Details](/en-us/images/skype/skype-bot-portal-details.png)
-
-* Your new Microsoft Bot Framework App ID (from the Microsoft Bot Framework Portal)
-
-![Microsoft Bot Framework App ID](/en-us/images/skype/bot-framework-app-id.png)
-
-We'll update the App ID in your new bot the Microsoft Bot Framework after which your users will start using the new bot.
+When your new bot is tested, tap Publish in the Microsoft Bot Framework to submit it for review to remove the 100 contact preview limit and - if you want - submit for consideration in the Skype Bot Directory.
