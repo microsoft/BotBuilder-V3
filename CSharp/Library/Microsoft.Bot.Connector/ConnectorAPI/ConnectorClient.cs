@@ -18,13 +18,14 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
     using Newtonsoft.Json;
-
+    
 
     /// <summary>
-    /// The Bot Connector REST API allows your bot to send and receive
-    /// messages to channels configured in the [Bot Framework Developer
-    /// Portal](https://dev.botframework.com). The Connector service uses
-    /// industry-standard REST and JSON over HTTPS.
+    /// ﻿The Bot Connector REST API allows your bot to send and receive
+    /// messages to channels configured in the
+    /// [Bot Framework Developer Portal](https://dev.botframework.com). The
+    /// Connector service uses industry-standard REST
+    /// and JSON over HTTPS.
     /// 
     /// Client libraries for this REST API are available. See below for a
     /// list.
@@ -43,6 +44,8 @@ namespace Microsoft.Bot.Connector
     /// 
     /// * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
     /// * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+    /// * Generate your own from the [Connector API Swagger
+    /// file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
     /// 
     /// © 2016 Microsoft
     /// </summary>
@@ -61,7 +64,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Gets or sets json deserialization settings.
         /// </summary>
-        public JsonSerializerSettings DeserializationSettings { get; private set; }
+        public JsonSerializerSettings DeserializationSettings { get; private set; }        
 
         /// <summary>
         /// Subscription credentials which uniquely identify client subscription.
@@ -176,7 +179,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        public ConnectorClient(ServiceClientCredentials credentials, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
+        protected ConnectorClient(ServiceClientCredentials credentials, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
         {
             if (credentials == null)
             {
@@ -201,7 +204,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        public ConnectorClient(Uri baseUri, ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
+        protected ConnectorClient(Uri baseUri, ServiceClientCredentials credentials, params DelegatingHandler[] handlers) : this(handlers)
         {
             if (baseUri == null)
             {
@@ -234,7 +237,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='handlers'>
         /// Optional. The delegating handlers to add to the http client pipeline.
         /// </param>
-        public ConnectorClient(Uri baseUri, ServiceClientCredentials credentials, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
+        protected ConnectorClient(Uri baseUri, ServiceClientCredentials credentials, HttpClientHandler rootHandler, params DelegatingHandler[] handlers) : this(rootHandler, handlers)
         {
             if (baseUri == null)
             {
@@ -290,6 +293,6 @@ namespace Microsoft.Bot.Connector
                     }
             };
             CustomInitialize();
-        }
+        }    
     }
 }

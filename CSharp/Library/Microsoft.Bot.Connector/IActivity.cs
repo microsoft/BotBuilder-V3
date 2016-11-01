@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Connector
 {
@@ -23,14 +19,19 @@ namespace Microsoft.Bot.Connector
         string Id { get; set; }
 
         /// <summary>
-        /// (PROPOSED) ServiceUrl
+        /// ServiceUrl
         /// </summary>
         string ServiceUrl { get; set; }
 
         /// <summary>
-        /// Time when message was sent
+        /// UTC Time when message was sent
         /// </summary>
         DateTime? Timestamp { get; set; }
+
+        /// <summary>
+        /// Client Time when message was sent Ex: 2016-09-23T13:07:49.4714686-07:00
+        /// </summary>
+        DateTimeOffset? LocalTimestamp { get; set; }
 
         /// <summary>
         /// Channel this activity is associated with
@@ -43,14 +44,19 @@ namespace Microsoft.Bot.Connector
         ChannelAccount From { get; set; }
 
         /// <summary>
-        /// Conversation Address 
+        /// Address for the conversation that this activity is associated with
         /// </summary>
         ConversationAccount Conversation { get; set; }
 
         /// <summary>
-        /// Bot's address 
+        /// Address that received the message
         /// </summary>
         ChannelAccount Recipient { get; set; }
+
+        /// <summary>
+        /// The original id this message is a response to
+        /// </summary>
+        string ReplyToId { get; set; }
 
         /// <summary>
         /// Channel specific payload
@@ -69,15 +75,35 @@ namespace Microsoft.Bot.Connector
         /// The channel data essentially allows a bot to have access to native functionality on a per channel basis.
         /// </remarks>
         dynamic ChannelData { get; set; }
+
+        /// <summary>
+        /// Return IMessageActivity if this is a message activity, null otherwise
+        /// </summary>
+        IMessageActivity AsMessageActivity();
+
+        /// <summary>
+        /// Return IContactRelationUpdateActivity if this is a contactRelationUpdate activity, null otherwise
+        /// </summary>
+        IContactRelationUpdateActivity AsContactRelationUpdateActivity();
+
+        /// <summary>
+        /// Return IConversationUpdateActivity if this is a conversationUpdate activity, null otherwise
+        /// </summary>
+        IConversationUpdateActivity AsConversationUpdateActivity();
+
+        /// <summary>
+        /// Return ITypingActivity if this is a typing activity, null otherwise
+        /// </summary>
+        ITypingActivity AsTypingActivity();
+
+        /// <summary>
+        /// Return IEndOfConversationActivity if this is an end-of-conversation activity, null otherwise
+        /// </summary>
+        IEndOfConversationActivity AsEndOfConversationActivity();
+
+        /// <summary>
+        /// Returns ITriggerActivity if this is a trigger activity, null otherwise
+        /// </summary>
+        ITriggerActivity AsTriggerActivity();
     }
-
-
-
-    /// <summary>
-    /// The From address is typing
-    /// </summary>
-    public interface ITypingActivity : IActivity
-    {
-    }
-
 }

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Connector
 {
@@ -13,7 +10,7 @@ namespace Microsoft.Bot.Connector
     {
 
         /// <summary>
-        /// Add|remove
+        /// add|remove
         /// </summary>
         string Action { get; set; }
     }

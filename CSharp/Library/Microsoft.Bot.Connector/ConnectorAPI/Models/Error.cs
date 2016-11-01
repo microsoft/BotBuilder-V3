@@ -11,22 +11,33 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
-    public partial class APIResponse
+    /// <summary>
+    /// Object representing error information
+    /// </summary>
+    public partial class Error
     {
         /// <summary>
-        /// Initializes a new instance of the APIResponse class.
+        /// Initializes a new instance of the Error class.
         /// </summary>
-        public APIResponse() { }
+        public Error() { }
 
         /// <summary>
-        /// Initializes a new instance of the APIResponse class.
+        /// Initializes a new instance of the Error class.
         /// </summary>
-        public APIResponse(string message = default(string))
+        public Error(string code = default(string), string message = default(string))
         {
+            Code = code;
             Message = message;
         }
 
         /// <summary>
+        /// Error code
+        /// </summary>
+        [JsonProperty(PropertyName = "code")]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// Error message
         /// </summary>
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }

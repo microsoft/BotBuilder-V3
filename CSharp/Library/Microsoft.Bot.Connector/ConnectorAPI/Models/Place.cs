@@ -12,8 +12,7 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest.Serialization;
 
     /// <summary>
-    /// Place
-    /// https://schema.org/Place
+    /// Place (entity type: "https://schema.org/Place")
     /// </summary>
     public partial class Place
     {
@@ -38,22 +37,22 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Address of the place
-        /// Can be `string` or JToken of `PostalAddress` (future)
+        /// Address of the place (may be `string` or complex object of type
+        /// `PostalAddress`)
         /// </summary>
         [JsonProperty(PropertyName = "address")]
         public dynamic Address { get; set; }
 
         /// <summary>
-        /// Geo coordinates of the place
-        /// Can be JToken of `GeoCoordinates` or `GeoShape` (future)
+        /// Geo coordinates of the place (may be complex object of type
+        /// `GeoCoordinates` or `GeoShape`)
         /// </summary>
         [JsonProperty(PropertyName = "geo")]
         public dynamic Geo { get; set; }
 
         /// <summary>
-        /// Map to the place
-        /// Can be `string` (a URL) or JToken of `Map` (future)
+        /// Map to the place (may be `string` (URL) or complex object of type
+        /// `Map`)
         /// </summary>
         [JsonProperty(PropertyName = "hasMap")]
         public dynamic HasMap { get; set; }

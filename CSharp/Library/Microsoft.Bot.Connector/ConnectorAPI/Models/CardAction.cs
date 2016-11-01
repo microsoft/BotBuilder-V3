@@ -11,6 +11,9 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
+    /// <summary>
+    /// An action on a card
+    /// </summary>
     public partial class CardAction
     {
         /// <summary>
@@ -30,10 +33,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Defines the type of action implemented by this button. Possible
-        /// values for this property include: 'openUrl', 'imBack',
-        /// 'postBack', 'playAudio', 'playVideo', 'showImage', 'downloadFile'.
-        /// <see cref="ActionTypes"/> for more information.
+        /// Defines the type of action implemented by this button.
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
@@ -46,12 +46,6 @@ namespace Microsoft.Bot.Connector
 
         /// <summary>
         /// URL Picture which will appear on the button, next to text label.
-        /// Media hosted on 3rd party domains will be automatically hosted on
-        /// auth protected CDN.Auth protection will be used to ensure that
-        /// content
-        /// uploaded to Skype CDN will only be accessible by Microsoft Clients
-        /// Please refer to Chapter 7 for description of media caching
-        /// algorithm.
         /// </summary>
         [JsonProperty(PropertyName = "image")]
         public string Image { get; set; }
