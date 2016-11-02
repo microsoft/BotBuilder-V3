@@ -70,6 +70,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         Task PostAsync(Item item, object state, CancellationToken token);
     }
 
+    [Serializable]
     public abstract class DelegatingScorable<Item, Score> : IScorable<Item, Score>
     {
         protected readonly IScorable<Item, Score> inner;

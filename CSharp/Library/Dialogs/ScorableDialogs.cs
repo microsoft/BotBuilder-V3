@@ -80,14 +80,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
 
         [Serializable]
-        private sealed class WithScorableDialog<T, Item, Score> : IDialog<T>, IScorable<Item, Score>
+        private sealed class WithScorableDialog<T, Item, Score> : DelegatingScorable<Item, Score>, IDialog<T>
         {
             public readonly IDialog<T> Antecedent;
-            public readonly IScorable<Item, Score> Scorable;
             public WithScorableDialog(IDialog<T> antecedent, IScorable<Item, Score> scorable)
+                : base(scorable)
             {
                 SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
-                SetField.NotNull(out this.Scorable, nameof(scorable), scorable);
             }
             async Task IDialog<T>.StartAsync(IDialogContext context)
             {
@@ -96,22 +95,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
             {
                 context.Done(await result);
-            }
-            async Task<object> IScorable<Item, Score>.PrepareAsync(Item item, CancellationToken token)
-            {
-                return await this.Scorable.PrepareAsync(item, token);
-            }
-            bool IScorable<Item, Score>.HasScore(Item item, object state)
-            {
-                return this.Scorable.HasScore(item, state);
-            }
-            Score IScorable<Item, Score>.GetScore(Item item, object state)
-            {
-                return this.Scorable.GetScore(item, state);
-            }
-            async Task IScorable<Item, Score>.PostAsync(Item item, object state, CancellationToken token)
-            {
-                await this.Scorable.PostAsync(item, state, token);
             }
         }
     }
