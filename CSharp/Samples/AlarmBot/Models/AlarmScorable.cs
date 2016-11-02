@@ -140,5 +140,9 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
                     throw new NotImplementedException();
             }
         }
+        public override Task DoneAsync(IActivity item, Tuple<string, string> verbTitle, CancellationToken token)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

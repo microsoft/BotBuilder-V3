@@ -49,14 +49,21 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         public static async Task<bool> TryPostAsync<Item, Score>(this IScorable<Item, Score> scorable, Item item, CancellationToken token)
         {
             var state = await scorable.PrepareAsync(item, token);
-            if (scorable.HasScore(item, state))
+            try
             {
-                var score = scorable.GetScore(item, state);
-                await scorable.PostAsync(item, state, token);
-                return true;
-            }
+                if (scorable.HasScore(item, state))
+                {
+                    var score = scorable.GetScore(item, state);
+                    await scorable.PostAsync(item, state, token);
+                    return true;
+                }
 
-            return false;
+                return false;
+            }
+            finally
+            {
+                await scorable.DoneAsync(item, state, token);
+            }
         }
 
         /// <summary>
@@ -134,6 +141,21 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             try
             {
                 return state.Scorable.PostAsync(state.Item, state.State, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
+        public override Task DoneAsync(SourceItem item, Token state, CancellationToken token)
+        {
+            try
+            {
+                return state.Scorable.DoneAsync(state.Item, state.State, token);
             }
             catch (OperationCanceledException error)
             {

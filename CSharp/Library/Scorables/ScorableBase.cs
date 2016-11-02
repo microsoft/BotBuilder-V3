@@ -50,6 +50,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         public abstract bool HasScore(Item item, State state);
         public abstract Score GetScore(Item item, State state);
         public abstract Task PostAsync(Item item, State state, CancellationToken token);
+        public abstract Task DoneAsync(Item item, State state, CancellationToken token);
 
         [DebuggerStepThrough]
         async Task<object> IScorable<Item, Score>.PrepareAsync(Item item, CancellationToken token)
@@ -80,6 +81,23 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             {
                 var state = (State)opaque;
                 return this.PostAsync(item, state, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
+        [DebuggerStepThrough]
+        Task IScorable<Item, Score>.DoneAsync(Item item, object opaque, CancellationToken token)
+        {
+            try
+            {
+                var state = (State)opaque;
+                return this.DoneAsync(item, state, token);
             }
             catch (OperationCanceledException error)
             {

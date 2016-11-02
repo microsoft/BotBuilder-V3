@@ -90,6 +90,10 @@ namespace Microsoft.Bot.Builder.Tests
             this.stack.Fail(new OperationCanceledException());
             await this.stack.PollAsync(token);
         }
+        public override Task DoneAsync(IActivity item, double? state, CancellationToken token)
+        {
+            return Task.CompletedTask;
+        }
     }
 
     [TestClass]
@@ -263,6 +267,10 @@ namespace Microsoft.Bot.Builder.Tests
 
             await this.stack.Forward(dialog.Void<double, IMessageActivity>(), null, message, token);
             await this.stack.PollAsync(token);
+        }
+        public override Task DoneAsync(IActivity item, string state, CancellationToken token)
+        {
+            return Task.CompletedTask;
         }
     }
 

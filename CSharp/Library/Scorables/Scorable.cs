@@ -68,6 +68,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         /// If this scorable wins, this method is called.
         /// </summary>
         Task PostAsync(Item item, object state, CancellationToken token);
+
+        /// <summary>
+        /// The scoring process has completed - dispose of any scoped resources.
+        /// </summary>
+        Task DoneAsync(Item item, object state, CancellationToken token);
     }
 
     [Serializable]
@@ -80,7 +85,18 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
         public virtual Task<object> PrepareAsync(Item item, CancellationToken token)
         {
-            return this.inner.PrepareAsync(item, token);
+            try
+            {
+                return this.inner.PrepareAsync(item, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled<object>(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException<object>(error);
+            }
         }
         public virtual bool HasScore(Item item, object state)
         {
@@ -92,7 +108,33 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
         public virtual Task PostAsync(Item item, object state, CancellationToken token)
         {
-            return this.inner.PostAsync(item, state, token);
+            try
+            {
+                return this.inner.PostAsync(item, state, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
+        public virtual Task DoneAsync(Item item, object state, CancellationToken token)
+        {
+            try
+            {
+                return this.inner.DoneAsync(item, state, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
         }
     }
 }

@@ -205,5 +205,9 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
+        public override Task DoneAsync(IResolver item, Binding state, CancellationToken token)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

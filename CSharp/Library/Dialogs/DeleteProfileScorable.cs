@@ -62,5 +62,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             await botData.FlushAsync(token);
             await botToUser.PostAsync(Resources.UserProfileDeleted);
         }
+        public override Task DoneAsync(IActivity item, string state, CancellationToken token)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

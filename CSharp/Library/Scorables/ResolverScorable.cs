@@ -66,5 +66,28 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
+
+        public override Task DoneAsync(IResolver resolver, OuterState state, CancellationToken token)
+        {
+            try
+            {
+                if (state != null)
+                {
+                    return this.inner.DoneAsync(resolver, state.State, token);
+                }
+                else
+                {
+                    return Task.CompletedTask;
+                }
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
     }
 }
