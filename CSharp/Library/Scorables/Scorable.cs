@@ -76,6 +76,35 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     }
 
     [Serializable]
+    public sealed class NullScorable<Item, Score> : IScorable<Item, Score>
+    {
+        public static readonly IScorable<Item, Score> Instance = new NullScorable<Item, Score>();
+        private NullScorable()
+        {
+        }
+        Task<object> IScorable<Item, Score>.PrepareAsync(Item item, CancellationToken token)
+        {
+            return Tasks<object>.Null;
+        }
+        bool IScorable<Item, Score>.HasScore(Item item, object state)
+        {
+            return false;
+        }
+        Score IScorable<Item, Score>.GetScore(Item item, object state)
+        {
+            throw new NotImplementedException();
+        }
+        Task IScorable<Item, Score>.PostAsync(Item item, object state, CancellationToken token)
+        {
+            return Task.FromException(new NotImplementedException());
+        }
+        Task IScorable<Item, Score>.DoneAsync(Item item, object state, CancellationToken token)
+        {
+            return Task.CompletedTask;
+        }
+    }
+
+    [Serializable]
     public abstract class DelegatingScorable<Item, Score> : IScorable<Item, Score>
     {
         protected readonly IScorable<Item, Score> inner;
