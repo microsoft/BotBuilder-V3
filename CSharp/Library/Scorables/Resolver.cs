@@ -45,6 +45,9 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Allow the resolution of values based on type and optionally tag.
     /// </summary>
+    /// <remarks>
+    /// The tag should be restrictive to services registered with that tag.
+    /// </remarks>
     public interface IResolver
     {
         bool TryResolve(Type type, object tag, out object value);
@@ -150,34 +153,37 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
         public override bool TryResolve(Type type, object tag, out object value)
         {
-            // if type is Activity, we're not delegating to the inner IResolver.
-            if (typeof(IActivity).IsAssignableFrom(type))
+            if (tag == null)
             {
-                // if we have a registered IActivity
-                IActivity activity;
-                if (this.inner.TryResolve<IActivity>(tag, out activity))
+                // if type is Activity, we're not delegating to the inner IResolver.
+                if (typeof(IActivity).IsAssignableFrom(type))
                 {
-                    // then make sure the IActivity.Type allows the desired type
-                    Type allowedType;
-                    if (TypeByName.TryGetValue(activity.Type, out allowedType))
+                    // if we have a registered IActivity
+                    IActivity activity;
+                    if (this.inner.TryResolve<IActivity>(tag, out activity))
                     {
-                        if (type.IsAssignableFrom(allowedType))
+                        // then make sure the IActivity.Type allows the desired type
+                        Type allowedType;
+                        if (TypeByName.TryGetValue(activity.Type, out allowedType))
                         {
-                            // and make sure the actual CLR type also allows the desired type
-                            // (this is true most of the time since Activity implements all of the interfaces)
-                            Type clrType = activity.GetType();
-                            if (allowedType.IsAssignableFrom(clrType))
+                            if (type.IsAssignableFrom(allowedType))
                             {
-                                value = activity;
-                                return true;
+                                // and make sure the actual CLR type also allows the desired type
+                                // (this is true most of the time since Activity implements all of the interfaces)
+                                Type clrType = activity.GetType();
+                                if (allowedType.IsAssignableFrom(clrType))
+                                {
+                                    value = activity;
+                                    return true;
+                                }
                             }
                         }
                     }
-                }
 
-                // otherwise we were asking for IActivity and it wasn't assignable from the IActivity.Type
-                value = null;
-                return false;
+                    // otherwise we were asking for IActivity and it wasn't assignable from the IActivity.Type
+                    value = null;
+                    return false;
+                }
             }
 
             // delegate to the inner for all remaining type resolutions

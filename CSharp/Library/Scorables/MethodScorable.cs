@@ -109,10 +109,18 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             var entity = parameter.GetCustomAttribute<EntityAttribute>();
             if (entity != null)
             {
-                return resolver.TryResolve(parameter.ParameterType, entity.Entity, out argument);
+                if (resolver.TryResolve(parameter.ParameterType, entity.Entity, out argument))
+                {
+                    return true;
+                }
             }
 
-            return resolver.TryResolve(parameter.ParameterType, parameter.Name, out argument);
+            if (resolver.TryResolve(parameter.ParameterType, parameter.Name, out argument))
+            {
+                return true;
+            }
+
+            return resolver.TryResolve(parameter.ParameterType, null, out argument);
         }
         private bool TryResolveArguments(IResolver resolver, out object[] arguments)
         {

@@ -97,6 +97,7 @@
     <Compile Include="DialogTaskManagerTests.cs" />
     <Compile Include="DialogTaskTests.cs" />
     <Compile Include="DialogTestBase.cs" />
+    <Compile Include="ResolverTests.cs" />
     <Compile Include="DispatchDialogTests .cs" />
     <Compile Include="ExceptionTests.cs" />
     <Compile Include="FiberTests.cs" />
