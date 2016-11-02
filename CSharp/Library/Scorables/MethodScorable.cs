@@ -190,7 +190,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             }
             catch (OperationCanceledException error)
             {
-                return Task.FromCanceled<Binding>(error.CancellationToken);
+                return Task.FromCanceled(error.CancellationToken);
             }
             catch (Exception error)
             {
