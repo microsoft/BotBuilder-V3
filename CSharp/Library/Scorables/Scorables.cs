@@ -95,6 +95,23 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         /// </summary>
         public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer)
         {
+            var list = scorables as IReadOnlyList<IScorable<Item, Score>>;
+            if (list != null)
+            {
+                if (list.Count == 0)
+                {
+                    return NullScorable<Item, Score>.Instance;
+                }
+                else if (list.Count == 1)
+                {
+                    return list[0];
+                }
+                else if (list.All(s => s is NullScorable<Item, Score>))
+                {
+                    return NullScorable<Item, Score>.Instance;
+                }
+            }
+
             return new FoldScorable<Item, Score>(comparer, scorables);
         }
     }
