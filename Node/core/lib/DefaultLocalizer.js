@@ -166,7 +166,7 @@ var DefaultLocalizer = (function () {
             var readFile = Promise.denodeify(fs.readFile);
             readFile(filePath, 'utf8')
                 .then(function (data) {
-                var ns = path.parse(filename).name;
+                var ns = path.parse(filename).name.toLocaleLowerCase();
                 if (ns == 'index') {
                     ns = null;
                 }

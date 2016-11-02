@@ -229,7 +229,7 @@ export class DefaultLocalizer implements ILocalizer {
             readFile(filePath, 'utf8')
                 .then((data) => {
                     // Find namespace 
-                    var ns = path.parse(filename).name;
+                    var ns = path.parse(filename).name.toLocaleLowerCase();
                     if (ns == 'index') {
                         ns = null;
                     }
