@@ -62,13 +62,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         protected virtual IResolver MakeResolver(IDialogContext context, IActivity activity)
         {
             var resolver = NullResolver.Instance;
-
-            var serviceByType = new Dictionary<Type, object>();
-            DictionaryResolver.AddBases(serviceByType, typeof(IDialogContext), context);
-            DictionaryResolver.AddBases(serviceByType, typeof(IActivity), activity);
-            DictionaryResolver.AddBases(serviceByType, this.GetType(), this);
-            resolver = new DictionaryResolver(serviceByType, resolver);
-
+            resolver = new ArrayResolver(resolver, context, activity, this);
             resolver = new ActivityResolver(resolver);
 
             return resolver;

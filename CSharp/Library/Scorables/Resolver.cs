@@ -96,32 +96,35 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
-    public sealed class DictionaryResolver : DelegatingResolver
+    public sealed class ArrayResolver : DelegatingResolver
     {
-        private readonly IReadOnlyDictionary<Type, object> serviceByType;
-        public DictionaryResolver(IReadOnlyDictionary<Type, object> serviceByType, IResolver inner)
+        private readonly object[] services;
+        public ArrayResolver(IResolver inner, params object[] services)
             : base(inner)
         {
-            SetField.NotNull(out this.serviceByType, nameof(serviceByType), serviceByType);
+            SetField.NotNull(out this.services, nameof(services), services);
         }
 
         public override bool TryResolve(Type type, object tag, out object value)
         {
-            if (this.serviceByType.TryGetValue(type, out value))
+            if (tag == null)
             {
-                return true;
+                for (int index = 0; index < this.services.Length; ++index)
+                {
+                    var service = this.services[index];
+                    if (service != null)
+                    {
+                        var serviceType = service.GetType();
+                        if (type.IsAssignableFrom(serviceType))
+                        {
+                            value = service;
+                            return true;
+                        }
+                    }
+                }
             }
 
             return base.TryResolve(type, tag, out value);
-        }
-
-        public static void AddBases(Dictionary<Type, object> serviceByType, Type type, object service)
-        {
-            serviceByType.Add(type, service);
-            foreach (var t in type.GetInterfaces())
-            {
-                serviceByType.Add(t, service);
-            }
         }
     }
 
