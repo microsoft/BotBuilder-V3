@@ -131,6 +131,7 @@ namespace Microsoft.Bot.Builder.Tests
         {
             return new Activity()
             {
+                Type = ActivityTypes.Message,
                 From = new ChannelAccount { Id = ChannelID.User },
                 Conversation = new ConversationAccount { Id = Guid.NewGuid().ToString() },
                 Recipient = new ChannelAccount { Id = ChannelID.Bot },
