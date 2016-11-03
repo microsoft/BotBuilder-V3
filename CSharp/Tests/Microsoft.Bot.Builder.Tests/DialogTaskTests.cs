@@ -540,12 +540,8 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable = MockScorable(item, state, score);
 
             var inner = new Mock<IPostToBot>();
-            var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
-            stack
-                .SetupGet(i => i.Frames)
-                    .Returns(Array.Empty<Delegate>());
-
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
+            
             var token = new CancellationToken();
             scorable
                 .Setup(s => s.PostAsync(item, state, token))
@@ -575,12 +571,8 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable = MockScorable(item, state, score);
 
             var inner = new Mock<IPostToBot>();
-            var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
-            stack
-                .SetupGet(i => i.Frames)
-                    .Returns(Array.Empty<Delegate>());
-
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
+           
             try
             {
                 var token = new CancellationToken();
@@ -615,12 +607,8 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable2 = new Mock<IScorable<object, double>>(MockBehavior.Strict);
 
             var inner = new Mock<IPostToBot>();
-            var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new TraitsScorable<object, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable1.Object, scorable2.Object }));
-            stack
-                .SetupGet(i => i.Frames)
-                    .Returns(Array.Empty<Delegate>());
-
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<object, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable1.Object, scorable2.Object }));
+            
             var token = new CancellationToken();
             scorable1
                 .Setup(s => s.PostAsync(item, state1, token))

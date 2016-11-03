@@ -49,12 +49,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class ScoringDialogTask<Score> : IPostToBot
     {
         private readonly IPostToBot inner;
-        private readonly IDialogStack stack;
         private readonly IScorable<IActivity, Score> scorable;
-        public ScoringDialogTask(IPostToBot inner, IDialogStack stack, IScorable<IActivity, Score> scorable)
+        public ScoringDialogTask(IPostToBot inner, IScorable<IActivity, Score> scorable)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.stack, nameof(stack), stack);
             SetField.NotNull(out this.scorable, nameof(scorable), scorable);
         }
 

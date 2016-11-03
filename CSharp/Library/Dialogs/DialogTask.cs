@@ -47,7 +47,11 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public sealed class DialogTask : IDialogStack, IPostToBot
+    public interface IDialogTask : IDialogStack, IPostToBot
+    {
+    }
+
+    public sealed class DialogTask : IDialogTask
     {
         private readonly Func<CancellationToken, IDialogContext> makeContext;
         private readonly IStore<IFiberLoop<DialogTask>> store;
@@ -266,40 +270,46 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             IDialogStack stack = this;
             await stack.PollAsync(token);
         }
+
+        internal IStore<IFiberLoop<DialogTask>> Store
+        {
+            get
+            {
+                return this.store;
+            }
+        }
     }
 
     public sealed class ReactiveDialogTask : IPostToBot
     {
-        private readonly IPostToBot inner;
-        private readonly IDialogStack stack;
-        private readonly IStore<IFiberLoop<DialogTask>> store;
+        private readonly IDialogTaskManager dialogTaskManager;
         private readonly Func<IDialog<object>> makeRoot;
 
-        public ReactiveDialogTask(IPostToBot inner, IDialogStack stack, IStore<IFiberLoop<DialogTask>> store, Func<IDialog<object>> makeRoot)
+        public ReactiveDialogTask(IDialogTaskManager dialogTaskManager, Func<IDialog<object>> makeRoot)
         {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.stack, nameof(stack), stack);
-            SetField.NotNull(out this.store, nameof(store), store);
+            SetField.NotNull(out this.dialogTaskManager, nameof(dialogTaskManager), dialogTaskManager);
             SetField.NotNull(out this.makeRoot, nameof(makeRoot), makeRoot);
         }
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
+            IDialogTask task = this.dialogTaskManager.DialogTasks.ElementAt(0);
+
             try
             {
-                if (this.stack.Frames.Count == 0)
+                if (task.Frames.Count == 0)
                 {
                     var root = this.makeRoot();
                     var loop = root.Loop();
-                    this.stack.Call(loop, null);
-                    await this.stack.PollAsync(token);
+                    task.Call(loop, null);
+                    await task.PollAsync(token);
                 }
 
-                await this.inner.PostAsync(item, token);
+                await task.PostAsync(item, token);
             }
             catch
             {
-                this.store.Reset();
+                task.Reset();
                 throw;
             }
         }
