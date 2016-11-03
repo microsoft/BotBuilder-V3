@@ -56,6 +56,17 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// Update the service registration in the static dependency injection container used by the methods in this class.
+        /// </summary>
+        /// <param name="register">The delegate of updates to be applied, possibly expressed as a lamda expression.</param>
+        public static void Update(Action<ContainerBuilder> register)
+        {
+            var builder = new ContainerBuilder();
+            register(builder);
+            builder.Update(Container);
+        }
+
+        /// <summary>
         /// Process an incoming message within the conversation.
         /// </summary>
         /// <remarks>
