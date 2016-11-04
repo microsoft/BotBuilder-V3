@@ -36,6 +36,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -71,6 +72,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             return new LuisService(model);
         }
+        protected virtual Regex MakeRegex(string pattern)
+        {
+            return new Regex(pattern);
+        }
         protected virtual IEnumerable<MethodInfo> MakeMethods(IDialogContext context, IActivity activity)
         {
             return this.GetType().GetMethods();
@@ -96,7 +101,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             IScorableFactory<IResolver, object> factory = new OrderScorableFactory<IResolver, object>
                 (
                     new LuisIntentScorableFactory(MakeLuisService),
-                    new RegexMatchScorableFactory(),
+                    new RegexMatchScorableFactory(MakeRegex),
                     new MethodScorableFactory()
                 );
 

@@ -84,6 +84,12 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
     public sealed class RegexMatchScorableFactory : IScorableFactory<IResolver, Match>
     {
+        private readonly Func<string, Regex> make;
+        public RegexMatchScorableFactory(Func<string, Regex> make)
+        {
+            SetField.NotNull(out this.make, nameof(make), make);
+        }
+
         IScorable<IResolver, Match> IScorableFactory<IResolver, Match>.ScorableFor(IEnumerable<MethodInfo> methods)
         {
             var specs =
@@ -98,7 +104,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 from spec in specs
                 group spec by spec.pattern into patterns
                 let method = patterns.Select(m => scorableByMethod[m.method]).ToArray().Fold(Binding.ResolutionComparer.Instance)
-                let regex = new Regex(patterns.Key.Pattern)
+                let regex = this.make(patterns.Key.Pattern)
                 select new RegexMatchScorable<Binding, Binding>(regex, method);
 
             var all = scorables.ToArray().Fold(MatchComparer.Instance);
