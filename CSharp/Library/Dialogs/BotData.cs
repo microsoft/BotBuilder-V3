@@ -57,11 +57,34 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public interface IBotDataStore<T>
     {
+        /// <summary>
+        /// Return BotData with Data pointing to a JObject or an empty BotData() record with ETag:""
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="botStoreType"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Bot record that is stored for this key, or "empty" bot record ready to be stored</returns>
         Task<T> LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Save a BotData using the ETag.
+        /// If ETag is null or empty, this will set the value if nobody has set it yet
+        /// If ETag is "*" then this will unconditionally set the value
+        /// If ETag matches then this will update the value if it is unchanged.
+        /// If Data is null this removes record
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="botStoreType"></param>
+        /// <param name="botData"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>throw HttpException(HttpStatusCode.PreconditionFailed) if update fails</returns>
         Task SaveAsync(IAddress key, BotStoreType botStoreType, T data, CancellationToken cancellationToken);
         Task<bool> FlushAsync(IAddress key, CancellationToken cancellationToken);
     }
 
+    /// <summary>
+    /// Volitile in-memory implementation of IBotDatStore<BotData>
+    /// </summary>
     public class InMemoryDataStore : IBotDataStore<BotData>
     {
         internal readonly ConcurrentDictionary<string, string> store = new ConcurrentDictionary<string, string>();
@@ -75,24 +98,47 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
             string serializedData;
-            serializedData = store.GetOrAdd(GetKey(key, botStoreType),
-                                            dictionaryKey => Serialize(new BotData { ETag = DateTime.UtcNow.Ticks.ToString() }));
-            return Deserialize(serializedData);
+            if (store.TryGetValue(GetKey(key, botStoreType), out serializedData))
+                return Deserialize(serializedData);
+            return new BotData(eTag: String.Empty);
         }
 
         async Task IBotDataStore<BotData>.SaveAsync(IAddress key, BotStoreType botStoreType, BotData botData, CancellationToken cancellationToken)
         {
             lock (locks[botStoreType])
             {
-                store.AddOrUpdate(GetKey(key, botStoreType), Serialize(botData), (dictionaryKey, value) =>
+                if (botData.Data != null)
                 {
-                    if (botData.ETag != "*" && Deserialize(value).ETag != botData.ETag)
+                    store.AddOrUpdate(GetKey(key, botStoreType), (dictionaryKey) =>
                     {
-                        throw new HttpException((int)HttpStatusCode.PreconditionFailed, "Inconsistent SaveAsync based on ETag!");
+                        botData.ETag = Guid.NewGuid().ToString("n");
+                        return Serialize(botData);
+                    }, (dictionaryKey, value) =>
+                    {
+                        ValidateETag(botData, value);
+                        botData.ETag = Guid.NewGuid().ToString("n");
+                        return Serialize(botData);
+                    });
+                }
+                else
+                {
+                    // remove record on null
+                    string value;
+                    if (store.TryGetValue(GetKey(key, botStoreType), out value))
+                    {
+                        ValidateETag(botData, value);
+                        store.TryRemove(GetKey(key, botStoreType), out value);
+                        return;
                     }
-                    botData.ETag = DateTime.UtcNow.Ticks.ToString();
-                    return Serialize(botData);
-                });
+                }
+            }
+        }
+
+        private static void ValidateETag(BotData botData, string value)
+        {
+            if (botData.ETag != "*" && Deserialize(value).ETag != botData.ETag)
+            {
+                throw new HttpException((int)HttpStatusCode.PreconditionFailed, "Inconsistent SaveAsync based on ETag!");
             }
         }
 
@@ -143,6 +189,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    /// <summary>
+    /// implementation of IBotDatStore which uses the State REST API on state.botframework.com to store data 
+    /// </summary>
     public class ConnectorStore : IBotDataStore<BotData>
     {
         private readonly IStateClient stateClient;

@@ -78,6 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TableDataStoreTests.cs" />
     <Compile Include="LoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -101,6 +102,10 @@
     <ProjectReference Include="..\..\Library\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj">
       <Project>{DF397EFC-91DB-4911-9971-C509926FC288}</Project>
       <Name>Microsoft.Bot.Connector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Bot.Builder.Tests\Microsoft.Bot.Builder.Tests.csproj">
+      <Project>{508661a7-f47a-4d60-8ed6-69e378ed0e74}</Project>
+      <Name>Microsoft.Bot.Builder.Tests</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
