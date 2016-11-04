@@ -108,9 +108,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class MapToChannelData_BotToUser : IBotToUser
     {
         private readonly IBotToUser inner;
-        private readonly IList<IMessageActivityMapper> mappers;
+        private readonly IEnumerable<IMessageActivityMapper> mappers;
 
-        public MapToChannelData_BotToUser(IBotToUser inner, IList<IMessageActivityMapper> mappers)
+        public MapToChannelData_BotToUser(IBotToUser inner, IEnumerable<IMessageActivityMapper> mappers)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
             SetField.NotNull(out this.mappers, nameof(mappers), mappers);
