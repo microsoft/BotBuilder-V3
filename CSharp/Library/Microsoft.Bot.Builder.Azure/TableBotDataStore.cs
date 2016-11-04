@@ -46,7 +46,7 @@ using Microsoft.WindowsAzure.Storage;
 
 namespace Microsoft.Bot.Builder.Azure
 {
-    
+
     /// <summary>
     /// IBotDataStore<> Implementation using Azure Storage Table 
     /// </summary>
@@ -76,7 +76,7 @@ namespace Microsoft.Bot.Builder.Azure
             _table = table;
         }
 
-        public CloudTable Table {  get { return _table; } set { _table = value; } }
+        public CloudTable Table { get { return _table; } set { _table = value; } }
 
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
@@ -86,18 +86,15 @@ namespace Microsoft.Bot.Builder.Azure
                 var result = await _table.ExecuteAsync(TableOperation.Retrieve<BotDataEntity>(entityKey.PartitionKey, entityKey.RowKey));
                 BotDataEntity entity = result.Result as BotDataEntity;
                 if (entity == null)
-                    return new BotData(String.Empty, null);
+                    // empty record ready to be saved
+                    return new BotData(eTag: String.Empty, data: null);
+
+                // return botdata 
                 return new BotData(entity.ETag, entity.GetData());
             }
             catch (StorageException err)
             {
-                switch ((HttpStatusCode)err.RequestInformation.HttpStatusCode)
-                {
-                    case HttpStatusCode.NotFound:
-                        return new BotData(String.Empty, null);
-                    default:
-                        throw new HttpException(err.RequestInformation.HttpStatusCode, err.RequestInformation.HttpStatusMessage);
-                }
+                throw new HttpException(err.RequestInformation.HttpStatusCode, err.RequestInformation.HttpStatusMessage);
             }
         }
 
