@@ -43,12 +43,12 @@ import utils = require('../utils');
 import logger = require('../logger');
 import async = require('async');
 import events = require('events');
+import { DefaultLocalizer } from '../DefaultLocalizer';
 
 export interface IUniversalBotSettings {
     defaultDialogId?: string;
     defaultDialogArgs?: any;
-    localizer?: ILocalizer;
-    localizerSettings?: ILocalizerSettings;    
+    localizerSettings?: IDefaultLocalizerSettings;    
     lookupUser?: ILookupUser;
     processLimit?: number;
     autoBatchDelay?: number;
@@ -93,10 +93,12 @@ export class UniversalBot extends events.EventEmitter {
     private mwReceive = <IEventMiddleware[]>[];
     private mwSend = <IEventMiddleware[]>[];
     private mwSession = <ses.ISessionMiddleware[]>[]; 
+    private localizer: DefaultLocalizer;
     
     
     constructor(connector?: IConnector, settings?: IUniversalBotSettings) {
         super();
+        this.lib.localePath('./locale/');
         this.lib.library(dl.systemLib);
         if (settings) {
             for (var name in settings) {
@@ -108,12 +110,6 @@ export class UniversalBot extends events.EventEmitter {
 
         if (connector) {
             this.connector(consts.defaultConnector, connector);
-            var asStorage: bs.IBotStorage = <any>connector;
-            if (!this.settings.storage && 
-                typeof asStorage.getData === 'function' &&
-                typeof asStorage.saveData === 'function') {
-                this.settings.storage = asStorage;
-            }
         }
     }
     
@@ -123,6 +119,12 @@ export class UniversalBot extends events.EventEmitter {
     
     public set(name: string, value: any): this {
         (<any>this.settings)[name] = value;
+        if (value && name === 'localizerSettings') {
+            var settings = <IDefaultLocalizerSettings>value;
+            if (settings.botLocalePath) {
+                this.lib.localePath(settings.botLocalePath);
+            }
+        }
         return this;
     }
     
@@ -137,8 +139,17 @@ export class UniversalBot extends events.EventEmitter {
     public connector(channelId: string, connector?: IConnector): IConnector {
         var c: IConnector;
         if (connector) {
+            // Bind to connector.
             this.connectors[channelId || consts.defaultConnector] = c = connector;
             c.onEvent((events, cb) => this.receive(events, cb));
+
+            // Optionally use connector for storage.
+            var asStorage: bs.IBotStorage = <any>connector;
+            if (!this.settings.storage && 
+                typeof asStorage.getData === 'function' &&
+                typeof asStorage.saveData === 'function') {
+                this.settings.storage = asStorage;
+            }
         } else if (this.connectors.hasOwnProperty(channelId)) {
             c = this.connectors[channelId];
         } else if (this.connectors.hasOwnProperty(consts.defaultConnector)) {
@@ -359,10 +370,14 @@ export class UniversalBot extends events.EventEmitter {
         //   follows the same flow as for reactive messages.
         var loadedData: bs.IBotStorageData;
         this.getStorageData(storageCtx, (data) => {
+            // Create localizer on first access
+            if (!this.localizer) {
+                var defaultLocale = this.settings.localizerSettings ? this.settings.localizerSettings.defaultLocale : null;
+                this.localizer = new DefaultLocalizer(this.lib, defaultLocale);
+            }
             // Initialize session
             var session = new ses.Session({
-                localizer: this.settings.localizer,
-                localizerSettings: this.settings.localizerSettings,
+                localizer: this.localizer,
                 autoBatchDelay: this.settings.autoBatchDelay,
                 library: this.lib,
                 actions: this.actions,
@@ -522,7 +537,8 @@ export class UniversalBot extends events.EventEmitter {
     }
      
     private emitError(err: Error): void {
-        var e = err instanceof Error ? err : new Error(err.toString());
+        var m = err.toString();
+        var e = err instanceof Error ? err : new Error(m);
         if (this.listenerCount('error') > 0) {
             this.emit('error', e);
         } else {

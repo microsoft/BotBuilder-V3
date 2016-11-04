@@ -11,7 +11,6 @@ var events = require('events');
 var msg = require('./Message');
 var logger = require('./logger');
 var async = require('async');
-var dfLoc = require('./DefaultLocalizer');
 var Session = (function (_super) {
     __extends(Session, _super);
     function Session(options) {
@@ -27,13 +26,7 @@ var Session = (function (_super) {
         this._locale = null;
         this.localizer = null;
         this.library = options.library;
-        if (!options.localizer) {
-            this.localizer = new dfLoc.DefaultLocalizer();
-        }
-        else {
-            this.localizer = options.localizer;
-        }
-        this.localizer.initialize(options.localizerSettings);
+        this.localizer = options.localizer;
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;
         }
@@ -66,8 +59,8 @@ var Session = (function (_super) {
         if (!this.message.type) {
             this.message.type = consts.messageType;
         }
-        logger.debug("loading localizer for: " + this.message.textLocale);
-        this.localizer.load(this.message.textLocale, function (err) {
+        var locale = this.preferredLocale();
+        this.localizer.load(locale, function (err) {
             if (err) {
                 _this.error(err);
             }
@@ -78,30 +71,41 @@ var Session = (function (_super) {
         return this;
     };
     Session.prototype.error = function (err) {
-        err = err instanceof Error ? err : new Error(err.toString());
         logger.info(this, 'session.error()');
-        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
+        if (this.options.dialogErrorMessage) {
+            this.endConversation(this.options.dialogErrorMessage);
+        }
+        else {
+            var locale = this.preferredLocale();
+            this.endConversation(this.localizer.gettext(locale, 'default_error', consts.Library.system));
+        }
+        var m = err.toString();
+        err = err instanceof Error ? err : new Error(m);
         this.emit('error', err);
         return this;
     };
     Session.prototype.preferredLocale = function (locale, callback) {
         if (locale) {
             this._locale = locale;
+            if (this.userData) {
+                this.userData[consts.Data.PreferredLocale] = locale;
+            }
             if (this.localizer) {
                 this.localizer.load(locale, callback);
             }
         }
-        else {
-            if (!this._locale) {
-                if (this.message && this.message.textLocale) {
-                    this._locale = this.message.textLocale;
-                }
-                else if (this.localizer) {
-                    this._locale = this.localizer.defaultLocale();
-                }
+        else if (!this._locale) {
+            if (this.userData && this.userData[consts.Data.PreferredLocale]) {
+                this._locale = this.userData[consts.Data.PreferredLocale];
             }
-            return this._locale;
+            else if (this.message && this.message.textLocale) {
+                this._locale = this.message.textLocale;
+            }
+            else if (this.localizer) {
+                this._locale = this.localizer.defaultLocale();
+            }
         }
+        return this._locale;
     };
     Session.prototype.gettext = function (messageid) {
         var args = [];
@@ -158,7 +162,7 @@ var Session = (function (_super) {
         this.prepareMessage(m);
         this.batch.push(m);
         logger.info(this, 'session.sendTyping()');
-        this.startBatch();
+        this.sendBatch();
         return this;
     };
     Session.prototype.messageSent = function () {
@@ -358,6 +362,9 @@ var Session = (function (_super) {
                     if (_this.batchStarted) {
                         _this.startBatch();
                     }
+                    if (callback) {
+                        callback(err);
+                    }
                 }
             }
             else {
@@ -457,7 +464,8 @@ var Session = (function (_super) {
         var cur = this.curDialog();
         if (cur && this.message.text.indexOf('action?') !== 0) {
             var dialog = this.findDialog(cur.id);
-            dialog.recognize({ message: this.message, dialogData: cur.state, activeDialog: true }, done);
+            var locale = this.preferredLocale();
+            dialog.recognize({ message: this.message, locale: locale, dialogData: cur.state, activeDialog: true }, done);
         }
         else {
             done(null, { score: 0.0 });

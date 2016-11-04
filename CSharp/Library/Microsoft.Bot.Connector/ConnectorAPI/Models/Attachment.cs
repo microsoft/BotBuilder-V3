@@ -11,6 +11,9 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
+    /// <summary>
+    /// An attachment within an activity
+    /// </summary>
     public partial class Attachment
     {
         /// <summary>

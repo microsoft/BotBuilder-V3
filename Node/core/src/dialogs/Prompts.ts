@@ -52,6 +52,7 @@ export interface IPromptOptions {
     refDate?: number;
     listStyle?: ListStyle;
     promptAfterAction?: boolean;
+    localizationNamespace?: string;
 }
 
 export interface IPromptArgs extends IPromptOptions {
@@ -59,7 +60,6 @@ export interface IPromptArgs extends IPromptOptions {
     prompt: string|string[]|IMessage|IIsMessage;
     enumValues?: string[];
     retryCnt?: number;
-    localizationNamespace?: string;
 }
 
 export interface IPromptResult<T> extends dlg.IDialogResult<T> {
@@ -95,6 +95,17 @@ export interface IChronoDuration extends IEntity {
 
 export class SimplePromptRecognizer implements IPromptRecognizer {
     public recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void, session?: ISession): void {
+        function findChoice(args: IPromptRecognizerArgs, text: string) {
+            var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
+            if (!best) {
+                var n = entities.EntityRecognizer.parseNumber(text);
+                if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
+                    best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
+                }
+            }
+            return best;
+        }
+
         // Recognize value
         var score = 0.0;
         var response: any;
@@ -119,11 +130,10 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
             case PromptType.confirm:
                 var b = entities.EntityRecognizer.parseBoolean(text);
                 if (typeof b !== 'boolean') {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= 2) {
-                        b = (n === 1);
+                    var best = findChoice(args, text);
+                    if (best) {
+                        b = (best.index === 0); // enumValues == ['yes', 'no']
                     }
-                    
                 }
                 if (typeof b == 'boolean') {
                     score = 1.0;
@@ -138,13 +148,7 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
                 } 
                 break;
             case PromptType.choice:
-                var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
-                if (!best) {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
-                        best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
-                    }
-                }
+                var best = findChoice(args, text);
                 if (best) {
                     score = best.score;
                     response = best;
@@ -252,7 +256,7 @@ export class Prompts extends dlg.Dialog {
                 if (style == ListStyle.auto) {
                     if (Channel.supportsKeyboards(session, args.enumValues.length)) {
                         style = ListStyle.button;
-                    } else if (!retry) {
+                    } else if (!retry && args.promptType == PromptType.choice) {
                         style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
                     } else {
                         style = ListStyle.none;
@@ -276,13 +280,7 @@ export class Prompts extends dlg.Dialog {
             }
                                                                                
             var locale:string = session.preferredLocale();
-            logger.debug("prompts::preferred locale %s", locale);    
-            if (!locale && session.localizer) {
-                locale = session.localizer.defaultLocale();
-                logger.debug("prompts::sendPrompt using default locale %s", locale);                                                                                   
-            }
             prompt = session.localizer.gettext(locale, prompt, args.localizationNamespace);
-            logger.debug("prompts::sendPrompt localized prompt %s", prompt);                                                                   
             
                         
             // Append list
@@ -343,11 +341,11 @@ export class Prompts extends dlg.Dialog {
         }
     }
 
-    static text(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage): void {
-        beginPrompt(session, {
-            promptType: PromptType.text,
-            prompt: prompt
-        });
+    static text(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        var args: IPromptArgs = <any>options || {};
+        args.promptType = PromptType.text;
+        args.prompt = prompt;
+        beginPrompt(session, args);
     }
 
     static number(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
@@ -358,10 +356,14 @@ export class Prompts extends dlg.Dialog {
     }
 
     static confirm(session: ses.Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        var locale:string = session.preferredLocale();
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
-        args.enumValues = ['confirm_yes','confirm_no'];
+        args.enumValues = [
+            session.localizer.gettext(locale, 'confirm_yes', consts.Library.system),
+            session.localizer.gettext(locale, 'confirm_no', consts.Library.system)
+        ];
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
         beginPrompt(session, args);
     }

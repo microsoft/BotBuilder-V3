@@ -317,7 +317,8 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                 if (!err) {
                     callback(null, data);
                 } else {
-                    callback(err instanceof Error ? err : new Error(err.toString()), null);
+                    var m = err.toString();
+                    callback(err instanceof Error ? err : new Error(m), null);
                 }
             });
         } catch (e) {
@@ -399,14 +400,15 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
                     if (!err) {
                         callback(null);
                     } else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var m = err.toString();
+                        callback(err instanceof Error ? err : new Error(m));
                     }
                 }
             });
         } catch (e) {
             if (callback) {
                 var err = e instanceof Error ? e : new Error(e.toString());
-                err.code = consts.Errors.EBADMSG;
+                (<any>err).code = consts.Errors.EBADMSG;
                 callback(err);
             }
         }

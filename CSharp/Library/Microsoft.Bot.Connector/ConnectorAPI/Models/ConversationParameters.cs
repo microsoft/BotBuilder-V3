@@ -11,6 +11,9 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
+    /// <summary>
+    /// Parameters for creating a new conversation
+    /// </summary>
     public partial class ConversationParameters
     {
         /// <summary>

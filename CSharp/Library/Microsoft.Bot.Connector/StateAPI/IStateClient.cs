@@ -11,7 +11,7 @@ namespace Microsoft.Bot.Connector
     using System.Threading.Tasks;
     using Newtonsoft.Json;
     using Microsoft.Rest;
-
+    
 
     /// <summary>
     /// The Bot State REST API allows your bot to store and retrieve state
@@ -42,6 +42,8 @@ namespace Microsoft.Bot.Connector
     /// 
     /// * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
     /// * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+    /// * Generate your own from the [State API Swagger
+    /// file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
     /// 
     /// © 2016 Microsoft
     /// </summary>

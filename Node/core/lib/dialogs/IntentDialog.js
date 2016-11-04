@@ -69,7 +69,8 @@ var IntentDialog = (function (_super) {
     IntentDialog.prototype.replyReceived = function (session, recognizeResult) {
         var _this = this;
         if (!recognizeResult) {
-            this.recognize({ message: session.message, dialogData: session.dialogData, activeDialog: true }, function (err, result) {
+            var locale = session.preferredLocale();
+            this.recognize({ message: session.message, locale: locale, dialogData: session.dialogData, activeDialog: true }, function (err, result) {
                 if (!err) {
                     _this.invokeIntent(session, result);
                 }
@@ -111,7 +112,7 @@ var IntentDialog = (function (_super) {
             }
         }
         var result = { score: 0.0, intent: null };
-        if (context.message && context.message.text) {
+        if (context.message) {
             if (this.expressions) {
                 for (var i = 0; i < this.expressions.length; i++) {
                     var exp = this.expressions[i];
@@ -197,6 +198,10 @@ var IntentDialog = (function (_super) {
         }
         return this;
     };
+    IntentDialog.prototype.recognizer = function (plugin) {
+        this.options.recognizers.push(plugin);
+        return this;
+    };
     IntentDialog.prototype.recognizeInParallel = function (context, done) {
         var _this = this;
         var result = { score: 0.0, intent: null };
@@ -217,7 +222,8 @@ var IntentDialog = (function (_super) {
                 done(null, result);
             }
             else {
-                done(err instanceof Error ? err : new Error(err.toString()), null);
+                var m = err.toString();
+                done(err instanceof Error ? err : new Error(m), null);
             }
         });
     };
@@ -273,7 +279,8 @@ var IntentDialog = (function (_super) {
         }
     };
     IntentDialog.prototype.emitError = function (session, err) {
-        err = err instanceof Error ? err : new Error(err.toString());
+        var m = err.toString();
+        err = err instanceof Error ? err : new Error(m);
         session.error(err);
     };
     return IntentDialog;

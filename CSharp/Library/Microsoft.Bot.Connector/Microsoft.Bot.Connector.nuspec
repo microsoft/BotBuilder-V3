@@ -2,7 +2,7 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>Microsoft.Bot.Connector</id>
-    <version>$version$</version>
+    <version>$version$-alpha</version>
     <authors>Microsoft</authors>
     <iconUrl>https://bots.botframework.com/Client/Images/bot-framework-default-7.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -14,7 +14,7 @@
       <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
       <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.2" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
-      <dependency id="System.IdentityModel.Tokens.Jwt" version="4.0.2.206221351" />
+      <dependency id="System.IdentityModel.Tokens.Jwt" version="[4.0.2.206221351,5.0)" />
       <dependency id="Microsoft.IdentityModel.Protocol.Extensions" version="1.0.2.206221351" />
     </dependencies>
   </metadata>

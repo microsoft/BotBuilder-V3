@@ -43,7 +43,7 @@ var Library = (function () {
                 l = this.libraries[lib];
             }
             else {
-                for (name in this.libraries) {
+                for (var name in this.libraries) {
                     l = this.libraries[name].library(lib);
                     if (l) {
                         break;

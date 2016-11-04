@@ -244,7 +244,8 @@ var ChatConnector = (function () {
                     callback(null, data);
                 }
                 else {
-                    callback(err instanceof Error ? err : new Error(err.toString()), null);
+                    var m = err.toString();
+                    callback(err instanceof Error ? err : new Error(m), null);
                 }
             });
         }
@@ -323,7 +324,8 @@ var ChatConnector = (function () {
                         callback(null);
                     }
                     else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var m = err.toString();
+                        callback(err instanceof Error ? err : new Error(m));
                     }
                 }
             });

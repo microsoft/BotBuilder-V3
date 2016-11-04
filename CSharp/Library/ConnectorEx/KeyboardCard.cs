@@ -40,7 +40,7 @@ using Newtonsoft.Json;
 namespace Microsoft.Bot.Builder.ConnectorEx
 {
     /// <summary>
-    /// Card representing a keyboad
+    /// Card representing a keyboard
     /// </summary>
     /// <remarks>
     /// This will be mapped to <see cref="HeroCard"/> for all channels 

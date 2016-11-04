@@ -11,6 +11,9 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
 
+    /// <summary>
+    /// An image on a card
+    /// </summary>
     public partial class CardImage
     {
         /// <summary>

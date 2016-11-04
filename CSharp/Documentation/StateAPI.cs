@@ -35,7 +35,10 @@ The %Bot State service exposes the following methods
 | **DeleteStateForUser()**         | User                       | When the user requests data be deleted or removes the %bot contact
 
 When your %bot sends a reply you simply set your object in one of the BotData records properties and it will be persisted and
-played back to you on future messages when the context is the same. 
+played back to you on future messages when the context is the same. Your bot may store data for a user, a conversation, or a single
+user within a conversation (called "private" data). Each payload may be up to 32 kilobytes in size. The data may be removed by 
+the bot or upon a user's request, e.g. if the user requests the channel to inform the bot (and therefore, the %Bot Framework) 
+to delete the user's data.
 
 > NOTE: If the record doesn't exist, it will return a new BotData() record with a null .Data field and an ETag = "*", so that is suitable for
 > changing and passing back to be saved

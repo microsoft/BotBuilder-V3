@@ -310,7 +310,8 @@ export interface IIsFact {
     toFact(): IFact;
 }
 
-interface ILocalizerSettings {
+/** Settings used to initialize an ILocalizer implementation. */
+interface IDefaultLocalizerSettings {
     /** The path to the parent of the bot's locale directory  */
     botLocalePath?: string;
 
@@ -321,12 +322,6 @@ interface ILocalizerSettings {
 /** Plugin for localizing messages sent to the user by a bot. */
 export interface ILocalizer {
     /**
-     * Intitializes the localizer.
-     * @param localizerSettings (Optional) settings to supply to the localizer.
-     */
-    initialize(localizerSettings?: ILocalizerSettings): void;
-    
-    /**
      * Loads the localied table for the supplied locale, and call's the supplied callback once the load is complete.
      * @param locale The locale to load.
      * @param callback callback that is called once the supplied locale has been loaded, or an error if the load fails.
@@ -335,29 +330,29 @@ export interface ILocalizer {
     
     /**
      * Loads a localized string for the specified language.
-     * @param language Desired language of the string to return.
+     * @param locale Desired locale of the string to return.
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
      * @param namespace (Optional) namespace for the msgid keys.
      */
-    trygettext(language: string, msgid: string, namespace?: string): string;
+    trygettext(locale: string, msgid: string, namespace?: string): string;
     
     /**
      * Loads a localized string for the specified language.
-     * @param language Desired language of the string to return.
+     * @param locale Desired locale of the string to return.
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
      * @param namespace (Optional) namespace for the msgid keys.
      */
-    gettext(language: string, msgid: string, namespace?: string): string;
+    gettext(locale: string, msgid: string, namespace?: string): string;
 
     /**
      * Loads the plural form of a localized string for the specified language.
-     * @param language Desired language of the string to return.
+     * @param locale Desired locale of the string to return.
      * @param msgid Singular form of the string to use as a key in the localized string table.
      * @param msgid_plural Plural form of the string to use as a key in the localized string table.
      * @param count Count to use when determining whether the singular or plural form of the string should be used.
      * @param namespace (Optional) namespace for the msgid and msgid_plural keys.
      */
-    ngettext(language: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
+    ngettext(locale: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
 }
 
 /** Persisted session state used to track a conversations dialog stack. */
@@ -385,8 +380,8 @@ export interface IDialogState {
   * Results returned by a child dialog to its parent via a call to session.endDialog(). 
   */
 export interface IDialogResult<T> {
-    /** The reason why the current dialog is being resumed. */
-    resumed: ResumeReason;
+    /** The reason why the current dialog is being resumed. Defaults to {ResumeReason.completed} */
+    resumed?: ResumeReason;
 
     /** ID of the child dialog thats ending. */
     childId?: string;
@@ -398,10 +393,13 @@ export interface IDialogResult<T> {
     response?: T;
 }
 
-/** Context of the received message passed to the Dialog.recognize() method. */
+/** Context of the received message passed to various recognition methods. */
 export interface IRecognizeContext {
     /** Message that was received. */
     message: IMessage;
+
+    /** The users preferred locale for the message. */
+    locale: string;
 
     /** If true the Dialog is the active dialog on the callstack. */
     activeDialog: boolean;
@@ -477,6 +475,9 @@ export interface IPromptOptions {
 
     /** (Optional) flag used to control the reprompting of a user after a dialog started by an action ends. The default value is true. */
     promptAfterAction?: boolean;
+
+    /** (Optional) namespace to use when localizing a passed in prompt. */
+    localizationNamespace?: string;
 }
 
 /** Arguments passed to the built-in prompts beginDialog() call. */
@@ -589,27 +590,39 @@ export interface IEntity {
     score?: number;
 }
 
-/** Options used to configure an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html). */
-export interface IIntentDialogOptions {
-    /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
+/** Options used to configure an [IntentRecognizerSet](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentrecognizerset.html). */
+export interface IIntentRecognizerSetOptions {
+    /** (optional) Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
     intentThreshold?: number;
 
-    /** Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
-    recognizeMode?: RecognizeMode;
-
-    /** The order in which the configured [recognizers](#recognizers) should be evaluated. The default order is parallel. */
+    /** (Optional) The order in which the configured [recognizers](#recognizers) should be evaluated. The default order is parallel. */
     recognizeOrder?: RecognizeOrder;
 
     /** (Optional) list of intent recognizers to run the users utterance through. */
     recognizers?: IIntentRecognizer[];
 
-    /** Maximum number of recognizers to evaluate at one time when [recognizerOrder](#recognizerorder) is parallel. */
+    /** (Optional) Maximum number of recognizers to evaluate at one time when [recognizerOrder](#recognizerorder) is parallel. */
     processLimit?: number;
+
+    /** (Optional) If true the recognition will stop when a score of 1.0 is encountered. The default value is true.  */
+    stopIfExactMatch?: boolean;
+}
+
+/** Options used to configure an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html). */
+export interface IIntentDialogOptions extends IIntentRecognizerSetOptions {
+    /** (Optional) Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
+    recognizeMode?: RecognizeMode;
 } 
 
-/** export interface implemented by intent recognizers like the LuisRecognizer class. */
+/** Interface implemented by intent recognizer plugins like the [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer.html) class. */
 export interface IIntentRecognizer {
-    /** Attempts to match a users text utterance to an intent. */
+    /** 
+     * Attempts to match a users text utterance to an intent.
+     * @param context Contextual information for a received message that's being recognized.
+     * @param callback Function to invoke with the results of the recognition operation.
+     * @param callback.error Any error that occured or `null`.
+     * @param callback.result The result of the recognition.
+     */
     recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
@@ -642,6 +655,9 @@ export interface ISessionOptions {
     /** The bots root library of dialogs. */
     library: Library;
 
+    /** The localizer to use for the session. */
+    localizer: ILocalizer;
+
     /** Array of session middleware to execute prior to each request. */
     middleware: ISessionMiddleware[];
 
@@ -650,9 +666,6 @@ export interface ISessionOptions {
 
     /** (Optional) arguments to pass to the conversations initial dialog. */
     dialogArgs?: any;
-
-    /** (Optional) localizer to use when localizing the bots responses. */
-    localizer?: ILocalizer;
     
     /** (Optional) time to allow between each message sent as a batch. The default value is 250ms.  */
     autoBatchDelay?: number;
@@ -738,8 +751,8 @@ export interface IUniversalBotSettings {
     /** (Optional) arguments to pass to the initial dialog for a conversation. */
     defaultDialogArgs?: any;
 
-    /** (Optional) localizer used to localize the bots responses to the user. */
-    localizer?: ILocalizer;
+    /** (Optional) settings used to configure the frameworks built in default localizer. */
+    localizerSettings?: IDefaultLocalizerSettings;
 
     /** (Optional) function used to map the user ID for an incoming message to another user ID.  This can be used to implement user account linking. */
     lookupUser?: (address: IAddress, done: (err: Error, user: IIdentity) => void) => void;
@@ -861,6 +874,11 @@ export interface IDialogWaterfallStep {
      * @param skip.results (Optional) results to pass to the next waterfall step. This lets you more accurately mimic the results returned from a prompt or dialog.
      */
     (session: Session, result?: any | IDialogResult<any>, skip?: (results?: IDialogResult<any>) => void): any;
+}
+
+/** A per/local mapping of regular expressions to use for a RegExpRecognizer.  */
+export interface IRegExpMap {
+    [local: string]: RegExp;
 }
 
 /** A per/local mapping of LUIS service url's to use for a LuisRecognizer.  */
@@ -1435,7 +1453,7 @@ export class ThumbnailCard implements IIsAttachment {
     toAttachment(): IAttachment;
 }
 
-/** Card builder class that simplifies building hero cards. Hero cards contain the same information as a thumbnail card, just with a larger more pronounced layout for the cards imagess. */
+/** Card builder class that simplifies building hero cards. Hero cards contain the same information as a thumbnail card, just with a larger more pronounced layout for the cards images. */
 export class HeroCard extends ThumbnailCard {
 
     /** 
@@ -1765,11 +1783,26 @@ export class DialogAction {
  * include the library name prefix.  
  */
 export class Library {
-    /** Unique name of the library. */
+    /** 
+     * The libraries unique namespace. This is used to issolate the libraries dialogs and localized
+     * prompts. 
+     */
     name: string;
 
-    /** Creates a new instance of the library. */
+    /** 
+     * Creates a new instance of the library.
+     * @param name Unique namespace for the library. 
+     */
     constructor(name: string);
+
+    /** 
+     * Gets or sets the path to the libraries "/locale/" folder containing its localized prompts. 
+     * The prompts for the library should be stored in a "/locale/<IETF_TAG>/<NAMESPACE>.json" file
+     * under this path where "<IETF_TAG>" representes the 2-3 digit language tage for the locale and
+     * "<NAMESPACE>" is a filename matching the libraries namespace. 
+     * @param path (Optional) path to the libraries "/locale/" folder. If specified this will update the libraries path. 
+     */
+    localePath(path?: string): string;
 
     /**
      * Registers or returns a dialog from the library.
@@ -1796,6 +1829,15 @@ export class Library {
      * @param dialogId Unique ID of the dialog within the library.
      */
     findDialog(libName: string, dialogId: string): Dialog;
+
+    /**
+     * Enumerates all of the libraries child libraries. The caller should take appropriate steps to
+     * avoid circular references when enumerating the hierarchy. Maintaining a map of visited 
+     * libraries should be enough.
+     * @param callback Iterator function to call with each child.
+     * @param callback.library The current child.
+     */
+    forEachLibrary(callback: (library: Library) => void): void;
 }
 
 /**
@@ -1822,8 +1864,9 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static text(session: Session, prompt: string|string[]|IMessage|IIsMessage): void;
+    static text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to enter a number.
@@ -1899,6 +1942,24 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
     recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void): void;
 }
 
+/** Federates a recognize() call across a set of intent recognizers. */
+export class IntentRecognizerSet implements IIntentRecognizer {
+    /**  
+     * Constructs a new instance of an IntentRecognizerSet.
+     * @param options (Optional) options used to initialize the set and control the flow of recognition.
+     */
+    constructor(options?: IIntentRecognizerSetOptions);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /**
+     * Adds a new recognizer plugin to the set.
+     * @param plugin The recognizer to add. 
+     */
+    recognizer(plugin: IIntentRecognizer): IntentDialog;
+}
+
 /** Identifies a users intent and optionally extracts entities from a users utterance. */
 export class IntentDialog extends Dialog {
     /**  
@@ -1964,21 +2025,43 @@ export class IntentDialog extends Dialog {
      * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
      */
     onDefault(dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+
+    /**
+     * Adds a new recognizer plugin to the intent dialog.
+     * @param plugin The recognizer to add. 
+     */
+    recognizer(plugin: IIntentRecognizer): IntentDialog;
+}
+
+/** 
+ * Intent recognizer plugin that detects a users intent using a regular expression. Multiple
+ * expressions can be passed in to support recognizing across multiple languages. 
+ */
+export class RegExpRecognizer implements IIntentRecognizer {
+    /**
+     * Constructs a new instance of the recognizer.
+     * @param intent The name of the intent to return when the expression is matched.
+     * @param expressions Either an individual expression used for all utterances or a map of per/locale expressions conditionally used depending on the locale of the utterance. 
+     */
+    constructor(intent: string, expressions: RegExp|IRegExpMap);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
 /**
- * Routes incoming messages to a LUIS app hosted on http://luis.ai for intent recognition.
- * Once a messages intent has been recognized it will rerouted to a registered intent handler, along
- * with any entities, for further processing. 
+ * Intent recognizer plugin that detects a users intent using Microsofts [Language Understanding Intelligent Service (LUIS)](https://luis.ai)
+ * The service URLs for multiple LUIS models (apps) can be passed in to support recognition 
+ * across multiple languages. 
  */
 export class LuisRecognizer implements IIntentRecognizer {
     /**
-     * Constructs a new instance of a LUIS recognizer.
-     * @param models Either an individual LUIS model used for all utterances or a map of per/local models conditionally used depending on the local of the utterance. 
+     * Constructs a new instance of the recognizer.
+     * @param models Either an individual LUIS model used for all utterances or a map of per/locale models conditionally used depending on the locale of the utterance. 
      */
     constructor(models: string|ILuisModelMap);
 
-    /** Called by the IntentDialog to perform the actual recognition. */
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
     public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
     /**

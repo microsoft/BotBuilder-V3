@@ -44,6 +44,403 @@
             Signin button
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.Error">
+            <summary>
+            Object representing error information
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Error.#ctor">
+            <summary>
+            Initializes a new instance of the Error class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Error.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Error class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Error.Code">
+            <summary>
+            Error code
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Error.Message">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ErrorResponse">
+            <summary>
+            An HTTP API response
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ErrorResponse.#ctor">
+            <summary>
+            Initializes a new instance of the ErrorResponse class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ErrorResponse.#ctor(Microsoft.Bot.Connector.Error)">
+            <summary>
+            Initializes a new instance of the ErrorResponse class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ErrorResponse.Error">
+            <summary>
+            Error message
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ClaimsIdentityEx.GetAppIdFromClaims(System.Security.Claims.ClaimsIdentity)">
+            <summary>
+            Get the AppId from the Claims Identity
+            </summary>
+            <param name="identity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ClaimsIdentityEx.GetAppPasswordFromClaims(System.Security.Claims.ClaimsIdentity)">
+            <summary>
+            Get the AppPassword from the Claims Identity
+            </summary>
+            <param name="identity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ClaimsIdentityEx.GetCredentialsFromClaims(System.Security.Claims.ClaimsIdentity)">
+            <summary>
+            Get the MicrosoftAppCredentials using claims in the claims identity
+            </summary>
+            <param name="claimsIdentity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.IsValidAppIdAsync(System.String)">
+            <summary>
+            Validate AppId
+            </summary>
+            <param name="appId"></param>
+            <returns>true if it is a valid AppId for the controller</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.GetAppPasswordAsync(System.String)">
+            <summary>
+            Get the app password for a given bot appId, if it is not a valid appId, return Null
+            </summary>
+            <param name="appId">bot appid</param>
+            <returns>password or null for invalid appid</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.StaticCredentialProvider">
+            <summary>
+            Static credential provider which has the appid and password static
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SettingsCredentialProvider">
+            <summary>
+            Credential provider which uses config settings to lookup appId and password
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ErrorCodes">
+            <summary>
+            Error codes to communicate when throwing an APIException
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.ServiceError">
+            <summary>
+            Other error, not specified
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.BadArgument">
+            <summary>
+            Bad argument
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.BadSyntax">
+            <summary>
+            Error parsing request
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.MissingProperty">
+            <summary>
+            Mandatory property was not specified
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ErrorCodes.MessageSizeTooBig">
+            <summary>
+            Message exceeded size limits
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SigninCard">
+            <summary>
+            A card representing a request to sign in
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.Create(System.String,System.String,System.String)">
+            <summary>
+            Creates a <see cref="T:Microsoft.Bot.Connector.SigninCard"/>
+            </summary>
+            <param name="text"> The <see cref="P:Microsoft.Bot.Connector.SigninCard.Text"/></param>
+            <param name="buttonLabel"> The signin button label.</param>
+            <param name="url"> The sigin url.</param>
+            <returns> The created sigin card.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor">
+            <summary>
+            Initializes a new instance of the SigninCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
+            <summary>
+            Initializes a new instance of the SigninCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SigninCard.Text">
+            <summary>
+            Text for signin request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SigninCard.Buttons">
+            <summary>
+            Action to use to perform signin
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.AnimationCard">
+            <summary>
+            An animation card (Ex: gif or short video clip)
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AnimationCard.#ctor">
+            <summary>
+            Initializes a new instance of the AnimationCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AnimationCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the AnimationCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Title">
+            <summary>
+            Title of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Subtitle">
+            <summary>
+            Subtitle of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Text">
+            <summary>
+            Text of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Image">
+            <summary>
+            Thumbnail placeholder
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Media">
+            <summary>
+            Array of media Url objects
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Buttons">
+            <summary>
+            Set of actions applicable to the current card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Shareable">
+            <summary>
+            Is it OK for this content to be shareable with others
+            (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Autoloop">
+            <summary>
+            Should the client loop playback at end of content (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Autostart">
+            <summary>
+            Should the client automatically start playback of video in this
+            card (default:true)
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.AudioCard">
+            <summary>
+            A audio card
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor">
+            <summary>
+            Initializes a new instance of the AudioCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the AudioCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Aspect">
+            <summary>
+            Aspect ratio of thumbnail/media placeholder, allowed values are
+            "16x9" and "9x16"
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Title">
+            <summary>
+            Title of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Subtitle">
+            <summary>
+            Subtitle of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Text">
+            <summary>
+            Text of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Image">
+            <summary>
+            Thumbnail placeholder
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Media">
+            <summary>
+            Array of media Url objects
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Buttons">
+            <summary>
+            Set of actions applicable to the current card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Shareable">
+            <summary>
+            Is it OK for this content to be shareable with others
+            (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Autoloop">
+            <summary>
+            Should the client loop playback at end of content (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Autostart">
+            <summary>
+            Should the client automatically start playback of video in this
+            card (default:true)
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.MediaUrl">
+            <summary>
+            MediaUrl data
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MediaUrl.#ctor">
+            <summary>
+            Initializes a new instance of the MediaUrl class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MediaUrl.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the MediaUrl class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.MediaUrl.Url">
+            <summary>
+            Url for the media
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.MediaUrl.Profile">
+            <summary>
+            Optional profile hint to the client to differentiate multiple
+            MediaUrl objects from each other
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ThumbnailUrl">
+            <summary>
+            Object describing a media thumbnail
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ThumbnailUrl.#ctor">
+            <summary>
+            Initializes a new instance of the ThumbnailUrl class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ThumbnailUrl.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the ThumbnailUrl class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ThumbnailUrl.Url">
+            <summary>
+            url pointing to an thumbnail to use for media content
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ThumbnailUrl.Alt">
+            <summary>
+            Alt text to display for screen readers on the thumbnail image
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.VideoCard">
+            <summary>
+            A video card
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor">
+            <summary>
+            Initializes a new instance of the VideoCard class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the VideoCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Title">
+            <summary>
+            Title of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Subtitle">
+            <summary>
+            Subtitle of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Text">
+            <summary>
+            Text of the card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Image">
+            <summary>
+            Thumbnail placeholder
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Media">
+            <summary>
+            Array of media Url objects
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Buttons">
+            <summary>
+            Set of actions applicable to the current card
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Shareable">
+            <summary>
+            Is it OK for this content to be shareable with others
+            (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Autoloop">
+            <summary>
+            Should the client loop playback at end of content (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Autostart">
+            <summary>
+            Should the client automatically start playback of video in this
+            card (default:true)
+            </summary>
+        </member>
         <member name="F:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes.Add">
             <summary>
             Bot added to user contacts
@@ -63,9 +460,24 @@
             <param name="password">(default)Setting["microsoftAppPassword"]</param>
             <returns>HttpClient with Bearer Authorization header</returns>
         </member>
-        <member name="T:Microsoft.Bot.Connector.IActionActivity">
+        <member name="T:Microsoft.Bot.Connector.IEndOfConversationActivity">
             <summary>
-            User took action on a message (button click)
+            Conversation is ending, or a request to end the conversation
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ITriggerActivity">
+            <summary>
+            Activity generated by external sources with open ended value payload
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ITriggerActivity.Value">
+            <summary>
+            Open ended value 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ITypingActivity">
+            <summary>
+            The From address is typing
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">
@@ -156,34 +568,49 @@
             A response object containing the response body and response headers.
             </return>
         </member>
+        <member name="T:Microsoft.Bot.Connector.ActivityTypes">
+            <summary>
+            Types of Activities
+            </summary>
+        </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.Message">
             <summary>
             Message from a user -> bot or bot -> User
             </summary>
         </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.ConversationUpdate">
-            <summary>
-             This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
-            </summary>
-        </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.ContactRelationUpdate">
             <summary>
-             Bot added or removed to contact list. See <see cref="T:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes"/> for possible values.
+            Bot added removed to contact list
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.ConversationUpdate">
+            <summary>
+            This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.Typing">
             <summary>
-            A from is typing
+            a user is typing
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Ping">
+            <summary>
+            Bounce a message off of the server without replying or changing it's state
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.EndOfConversation">
+            <summary>
+            End a conversation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Trigger">
+            <summary>
+            External system has triggered 
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.DeleteUserData">
             <summary>
             Delete user data
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Ping">
-            <summary>
-            Ping message
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.AttachmentsExtensions">
@@ -238,6 +665,39 @@
             GetAttachment
             </summary>
             Get the named view as binary content
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+            <param name='viewId'>
+            View id from attachmentInfo
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentStream(Microsoft.Bot.Connector.IAttachments,System.String,System.String)">
+            <summary>
+            GetAttachmentStream
+            </summary>
+            Get the named view as binary stream
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='attachmentId'>
+            attachment id
+            </param>
+            <param name='viewId'>
+            View id from attachmentInfo
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentStreamAsync(Microsoft.Bot.Connector.IAttachments,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            GetAttachmentStreamAsync
+            </summary>
+            Get the named view as binary content as a stream
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -379,6 +839,11 @@
             Name of the attachment
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.CardAction">
+            <summary>
+            An action on a card
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.CardAction.#ctor">
             <summary>
             Initializes a new instance of the CardAction class.
@@ -391,10 +856,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.CardAction.Type">
             <summary>
-            Defines the type of action implemented by this button. Possible
-            values for this property include: 'openUrl', 'imBack',
-            'postBack', 'playAudio', 'playVideo', 'showImage', 'downloadFile'.
-            <see cref="T:Microsoft.Bot.Connector.ActionTypes"/> for more information.
+            Defines the type of action implemented by this button.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.CardAction.Title">
@@ -405,18 +867,17 @@
         <member name="P:Microsoft.Bot.Connector.CardAction.Image">
             <summary>
             URL Picture which will appear on the button, next to text label.
-            Media hosted on 3rd party domains will be automatically hosted on
-            auth protected CDN.Auth protection will be used to ensure that
-            content
-            uploaded to Skype CDN will only be accessible by Microsoft Clients
-            Please refer to Chapter 7 for description of media caching
-            algorithm.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.CardAction.Value">
             <summary>
             Supplementary parameter for action. Content of this property
             depends on the ActionType
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.CardImage">
+            <summary>
+            An image on a card
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.CardImage.#ctor">
@@ -473,6 +934,11 @@
             <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.ReceiptCard"/>.</param>
             <returns> The generated attachment.</returns>
         </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationParameters">
+            <summary>
+            Parameters for creating a new conversation
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor">
             <summary>
             Initializes a new instance of the ConversationParameters class.
@@ -505,8 +971,7 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.GeoCoordinates">
             <summary>
-            GeoCoordinates
-            https://schema.org/GeoCoordinates
+            GeoCoordinates (entity type: "https://schema.org/GeoCoordinates")
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.GeoCoordinates.#ctor">
@@ -549,8 +1014,7 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.Place">
             <summary>
-            Place
-            https://schema.org/Place
+            Place (entity type: "https://schema.org/Place")
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Place.#ctor">
@@ -565,20 +1029,20 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Place.Address">
             <summary>
-            Address of the place
-            Can be `string` or JToken of `PostalAddress` (future)
+            Address of the place (may be `string` or complex object of type
+            `PostalAddress`)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Place.Geo">
             <summary>
-            Geo coordinates of the place
-            Can be JToken of `GeoCoordinates` or `GeoShape` (future)
+            Geo coordinates of the place (may be complex object of type
+            `GeoCoordinates` or `GeoShape`)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Place.HasMap">
             <summary>
-            Map to the place
-            Can be `string` (a URL) or JToken of `Map` (future)
+            Map to the place (may be `string` (URL) or complex object of type
+            `Map`)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Place.Type">
@@ -589,6 +1053,11 @@
         <member name="P:Microsoft.Bot.Connector.Place.Name">
             <summary>
             The name of the thing
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ResourceResponse">
+            <summary>
+            A response containing a resource ID
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ResourceResponse.#ctor">
@@ -604,6 +1073,11 @@
         <member name="P:Microsoft.Bot.Connector.ResourceResponse.Id">
             <summary>
             Id of the resource
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ThumbnailCard">
+            <summary>
+            A thumbnail card (card with a single, small thumbnail image)
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ThumbnailCard.#ctor">
@@ -633,7 +1107,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.ThumbnailCard.Images">
             <summary>
-            Array of i
+            Array of images for the card
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ThumbnailCard.Buttons">
@@ -645,6 +1119,64 @@
             <summary>
             This action will be activated when user taps on the card itself
             </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppId">
+            <summary>
+            Microsoft AppId for the bot 
+            </summary>
+            <remarks>
+            Needs to be used with MicrosoftAppPassword.  Ignored if CredentialProviderType is specified.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppPassword">
+            <summary>
+            Microsoft AppPassword for the bot (needs to be used with MicrosoftAppId)
+            </summary>
+            <remarks>
+            Needs to be used with MicrosoftAppId. Ignored if CredentialProviderType is specified.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppIdSettingName">
+            <summary>
+            Name of Setting in web.config which has the Microsoft AppId for the bot 
+            </summary>
+            <remarks>
+            Needs to be used with MicrosoftAppPasswordSettingName. Ignored if CredentialProviderType is specified.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppPasswordSettingName">
+            <summary>
+            Name of Setting in web.config which has the Microsoft App Password for the bot 
+            </summary>
+            <remarks>
+            Needs to be used with MicrosoftAppIdSettingName. Ignored if CredentialProviderType is specified.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotAuthentication.CredentialProviderType">
+            <summary>
+            Type which implements ICredentialProvider interface to allow multiple bot AppIds to be registered for the same endpoint
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.#ctor(System.String,System.String)">
+            <summary>
+            Creates an instance of bot authenticator. 
+            </summary>
+            <param name="microsoftAppId"> The Microsoft app Id.</param>
+            <param name="microsoftAppPassword"> The Microsoft app password.</param>
+            <remarks> This constructor sets the <see cref="F:Microsoft.Bot.Connector.BotAuthenticator.openIdConfigurationUrl"/> to 
+            <see cref="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromChannelOpenIdMetadataUrl"/>  and doesn't disable 
+            the self issued tokens used by emulator.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.TryAuthenticateAsync(System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{Microsoft.Bot.Connector.IActivity},System.Threading.CancellationToken)">
+            <summary>
+            Authenticates the incoming request and add the <see cref="P:Microsoft.Bot.Connector.IActivity.ServiceUrl"/> for each
+            activities to <see cref="F:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustedHostNames"/> if the request is authenticated.
+            </summary>
+            <param name="request"> The request that should be authenticated.</param>
+            <param name="activities"> The activities extracted from request.</param>
+            <param name="token"> The cancellation token.</param>
+            <returns></returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConversationsExtensions">
             <summary>
@@ -735,6 +1267,31 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UpdateActivity(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity)">
+            <summary>
+            Update an activity in an existing conversation
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='activity'>
+            Activity to update
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UpdateActivityAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            Update an activity in an existing conversation
+            </summary>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='activity'>
+            Activity to update
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ConversationParameters)">
             <summary>
             CreateConversation
@@ -810,23 +1367,21 @@
             <summary>
             SendToConversation
             </summary>
-            This method allows you to send an activity to a conversation regardless of
-            previous posts to a conversation.
+            This method allows you to send an activity to the end of a conversation.
             
-            This is slightly different then ReplyToConversation().
-            * SendToConverstion(conversationId) - will simply append a message to the
-            end of the conversation according to the timestamp or semantics of the
-            channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
-            threaded conversations, meaning it has the information necessary for the
-            channel to reply to the actual message being responded to.
+            This is slightly different from ReplyToActivity().
+            * SendToConverstion(conversationId) - will append the activity to the end
+            of the conversation according to the timestamp or semantics of the
+            channel.
+            * ReplyToActivity(conversationId,ActivityId) - adds the activity as a
+            reply to another activity, if the channel supports it. If the channel
+            does not support nested replies, ReplyToActivity falls back to
+            SendToConversation.
             
-            SendToConversation is appropriate for the first message which initiates a
-            conversation, or if you don't have a particular activity you are
-            responding to.
+            Use ReplyToActivity when replying to a specific activity in the
+            conversation.
             
-            ReplyToConversation is preferable to SendToConversation() because it
-            maintains threaded conversations.
+            Use SendToConversation in all other cases.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -841,23 +1396,21 @@
             <summary>
             SendToConversation
             </summary>
-            This method allows you to send an activity to a conversation regardless of
-            previous posts to a conversation.
+            This method allows you to send an activity to the end of a conversation.
             
-            This is slightly different then ReplyToConversation().
-            * SendToConverstion(conversationId) - will simply append a message to the
-            end of the conversation according to the timestamp or semantics of the
-            channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
-            threaded conversations, meaning it has the information necessary for the
-            channel to reply to the actual message being responded to.
+            This is slightly different from ReplyToActivity().
+            * SendToConverstion(conversationId) - will append the activity to the end
+            of the conversation according to the timestamp or semantics of the
+            channel.
+            * ReplyToActivity(conversationId,ActivityId) - adds the activity as a
+            reply to another activity, if the channel supports it. If the channel
+            does not support nested replies, ReplyToActivity falls back to
+            SendToConversation.
             
-            SendToConversation is appropriate for the first message which initiates a
-            conversation, or if you don't have a particular activity you are
-            responding to.
+            Use ReplyToActivity when replying to a specific activity in the
+            conversation.
             
-            ReplyToConversation is preferable to SendToConversation() because it
-            maintains threaded conversations.
+            Use SendToConversation in all other cases.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -871,26 +1424,76 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UpdateActivity(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity)">
+            <summary>
+            UpdateActivity
+            </summary>
+            Edit an existing activity.
+            
+            Some channels allow you to edit an existing activity to reflect the new
+            state of a bot conversation.
+            
+            For example, you can remove buttons after someone has clicked "Approve"
+            button.
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to update
+            </param>
+            <param name='activity'>
+            replacement Activity
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.UpdateActivityAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
+            <summary>
+            UpdateActivity
+            </summary>
+            Edit an existing activity.
+            
+            Some channels allow you to edit an existing activity to reflect the new
+            state of a bot conversation.
+            
+            For example, you can remove buttons after someone has clicked "Approve"
+            button.
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to update
+            </param>
+            <param name='activity'>
+            replacement Activity
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.ReplyToActivity(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity)">
             <summary>
             ReplyToActivity
             </summary>
             This method allows you to reply to an activity.
             
-            This is slightly different then SendToConversation().
-            * SendToConverstion(conversationId) - will simply append a message to the
-            end of the conversation according to the timestamp or semantics of the
-            channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
-            threaded conversations, meaning it has the information necessary for the
-            channel to reply to the actual message being responded to.
+            This is slightly different from SendToConversation().
+            * SendToConverstion(conversationId) - will append the activity to the end
+            of the conversation according to the timestamp or semantics of the
+            channel.
+            * ReplyToActivity(conversationId,ActivityId) - adds the activity as a
+            reply to another activity, if the channel supports it. If the channel
+            does not support nested replies, ReplyToActivity falls back to
+            SendToConversation.
             
-            ReplyToConversation is almost always preferable to SendToConversation()
-            because it maintains threaded conversations.
+            Use ReplyToActivity when replying to a specific activity in the
+            conversation.
             
-            SendToConversation is appropriate for the first message which initiates a
-            conversation, or if you don't have a particular activity you are
-            responding to.
+            Use SendToConversation in all other cases.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -910,20 +1513,19 @@
             </summary>
             This method allows you to reply to an activity.
             
-            This is slightly different then SendToConversation().
-            * SendToConverstion(conversationId) - will simply append a message to the
-            end of the conversation according to the timestamp or semantics of the
-            channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
-            threaded conversations, meaning it has the information necessary for the
-            channel to reply to the actual message being responded to.
+            This is slightly different from SendToConversation().
+            * SendToConverstion(conversationId) - will append the activity to the end
+            of the conversation according to the timestamp or semantics of the
+            channel.
+            * ReplyToActivity(conversationId,ActivityId) - adds the activity as a
+            reply to another activity, if the channel supports it. If the channel
+            does not support nested replies, ReplyToActivity falls back to
+            SendToConversation.
             
-            ReplyToConversation is almost always preferable to SendToConversation()
-            because it maintains threaded conversations.
+            Use ReplyToActivity when replying to a specific activity in the
+            conversation.
             
-            SendToConversation is appropriate for the first message which initiates a
-            conversation, or if you don't have a particular activity you are
-            responding to.
+            Use SendToConversation in all other cases.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -940,15 +1542,53 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.DeleteActivity(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
+            <summary>
+            DeleteActivity
+            </summary>
+            Delete an existing activity.
+            
+            Some channels allow you to delete an existing activity, and if successful
+            this method will remove the specified activity.
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to delete
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.DeleteActivityAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            DeleteActivity
+            </summary>
+            Delete an existing activity.
+            
+            Some channels allow you to delete an existing activity, and if successful
+            this method will remove the specified activity.
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to delete
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversationMembers(Microsoft.Bot.Connector.IConversations,System.String)">
             <summary>
             GetConversationMembers
             </summary>
-            Call this method to enumerate the members of a converstion.
+            Enumerate the members of a converstion.
             
             This REST API takes a ConversationId and returns an array of
-            ChannelAccount[] objects
-            which are the members of the conversation.
+            ChannelAccount objects representing the members of the conversation.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -960,11 +1600,10 @@
             <summary>
             GetConversationMembers
             </summary>
-            Call this method to enumerate the members of a converstion.
+            Enumerate the members of a converstion.
             
             This REST API takes a ConversationId and returns an array of
-            ChannelAccount[] objects
-            which are the members of the conversation.
+            ChannelAccount objects representing the members of the conversation.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -979,11 +1618,11 @@
             <summary>
             GetActivityMembers
             </summary>
-            Call this method to enumerate the members of an activity.
+            Enumerate the members of an activity.
             
             This REST API takes a ConversationId and a ActivityId, returning an array
-            of ChannelAccount[] objects
-            which are the members of the particular activity in the conversation.
+            of ChannelAccount objects representing the members of the particular
+            activity in the conversation.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -998,11 +1637,11 @@
             <summary>
             GetActivityMembers
             </summary>
-            Call this method to enumerate the members of an activity.
+            Enumerate the members of an activity.
             
             This REST API takes a ConversationId and a ActivityId, returning an array
-            of ChannelAccount[] objects
-            which are the members of the particular activity in the conversation.
+            of ChannelAccount objects representing the members of the particular
+            activity in the conversation.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1020,14 +1659,13 @@
             <summary>
             UploadAttachment
             </summary>
-            This method allows you to upload an attachment directly into a channels
-            blob storage.
+            Upload an attachment directly into a channel's blob storage.
             
             This is useful because it allows you to store data in a compliant store
             when dealing with enterprises.
             
             The response is a ResourceResponse which contains an AttachmentId which is
-            suitable for using with the attachments api.
+            suitable for using with the attachments API.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1042,14 +1680,13 @@
             <summary>
             UploadAttachment
             </summary>
-            This method allows you to upload an attachment directly into a channels
-            blob storage.
+            Upload an attachment directly into a channel's blob storage.
             
             This is useful because it allows you to store data in a compliant store
             when dealing with enterprises.
             
             The response is a ResourceResponse which contains an AttachmentId which is
-            suitable for using with the attachments api.
+            suitable for using with the attachments API.
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1073,7 +1710,7 @@
             TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.JwtConfig.GetToBotFromChannelTokenValidationParameters(System.String)">
+        <member name="M:Microsoft.Bot.Connector.JwtConfig.GetToBotFromChannelTokenValidationParameters(System.IdentityModel.Tokens.AudienceValidator)">
             <summary>
             TO BOT FROM CHANNEL: Token validation parameters when connecting to a bot
             </summary>
@@ -1160,6 +1797,8 @@
             
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+            * Generate your own from the [State API Swagger
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -1180,6 +1819,23 @@
             <param name="baseUri">Base URI for the State service</param>
             <param name="credentials">Credentials for the Connector service</param>
             <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,Microsoft.Bot.Connector.ICredentialProvider,System.Security.Claims.ClaimsIdentity,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the StateClient class using Credential source
+            </summary>
+            <param name="baseUri">Base URI for the State service</param>
+            <param name="credentialProvider">Credential source to use</param>
+            <param name="claimsIdentity">ClaimsIDentity to create the client for</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(Microsoft.Bot.Connector.ICredentialProvider,System.Security.Claims.ClaimsIdentity,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the StateClient class using Credential source
+            </summary>
+            <param name="credentialProvider">Credential source to use</param>
+            <param name="claimsIdentity">ClaimsIDentity to create the client for</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         </member>
         <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(Microsoft.Bot.Connector.MicrosoftAppCredentials,System.Boolean,System.Net.Http.DelegatingHandler[])">
@@ -1321,6 +1977,11 @@
             Initializes client properties.
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.HeroCard">
+            <summary>
+            A Hero card (card with a single, large image)
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.HeroCard.#ctor">
             <summary>
             Initializes a new instance of the HeroCard class.
@@ -1348,7 +2009,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.HeroCard.Images">
             <summary>
-            Array of i
+            Array of images for the card
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.HeroCard.Buttons">
@@ -1359,6 +2020,11 @@
         <member name="P:Microsoft.Bot.Connector.HeroCard.Tap">
             <summary>
             This action will be activated when user taps on the card itself
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ReceiptCard">
+            <summary>
+            A receipt card
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ReceiptCard.#ctor">
@@ -1410,40 +2076,6 @@
             <summary>
             Set of actions applicable to the current card
             </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.SigninCard">
-            <summary>
-            A card representing a request to signing
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor">
-            <summary>
-            Initializes a new instance of the SigninCard class.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.SigninCard.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
-            <summary>
-            Initializes a new instance of the SigninCard class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.SigninCard.Text">
-            <summary>
-            Text for signin request
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.SigninCard.Buttons">
-            <summary>
-            Action to use to perform signin
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.SigninCard.Create(System.String,System.String,System.String)">
-            <summary>
-            Creates a <see cref="T:Microsoft.Bot.Connector.SigninCard"/>
-            </summary>
-            <param name="text"> The <see cref="P:Microsoft.Bot.Connector.SigninCard.Text"/></param>
-            <param name="buttonLabel"> The signin button label.</param>
-            <param name="url"> The sigin url.</param>
-            <returns> The created sigin card.</returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.BotState">
             <summary>
@@ -2071,6 +2703,8 @@
             
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+            * Generate your own from the [State API Swagger
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -2133,12 +2767,19 @@
             <param name="property">property name to change</param>
             <param name="data">new data</param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotData.RemoveProperty(System.String)">
+            <summary>
+            Remove a property from the BotData record
+            </summary>
+            <param name="property">property name to remove</param>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConnectorClient">
             <summary>
-            The Bot Connector REST API allows your bot to send and receive
-            messages to channels configured in the [Bot Framework Developer
-            Portal](https://dev.botframework.com). The Connector service uses
-            industry-standard REST and JSON over HTTPS.
+            ﻿The Bot Connector REST API allows your bot to send and receive
+            messages to channels configured in the
+            [Bot Framework Developer Portal](https://dev.botframework.com). The
+            Connector service uses industry-standard REST
+            and JSON over HTTPS.
             
             Client libraries for this REST API are available. See below for a
             list.
@@ -2157,6 +2798,8 @@
             
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+            * Generate your own from the [Connector API Swagger
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -2376,28 +3019,56 @@
             <summary>
             SendToConversation
             </summary>
-            This method allows you to send an activity to a conversation regardless of
-            previous posts to a conversation.
+            This method allows you to send an activity to the end of a conversation.
             
-            This is slightly different then ReplyToConversation().
-            * SendToConverstion(conversationId) - will simply append a message to the
-            end of the conversation according to the timestamp or semantics of the
-            channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
-            threaded conversations, meaning it has the information necessary for the
-            channel to reply to the actual message being responded to.
+            This is slightly different from ReplyToActivity().
+            * SendToConverstion(conversationId) - will append the activity to the end
+            of the conversation according to the timestamp or semantics of the
+            channel.
+            * ReplyToActivity(conversationId,ActivityId) - adds the activity as a
+            reply to another activity, if the channel supports it. If the channel
+            does not support nested replies, ReplyToActivity falls back to
+            SendToConversation.
             
-            SendToConversation is appropriate for the first message which initiates a
-            conversation, or if you don't have a particular activity you are
-            responding to.
+            Use ReplyToActivity when replying to a specific activity in the
+            conversation.
             
-            ReplyToConversation is preferable to SendToConversation() because it
-            maintains threaded conversations.
+            Use SendToConversation in all other cases.
             <param name='activity'>
             Activity to send
             </param>
             <param name='conversationId'>
             Conversation ID
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.UpdateActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            UpdateActivity
+            </summary>
+            Edit an existing activity.
+            
+            Some channels allow you to edit an existing activity to reflect the new
+            state of a bot conversation.
+            
+            For example, you can remove buttons after someone has clicked "Approve"
+            button.
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to update
+            </param>
+            <param name='activity'>
+            replacement Activity
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -2415,20 +3086,19 @@
             </summary>
             This method allows you to reply to an activity.
             
-            This is slightly different then SendToConversation().
-            * SendToConverstion(conversationId) - will simply append a message to the
-            end of the conversation according to the timestamp or semantics of the
-            channel
-            * ReplyToConversation(conversationId,ActivityId) - models the semantics of
-            threaded conversations, meaning it has the information necessary for the
-            channel to reply to the actual message being responded to.
+            This is slightly different from SendToConversation().
+            * SendToConverstion(conversationId) - will append the activity to the end
+            of the conversation according to the timestamp or semantics of the
+            channel.
+            * ReplyToActivity(conversationId,ActivityId) - adds the activity as a
+            reply to another activity, if the channel supports it. If the channel
+            does not support nested replies, ReplyToActivity falls back to
+            SendToConversation.
             
-            ReplyToConversation is almost always preferable to SendToConversation()
-            because it maintains threaded conversations.
+            Use ReplyToActivity when replying to a specific activity in the
+            conversation.
             
-            SendToConversation is appropriate for the first message which initiates a
-            conversation, or if you don't have a particular activity you are
-            responding to.
+            Use SendToConversation in all other cases.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2448,15 +3118,38 @@
             A response object containing the response body and response headers.
             </return>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.DeleteActivityWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            DeleteActivity
+            </summary>
+            Delete an existing activity.
+            
+            Some channels allow you to delete an existing activity, and if successful
+            this method will remove the specified activity.
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to delete
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.GetConversationMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetConversationMembers
             </summary>
-            Call this method to enumerate the members of a converstion.
+            Enumerate the members of a converstion.
             
             This REST API takes a ConversationId and returns an array of
-            ChannelAccount[] objects
-            which are the members of the conversation.
+            ChannelAccount objects representing the members of the conversation.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2474,11 +3167,11 @@
             <summary>
             GetActivityMembers
             </summary>
-            Call this method to enumerate the members of an activity.
+            Enumerate the members of an activity.
             
             This REST API takes a ConversationId and a ActivityId, returning an array
-            of ChannelAccount[] objects
-            which are the members of the particular activity in the conversation.
+            of ChannelAccount objects representing the members of the particular
+            activity in the conversation.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2499,14 +3192,13 @@
             <summary>
             UploadAttachment
             </summary>
-            This method allows you to upload an attachment directly into a channels
-            blob storage.
+            Upload an attachment directly into a channel's blob storage.
             
             This is useful because it allows you to store data in a compliant store
             when dealing with enterprises.
             
             The response is a ResourceResponse which contains an AttachmentId which is
-            suitable for using with the attachments api.
+            suitable for using with the attachments API.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2525,10 +3217,11 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.IConnectorClient">
             <summary>
-            The Bot Connector REST API allows your bot to send and receive
-            messages to channels configured in the [Bot Framework Developer
-            Portal](https://dev.botframework.com). The Connector service uses
-            industry-standard REST and JSON over HTTPS.
+            ﻿The Bot Connector REST API allows your bot to send and receive
+            messages to channels configured in the
+            [Bot Framework Developer Portal](https://dev.botframework.com). The
+            Connector service uses industry-standard REST
+            and JSON over HTTPS.
             
             Client libraries for this REST API are available. See below for a
             list.
@@ -2547,6 +3240,8 @@
             
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
+            * Generate your own from the [Connector API Swagger
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -2631,29 +3326,54 @@
             <summary>
             SendToConversation
             </summary>
-            This method allows you to send an activity to a conversation
-            regardless of previous posts to a conversation.
+            This method allows you to send an activity to the end of a
+            conversation.
             
-            This is slightly different then ReplyToConversation().
-            * SendToConverstion(conversationId) - will simply append a message
-            to the end of the conversation according to the timestamp or
-            semantics of the channel
-            * ReplyToConversation(conversationId,ActivityId) - models the
-            semantics of threaded conversations, meaning it has the
-            information necessary for the
-            channel to reply to the actual message being responded to.
+            This is slightly different from ReplyToActivity().
+            * SendToConverstion(conversationId) - will append the activity to
+            the end of the conversation according to the timestamp or
+            semantics of the channel.
+            * ReplyToActivity(conversationId,ActivityId) - adds the activity
+            as a reply to another activity, if the channel supports it. If
+            the channel does not support nested replies, ReplyToActivity
+            falls back to SendToConversation.
             
-            SendToConversation is appropriate for the first message which
-            initiates a conversation, or if you don't have a particular
-            activity you are responding to.
+            Use ReplyToActivity when replying to a specific activity in the
+            conversation.
             
-            ReplyToConversation is preferable to SendToConversation() because
-            it maintains threaded conversations.
+            Use SendToConversation in all other cases.
             <param name='activity'>
             Activity to send
             </param>
             <param name='conversationId'>
             Conversation ID
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.UpdateActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            UpdateActivity
+            </summary>
+            Edit an existing activity.
+            
+            Some channels allow you to edit an existing activity to reflect
+            the new state of a bot conversation.
+            
+            For example, you can remove buttons after someone has clicked
+            "Approve" button.
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to update
+            </param>
+            <param name='activity'>
+            replacement Activity
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.
@@ -2668,21 +3388,19 @@
             </summary>
             This method allows you to reply to an activity.
             
-            This is slightly different then SendToConversation().
-            * SendToConverstion(conversationId) - will simply append a message
-            to the end of the conversation according to the timestamp or
-            semantics of the channel
-            * ReplyToConversation(conversationId,ActivityId) - models the
-            semantics of threaded conversations, meaning it has the
-            information necessary for the
-            channel to reply to the actual message being responded to.
+            This is slightly different from SendToConversation().
+            * SendToConverstion(conversationId) - will append the activity to
+            the end of the conversation according to the timestamp or
+            semantics of the channel.
+            * ReplyToActivity(conversationId,ActivityId) - adds the activity
+            as a reply to another activity, if the channel supports it. If
+            the channel does not support nested replies, ReplyToActivity
+            falls back to SendToConversation.
             
-            ReplyToConversation is almost always preferable to
-            SendToConversation() because it maintains threaded conversations.
+            Use ReplyToActivity when replying to a specific activity in the
+            conversation.
             
-            SendToConversation is appropriate for the first message which
-            initiates a conversation, or if you don't have a particular
-            activity you are responding to.
+            Use SendToConversation in all other cases.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2699,15 +3417,36 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.DeleteActivityWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            DeleteActivity
+            </summary>
+            Delete an existing activity.
+            
+            Some channels allow you to delete an existing activity, and if
+            successful this method will remove the specified activity.
+            <param name='conversationId'>
+            Conversation ID
+            </param>
+            <param name='activityId'>
+            activityId to delete
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.GetConversationMembersWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
             GetConversationMembers
             </summary>
-            Call this method to enumerate the members of a converstion.
+            Enumerate the members of a converstion.
             
             This REST API takes a ConversationId and returns an array of
-            ChannelAccount[] objects
-            which are the members of the conversation.
+            ChannelAccount objects representing the members of the
+            conversation.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2722,12 +3461,11 @@
             <summary>
             GetActivityMembers
             </summary>
-            Call this method to enumerate the members of an activity.
+            Enumerate the members of an activity.
             
             This REST API takes a ConversationId and a ActivityId, returning
-            an array of ChannelAccount[] objects
-            which are the members of the particular activity in the
-            conversation.
+            an array of ChannelAccount objects representing the members of
+            the particular activity in the conversation.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2745,14 +3483,13 @@
             <summary>
             UploadAttachment
             </summary>
-            This method allows you to upload an attachment directly into a
-            channels blob storage.
+            Upload an attachment directly into a channel's blob storage.
             
             This is useful because it allows you to store data in a compliant
             store when dealing with enterprises.
             
             The response is a ResourceResponse which contains an AttachmentId
-            which is suitable for using with the attachments api.
+            which is suitable for using with the attachments API.
             <param name='conversationId'>
             Conversation ID
             </param>
@@ -2766,6 +3503,12 @@
             The cancellation token.
             </param>
         </member>
+        <member name="T:Microsoft.Bot.Connector.Activity">
+            <summary>
+            An Activity is the basic communication type for the Bot Framework 3.0
+            protocol
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.CreateReply(System.String,System.String)">
             <summary>
             Take a message and create a reply message for it with the routing information 
@@ -2774,6 +3517,50 @@
             <param name="text">text you want to reply with</param>
             <param name="locale">language of your reply</param>
             <returns>message set up to route back to the sender</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.IsActivity(System.String)">
+            <summary>
+            True if the Activity is of the specified activity type
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsMessageActivity">
+            <summary>
+            Return an IMessageActivity mask if this is a message activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsContactRelationUpdateActivity">
+            <summary>
+            Return an IContactRelationUpdateActivity mask if this is a contact relation update activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsConversationUpdateActivity">
+            <summary>
+            Return an IConversationUpdateActivity mask if this is a conversation update activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsTypingActivity">
+            <summary>
+            Return an ITypingActivity mask if this is a typing activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsTriggerActivity">
+            <summary>
+            Return an ITriggerActivity mask if this is a trigger activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsEndOfConversationActivity">
+            <summary>
+            Return an IEndOfConversationActivity mask if this is an end of conversation activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.GetStateClient(Microsoft.Bot.Connector.MicrosoftAppCredentials,System.String,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Get StateClient appropriate for this activity
+            </summary>
+            <param name="credentials">credentials for bot to access state api</param>
+            <param name="serviceUrl">alternate serviceurl to use for state service</param>
+            <param name="handlers"></param>
+            <returns></returns>
         </member>
         <member name="M:Microsoft.Bot.Connector.Activity.GetStateClient(System.String,System.String,System.String,System.Net.Http.DelegatingHandler[])">
             <summary>
@@ -2841,7 +3628,7 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
@@ -2859,7 +3646,13 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Timestamp">
             <summary>
-            Time when message was sent
+            UTC Time when message was sent (Set by service)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.LocalTimestamp">
+            <summary>
+            Local time when message was sent (set by client Ex:
+            2016-09-23T13:07:49.4714686-07:00)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ServiceUrl">
@@ -2940,9 +3733,8 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Entities">
             <summary>
-            Entities
-            Collection of Entity which contain metadata about this activity
-            (each is typed)
+            Collection of Entity objects, each of which contains metadata
+            about this activity. Each Entity object is typed.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ChannelData">
@@ -2960,18 +3752,14 @@
             the original id this message is a response to
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.APIResponse.#ctor">
+        <member name="P:Microsoft.Bot.Connector.Activity.Value">
             <summary>
-            Initializes a new instance of the APIResponse class.
+            Open ended value
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.APIResponse.#ctor(System.String)">
+        <member name="T:Microsoft.Bot.Connector.Attachment">
             <summary>
-            Initializes a new instance of the APIResponse class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.APIResponse.Message">
-            <summary>
+            An attachment within an activity
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Attachment.#ctor">
@@ -3104,8 +3892,9 @@
             <summary>
             Set of key-value pairs. Advantage of this section is that key and
             value properties will be
-            rendered with default style information with some delimiter between
-            them. So there is no need for developer to specify style information.
+            rendered with default style information with some
+            delimiter between them. So there is no need for developer to specify
+            style information.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Fact.#ctor">
@@ -3120,10 +3909,17 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Fact.Key">
             <summary>
+            The key for this Fact
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Fact.Value">
             <summary>
+            The value for this Fact
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ReceiptItem">
+            <summary>
+            An item on a receipt card
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ReceiptItem.#ctor">
@@ -3199,12 +3995,17 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.IActivity.ServiceUrl">
             <summary>
-            (PROPOSED) ServiceUrl
+            ServiceUrl
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IActivity.Timestamp">
             <summary>
-            Time when message was sent
+            UTC Time when message was sent
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.LocalTimestamp">
+            <summary>
+            Client Time when message was sent Ex: 2016-09-23T13:07:49.4714686-07:00
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IActivity.ChannelId">
@@ -3219,12 +4020,17 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.IActivity.Conversation">
             <summary>
-            Conversation Address 
+            Address for the conversation that this activity is associated with
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IActivity.Recipient">
             <summary>
-            Bot's address 
+            Address that received the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IActivity.ReplyToId">
+            <summary>
+            The original id this message is a response to
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IActivity.ChannelData">
@@ -3245,9 +4051,34 @@
             The channel data essentially allows a bot to have access to native functionality on a per channel basis.
             </remarks>
         </member>
-        <member name="T:Microsoft.Bot.Connector.ITypingActivity">
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsMessageActivity">
             <summary>
-            The From address is typing
+            Return IMessageActivity if this is a message activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsContactRelationUpdateActivity">
+            <summary>
+            Return IContactRelationUpdateActivity if this is a contactRelationUpdate activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsConversationUpdateActivity">
+            <summary>
+            Return IConversationUpdateActivity if this is a conversationUpdate activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsTypingActivity">
+            <summary>
+            Return ITypingActivity if this is a typing activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsEndOfConversationActivity">
+            <summary>
+            Return IEndOfConversationActivity if this is an end-of-conversation activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsTriggerActivity">
+            <summary>
+            Returns ITriggerActivity if this is a trigger activity, null otherwise
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.IContactRelationUpdateActivity">
@@ -3257,7 +4088,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.IContactRelationUpdateActivity.Action">
             <summary>
-            Add|remove
+            add|remove
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.IConversationUpdateActivity">
@@ -3324,16 +4155,10 @@
             Collection of objects which contain metadata about this activity
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.IMessageActivity.ReplyToId">
+        <member name="M:Microsoft.Bot.Connector.IMessageActivity.HasContent">
             <summary>
-            the original id this message is a response to
+            True if this activity has text, attachments, or channelData
             </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.IMessageActivity.GetMentions">
-            <summary>
-            Get mentions from the Entities field
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:Microsoft.Bot.Connector.IMessageActivity.GetChannelData``1">
             <summary>
@@ -3342,11 +4167,10 @@
             <typeparam name="TypeT">type to use</typeparam>
             <returns>typed object or default(TypeT)</returns>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IMessageActivity.GetActivityType">
+        <member name="M:Microsoft.Bot.Connector.IMessageActivity.GetMentions">
             <summary>
-            Return the "major" portion of the activity
+            Get mentions
             </summary>
-            <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
         </member>
     </members>
 </doc>

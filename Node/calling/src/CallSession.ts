@@ -153,7 +153,8 @@ export class CallSession extends events.EventEmitter implements ISession {
     public dialogData: any;
 
     public error(err: Error): this {
-        err = err instanceof Error ? err : new Error(err.toString());
+        var msg = err.toString();
+        err = err instanceof Error ? err : new Error(msg);
         this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
         this.emit('error', err);
         return this;

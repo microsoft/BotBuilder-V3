@@ -47,11 +47,10 @@ export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
     onSend: (messages: IMessage[], done: (err: Error) => void) => void;
     library: dl.Library;
+    localizer: ILocalizer;
     middleware: ISessionMiddleware[];
     dialogId: string;
     dialogArgs?: any;
-    localizer?: ILocalizer;
-    localizerSettings?: ILocalizerSettings;
     autoBatchDelay?: number;
     dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
     actions?: actions.ActionSet;
@@ -75,13 +74,7 @@ export class Session extends events.EventEmitter implements ISession {
     constructor(protected options: ISessionOptions) {
         super();
         this.library = options.library;
-
-        if (!options.localizer) {
-            this.localizer = new dfLoc.DefaultLocalizer();           
-        } else {
-            this.localizer = options.localizer;
-        }
-        this.localizer.initialize(options.localizerSettings);
+        this.localizer = options.localizer;
         
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;  // 250ms delay
@@ -119,9 +112,9 @@ export class Session extends events.EventEmitter implements ISession {
             this.message.type = consts.messageType;
         }
 
-        // Localize message, then invoke middleware
-        logger.debug("loading localizer for: " + this.message.textLocale)
-        this.localizer.load(this.message.textLocale, (err:Error) => {
+        // Ensure localized prompts are loaded
+        var locale = this.preferredLocale();
+        this.localizer.load(locale, (err:Error) => {
             if (err) {
                     this.error(err);
             } else {
@@ -140,9 +133,19 @@ export class Session extends events.EventEmitter implements ISession {
     public localizer:ILocalizer = null;
 
     public error(err: Error): ISession {
-        err = err instanceof Error ? err : new Error(err.toString());
         logger.info(this, 'session.error()');
-        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
+
+        // End conversation with a message
+        if (this.options.dialogErrorMessage) {
+            this.endConversation(this.options.dialogErrorMessage);
+        } else {
+            var locale = this.preferredLocale();
+            this.endConversation(this.localizer.gettext(locale, 'default_error', consts.Library.system));
+        }
+
+        // Log error
+        var m = err.toString();
+        err = err instanceof Error ? err : new Error(m);
         this.emit('error', err);
         return this;
     }
@@ -550,7 +553,8 @@ export class Session extends events.EventEmitter implements ISession {
         var cur = this.curDialog();
         if (cur && this.message.text.indexOf('action?') !== 0) {
             var dialog = this.findDialog(cur.id);
-            dialog.recognize({ message: this.message, dialogData: cur.state, activeDialog: true }, done);
+            var locale = this.preferredLocale();
+            dialog.recognize({ message: this.message, locale: locale, dialogData: cur.state, activeDialog: true }, done);
         } else {
             done(null, { score: 0.0 });
         }

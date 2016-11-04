@@ -40,7 +40,7 @@ var ConsoleConnector = (function () {
     ConsoleConnector.prototype.onEvent = function (handler) {
         this.handler = handler;
     };
-    ConsoleConnector.prototype.send = function (messages, cb) {
+    ConsoleConnector.prototype.send = function (messages, done) {
         for (var i = 0; i < messages.length; i++) {
             if (this.replyCnt++ > 0) {
                 console.log();
@@ -58,6 +58,7 @@ var ConsoleConnector = (function () {
                 }
             }
         }
+        done(null);
     };
     ConsoleConnector.prototype.startConversation = function (address, cb) {
         var adr = utils.clone(address);

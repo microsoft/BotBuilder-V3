@@ -8,7 +8,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9CEADC8B-6F00-4643-AC7B-D9BD4299F823}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		todo.txt = todo.txt
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchDialogs", "SearchDialogs\SearchDialogs.csproj", "{A5B3E7C3-F53F-44AA-A75D-2C799E27D165}"

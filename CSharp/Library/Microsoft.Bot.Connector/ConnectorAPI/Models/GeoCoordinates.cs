@@ -12,8 +12,7 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest.Serialization;
 
     /// <summary>
-    /// GeoCoordinates
-    /// https://schema.org/GeoCoordinates
+    /// GeoCoordinates (entity type: "https://schema.org/GeoCoordinates")
     /// </summary>
     public partial class GeoCoordinates
     {

@@ -79,9 +79,6 @@ export class BotConnectorBot  {
                 case 'appSecret':
                     oConnector.appPassword = options.appSecret;
                     break;
-                case 'localizer':
-                    oBot.localizer = options.localizer;
-                    break;
                 case 'defaultDialogId':
                     oBot.defaultDialogId = options.defaultDialogId;
                     break;

@@ -44,6 +44,7 @@ export interface IDialogResult<T> {
 
 export interface IRecognizeContext {
     message: IMessage;
+    locale: string;
     dialogData: any;
     activeDialog: boolean;
 }

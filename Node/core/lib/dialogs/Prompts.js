@@ -34,6 +34,16 @@ var SimplePromptRecognizer = (function () {
     function SimplePromptRecognizer() {
     }
     SimplePromptRecognizer.prototype.recognize = function (args, callback, session) {
+        function findChoice(args, text) {
+            var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
+            if (!best) {
+                var n = entities.EntityRecognizer.parseNumber(text);
+                if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
+                    best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
+                }
+            }
+            return best;
+        }
         var score = 0.0;
         var response;
         var text = args.utterance.trim();
@@ -53,9 +63,9 @@ var SimplePromptRecognizer = (function () {
             case PromptType.confirm:
                 var b = entities.EntityRecognizer.parseBoolean(text);
                 if (typeof b !== 'boolean') {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= 2) {
-                        b = (n === 1);
+                    var best = findChoice(args, text);
+                    if (best) {
+                        b = (best.index === 0);
                     }
                 }
                 if (typeof b == 'boolean') {
@@ -71,13 +81,7 @@ var SimplePromptRecognizer = (function () {
                 }
                 break;
             case PromptType.choice:
-                var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
-                if (!best) {
-                    var n = entities.EntityRecognizer.parseNumber(text);
-                    if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
-                        best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
-                    }
-                }
+                var best = findChoice(args, text);
                 if (best) {
                     score = best.score;
                     response = best;
@@ -173,7 +177,7 @@ var Prompts = (function (_super) {
                     if (Channel.supportsKeyboards(session, args.enumValues.length)) {
                         style = ListStyle.button;
                     }
-                    else if (!retry) {
+                    else if (!retry && args.promptType == PromptType.choice) {
                         style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
                     }
                     else {
@@ -197,13 +201,7 @@ var Prompts = (function (_super) {
                 prompt = mb.Message.randomPrompt(args.prompt);
             }
             var locale = session.preferredLocale();
-            logger.debug("prompts::preferred locale %s", locale);
-            if (!locale && session.localizer) {
-                locale = session.localizer.defaultLocale();
-                logger.debug("prompts::sendPrompt using default locale %s", locale);
-            }
             prompt = session.localizer.gettext(locale, prompt, args.localizationNamespace);
-            logger.debug("prompts::sendPrompt localized prompt %s", prompt);
             var connector = '';
             var list;
             var msg = new mb.Message();
@@ -219,7 +217,8 @@ var Prompts = (function (_super) {
                     break;
                 case ListStyle.inline:
                     list = ' (';
-                    args.enumValues.forEach(function (value, index) {
+                    args.enumValues.forEach(function (v, index) {
+                        var value = v.toString();
                         list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
                         if (index == args.enumValues.length - 2) {
                             connector = index == 0 ? session.localizer.gettext(locale, "list_or", consts.Library.system) : session.localizer.gettext(locale, "list_or_more", consts.Library.system);
@@ -233,7 +232,8 @@ var Prompts = (function (_super) {
                     break;
                 case ListStyle.list:
                     list = '\n   ';
-                    args.enumValues.forEach(function (value, index) {
+                    args.enumValues.forEach(function (v, index) {
+                        var value = v.toString();
                         list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
                         connector = '\n   ';
                     });
@@ -256,11 +256,11 @@ var Prompts = (function (_super) {
             }
         }
     };
-    Prompts.text = function (session, prompt) {
-        beginPrompt(session, {
-            promptType: PromptType.text,
-            prompt: prompt
-        });
+    Prompts.text = function (session, prompt, options) {
+        var args = options || {};
+        args.promptType = PromptType.text;
+        args.prompt = prompt;
+        beginPrompt(session, args);
     };
     Prompts.number = function (session, prompt, options) {
         var args = options || {};
@@ -269,10 +269,14 @@ var Prompts = (function (_super) {
         beginPrompt(session, args);
     };
     Prompts.confirm = function (session, prompt, options) {
+        var locale = session.preferredLocale();
         var args = options || {};
         args.promptType = PromptType.confirm;
         args.prompt = prompt;
-        args.enumValues = ['confirm_yes', 'confirm_no'];
+        args.enumValues = [
+            session.localizer.gettext(locale, 'confirm_yes', consts.Library.system),
+            session.localizer.gettext(locale, 'confirm_no', consts.Library.system)
+        ];
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
         beginPrompt(session, args);
     };
@@ -281,7 +285,12 @@ var Prompts = (function (_super) {
         args.promptType = PromptType.choice;
         args.prompt = prompt;
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
-        args.enumValues = entities.EntityRecognizer.expandChoices(choices);
+        var c = entities.EntityRecognizer.expandChoices(choices);
+        if (c.length == 0) {
+            console.error("0 length choice for prompt:", prompt);
+            throw "0 length choice list supplied";
+        }
+        args.enumValues = c;
         beginPrompt(session, args);
     };
     Prompts.time = function (session, prompt, options) {

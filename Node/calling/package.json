@@ -2,7 +2,7 @@
   "name": "botbuilder-calling",
   "author": "Microsoft Corp.",
   "description": "Bot Builder based framework for building calling bots in Skype.",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
   "keywords": [
     "botbuilder",

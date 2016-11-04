@@ -1,4 +1,4 @@
-﻿//=============================================================================
+//=============================================================================
 //
 // INTERFACES
 //
@@ -310,7 +310,8 @@ export interface IIsFact {
     toFact(): IFact;
 }
 
-interface ILocalizerSettings {
+/** Settings used to initialize an ILocalizer implementation. */
+interface IDefaultLocalizerSettings {
     /** The path to the parent of the bot's locale directory  */
     botLocalePath?: string;
 
@@ -321,12 +322,6 @@ interface ILocalizerSettings {
 /** Plugin for localizing messages sent to the user by a bot. */
 export interface ILocalizer {
     /**
-     * Intitializes the localizer.
-     * @param localizerSettings (Optional) settings to supply to the localizer.
-     */
-    initialize(localizerSettings?: ILocalizerSettings): void;
-    
-    /**
      * Loads the localied table for the supplied locale, and call's the supplied callback once the load is complete.
      * @param locale The locale to load.
      * @param callback callback that is called once the supplied locale has been loaded, or an error if the load fails.
@@ -335,29 +330,29 @@ export interface ILocalizer {
     
     /**
      * Loads a localized string for the specified language.
-     * @param language Desired language of the string to return.
+     * @param locale Desired locale of the string to return.
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
      * @param namespace (Optional) namespace for the msgid keys.
      */
-    trygettext(language: string, msgid: string, namespace?: string): string;
+    trygettext(locale: string, msgid: string, namespace?: string): string;
     
     /**
      * Loads a localized string for the specified language.
-     * @param language Desired language of the string to return.
+     * @param locale Desired locale of the string to return.
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
      * @param namespace (Optional) namespace for the msgid keys.
      */
-    gettext(language: string, msgid: string, namespace?: string): string;
+    gettext(locale: string, msgid: string, namespace?: string): string;
 
     /**
      * Loads the plural form of a localized string for the specified language.
-     * @param language Desired language of the string to return.
+     * @param locale Desired locale of the string to return.
      * @param msgid Singular form of the string to use as a key in the localized string table.
      * @param msgid_plural Plural form of the string to use as a key in the localized string table.
      * @param count Count to use when determining whether the singular or plural form of the string should be used.
      * @param namespace (Optional) namespace for the msgid and msgid_plural keys.
      */
-    ngettext(language: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
+    ngettext(locale: string, msgid: string, msgid_plural: string, count: number, namespace?: string): string;
 }
 
 /** Persisted session state used to track a conversations dialog stack. */
@@ -385,8 +380,8 @@ export interface IDialogState {
   * Results returned by a child dialog to its parent via a call to session.endDialog(). 
   */
 export interface IDialogResult<T> {
-    /** The reason why the current dialog is being resumed. */
-    resumed: ResumeReason;
+    /** The reason why the current dialog is being resumed. Defaults to {ResumeReason.completed} */
+    resumed?: ResumeReason;
 
     /** ID of the child dialog thats ending. */
     childId?: string;
@@ -402,6 +397,9 @@ export interface IDialogResult<T> {
 export interface IRecognizeContext {
     /** Message that was received. */
     message: IMessage;
+
+    /** The users preferred locale for the message. */
+    locale: string;
 
     /** If true the Dialog is the active dialog on the callstack. */
     activeDialog: boolean;
@@ -477,6 +475,9 @@ export interface IPromptOptions {
 
     /** (Optional) flag used to control the reprompting of a user after a dialog started by an action ends. The default value is true. */
     promptAfterAction?: boolean;
+
+    /** (Optional) namespace to use when localizing a passed in prompt. */
+    localizationNamespace?: string;
 }
 
 /** Arguments passed to the built-in prompts beginDialog() call. */
@@ -642,6 +643,9 @@ export interface ISessionOptions {
     /** The bots root library of dialogs. */
     library: Library;
 
+    /** The localizer to use for the session. */
+    localizer: ILocalizer;
+
     /** Array of session middleware to execute prior to each request. */
     middleware: ISessionMiddleware[];
 
@@ -650,9 +654,6 @@ export interface ISessionOptions {
 
     /** (Optional) arguments to pass to the conversations initial dialog. */
     dialogArgs?: any;
-
-    /** (Optional) localizer to use when localizing the bots responses. */
-    localizer?: ILocalizer;
     
     /** (Optional) time to allow between each message sent as a batch. The default value is 250ms.  */
     autoBatchDelay?: number;
@@ -738,8 +739,8 @@ export interface IUniversalBotSettings {
     /** (Optional) arguments to pass to the initial dialog for a conversation. */
     defaultDialogArgs?: any;
 
-    /** (Optional) localizer used to localize the bots responses to the user. */
-    localizer?: ILocalizer;
+    /** (Optional) settings used to configure the frameworks built in default localizer. */
+    localizerSettings?: IDefaultLocalizerSettings;
 
     /** (Optional) function used to map the user ID for an incoming message to another user ID.  This can be used to implement user account linking. */
     lookupUser?: (address: IAddress, done: (err: Error, user: IIdentity) => void) => void;
@@ -1163,7 +1164,7 @@ export class Session {
     /**
      * Ends the current dialog and optionally returns a result to the dialogs parent. 
      */
-    endDialogWithResult(result?: IDialogResult<any>): Session;
+    endDialogWithResult<T>(result?: IDialogResult<T>): Session;
     
     /** 
      * Cancels an existing dialog and optionally starts a new one it its place.  Unlike [endDialog()](#enddialog)
@@ -1435,7 +1436,7 @@ export class ThumbnailCard implements IIsAttachment {
     toAttachment(): IAttachment;
 }
 
-/** Card builder class that simplifies building hero cards. Hero cards contain the same information as a thumbnail card, just with a larger more pronounced layout for the cards imagess. */
+/** Card builder class that simplifies building hero cards. Hero cards contain the same information as a thumbnail card, just with a larger more pronounced layout for the cards images. */
 export class HeroCard extends ThumbnailCard {
 
     /** 
@@ -1765,11 +1766,26 @@ export class DialogAction {
  * include the library name prefix.  
  */
 export class Library {
-    /** Unique name of the library. */
+    /** 
+     * The libraries unique namespace. This is used to issolate the libraries dialogs and localized
+     * prompts. 
+     */
     name: string;
 
-    /** Creates a new instance of the library. */
+    /** 
+     * Creates a new instance of the library.
+     * @param name Unique namespace for the library. 
+     */
     constructor(name: string);
+
+    /** 
+     * Gets or sets the path to the libraries "/locale/" folder containing its localized prompts. 
+     * The prompts for the library should be stored in a "/locale/<IETF_TAG>/<NAMESPACE>.json" file
+     * under this path where "<IETF_TAG>" representes the 2-3 digit language tage for the locale and
+     * "<NAMESPACE>" is a filename matching the libraries namespace. 
+     * @param path (Optional) path to the libraries "/locale/" folder. If specified this will update the libraries path. 
+     */
+    localePath(path?: string): string;
 
     /**
      * Registers or returns a dialog from the library.
@@ -1796,6 +1812,15 @@ export class Library {
      * @param dialogId Unique ID of the dialog within the library.
      */
     findDialog(libName: string, dialogId: string): Dialog;
+
+    /**
+     * Enumerates all of the libraries child libraries. The caller should take appropriate steps to
+     * avoid circular references when enumerating the hierarchy. Maintaining a map of visited 
+     * libraries should be enough.
+     * @param callback Iterator function to call with each child.
+     * @param callback.library The current child.
+     */
+    forEachLibrary(callback: (library: Library) => void): void;
 }
 
 /**
@@ -1822,8 +1847,9 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static text(session: Session, prompt: string|string[]|IMessage|IIsMessage): void;
+    static text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to enter a number.
@@ -1964,6 +1990,12 @@ export class IntentDialog extends Dialog {
      * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
      */
     onDefault(dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+
+    /**
+     * Adds a new recognizer plugin to the intent dialog.
+     * @param plugin The recognizer to add. 
+     */
+    recognizer(plugin: IIntentRecognizer): IntentDialog;
 }
 
 /**

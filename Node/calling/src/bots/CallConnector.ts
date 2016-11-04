@@ -304,7 +304,8 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                 if (!err) {
                     callback(null, data);
                 } else {
-                    callback(err instanceof Error ? err : new Error(err.toString()), null);
+                    var msg = err.toString();
+                    callback(err instanceof Error ? err : new Error(msg), null);
                 }
             });
         } catch (e) {
@@ -360,7 +361,8 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                     if (!err) {
                         callback(null);
                     } else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var msg = err.toString();
+                        callback(err instanceof Error ? err : new Error(msg));
                     }
                 }
             });

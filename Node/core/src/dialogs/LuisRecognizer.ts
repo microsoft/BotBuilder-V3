@@ -31,16 +31,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import dlg = require('./Dialog');
-import intent = require('./IntentDialog');
-import utils = require('../utils');
-import request = require('request');
+import { IRecognizeContext } from './Dialog';
+import { IIntentRecognizer, IIntentRecognizerResult } from './IntentRecognizerSet';
+import * as utils from '../utils';
+import * as request from 'request';
 
 export interface ILuisModelMap {
     [local: string]: string;
 }
 
-export class LuisRecognizer implements intent.IIntentRecognizer {
+export class LuisRecognizer implements IIntentRecognizer {
     private models: ILuisModelMap;
 
     constructor(models: string|ILuisModelMap) {
@@ -51,11 +51,11 @@ export class LuisRecognizer implements intent.IIntentRecognizer {
         }
     }
 
-    public recognize(context: dlg.IRecognizeContext, cb: (err: Error, result: intent.IIntentRecognizerResult) => void): void {
-        var result: intent.IIntentRecognizerResult = { score: 0.0, intent: null };
+    public recognize(context: IRecognizeContext, cb: (err: Error, result: IIntentRecognizerResult) => void): void {
+        var result: IIntentRecognizerResult = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
             var utterance = context.message.text;
-            var locale = context.message.textLocale || '*';
+            var locale = context.locale || '*';
             var model = this.models.hasOwnProperty(locale) ? this.models[locale] : this.models['*'];
             if (model) {
                 LuisRecognizer.recognize(utterance, model, (err, intents, entities) => {
@@ -132,7 +132,8 @@ export class LuisRecognizer implements intent.IIntentRecognizer {
                     if (!err) {
                         callback(null, result.intents, result.entities);
                     } else {
-                        callback(err instanceof Error ? err : new Error(err.toString()));
+                        var m = err.toString();
+                        callback(err instanceof Error ? err : new Error(m));
                     }
                 } catch (e) {
                     console.error(e.toString());

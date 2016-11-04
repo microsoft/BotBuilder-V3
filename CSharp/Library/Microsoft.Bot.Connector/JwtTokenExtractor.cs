@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web.Http.Controllers;
 using Microsoft.IdentityModel.Protocols;
 
 namespace Microsoft.Bot.Connector
@@ -84,14 +82,6 @@ namespace Microsoft.Bot.Connector
             }
         }
 
-        public void GenerateUnauthorizedResponse(HttpActionContext actionContext)
-        {
-            string host = actionContext.Request.RequestUri.DnsSafeHost;
-            actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
-            actionContext.Response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
-            return;
-        }
-
         private bool HasAllowedIssuer(string jwtToken)
         {
             JwtSecurityToken token = new JwtSecurityToken(jwtToken);
@@ -104,7 +94,7 @@ namespace Microsoft.Bot.Connector
             return false;
         }
 
-        public string GetBotIdFromClaimsIdentity(ClaimsIdentity identity)
+        public string GetAppIdFromClaimsIdentity(ClaimsIdentity identity)
         {
             if (identity == null)
                 return null;
