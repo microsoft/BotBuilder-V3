@@ -68,10 +68,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         /// <summary>
         /// Save a BotData using the ETag.
-        /// If ETag is null or empty, this will set the value if nobody has set it yet
-        /// If ETag is "*" then this will unconditionally set the value
-        /// If ETag matches then this will update the value if it is unchanged.
-        /// If Data is null this removes record
+        /// Etag consistency checks
+        ///     If ETag is null or empty, this will set the value if nobody has set it yet
+        ///     If ETag is "*" then this will unconditionally set the value
+        ///     If ETag matches then this will update the value if it is unchanged.
+        /// If Data is null this removes record, otherwise it stores
         /// </summary>
         /// <param name="key"></param>
         /// <param name="botStoreType"></param>

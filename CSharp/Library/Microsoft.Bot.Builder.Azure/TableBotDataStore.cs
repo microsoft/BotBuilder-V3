@@ -43,6 +43,9 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage;
+using System.IO;
+using System.IO.Compression;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Azure
 {
@@ -52,39 +55,38 @@ namespace Microsoft.Bot.Builder.Azure
     /// </summary>
     public class TableBotDataStore : IBotDataStore<BotData>
     {
-        private CloudTable _table;
-        private static HashSet<string> _checkedTables = new HashSet<string>();
+        private static HashSet<string> checkedTables = new HashSet<string>();
 
         public TableBotDataStore(string connectionString, string tableName = "botdata")
         {
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
             var tableClient = storageAccount.CreateCloudTableClient();
-            _table = tableClient.GetTableReference(tableName);
+            this.Table = tableClient.GetTableReference(tableName);
 
-            lock (_checkedTables)
+            lock (checkedTables)
             {
-                if (!_checkedTables.Contains(tableName))
+                if (!checkedTables.Contains(tableName))
                 {
-                    _table.CreateIfNotExists();
-                    _checkedTables.Add(tableName);
+                    this.Table.CreateIfNotExists();
+                    checkedTables.Add(tableName);
                 }
             }
         }
 
         public TableBotDataStore(CloudTable table)
         {
-            _table = table;
+            this.Table = table;
         }
 
-        public CloudTable Table { get { return _table; } set { _table = value; } }
+        public CloudTable Table { get; private set; }
 
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
             var entityKey = BotDataEntity.GetEntityKey(key, botStoreType);
             try
             {
-                var result = await _table.ExecuteAsync(TableOperation.Retrieve<BotDataEntity>(entityKey.PartitionKey, entityKey.RowKey));
-                BotDataEntity entity = result.Result as BotDataEntity;
+                var result = await this.Table.ExecuteAsync(TableOperation.Retrieve<BotDataEntity>(entityKey.PartitionKey, entityKey.RowKey));
+                BotDataEntity entity = (BotDataEntity)result.Result;
                 if (entity == null)
                     // empty record ready to be saved
                     return new BotData(eTag: String.Empty, data: null);
@@ -111,20 +113,20 @@ namespace Microsoft.Bot.Builder.Azure
             try
             {
                 if (String.IsNullOrEmpty(entity.ETag))
-                    await _table.ExecuteAsync(TableOperation.Insert(entity));
+                    await this.Table.ExecuteAsync(TableOperation.Insert(entity));
                 else if (entity.ETag == "*")
                 {
                     if (botData.Data != null)
-                        await _table.ExecuteAsync(TableOperation.InsertOrReplace(entity));
+                        await this.Table.ExecuteAsync(TableOperation.InsertOrReplace(entity));
                     else
-                        await _table.ExecuteAsync(TableOperation.Delete(entity));
+                        await this.Table.ExecuteAsync(TableOperation.Delete(entity));
                 }
                 else
                 {
                     if (botData.Data != null)
-                        await _table.ExecuteAsync(TableOperation.Replace(entity));
+                        await this.Table.ExecuteAsync(TableOperation.Replace(entity));
                     else
-                        await _table.ExecuteAsync(TableOperation.Delete(entity));
+                        await this.Table.ExecuteAsync(TableOperation.Delete(entity));
                 }
             }
             catch (StorageException err)
@@ -175,21 +177,46 @@ namespace Microsoft.Bot.Builder.Azure
             this.ChannelId = channelId;
             this.ConversationId = conversationId;
             this.UserId = userId;
-            this.Data = JsonConvert.SerializeObject(data, serializationSettings);
+            this.Data = Serialize(data);
         }
+
+        private byte[] Serialize(object data)
+        {
+            using (var cmpStream = new MemoryStream())
+            using (var stream = new GZipStream(cmpStream, CompressionMode.Compress))
+            using (var streamWriter = new StreamWriter(stream))
+            {
+                var serializedJSon = JsonConvert.SerializeObject(data, serializationSettings);
+                streamWriter.Write(serializedJSon);
+                streamWriter.Close();
+                stream.Close();
+                return cmpStream.ToArray();
+            }
+        }
+
+        private object Deserialize(byte[] bytes)
+        {
+            using (var stream = new MemoryStream(bytes))
+            using (var gz = new GZipStream(stream, CompressionMode.Decompress))
+            using (var streamReader = new StreamReader(gz))
+            {
+                return JsonConvert.DeserializeObject(streamReader.ReadToEnd());
+            }
+        }
+
 
         internal static EntityKey GetEntityKey(IAddress key, BotStoreType botStoreType)
         {
             switch (botStoreType)
             {
                 case BotStoreType.BotConversationData:
-                    return new EntityKey($"{key.BotId}:{key.ChannelId}:{key.ConversationId}", "conversation");
+                    return new EntityKey($"{key.ChannelId}:conversation", key.ConversationId.SanitizeForAzureKeys());
 
                 case BotStoreType.BotUserData:
-                    return new EntityKey($"{key.BotId}:{key.ChannelId}:{key.UserId}", "user");
+                    return new EntityKey($"{key.ChannelId}:user", key.UserId.SanitizeForAzureKeys());
 
                 case BotStoreType.BotPrivateConversationData:
-                    return new EntityKey($"{key.BotId}:{key.ChannelId}:{key.UserId}:{key.ConversationId}", "private");
+                    return new EntityKey($"{key.ChannelId}:private", $"{key.ConversationId.SanitizeForAzureKeys()}:{key.UserId.SanitizeForAzureKeys()}");
 
                 default:
                     throw new ArgumentException("Unsupported bot store type!");
@@ -198,19 +225,23 @@ namespace Microsoft.Bot.Builder.Azure
 
         internal ObjectT GetData<ObjectT>()
         {
-            return JsonConvert.DeserializeObject<ObjectT>(this.Data);
+            return ((JObject)Deserialize(this.Data)).ToObject<ObjectT>();
         }
 
         internal object GetData()
         {
-            return JsonConvert.DeserializeObject(this.Data);
+            return Deserialize(this.Data);
         }
 
         public string BotId { get; set; }
+
         public string ChannelId { get; set; }
+
         public string ConversationId { get; set; }
+
         public string UserId { get; set; }
-        public string Data { get; set; }
+
+        public byte[] Data { get; set; }
     }
 
 }

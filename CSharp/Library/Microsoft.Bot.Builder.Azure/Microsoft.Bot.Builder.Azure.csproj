@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions.cs" />
     <Compile Include="TableBotDataStore.cs" />
     <Compile Include="TableLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

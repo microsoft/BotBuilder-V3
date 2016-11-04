@@ -78,7 +78,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         protected IAddress GetAddress([CallerMemberName] string testName = null)
         {
-            return new Address(testName, "channel", "user", "converstion", "");
+            return new Address("somebot", testName, "U1", "C1", "");
         }
 
         [TestMethod]
