@@ -36,9 +36,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Resources;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -293,7 +291,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
-            IDialogTask task = this.dialogTaskManager.DialogTasks.ElementAt(0);
+            IDialogTask task = this.dialogTaskManager.DialogTasks[0];
 
             try
             {

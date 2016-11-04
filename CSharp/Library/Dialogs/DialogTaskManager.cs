@@ -31,9 +31,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
@@ -41,7 +43,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public interface IDialogTaskManager
     {
         /// <summary>
-        /// Loads the <see cref="DialogTasks"/> from <see cref="IBotData.PrivateConversationData"/>.
+        /// Loads the <see cref="DialogTasks"/> from <see cref="IBotDataBag"/>.
         /// </summary>
         /// <param name="token"> The cancellation token.</param>
         Task TryLoadDialogTasks(CancellationToken token);
@@ -60,26 +62,25 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <summary>
         /// Creates a new <see cref="IDialogTask"/> and add it to <see cref="DialogTasks"/>
         /// </summary>
-        IDialogTask CreateDialogTask(CancellationToken token);
+        IDialogTask CreateDialogTask();
     }
 
     public sealed class DialogTaskManager : IDialogTaskManager
     {
         private readonly string blobKeyPrefix;
         private readonly IBotData botData;
-        private readonly IBotToUser botToUser;
         private readonly IStackStoreFactory<DialogTask> stackStoreFactory;
+        private readonly Func<IDialogStack, CancellationToken, IDialogContext> contextFactory;
 
         private List<DialogTask> dialogTasks;
-        private readonly object createLock = new object();
-
 
         public DialogTaskManager(string blobKeyPrefix, IBotData botData,
-            IStackStoreFactory<DialogTask> stackStoreFactory, IBotToUser botToUser)
+            IStackStoreFactory<DialogTask> stackStoreFactory,
+            Func<IDialogStack, CancellationToken, IDialogContext> contextFactory)
         {
             SetField.NotNull(out this.blobKeyPrefix, nameof(blobKeyPrefix), blobKeyPrefix);
             SetField.NotNull(out this.botData, nameof(botData), botData);
-            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
+            SetField.NotNull(out this.contextFactory, nameof(contextFactory), contextFactory);
             SetField.NotNull(out this.stackStoreFactory, nameof(stackStoreFactory), stackStoreFactory);
         }
 
@@ -93,7 +94,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 do
                 {
                     IDialogTaskManager dialogTaskManager = this;
-                    dialogTaskManager.CreateDialogTask(token);
+                    dialogTaskManager.CreateDialogTask();
                 } while (
                     this.botData.PrivateConversationData.ContainsKey(this.GetCurrentTaskBlobKey(this.dialogTasks.Count)));
             }
@@ -113,22 +114,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             get { return this.dialogTasks; }
         }
 
-        IDialogTask IDialogTaskManager.CreateDialogTask(CancellationToken token)
+        IDialogTask IDialogTaskManager.CreateDialogTask()
         {
-            lock (createLock)
-            {
-                var dialogTask = this.CreateDialogTask(this.dialogTasks.Count, token);
-                this.dialogTasks.Add(dialogTask);
-                return dialogTask;
-            }
-        }
-
-        private DialogTask CreateDialogTask(int idx, CancellationToken token)
-        {
-            IDialogContext context = default(IDialogContext);
-            var dialogTask = new DialogTask((cancellation) => context, stackStoreFactory.StoreFrom(this.GetCurrentTaskBlobKey(idx)));
-            context = new DialogContext(this.botToUser, this.botData, dialogTask, token);
-            return dialogTask;
+            IDialogStack stack = default(IDialogStack);
+            Func<CancellationToken, IDialogContext> makeContext = token => contextFactory(stack, token);
+            var task = new DialogTask(makeContext, stackStoreFactory.StoreFrom(this.GetCurrentTaskBlobKey(this.dialogTasks.Count), botData.PrivateConversationData));
+            stack = task;
+            dialogTasks.Add(task);
+            return task;
         }
 
         private string GetCurrentTaskBlobKey(int idx)

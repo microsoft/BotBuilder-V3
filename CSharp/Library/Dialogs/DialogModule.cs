@@ -34,18 +34,17 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Resources;
 using System.Text.RegularExpressions;
 using System.Threading;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
-using Microsoft.Bot.Connector;
 
 using Autofac;
 using Microsoft.Bot.Builder.History;
-using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -58,9 +57,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public static readonly object LifetimeScopeTag = typeof(DialogModule);
 
         public static readonly object Key_DeleteProfile_Regex = new object();
-        public static readonly object Key_DataLoader_Tasks = new object();
-        public static readonly object Key_DataFlusher_Tasks = new object();
-
+        
         public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, IMessageActivity message)
         {
             var inner = scope.BeginLifetimeScope(LifetimeScopeTag);
@@ -162,49 +159,30 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c =>
-                {
-                    var cc = c.Resolve<IComponentContext>();
-                    var tasks = new Func<CancellationToken, Task>[]
-                    {
-                        async token => await cc.Resolve<IDialogTaskManager>().TryLoadDialogTasks(token)
-                    };
-                    return tasks;
-                })
-                .Keyed<Func<CancellationToken, Task>[]>(Key_DataLoader_Tasks)
-                .InstancePerLifetimeScope();
-
-            builder
-                .Register(c =>
-                {
-                    var cc = c.Resolve<IComponentContext>();
-                    var tasks = new Func<CancellationToken, Task>[]
-                    {
-                        async token => await cc.Resolve<IDialogTaskManager>().FlushDialogTasks(token)
-                    };
-                    return tasks;
-                })
-                .Keyed<Func<CancellationToken, Task>[]>(Key_DataFlusher_Tasks)
-                .InstancePerLifetimeScope();
-
-            builder
-                .Register(c => new BotDataLoader(c.Resolve<JObjectBotData>(),
-                                                 c.ResolveKeyed<Func<CancellationToken, Task>[]>(Key_DataLoader_Tasks),
-                                                 c.ResolveKeyed<Func<CancellationToken, Task>[]>(Key_DataFlusher_Tasks)))
+                .Register(c => new DialogTaskManagerBotDataLoader(c.Resolve<JObjectBotData>(),
+                                                 c.Resolve<IDialogTaskManager>()))
                 .As<IBotData>()
                 .InstancePerLifetimeScope();
 
             builder
-            .Register((c, p) => new BotDataBagStream(c.Resolve<IBotData>().PrivateConversationData, p.TypedAs<string>()))
+            .Register((c, p) => new BotDataBagStream(p.TypedAs<IBotDataBag>(), p.TypedAs<string>()))
             .As<Stream>()
             .InstancePerDependency();
 
-            builder.Register(c => new DialogTaskManager(DialogModule.BlobKey, c.Resolve<IBotData>(), c.Resolve<IStackStoreFactory<DialogTask>>(), c.Resolve<IBotToUser>()))
+            builder.Register(c => new DialogTaskManager(DialogModule.BlobKey, 
+                                                        c.Resolve<JObjectBotData>(), 
+                                                        c.Resolve<IStackStoreFactory<DialogTask>>(),
+                                                        c.Resolve<Func<IDialogStack, CancellationToken, IDialogContext>>()))
                 .AsSelf()
                 .As<IDialogTaskManager>()
                 .InstancePerLifetimeScope();
 
-            builder.Register(c => c.Resolve<IDialogTaskManager>().DialogTasks.ElementAt(0))
+            builder
+                .RegisterType<DialogContext>()
+                .As<IDialogContext>()
+                .InstancePerDependency();
+
+            builder.Register(c => c.Resolve<IDialogTaskManager>().DialogTasks[0])
                 .As<IDialogStack>()
                 .InstancePerLifetimeScope();
 
@@ -273,6 +251,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     new List<IMessageActivityMapper> { new KeyboardCardMapper() }), c.Resolve<IActivityLogger>()))
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
+            
         }
     }
 

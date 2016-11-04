@@ -395,17 +395,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
-    public sealed class BotDataLoader : IBotData
+    public sealed class DialogTaskManagerBotDataLoader : IBotData
     {
         private readonly IBotData inner;
-        private readonly Func<CancellationToken, Task>[] asyncLoaders;
-        private readonly Func<CancellationToken, Task>[] asyncFlushers;
-
-        public BotDataLoader(IBotData inner, Func<CancellationToken, Task>[] asyncLoaders, Func<CancellationToken, Task>[] asyncFlushers)
+        private readonly IDialogTaskManager dialogTaskManager;
+        
+        public DialogTaskManagerBotDataLoader(IBotData inner, IDialogTaskManager dialogTaskManager)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.asyncLoaders, nameof(asyncLoaders), asyncLoaders);
-            SetField.NotNull(out this.asyncFlushers, nameof(asyncFlushers), asyncFlushers);
+            SetField.NotNull(out this.dialogTaskManager, nameof(dialogTaskManager), dialogTaskManager);
         }
 
         public IBotDataBag UserData { get { return inner.UserData; } }
@@ -414,24 +412,16 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public async Task LoadAsync(CancellationToken token)
         {
             await this.inner.LoadAsync(token);
-            var loaders = this.asyncLoaders?.Select(t => t(token));
-            if (loaders != null)
-            {
-                await Task.WhenAll(loaders);
-            }
+            await this.dialogTaskManager.TryLoadDialogTasks(token);
         }
 
         public async Task FlushAsync(CancellationToken token)
         {
-            var flushers = this.asyncFlushers?.Select(t => t(token));
-            if (flushers != null)
-            {
-                await Task.WhenAll(flushers);
-            }
+            await this.dialogTaskManager.FlushDialogTasks(token);
             await this.inner.FlushAsync(token);
         }
     }
-
+    
     public abstract class BotDataBase<T> : IBotData
     {
         protected readonly IBotDataStore<BotData> botDataStore;
@@ -610,7 +600,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             bool IBotDataBag.ContainsKey(string key)
             {
-                return this.bag.Properties().Select(t => t.Name).Contains(key);
+                return this.bag[key] != null;
             }
 
             bool IBotDataBag.TryGetValue<T>(string key, out T value)

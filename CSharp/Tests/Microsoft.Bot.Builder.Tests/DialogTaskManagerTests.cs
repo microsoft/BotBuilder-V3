@@ -19,9 +19,8 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task DialogTaskManager_DefaultDialogTask()
         {
-            var dialog = new Mock<DialogTaskTests.IDialogFrames<string>>(MockBehavior.Loose);
-
-
+            var dialog = new Mock<DialogTaskTests.IDialogFrames<string>>(MockBehavior.Strict);
+            
             dialog
                 .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
                 .Returns<IDialogContext>(async context => { context.Wait(dialog.Object.ItemReceived); });
@@ -54,8 +53,7 @@ namespace Microsoft.Bot.Builder.Tests
                     await scope.Resolve<IPostToBot>().PostAsync(toBot, CancellationToken.None);
                     var dialogTaskManager = scope.Resolve<IDialogTaskManager>();
                     Assert.AreEqual(1, dialogTaskManager.DialogTasks.Count);
-                    Assert.AreEqual(stack, dialogTaskManager.DialogTasks.ElementAt(0));
-                    Assert.AreEqual(1, dialogTaskManager.DialogTasks.Count);
+                    Assert.AreEqual(stack, dialogTaskManager.DialogTasks[0]);
 
                     // check if the task records are persisted!
                     Assert.IsTrue(botData.PrivateConversationData.ContainsKey(DialogModule.BlobKey));
@@ -76,7 +74,7 @@ namespace Microsoft.Bot.Builder.Tests
                     var dialogTaskManager = scope.Resolve<IDialogTaskManager>();
                     Assert.AreEqual(1, dialogTaskManager.DialogTasks.Count);
 
-                    var task = dialogTaskManager.CreateDialogTask(CancellationToken.None);
+                    var task = dialogTaskManager.CreateDialogTask();
                     Assert.AreEqual(2, dialogTaskManager.DialogTasks.Count);
                     await botData.FlushAsync(CancellationToken.None);
                     var post = scope.Resolve<IPostToBot>();
@@ -90,8 +88,8 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task DialogTaskManager_TwoParallelDialogTasks()
         {
-            var dialog = new Mock<DialogTaskTests.IDialogFrames<string>>(MockBehavior.Loose);
-            var secondStackDialog = new Mock<DialogTaskTests.IDialogFrames<object>>(MockBehavior.Loose);
+            var dialog = new Mock<DialogTaskTests.IDialogFrames<string>>(MockBehavior.Strict);
+            var secondStackDialog = new Mock<DialogTaskTests.IDialogFrames<object>>(MockBehavior.Strict);
 
             dialog
                 .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
@@ -150,7 +148,7 @@ namespace Microsoft.Bot.Builder.Tests
                     var dialogTaskManager = scope.Resolve<IDialogTaskManager>();
 
                     //create second dialog task
-                    var secondDialogTask = dialogTaskManager.CreateDialogTask(CancellationToken.None);
+                    var secondDialogTask = dialogTaskManager.CreateDialogTask();
                     var root = secondStackMakeRoot();
                     var loop = root.Loop();
                     secondDialogTask.Call(loop, null);
@@ -171,7 +169,7 @@ namespace Microsoft.Bot.Builder.Tests
 
                     var dialogTaskManager = scope.Resolve<IDialogTaskManager>();
                     Assert.AreEqual(2, dialogTaskManager.DialogTasks.Count);
-                    var secondDialogTask = dialogTaskManager.DialogTasks.ElementAt(1);
+                    var secondDialogTask = dialogTaskManager.DialogTasks[1];
                     await secondDialogTask.PostAsync(toBot, CancellationToken.None);
 
                     queue = scope.Resolve<Queue<IMessageActivity>>();

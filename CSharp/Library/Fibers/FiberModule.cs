@@ -41,6 +41,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 using Autofac;
 using Autofac.Core;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
 {
@@ -201,16 +202,15 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 {
                     var cc = c.Resolve<IComponentContext>();
 
-                    Func<string, IStore<IFiberLoop<C>>> make = taskId =>
+                    Func<string, IBotDataBag, IStore<IFiberLoop<C>>> make = (taskId, botDataBag) =>
                     {
-                        var stream = cc.Resolve<Stream>(TypedParameter.From(taskId));
+                        var stream = cc.Resolve<Stream>(TypedParameter.From(botDataBag), TypedParameter.From(taskId));
                         return cc.Resolve<IStore<IFiberLoop<C>>>(TypedParameter.From(stream));
                     };
 
                     return make;
-
                 })
-                .As<Func<string, IStore<IFiberLoop<C>>>>()
+                .As<Func<string, IBotDataBag, IStore<IFiberLoop<C>>>>()
                 .InstancePerDependency();
         }
     }
