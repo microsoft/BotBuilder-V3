@@ -46,79 +46,7 @@ using Microsoft.WindowsAzure.Storage;
 
 namespace Microsoft.Bot.Builder.Azure
 {
-    internal class EntityKey
-    {
-        public EntityKey(string partition, string row)
-        {
-            PartitionKey = partition;
-            RowKey = row;
-        }
-
-        public string PartitionKey { get; private set; }
-        public string RowKey { get; private set; }
-
-    }
-
-    internal class BotDataEntity : TableEntity
-    {
-        private static readonly JsonSerializerSettings serializationSettings = new JsonSerializerSettings()
-        {
-            Formatting = Formatting.None,
-            NullValueHandling = NullValueHandling.Ignore
-        };
-
-        public BotDataEntity()
-        {
-        }
-
-        internal BotDataEntity(string botId, string channelId, string conversationId, string userId, object data)
-        {
-            this.BotId = botId;
-            this.ChannelId = channelId;
-            this.ConversationId = conversationId;
-            this.UserId = userId;
-            this.Data = JsonConvert.SerializeObject(data, serializationSettings);
-        }
-
-        internal static EntityKey GetEntityKey(IAddress key, BotStoreType botStoreType)
-        {
-            switch (botStoreType)
-            {
-                case BotStoreType.BotConversationData:
-                    return new EntityKey($"{key.BotId}:{key.ChannelId}:{key.ConversationId}", "conversation");
-
-                case BotStoreType.BotUserData:
-                    return new EntityKey($"{key.BotId}:{key.ChannelId}:{key.UserId}", "user");
-
-                case BotStoreType.BotPrivateConversationData:
-                    return new EntityKey($"{key.BotId}:{key.ChannelId}:{key.UserId}:{key.ConversationId}", "private");
-
-                default:
-                    throw new ArgumentException("Unsupported bot store type!");
-            }
-        }
-
-        internal ObjectT GetData<ObjectT>()
-        {
-            return JsonConvert.DeserializeObject<ObjectT>(this.Data);
-        }
-
-        internal object GetData()
-        {
-            return JsonConvert.DeserializeObject(this.Data);
-        }
-
-        public string BotId { get; set; }
-
-        public string ChannelId { get; set; }
-
-        public string ConversationId { get; set; }
-
-        public string UserId { get; set; }
-
-        public string Data { get; set; }
-    }
-
+    
     /// <summary>
     /// IBotDataStore<> Implementation using Azure Storage Table 
     /// </summary>
@@ -218,4 +146,74 @@ namespace Microsoft.Bot.Builder.Azure
         }
 
     }
+
+    internal class EntityKey
+    {
+        public EntityKey(string partition, string row)
+        {
+            PartitionKey = partition;
+            RowKey = row;
+        }
+
+        public string PartitionKey { get; private set; }
+        public string RowKey { get; private set; }
+
+    }
+
+    internal class BotDataEntity : TableEntity
+    {
+        private static readonly JsonSerializerSettings serializationSettings = new JsonSerializerSettings()
+        {
+            Formatting = Formatting.None,
+            NullValueHandling = NullValueHandling.Ignore
+        };
+
+        public BotDataEntity()
+        {
+        }
+
+        internal BotDataEntity(string botId, string channelId, string conversationId, string userId, object data)
+        {
+            this.BotId = botId;
+            this.ChannelId = channelId;
+            this.ConversationId = conversationId;
+            this.UserId = userId;
+            this.Data = JsonConvert.SerializeObject(data, serializationSettings);
+        }
+
+        internal static EntityKey GetEntityKey(IAddress key, BotStoreType botStoreType)
+        {
+            switch (botStoreType)
+            {
+                case BotStoreType.BotConversationData:
+                    return new EntityKey($"{key.BotId}:{key.ChannelId}:{key.ConversationId}", "conversation");
+
+                case BotStoreType.BotUserData:
+                    return new EntityKey($"{key.BotId}:{key.ChannelId}:{key.UserId}", "user");
+
+                case BotStoreType.BotPrivateConversationData:
+                    return new EntityKey($"{key.BotId}:{key.ChannelId}:{key.UserId}:{key.ConversationId}", "private");
+
+                default:
+                    throw new ArgumentException("Unsupported bot store type!");
+            }
+        }
+
+        internal ObjectT GetData<ObjectT>()
+        {
+            return JsonConvert.DeserializeObject<ObjectT>(this.Data);
+        }
+
+        internal object GetData()
+        {
+            return JsonConvert.DeserializeObject(this.Data);
+        }
+
+        public string BotId { get; set; }
+        public string ChannelId { get; set; }
+        public string ConversationId { get; set; }
+        public string UserId { get; set; }
+        public string Data { get; set; }
+    }
+
 }
