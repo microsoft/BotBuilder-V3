@@ -94,7 +94,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
             }
         }
 
-        public override async Task<Tuple<string, string>> PrepareAsync(IActivity item, CancellationToken token)
+        protected override async Task<Tuple<string, string>> PrepareAsync(IActivity item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -110,15 +110,15 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
 
             return null;
         }
-        public override bool HasScore(IActivity item, Tuple<string, string> verbTitle)
+        protected override bool HasScore(IActivity item, Tuple<string, string> verbTitle)
         {
             return verbTitle != null;
         }
-        public override double GetScore(IActivity item, Tuple<string, string> verbTitle)
+        protected override double GetScore(IActivity item, Tuple<string, string> verbTitle)
         {
             return 1.0;
         }
-        public override async Task PostAsync(IActivity item, Tuple<string, string> verbTitle, CancellationToken token)
+        protected override async Task PostAsync(IActivity item, Tuple<string, string> verbTitle, CancellationToken token)
         {
             var verb = verbTitle.Item1;
             var title = verbTitle.Item2;
@@ -140,7 +140,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
                     throw new NotImplementedException();
             }
         }
-        public override Task DoneAsync(IActivity item, Tuple<string, string> verbTitle, CancellationToken token)
+        protected override Task DoneAsync(IActivity item, Tuple<string, string> verbTitle, CancellationToken token)
         {
             return Task.CompletedTask;
         }

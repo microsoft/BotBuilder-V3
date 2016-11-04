@@ -67,7 +67,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
 
-        public override Task DoneAsync(IResolver resolver, OuterState state, CancellationToken token)
+        protected override Task DoneAsync(IResolver resolver, OuterState state, CancellationToken token)
         {
             try
             {

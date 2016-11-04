@@ -170,7 +170,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             SetField.NotNull(out this.model, nameof(model), model);
             SetField.NotNull(out this.intent, nameof(intent), intent);
         }
-        public override async Task<Scope> PrepareAsync(IResolver resolver, CancellationToken token)
+        protected override async Task<Scope> PrepareAsync(IResolver resolver, CancellationToken token)
         {
             IMessageActivity message;
             if (!resolver.TryResolve(null, out message))
@@ -207,7 +207,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             scope.State = await this.inner.PrepareAsync(scope, token);
             return scope;
         }
-        public override IntentRecommendation GetScore(IResolver resolver, Scope state)
+        protected override IntentRecommendation GetScore(IResolver resolver, Scope state)
         {
             return state.Intent;
         }

@@ -73,7 +73,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             }
         }
 
-        public override async Task<IReadOnlyList<State>> PrepareAsync(Item item, CancellationToken token)
+        protected override async Task<IReadOnlyList<State>> PrepareAsync(Item item, CancellationToken token)
         {
             var states = new List<State>();
 
@@ -117,7 +117,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return states;
         }
-        public override bool HasScore(Item item, IReadOnlyList<State> states)
+        protected override bool HasScore(Item item, IReadOnlyList<State> states)
         {
             if (states.Count > 0)
             {
@@ -127,12 +127,12 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return false;
         }
-        public override Score GetScore(Item item, IReadOnlyList<State> states)
+        protected override Score GetScore(Item item, IReadOnlyList<State> states)
         {
             var state = states[0];
             return state.scorable.GetScore(item, state.state);
         }
-        public override Task PostAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
+        protected override Task PostAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
-        public override async Task DoneAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
+        protected override async Task DoneAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
         {
             foreach (var state in states)
             {

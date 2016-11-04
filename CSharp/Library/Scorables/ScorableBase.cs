@@ -51,11 +51,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// </remarks>
     public abstract class ScorableBase<Item, State, Score> : IScorable<Item, Score>
     {
-        public abstract Task<State> PrepareAsync(Item item, CancellationToken token);
-        public abstract bool HasScore(Item item, State state);
-        public abstract Score GetScore(Item item, State state);
-        public abstract Task PostAsync(Item item, State state, CancellationToken token);
-        public abstract Task DoneAsync(Item item, State state, CancellationToken token);
+        protected abstract Task<State> PrepareAsync(Item item, CancellationToken token);
+        protected abstract bool HasScore(Item item, State state);
+        protected abstract Score GetScore(Item item, State state);
+        protected abstract Task PostAsync(Item item, State state, CancellationToken token);
+        protected abstract Task DoneAsync(Item item, State state, CancellationToken token);
 
         [DebuggerStepThrough]
         async Task<object> IScorable<Item, Score>.PrepareAsync(Item item, CancellationToken token)
@@ -130,7 +130,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public abstract class ScorableAggregator<Item, OuterState, OuterScore, InnerState, InnerScore> : ScorableBase<Item, OuterState, OuterScore>
         where OuterState : Token<Item, InnerScore>
     {
-        public override bool HasScore(Item item, OuterState state)
+        protected override bool HasScore(Item item, OuterState state)
         {
             if (state != null)
             {
@@ -139,7 +139,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return false;
         }
-        public override Task PostAsync(Item item, OuterState state, CancellationToken token)
+        protected override Task PostAsync(Item item, OuterState state, CancellationToken token)
         {
             try
             {

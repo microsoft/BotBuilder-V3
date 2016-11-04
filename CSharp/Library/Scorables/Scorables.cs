@@ -129,7 +129,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         {
             public TargetItem Item;
         }
-        public override async Task<Token> PrepareAsync(SourceItem sourceItem, CancellationToken token)
+        protected override async Task<Token> PrepareAsync(SourceItem sourceItem, CancellationToken token)
         {
             var targetItem = this.selector(sourceItem);
             var state = new Token()
@@ -140,7 +140,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             };
             return state;
         }
-        public override bool HasScore(SourceItem item, Token state)
+        protected override bool HasScore(SourceItem item, Token state)
         {
             if (state != null)
             {
@@ -149,11 +149,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return false;
         }
-        public override Score GetScore(SourceItem item, Token state)
+        protected override Score GetScore(SourceItem item, Token state)
         {
             return state.Scorable.GetScore(state.Item, state.State);
         }
-        public override Task PostAsync(SourceItem item, Token state, CancellationToken token)
+        protected override Task PostAsync(SourceItem item, Token state, CancellationToken token)
         {
             try
             {
@@ -168,7 +168,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
-        public override Task DoneAsync(SourceItem item, Token state, CancellationToken token)
+        protected override Task DoneAsync(SourceItem item, Token state, CancellationToken token)
         {
             try
             {

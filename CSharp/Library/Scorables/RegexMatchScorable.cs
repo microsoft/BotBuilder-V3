@@ -179,7 +179,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         {
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
-        public override async Task<Scope> PrepareAsync(IResolver resolver, CancellationToken token)
+        protected override async Task<Scope> PrepareAsync(IResolver resolver, CancellationToken token)
         {
             IMessageActivity message;
             if (!resolver.TryResolve(null, out message))
@@ -204,7 +204,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             scope.State = await this.inner.PrepareAsync(scope, token);
             return scope;
         }
-        public override Match GetScore(IResolver resolver, Scope state)
+        protected override Match GetScore(IResolver resolver, Scope state)
         {
             return state.Match;
         }

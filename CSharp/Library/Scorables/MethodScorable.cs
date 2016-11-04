@@ -154,7 +154,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             return arguments != null;
         }
 
-        public override Task<Binding> PrepareAsync(IResolver item, CancellationToken token)
+        protected override Task<Binding> PrepareAsync(IResolver item, CancellationToken token)
         {
             try
             {
@@ -182,15 +182,15 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException<Binding>(error);
             }
         }
-        public override bool HasScore(IResolver resolver, Binding state)
+        protected override bool HasScore(IResolver resolver, Binding state)
         {
             return state != null;
         }
-        public override Binding GetScore(IResolver resolver, Binding state)
+        protected override Binding GetScore(IResolver resolver, Binding state)
         {
             return state;
         }
-        public override Task PostAsync(IResolver item, Binding state, CancellationToken token)
+        protected override Task PostAsync(IResolver item, Binding state, CancellationToken token)
         {
             try
             {
@@ -205,7 +205,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
-        public override Task DoneAsync(IResolver item, Binding state, CancellationToken token)
+        protected override Task DoneAsync(IResolver item, Binding state, CancellationToken token)
         {
             return Task.CompletedTask;
         }

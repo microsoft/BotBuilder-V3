@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
 
-        public override async Task<string> PrepareAsync(IActivity activity, CancellationToken token)
+        protected override async Task<string> PrepareAsync(IActivity activity, CancellationToken token)
         {
             var message = activity as IMessageActivity;
             if (message != null && message.Text != null)
@@ -44,17 +44,17 @@ namespace Microsoft.Bot.Builder.Dialogs
             return null;
         }
 
-        public override bool HasScore(IActivity item, string state)
+        protected override bool HasScore(IActivity item, string state)
         {
             return state != null;
         }
 
-        public override double GetScore(IActivity item, string state)
+        protected override double GetScore(IActivity item, string state)
         {
             return 1.0;
         }
 
-        public override async Task PostAsync(IActivity item, string state, CancellationToken token)
+        protected override async Task PostAsync(IActivity item, string state, CancellationToken token)
         {
             this.stack.Reset();
             botData.UserData.Clear();
@@ -62,7 +62,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             await botData.FlushAsync(token);
             await botToUser.PostAsync(Resources.UserProfileDeleted);
         }
-        public override Task DoneAsync(IActivity item, string state, CancellationToken token)
+        protected override Task DoneAsync(IActivity item, string state, CancellationToken token)
         {
             return Task.CompletedTask;
         }
