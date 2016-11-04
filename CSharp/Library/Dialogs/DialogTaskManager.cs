@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// Loads the <see cref="DialogTasks"/> from <see cref="IBotDataBag"/>.
         /// </summary>
         /// <param name="token"> The cancellation token.</param>
-        Task TryLoadDialogTasks(CancellationToken token);
+        Task LoadDialogTasks(CancellationToken token);
 
         /// <summary>
         /// Flushes the <see cref="IDialogTask"/> in <see cref="DialogTasks"/>
@@ -84,7 +84,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.stackStoreFactory, nameof(stackStoreFactory), stackStoreFactory);
         }
 
-        async Task IDialogTaskManager.TryLoadDialogTasks(CancellationToken token)
+        async Task IDialogTaskManager.LoadDialogTasks(CancellationToken token)
         {
             if (this.dialogTasks == null)
             {

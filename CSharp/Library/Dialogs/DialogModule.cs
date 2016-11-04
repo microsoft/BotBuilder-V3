@@ -182,8 +182,27 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IDialogContext>()
                 .InstancePerDependency();
 
+
+            builder
+                .Register(c =>
+                {
+                    var cc = c.Resolve<IComponentContext>();
+
+                    Func<string, IBotDataBag, IStore<IFiberLoop<DialogTask>>> make = (taskId, botDataBag) =>
+                    {
+                        var stream = cc.Resolve<Stream>(TypedParameter.From(botDataBag), TypedParameter.From(taskId));
+                        return cc.Resolve<IStore<IFiberLoop<DialogTask>>>(TypedParameter.From(stream));
+                    };
+
+                    return make;
+                })
+                .As<Func<string, IBotDataBag, IStore<IFiberLoop<DialogTask>>>>()
+                .InstancePerDependency();
+
+
             builder.Register(c => c.Resolve<IDialogTaskManager>().DialogTasks[0])
                 .As<IDialogStack>()
+                .As<IDialogTask>()
                 .InstancePerLifetimeScope();
 
 
@@ -221,10 +240,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .Register(c =>
                 {
                     var cc = c.Resolve<IComponentContext>();
-                    var taskManager = cc.Resolve<IDialogTaskManager>();
                     Func<IPostToBot> makeInner = () =>
                     {
-                        IPostToBot post = new ReactiveDialogTask(taskManager, cc.Resolve<Func<IDialog<object>>>());
+                        IPostToBot post = new ReactiveDialogTask(cc.Resolve<IDialogTask>(), cc.Resolve<Func<IDialog<object>>>());
                         post = new ExceptionTranslationDialogTask(post);
                         post = new LocalizedDialogTask(post);
                         post = new ScoringDialogTask<double>(post, cc.Resolve<TraitsScorable<IActivity, double>>());

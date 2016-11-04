@@ -280,34 +280,32 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class ReactiveDialogTask : IPostToBot
     {
-        private readonly IDialogTaskManager dialogTaskManager;
+        private readonly IDialogTask dialogTask;
         private readonly Func<IDialog<object>> makeRoot;
 
-        public ReactiveDialogTask(IDialogTaskManager dialogTaskManager, Func<IDialog<object>> makeRoot)
+        public ReactiveDialogTask(IDialogTask dialogTask, Func<IDialog<object>> makeRoot)
         {
-            SetField.NotNull(out this.dialogTaskManager, nameof(dialogTaskManager), dialogTaskManager);
+            SetField.NotNull(out this.dialogTask, nameof(dialogTask), dialogTask);
             SetField.NotNull(out this.makeRoot, nameof(makeRoot), makeRoot);
         }
 
         async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
         {
-            IDialogTask task = this.dialogTaskManager.DialogTasks[0];
-
             try
             {
-                if (task.Frames.Count == 0)
+                if (dialogTask.Frames.Count == 0)
                 {
                     var root = this.makeRoot();
                     var loop = root.Loop();
-                    task.Call(loop, null);
-                    await task.PollAsync(token);
+                    dialogTask.Call(loop, null);
+                    await dialogTask.PollAsync(token);
                 }
 
-                await task.PostAsync(item, token);
+                await dialogTask.PostAsync(item, token);
             }
             catch
             {
-                task.Reset();
+                dialogTask.Reset();
                 throw;
             }
         }

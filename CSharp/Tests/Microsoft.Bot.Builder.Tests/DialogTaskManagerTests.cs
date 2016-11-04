@@ -149,11 +149,8 @@ namespace Microsoft.Bot.Builder.Tests
 
                     //create second dialog task
                     var secondDialogTask = dialogTaskManager.CreateDialogTask();
-                    var root = secondStackMakeRoot();
-                    var loop = root.Loop();
-                    secondDialogTask.Call(loop, null);
-                    await secondDialogTask.PollAsync(CancellationToken.None);
-                    await secondDialogTask.PostAsync(toBot, CancellationToken.None);
+                    IPostToBot reactiveDialogTask = new ReactiveDialogTask(secondDialogTask, secondStackMakeRoot);
+                    await reactiveDialogTask.PostAsync(toBot, CancellationToken.None);
                     await botData.FlushAsync(CancellationToken.None);
 
                     queue = scope.Resolve<Queue<IMessageActivity>>();

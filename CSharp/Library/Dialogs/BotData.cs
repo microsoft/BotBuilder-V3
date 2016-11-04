@@ -412,7 +412,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public async Task LoadAsync(CancellationToken token)
         {
             await this.inner.LoadAsync(token);
-            await this.dialogTaskManager.TryLoadDialogTasks(token);
+            await this.dialogTaskManager.LoadDialogTasks(token);
         }
 
         public async Task FlushAsync(CancellationToken token)
