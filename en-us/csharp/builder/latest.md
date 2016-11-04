@@ -25,6 +25,17 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### [v3.3.1]
+
+#### Changes
+
+- General bug fixes
+- Add intent-based dispatch dialog
+- Add dialog task manager to enable multiple stacks per conversation
+- Add credential provider to enable multi-bot authentication
+- Add bot authenticator facility to enable non-attribute based bot authentication scenarios
+
+***
 
 ### [v3.3](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.3)
 
