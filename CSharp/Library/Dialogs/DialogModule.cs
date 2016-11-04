@@ -243,14 +243,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     Func<IPostToBot> makeInner = () =>
                     {
                         IPostToBot post = new ReactiveDialogTask(cc.Resolve<IDialogTask>(), cc.Resolve<Func<IDialog<object>>>());
-                        post = new ExceptionTranslationDialogTask(post);
-                        post = new LocalizedDialogTask(post);
                         post = new ScoringDialogTask<double>(post, cc.Resolve<TraitsScorable<IActivity, double>>());
                         return post;
                     };
 
                     IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IBotData>());
                     outer = new SerializingDialogTask(outer, cc.Resolve<IAddress>(), c.Resolve<IScope<IAddress>>());
+                    outer = new ExceptionTranslationDialogTask(outer);
+                    outer = new LocalizedDialogTask(outer);
                     outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
                     outer = new LogPostToBot(outer, cc.Resolve<IActivityLogger>());
                     return outer;
