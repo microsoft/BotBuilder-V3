@@ -44,6 +44,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Allow for static type checking of opaque state for convenience of scorable implementations.
     /// </summary>
+    /// <remarks>
+    /// The IScorable methods are marked with DebuggerStepThrough because once the compiler has verified the type
+    /// safety of the derived class that implements the abstract State-typed methods, these DebuggerStepThrough
+    /// methods will not throw exceptions due to runtime type errors.
+    /// </remarks>
     public abstract class ScorableBase<Item, State, Score> : IScorable<Item, Score>
     {
         public abstract Task<State> PrepareAsync(Item item, CancellationToken token);
