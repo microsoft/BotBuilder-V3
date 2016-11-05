@@ -7,13 +7,13 @@
 	{% endif %}
   <title>{{ page.title | escape }} | Documentation | Bot Framework</title>
   <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-  <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
-  <link rel="stylesheet" href="{{ "/css/documentation.css" | prepend: site.baseurl }}">
+  <link rel="stylesheet" href="{{ "/css/main.css?1" | prepend: site.baseurl }}">
+  <link rel="stylesheet" href="{{ "/css/documentation.css?1" | prepend: site.baseurl }}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-  <script src="/css/index.js"></script>
+  <script src="/css/index.js?1"></script>
   <script src="/css/documents.js"></script>
   <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
   <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
