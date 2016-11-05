@@ -42,7 +42,9 @@ export var channels = {
     slack: 'slack',
     groupme: 'groupme',
     sms: 'sms',
-    emulator: 'emulator'
+    emulator: 'emulator',
+    directline: 'directline',
+    console: 'console'
 };
 
 export function supportsKeyboards(session: ses.Session, buttonCnt = 100) {
