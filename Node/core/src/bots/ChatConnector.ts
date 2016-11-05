@@ -121,7 +121,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         var token: string;
         var isEmulator = req.body['channelId'] === 'emulator';
         if (req.headers && req.headers.hasOwnProperty('authorization')) {
-            var auth = req.headers['authorization'].trim().split(' ');;
+            var auth = req.headers['authorization'].trim().split(' ');
             if (auth.length == 2 && auth[0].toLowerCase() == 'bearer') {
                 token = auth[1];
             }
