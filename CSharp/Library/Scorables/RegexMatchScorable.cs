@@ -114,6 +114,34 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     }
 
     /// <summary>
+    /// Static helper methods for RegexMatchScorable.
+    /// </summary>
+    public static partial class RegexMatchScorable
+    {
+        /// <summary>
+        /// Calculate a normalized 0-1 score for a regular expression match.
+        /// </summary>
+        /// <remarks>
+        /// This implementation assumes that the entire input string is matched by the regular expression
+        /// so that group 0 is the entire input string and the other groups are the significant portions of
+        /// that entire input string.
+        /// </remarks>
+        public static double ScoreFor(Match match)
+        {
+            var groups = match.Groups;
+            var numerator = 0;
+            for (int index = 1; index < groups.Count; ++index)
+            {
+                var group = groups[index];
+                numerator += group.Length;
+            }
+            var denominator = groups[0].Length;
+            var score = ((double)numerator) / denominator;
+            return score;
+        }
+    }
+
+    /// <summary>
     /// Scorable to represent a regular expression match against an activity's text.
     /// </summary>
     public sealed class RegexMatchScorable<InnerState, InnerScore> : ResolverScorable<RegexMatchScorable<InnerState, InnerScore>.Scope, Match, InnerState, InnerScore>
