@@ -212,7 +212,12 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             private void Visit(object obj)
             {
                 var type = obj.GetType();
-                if (this.visited.Add(type))
+                bool added;
+                lock (this.visited)
+                {
+                    added = this.visited.Add(type);
+                }
+                if (added)
                 {
                     var message = $"{this.inner.GetType().Name}: visiting {type}";
                     this.trace.WriteLine(message);
