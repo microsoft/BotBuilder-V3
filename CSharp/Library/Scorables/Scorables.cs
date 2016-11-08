@@ -116,23 +116,19 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
-    public sealed class SelectItemScorable<SourceItem, TargetItem, Score> : ScorableBase<SourceItem, SelectItemScorable<SourceItem, TargetItem, Score>.Token, Score>
+    public sealed class SelectItemScorable<OuterItem, InnerItem, Score> : ScorableAggregator<OuterItem, Token<InnerItem, Score>, Score, InnerItem, object, Score>
     {
-        private readonly IScorable<TargetItem, Score> scorable;
-        private readonly Func<SourceItem, TargetItem> selector;
-        public SelectItemScorable(IScorable<TargetItem, Score> scorable, Func<SourceItem, TargetItem> selector)
+        private readonly IScorable<InnerItem, Score> scorable;
+        private readonly Func<OuterItem, InnerItem> selector;
+        public SelectItemScorable(IScorable<InnerItem, Score> scorable, Func<OuterItem, InnerItem> selector)
         {
             SetField.NotNull(out this.scorable, nameof(scorable), scorable);
             SetField.NotNull(out this.selector, nameof(selector), selector);
         }
-        public sealed class Token : Token<TargetItem, Score>
-        {
-            public TargetItem Item;
-        }
-        protected override async Task<Token> PrepareAsync(SourceItem sourceItem, CancellationToken token)
+        protected override async Task<Token<InnerItem, Score>> PrepareAsync(OuterItem sourceItem, CancellationToken token)
         {
             var targetItem = this.selector(sourceItem);
-            var state = new Token()
+            var state = new Token<InnerItem, Score>()
             {
                 Item = targetItem,
                 Scorable = this.scorable,
@@ -140,48 +136,9 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             };
             return state;
         }
-        protected override bool HasScore(SourceItem item, Token state)
-        {
-            if (state != null)
-            {
-                return state.Scorable.HasScore(state.Item, state.State);
-            }
-
-            return false;
-        }
-        protected override Score GetScore(SourceItem item, Token state)
+        protected override Score GetScore(OuterItem item, Token<InnerItem, Score> state)
         {
             return state.Scorable.GetScore(state.Item, state.State);
-        }
-        protected override Task PostAsync(SourceItem item, Token state, CancellationToken token)
-        {
-            try
-            {
-                return state.Scorable.PostAsync(state.Item, state.State, token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException(error);
-            }
-        }
-        protected override Task DoneAsync(SourceItem item, Token state, CancellationToken token)
-        {
-            try
-            {
-                return state.Scorable.DoneAsync(state.Item, state.State, token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException(error);
-            }
         }
     }
 

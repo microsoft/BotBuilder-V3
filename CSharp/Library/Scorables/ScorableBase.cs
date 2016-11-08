@@ -118,32 +118,33 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Provides the state to aggregate the state (and associated scorable) of multiple scorables.
     /// </summary>
-    public class Token<Item, Score>
+    public class Token<InnerItem, InnerScore>
     {
-        public IScorable<Item, Score> Scorable;
+        public InnerItem Item;
+        public IScorable<InnerItem, InnerScore> Scorable;
         public object State;
     }
 
     /// <summary>
     /// Aggregates some non-empty set of inner scorables to produce an outer scorable.
     /// </summary>
-    public abstract class ScorableAggregator<Item, OuterState, OuterScore, InnerState, InnerScore> : ScorableBase<Item, OuterState, OuterScore>
-        where OuterState : Token<Item, InnerScore>
+    public abstract class ScorableAggregator<OuterItem, OuterState, OuterScore, InnerItem, InnerState, InnerScore> : ScorableBase<OuterItem, OuterState, OuterScore>
+        where OuterState : Token<InnerItem, InnerScore>
     {
-        protected override bool HasScore(Item item, OuterState state)
+        protected override bool HasScore(OuterItem item, OuterState state)
         {
             if (state != null)
             {
-                return state.Scorable.HasScore(item, state.State);
+                return state.Scorable.HasScore(state.Item, state.State);
             }
 
             return false;
         }
-        protected override Task PostAsync(Item item, OuterState state, CancellationToken token)
+        protected override Task PostAsync(OuterItem item, OuterState state, CancellationToken token)
         {
             try
             {
-                return state.Scorable.PostAsync(item, state.State, token);
+                return state.Scorable.PostAsync(state.Item, state.State, token);
             }
             catch (OperationCanceledException error)
             {
@@ -154,5 +155,28 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
+        protected override Task DoneAsync(OuterItem item, OuterState state, CancellationToken token)
+        {
+            try
+            {
+                if (state != null)
+                {
+                    return state.Scorable.DoneAsync(state.Item, state.State, token);
+                }
+                else
+                {
+                    return Task.CompletedTask;
+                }
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
+
     }
 }

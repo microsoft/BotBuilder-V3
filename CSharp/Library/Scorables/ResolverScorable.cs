@@ -58,36 +58,13 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
-    public abstract class ResolverScorable<OuterState, OuterScore, InnerState, InnerScore> : ScorableAggregator<IResolver, OuterState, OuterScore, InnerState, InnerScore>
+    public abstract class ResolverScorable<OuterState, OuterScore, InnerState, InnerScore> : ScorableAggregator<IResolver, OuterState, OuterScore, IResolver, InnerState, InnerScore>
         where OuterState : ResolverScope<InnerScore>
     {
         protected readonly IScorable<IResolver, InnerScore> inner;
         public ResolverScorable(IScorable<IResolver, InnerScore> inner)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
-        }
-
-        protected override Task DoneAsync(IResolver resolver, OuterState state, CancellationToken token)
-        {
-            try
-            {
-                if (state != null)
-                {
-                    return this.inner.DoneAsync(resolver, state.State, token);
-                }
-                else
-                {
-                    return Task.CompletedTask;
-                }
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException(error);
-            }
         }
     }
 }
