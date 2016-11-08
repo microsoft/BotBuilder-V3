@@ -219,6 +219,22 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
+                .Register(c =>
+                {
+                    var cc = c.Resolve<IComponentContext>();
+                    Func<IActivity, IResolver> make = activity =>
+                    {
+                        var resolver = NoneResolver.Instance;
+                        resolver = new ArrayResolver(resolver, activity, cc.Resolve<IDialogStack>(), cc.Resolve<IBotToUser>());
+                        resolver = new ActivityResolver(resolver);
+                        return resolver;
+                    };
+                    return make;
+                })
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
                 .RegisterType<DialogScorable>()
                 .Keyed<IScorable<IActivity, double>>(Key_Dialog_Scorable)
                 .InstancePerLifetimeScope();

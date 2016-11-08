@@ -278,7 +278,45 @@ namespace Microsoft.Bot.Builder.Tests
     public sealed class CalculatorScorableTests : DialogTestBase
     {
         [TestMethod]
-        public async Task Scorable_Calculate_Script()
+        public async Task Calculate_Script_Scorable_As_Action()
+        {
+            var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
+
+            var scorable = Scorable
+                .For((string expression, IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
+                {
+                    var dialog = new CalculatorDialog();
+                    activity.Text = expression;
+                    return stack.InterruptAsync(dialog, activity, token);
+                }).When(new Regex(@".*calculate\s*(?<expression>.*)"));
+
+            echo = echo.WithScorable(scorable);
+
+            using (var container = Build(Options.ResolveDialogFromContainer))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(echo)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "hello",
+                    "echo: hello",
+                    "calculate 2 + 3",
+                    "5",
+                    "world",
+                    "echo: world",
+                    "2 + 3",
+                    "echo: 2 + 3",
+                    "calculate 4 / 2",
+                    "2"
+                    );
+            }
+        }
+
+        [TestMethod]
+        public async Task Calculate_Script_Scorable_As_Global()
         {
             var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
 

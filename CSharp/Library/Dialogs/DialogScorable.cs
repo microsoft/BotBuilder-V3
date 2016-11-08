@@ -49,7 +49,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     {
         public static IEnumerable<IScorable<IActivity, double>> Make(
             IDialogStack stack,
-            IEnumerable<IScorable<IActivity, double>> fromActivity)
+            IEnumerable<IScorable<IActivity, double>> fromActivity,
+            IEnumerable<IScorable<IResolver, double>> fromResolver,
+            Func<IActivity, IResolver> makeResolver)
         {
             // first, let's go through stack frames
             var targets = stack.Frames.Select(f => f.Target);
@@ -60,6 +62,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 {
                     yield return activity;
                 }
+
+                var resolver = target as IScorable<IResolver, double>;
+                if (resolver != null)
+                {
+                    yield return resolver.SelectItem(makeResolver);
+                }
             }
 
             // then global scorables "on the side"
@@ -67,16 +75,23 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 yield return activity;
             }
+
+            foreach (var resolver in fromResolver)
+            {
+                yield return resolver.SelectItem(makeResolver);
+            }
         }
 
         public static IScorable<IActivity, double> Make(
             IDialogStack stack,
             IEnumerable<IScorable<IActivity, double>> fromActivity,
+            IEnumerable<IScorable<IResolver, double>> fromResolver,
+            Func<IActivity, IResolver> makeResolver,
             ITraits<double> traits,
             IComparer<double> comparer)
         {
             // since the stack of scorables changes over time, this should be lazy
-            var lazyScorables = Make(stack, fromActivity);
+            var lazyScorables = Make(stack, fromActivity, fromResolver, makeResolver);
             var scorable = new TraitsScorable<IActivity, double>(traits, comparer, lazyScorables);
             return scorable;
         }
@@ -84,9 +99,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public DialogScorable(
             IDialogStack stack,
             IEnumerable<IScorable<IActivity, double>> fromActivity,
+            IEnumerable<IScorable<IResolver, double>> fromResolver,
+            Func<IActivity, IResolver> makeResolver,
             ITraits<double> traits,
             IComparer<double> comparer)
-            : base(Make(stack, fromActivity, traits, comparer))
+            : base(Make(stack, fromActivity, fromResolver, makeResolver, traits, comparer))
         {
         }
     }

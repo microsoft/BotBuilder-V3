@@ -37,6 +37,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -71,6 +72,39 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public static partial class Scorable
+    {
+        public static IScorable<IResolver, Binding> For(Delegate lambda)
+        {
+            return new DelegateScorable(lambda);
+        }
+        public static IScorable<IResolver, Binding> For<R>(Func<R> method)
+        {
+            return For((Delegate)method);
+        }
+        public static IScorable<IResolver, Binding> For<T1, R>(Func<T1, R> method)
+        {
+            return For((Delegate)method);
+        }
+        public static IScorable<IResolver, Binding> For<T1, T2, R>(Func<T1, T2, R> method)
+        {
+            return For((Delegate)method);
+        }
+        public static IScorable<IResolver, Binding> For<T1, T2, T3, R>(Func<T1, T2, T3, R> method)
+        {
+            return For((Delegate)method);
+        }
+        public static IScorable<IResolver, Binding> For<T1, T2, T3, T4, R>(Func<T1, T2, T3, T4, R> method)
+        {
+            return For((Delegate)method);
+        }
+        public static IScorable<IResolver, double> When(this IScorable<IResolver, Binding> scorable, Regex regex)
+        {
+            var resolved = new RegexMatchScorable<Binding, Binding>(regex, scorable);
+            var normalized = resolved.SelectScore((r, m) => RegexMatchScorable.ScoreFor(m));
+            return normalized;
+        }
+    }
 
     public static partial class Extensions
     {
