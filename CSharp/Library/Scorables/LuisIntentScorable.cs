@@ -81,6 +81,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Scorable to represent a specific LUIS intent recommendation.
     /// </summary>
+    [Serializable]
     public sealed class LuisIntentScorable<InnerState, InnerScore> : ResolverScorable<LuisIntentScorable<InnerState, InnerScore>.Scope, IntentRecommendation, InnerState, InnerScore>
     {
         private readonly ILuisService service;

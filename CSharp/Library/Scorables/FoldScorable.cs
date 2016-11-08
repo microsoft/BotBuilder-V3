@@ -44,6 +44,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Fold an aggregation of scorables to produce a winning scorable.
     /// </summary>
+    [Serializable]
     public class FoldScorable<Item, Score> : ScorableBase<Item, IReadOnlyList<FoldScorable<Item, Score>.State>, Score>
     {
         protected readonly IComparer<Score> comparer;

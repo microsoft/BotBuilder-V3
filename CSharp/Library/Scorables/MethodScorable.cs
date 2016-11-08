@@ -81,6 +81,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Scorable to represent binding arguments to a method's parameters.
     /// </summary>
+    [Serializable]
     public class MethodScorable : ScorableBase<IResolver, Binding, Binding>
     {
         protected readonly MethodInfo method;
@@ -211,6 +212,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
+    [Serializable]
     public class DelegateScorable : MethodScorable
     {
         private readonly object target;

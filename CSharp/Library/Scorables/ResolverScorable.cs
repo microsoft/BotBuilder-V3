@@ -55,6 +55,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
+    [Serializable]
     public abstract class ResolverScorable<OuterState, OuterScore, InnerState, InnerScore> : ScorableAggregator<IResolver, OuterState, OuterScore, IResolver, InnerState, InnerScore>
         where OuterState : ResolverScope<InnerScore>
     {

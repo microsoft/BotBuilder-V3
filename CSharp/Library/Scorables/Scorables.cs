@@ -116,6 +116,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
+    [Serializable]
     public sealed class SelectItemScorable<OuterItem, InnerItem, Score> : ScorableAggregator<OuterItem, Token<InnerItem, Score>, Score, InnerItem, object, Score>
     {
         private readonly IScorable<InnerItem, Score> scorable;
@@ -142,6 +143,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
+    [Serializable]
     public sealed class SelectScoreScorable<Item, SourceScore, TargetScore> : DelegatingScorable<Item, SourceScore>, IScorable<Item, TargetScore>
     {
         private readonly Func<Item, SourceScore, TargetScore> selector;
@@ -160,6 +162,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
+    [Serializable]
     public sealed class FirstScorable<Item, Score> : FoldScorable<Item, Score>
     {
         public FirstScorable(IEnumerable<IScorable<Item, Score>> scorables)
@@ -172,6 +175,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
+    [Serializable]
     public sealed class TraitsScorable<Item, Score> : FoldScorable<Item, Score>
     {
         private readonly ITraits<Score> traits;

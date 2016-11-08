@@ -144,6 +144,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Scorable to represent a regular expression match against an activity's text.
     /// </summary>
+    [Serializable]
     public sealed class RegexMatchScorable<InnerState, InnerScore> : ResolverScorable<RegexMatchScorable<InnerState, InnerScore>.Scope, Match, InnerState, InnerScore>
     {
         private readonly Regex regex;
