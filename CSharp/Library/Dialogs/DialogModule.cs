@@ -165,9 +165,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-            .Register((c, p) => new BotDataBagStream(p.TypedAs<IBotDataBag>(), p.TypedAs<string>()))
-            .As<Stream>()
-            .InstancePerDependency();
+                .Register((c, p) => new BotDataBagStream(p.TypedAs<IBotDataBag>(), p.TypedAs<string>()))
+                .As<Stream>()
+                .InstancePerDependency();
 
             builder.Register(c => new DialogTaskManager(DialogModule.BlobKey, 
                                                         c.Resolve<JObjectBotData>(), 
