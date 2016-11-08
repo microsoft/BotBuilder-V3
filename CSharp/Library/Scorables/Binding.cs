@@ -77,6 +77,13 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                     bool cancel = type.IsAssignableFrom(typeof(CancellationToken));
                     if (cancel)
                     {
+                        var resolved = (CancellationToken) this.arguments[index];
+                        if (resolved.CanBeCanceled)
+                        {
+                            // consider CancellationTokenSource.CreateLinkedTokenSource
+                            // but remember to CancellationTokenSource.Dispose
+                            throw new NotSupportedException();
+                        }
                         this.arguments[index] = token;
                     }
                 }
