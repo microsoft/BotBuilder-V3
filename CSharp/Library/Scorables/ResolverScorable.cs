@@ -31,17 +31,14 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Models;
-using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Internals.Scorables
 {
