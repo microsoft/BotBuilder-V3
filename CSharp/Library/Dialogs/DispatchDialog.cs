@@ -62,7 +62,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         protected virtual IResolver MakeResolver(IDialogContext context, IActivity activity)
         {
-            var resolver = NullResolver.Instance;
+            var resolver = NoneResolver.Instance;
             resolver = new ArrayResolver(resolver, context, activity, this);
             resolver = new ActivityResolver(resolver);
 
