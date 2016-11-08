@@ -38,6 +38,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Internals.Scorables
@@ -81,6 +82,26 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
         bool IResolver.TryResolve(Type type, object tag, out object value)
         {
+            value = null;
+            return false;
+        }
+    }
+
+    public sealed class NoneResolver : IResolver
+    {
+        public static readonly IResolver Instance = new NoneResolver();
+        private NoneResolver()
+        {
+        }
+        public static readonly object BoxedToken = CancellationToken.None;
+        bool IResolver.TryResolve(Type type, object tag, out object value)
+        {
+            if (typeof(CancellationToken).IsAssignableFrom(type))
+            {
+                value = BoxedToken;
+                return true;
+            }
+
             value = null;
             return false;
         }

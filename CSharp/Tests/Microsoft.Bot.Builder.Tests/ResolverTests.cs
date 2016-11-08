@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using Autofac;
 using Microsoft.Bot.Builder.Internals.Scorables;
@@ -63,6 +64,19 @@ namespace Microsoft.Bot.Builder.Tests
             IService service;
             Assert.IsFalse(resolver.TryResolve(null, out service));
             Assert.IsFalse(resolver.TryResolve(Some, out service));
+        }
+
+        [TestMethod]
+        public void Resolver_None()
+        {
+            var resolver = NoneResolver.Instance;
+
+            IService service;
+            Assert.IsFalse(resolver.TryResolve(null, out service));
+            Assert.IsFalse(resolver.TryResolve(Some, out service));
+
+            CancellationToken token;
+            Assert.IsTrue(resolver.TryResolve(null, out token));
         }
 
         [TestMethod]
