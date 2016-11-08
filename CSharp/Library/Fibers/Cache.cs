@@ -64,29 +64,15 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         }
     }
 
-    [Serializable]
-    public sealed class DictionaryCache<C, K, V> : ICache<C, K, V>, ISerializable
+    public sealed class DictionaryCache<C, K, V> : ICache<C, K, V>
     {
         private readonly IEqualityComparer<K> comparer;
-
-        [NonSerialized]
         private readonly Dictionary<K, Task<V>> cache;
         public DictionaryCache(IEqualityComparer<K> comparer)
         {
             SetField.NotNull(out this.comparer, nameof(comparer), comparer);
             this.cache = new Dictionary<K, Task<V>>(comparer);
         }
-        private DictionaryCache(SerializationInfo info, StreamingContext context)
-        {
-            SetField.NotNullFrom(out this.comparer, nameof(this.comparer), info);
-            this.cache = new Dictionary<K, Task<V>>(comparer);
-        }
-
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue(nameof(this.comparer), comparer);
-        }
-
         Task<V> ICache<C, K, V>.GetOrAddAsync(C context, K key, Func<C, K, CancellationToken, Task<V>> make, CancellationToken token)
         {
             try
