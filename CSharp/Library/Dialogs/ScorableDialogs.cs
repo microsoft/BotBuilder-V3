@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     }
 
 
-    public partial class Extensions
+    public static partial class Extensions
     {
         public static IDialog<T> WithScorable<T, Item, Score>(this IDialog<T> antecedent, IScorable<Item, Score> scorable)
         {
