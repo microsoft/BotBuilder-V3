@@ -232,11 +232,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsSelf();
 
             builder
-                .RegisterType<NullActivityLogger>()
-                .AsImplementedInterfaces()
-                .SingleInstance();
-
-            builder
                 .Register(c =>
                 {
                     var cc = c.Resolve<IComponentContext>();
@@ -257,6 +252,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 })
                 .As<IPostToBot>()
                 .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<NullActivityLogger>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
 
             builder
                 .RegisterType<AlwaysSendDirect_BotToUser>()
