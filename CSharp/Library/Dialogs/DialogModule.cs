@@ -57,7 +57,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public static readonly object LifetimeScopeTag = typeof(DialogModule);
 
         public static readonly object Key_DeleteProfile_Regex = new object();
-        
+        public static readonly object Key_Dialog_Scorable = new object();
+
         public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, IMessageActivity message)
         {
             var inner = scope.BeginLifetimeScope(LifetimeScopeTag);
@@ -218,18 +219,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c =>
-                {
-                    var stack = c.Resolve<IDialogStack>();
-                    var fromStack = stack.Frames.Select(f => f.Target).OfType<IScorable<IActivity, double>>();
-                    var fromGlobal = c.Resolve<IScorable<IActivity, double>[]>();
-                    // since the stack of scorables changes over time, this should be lazy
-                    var lazyScorables = fromStack.Concat(fromGlobal);
-                    var scorable = new TraitsScorable<IActivity, double>(c.Resolve<ITraits<double>>(), c.Resolve<IComparer<double>>(), lazyScorables);
-                    return scorable;
-                })
-                .InstancePerLifetimeScope()
-                .AsSelf();
+                .RegisterType<DialogScorable>()
+                .Keyed<IScorable<IActivity, double>>(Key_Dialog_Scorable)
+                .InstancePerLifetimeScope();
 
             builder
                 .Register(c =>
@@ -238,7 +230,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     Func<IPostToBot> makeInner = () =>
                     {
                         IPostToBot post = new ReactiveDialogTask(cc.Resolve<IDialogTask>(), cc.Resolve<Func<IDialog<object>>>());
-                        post = new ScoringDialogTask<double>(post, cc.Resolve<TraitsScorable<IActivity, double>>());
+                        post = new ScoringDialogTask<double>(post, cc.ResolveKeyed<IScorable<IActivity, double>>(Key_Dialog_Scorable));
                         return post;
                     };
 
