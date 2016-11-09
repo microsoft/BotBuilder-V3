@@ -105,31 +105,4 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return normalized;
         }
     }
-
-    public static partial class Extensions
-    {
-        public static IDialog<T> WithScorable<T, Item, Score>(this IDialog<T> antecedent, IScorable<Item, Score> scorable)
-        {
-            return new WithScorableDialog<T, Item, Score>(antecedent, scorable);
-        }
-
-        [Serializable]
-        private sealed class WithScorableDialog<T, Item, Score> : DelegatingScorable<Item, Score>, IDialog<T>
-        {
-            public readonly IDialog<T> Antecedent;
-            public WithScorableDialog(IDialog<T> antecedent, IScorable<Item, Score> scorable)
-                : base(scorable)
-            {
-                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
-            }
-            async Task IDialog<T>.StartAsync(IDialogContext context)
-            {
-                context.Call<T>(this.Antecedent, ResumeAsync);
-            }
-            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
-            {
-                context.Done(await result);
-            }
-        }
-    }
 }

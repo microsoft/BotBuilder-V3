@@ -32,6 +32,7 @@
 //
 
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Internals.Scorables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -288,6 +289,20 @@ namespace Microsoft.Bot.Builder.Dialogs
         public static IDialog<T> Fold<T>(this IDialog<IEnumerable<IDialog<T>>> antecedent, Func<T, T, T> folder)
         {
             return new FoldDialog<T>(antecedent, folder);
+        }
+
+        /// <summary>
+        /// Decorate a dialog with a scorable, so that a scorable can participate on the dialog stack.
+        /// </summary>
+        /// <typeparam name="T">The type of the dialog.</typeparam>
+        /// <typeparam name="Item">The type of the item scored by the scorable.</typeparam>
+        /// <typeparam name="Score">The type of the scope produced by the scorable.</typeparam>
+        /// <param name="antecedent">The antecedent dialog.</param>
+        /// <param name="scorable">The scorable.</param>
+        /// <returns>The dialog augmented with the scorables.</returns>
+        public static IDialog<T> WithScorable<T, Item, Score>(this IDialog<T> antecedent, IScorable<Item, Score> scorable)
+        {
+            return new WithScorableDialog<T, Item, Score>(antecedent, scorable);
         }
 
         /// <summary>
@@ -802,6 +817,25 @@ namespace Microsoft.Bot.Builder.Dialogs
                 ++this.index;
 
                 await this.Iterate(context);
+            }
+        }
+
+        [Serializable]
+        private sealed class WithScorableDialog<T, Item, Score> : DelegatingScorable<Item, Score>, IDialog<T>
+        {
+            public readonly IDialog<T> Antecedent;
+            public WithScorableDialog(IDialog<T> antecedent, IScorable<Item, Score> scorable)
+                : base(scorable)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                context.Done(await result);
             }
         }
     }
