@@ -78,7 +78,7 @@ namespace Microsoft.Bot.Builder.Azure.Tests
             
             if (!File.Exists(executableFullFilePath))
             {
-                throw new FileNotFoundException(string.Format("Failed to find Azure Storage Emulator at {0}. Make sure Azure Storage Emulator is installed", executableFullFilePath));
+                throw new FileNotFoundException($"Failed to find Azure Storage Emulator at {executableFullFilePath}. Make sure Azure Storage Emulator is installed");
             }
 
             var processStartInfo = new ProcessStartInfo
