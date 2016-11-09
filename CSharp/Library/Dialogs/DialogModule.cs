@@ -57,7 +57,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public static readonly object LifetimeScopeTag = typeof(DialogModule);
 
         public static readonly object Key_DeleteProfile_Regex = new object();
-        public static readonly object Key_Dialog_Scorable = new object();
+        public static readonly object Key_Dialog_Router = new object();
 
         public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, IMessageActivity message)
         {
@@ -240,8 +240,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .RegisterType<DialogScorable>()
-                .Keyed<IScorable<IActivity, double>>(Key_Dialog_Scorable)
+                .RegisterType<DialogRouter>()
+                .Keyed<IScorable<IActivity, double>>(Key_Dialog_Router)
                 .InstancePerLifetimeScope();
 
             builder
@@ -251,7 +251,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     Func<IPostToBot> makeInner = () =>
                     {
                         IPostToBot post = new ReactiveDialogTask(cc.Resolve<IDialogTask>(), cc.Resolve<Func<IDialog<object>>>());
-                        post = new ScoringDialogTask<double>(post, cc.ResolveKeyed<IScorable<IActivity, double>>(Key_Dialog_Scorable));
+                        post = new ScoringDialogTask<double>(post, cc.ResolveKeyed<IScorable<IActivity, double>>(Key_Dialog_Router));
                         return post;
                     };
 

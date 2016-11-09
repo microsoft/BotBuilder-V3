@@ -42,9 +42,9 @@ using Microsoft.Bot.Connector;
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     /// <summary>
-    /// Scorable for Dialog module.
+    /// Scorable for Dialog module routing.
     /// </summary>
-    public sealed class DialogScorable : DelegatingScorable<IActivity, double>
+    public sealed class DialogRouter : DelegatingScorable<IActivity, double>
     {
         public static IEnumerable<IScorable<IActivity, double>> Make(
             IDialogStack stack,
@@ -95,7 +95,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return scorable;
         }
 
-        public DialogScorable(
+        public DialogRouter(
             IDialogStack stack,
             IEnumerable<IScorable<IActivity, double>> fromActivity,
             IEnumerable<IScorable<IResolver, double>> fromResolver,
