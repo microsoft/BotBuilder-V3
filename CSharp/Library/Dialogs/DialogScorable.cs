@@ -44,7 +44,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     /// <summary>
     /// Scorable for Dialog module.
     /// </summary>
-    [Serializable]
     public sealed class DialogScorable : DelegatingScorable<IActivity, double>
     {
         public static IEnumerable<IScorable<IActivity, double>> Make(
