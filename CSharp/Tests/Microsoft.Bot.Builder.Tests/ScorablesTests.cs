@@ -283,7 +283,7 @@ namespace Microsoft.Bot.Builder.Tests
             var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
 
             var scorable = Scorable
-                .For((string expression, IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
+                .For((string expression, IBotData data, IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
                 {
                     var dialog = new CalculatorDialog();
                     activity.Text = expression;

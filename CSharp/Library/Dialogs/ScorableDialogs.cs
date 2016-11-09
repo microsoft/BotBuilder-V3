@@ -98,6 +98,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             return For((Delegate)method);
         }
+        public static IScorable<IResolver, Binding> For<T1, T2, T3, T4, T5, R>(Func<T1, T2, T3, T4, T5, R> method)
+        {
+            return For((Delegate)method);
+        }
         public static IScorable<IResolver, double> When(this IScorable<IResolver, Binding> scorable, Regex regex)
         {
             var resolved = new RegexMatchScorable<Binding, Binding>(regex, scorable);

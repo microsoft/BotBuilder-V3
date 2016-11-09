@@ -225,7 +225,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     Func<IActivity, IResolver> make = activity =>
                     {
                         var resolver = NoneResolver.Instance;
-                        resolver = new ArrayResolver(resolver, activity, cc.Resolve<IDialogStack>(), cc.Resolve<IBotToUser>());
+                        resolver = new ArrayResolver(resolver,
+                            activity,
+                            cc.Resolve<IDialogStack>(),
+                            cc.Resolve<IBotToUser>(),
+                            cc.Resolve<IBotData>(),
+                            cc.Resolve<IDialogTaskManager>());
                         resolver = new ActivityResolver(resolver);
                         return resolver;
                     };
