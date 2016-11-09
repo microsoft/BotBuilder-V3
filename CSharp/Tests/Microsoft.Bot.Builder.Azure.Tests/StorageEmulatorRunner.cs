@@ -47,11 +47,11 @@ namespace Microsoft.Bot.Builder.Azure.Tests
     internal static class StorageEmulatorRunner
     {
         //Azure storage emulator process name varies by version and architecture, taking one of the names below
-        private static readonly string emulatorProcessNameV1 = "AZURES~1";
-        private static readonly string emulatorProcessNameV2 = "AzureStorageEmulator";
+        private const string EmulatorProcessNameV1 = "AZURES~1";
+        private const string EmulatorProcessNameV2 = "AzureStorageEmulator";
 
-        private static readonly string emulatorExecutableFileName = "AzureStorageEmulator.exe";
-        private static readonly string azureSdkSubDirectory = @"{0}\Microsoft SDKs\Azure\Storage Emulator";
+        private const string EmulatorExecutableFileName = "AzureStorageEmulator.exe";
+        private const string AzureSdkSubDirectory = @"{0}\Microsoft SDKs\Azure\Storage Emulator";
 
         private static bool isRunning = false;
         private static bool emulatorWasPreviouslyRunning = false; 
@@ -73,8 +73,8 @@ namespace Microsoft.Bot.Builder.Azure.Tests
                 return;
             }
 
-            var azureSdkDirectory = string.Format(azureSdkSubDirectory, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
-            var executableFullFilePath = Path.Combine(azureSdkDirectory, emulatorExecutableFileName);
+            var azureSdkDirectory = string.Format(AzureSdkSubDirectory, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
+            var executableFullFilePath = Path.Combine(azureSdkDirectory, EmulatorExecutableFileName);
             
             if (!File.Exists(executableFullFilePath))
             {
@@ -113,8 +113,8 @@ namespace Microsoft.Bot.Builder.Azure.Tests
 
         private static bool IsStorageEmulator(Process p)
         {
-            return p.ProcessName.StartsWith(emulatorProcessNameV1, StringComparison.InvariantCultureIgnoreCase) 
-                || p.ProcessName.StartsWith(emulatorProcessNameV2, StringComparison.InvariantCultureIgnoreCase);
+            return p.ProcessName.StartsWith(EmulatorProcessNameV1, StringComparison.InvariantCultureIgnoreCase) 
+                || p.ProcessName.StartsWith(EmulatorProcessNameV2, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

@@ -140,13 +140,13 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
-        [ClassInitialize]
+        [AssemblyInitialize]
         public static void ClassInitialize(TestContext context)
         {
             StorageEmulatorRunner.Start();
         }
 
-        [ClassCleanup]
+        [AssemblyCleanup]
         public static void ClassCleanup()
         {
             StorageEmulatorRunner.Stop();
