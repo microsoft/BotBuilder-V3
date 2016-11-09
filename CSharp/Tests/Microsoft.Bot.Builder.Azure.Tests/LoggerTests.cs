@@ -154,8 +154,9 @@ namespace Microsoft.Bot.Builder.Tests
 
         [TestMethod]
         [TestCategory("Azure")]
-        // NOTE: To run this test you must be running the Azure Storage Emulator locally
+        // NOTE: To run this test you must have installed the Azure Storage Emulator. 
         // You can download it here: https://go.microsoft.com/fwlink/?linkid=717179&clcid=0x409
+        // The test will automatically start the emulator.
         public async Task TableLoggerTest()
         {
             var tableName = "TableLoggerTestActivities";

@@ -53,7 +53,8 @@ namespace Microsoft.Bot.Builder.Azure.Tests
         private static readonly string emulatorExecutableFileName = "AzureStorageEmulator.exe";
         private static readonly string azureSdkSubDirectory = @"{0}\Microsoft SDKs\Azure\Storage Emulator";
 
-        private static bool isRunning;
+        private static bool isRunning = false;
+        private static bool emulatorWasPreviouslyRunning = false; 
 
         /// <summary>
         /// Starts Azure Storage Emulator if it has not been started already
@@ -65,8 +66,8 @@ namespace Microsoft.Bot.Builder.Azure.Tests
                 return;
             }
 
-            Process[] azureStorageProcesses = Process.GetProcesses();
-            if(azureStorageProcesses.Any(p => IsStorageEmulator(p)))
+            Process[] processes = Process.GetProcesses();
+            if(processes.Any(p => IsStorageEmulator(p)))
             {
                 isRunning = true;
                 return;
@@ -74,7 +75,7 @@ namespace Microsoft.Bot.Builder.Azure.Tests
 
             var azureSdkDirectory = string.Format(azureSdkSubDirectory, Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86));
             var executableFullFilePath = Path.Combine(azureSdkDirectory, emulatorExecutableFileName);
-
+            
             if (!File.Exists(executableFullFilePath))
             {
                 throw new FileNotFoundException(string.Format("Failed to find Azure Storage Emulator at {0}. Make sure Azure Storage Emulator is installed", executableFullFilePath));
@@ -89,6 +90,7 @@ namespace Microsoft.Bot.Builder.Azure.Tests
             using (Process emulatorProcess = Process.Start(processStartInfo))
             {
                 emulatorProcess.WaitForExit();
+                emulatorWasPreviouslyRunning = false;
                 isRunning = true;
             }
         }
@@ -101,7 +103,8 @@ namespace Microsoft.Bot.Builder.Azure.Tests
             Process[] azureStorageProcesses = Process.GetProcesses();
             var emulatorProcess = azureStorageProcesses.SingleOrDefault(p => IsStorageEmulator(p));
 
-            if (emulatorProcess != null)
+            // If the emulator is running and we were the ones that started it, we stop the process
+            if (emulatorProcess != null && !emulatorWasPreviouslyRunning)
             {
                 emulatorProcess.Kill();
                 isRunning = false;
