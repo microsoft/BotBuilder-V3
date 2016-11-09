@@ -32,6 +32,7 @@
 //
 using Autofac;
 using Microsoft.Bot.Builder.Azure;
+using Microsoft.Bot.Builder.Azure.Tests;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.History;
@@ -138,7 +139,19 @@ namespace Microsoft.Bot.Builder.Tests
                 throw new NotImplementedException();
             }
         }
-         
+
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext context)
+        {
+            StorageEmulatorRunner.Start();
+        }
+
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            StorageEmulatorRunner.Stop();
+        }
+
         [TestMethod]
         [TestCategory("Azure")]
         // NOTE: To run this test you must be running the Azure Storage Emulator locally
