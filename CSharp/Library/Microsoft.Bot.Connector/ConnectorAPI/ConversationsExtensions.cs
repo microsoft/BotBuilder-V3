@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='parameters'>
         /// Parameters to create the conversation from
         /// </param>
-        public static ResourceResponse CreateConversation(this IConversations operations, ConversationParameters parameters)
+        public static ConversationResourceResponse CreateConversation(this IConversations operations, ConversationParameters parameters)
         {
             return Task.Factory.StartNew(s => ((IConversations)s).CreateConversationAsync(parameters), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
         }
@@ -89,11 +89,11 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<ResourceResponse> CreateConversationAsync(this IConversations operations, ConversationParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<ConversationResourceResponse> CreateConversationAsync(this IConversations operations, ConversationParameters parameters, CancellationToken cancellationToken = default(CancellationToken))
         {
             using (var _result = await operations.CreateConversationWithHttpMessagesAsync(parameters, null, cancellationToken).ConfigureAwait(false))
             {
-                return await _result.HandleErrorAsync<ResourceResponse>().ConfigureAwait(false);
+                return await _result.HandleErrorAsync<ConversationResourceResponse>().ConfigureAwait(false);
             }
         }
 

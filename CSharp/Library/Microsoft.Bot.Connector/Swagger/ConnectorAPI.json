@@ -136,16 +136,16 @@
         ],
         "responses": {
           "200": {
-            "description": "﻿An object will be returned containing the ID for the resource.",
-            "schema": { "$ref": "#/definitions/ResourceResponse" }
+            "description": "",
+            "schema": { "$ref": "#/definitions/ConversationResourceResponse" }
           },
           "201": {
-            "description": "﻿A ResourceResponse object will be returned containing the ID for the resource.",
-            "schema": { "$ref": "#/definitions/ResourceResponse" }
+            "description": "",
+            "schema": { "$ref": "#/definitions/ConversationResourceResponse" }
           },
           "202": {
-            "description": "﻿An object will be returned containing the ID for the resource.",
-            "schema": { "$ref": "#/definitions/ResourceResponse" }
+            "description": "",
+            "schema": { "$ref": "#/definitions/ConversationResourceResponse" }
           },
           "400": {
             "description": "The request was malformed or otherwise incorrect. Inspect the message for a more detailed description.",
@@ -669,6 +669,14 @@
         "topicName": {
           "description": "(Optional) Topic of the conversation (if supported by the channel)",
           "type": "string"
+        },
+        "activity": {
+          "$ref": "#/definitions/Activity",
+          "description": "(Optional) When creating a new conversation, use this activity as the intial message to the conversation"
+        },
+        "channelData": {
+          "$ref": "#/definitions/Object",
+          "description": "Channel specific payload"
         }
       }
     },
@@ -682,20 +690,6 @@
         },
         "name": {
           "description": "Display friendly name",
-          "type": "string"
-        }
-      }
-    },
-    "Object": {
-      "type": "object",
-      "properties": {}
-    },
-    "ResourceResponse": {
-      "description": "A response containing a resource ID",
-      "type": "object",
-      "properties": {
-        "id": {
-          "description": "Id of the resource",
           "type": "string"
         }
       }
@@ -808,6 +802,10 @@
         }
       }
     },
+    "Object": {
+      "type": "object",
+      "properties": {}
+    },
     "ConversationAccount": {
       "description": "Channel account information for a conversation",
       "type": "object",
@@ -858,6 +856,30 @@
       "properties": {
         "type": {
           "description": "Entity Type (typically from schema.org types)",
+          "type": "string"
+        }
+      }
+    },
+    "ConversationResourceResponse": {
+      "description": "A response containing a resource",
+      "type": "object",
+      "properties": {
+        "activityId": {
+          "description": "Id of the Activity (if one was created)",
+          "type": "string"
+        },
+        "id": {
+          "description": "Id of the resource",
+          "type": "string"
+        }
+      }
+    },
+    "ResourceResponse": {
+      "description": "A response containing a resource ID",
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "Id of the resource",
           "type": "string"
         }
       }

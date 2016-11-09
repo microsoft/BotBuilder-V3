@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionTypes.cs" />
+    <Compile Include="ConnectorAPI\Models\ConversationResourceResponse.cs" />
     <Compile Include="ConnectorAPI\Models\Error.cs" />
     <Compile Include="ConnectorAPI\Models\ErrorResponse.cs" />
     <Compile Include="ClaimsIdentityEx.cs" />
