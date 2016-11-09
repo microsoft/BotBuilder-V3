@@ -56,28 +56,28 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             var targets = stack.Frames.Select(f => f.Target);
             foreach (var target in targets)
             {
-                var activity = target as IScorable<IActivity, double>;
-                if (activity != null)
+                var activityScorable = target as IScorable<IActivity, double>;
+                if (activityScorable != null)
                 {
-                    yield return activity;
+                    yield return activityScorable;
                 }
 
-                var resolver = target as IScorable<IResolver, double>;
-                if (resolver != null)
+                var resolverScorable = target as IScorable<IResolver, double>;
+                if (resolverScorable != null)
                 {
-                    yield return resolver.SelectItem(makeResolver);
+                    yield return resolverScorable.SelectItem(makeResolver);
                 }
             }
 
             // then global scorables "on the side"
-            foreach (var activity in fromActivity)
+            foreach (var activityScorable in fromActivity)
             {
-                yield return activity;
+                yield return activityScorable;
             }
 
-            foreach (var resolver in fromResolver)
+            foreach (var resolverScorable in fromResolver)
             {
-                yield return resolver.SelectItem(makeResolver);
+                yield return resolverScorable.SelectItem(makeResolver);
             }
         }
 
