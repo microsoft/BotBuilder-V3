@@ -111,7 +111,7 @@
     <Compile Include="UrlTokenTests.cs" />
     <Compile Include="RangeTests.cs" />
     <Compile Include="ScopeTests.cs" />
-    <Compile Include="ScorablesTests.cs" />
+    <Compile Include="ScorableDialogTests.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="DispatchTestsBase.cs" />
   </ItemGroup>
