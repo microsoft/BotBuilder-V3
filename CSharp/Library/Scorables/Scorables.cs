@@ -66,6 +66,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             }
         }
 
+        public static IScorable<Item, Score> WhereScore<Item, Score>(this IScorable<Item, Score> scorable, Func<Item, Score, bool> predicate)
+        {
+            return new WhereScoreScorable<Item, Score>(scorable, predicate);
+        }
+
         /// <summary>
         /// Project the score of a scorable using a lambda expression.
         /// </summary>
@@ -140,6 +145,30 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         protected override Score GetScore(OuterItem item, Token<InnerItem, Score> state)
         {
             return state.Scorable.GetScore(state.Item, state.State);
+        }
+    }
+
+    [Serializable]
+    public sealed class WhereScoreScorable<Item, Score> : DelegatingScorable<Item, Score>
+    {
+        private readonly Func<Item, Score, bool> predicate;
+        public WhereScoreScorable(IScorable<Item, Score> scorable, Func<Item, Score, bool> predicate)
+            : base(scorable)
+        {
+            SetField.NotNull(out this.predicate, nameof(predicate), predicate);
+        }
+        public override bool HasScore(Item item, object state)
+        {
+            if (base.HasScore(item, state))
+            {
+                var score = base.GetScore(item, state);
+                if (this.predicate(item, score))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 
