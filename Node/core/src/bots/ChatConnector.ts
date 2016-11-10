@@ -341,8 +341,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             // Build list of write commands
             var root = this.getStoragePath(context.address);
             if (context.userId) {
-                if (context.persistUserData)
-                {
+                if (context.persistUserData) {
                     // Write userData
                     addWrite('userData', data.userData || {}, root + '/users/' + encodeURIComponent(context.userId));
                 }
