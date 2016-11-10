@@ -116,6 +116,9 @@
     <Compile Include="Luis\EntityToType.cs" />
     <Compile Include="Luis\Extensions.cs" />
     <Compile Include="Luis\LuisModel.cs" />
+    <Compile Include="Luis\Models\CompositeChild.cs" />
+    <Compile Include="Luis\Models\CompositeEntity.cs" />
+    <Compile Include="Luis\Models\DialogResponse.cs" />
     <Compile Include="Luis\Resolution.cs" />
     <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
@@ -148,7 +151,6 @@
     <Compile Include="FormFlow\IRecognize.cs" />
     <Compile Include="Luis\Models\Action.cs" />
     <Compile Include="Luis\Models\ActionParameter.cs" />
-    <Compile Include="Luis\Models\ActionParameterValue.cs" />
     <Compile Include="Luis\Models\EntityRecommendation.cs" />
     <Compile Include="Luis\Models\IntentRecommendation.cs" />
     <Compile Include="Luis\Models\LuisResult.cs" />

@@ -54,6 +54,84 @@
           }
         }
       }
+    },
+    "/application/preview": {
+      "get": {
+        "operationId": "GetIntentsAndEntitiesV2",
+        "description": "Query Luis for intents and entities.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "type": "string",
+            "description": "Luis model Id.",
+            "format": "guid",
+            "required": true
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "type": "string",
+            "description": "Luis subscription key.",
+            "format": "string",
+            "required": true
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "type": "string",
+            "description": "Query submitted to LUIS service.",
+            "format": "string",
+            "required": true
+          },
+          {
+            "name": "timezoneOffset",
+            "in": "query",
+            "type": "number",
+            "description": "The timezone offset for the location of the request",
+            "required": false
+          },
+          {
+            "name": "contextId",
+            "in": "query",
+            "type": "string",
+            "description": "The conversation id for dialog",
+            "required": false
+          },
+          {
+            "name": "verbose",
+            "in": "query",
+            "type": "boolean",
+            "description": "If true will return all intents instead of just the topscoring intent",
+            "required": false
+          },
+          {
+            "name": "forceSet",
+            "in": "query",
+            "type": "string",
+            "description": "A parameter name to override in the action parameters with a new value",
+            "required": false
+          },
+          {
+            "name": "allowSampling",
+            "in": "query",
+            "type": "string",
+            "description": "A parameter to allow logging the data so they can be accessed",
+            "required": false
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "intents and entities extracted.",
+            "schema": {
+              "$ref": "#/definitions/LuisResult"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -61,13 +139,15 @@
       "type": "object",
       "required": [
         "query",
-        "intents",
         "entities"
       ],
       "properties": {
         "query": {
           "type": "string",
           "description": "The query sent to LUIS."
+        },
+        "topScoringIntent": {
+          "$ref": "#/definitions/IntentRecommendation"
         },
         "intents": {
           "type": "array",
@@ -82,6 +162,15 @@
           "items": {
             "$ref": "#/definitions/EntityRecommendation"
           }
+        },
+        "compositeEntities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CompositeEntity"
+          }
+        },
+        "dialog": {
+          "$ref": "#/definitions/DialogResponse"
         }
       }
     },
@@ -138,29 +227,14 @@
           "type": "array",
           "description": "Value of extracted entities for this parameter.",
           "items": {
-            "$ref": "#/definitions/ActionParameterValue"
+            "$ref": "#/definitions/EntityRecommendation"
           }
-        }
-      }
-    },
-    "ActionParameterValue": {
-      "properties": {
-        "entity": {
-          "type": "string",
-          "description": "Entity extracted by LUIS."
-        },
-        "type": {
-          "type": "string",
-          "description": "Type of the entity."
-        },
-        "score": {
-          "type": "number",
-          "description": "Score assigned by LUIS to detected entity."
         }
       }
     },
     "EntityRecommendation": {
       "description": "Luis entity recommendation. Look at https://www.luis.ai/Help for more information.",
+      "type": "object",
       "properties": {
         "role": {
           "type": "string",
@@ -192,6 +266,82 @@
           "additionalProperties": {
             "type": "string"
           }
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "CompositeEntity": {
+      "description": "Luis composite entity. Look at https://www.luis.ai/Help for more information.",
+      "type": "object",
+      "properties": {
+        "parentType": {
+          "type": "string",
+          "description": "Type of parent entity"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value for entity extracted by LUIS."
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CompositeChild"
+          }
+        }
+      },
+      "required": [
+        "parentType",
+        "value",
+        "children"
+      ]
+    },
+    "CompositeChild": {
+      "description": "Child entity in Luis composite entity",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Type of child entity"
+        },
+        "value": {
+          "type": "string",
+          "description": "Value extracted by Luis"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ]
+    },
+    "DialogResponse": {
+      "type": "object",
+      "description": "The dialog response",
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "description": "Pormpt that should be asked"
+        },
+        "parameterName": {
+          "type": "string",
+          "description": "Name of the parameter"
+        },
+        "parameterType": {
+          "type": "string",
+          "description": "Type of the parameter"
+        },
+        "contextId": {
+          "type": "string",
+          "description": "The context id for dialog"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Question",
+            "Finished"
+          ],
+          "description": "The dialog status. Possible values: Question | Finished"
         }
       }
     }
