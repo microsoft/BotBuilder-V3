@@ -86,6 +86,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             try
             {
                 var state = (State)opaque;
+                if (!HasScore(item, state))
+                {
+                    throw new InvalidOperationException();
+                }
+
                 return this.PostAsync(item, state, token);
             }
             catch (OperationCanceledException error)
@@ -103,6 +108,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             try
             {
                 var state = (State)opaque;
+               
                 return this.DoneAsync(item, state, token);
             }
             catch (OperationCanceledException error)
