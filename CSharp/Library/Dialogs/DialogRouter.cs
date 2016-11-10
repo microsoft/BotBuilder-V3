@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     /// </summary>
     public sealed class DialogRouter : DelegatingScorable<IActivity, double>
     {
-        public static IEnumerable<IScorable<IActivity, double>> Make(
+        public static IEnumerable<IScorable<IActivity, double>> EnumerateRelevant(
             IDialogStack stack,
             IEnumerable<IScorable<IActivity, double>> fromActivity,
             IEnumerable<IScorable<IResolver, double>> fromResolver,
@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        public static IScorable<IActivity, double> Make(
+        public static IScorable<IActivity, double> MakeDelegate(
             IDialogStack stack,
             IEnumerable<IScorable<IActivity, double>> fromActivity,
             IEnumerable<IScorable<IResolver, double>> fromResolver,
@@ -90,8 +90,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             IComparer<double> comparer)
         {
             // since the stack of scorables changes over time, this should be lazy
-            var lazyScorables = Make(stack, fromActivity, fromResolver, makeResolver);
-            var scorable = new TraitsScorable<IActivity, double>(traits, comparer, lazyScorables);
+            var relevant = EnumerateRelevant(stack, fromActivity, fromResolver, makeResolver);
+            var significant = relevant.Select(s => s.WhereScore((_, score) => comparer.Compare(score, traits.Minimum) >= 0));
+            var scorable = new TraitsScorable<IActivity, double>(traits, comparer, significant);
             return scorable;
         }
 
@@ -102,7 +103,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             Func<IActivity, IResolver> makeResolver,
             ITraits<double> traits,
             IComparer<double> comparer)
-            : base(Make(stack, fromActivity, fromResolver, makeResolver, traits, comparer))
+            : base(MakeDelegate(stack, fromActivity, fromResolver, makeResolver, traits, comparer))
         {
         }
     }
