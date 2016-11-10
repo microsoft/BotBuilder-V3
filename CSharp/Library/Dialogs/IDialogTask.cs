@@ -119,11 +119,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <summary>
         /// Interrupt the waiting dialog with a new dialog
         /// </summary>
-        /// <typeparam name="T">The type of the dialog.</typeparam>
-        /// <typeparam name="R">The type for which the dialog waits.</typeparam>
+        /// <typeparam name="T">The type of result expected from the dialog.</typeparam>
+        /// <typeparam name="R">The type of the item posted to dialog.</typeparam>
         /// <param name="stack">The dialog stack.</param>
-        /// <param name="dialog">The new dialog.</param>
-        /// <param name="item">The item for which the dialog waits.</param>
+        /// <param name="dialog">The new interrupting dialog.</param>
+        /// <param name="item">The item to foward to the new interrupting dialog.</param>
         /// <param name="token">The cancellation token.</param>
         /// <returns>A task that represents the interruption operation.</returns>
         public static async Task InterruptAsync<T, R>(this IDialogStack stack, IDialog<T> dialog, R item, CancellationToken token)
