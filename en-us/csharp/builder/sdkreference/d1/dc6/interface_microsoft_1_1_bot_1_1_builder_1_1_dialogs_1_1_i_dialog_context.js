@@ -11,6 +11,7 @@ var interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context =
     [ "PostAsync", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html#aa76e4ee3c4f810e0c7dbe3105c7a5a3b", null ],
     [ "Reset", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html#ab199b3ba7daea5c8f0e2c76da54ea04f", null ],
     [ "Wait< R >", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html#a4dfd22a60abc345faa6ab57a42ec38fa", null ],
+    [ "CancellationToken", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html#a8c0ca37c3cda1c96ef824d11fa6151c5", null ],
     [ "ConversationData", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html#ab32e7cf57ecf897949438ba2573aa54a", null ],
     [ "Frames", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html#ad06f75504f5af0a3079137b635cfbf64", null ],
     [ "PrivateConversationData", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html#afc4166d3d31f3402aa962e48cd1a8f3c", null ],

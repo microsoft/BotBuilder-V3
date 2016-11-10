@@ -4,6 +4,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_luis =
     [ "BuiltIn", "dd/dc9/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in.html", [
       [ "DateTime", "d4/db7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time.html", "d4/db7/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in_1_1_date_time" ]
     ] ],
+    [ "CachingLuisService", "d8/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_caching_luis_service.html", "d8/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_caching_luis_service" ],
     [ "Extensions", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions.html", "df/d78/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_extensions" ],
     [ "ICalendarPlus", "de/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_calendar_plus.html", "de/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_calendar_plus" ],
     [ "IEntityToType", "d8/d16/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_entity_to_type.html", "d8/d16/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_entity_to_type" ],

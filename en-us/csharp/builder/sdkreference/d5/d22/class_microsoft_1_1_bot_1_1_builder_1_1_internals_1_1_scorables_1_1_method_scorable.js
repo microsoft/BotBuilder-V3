@@ -1,6 +1,8 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_method_scorable =
 [
     [ "MethodScorable", "d5/d22/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_method_scorable.html#ae1bc7d8b566a60c5b4d81a78088ca6b4", null ],
+    [ "DoneAsync", "d5/d22/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_method_scorable.html#a60db82e716b6bd07e161b75893745800", null ],
+    [ "DoneAsync", "d5/d22/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_method_scorable.html#acec0902e9f212457c768a4648662ef9e", null ],
     [ "GetScore", "d5/d22/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_method_scorable.html#ad5e7fdb01572acc01ef853dc6ab7b635", null ],
     [ "GetScore", "d5/d22/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_method_scorable.html#a55617a3547ec8f0eaf34abae0851581c", null ],
     [ "HasScore", "d5/d22/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_method_scorable.html#a44d6038690d80142e43a9f254a228fbc", null ],

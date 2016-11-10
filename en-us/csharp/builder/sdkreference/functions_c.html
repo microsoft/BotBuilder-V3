@@ -62,7 +62,7 @@
 			var navtreecontents = $('#nav-tree-contents');
 			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
 			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
-            sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            //sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
             setProgrammingLanguage();
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
@@ -127,6 +127,9 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>CachingBotDataStore()
 : <a class="el" href="d5/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_caching_bot_data_store.html#ad7a7b2b22cfcd41d61823e7d279ad4ba">Microsoft.Bot.Builder.Dialogs.Internals.CachingBotDataStore</a>
 </li>
+<li>CachingLuisService()
+: <a class="el" href="d8/dcc/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_caching_luis_service.html#abb1600fb5fa58d1be771037ceebb0df7">Microsoft.Bot.Builder.Luis.CachingLuisService</a>
+</li>
 <li>Calendar
 : <a class="el" href="de/d09/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_calendar_plus.html#a2b4485cb6f7d25b5b5c6eb8082e822e9">Microsoft.Bot.Builder.Luis.ICalendarPlus</a>
 </li>
@@ -161,6 +164,9 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 </li>
 <li>CamelCase()
 : <a class="el" href="d4/df0/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_language.html#a7d68b31d1c2c1ca218e7afe54e198290">Microsoft.Bot.Builder.FormFlow.Advanced.Language</a>
+</li>
+<li>CancellationToken
+: <a class="el" href="d1/d29/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_context.html#a8c0ca37c3cda1c96ef824d11fa6151c5">Microsoft.Bot.Builder.Dialogs.IBotContext</a>
 </li>
 <li>CanConvert()
 : <a class="el" href="d6/d88/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_misc_1_1_json_creation_converter.html#acbde6304dea4b427043595f7eb19c65e">Microsoft.Bot.Builder.Calling.ObjectModel.Misc.JsonCreationConverter&lt; T &gt;</a>
@@ -260,6 +266,9 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>ClosureCaptureException()
 : <a class="el" href="dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception.html#aef91bc47fea44bb8ddff83cf633213ef">Microsoft.Bot.Builder.Internals.Fibers.ClosureCaptureException</a>
 </li>
+<li>Code
+: <a class="el" href="d6/d59/class_microsoft_1_1_bot_1_1_connector_1_1_error.html#a0ded723df1820a244b707e6c608e92cb">Microsoft.Bot.Connector.Error</a>
+</li>
 <li>CollectDigits
 : <a class="el" href="d9/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_object_model_1_1_contracts_1_1_recognize.html#a598607b3955fbfc07ae9d9ec9366ac6d">Microsoft.Bot.Builder.Calling.ObjectModel.Contracts.Recognize</a>
 </li>
@@ -323,7 +332,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 , <a class="el" href="de/db8/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_form_configuration.html#a7212111731919b2375c0f53200181d11">Microsoft.Bot.Builder.FormFlow.FormConfiguration</a>
 </li>
 <li>ConnectorClient()
-: <a class="el" href="d9/d69/class_microsoft_1_1_bot_1_1_connector_1_1_connector_client.html#ad100ddc6db96a4a9857728a21310dac7">Microsoft.Bot.Connector.ConnectorClient</a>
+: <a class="el" href="d9/d69/class_microsoft_1_1_bot_1_1_connector_1_1_connector_client.html#a7809054916287a8c79afc42f14c6d1ec">Microsoft.Bot.Connector.ConnectorClient</a>
 </li>
 <li>ConnectorClientFactory()
 : <a class="el" href="d8/d82/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_connector_client_factory.html#ad52948c52e711e521c5c3afc62f3caa5">Microsoft.Bot.Builder.Dialogs.Internals.ConnectorClientFactory</a>
@@ -343,6 +352,9 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>Container
 : <a class="el" href="d6/d56/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_conversation.html#ace29faeef75cfe20c54ed98ac4f7ea48">Microsoft.Bot.Builder.Calling.CallingConversation</a>
 , <a class="el" href="d9/de8/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_conversation.html#afa911e45752e73d53d92a59ebe7cad18">Microsoft.Bot.Builder.Dialogs.Conversation</a>
+</li>
+<li>ContainsKey()
+: <a class="el" href="d7/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_data_bag.html#a0f6dad702413b798eb8ccf67c924fdce">Microsoft.Bot.Builder.Dialogs.IBotDataBag</a>
 </li>
 <li>Content
 : <a class="el" href="d0/dc2/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_parsed_calling_request.html#a459a54ca1a39fc0cedf08cd70f0c47d2">Microsoft.Bot.Builder.Calling.ParsedCallingRequest</a>
@@ -378,17 +390,18 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 , <a class="el" href="de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html#a90efa1a37acf6be82d197e91c296f4a2">Microsoft.Bot.Connector.IActivity</a>
 </li>
 <li>ConversationAccount()
-: <a class="el" href="d8/d48/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_account.html#abbf9311f0009351009df3aebaf856334">Microsoft.Bot.Connector.ConversationAccount</a>
+: <a class="el" href="d8/d48/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_account.html#ab0e6bb4665ba8766b77b1ae561c5a175">Microsoft.Bot.Connector.ConversationAccount</a>
 </li>
 <li>ConversationData
-: <a class="el" href="db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html#ab32e7cf57ecf897949438ba2573aa54a">Microsoft.Bot.Builder.Dialogs.Internals.IBotData</a>
+: <a class="el" href="d4/d36/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task_manager_bot_data_loader.html#aa33873564376c3d883de0edbbf5a31f5">Microsoft.Bot.Builder.Dialogs.Internals.DialogTaskManagerBotDataLoader</a>
+, <a class="el" href="db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html#ab32e7cf57ecf897949438ba2573aa54a">Microsoft.Bot.Builder.Dialogs.Internals.IBotData</a>
 </li>
 <li>ConversationId
 : <a class="el" href="d8/d71/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_address.html#a5dedb915cbf5e2806b551725f4d0cd2c">Microsoft.Bot.Builder.Dialogs.Address</a>
 , <a class="el" href="dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html#aff1eb35b98abf358bd6aa40d208f09e3">Microsoft.Bot.Builder.Dialogs.IAddress</a>
 </li>
 <li>ConversationParameters()
-: <a class="el" href="dd/d05/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_parameters.html#a12bef9f6edc383989134b6ef253a7e20">Microsoft.Bot.Connector.ConversationParameters</a>
+: <a class="el" href="dd/d05/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_parameters.html#a4ddea9ff4aa551a46fb288642c2ba18a">Microsoft.Bot.Connector.ConversationParameters</a>
 </li>
 <li>ConversationResult
 : <a class="el" href="d3/d8e/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_events_1_1_outcome_event_base.html#a8fef0b36778d14d41bd718752a6ca8c2">Microsoft.Bot.Builder.Calling.Events.OutcomeEventBase</a>
@@ -433,11 +446,17 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="da/ddd/class_microsoft_1_1_bot_1_1_connector_1_1_conversations.html#af507e8a21361d00cccd28b7c5efa41a3">Microsoft.Bot.Connector.Conversations</a>
 , <a class="el" href="de/d95/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversations.html#a4b6c641c81ffad0d2c76a8b2449d431a">Microsoft.Bot.Connector.IConversations</a>
 </li>
+<li>CreateDialogTask()
+: <a class="el" href="d3/d6c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task_manager.html#a0e685c0c98848593ffee4826bb0e1f98">Microsoft.Bot.Builder.Dialogs.Internals.IDialogTaskManager</a>
+</li>
 <li>CreateDirectConversation()
 : <a class="el" href="d7/d08/class_microsoft_1_1_bot_1_1_connector_1_1_conversations_extensions.html#a292a0ebc7c9e93752b6168e0c36f8fdc">Microsoft.Bot.Connector.ConversationsExtensions</a>
 </li>
 <li>CreateDirectConversationAsync()
 : <a class="el" href="d7/d08/class_microsoft_1_1_bot_1_1_connector_1_1_conversations_extensions.html#aa30dc697008e0e708f31e1630231f98e">Microsoft.Bot.Connector.ConversationsExtensions</a>
+</li>
+<li>CreateEndOfConversationActivity()
+: <a class="el" href="dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity.html#ad501cb37d92efdde8a3b89bfb80d00b2">Microsoft.Bot.Connector.Activity</a>
 </li>
 <li>CreateMessageActivity()
 : <a class="el" href="dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity.html#a3e74f6483484f8c0406f27e09ec82ab8">Microsoft.Bot.Connector.Activity</a>
@@ -445,8 +464,14 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>CreateReply()
 : <a class="el" href="dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity.html#a88084e6eb15ab7ea729ad79db3ad7b56">Microsoft.Bot.Connector.Activity</a>
 </li>
+<li>CreateTriggerActivity()
+: <a class="el" href="dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity.html#af7d1933b28706247f16c3d782710a175">Microsoft.Bot.Connector.Activity</a>
+</li>
 <li>CreateTypingActivity()
 : <a class="el" href="dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity.html#a9df720f016f81b6962192f26d560ba17">Microsoft.Bot.Connector.Activity</a>
+</li>
+<li>CredentialProviderType
+: <a class="el" href="de/d2a/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authentication.html#a7f1e97b1e474967fa2e8676519a0b189">Microsoft.Bot.Connector.BotAuthentication</a>
 </li>
 <li>Credentials
 : <a class="el" href="d9/d69/class_microsoft_1_1_bot_1_1_connector_1_1_connector_client.html#a15be30476ca597f1bf796593a8bf5cfa">Microsoft.Bot.Connector.ConnectorClient</a>

@@ -62,7 +62,7 @@
 			var navtreecontents = $('#nav-tree-contents');
 			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
 			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
-            sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            //sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
             setProgrammingLanguage();
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
@@ -123,9 +123,10 @@ $(document).ready(function(){initNavTree('d7/d6c/class_microsoft_1_1_bot_1_1_bui
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="../../d5/da5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable Class Reference</div>  </div>
+<div class="title">Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
@@ -133,7 +134,7 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable:</di
 <div class="dyncontent">
 <div class="center"><img src="../../d3/d07/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_dialogs_8_delete_profile_scorable_inherit__map" alt="Inheritance graph"/></div>
 <map name="_microsoft_8_bot_8_builder_8_dialogs_8_delete_profile_scorable_inherit__map" id="_microsoft_8_bot_8_builder_8_dialogs_8_delete_profile_scorable_inherit__map">
-<area shape="rect" id="node2" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html" title="IScorable\&lt; IActivity,\l double \&gt;" alt="" coords="34,5,171,47"/>
+<area shape="rect" id="node2" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html" title="ScorableBase\&lt; IActivity,\l string, double \&gt;" alt="" coords="21,5,185,47"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -141,18 +142,29 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable:</di
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af7b852cbd7b003ba57082a107522c7ae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html#af7b852cbd7b003ba57082a107522c7ae">DeleteProfileScorable</a> (<a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html">IDialogStack</a> stack, <a class="el" href="../../db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html">IBotData</a> botData, <a class="el" href="../../d9/d2c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_to_user.html">IBotToUser</a> botToUser, Regex regex)</td></tr>
 <tr class="separator:af7b852cbd7b003ba57082a107522c7ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adddc4d0d3f5fca92f1fe8131f4b7bda3"><td class="memItemLeft" align="right" valign="top">Score&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html#adddc4d0d3f5fca92f1fe8131f4b7bda3">GetScore</a> (Item item, object state)</td></tr>
-<tr class="memdesc:adddc4d0d3f5fca92f1fe8131f4b7bda3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the score for this item.  <a href="#adddc4d0d3f5fca92f1fe8131f4b7bda3">More...</a><br /></td></tr>
-<tr class="separator:adddc4d0d3f5fca92f1fe8131f4b7bda3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1661080361fce6dbe278eded09743a2e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html#a1661080361fce6dbe278eded09743a2e">HasScore</a> (Item item, object state)</td></tr>
-<tr class="memdesc:a1661080361fce6dbe278eded09743a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns whether this scorable wants to participate in scoring this item.  <a href="#a1661080361fce6dbe278eded09743a2e">More...</a><br /></td></tr>
-<tr class="separator:a1661080361fce6dbe278eded09743a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a17248b236b0e276e1379b953dff47e"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html#a9a17248b236b0e276e1379b953dff47e">PostAsync</a> (Item item, object state, CancellationToken token)</td></tr>
-<tr class="memdesc:a9a17248b236b0e276e1379b953dff47e"><td class="mdescLeft">&#160;</td><td class="mdescRight">If this scorable wins, this method is called.  <a href="#a9a17248b236b0e276e1379b953dff47e">More...</a><br /></td></tr>
-<tr class="separator:a9a17248b236b0e276e1379b953dff47e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa394319ece5dc13e1a5278e8b08f88d"><td class="memItemLeft" align="right" valign="top">Task&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html#aaa394319ece5dc13e1a5278e8b08f88d">PrepareAsync</a> (Item item, CancellationToken token)</td></tr>
-<tr class="memdesc:aaa394319ece5dc13e1a5278e8b08f88d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform some asynchronous work to analyze the item and produce some opaque state.  <a href="#aaa394319ece5dc13e1a5278e8b08f88d">More...</a><br /></td></tr>
-<tr class="separator:aaa394319ece5dc13e1a5278e8b08f88d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a60db82e716b6bd07e161b75893745800"><td class="memItemLeft" align="right" valign="top">abstract Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html#a60db82e716b6bd07e161b75893745800">DoneAsync</a> (Item item, State state, CancellationToken token)</td></tr>
+<tr class="separator:a60db82e716b6bd07e161b75893745800"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a925f3c926225b4ff8345eb9a94f87d2d"><td class="memItemLeft" align="right" valign="top">override Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html#a925f3c926225b4ff8345eb9a94f87d2d">DoneAsync</a> (<a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a> item, string state, CancellationToken token)</td></tr>
+<tr class="separator:a925f3c926225b4ff8345eb9a94f87d2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e19ac5bde38c96a5d7b67254b02f719"><td class="memItemLeft" align="right" valign="top">override double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html#a6e19ac5bde38c96a5d7b67254b02f719">GetScore</a> (<a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a> item, string state)</td></tr>
+<tr class="separator:a6e19ac5bde38c96a5d7b67254b02f719"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5e7fdb01572acc01ef853dc6ab7b635"><td class="memItemLeft" align="right" valign="top">abstract Score&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html#ad5e7fdb01572acc01ef853dc6ab7b635">GetScore</a> (Item item, State state)</td></tr>
+<tr class="separator:ad5e7fdb01572acc01ef853dc6ab7b635"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d4af50d852948245b954724c8c49399"><td class="memItemLeft" align="right" valign="top">override bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html#a4d4af50d852948245b954724c8c49399">HasScore</a> (<a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a> item, string state)</td></tr>
+<tr class="separator:a4d4af50d852948245b954724c8c49399"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44d6038690d80142e43a9f254a228fbc"><td class="memItemLeft" align="right" valign="top">abstract bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html#a44d6038690d80142e43a9f254a228fbc">HasScore</a> (Item item, State state)</td></tr>
+<tr class="separator:a44d6038690d80142e43a9f254a228fbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6ca98e945689b281680627486d27eca"><td class="memItemLeft" align="right" valign="top">override async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html#ab6ca98e945689b281680627486d27eca">PostAsync</a> (<a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a> item, string state, CancellationToken token)</td></tr>
+<tr class="separator:ab6ca98e945689b281680627486d27eca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abec02b04255afef6291d055b3ed195c8"><td class="memItemLeft" align="right" valign="top">abstract Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html#abec02b04255afef6291d055b3ed195c8">PostAsync</a> (Item item, State state, CancellationToken token)</td></tr>
+<tr class="separator:abec02b04255afef6291d055b3ed195c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a509d034b013e29ed925ac006d76e124f"><td class="memItemLeft" align="right" valign="top">override async Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html#a509d034b013e29ed925ac006d76e124f">PrepareAsync</a> (<a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a> activity, CancellationToken token)</td></tr>
+<tr class="separator:a509d034b013e29ed925ac006d76e124f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af495501b5fa41a7e94ffcf69fa75676a"><td class="memItemLeft" align="right" valign="top">abstract Task&lt; State &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html#af495501b5fa41a7e94ffcf69fa75676a">PrepareAsync</a> (Item item, CancellationToken token)</td></tr>
+<tr class="separator:af495501b5fa41a7e94ffcf69fa75676a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -207,7 +219,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="adddc4d0d3f5fca92f1fe8131f4b7bda3"></a>
+<a class="anchor" id="a60db82e716b6bd07e161b75893745800"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -215,7 +227,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Score <a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html">Microsoft.Bot.Builder.Internals.Scorables.IScorable</a>&lt; in in Item, out out Score &gt;.GetScore </td>
+          <td class="memname">abstract Task <a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html">Microsoft.Bot.Builder.Internals.Scorables.ScorableBase</a>&lt; Item, State, Score &gt;.DoneAsync </td>
           <td>(</td>
           <td class="paramtype">Item&#160;</td>
           <td class="paramname"><em>item</em>, </td>
@@ -223,79 +235,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>state</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Gets the score for this item. </p>
-
-</div>
-</div>
-<a class="anchor" id="a1661080361fce6dbe278eded09743a2e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html">Microsoft.Bot.Builder.Internals.Scorables.IScorable</a>&lt; in in Item, out out Score &gt;.HasScore </td>
-          <td>(</td>
-          <td class="paramtype">Item&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">object&#160;</td>
-          <td class="paramname"><em>state</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns whether this scorable wants to participate in scoring this item. </p>
-
-</div>
-</div>
-<a class="anchor" id="a9a17248b236b0e276e1379b953dff47e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">Task <a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html">Microsoft.Bot.Builder.Internals.Scorables.IScorable</a>&lt; in in Item, out out Score &gt;.PostAsync </td>
-          <td>(</td>
-          <td class="paramtype">Item&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">object&#160;</td>
+          <td class="paramtype">State&#160;</td>
           <td class="paramname"><em>state</em>, </td>
         </tr>
         <tr>
@@ -312,16 +252,14 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>If this scorable wins, this method is called. </p>
-
 </div>
 </div>
-<a class="anchor" id="aaa394319ece5dc13e1a5278e8b08f88d"></a>
+<a class="anchor" id="a925f3c926225b4ff8345eb9a94f87d2d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -329,7 +267,307 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Task&lt;object&gt; <a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html">Microsoft.Bot.Builder.Internals.Scorables.IScorable</a>&lt; in in Item, out out Score &gt;.PrepareAsync </td>
+          <td class="memname">override Task Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable.DoneAsync </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a>&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html#l00065">65</a> of file <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html">DeleteProfileScorable.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6e19ac5bde38c96a5d7b67254b02f719"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override double Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable.GetScore </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a>&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>state</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html#l00052">52</a> of file <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html">DeleteProfileScorable.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad5e7fdb01572acc01ef853dc6ab7b635"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract Score <a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html">Microsoft.Bot.Builder.Internals.Scorables.ScorableBase</a>&lt; Item, State, Score &gt;.GetScore </td>
+          <td>(</td>
+          <td class="paramtype">Item&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">State&#160;</td>
+          <td class="paramname"><em>state</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a4d4af50d852948245b954724c8c49399"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override bool Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable.HasScore </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a>&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>state</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html#l00047">47</a> of file <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html">DeleteProfileScorable.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a44d6038690d80142e43a9f254a228fbc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract bool <a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html">Microsoft.Bot.Builder.Internals.Scorables.ScorableBase</a>&lt; Item, State, Score &gt;.HasScore </td>
+          <td>(</td>
+          <td class="paramtype">Item&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">State&#160;</td>
+          <td class="paramname"><em>state</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ab6ca98e945689b281680627486d27eca"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override async Task Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable.PostAsync </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a>&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html#l00057">57</a> of file <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html">DeleteProfileScorable.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abec02b04255afef6291d055b3ed195c8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract Task <a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html">Microsoft.Bot.Builder.Internals.Scorables.ScorableBase</a>&lt; Item, State, Score &gt;.PostAsync </td>
+          <td>(</td>
+          <td class="paramtype">Item&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">State&#160;</td>
+          <td class="paramname"><em>state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a509d034b013e29ed925ac006d76e124f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">override async Task&lt;string&gt; Microsoft.Bot.Builder.Dialogs.DeleteProfileScorable.PrepareAsync </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a>&#160;</td>
+          <td class="paramname"><em>activity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html#l00031">31</a> of file <a class="el" href="../../d6/de6/_delete_profile_scorable_8cs_source.html">DeleteProfileScorable.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af495501b5fa41a7e94ffcf69fa75676a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">abstract Task&lt;State&gt; <a class="el" href="../../de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html">Microsoft.Bot.Builder.Internals.Scorables.ScorableBase</a>&lt; Item, State, Score &gt;.PrepareAsync </td>
           <td>(</td>
           <td class="paramtype">Item&#160;</td>
           <td class="paramname"><em>item</em>, </td>
@@ -348,12 +586,10 @@ Public Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">pure virtual</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Perform some asynchronous work to analyze the item and produce some opaque state. </p>
 
 </div>
 </div>

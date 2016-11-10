@@ -62,7 +62,7 @@
 			var navtreecontents = $('#nav-tree-contents');
 			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
 			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
-            sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            //sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
             setProgrammingLanguage();
 			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
         });
@@ -141,6 +141,8 @@ Inheritance diagram for Microsoft.Bot.Builder.Internals.Scorables.DelegatingScor
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:aac83e549c8d5ab27d23f7116ea56ace9"><td class="memItemLeft" align="right" valign="top">virtual Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/db7/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_delegating_scorable.html#aac83e549c8d5ab27d23f7116ea56ace9">DoneAsync</a> (Item item, object state, CancellationToken token)</td></tr>
+<tr class="separator:aac83e549c8d5ab27d23f7116ea56ace9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec7cc71ac1295a2255d87ffd0db871ff"><td class="memItemLeft" align="right" valign="top">virtual Score&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/db7/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_delegating_scorable.html#aec7cc71ac1295a2255d87ffd0db871ff">GetScore</a> (Item item, object state)</td></tr>
 <tr class="separator:aec7cc71ac1295a2255d87ffd0db871ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad74d7dd19f7ad100d2f97cfd4f096d0c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/db7/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_delegating_scorable.html#ad74d7dd19f7ad100d2f97cfd4f096d0c">HasScore</a> (Item item, object state)</td></tr>
@@ -162,7 +164,7 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00073">73</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00108">108</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a7d05c36a10a23ff7741599ea70569ce6"></a>
 <div class="memitem">
@@ -186,11 +188,53 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00076">76</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00111">111</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aac83e549c8d5ab27d23f7116ea56ace9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual Task <a class="el" href="../../d3/db7/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_delegating_scorable.html">Microsoft.Bot.Builder.Internals.Scorables.DelegatingScorable</a>&lt; Item, Score &gt;.DoneAsync </td>
+          <td>(</td>
+          <td class="paramtype">Item&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">object&#160;</td>
+          <td class="paramname"><em>state</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00153">153</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="aec7cc71ac1295a2255d87ffd0db871ff"></a>
 <div class="memitem">
 <div class="memproto">
@@ -223,7 +267,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00088">88</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00134">134</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
 
 </div>
 </div>
@@ -259,7 +303,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00084">84</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00130">130</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
 
 </div>
 </div>
@@ -301,7 +345,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00092">92</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00138">138</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
 
 </div>
 </div>
@@ -337,7 +381,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00080">80</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00115">115</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
 
 </div>
 </div>
@@ -360,7 +404,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00075">75</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/da3/_scorable_8cs_source.html#l00110">110</a> of file <a class="el" href="../../d6/da3/_scorable_8cs_source.html">Scorable.cs</a>.</p>
 
 </div>
 </div>
