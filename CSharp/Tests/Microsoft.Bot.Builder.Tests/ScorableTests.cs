@@ -106,5 +106,28 @@ namespace Microsoft.Bot.Builder.Tests
                 }
             }
         }
+
+        [TestMethod]
+        public async Task Scorable_First()
+        {
+            foreach (var hasScoreOne in new[] { false, true })
+            {
+                foreach (var hasScoreTwo in new[] { false, true })
+                {
+                    // arrange
+                    var mockOne = Mock(Item, Score, Token, hasScoreOne);
+                    var mockTwo = Mock(Item, Score, Token, hasScoreTwo);
+                    var scorables = new[] { mockOne.Object, mockTwo.Object };
+                    var test = scorables.First();
+                    // act
+                    bool actualPost = await test.TryPostAsync(Item, Token);
+                    // assert
+                    bool expectedPost = hasScoreOne || hasScoreTwo;
+                    Assert.AreEqual(expectedPost, actualPost);
+                    Verify(mockOne, Item, Token, Once(true), Many(true), Many(hasScoreOne), Once(hasScoreOne));
+                    Verify(mockTwo, Item, Token, Once(!hasScoreOne), Many(!hasScoreOne), Many(!hasScoreOne && hasScoreTwo), Once(!hasScoreOne && hasScoreTwo));
+                }
+            }
+        }
     }
 }
