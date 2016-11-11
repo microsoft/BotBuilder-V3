@@ -81,11 +81,9 @@ namespace Microsoft.Bot.Builder.Luis
         {
             SetField.NotNull(out this.model, nameof(model), model);
         }
-        
-        Uri ILuisService.BuildUri(string text)
-        { 
-            
 
+        Uri ILuisService.BuildUri(string text)
+        {
             var id = HttpUtility.UrlEncode(this.model.ModelID);
             var sk = HttpUtility.UrlEncode(this.model.SubscriptionKey);
             var q = HttpUtility.UrlEncode(text);
@@ -108,7 +106,7 @@ namespace Microsoft.Bot.Builder.Luis
             return builder.Uri;
         }
 
-        public async Task<LuisResult> QueryAsync(Uri uri, CancellationToken token)
+        async Task<LuisResult> ILuisService.QueryAsync(Uri uri, CancellationToken token)
         {
             string json;
             using (var client = new HttpClient())
@@ -120,9 +118,10 @@ namespace Microsoft.Bot.Builder.Luis
             try
             {
                 var result = JsonConvert.DeserializeObject<LuisResult>(json);
+                // fix up luis result for backward compatibility
                 if (result.TopScoringIntent != null)
                 {
-                    result.Intents = new List<IntentRecommendation> {result.TopScoringIntent};
+                    result.Intents = new List<IntentRecommendation> { result.TopScoringIntent };
                 }
                 return result;
             }
@@ -199,7 +198,7 @@ namespace Microsoft.Bot.Builder.Luis
             var builder = new UriBuilder(uri);
             builder.Query = builder.Query.Substring(1) + $"&contextId={HttpUtility.UrlEncode(contextId)}";
             return await service.QueryAsync(builder.Uri, token);
-    }
+        }
     }
 }
 
