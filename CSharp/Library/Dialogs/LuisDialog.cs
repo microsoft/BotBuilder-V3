@@ -208,7 +208,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             var winner = this.BestResultFrom(winners);
 
-            if (winner?.Result.Dialog?.Status == "Question")
+            if (winner?.Result.Dialog?.Status == DialogResponse.DialogStatus.Question)
             {
                 var childDialog = await LuisActionDialog(winner);
                 context.Call(childDialog, LuisActionDialogFinished);
@@ -219,7 +219,10 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
-        protected virtual async Task DispatchToIntentHandler(IDialogContext context, IAwaitable<IMessageActivity> item,  IntentRecommendation bestInent, LuisResult result)
+        protected virtual async Task DispatchToIntentHandler(IDialogContext context, 
+                                                            IAwaitable<IMessageActivity> item,  
+                                                            IntentRecommendation bestInent, 
+                                                            LuisResult result)
         {
             if (this.handlerByIntent == null)
             {
@@ -291,7 +294,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var message = await item;
             var result = await ((LuisService) luisService).QueryAsync(message.Text, this.contextId, context.CancellationToken);
-            if (result.Dialog.Status != "Finished")
+            if (result.Dialog.Status != DialogResponse.DialogStatus.Finished)
             {
                 this.contextId = result.Dialog.ContextId;
                 this.prompt = result.Dialog.Prompt;
