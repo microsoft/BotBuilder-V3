@@ -1,78 +1,78 @@
 {
-  "luis_schema_version": "1.2.0",
+  "luis_schema_version": "1.3.0",
   "name": "PizzaBot",
   "desc": "Sample Pizza Bot",
   "culture": "en-us",
   "intents": [
     {
-      "Name": "OrderPizza",
-      "Children": []
+      "name": "DeliveryAddress"
     },
     {
-      "Name": "StoreHours",
-      "Children": []
+      "name": "DeliveryTime"
     },
     {
-      "Name": "None",
-      "Children": []
+      "name": "None"
     },
     {
-      "Name": "UseCoupon",
-      "Children": []
+      "name": "OrderPizza"
     },
     {
-      "Name": "DeliveryAddress",
-      "Children": []
+      "name": "StoreHours"
     },
     {
-      "Name": "DeliveryTime",
-      "Children": []
+      "name": "UseCoupon"
     }
   ],
   "entities": [
     {
-      "Name": "Stuffed",
-      "Children": []
+      "name": "Address"
     },
     {
-      "Name": "BYO.Crust",
-      "Children": []
+      "name": "BYO.Crust"
     },
     {
-      "Name": "Signature",
-      "Children": []
+      "name": "BYO.Sauce"
     },
     {
-      "Name": "BYO.Toppings",
-      "Children": []
+      "name": "BYO.Toppings"
     },
     {
-      "Name": "Kind",
-      "Children": []
+      "name": "Day"
     },
     {
-      "Name": "Available",
-      "Children": []
+      "name": "GourmetDelite"
     },
     {
-      "Name": "Size",
-      "Children": []
+      "name": "Kind"
     },
     {
-      "Name": "Address",
-      "Children": []
+      "name": "Signature"
     },
     {
-      "Name": "GourmetDelite",
-      "Children": []
+      "name": "Size"
     },
     {
-      "Name": "BYO.Sauce",
-      "Children": []
+      "name": "Stuffed"
     }
   ],
+  "composites": [],
   "bing_entities": [],
-  "actions": [],
+  "actions": [
+    {
+      "actionName": "StoreHours",
+      "intentName": "StoreHours",
+      "channel": null,
+      "actionParameters": [
+        {
+          "parameterName": "day",
+          "entityName": "Day",
+          "required": true,
+          "question": "Which day of the week?",
+          "phraseListFeatureName": "Days"
+        }
+      ]
+    }
+  ],
   "model_features": [
     {
       "name": "SizeOptions",
@@ -126,6 +126,12 @@
       "name": "Coupon",
       "mode": true,
       "words": "Large 20 Percent,Large 20 %,20 % off,Pepperoni 20 Percent,Pepperoni 20 %",
+      "activated": true
+    },
+    {
+      "name": "Days",
+      "mode": true,
+      "words": "Saturday,Sunday,Monday,Tuesday,Wednesday,Thursday,Friday",
       "activated": true
     }
   ],
@@ -189,13 +195,7 @@
     {
       "text": "send this tomorrow at 9pm",
       "intent": "DeliveryTime",
-      "entities": [
-        {
-          "entity": "Available",
-          "startPos": 2,
-          "endPos": 4
-        }
-      ]
+      "entities": []
     },
     {
       "text": "deliver to 34918 se moffat st, snoqualmie, wa 98065",
@@ -213,14 +213,14 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 1,
-          "endPos": 1
-        },
-        {
           "entity": "BYO.Toppings",
           "startPos": 2,
           "endPos": 2
+        },
+        {
+          "entity": "Size",
+          "startPos": 1,
+          "endPos": 1
         }
       ]
     },
@@ -229,14 +229,14 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 5,
-          "endPos": 5
-        },
-        {
           "entity": "Signature",
           "startPos": 6,
           "endPos": 6
+        },
+        {
+          "entity": "Size",
+          "startPos": 5,
+          "endPos": 5
         }
       ]
     },
@@ -256,19 +256,14 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "Available",
-          "startPos": 9,
-          "endPos": 11
+          "entity": "BYO.Toppings",
+          "startPos": 6,
+          "endPos": 6
         },
         {
           "entity": "Size",
           "startPos": 5,
           "endPos": 5
-        },
-        {
-          "entity": "BYO.Toppings",
-          "startPos": 6,
-          "endPos": 6
         }
       ]
     },
@@ -277,19 +272,14 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "BYO.Crust",
-          "startPos": 4,
-          "endPos": 4
-        },
-        {
-          "entity": "Available",
-          "startPos": 8,
-          "endPos": 10
-        },
-        {
           "entity": "Signature",
           "startPos": 6,
           "endPos": 6
+        },
+        {
+          "entity": "BYO.Crust",
+          "startPos": 4,
+          "endPos": 4
         }
       ]
     },
@@ -314,14 +304,14 @@
       "intent": "UseCoupon",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 9,
-          "endPos": 9
-        },
-        {
           "entity": "Signature",
           "startPos": 10,
           "endPos": 10
+        },
+        {
+          "entity": "Size",
+          "startPos": 9,
+          "endPos": 9
         }
       ]
     },
@@ -335,6 +325,11 @@
           "endPos": 10
         },
         {
+          "entity": "BYO.Toppings",
+          "startPos": 5,
+          "endPos": 5
+        },
+        {
           "entity": "BYO.Crust",
           "startPos": 7,
           "endPos": 7
@@ -343,11 +338,6 @@
           "entity": "Size",
           "startPos": 3,
           "endPos": 3
-        },
-        {
-          "entity": "BYO.Toppings",
-          "startPos": 5,
-          "endPos": 5
         }
       ]
     },
@@ -356,14 +346,14 @@
       "intent": "UseCoupon",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 9,
-          "endPos": 9
-        },
-        {
           "entity": "Signature",
           "startPos": 10,
           "endPos": 10
+        },
+        {
+          "entity": "Size",
+          "startPos": 9,
+          "endPos": 9
         }
       ]
     },
@@ -377,14 +367,14 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 2,
-          "endPos": 2
-        },
-        {
           "entity": "BYO.Toppings",
           "startPos": 3,
           "endPos": 3
+        },
+        {
+          "entity": "Size",
+          "startPos": 2,
+          "endPos": 2
         },
         {
           "entity": "Address",
@@ -455,11 +445,6 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 0,
-          "endPos": 0
-        },
-        {
           "entity": "BYO.Toppings",
           "startPos": 1,
           "endPos": 1
@@ -468,6 +453,11 @@
           "entity": "BYO.Toppings",
           "startPos": 3,
           "endPos": 3
+        },
+        {
+          "entity": "Size",
+          "startPos": 0,
+          "endPos": 0
         }
       ]
     },
@@ -481,11 +471,6 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 0,
-          "endPos": 0
-        },
-        {
           "entity": "BYO.Toppings",
           "startPos": 1,
           "endPos": 1
@@ -494,6 +479,11 @@
           "entity": "BYO.Toppings",
           "startPos": 3,
           "endPos": 3
+        },
+        {
+          "entity": "Size",
+          "startPos": 0,
+          "endPos": 0
         }
       ]
     },
@@ -513,14 +503,14 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 2,
-          "endPos": 2
-        },
-        {
           "entity": "BYO.Toppings",
           "startPos": 3,
           "endPos": 3
+        },
+        {
+          "entity": "Size",
+          "startPos": 2,
+          "endPos": 2
         }
       ]
     },
@@ -529,14 +519,14 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 5,
-          "endPos": 5
-        },
-        {
           "entity": "BYO.Toppings",
           "startPos": 6,
           "endPos": 6
+        },
+        {
+          "entity": "Size",
+          "startPos": 5,
+          "endPos": 5
         }
       ]
     },
@@ -545,14 +535,14 @@
       "intent": "OrderPizza",
       "entities": [
         {
-          "entity": "Size",
-          "startPos": 0,
-          "endPos": 0
-        },
-        {
           "entity": "Signature",
           "startPos": 1,
           "endPos": 1
+        },
+        {
+          "entity": "Size",
+          "startPos": 0,
+          "endPos": 0
         }
       ]
     },
@@ -564,6 +554,99 @@
           "entity": "Size",
           "startPos": 2,
           "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "store hours on saturday",
+      "intent": "StoreHours",
+      "entities": [
+        {
+          "entity": "Day",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "store hour on sunday",
+      "intent": "StoreHours",
+      "entities": [
+        {
+          "entity": "Day",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "open hours for sunday",
+      "intent": "StoreHours",
+      "entities": [
+        {
+          "entity": "Day",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "store hours for wednesday",
+      "intent": "StoreHours",
+      "entities": [
+        {
+          "entity": "Day",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "hours for 8am",
+      "intent": "StoreHours",
+      "entities": []
+    },
+    {
+      "text": "hours for friday",
+      "intent": "StoreHours",
+      "entities": [
+        {
+          "entity": "Day",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "hours for monday",
+      "intent": "StoreHours",
+      "entities": [
+        {
+          "entity": "Day",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "hours for thursday",
+      "intent": "StoreHours",
+      "entities": [
+        {
+          "entity": "Day",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "closing hours for saturday",
+      "intent": "StoreHours",
+      "entities": [
+        {
+          "entity": "Day",
+          "startPos": 3,
+          "endPos": 3
         }
       ]
     }

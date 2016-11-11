@@ -11,7 +11,7 @@ using Microsoft.Bot.Builder.Luis.Models;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
-    [LuisModel("4311ccf1-5ed1-44fe-9f10-a6adbad05c14", "6d0966209c6e4f6b835ce34492f3e6d9")]
+    [LuisModel("4311ccf1-5ed1-44fe-9f10-a6adbad05c14", "6d0966209c6e4f6b835ce34492f3e6d9", LuisApiVersion.V2)]
     [Serializable]
     class PizzaOrderDialog : LuisDialog<PizzaOrder>
     {
@@ -91,8 +91,20 @@ namespace Microsoft.Bot.Sample.PizzaBot
         [LuisIntent("StoreHours")]
         public async Task ProcessStoreHours(IDialogContext context, LuisResult result)
         {
-            var days = (IEnumerable<Days>)Enum.GetValues(typeof(Days));
+            var bestIntent = BestIntentFrom(result);
+            if (bestIntent.Actions.Any(t => t.Triggered.HasValue && t.Triggered.Value ))
+            {
+                var action = bestIntent.Actions.First(t => t.Triggered.Value);
+                var dayParam = action.Parameters.Where(t => t.Name == "day").Select(t=> t.Value.FirstOrDefault(e => e.Type == "Day")?.Entity).First();
+                Days day;
+                if (Enum.TryParse(dayParam, true, out day))
+                {
+                    await this.StoreHoursResult(context, day.GetAwaitable());
+                    return;
+                }
+            }
 
+            var days = (IEnumerable<Days>)Enum.GetValues(typeof(Days));
             PromptDialog.Choice(context, StoreHoursResult, days, "Which day of the week?",
                 descriptions: from day in days
                               select (day == Days.Saturday || day == Days.Sunday) ? day.ToString() + "(no holidays)" : day.ToString());
