@@ -122,6 +122,30 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     }
 
     [Serializable]
+    public sealed class WhereScoreScorable<Item, Score> : DelegatingScorable<Item, Score>
+    {
+        private readonly Func<Item, Score, bool> predicate;
+        public WhereScoreScorable(IScorable<Item, Score> scorable, Func<Item, Score, bool> predicate)
+            : base(scorable)
+        {
+            SetField.NotNull(out this.predicate, nameof(predicate), predicate);
+        }
+        public override bool HasScore(Item item, object state)
+        {
+            if (base.HasScore(item, state))
+            {
+                var score = base.GetScore(item, state);
+                if (this.predicate(item, score))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    [Serializable]
     public sealed class SelectItemScorable<OuterItem, InnerItem, Score> : ScorableAggregator<OuterItem, Token<InnerItem, Score>, Score, InnerItem, object, Score>
     {
         private readonly IScorable<InnerItem, Score> scorable;
@@ -145,30 +169,6 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         protected override Score GetScore(OuterItem item, Token<InnerItem, Score> state)
         {
             return state.Scorable.GetScore(state.Item, state.State);
-        }
-    }
-
-    [Serializable]
-    public sealed class WhereScoreScorable<Item, Score> : DelegatingScorable<Item, Score>
-    {
-        private readonly Func<Item, Score, bool> predicate;
-        public WhereScoreScorable(IScorable<Item, Score> scorable, Func<Item, Score, bool> predicate)
-            : base(scorable)
-        {
-            SetField.NotNull(out this.predicate, nameof(predicate), predicate);
-        }
-        public override bool HasScore(Item item, object state)
-        {
-            if (base.HasScore(item, state))
-            {
-                var score = base.GetScore(item, state);
-                if (this.predicate(item, score))
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
     }
 
