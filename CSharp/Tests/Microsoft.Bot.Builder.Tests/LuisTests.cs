@@ -298,8 +298,8 @@ namespace Microsoft.Bot.Builder.Tests
 
             // https://github.com/Microsoft/BotBuilder/issues/247
             // https://github.com/Microsoft/BotBuilder/pull/76
-            Assert.AreNotEqual("https://api.projectoxford.ai/luis/v1/application?id=modelID&subscription-key=subscriptionID&q=Fran%25u00e7ais", uri.AbsoluteUri);
-            Assert.AreEqual("https://api.projectoxford.ai/luis/v1/application?id=modelID&subscription-key=subscriptionID&q=Fran%C3%A7ais", uri.AbsoluteUri);
+            Assert.AreNotEqual("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscriptionID&q=Fran%25u00e7ais&id=modelID", uri.AbsoluteUri);
+            Assert.AreEqual("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscriptionID&q=Fran%C3%A7ais&id=modelID", uri.AbsoluteUri);
         }
     }
 }

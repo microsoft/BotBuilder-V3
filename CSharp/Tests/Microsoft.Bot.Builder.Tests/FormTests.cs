@@ -353,14 +353,14 @@ namespace Microsoft.Bot.Builder.Tests
             await VerifyFormScript(@"..\..\PizzaForm-entities.script",
                 "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(),
                 new Luis.Models.EntityRecommendation[] {
-                                new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress"),
-                                new Luis.Models.EntityRecommendation("Kind", "byo", "Kind"),
+                                new Luis.Models.EntityRecommendation("DeliveryAddress","Address", "abc"),
+                                new Luis.Models.EntityRecommendation("Kind", "Kind", "byo"),
                                 // This should be skipped because it is not active
-                                new Luis.Models.EntityRecommendation("Signature", "Hawaiian", "Signature"),
-                                new Luis.Models.EntityRecommendation("Toppings", "onions", "BYO.Toppings"),
-                                new Luis.Models.EntityRecommendation("Toppings", "peppers", "BYO.Toppings"),
-                                new Luis.Models.EntityRecommendation("Toppings", "ice", "BYO.Toppings"),
-                                new Luis.Models.EntityRecommendation("NotFound", "OK", "Notfound")
+                                new Luis.Models.EntityRecommendation("Signature", "Signature", "Hawaiian"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", "Toppings", "onions"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", "Toppings", "peppers"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", "Toppings", "ice"),
+                                new Luis.Models.EntityRecommendation("Notfound", "NotFound", "OK")
                             },
                 "hi",
                 "1", // onions for topping clarification
