@@ -293,7 +293,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         protected async Task MessageReceived(IDialogContext context, IAwaitable<IMessageActivity> item)
         {
             var message = await item;
-            var result = await ((LuisService) luisService).QueryAsync(message.Text, this.contextId, context.CancellationToken);
+            var result = await luisService.QueryAsync(message.Text, this.contextId, context.CancellationToken);
             if (result.Dialog.Status != DialogResponse.DialogStatus.Finished)
             {
                 this.contextId = result.Dialog.ContextId;

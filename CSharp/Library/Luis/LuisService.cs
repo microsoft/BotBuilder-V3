@@ -83,17 +83,6 @@ namespace Microsoft.Bot.Builder.Luis
         }
         
         Uri ILuisService.BuildUri(string text)
-        {
-            return BuildUri(text, string.Empty);
-        }
-
-        /// <summary>
-        /// Build the query uri for the query text and context Id.
-        /// </summary>
-        /// <param name="text"> The text query.</param>
-        /// <param name="contextId"> The contextId.</param>
-        /// <returns> The luis query uri.</returns>
-        public Uri BuildUri(string text, string contextId)
         { 
             
 
@@ -112,11 +101,6 @@ namespace Microsoft.Bot.Builder.Luis
             {
                 //v2.0 have the model as path parameter
                 builder = new UriBuilder(new Uri(this.model.UriBase, id));
-            }
-
-            if (!string.IsNullOrEmpty(contextId))
-            {
-                query += $"&contextId={HttpUtility.UrlEncode(contextId)}";
             }
 
             builder.Query = query;
@@ -208,11 +192,13 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="contextId">The query cotextId.</param>
         /// <param name="token">The cancellation token.</param>
         /// <returns>The LUIS result.</returns>
-        public static async Task<LuisResult> QueryAsync(this LuisService service, string text, string contextId,
+        public static async Task<LuisResult> QueryAsync(this ILuisService service, string text, string contextId,
             CancellationToken token)
         {
-            var uri = service.BuildUri(text, contextId);
-            return await service.QueryAsync(uri, token);
+            var uri = service.BuildUri(text);
+            var builder = new UriBuilder(uri);
+            builder.Query = builder.Query.Substring(1) + $"&contextId={HttpUtility.UrlEncode(contextId)}";
+            return await service.QueryAsync(builder.Uri, token);
     }
     }
 }

@@ -203,6 +203,14 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task Awaitable_From_Item()
+        {
+            var expeced = Guid.NewGuid();
+            var awaitable = expeced.GetAwaitable();
+            Assert.AreEqual(expeced, await awaitable);
+        }
+
+        [TestMethod]
         public async Task Fiber_Is_Serializable()
         {
             // arrange

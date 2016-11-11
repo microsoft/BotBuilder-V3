@@ -48,6 +48,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using Action = Microsoft.Bot.Builder.Luis.Models.Action;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -232,6 +233,14 @@ namespace Microsoft.Bot.Builder.Tests
                 await context.PostAsync(luisResult.Entities.Single().Type);
                 context.Wait(MessageReceived);
             }
+
+            [LuisIntent("IntentOne")]
+            public async Task IntentOne(IDialogContext context, LuisResult luisResult)
+            {
+                await context.PostAsync(luisResult.Intents.Single().Actions.Single().Name);
+                context.Wait(MessageReceived);
+            }
+
         }
 
         [TestMethod]
@@ -263,6 +272,105 @@ namespace Microsoft.Bot.Builder.Tests
                 SetupLuis<MultiServiceLuisDialog>(service2, d => d.ServiceTwo(null, null), 1.0, new EntityRecommendation(type: EntityTwo));
 
                 await AssertScriptAsync(container, "hello", EntityTwo);
+            }
+        }
+        
+
+        [TestMethod]
+        public async Task Service_With_LuisActionDialog()
+        {
+            var service = new Mock<ILuisService>(MockBehavior.Strict);
+            var contextId = "test";
+            var intent = "IntentOne";
+            var prompt = "ParamOne?";
+            var action = "IntentOneAction";
+
+            service
+                .Setup(l => l.BuildUri(It.IsAny<string>()))
+                .Returns<string>(text => 
+                new Uri($"http://invalidDomain/?q={text}"));
+
+            service
+                .Setup(l => l.QueryAsync(It.Is<Uri>(t => t.AbsoluteUri.Contains($"&contextId={contextId}")), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new LuisResult()
+                {
+                    Intents = new List<IntentRecommendation>()
+                    {
+                        new IntentRecommendation()
+                        {
+                            Intent = intent,
+                            Score =  1.0, 
+                            Actions =  new List<Action>
+                            {
+                                new Action
+                                {
+                                    Triggered = true,
+                                    Name = action,
+                                    Parameters = new List<ActionParameter>()
+                                    {
+                                        new ActionParameter()
+                                        {
+                                            Name = "ParamOne",
+                                            Required = true,
+                                            Value = new List<EntityRecommendation>()
+                                            {
+                                                new EntityRecommendation
+                                                {
+                                                    Type = "EntityOne",
+                                                    Score = 1.0
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    Entities = new List<EntityRecommendation>()
+                    {
+                        new EntityRecommendation
+                        {
+                            Type = "EntityOne",
+                            Score = 1.0
+                        }
+                    },
+                    Dialog = new DialogResponse()
+                    {
+                        ContextId = contextId,
+                        Status = DialogResponse.DialogStatus.Finished
+                    }
+                });
+
+            service
+                .Setup(
+                    l => l.QueryAsync(It.Is<Uri>(t => t.AbsoluteUri.Contains("?q=start")), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(new LuisResult
+                {
+                    TopScoringIntent = new IntentRecommendation
+                    {
+                        Intent = intent,
+                        Score = 1.0
+                    },
+                    Dialog = new DialogResponse
+                    {
+                        ContextId = contextId,
+                        Status = DialogResponse.DialogStatus.Question,
+                        Prompt = prompt
+                    }
+                });
+            
+
+            var dialog = new MultiServiceLuisDialog(service.Object);
+            using (new FiberTestBase.ResolveMoqAssembly(service.Object))
+            using (var container = Build(Options.ResolveDialogFromContainer, service.Object))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(dialog)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container, "start", prompt, "EntityOne", action);
             }
         }
 
