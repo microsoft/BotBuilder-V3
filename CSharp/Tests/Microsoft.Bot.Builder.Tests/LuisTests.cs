@@ -92,8 +92,9 @@ namespace Microsoft.Bot.Builder.Tests
             params EntityRecommendation[] entities
             )
         {
+            var luisRequest = new LuisRequest(utterance);
             luis
-                .Setup(l => l.BuildUri(utterance))
+                .Setup(l => l.BuildUri(luisRequest))
                 .Returns(new UriBuilder() { Query = utterance }.Uri);
 
             luis
@@ -286,9 +287,10 @@ namespace Microsoft.Bot.Builder.Tests
             var action = "IntentOneAction";
 
             service
-                .Setup(l => l.BuildUri(It.IsAny<string>()))
-                .Returns<string>(text => 
-                new Uri($"http://invalidDomain/?q={text}"));
+                .Setup(l => l.BuildUri(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(request =>
+                        request.BuildUri(new LuisModelAttribute("model", "subs", LuisApiVersion.V2))
+                );
 
             service
                 .Setup(l => l.QueryAsync(It.Is<Uri>(t => t.AbsoluteUri.Contains($"&contextId={contextId}")), It.IsAny<CancellationToken>()))
@@ -343,7 +345,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             service
                 .Setup(
-                    l => l.QueryAsync(It.Is<Uri>(t => t.AbsoluteUri.Contains("?q=start")), It.IsAny<CancellationToken>()))
+                    l => l.QueryAsync(It.Is<Uri>(t => t.AbsoluteUri.Contains("q=start")), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new LuisResult
                 {
                     TopScoringIntent = new IntentRecommendation

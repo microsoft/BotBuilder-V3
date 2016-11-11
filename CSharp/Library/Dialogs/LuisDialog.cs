@@ -116,7 +116,8 @@ namespace Microsoft.Bot.Builder.Dialogs
     }
 
     /// <summary>
-    /// Matches a LuisResult object with the best scored IntentRecommendation of the LuisResult and corresponding Luis service
+    /// Matches a LuisResult object with the best scored IntentRecommendation of the LuisResult 
+    /// and corresponding Luis service.
     /// </summary>
     public class LuisServiceResult
     {
@@ -183,7 +184,8 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
-        /// Calculates the best scored <see cref="IntentRecommendation" /> across some <see cref="LuisResult" /> objects.
+        /// Calculates the best scored <see cref="LuisServiceResult" /> across multiple <see cref="LuisServiceResult" /> returned by
+        /// different <see cref="ILuisService"/>.
         /// </summary>
         /// <param name="results">Results of multiple LUIS services calls.</param>
         /// <returns>A <see cref="LuisServiceResult" /> with the best scored <see cref="IntentRecommendation" /> and related <see cref="LuisResult" />,
@@ -208,14 +210,21 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             var winner = this.BestResultFrom(winners);
 
-            if (winner?.Result.Dialog?.Status == DialogResponse.DialogStatus.Question)
+            if (winner == null)
             {
-                var childDialog = await LuisActionDialog(winner);
+                throw new InvalidOperationException("No winning intent selected from Luis results.");
+            }
+
+            if (winner.Result.Dialog?.Status == DialogResponse.DialogStatus.Question)
+            {
+                var childDialog = await MakeLuisActionDialog(winner.LuisService,
+                                                             winner.Result.Dialog.ContextId,
+                                                             winner.Result.Dialog.Prompt);
                 context.Call(childDialog, LuisActionDialogFinished);
             }
             else
             {
-                await DispatchToIntentHandler(context, item, winner?.BestIntent, winner?.Result);
+                await DispatchToIntentHandler(context, item, winner.BestIntent, winner.Result);
             }
         }
 
@@ -256,50 +265,60 @@ namespace Microsoft.Bot.Builder.Dialogs
             return LuisDialog.EnumerateHandlers(this).ToDictionary(kv => kv.Key, kv => kv.Value);
         }
 
-        protected virtual async Task<IDialog<LuisResult>> LuisActionDialog(LuisServiceResult result)
+        protected virtual async Task<IDialog<LuisResult>> MakeLuisActionDialog(ILuisService luisService, string contextId, string prompt)
         {
-            return  new LuisActionDialog(result);
+            return new LuisActionDialog(luisService, contextId, prompt);
         }
 
         protected virtual async Task LuisActionDialogFinished(IDialogContext context, IAwaitable<LuisResult> item)
         {
             var result = await item;
             var messageActivity = (IMessageActivity) context.Activity;
-            await DispatchToIntentHandler(context, messageActivity.GetAwaitable(), BestIntentFrom(result), result);
+            await DispatchToIntentHandler(context, Awaitable.FromItem(messageActivity), BestIntentFrom(result), result);
         }
     }
 
+    /// <summary>
+    /// The dialog wrapping Luis dialog feature.
+    /// </summary>
     [Serializable]
-    internal class LuisActionDialog : IDialog<LuisResult>
+    public class LuisActionDialog : IDialog<LuisResult>
     {
         private readonly ILuisService luisService;
         private string contextId;
         private string prompt;
 
-        public LuisActionDialog(LuisServiceResult result)
+        /// <summary>
+        /// Creates an instance of LuisActionDialog.
+        /// </summary>
+        /// <param name="luisService"> The Luis service.</param>
+        /// <param name="contextId"> The contextId for Luis dialog returned in Luis result.</param>
+        /// <param name="prompt"> The prompt that should be asked from user.</param>
+        public LuisActionDialog(ILuisService luisService, string contextId, string prompt)
         {
-            SetField.NotNull(out this.luisService, nameof(luisService), result.LuisService);
-            SetField.NotNull(out this.contextId, nameof(contextId), result.Result.Dialog.ContextId);
-            this.prompt = result.Result.Dialog.Prompt;
+            SetField.NotNull(out this.luisService, nameof(luisService), luisService);
+            SetField.NotNull(out this.contextId, nameof(contextId), contextId);
+            this.prompt = prompt;
         }
 
 
-        public async Task StartAsync(IDialogContext context)
+        public virtual async Task StartAsync(IDialogContext context)
         {
             await context.PostAsync(this.prompt);
-            context.Wait(MessageReceived);
+            context.Wait(MessageReceivedAsync);
         }
 
-        protected async Task MessageReceived(IDialogContext context, IAwaitable<IMessageActivity> item)
+        protected virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> item)
         {
             var message = await item;
-            var result = await luisService.QueryAsync(message.Text, this.contextId, context.CancellationToken);
+            var luisRequest = new LuisRequest(query: message.Text, contextId: this.contextId);
+            var result = await luisService.QueryAsync(luisService.BuildUri(luisRequest), context.CancellationToken);
             if (result.Dialog.Status != DialogResponse.DialogStatus.Finished)
             {
                 this.contextId = result.Dialog.ContextId;
                 this.prompt = result.Dialog.Prompt;
                 await context.PostAsync(this.prompt);
-                context.Wait(MessageReceived);
+                context.Wait(MessageReceivedAsync);
             }
             else
             {

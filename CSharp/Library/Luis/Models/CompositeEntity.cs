@@ -37,7 +37,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
         }
 
         /// <summary>
-        /// Type of parent entity
+        /// Type of parent entity.
         /// </summary>
         [JsonProperty(PropertyName = "parentType")]
         public string ParentType { get; set; }

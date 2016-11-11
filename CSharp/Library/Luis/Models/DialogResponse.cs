@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
     using Microsoft.Rest.Serialization;
 
     /// <summary>
-    /// The dialog response
+    /// The dialog response.
     /// </summary>
     public partial class DialogResponse
     {
@@ -38,32 +38,31 @@ namespace Microsoft.Bot.Builder.Luis.Models
         }
 
         /// <summary>
-        /// Pormpt that should be asked
+        /// Prompt that should be asked.
         /// </summary>
         [JsonProperty(PropertyName = "prompt")]
         public string Prompt { get; set; }
 
         /// <summary>
-        /// Name of the parameter
+        /// Name of the parameter.
         /// </summary>
         [JsonProperty(PropertyName = "parameterName")]
         public string ParameterName { get; set; }
 
         /// <summary>
-        /// Type of the parameter
+        /// Type of the parameter.
         /// </summary>
         [JsonProperty(PropertyName = "parameterType")]
         public string ParameterType { get; set; }
 
         /// <summary>
-        /// The context id for dialog
+        /// The context id for dialog.
         /// </summary>
         [JsonProperty(PropertyName = "contextId")]
         public string ContextId { get; set; }
 
         /// <summary>
-        /// The dialog status. Possible values: Question | Finished. Possible
-        /// values include: 'Question', 'Finished'
+        /// The dialog status. Possible values include: 'Question', 'Finished'
         /// </summary>
         [JsonProperty(PropertyName = "status")]
         public string Status { get; set; }

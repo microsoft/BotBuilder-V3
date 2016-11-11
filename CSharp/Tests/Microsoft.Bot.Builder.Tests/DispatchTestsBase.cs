@@ -146,8 +146,8 @@ namespace Microsoft.Bot.Builder.Tests
         public DispatchTestsBase()
         {
             luisOne
-                .Setup(l => l.BuildUri(It.IsAny<string>()))
-                .Returns<string>(q => new UriBuilder() { Host = "one", Path = q }.Uri);
+                .Setup(l => l.BuildUri(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(q => new UriBuilder() { Host = "one", Path = q.Query }.Uri);
 
             luisOne
                 .Setup(l => l.QueryAsync(It.IsAny<Uri>(), token))
@@ -158,8 +158,8 @@ namespace Microsoft.Bot.Builder.Tests
                 });
 
             luisTwo
-                .Setup(l => l.BuildUri(It.IsAny<string>()))
-                .Returns<string>(q => new UriBuilder() { Host = "two", Path = q }.Uri);
+                .Setup(l => l.BuildUri(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(q => new UriBuilder() { Host = "two", Path = q.Query }.Uri);
 
             luisTwo
                 .Setup(l => l.QueryAsync(It.IsAny<Uri>(), token))

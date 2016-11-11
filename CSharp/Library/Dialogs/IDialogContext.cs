@@ -67,8 +67,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         CancellationToken CancellationToken { get; }
 
         /// <summary>
-        /// The incoming activity
+        /// The activity posted to bot.
         /// </summary>
+        /// <remarks> This is the incoming activity in reactive cases.
+        /// for proactive case, i.e. <see cref="Conversation.ResumeAsync{T}"/> code path,
+        /// it will be the <see cref="IMessageActivity"/> returned by <see cref="ResumptionCookie.GetMessage"/>.
+        /// </remarks>
         IActivity Activity { get; }
     }
 

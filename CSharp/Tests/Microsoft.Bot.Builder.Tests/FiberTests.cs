@@ -206,7 +206,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task Awaitable_From_Item()
         {
             var expeced = Guid.NewGuid();
-            var awaitable = expeced.GetAwaitable();
+            var awaitable = Awaitable.FromItem(expeced);
             Assert.AreEqual(expeced, await awaitable);
         }
 

@@ -91,15 +91,17 @@ namespace Microsoft.Bot.Sample.PizzaBot
         [LuisIntent("StoreHours")]
         public async Task ProcessStoreHours(IDialogContext context, LuisResult result)
         {
+            // Figuring out if the action is triggered or not
             var bestIntent = BestIntentFrom(result);
-            if (bestIntent.Actions.Any(t => t.Triggered.HasValue && t.Triggered.Value ))
+            var action = bestIntent.Actions.FirstOrDefault(t => t.Triggered.HasValue && t.Triggered.Value);
+            if (action != null)
             {
-                var action = bestIntent.Actions.First(t => t.Triggered.Value);
+                // extracting day parameter value from action parameters
                 var dayParam = action.Parameters.Where(t => t.Name == "day").Select(t=> t.Value.FirstOrDefault(e => e.Type == "Day")?.Entity).First();
                 Days day;
                 if (Enum.TryParse(dayParam, true, out day))
                 {
-                    await this.StoreHoursResult(context, day.GetAwaitable());
+                    await this.StoreHoursResult(context, Awaitable.FromItem(day));
                     return;
                 }
             }

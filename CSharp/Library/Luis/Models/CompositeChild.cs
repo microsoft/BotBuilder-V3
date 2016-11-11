@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
     using Microsoft.Rest.Serialization;
 
     /// <summary>
-    /// Child entity in Luis composite entity
+    /// Child entity in Luis composite entity.
     /// </summary>
     public partial class CompositeChild
     {
@@ -35,13 +35,13 @@ namespace Microsoft.Bot.Builder.Luis.Models
         }
 
         /// <summary>
-        /// Type of child entity
+        /// Type of child entity.
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
         /// <summary>
-        /// Value extracted by Luis
+        /// Value extracted by Luis.
         /// </summary>
         [JsonProperty(PropertyName = "value")]
         public string Value { get; set; }
