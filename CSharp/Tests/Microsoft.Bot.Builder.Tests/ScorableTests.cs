@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -126,6 +127,46 @@ namespace Microsoft.Bot.Builder.Tests
                     Assert.AreEqual(expectedPost, actualPost);
                     Verify(mockOne, Item, Token, Once(true), Many(true), Many(hasScoreOne), Once(hasScoreOne));
                     Verify(mockTwo, Item, Token, Once(!hasScoreOne), Many(!hasScoreOne), Many(!hasScoreOne && hasScoreTwo), Once(!hasScoreOne && hasScoreTwo));
+                }
+            }
+        }
+
+        public static readonly ITraits<double> Traits = new NormalizedTraits();
+        public static readonly IComparer<double> Comparer = Comparer<double>.Default;
+
+        [TestMethod]
+        public async Task Scorable_Traits()
+        {
+            var tests = new[]
+            {
+                new { hasScore = false, score = Traits.Minimum },
+                new { hasScore = true, score = Traits.Minimum },
+                new { hasScore = true, score = Traits.Maximum },
+                new { hasScore = true, score = Traits.Minimum + (Traits.Maximum - Traits.Minimum) / 2.0 },
+            };
+            foreach (var testOne in tests)
+            {
+                foreach (var testTwo in tests)
+                {
+                    // arrange
+                    var mockOne = Mock(Item, testOne.score, Token, testOne.hasScore);
+                    var mockTwo = Mock(Item, testTwo.score, Token, testTwo.hasScore);
+                    var scorables = new[] { mockOne.Object, mockTwo.Object };
+                    var test = new TraitsScorable<string, double>(Traits, Comparer, scorables);
+                    // act
+                    bool actualPost = await test.TryPostAsync(Item, Token);
+                    // assert
+                    var expectedPost = testOne.hasScore || testTwo.hasScore;
+                    Assert.AreEqual(expectedPost, actualPost);
+
+                    bool earlyOut = testOne.hasScore && Comparer.Compare(testOne.score, Traits.Maximum) == 0;
+
+                    var compare = Comparer.Compare(testOne.score, testTwo.score);
+                    bool largeOne = (testOne.hasScore && !testTwo.hasScore) || (testOne.hasScore && testTwo.hasScore && compare >= 0);
+                    bool largeTwo = (!testOne.hasScore && testTwo.hasScore) || (testOne.hasScore && testTwo.hasScore && compare < 0);
+
+                    Verify(mockOne, Item, Token, Once(true), Many(true), Many(testOne.hasScore), Once(testOne.hasScore && largeOne));
+                    Verify(mockTwo, Item, Token, Once(!earlyOut), Many(!earlyOut), Many(!earlyOut && testTwo.hasScore), Once(!earlyOut && testTwo.hasScore && largeTwo));
                 }
             }
         }
