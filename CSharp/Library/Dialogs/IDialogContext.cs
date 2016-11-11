@@ -65,6 +65,11 @@ namespace Microsoft.Bot.Builder.Dialogs
     public interface IBotContext : IBotData, IBotToUser
     {
         CancellationToken CancellationToken { get; }
+
+        /// <summary>
+        /// The incoming activity
+        /// </summary>
+        IActivity Activity { get; }
     }
 
     /// <summary>
