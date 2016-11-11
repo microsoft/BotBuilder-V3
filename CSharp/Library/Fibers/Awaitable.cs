@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
@@ -41,10 +42,37 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
         T GetResult();
     }
+
+    public sealed class AwaiterFromItem<T> : IAwaiter<T>
+    {
+        private readonly T item;
+
+        public AwaiterFromItem(T item)
+        {
+            this.item = item;
+        }
+        
+        public bool IsCompleted
+        {
+            get { return true; }
+        }
+
+        public T GetResult()
+        {
+            return item;
+        }
+
+        public void OnCompleted(Action continuation)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
+    using Microsoft.Bot.Builder.Internals.Fibers;
+
     /// <summary>
     /// Explicit interface to support the compiling of async/await.
     /// </summary>
@@ -56,5 +84,37 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <returns>The awaiter.</returns>
         Builder.Internals.Fibers.IAwaiter<T> GetAwaiter();
+    }
+
+    /// <summary>
+    /// Creates a <see cref="IAwaitable{T}"/> from item passed to constructor
+    /// </summary>
+    /// <typeparam name="T"> The type of the item.</typeparam>
+    public sealed class AwaitableFromItem<T> : IAwaitable<T>
+    {
+        private readonly IAwaiter<T> awaiter;
+
+        public AwaitableFromItem(T item)
+        {
+            this.awaiter = new AwaiterFromItem<T>(item);
+        }
+
+        public IAwaiter<T> GetAwaiter()
+        {
+            return this.awaiter;
+        }
+    }
+
+    public static partial class Extensions
+    {
+        /// <summary>
+        /// Wraps item in a <see cref="IAwaitable{T}"/>
+        /// </summary>
+        /// <typeparam name="T">Type of the item.</typeparam>
+        /// <param name="item">The item that will be wrapped.</param>
+        public static IAwaitable<T> GetAwaitable<T>(this T item)
+        {
+            return  new AwaitableFromItem<T>(item);
+        }
     }
 }
