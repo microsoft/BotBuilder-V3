@@ -481,7 +481,7 @@ export interface IDialogActionOptions {
      * and any intents detected. The handler should return a confidence score for 0.0 to 1.0 and
      * routeData that should be passed in during the `selectActionRoute` call.   
      */
-    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error, score: number, routeData: IActionRouteData) => void) => void;
+    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error, score: number, routeData?: IActionRouteData) => void) => void;
 
     /**
      * (Optional) custom handler that's invoked whenever the action is triggered.  This lets you
@@ -2204,6 +2204,28 @@ export class Library {
      * to trigger the action.
      */
     endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): Dialog;
+
+    /**
+     * Helper method called from the various route finding methods to manage adding a candidate
+     * route to the result set. 
+     * 
+     * * If the score is greater then the current best match in the set a new result set will be returned containing just the new match. 
+     * * If the score is equal to the current best match it will be added to the existing set. 
+     * * If the score is less than the current best match it will be ignored.
+     * @param route The candidate route to add to the set.
+     * @param current (Optional) result set to add the route too. If missing then a new set with just the route will be returned.
+     */
+    static addRouteResult(route: IRouteResult, current?: IRouteResult[]): IRouteResult[];
+
+    /**
+     * Finds the best route to use within a result set containing multiple ambiguous routes. The
+     * following disambigution strategy will be used:
+     * 
+     * 1. `ActiveDialog` routes are the highest priority and will always be returned first.
+     * 2. `StackAction` routes are the next highest priority and the action with the deepest stack position will be returned.
+     * 3. `GlobalAction` routes are the lowest priority and the first global action in the set will be returned. 
+     */
+    static bestRouteResult(routes: IRouteResult[]): IRouteResult;
 }
 
 /**
@@ -2581,8 +2603,9 @@ export class UniversalBot extends Library  {
      * Creates a new instance of the UniversalBot.
      * @param connector (Optional) the default connector to use for requests. If there's not a more specific connector registered for a channel then this connector will be used./**
      * @param settings (Optional) settings to configure the bot with.
+     * @param libraryName (Optional) library namespace for the bot.  The default value is '*'.
      */
-    constructor(connector?: IConnector, settings?: IUniversalBotSettings);
+    constructor(connector?: IConnector, settings?: IUniversalBotSettings, libraryName?: string);
 
     /**
      * Registers an event listener. The bot will emit its own events as it process incoming and outgoing messages. It will also forward activity related events emitted from the connector, giving you one place to listen for all activity from your bot. The flow of events from the bot is as follows:

@@ -45,7 +45,7 @@ export interface IActionHandler {
 export interface IDialogActionOptions {
     matches?: RegExp|RegExp[]|string|string[];
     intentThreshold?: number;
-    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error, score: number, routeData: IActionRouteData) => void) => void;
+    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error, score: number, routeData?: IActionRouteData) => void) => void;
     onSelectAction?: (session: Session, args?: any, next?: Function) => void;
     label?: string;
 }
@@ -55,7 +55,7 @@ export interface IBeginDialogActionOptions extends IDialogActionOptions {
 }
 
 export interface IActionRouteData {
-    action: string;
+    action?: string;
     intent?: IIntentRecognizerResult;
     data?: string;
     dialogId?: string;
@@ -163,11 +163,13 @@ export class ActionSet {
             async.forEachOf(this.actions, (entry: IActionHandlerEntry, action: string, cb: ErrorCallback) => {
                 if (entry.options.onFindAction) {
                     entry.options.onFindAction(context, (err, score, routeData) => {
-                        if (!err && routeData) {
+                        if (!err) {
+                            routeData = routeData || {};
+                            routeData.action = action;
                             addRoute({
                                 score: score,
                                 libraryName: context.libraryName,
-                                label: entry.options.label || name,
+                                label: entry.options.label || action,
                                 routeType: context.routeType,
                                 routeData: routeData
                             });

@@ -385,6 +385,36 @@ export class Library extends EventEmitter {
         return current;
     }
 
+    /** Returns the best route to use from a set of results. */
+    static bestRouteResult(routes: IRouteResult[]): IRouteResult {
+        var best = routes[0];
+        for (var i = 1; i < routes.length; i++) {
+            // See if the ambiguous result is a better match.
+            var r = routes[i];
+            switch (r.routeType) {
+                // The active dialog is highest priority
+                case Library.RouteTypes.ActiveDialog:
+                    best = r;
+                    break;
+
+                // Stack actions are second highest priority and we'll favor the action
+                // that's deepest on the stack.
+                case Library.RouteTypes.StackAction:
+                    if (best.routeType !== Library.RouteTypes.ActiveDialog) {
+                        if (best.routeType != Library.RouteTypes.StackAction ||
+                            (<IActionRouteData>r.routeData).dialogIndex > (<IActionRouteData>best.routeData).dialogIndex) {
+                                best = r;
+                        }
+                    }
+                    break;
+
+                // Global actions are the lowest priority and we can ignore them here 
+                // because we'll always just take the first one.
+            }
+        }
+        return best;
+    }
+
     //-------------------------------------------------------------------------
     // Dialogs
     //-------------------------------------------------------------------------

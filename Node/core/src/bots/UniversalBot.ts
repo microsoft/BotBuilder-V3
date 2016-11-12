@@ -395,8 +395,7 @@ export class UniversalBot extends Library {
         }, (err) => {
             if (!err) {
                 // Select the best route
-                // TODO: Add logic to disambiguate multiple routes
-                var route = results[0];
+                var route = Library.bestRouteResult(results);
                 if (route.score > 0 && route.routeType) {
                     this.library(route.libraryName).selectRoute(session, route);
                 } else {
