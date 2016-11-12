@@ -1949,11 +1949,23 @@ export class DialogAction {
  * include the library name prefix.  
  */
 export class Library {
+    /** Supported [routeType](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.irouteresult#routetype) values returned by default from [findRoutes()](#findroutes). */
+    static RouteTypes: {
+        /** The route is for one of the libraries global actions that has been triggered. */
+        GlobalAction: string;
+
+        /** The route is for an action on the dialog stack that has been triggered. */
+        StackAction: string;
+
+        /** The route is for the active dialog on the stack. */
+        ActiveDialog: string;
+    };
+
     /** 
      * The libraries unique namespace. This is used to issolate the libraries dialogs and localized
      * prompts. 
      */
-    name: string;
+    readonly name: string;
 
     /** 
      * Creates a new instance of the library.
