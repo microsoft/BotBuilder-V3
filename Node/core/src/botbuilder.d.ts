@@ -987,7 +987,7 @@ export interface IFindRoutesHandler {
 }
 
 /** Custom route searching logic passed to [Library.onSelectRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onselectroute). */
-export interface ISelectRouteHandler {
+export interface ISelectRoutheandler {
     (session: Session, route: IRouteResult): void;
 }
 
@@ -1125,12 +1125,14 @@ export class Session {
     constructor(options: ISessionOptions);
 
     /**
-     * Dispatches a message for processing. The session will call any installed middleware before
-     * the message to the active dialog for processing. 
-     * @param sessionState The current session state. If _null_ a new conversation will be started beginning with the configured [dialogId](#dialogid).  
-     * @param message The message to dispatch.
+     * Finalizes the initialization of the session object and then routes the session through all
+     * installed middleware. The passed in `next()` function will be called as the last step of the
+     * middleware chain. 
+     * @param sessionState The current session state. If `null` a new conversation will be started beginning with the configured [dialogId](#dialogid).  
+     * @param message The message to route through middleware.
+     * @param next The function to invoke as the last step of the middleware chain.
      */
-    dispatch(sessionState: ISessionState, message: IMessage): Session;
+    dispatch(sessionState: ISessionState, message: IMessage, next: Function): Session;
 
     /** The bots root library of dialogs. */
     library: Library;
@@ -1295,6 +1297,12 @@ export class Session {
      * Clears the current dialog stack.
      */
     clearDialogStack(): Session;
+
+    /**
+     * Dispatches the session to eitehr the active dialog or the default dialog for processing.
+     * @param recognizeResult (Optional) results returned from calling [Library.findRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#findroutes), [Library.findActiveDialogRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#findactivedialogroutes), * or [Dialog.recognize()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialog#recognize).
+     */
+    routeToActiveDialog(recognizeResult?: IRecognizeResult): void;
 
     /**
      * Enumerates all a stacks dialog entries in either a forward or reverse direction.
@@ -2013,7 +2021,7 @@ export class Library {
      * Replaces the default logic for [selectRoute()](#selectroute) with a custom implementation.
      * @param handler Function that will be invoked anytime `selectRoute()` is called. 
      */
-    onSelectRoute(handler: ISelectRouteHandler): void;
+    onSelectRoute(handler: ISelectRoutheandler): void;
 
     /**
      * Gets the active dialogs confidence that it understands the current message. The dialog 
