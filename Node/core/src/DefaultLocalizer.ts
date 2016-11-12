@@ -31,25 +31,25 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import fs = require('fs');
-import async = require('async');
-import Promise = require('promise');
-import path = require('path');
-import logger = require('./logger');
-import lib = require('./bots/Library');
+import { Library } from './bots/Library';
+import * as logger from './logger';
+import * as fs from 'fs';
+import * as async from 'async';
+import * as Promise from 'promise';
+import * as path from 'path';
 
 export class DefaultLocalizer implements ILocalizer {
     private _defaultLocale: string;
     private localePaths = <string[]>[];
     private locales: { [locale:string]: ILocaleEntry; } = {}
 
-    constructor(root: lib.Library, defaultLocale: string) {
+    constructor(root: Library, defaultLocale: string) {
         this.defaultLocale(defaultLocale || 'en');
 
         // Find all of the searchable 
         var libsSeen = <any>{};
         var _that = this;
-        function addPaths(library: lib.Library) {
+        function addPaths(library: Library) {
             // Protect against circular references.
             if (!libsSeen.hasOwnProperty(library.name)) {
                 libsSeen[library.name] = true;
@@ -73,7 +73,7 @@ export class DefaultLocalizer implements ILocalizer {
 
     public defaultLocale(locale?: string): string {
         if (locale) {
-            this._defaultLocale = locale.toLowerCase();
+            this._defaultLocale = locale;
         } else {
             return this._defaultLocale;
         }
@@ -83,7 +83,7 @@ export class DefaultLocalizer implements ILocalizer {
         logger.debug("localizer.load(%s)", locale);                                               
 
         // Build list of locales to load
-        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
         var fbLocale = this.getFallback(locale);
         var locales = ['en'];
@@ -112,7 +112,7 @@ export class DefaultLocalizer implements ILocalizer {
 
     public trygettext(locale: string, msgid: string, ns: string): string {
         // Calculate fallbacks
-        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
         var fbLocale = this.getFallback(locale);
 

@@ -31,13 +31,23 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { IRecognizeContext, IRecognizeResult } from './Dialog';
 import * as utils from '../utils';
+import * as async from 'async';
 
 export enum RecognizeOrder { parallel, series }
 
 export interface IIntentRecognizer {
     recognize(context: IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void;
+}
+
+export interface IRecognizeContext {
+    message: IMessage;
+    locale: string;
+    intent?: IIntentRecognizerResult;
+}
+
+export interface IRecognizeResult {
+    score: number;
 }
 
 export interface IIntentRecognizerResult extends IRecognizeResult {

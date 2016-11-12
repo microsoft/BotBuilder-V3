@@ -31,10 +31,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ub = require('../bots/UniversalBot');
-import cc = require('../bots/ConsoleConnector');
-import dlg = require('../dialogs/Dialog');
-import actions = require('../dialogs/DialogAction');
+import { UniversalBot, IUniversalBotSettings } from '../bots/UniversalBot';
+import { ConsoleConnector } from '../bots/ConsoleConnector';
+import { Dialog } from '../dialogs/Dialog';
+import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
 
 export interface IConsoleConnectorOptions {
     appId?: string;
@@ -57,8 +57,8 @@ export interface IConsoleConnectorOptions {
 }
 
 export class TextBot  {
-    private connector: cc.ConsoleConnector;
-    private bot: ub.UniversalBot;
+    private connector: ConsoleConnector;
+    private bot: UniversalBot;
     private groupWelcomeMessage: string;
     private userWelcomeMessage: string;
     private goodbyeMessage: string;
@@ -67,7 +67,7 @@ export class TextBot  {
         console.warn('TextBot class is deprecated. Use UniversalBot with a ConsoleConnector class.')
 
         // Map options into settings
-        var oBot: ub.IUniversalBotSettings = {};
+        var oBot: IUniversalBotSettings = {};
         for (var key in options) {
             switch (key) {
                 case 'defaultDialogId':
@@ -94,8 +94,8 @@ export class TextBot  {
         }
 
         // Initialize connector & universal bot
-        this.connector = new cc.ConsoleConnector();
-        this.bot = new ub.UniversalBot(this.connector, oBot);
+        this.connector = new ConsoleConnector();
+        this.bot = new UniversalBot(this.connector, oBot);
     }
 
     public on(event: string, listener: Function): this {
@@ -103,7 +103,7 @@ export class TextBot  {
         return this;
     }
 
-    public add(id: string, dialog?: dlg.Dialog | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep): this {
+    public add(id: string, dialog?: Dialog | IDialogWaterfallStep[] | IDialogWaterfallStep): this {
         this.bot.dialog(id, dialog); 
         return this;
     }

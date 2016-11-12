@@ -175,26 +175,6 @@ interface IDefaultLocalizerSettings {
     defaultLocale?: string;
 }
 
-interface ISession {
-    sessionState: ISessionState;
-    message: IMessage;
-    userData: any;
-    dialogData: any;
-    localizer?: ILocalizer;
-    error(err: Error): ISession;
-    gettext(msgid: string, ...args: any[]): string;
-    ngettext(msgid: string, msgid_plural: string, count: number): string;
-    send(message: string, ...args: any[]): ISession;
-    send(msg: IMessage): ISession;
-    getMessageReceived(): any;
-    messageSent(): boolean;
-    beginDialog<T>(id: string, args?: T): ISession;
-    replaceDialog<T>(id: string, args?: T): ISession;
-    endDialog(result?: any): ISession;
-    reset(id: string): ISession;
-    isReset(): boolean;
-}
-
 interface ISessionState {
     callstack: IDialogState[];
     lastAccess: number;
@@ -204,14 +184,6 @@ interface ISessionState {
 interface IDialogState {
     id: string;
     state: any;
-}
-
-interface IBeginDialogHandler {
-    (session: ISession, args: any, next: (handled: boolean) => void): void; 
-}
-
-interface IDialogHandler<T> {
-    (session: ISession, args?: T): void;
 }
 
 interface IIntent {

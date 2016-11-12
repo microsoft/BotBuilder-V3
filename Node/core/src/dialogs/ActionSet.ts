@@ -31,73 +31,183 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import consts = require('../consts');
-import utils = require('../utils');
+import { Session } from '../Session';
+import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizerSet';
+import { IRouteResult } from '../bots/Library';
+import * as consts from '../consts';
+import * as utils from '../utils';
+import * as async from 'async';
 
-export interface IDialogActionHandler {
-    (session: ses.Session, args: IRecognizeActionResult): void;
+export interface IActionHandler {
+    (session: Session, args: IActionRouteData): void;
 }
 
 export interface IDialogActionOptions {
-    matches?: RegExp;
+    matches?: RegExp|RegExp[]|string|string[];
     intentThreshold?: number;
+    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error, score: number, routeData: IActionRouteData) => void) => void;
+    onSelectAction?: (session: Session, args?: any, next?: Function) => void;
+    label?: string;
+}
+
+export interface IBeginDialogActionOptions extends IDialogActionOptions {
     dialogArgs?: any;
 }
 
-export interface IRecognizeActionResult {
-    score: number;
-    action?: string;
-    expression?: RegExp;
-    matched?: string[]; 
+export interface IActionRouteData {
+    action: string;
+    intent?: IIntentRecognizerResult;
     data?: string;
     dialogId?: string;
     dialogIndex?: number;
 }
 
-export class ActionSet {
-    private actions: { [name: string]: IDialogActionHandlerEntry; } = {};
+export interface IFindActionRouteContext extends IRecognizeContext {
+    libraryName: string;
+    routeType: string;
+}
 
-    public recognizeAction(message: IMessage, cb: (err: Error, result: IRecognizeActionResult) => void): void {
-        var result: IRecognizeActionResult = { score: 0.0 };
-        if (message && message.text) {
-            if (message.text.indexOf('action?') == 0) {
-                var parts = message.text.split('?')[1].split('=');
-                if (this.actions.hasOwnProperty(parts[0])) {
-                    result.score = 1.0;
-                    result.action = parts[0];
-                    if (parts.length > 1) {
-                        result.data = parts[1];
-                    }
-                }
-            } else {
-                for (var name in this.actions) {
-                    var entry = this.actions[name];
-                    if (message.text && entry.options.matches) {
-                        var exp = entry.options.matches;
-                        var matches = exp.exec(message.text);
+export class ActionSet {
+    private actions: { [name: string]: IActionHandlerEntry; } = {};
+    private trigger: IBeginDialogActionOptions;
+
+    public addDialogTrigger(actions: ActionSet, dialogId: string): void {
+        if (this.trigger) {
+            actions.beginDialogAction(dialogId, dialogId, this.trigger);
+        }
+    }
+
+    public findActionRoutes(context: IFindActionRouteContext, callback: (err: Error, results: IRouteResult[]) => void): void {
+        var results = [{ score: 0.0, libraryName: context.libraryName }];
+        function addRoute(route: IRouteResult) {
+            if (route.score > results[0].score) {
+                results = [route];
+            } else if (route.score == results[0].score) {
+                results.push(route);
+
+            }
+        }
+
+        function matchExpression(action: string, entry: IActionHandlerEntry, cb: (err: Error, score: number, routeData: IActionRouteData) => void) {
+            if (entry.options.matches) {
+                // Find best match
+                var bestScore = 0.0;
+                var routeData: IActionRouteData;
+                var matches = Array.isArray(entry.options.matches) ? entry.options.matches : [entry.options.matches];
+                matches.forEach((exp) => {
+                    if (typeof exp == 'string') {
+                        if (context.intent && exp === context.intent.intent && context.intent.score > bestScore) {
+                            bestScore = context.intent.score;
+                            routeData = {
+                                action: action,
+                                intent: context.intent
+                            };
+                        }
+                    } else {
+                        var matches = exp.exec(text);
                         if (matches && matches.length) {
-                            var matched = matches[0];
-                            var score = matched.length / message.text.length;
-                            if (score > result.score && score >= (entry.options.intentThreshold || 0.1)) {
-                                result.score = score;
-                                result.action = name;
-                                result.expression = exp;
-                                result.matched = matches;
-                                if (score == 1.0) {
-                                    break;
-                                }
+                            var intent: IIntentRecognizerResult = {
+                                score: matches.length / text.length,
+                                intent: exp.toString(),
+                                expression: exp,
+                                matched: matches
+                            }
+                            if (intent.score > bestScore) {
+                                bestScore = intent.score;
+                                routeData = { 
+                                    action: action,
+                                    intent: intent
+                                };
                             }
                         }
                     }
+                });
+
+                // Return best match
+                var intentThreshold = entry.options.intentThreshold || 0.1;
+                if (bestScore >= intentThreshold) {
+                    cb(null, bestScore, routeData);
+                } else {
+                    cb(null, 0.0, null);
                 }
-            }        
+            } else {
+                cb(null, 0.0, null);
+            }
         }
-        cb(null, result);
+
+        var text = context.message.text || '';
+        if (text.indexOf('action?') == 0) {
+            var parts = text.split('?')[1].split('=');
+            var name = parts[0];
+            if (this.actions.hasOwnProperty(name)) {
+                var options = this.actions[name].options;
+                var routeData: IActionRouteData = { action: name };
+                if (parts.length > 1) {
+                    parts.shift();
+                    routeData.data = parts.join('=');
+                }
+                addRoute({
+                   score: 1.0,
+                   libraryName: context.libraryName,
+                   label: options.label || name,
+                   routeType: context.routeType,
+                   routeData: routeData
+                });
+            }
+            callback(null, results);
+        } else {
+            async.forEachOf(this.actions, (entry: IActionHandlerEntry, action: string, cb: ErrorCallback) => {
+                if (entry.options.onFindAction) {
+                    entry.options.onFindAction(context, (err, score, routeData) => {
+                        if (!err && routeData) {
+                            addRoute({
+                                score: score,
+                                libraryName: context.libraryName,
+                                label: entry.options.label || name,
+                                routeType: context.routeType,
+                                routeData: routeData
+                            });
+                        }
+                        cb(err);
+                    });
+                } else {
+                    matchExpression(action, entry, (err, score, routeData) => {
+                        if (!err && routeData) {
+                            addRoute({
+                                score: score,
+                                libraryName: context.libraryName,
+                                label: entry.options.label || name,
+                                routeType: context.routeType,
+                                routeData: routeData
+                            });
+                        }
+                        cb(err);
+                    });
+                }
+            }, (err) => {
+                if (!err) {
+                    callback(null, results);
+                } else {
+                    callback(err, null);
+                }
+            });
+        }
     }
 
-    public invokeAction(session: ses.Session, recognizeResult: IRecognizeActionResult): void {
-        this.actions[recognizeResult.action].handler(session, recognizeResult);
+    public selectActionRoute(session: Session, route: IRouteResult): void {
+        function next() {
+            // Call default handler
+            entry.handler(session, routeData);
+        }
+
+        var routeData = <IActionRouteData>route.routeData;
+        var entry = this.actions[routeData.action];
+        if (entry.options.onSelectAction) {
+            // Call custom handler
+            entry.options.onSelectAction(session, routeData, next);
+        } else {
+            next();
+        }
     }
 
     public cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): this {
@@ -111,7 +221,7 @@ export class ActionSet {
         }, options);
     }
 
-    public reloadAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options: IDialogActionOptions = {}): this {
+    public reloadAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options: IBeginDialogActionOptions = {}): this {
         return this.action(name, (session, args) => {
             if (msg) {
                 session.send(msg)
@@ -120,7 +230,7 @@ export class ActionSet {
         }, options);
     }
 
-    public beginDialogAction(name: string, id: string, options: IDialogActionOptions = {}): this {
+    public beginDialogAction(name: string, id: string, options: IBeginDialogActionOptions = {}): this {
         return this.action(name, (session, args) => {
             if (options.dialogArgs) {
                 utils.copyTo(options.dialogArgs, args);
@@ -139,7 +249,13 @@ export class ActionSet {
         }, options);
     }
 
-    private action(name: string, handler: IDialogActionHandler, options: IDialogActionOptions = {}): this {
+    public triggerAction(options: IBeginDialogActionOptions): this {
+        // Save trigger options. A global beginDialog() action will get setup at runtime.
+        this.trigger = options;
+        return this;
+    }
+
+    private action(name: string, handler: IActionHandler, options: IDialogActionOptions = {}): this {
         // Ensure unique
         if (this.actions.hasOwnProperty(name)) {
             throw new Error("DialogAction[" + name + "] already exists.")
@@ -149,7 +265,7 @@ export class ActionSet {
     }
 }
 
-interface IDialogActionHandlerEntry {
-    handler: IDialogActionHandler;
+interface IActionHandlerEntry {
+    handler: IActionHandler;
     options: IDialogActionOptions;
 }

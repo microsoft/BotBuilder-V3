@@ -31,12 +31,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import readline = require('readline');
-import ub = require('./UniversalBot');
-import mb = require('../Message');
-import utils = require('../utils');
+import { IConnector } from './UniversalBot';
+import { Message } from '../Message';
+import * as utils from '../utils';
+import * as readline from 'readline';
 
-export class ConsoleConnector implements ub.IConnector {
+export class ConsoleConnector implements IConnector {
     private handler: (events: IEvent[], cb?: (err: Error) => void) => void;
     private rl: readline.ReadLine;
     private replyCnt = 0;
@@ -59,7 +59,7 @@ export class ConsoleConnector implements ub.IConnector {
     public processMessage(line: string): this {
         if (this.handler) {
             // TODO: Add some sort of logic to support attachment uploads.
-            var msg = new mb.Message()
+            var msg = new Message()
                 .address({
                     channelId: 'console',
                     user: { id: 'user', name: 'User1' },

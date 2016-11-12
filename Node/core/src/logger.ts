@@ -31,11 +31,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import sprintf = require('sprintf-js');
-import Channel = require('./Channel');
-import ses = require('./Session');
-import consts = require('./consts');
-import prompts = require('./dialogs/Prompts');
+import { Session } from './Session';
+import { PromptType, IPromptArgs } from './dialogs/Prompts';
+import * as Channel from './Channel';
+import * as consts from './consts';
+import * as sprintf from 'sprintf-js';
 
 const debugLoggingEnabled = new RegExp('\\bbotbuilder\\b', 'i').test(process.env.NODE_DEBUG || '');
 
@@ -44,16 +44,16 @@ export function error(fmt: string, ...args: any[]): void {
     console.error('ERROR: ' + msg);
 }
 
-export function warn(addressable: ses.Session|IMessage|IAddress, fmt: string, ...args: any[]): void {
-    var prefix = getPrefix(<ses.Session>addressable);
+export function warn(addressable: Session|IMessage|IAddress, fmt: string, ...args: any[]): void {
+    var prefix = getPrefix(<Session>addressable);
     var msg = args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
     console.warn(prefix + 'WARN: ' + msg);
 }
 
-export function info(addressable: ses.Session|IMessage|IAddress, fmt: string, ...args: any[]): void {
+export function info(addressable: Session|IMessage|IAddress, fmt: string, ...args: any[]): void {
     var channelId = Channel.getChannelId(addressable);
     if (channelId === Channel.channels.emulator || debugLoggingEnabled){
-        var prefix = getPrefix(<ses.Session>addressable);
+        var prefix = getPrefix(<Session>addressable);
         var msg = args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
         console.info(prefix + msg);
     }
@@ -81,7 +81,7 @@ function debugLog(trace:boolean, fmt: string, args: any[]): void {
 }
 
 
-function getPrefix(addressable: ses.Session): string {
+function getPrefix(addressable: Session): string {
     var prefix = '';
     if (addressable && addressable.sessionState && addressable.sessionState.callstack) {
         var callstack = addressable.sessionState.callstack;
@@ -90,7 +90,7 @@ function getPrefix(addressable: ses.Session): string {
                 var cur = callstack[i];
                 switch (cur.id) {
                     case consts.DialogId.Prompts:
-                        var promptType = prompts.PromptType[(<prompts.IPromptArgs>cur.state).promptType];
+                        var promptType = PromptType[(<IPromptArgs>cur.state).promptType];
                         prefix += 'Prompts.' + promptType + ' - ';
                         break;
                     case consts.DialogId.FirstRun:

@@ -31,19 +31,19 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ub = require('./UniversalBot');
-import bs = require('../storage/BotStorage');
-import events = require('events');
-import request = require('request');
-import async = require('async');
-import url = require('url');
-import http = require('http');
-import utils = require('../utils');
-import logger = require('../logger');
-import jwt = require('jsonwebtoken');
-import oid = require('./OpenIdMetadata');
-import zlib = require('zlib');
-import consts = require('../consts');
+import { IConnector } from './UniversalBot';
+import { IBotStorage, IBotStorageContext, IBotStorageData } from '../storage/BotStorage';
+import { OpenIdMetadata } from './OpenIdMetadata';
+import * as utils from '../utils';
+import * as logger from '../logger';
+import * as consts from '../consts';
+import * as events from 'events';
+import * as request from 'request';
+import * as async from 'async';
+import * as url from 'url';
+import * as http from 'http';
+import * as jwt from 'jsonwebtoken';
+import * as zlib from 'zlib';
 
 var MAX_DATA_LENGTH = 65000;
 
@@ -74,12 +74,12 @@ export interface IChatConnectorAddress extends IAddress {
     useAuth?: string;
 }
 
-export class ChatConnector implements ub.IConnector, bs.IBotStorage {
+export class ChatConnector implements IConnector, IBotStorage {
     private handler: (events: IEvent[], cb?: (err: Error) => void) => void;
     private accessToken: string;
     private accessTokenExpires: number;
-    private botConnectorOpenIdMetadata: oid.OpenIdMetadata;
-    private msaOpenIdMetadata: oid.OpenIdMetadata;
+    private botConnectorOpenIdMetadata: OpenIdMetadata;
+    private msaOpenIdMetadata: OpenIdMetadata;
 
     constructor(private settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
@@ -96,8 +96,8 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
             }
         }
 
-        this.botConnectorOpenIdMetadata = new oid.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
-        this.msaOpenIdMetadata = new oid.OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
+        this.botConnectorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
+        this.msaOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
     }
 
     public listen(): IWebMiddleware {
@@ -133,7 +133,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
 
             let decoded = jwt.decode(token, { complete: true });
             var verifyOptions: jwt.VerifyOptions;
-            var openIdMetadata: oid.OpenIdMetadata;
+            var openIdMetadata: OpenIdMetadata;
 
             if (isEmulator && decoded.payload.iss == this.settings.endpoint.msaIssuer) {
                 // This token came from MSA, so check it via the emulator path
@@ -245,7 +245,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         }
     }
 
-    public getData(context: bs.IBotStorageContext, callback: (err: Error, data: IChatConnectorStorageData) => void): void {
+    public getData(context: IBotStorageContext, callback: (err: Error, data: IChatConnectorStorageData) => void): void {
         try {
             // Build list of read commands
             var root = this.getStoragePath(context.address);
@@ -326,7 +326,7 @@ export class ChatConnector implements ub.IConnector, bs.IBotStorage {
         }
     }
 
-    public saveData(context: bs.IBotStorageContext, data: IChatConnectorStorageData, callback?: (err: Error) => void): void {
+    public saveData(context: IBotStorageContext, data: IChatConnectorStorageData, callback?: (err: Error) => void): void {
         var list: any[] = [];
         function addWrite(field: string, botData: any, url: string) {
             var hashKey = field + 'Hash'; 
@@ -671,7 +671,7 @@ var toAddress = {
     'useAuth': 'useAuth'
 }
 
-interface IChatConnectorStorageData extends bs.IBotStorageData {
+interface IChatConnectorStorageData extends IBotStorageData {
     userDataHash?: string;
     conversationDataHash?: string;
     privateConversationDataHash?: string;

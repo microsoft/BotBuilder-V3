@@ -20,8 +20,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import msg = require('../Message');
+import { Session } from '../Session';
+import { fmtText } from '../Message';
 
 export class ReceiptCard implements IIsAttachment {
     protected data = {
@@ -29,13 +29,13 @@ export class ReceiptCard implements IIsAttachment {
         content: <IReceiptCard>{}
     };
     
-    constructor(protected session?: ses.Session) {
+    constructor(protected session?: Session) {
         
     }
     
     public title(text: string|string[], ...args: any[]): this {
         if (text) {
-            this.data.content.title = msg.fmtText(this.session, text, args);
+            this.data.content.title = fmtText(this.session, text, args);
         }
         return this;
     }
@@ -104,27 +104,27 @@ export class ReceiptCard implements IIsAttachment {
 export class ReceiptItem implements IIsReceiptItem {
     private data = <IReceiptItem>{};
     
-    constructor(private session?: ses.Session) {
+    constructor(private session?: Session) {
         
     }
     
     public title(text: string|string[], ...args: any[]): this {
         if (text) {
-            this.data.title = msg.fmtText(this.session, text, args);
+            this.data.title = fmtText(this.session, text, args);
         }
         return this;
     }
 
     public subtitle(text: string|string[], ...args: any[]): this {
         if (text) {
-            this.data.subtitle = msg.fmtText(this.session, text, args);
+            this.data.subtitle = fmtText(this.session, text, args);
         }
         return this;
     }
     
     public text(text: string|string[], ...args: any[]): this {
         if (text) {
-            this.data.text = msg.fmtText(this.session, text, args);
+            this.data.text = fmtText(this.session, text, args);
         }
         return this;
     }
@@ -157,7 +157,7 @@ export class ReceiptItem implements IIsReceiptItem {
         return this.data;    
     }
 
-    static create(session: ses.Session, price: string, title?: string|string[]): ReceiptItem {
+    static create(session: Session, price: string, title?: string|string[]): ReceiptItem {
         return new ReceiptItem(session).price(price).title(title);
     }
 }
@@ -165,13 +165,13 @@ export class ReceiptItem implements IIsReceiptItem {
 export class Fact implements IIsFact {
     private data = <IFact>{ value: '' };
     
-    constructor(private session?: ses.Session) {
+    constructor(private session?: Session) {
         
     }
     
     public key(text: string|string[], ...args: any[]): this {
         if (text) {
-            this.data.key = msg.fmtText(this.session, text, args);
+            this.data.key = fmtText(this.session, text, args);
         }
         return this;
     }
@@ -185,7 +185,7 @@ export class Fact implements IIsFact {
         return this.data;    
     }
 
-    static create(session: ses.Session, value: string, key?: string|string[]): Fact {
+    static create(session: Session, value: string, key?: string|string[]): Fact {
         return new Fact(session).value(value).key(key);
     }
 }

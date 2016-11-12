@@ -20,11 +20,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import tc = require('./ThumbnailCard');
+import { Session } from '../Session';
+import { ThumbnailCard } from './ThumbnailCard';
 
-export class HeroCard extends tc.ThumbnailCard {
-    constructor(session?: ses.Session) {
+export class HeroCard extends ThumbnailCard {
+    constructor(session?: Session) {
         super(session);
         this.data.contentType = 'application/vnd.microsoft.card.hero';
     }

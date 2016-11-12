@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('./Session');
+import { Session } from './Session';
 
 export var channels = {
     facebook: 'facebook',
@@ -47,7 +47,7 @@ export var channels = {
     console: 'console'
 };
 
-export function supportsKeyboards(session: ses.Session, buttonCnt = 100) {
+export function supportsKeyboards(session: Session, buttonCnt = 100) {
     switch (getChannelId(session)) {
         case channels.facebook:
             return (buttonCnt <= 10);
@@ -62,7 +62,7 @@ export function supportsKeyboards(session: ses.Session, buttonCnt = 100) {
     }
 }
 
-export function supportsCardActions(session: ses.Session, buttonCnt = 100) {
+export function supportsCardActions(session: Session, buttonCnt = 100) {
     switch (getChannelId(session)) {
         case channels.facebook:
         case channels.skype:
@@ -74,11 +74,11 @@ export function supportsCardActions(session: ses.Session, buttonCnt = 100) {
     }
 }
 
-export function getChannelId(addressable: ses.Session|IMessage|IAddress): string {
+export function getChannelId(addressable: Session|IMessage|IAddress): string {
     var channelId: string;
     if (addressable) {
         if (addressable.hasOwnProperty('message')) {
-            channelId = (<ses.Session>addressable).message.address.channelId;
+            channelId = (<Session>addressable).message.address.channelId;
         } else if (addressable.hasOwnProperty('address')) {
             channelId = (<IMessage>addressable).address.channelId;
         } else if (addressable.hasOwnProperty('channelId')) {
