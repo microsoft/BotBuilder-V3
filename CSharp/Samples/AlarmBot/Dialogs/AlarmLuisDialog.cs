@@ -8,12 +8,10 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Sample.AlarmBot.Models;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static Microsoft.Bot.Builder.Luis.BuiltIn.DateTime;
 
 namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
 {
