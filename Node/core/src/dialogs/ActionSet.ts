@@ -60,6 +60,7 @@ export interface IActionRouteData {
     data?: string;
     dialogId?: string;
     dialogIndex?: number;
+    libraryName?: string;
 }
 
 export interface IFindActionRouteContext extends IRecognizeContext {
@@ -80,11 +81,13 @@ export class ActionSet {
     public findActionRoutes(context: IFindActionRouteContext, callback: (err: Error, results: IRouteResult[]) => void): void {
         var results = [{ score: 0.0, libraryName: context.libraryName }];
         function addRoute(route: IRouteResult) {
-            if (route.score > results[0].score) {
-                results = [route];
-            } else if (route.score == results[0].score) {
-                results.push(route);
-
+            if (route.score > 0 && route.routeData) {
+                (<IActionRouteData>route.routeData).libraryName = context.libraryName;
+                if (route.score > results[0].score) {
+                    results = [route];
+                } else if (route.score == results[0].score) {
+                    results.push(route);
+                }
             }
         }
 
@@ -107,7 +110,7 @@ export class ActionSet {
                         var matches = exp.exec(text);
                         if (matches && matches.length) {
                             var intent: IIntentRecognizerResult = {
-                                score: matches.length / text.length,
+                                score: matches[0].length / text.length,
                                 intent: exp.toString(),
                                 expression: exp,
                                 matched: matches
@@ -236,7 +239,7 @@ export class ActionSet {
                 utils.copyTo(options.dialogArgs, args);
             }
             if (id.indexOf(':') < 0) {
-                var lib = args.dialogId ? args.dialogId.split(':')[0] : consts.Library.default;
+                var lib = args.dialogId ? args.dialogId.split(':')[0] : args.libraryName;
                 id = lib + ':' + id;
             }
             session.beginDialog(id, args);

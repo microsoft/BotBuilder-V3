@@ -657,13 +657,13 @@ export class Session extends events.EventEmitter {
             return id;
         }
         var cur = this.curDialog();
-        var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : consts.Library.default;
+        var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : this.library.name;
         return libName + ':' + id;
     }
 
     private findDialog(id: string): Dialog {
         var parts = id.split(':');
-        return this.library.findDialog(parts[0] || consts.Library.default, parts[1]);
+        return this.library.findDialog(parts[0] || this.library.name, parts[1]);
     }
 
     private pushDialog(ds: IDialogState): IDialogState {
