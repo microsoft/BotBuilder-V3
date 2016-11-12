@@ -200,11 +200,14 @@ namespace Microsoft.Bot.Connector
            CancellationToken token)
         {
             var identityToken = await this.TryAuthenticateAsync(request, token);
-            if (identityToken.Authenticated)
+            
+            // add the service url to the list of trusted urls only if the JwtToken 
+            // is valid and identity is not null
+            if (identityToken.Authenticated && identityToken.Identity != null)
             {
                 foreach (var activity in activities)
                 {
-                    MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl);
+                    MicrosoftAppCredentials.TrustServiceUrl(activity?.ServiceUrl);
                 }
             }
             return identityToken.Authenticated;
@@ -213,15 +216,13 @@ namespace Microsoft.Bot.Connector
         internal async Task<IdentityToken> TryAuthenticateAsync(HttpRequestMessage request,
             CancellationToken token)
         {
-            // debugger is attached and no app Id is set, this implies that the auth is disabled
+            // If app id is empty or null, then the auth is disabled
             // and no token validation is necessary.
-            if (Debugger.IsAttached && this.credentialProvider is SimpleCredentialProvider)
+            if (await this.credentialProvider.IsValidAppIdAsync(string.Empty)
+                || await  this.credentialProvider.IsValidAppIdAsync(default(string)))
             {
-                if (String.IsNullOrEmpty(((SimpleCredentialProvider)this.credentialProvider).AppId))
-                {
-                    // then auth is disabled
-                    return new IdentityToken(true, null);
-                }
+                // then auth is disabled
+                return new IdentityToken(true, null);
             }
 
             ClaimsIdentity identity = null;

@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Connector
         Task<string> GetAppPasswordAsync(string appId);
     }
 
-    internal class SimpleCredentialProvider : ICredentialProvider
+    public class SimpleCredentialProvider : ICredentialProvider
     {
         public string AppId { get; set; }
 
@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Connector
     /// <summary>
     /// Static credential provider which has the appid and password static
     /// </summary>
-    internal class StaticCredentialProvider : SimpleCredentialProvider
+    public sealed class StaticCredentialProvider : SimpleCredentialProvider
     {
         public StaticCredentialProvider(string appId, string password)
         {
