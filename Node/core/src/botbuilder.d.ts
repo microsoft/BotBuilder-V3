@@ -2221,9 +2221,10 @@ export class Library {
      * Finds the best route to use within a result set containing multiple ambiguous routes. The
      * following disambigution strategy will be used:
      * 
-     * 1. `ActiveDialog` routes are the highest priority and will always be returned first.
-     * 2. `StackAction` routes are the next highest priority and the action with the deepest stack position will be returned.
-     * 3. `GlobalAction` routes are the lowest priority and the first global action in the set will be returned. 
+     * 1. __<custom>__: Custom route types are the highest priority and will alwsays be preferred. This lets the developer override routing within a bot in very powerful way.  
+     * 2. __ActiveDialog__: The active dialog is the next highest priority.
+     * 3. __StackAction__: Stack actions are the next highest priority and the action with the deepest stack position will be returned.
+     * 4. __GlobalAction__: Global actions are the lowest priority and the first global action in the set will be returned. 
      */
     static bestRouteResult(routes: IRouteResult[]): IRouteResult;
 }

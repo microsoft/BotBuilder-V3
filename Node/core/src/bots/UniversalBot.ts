@@ -396,7 +396,7 @@ export class UniversalBot extends Library {
             if (!err) {
                 // Select the best route
                 var route = Library.bestRouteResult(results);
-                if (route.score > 0 && route.routeType) {
+                if (route) {
                     this.library(route.libraryName).selectRoute(session, route);
                 } else {
                     // Just let the active dialog process the message

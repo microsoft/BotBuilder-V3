@@ -387,29 +387,38 @@ export class Library extends EventEmitter {
 
     /** Returns the best route to use from a set of results. */
     static bestRouteResult(routes: IRouteResult[]): IRouteResult {
-        var best = routes[0];
-        for (var i = 1; i < routes.length; i++) {
             // See if the ambiguous result is a better match.
+        var best: IRouteResult;
+        var bestPriority = 5;
+        for (var i = 0; i < routes.length; i++) {
             var r = routes[i];
-            switch (r.routeType) {
-                // The active dialog is highest priority
-                case Library.RouteTypes.ActiveDialog:
+
+            // Filter out scores of 0.0
+            if (r.score > 0.0) {
+                // Determine the routes priority
+                var priority: number;
+                switch (r.routeType) {
+                    default:
+                        priority = 1;
+                        break;
+                    case Library.RouteTypes.ActiveDialog:
+                        priority = 2;
+                        break;
+                    case Library.RouteTypes.StackAction:
+                        priority = 3;
+                        break;
+                    case Library.RouteTypes.GlobalAction:
+                        priority = 4;
+                        break;
+                }
+
+                // Update best route
+                if (priority < bestPriority) {
                     best = r;
-                    break;
-
-                // Stack actions are second highest priority and we'll favor the action
-                // that's deepest on the stack.
-                case Library.RouteTypes.StackAction:
-                    if (best.routeType !== Library.RouteTypes.ActiveDialog) {
-                        if (best.routeType != Library.RouteTypes.StackAction ||
-                            (<IActionRouteData>r.routeData).dialogIndex > (<IActionRouteData>best.routeData).dialogIndex) {
-                                best = r;
-                        }
-                    }
-                    break;
-
-                // Global actions are the lowest priority and we can ignore them here 
-                // because we'll always just take the first one.
+                    bestPriority = priority;
+                } else if (priority == bestPriority && priority == 3 && (<IActionRouteData>r.routeData).dialogIndex > (<IActionRouteData>best.routeData).dialogIndex) {
+                    best = r;
+                } 
             }
         }
         return best;
