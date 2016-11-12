@@ -492,7 +492,7 @@ export interface IDialogActionOptions {
      * It's important to note that this is not a waterfall and you should call `next()` if you 
      * would like the actions default behaviour to run. 
      */
-    onSelected?: (session: Session, args?: IActionRouteData, next?: Function) => void;
+    onSelectAction?: (session: Session, args?: IActionRouteData, next?: Function) => void;
 
     /** (Optional) display label for the action which can be presented to the user when disambiguting between actions. */
     label?: string;    
