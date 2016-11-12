@@ -236,39 +236,6 @@ namespace Microsoft.Bot.Builder.Luis
         }
     }
 
-    [Serializable]
-    public sealed class CachingLuisService : ILuisService
-    {
-        private readonly ILuisService service;
-        private readonly ICache<ILuisService, Uri, LuisResult> cache;
-        public CachingLuisService(ILuisService service, ICache<ILuisService, Uri, LuisResult> cache)
-        {
-            SetField.NotNull(out this.service, nameof(service), service);
-            SetField.NotNull(out this.cache, nameof(cache), cache);
-        }
-
-        Uri ILuisService.BuildUri(LuisRequest request)
-        {
-            return this.service.BuildUri(request);
-        }
-
-        Task<LuisResult> ILuisService.QueryAsync(Uri uri, CancellationToken token)
-        {
-            try
-            {
-                return this.cache.GetOrAddAsync(this.service, uri, (s, u, t) => s.QueryAsync(u, t), token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled<LuisResult>(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException<LuisResult>(error);
-            }
-        }
-    }
-
     /// <summary>
     /// LUIS extension methods.
     /// </summary>

@@ -44,6 +44,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Luis;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -106,6 +107,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             var resolved = new RegexMatchScorable<Binding, Binding>(regex, scorable);
             var normalized = resolved.SelectScore((r, m) => RegexMatchScorable.ScoreFor(m));
+            return normalized;
+        }
+        public static IScorable<IResolver, double> When(this IScorable<IResolver, Binding> scorable, ILuisModel model, LuisIntentAttribute intent, ILuisService service = null)
+        {
+            service = service ?? new LuisService(model);
+            var resolved = new LuisIntentScorable<Binding, Binding>(service, model, intent, scorable);
+            var normalized = resolved.SelectScore((r, i) => i.Score ?? 0);
             return normalized;
         }
     }

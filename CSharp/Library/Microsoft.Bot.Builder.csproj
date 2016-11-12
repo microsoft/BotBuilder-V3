@@ -97,7 +97,6 @@
     <Compile Include="Dialogs\UrlToken.cs" />
     <Compile Include="Dialogs\DialogTaskManager.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
-    <Compile Include="Fibers\Cache.cs" />
     <Compile Include="Fibers\Pair.cs" />
     <Compile Include="Fibers\Range.cs" />
     <Compile Include="Fibers\Scope.cs" />

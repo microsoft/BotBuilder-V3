@@ -40,6 +40,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -171,6 +172,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             SetField.NotNull(out this.model, nameof(model), model);
             SetField.NotNull(out this.intent, nameof(intent), intent);
         }
+
+        // assumes that LuisResult is cacheable with Uri as complete key (i.e. ILuisService is not required)
+        private static readonly ConditionalWeakTable<IResolver, Dictionary<Uri, Task<LuisResult>>> Cache
+            = new ConditionalWeakTable<IResolver, Dictionary<Uri, Task<LuisResult>>>();
+
         protected override async Task<Scope> PrepareAsync(IResolver resolver, CancellationToken token)
         {
             IMessageActivity message;
@@ -185,7 +191,20 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return null;
             }
 
-            var result = await this.service.QueryAsync(text, token);
+            var taskByUri = Cache.GetOrCreateValue(resolver);
+
+            var uri = this.service.BuildUri(text);
+            Task<LuisResult> task;
+            lock (taskByUri)
+            {
+                if (! taskByUri.TryGetValue(uri, out task))
+                {
+                    task = this.service.QueryAsync(uri, token);
+                    taskByUri.Add(uri, task);
+                }
+            }
+
+            var result = await task;
             var intents = result.Intents;
             if (intents == null)
             {
@@ -211,6 +230,22 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         protected override IntentRecommendation GetScore(IResolver resolver, Scope state)
         {
             return state.Intent;
+        }
+        protected override Task DoneAsync(IResolver item, Scope state, CancellationToken token)
+        {
+            try
+            {
+                Cache.Remove(item);
+                return base.DoneAsync(item, state, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
         }
     }
 

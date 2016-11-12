@@ -82,25 +82,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
         protected virtual IScorableFactory<IResolver, object> MakeFactory(IDialogContext context, IActivity activity)
         {
-            var cache = new DictionaryCache<ILuisService, Uri, LuisResult>(EqualityComparer<Uri>.Default);
-
-            var serviceByModel = new Dictionary<ILuisModel, ILuisService>();
-
-            Func<ILuisModel, ILuisService> MakeLuisService = model =>
-            {
-                ILuisService service;
-                if (!serviceByModel.TryGetValue(model, out service))
-                {
-                    service = new CachingLuisService(MakeService(model), cache);
-                    serviceByModel.Add(model, service);
-                }
-
-                return service;
-            };
-
             IScorableFactory<IResolver, object> factory = new OrderScorableFactory<IResolver, object>
                 (
-                    new LuisIntentScorableFactory(MakeLuisService),
+                    new LuisIntentScorableFactory(MakeService),
                     new RegexMatchScorableFactory(MakeRegex),
                     new MethodScorableFactory()
                 );
