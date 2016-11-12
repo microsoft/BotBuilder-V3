@@ -77,10 +77,11 @@ export class Library extends EventEmitter {
     private dialogs = <IDialogMap>{};
     private libraries = <ILibraryMap>{};
     private actions = new ActionSet();
-    private recognizers = new IntentRecognizerSet();
+    private recognizers = new IntentRecognizerSet()
     private _localePath: string;
     private _onFindRoutes: IFindRoutesHandler;
     private _onSelectRoute: ISelectRouteHandler;
+    private triggersAdded = false;
 
     constructor(public readonly name: string) {
         super();
@@ -124,6 +125,13 @@ export class Library extends EventEmitter {
 
     /** Finds candidate routes. */
     public findRoutes(session: Session, callback: (err: Error, routes: IRouteResult[]) => void): void {
+        // Add triggers on first calls
+        if (!this.triggersAdded) {
+            this.forEachDialog((dialog, id) => dialog.addDialogTrigger(this.actions, id));
+            this.triggersAdded = true;
+        }
+
+        // Search for route
         if (this._onFindRoutes) {
             this._onFindRoutes(session, callback);
         } else {
@@ -175,10 +183,10 @@ export class Library extends EventEmitter {
                 };
                 dialog.recognize(context, (err, result) => {
                     if (!err) {
-                        if (result.score < 0.2) {
+                        if (result.score < 0.1) {
                             // The active dialog should always have some score otherwise it
                             // can't ensure that its route data will be properly round tripped.
-                            result.score = 0.2;
+                            result.score = 0.1;
                         }
                         callback(null, Library.addRouteResult({
                             score: result.score,
