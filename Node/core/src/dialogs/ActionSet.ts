@@ -64,6 +64,7 @@ export interface IActionRouteData {
 }
 
 export interface IFindActionRouteContext extends IRecognizeContext {
+    intent?: IIntentRecognizerResult;
     libraryName: string;
     routeType: string;
 }

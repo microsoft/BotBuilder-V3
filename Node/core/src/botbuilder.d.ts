@@ -395,18 +395,53 @@ export interface IDialogResult<T> {
 
 /** Context of the received message passed to various recognition methods. */
 export interface IRecognizeContext {
-    /** Message that was received. */
+    /** The message received from the user. For bot originated messages this may only contain the "to" & "from" fields. */
     message: IMessage;
 
-    /** The users preferred locale for the message. */
-    locale: string;
+    /** Data for the user that's persisted across all conversations with the bot. */
+    userData: any;
+    
+    /** Shared conversation data that's visible to all members of the conversation. */
+    conversationData: any;
+    
+    /** Private conversation data that's only visible to the user. */
+    privateConversationData: any;
 
-    /** (Optional) The top intent identified for the message. */
-    intent?: IIntentRecognizerResult;
+    /** The localizer for the session. */
+    localizer: ILocalizer ;    
+
+    /** Returns the users preferred locale. */
+    preferredLocale(): string;
+
+    /**
+     * Loads a localized string for the messages language. If arguments are passed the localized string
+     * will be treated as a template and formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see their docs for details.) 
+     * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
+     * @param args (Optional) arguments used to format the final output string. 
+     */
+    gettext(msgid: string, ...args: any[]): string;
+
+    /**
+     * Loads the plural form of a localized string for the messages language. The output string will be formatted to 
+     * include the count by replacing %d in the string with the count.
+     * @param msgid Singular form of the string to use as a key in the localized string table. Use %d to specify where the count should go.
+     * @param msgid_plural Plural form of the string to use as a key in the localized string table. Use %d to specify where the count should go.
+     * @param count Count to use when determining whether the singular or plural form of the string should be used.
+     */
+    ngettext(msgid: string, msgid_plural: string, count: number): string;
+
+    /** Returns a copy of the current dialog stack for the session. */
+    dialogStack(): IDialogState[];
+
+    /** __DEPRECATED__ use [preferredLocale()](#preferredlocale) instead. */
+    locale: string;
 }
 
 /** Context passed to `Dialog.recognize()`. */
 export interface IRecognizeDialogContext extends IRecognizeContext {
+    /** (Optional) The top intent identified for the message. */
+    intent?: IIntentRecognizerResult;
+
     /** If true the Dialog is the active dialog on the callstack. */
     activeDialog: boolean;
 
@@ -416,6 +451,9 @@ export interface IRecognizeDialogContext extends IRecognizeContext {
 
 /** Context passed to `ActionSet.findActionRoutes()`. */
 export interface IFindActionRouteContext extends IRecognizeContext {
+    /** (Optional) The top intent identified for the message. */
+    intent?: IIntentRecognizerResult;
+
     /** The name of the library being searched over. */
     libraryName: string;
 
@@ -1124,6 +1162,9 @@ export class Session {
      */
     constructor(options: ISessionOptions);
 
+    /** Returns the session object as a read only context object. */
+    toRecognizeContext(): IRecognizeContext;
+
     /**
      * Finalizes the initialization of the session object and then routes the session through all
      * installed middleware. The passed in `next()` function will be called as the last step of the
@@ -1155,7 +1196,7 @@ export class Session {
     /** Data that's only visible to the current dialog. */
     dialogData: any;
 
-    /** The localizer (if available) to use. */
+    /** The localizer for the current session. */
     localizer:ILocalizer ;    
     
     /**

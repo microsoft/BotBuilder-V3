@@ -77,7 +77,7 @@ export class Library extends EventEmitter {
     private dialogs = <IDialogMap>{};
     private libraries = <ILibraryMap>{};
     private actions = new ActionSet();
-    private recognizers = new IntentRecognizerSet()
+    private recognizers = new IntentRecognizerSet();
     private _localePath: string;
     private _onFindRoutes: IFindRoutesHandler;
     private _onSelectRoute: ISelectRouteHandler;
@@ -105,11 +105,7 @@ export class Library extends EventEmitter {
 
     /** Attempts to recognize the top intent for the current message. */
     public recognize(session: Session, callback: (err: Error, result: IIntentRecognizerResult) => void): void {
-        var context: IRecognizeContext = {
-            message: session.message,
-            locale: session.preferredLocale()
-        }
-        this.recognizers.recognize(context, callback);
+        this.recognizers.recognize(session.toRecognizeContext(), callback);
     }
 
     /** Adds a recognizer to the libraries intent recognizer set. */
@@ -174,13 +170,10 @@ export class Library extends EventEmitter {
             var dialog = this.dialog(parts[1]);
             if (dialog) {
                 // Call recognize for the active dialog
-                var context: IRecognizeDialogContext = {
-                    message: session.message,
-                    locale: session.preferredLocale(),
-                    intent: topIntent,
-                    dialogData: entry.state,
-                    activeDialog: true
-                };
+                var context = <IRecognizeDialogContext>session.toRecognizeContext();
+                context.intent = topIntent;
+                context.dialogData = entry.state;
+                context.activeDialog = true;
                 dialog.recognize(context, (err, result) => {
                     if (!err) {
                         if (result.score < 0.1) {
@@ -232,13 +225,10 @@ export class Library extends EventEmitter {
 
         // Search all stack entries in parallel
         var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
-        var context: IFindActionRouteContext = {
-            message: session.message,
-            locale: session.preferredLocale(),
-            intent: topIntent,
-            libraryName: this.name,
-            routeType: Library.RouteTypes.StackAction
-        };
+        var context = <IFindActionRouteContext>session.toRecognizeContext();
+        context.intent = topIntent;
+        context.libraryName = this.name;
+        context.routeType = Library.RouteTypes.StackAction;
         async.forEachOf((dialogStack || []).reverse(), (entry: IDialogState, index: number, next: ErrorCallback) => {
             // Filter to library.
             var parts = entry.id.split(':');
@@ -295,13 +285,10 @@ export class Library extends EventEmitter {
     /** Searches for any global actions that have been triggered for the library. */
     public findGlobalActionRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void): void {
         var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
-        var context: IFindActionRouteContext = {
-            message: session.message,
-            locale: session.preferredLocale(),
-            intent: topIntent,
-            libraryName: this.name,
-            routeType: Library.RouteTypes.GlobalAction
-        };
+        var context = <IFindActionRouteContext>session.toRecognizeContext();
+        context.intent = topIntent;
+        context.libraryName = this.name;
+        context.routeType = Library.RouteTypes.GlobalAction;
         this.actions.findActionRoutes(context, (err, ra) => {
             if (!err) {
                 for (var i = 0; i < ra.length; i++) {

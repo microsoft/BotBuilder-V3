@@ -81,6 +81,21 @@ export class Session extends events.EventEmitter {
         }
     }
 
+    public toRecognizeContext(): IRecognizeContext {
+        return {
+            message: this.message,
+            userData: this.userData,
+            conversationData: this.conversationData,
+            privateConversationData: this.privateConversationData,
+            localizer: this.localizer,
+            dialogStack: () => { return this.dialogStack(); },
+            preferredLocale: () => { return this.preferredLocale(); },
+            gettext: (...args: any[]) => { return Session.prototype.gettext.call(this, args); }, 
+            ngettext: (...args: any[]) => { return Session.prototype.ngettext.call(this, args); }, 
+            locale: this.preferredLocale()
+        };
+    }
+
     public dispatch(sessionState: ISessionState, message: IMessage, done: Function): this {
         var index = 0;
         var session = this;

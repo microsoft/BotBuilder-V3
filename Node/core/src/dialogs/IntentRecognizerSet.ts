@@ -42,8 +42,17 @@ export interface IIntentRecognizer {
 
 export interface IRecognizeContext {
     message: IMessage;
-    locale: string;
-    intent?: IIntentRecognizerResult;
+    userData: any;
+    conversationData: any;
+    privateConversationData: any;
+    localizer: ILocalizer;
+    preferredLocale(): string;
+    gettext(messageid: string, ...args: any[]): string;
+    ngettext(messageid: string, messageid_plural: string, count: number): string;
+    dialogStack(): IDialogState[];
+
+    /** deprecated */
+    locale: string;     
 }
 
 export interface IRecognizeResult {

@@ -32,7 +32,7 @@
 //
 
 import { Session } from '../Session';
-import { IRecognizeContext, IRecognizeResult } from './IntentRecognizerSet';
+import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizerSet';
 import { ActionSet } from './ActionSet';
 
 export enum ResumeReason { completed, notCompleted, canceled, back, forward }
@@ -47,6 +47,7 @@ export interface IDialogResult<T> {
 export interface IRecognizeDialogContext extends IRecognizeContext {
     activeDialog: boolean;
     dialogData: any;
+    intent?: IIntentRecognizerResult;
 }
 
 export abstract class Dialog extends ActionSet {
