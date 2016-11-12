@@ -82,7 +82,7 @@ export class Library extends EventEmitter {
     private _onFindRoutes: IFindRoutesHandler;
     private _onSelectRoute: ISelectRouteHandler;
 
-    constructor(public name: string) {
+    constructor(public readonly name: string) {
         super();
     }
 
