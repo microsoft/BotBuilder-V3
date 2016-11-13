@@ -47,15 +47,7 @@ var connector = new builder.ChatConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
-var botSettings = {
-    storage: new builderAzure.TableBotStorage({
-        gzipData: false,
-        accountName: '',
-        accountKey: ''
-    })    
-};
-
-var bot = new builder.UniversalBot(connector, botSettings);
+var bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
 
