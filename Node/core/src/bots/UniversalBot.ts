@@ -395,7 +395,7 @@ export class UniversalBot extends Library {
         }, (err) => {
             if (!err) {
                 // Select the best route
-                var route = Library.bestRouteResult(results);
+                var route = Library.bestRouteResult(results, session.dialogStack(), this.name);
                 if (route) {
                     this.library(route.libraryName).selectRoute(session, route);
                 } else {

@@ -2224,9 +2224,12 @@ export class Library {
      * 1. __<custom>__: Custom route types are the highest priority and will alwsays be preferred. This lets the developer override routing within a bot in very powerful way.  
      * 2. __ActiveDialog__: The active dialog is the next highest priority.
      * 3. __StackAction__: Stack actions are the next highest priority and the action with the deepest stack position will be returned.
-     * 4. __GlobalAction__: Global actions are the lowest priority and the first global action in the set will be returned. 
+     * 4. __GlobalAction__: Global actions are the lowest priority. If a `dialogStack` is past in the actions from the library deepest on the stack will be favored. Otherwise the first one will be returned.
+     * @param routes Array of candidate routes to filter.
+     * @param dialogStack (Optional) dialog stack used to determine which libraries global actions to favor. 
+     * @param rootLibraryName (Optional) library namespace to prefer when disambiguating global actions and there's no dialogs on the stack.
      */
-    static bestRouteResult(routes: IRouteResult[]): IRouteResult;
+    static bestRouteResult(routes: IRouteResult[], dialogStack?: IDialogState[], rootLibraryName?: string): IRouteResult;
 }
 
 /**

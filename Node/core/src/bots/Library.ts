@@ -386,8 +386,22 @@ export class Library extends EventEmitter {
     }
 
     /** Returns the best route to use from a set of results. */
-    static bestRouteResult(routes: IRouteResult[]): IRouteResult {
-            // See if the ambiguous result is a better match.
+    static bestRouteResult(routes: IRouteResult[], dialogStack?: IDialogState[], rootLibraryName?: string): IRouteResult {
+        // Find library with highest priority
+        var bestLibrary = rootLibraryName;
+        if (dialogStack) {
+            dialogStack.forEach((entry) => {
+                var parts = entry.id.split(':');
+                for (var i = 0; i < routes.length; i++) {
+                    if (routes[i].libraryName == parts[0]) {
+                        bestLibrary = parts[0];
+                        break;
+                    }
+                }
+            });
+        }
+
+        // See if the ambiguous result is a better match.
         var best: IRouteResult;
         var bestPriority = 5;
         for (var i = 0; i < routes.length; i++) {
@@ -416,8 +430,19 @@ export class Library extends EventEmitter {
                 if (priority < bestPriority) {
                     best = r;
                     bestPriority = priority;
-                } else if (priority == bestPriority && priority == 3 && (<IActionRouteData>r.routeData).dialogIndex > (<IActionRouteData>best.routeData).dialogIndex) {
-                    best = r;
+                } else if (priority == bestPriority) {
+                    switch (priority) {
+                        case 3:
+                            if ((<IActionRouteData>r.routeData).dialogIndex > (<IActionRouteData>best.routeData).dialogIndex) {
+                                best = r;
+                            }
+                            break;
+                        case 4:
+                            if (bestLibrary && best.libraryName !== bestLibrary && r.libraryName == bestLibrary) {
+                                best = r;
+                            }
+                            break;
+                    }
                 } 
             }
         }
