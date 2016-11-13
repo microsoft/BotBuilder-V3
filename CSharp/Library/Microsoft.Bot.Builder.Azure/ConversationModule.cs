@@ -16,6 +16,10 @@ namespace Microsoft.Bot.Builder.Azure
     /// </summary>
     public sealed class ConversationModule : Module
     {
+
+        public static readonly object Key_DataStore = new object();
+        
+
         /// <summary>
         /// Registers dependencies with the <paramref name="builder"/>.
         /// </summary>
@@ -30,15 +34,23 @@ namespace Microsoft.Bot.Builder.Azure
             {
 
                 builder.Register(c => MakeTableBotDataStore())
+                    .Keyed<IBotDataStore<BotData>>(Key_DataStore)
                     .AsSelf()
                     .SingleInstance();
-
-                builder.Register(c => new CachingBotDataStore(c.Resolve<TableBotDataStore>(),
-                        CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
-                    .As<IBotDataStore<BotData>>()
+            }
+            else
+            {
+                builder.Register(c => new ConnectorStore(c.Resolve<IStateClient>()))
+                    .Keyed<IBotDataStore<BotData>>(Key_DataStore)
                     .AsSelf()
                     .InstancePerLifetimeScope();
             }
+
+            builder.Register(c => new CachingBotDataStore(c.ResolveKeyed<IBotDataStore<BotData>>(Key_DataStore),
+                        CachingBotDataStoreConsistencyPolicy.LastWriteWins))
+                    .As<IBotDataStore<BotData>>()
+                    .AsSelf()
+                    .InstancePerLifetimeScope();
         }
 
         private bool ShouldUseTableStorage()
