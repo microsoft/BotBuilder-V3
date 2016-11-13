@@ -44,13 +44,13 @@ namespace Microsoft.Bot.Builder.Tests
     [TestClass]
     public sealed class RangeTests
     {
-        public static IEnumerable<IEnumerable<int>> Subsets(IEnumerable<int> items)
+        public static IEnumerable<IEnumerable<T>> Subsets<T>(IEnumerable<T> items) where T: IEquatable<T>
         {
             yield return items;
 
             foreach (var item in items)
             {
-                var without = items.Where(i => i != item).ToArray();
+                var without = items.Where(i => ! i.Equals(item)).ToArray();
                 if (without.Length > 0)
                 {
                     foreach (var subset in Subsets(without))
