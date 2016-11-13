@@ -36,6 +36,7 @@ using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -169,6 +170,56 @@ namespace Microsoft.Bot.Builder.Tests
                     Verify(mockTwo, Item, Token, Once(!earlyOut), Many(!earlyOut), Many(!earlyOut && testTwo.hasScore), Once(!earlyOut && testTwo.hasScore && largeTwo));
                 }
             }
+        }
+
+        public static void TestReduceHelper<Item, Score>(params IScorable<Item, Score>[] test)
+        {
+            IEnumerable<IScorable<Item, Score>> scorables = test;
+            IScorable<Item, Score> scorable;
+            var success = Scorables.TryReduce(ref scorables, out scorable);
+
+            var filtered = test.Where(Scorables.Keep).ToArray();
+            switch (filtered.Length)
+            {
+                case 0:
+                    Assert.IsTrue(success);
+                    Assert.IsInstanceOfType(scorable, typeof(NullScorable<Item, Score>));
+                    break;
+                case 1:
+                    Assert.IsTrue(success);
+                    Assert.AreEqual(1, filtered.Length);
+                    Assert.AreEqual(filtered[0], scorable);
+                    break;
+                default:
+                    Assert.IsFalse(success);
+                    Assert.IsNull(scorable);
+                    CollectionAssert.AreEqual(filtered, (ICollection)scorables);
+                    break;
+            }
+        }
+
+        public static void TestReduce<Item, Score>()
+        {
+            Func<IScorable<Item, Score>> Null = () => NullScorable<Item, Score>.Instance;
+            Func<IScorable<Item, Score>> Some = () => new Mock<IScorable<Item, Score>>().Object;
+
+            for (int count = 0; count < 4; ++count)
+            {
+                for (int pattern = 0; pattern < (1 << count); ++pattern)
+                {
+                    var test = Enumerable.Range(0, count)
+                        .Select((_, index) => (pattern & (1 << index)) != 0 ? Some() : Null())
+                        .ToArray();
+
+                    TestReduceHelper(test);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void Scorable_TryReduce()
+        {
+            TestReduce<string, Guid>();
         }
     }
 }

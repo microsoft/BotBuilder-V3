@@ -88,10 +88,102 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
 
         /// <summary>
+        /// True if the scorable is non-null, false otherwise.
+        /// </summary>
+        public static bool Keep<Item, Score>(IScorable<Item, Score> scorable)
+        {
+            // complicated because IScorable<Item, Score> is variant on generic parameter,
+            // so generic type arguments of NullScorable<,> may not match generic type
+            // arguments of IScorable<,>
+            var type = scorable.GetType();
+            if (type.IsGenericType)
+            {
+                var definition = type.GetGenericTypeDefinition();
+                if (typeof(NullScorable<,>).IsAssignableFrom(definition))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Try to simplify a list of scorables.
+        /// </summary>
+        /// <param name="scorables">The simplified list of scorables.</param>
+        /// <param name="scorable">The single scorable representing the list, if possible.</param>
+        /// <returns>True if it were possible to reduce the list of scorables to a single scorable, false otherwise.</returns>
+        public static bool TryReduce<Item, Score>(ref IEnumerable<IScorable<Item, Score>> scorables, out IScorable<Item, Score> scorable)
+        {
+            // only if this is a fixed list of scorables, but never a lazy enumerable
+            var list = scorables as IReadOnlyList<IScorable<Item, Score>>;
+            if (list != null)
+            {
+                var itemCount = list.Count;
+                int keepCount = 0;
+                for (int index = 0; index < itemCount; ++index)
+                {
+                    var item = list[index];
+                    if (Keep(item))
+                    {
+                        ++keepCount;
+                    }
+                }
+
+                // empty non-null list is null scorable
+                if (keepCount == 0)
+                {
+                    scorable = NullScorable<Item, Score>.Instance;
+                    return true;
+                }
+                // single item non-null list is just that scorable
+                else if (keepCount == 1)
+                {
+                    for (int index = 0; index < itemCount; ++index)
+                    {
+                        var item = list[index];
+                        if (Keep(item))
+                        {
+                            scorable = item;
+                            return true;
+                        }
+                    }
+                }
+                // non-null subset of that list is just those scorables
+                else if (keepCount < itemCount)
+                {
+                    var keep = new IScorable<Item, Score>[keepCount];
+                    int keepIndex = 0;
+                    for (int index = 0; index < itemCount; ++index)
+                    {
+                        var item = list[index];
+                        if (Keep(item))
+                        {
+                            keep[keepIndex] = item;
+                            ++keepIndex;
+                        }
+                    }
+
+                    scorables = keep;
+                }
+            }
+
+            scorable = null;
+            return false;
+        }
+
+        /// <summary>
         /// Select the first scorable that produces a score.
         /// </summary>
         public static IScorable<Item, Score> First<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables)
         {
+            IScorable<Item, Score> scorable;
+            if (TryReduce(ref scorables, out scorable))
+            {
+                return scorable;
+            }
+
             return new FirstScorable<Item, Score>(scorables);
         }
 
@@ -100,21 +192,10 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         /// </summary>
         public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer)
         {
-            var list = scorables as IReadOnlyList<IScorable<Item, Score>>;
-            if (list != null)
+            IScorable<Item, Score> scorable;
+            if (TryReduce(ref scorables, out scorable))
             {
-                if (list.Count == 0)
-                {
-                    return NullScorable<Item, Score>.Instance;
-                }
-                else if (list.Count == 1)
-                {
-                    return list[0];
-                }
-                else if (list.All(s => s is NullScorable<Item, Score>))
-                {
-                    return NullScorable<Item, Score>.Instance;
-                }
+                return scorable;
             }
 
             return new FoldScorable<Item, Score>(comparer, scorables);
