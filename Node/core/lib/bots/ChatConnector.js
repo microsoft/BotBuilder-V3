@@ -51,8 +51,9 @@ var ChatConnector = (function () {
         var _this = this;
         var token;
         var isEmulator = req.body['channelId'] === 'emulator';
-        if (req.headers && req.headers.hasOwnProperty('authorization')) {
-            var auth = req.headers['authorization'].trim().split(' ');
+        var authHeaderValue = req.headers ? req.headers['authorization'] || req.headers['Authorization'] : null;
+        if (authHeaderValue) {
+            var auth = authHeaderValue.trim().split(' ');
             if (auth.length == 2 && auth[0].toLowerCase() == 'bearer') {
                 token = auth[1];
             }
