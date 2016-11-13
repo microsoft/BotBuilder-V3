@@ -37,7 +37,7 @@ namespace Microsoft.Bot.Builder.Azure
         /// <summary>
         /// Key for the flag indicating if table storage should be used as bot state store.
         /// </summary>
-        public const string UseTableStorage = "UseTableStorage";
+        public const string UseTableStorageForConversationState = "UseTableStorageForConversationState";
     }
 
 

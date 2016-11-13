@@ -22,6 +22,12 @@ namespace Microsoft.Bot.Connector
         /// <param name="appId">bot appid</param>
         /// <returns>password or null for invalid appid</returns>
         Task<string> GetAppPasswordAsync(string appId);
+
+        /// <summary>
+        /// Checks if bot authentication is disabled.
+        /// </summary>
+        /// <returns>true if bot authentication is disabled.</returns>
+        Task<bool> IsAuthenticationDisabled();
     }
 
     public class SimpleCredentialProvider : ICredentialProvider
@@ -38,6 +44,11 @@ namespace Microsoft.Bot.Connector
         public Task<string> GetAppPasswordAsync(string appId)
         {
             return Task.FromResult((appId == this.AppId) ? this.Password : null);
+        }
+
+        public Task<bool> IsAuthenticationDisabled()
+        {
+            return Task.FromResult(string.IsNullOrEmpty(AppId));
         }
     }
 
@@ -56,7 +67,7 @@ namespace Microsoft.Bot.Connector
     /// <summary>
     /// Credential provider which uses config settings to lookup appId and password
     /// </summary>
-    internal class SettingsCredentialProvider : SimpleCredentialProvider
+    public sealed class SettingsCredentialProvider : SimpleCredentialProvider
     {
         public SettingsCredentialProvider(string appIdSettingName=null, string appPasswordSettingName=null)
         {

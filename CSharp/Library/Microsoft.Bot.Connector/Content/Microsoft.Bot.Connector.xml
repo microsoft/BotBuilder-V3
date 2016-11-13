@@ -151,6 +151,12 @@
             <param name="appId">bot appid</param>
             <returns>password or null for invalid appid</returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.IsAuthenticationDisabled">
+            <summary>
+            Checks if bot authentication is disabled.
+            </summary>
+            <returns>true if bot authentication is disabled.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.StaticCredentialProvider">
             <summary>
             Static credential provider which has the appid and password static
@@ -1215,6 +1221,13 @@
             <param name="activities"> The activities extracted from request.</param>
             <param name="token"> The cancellation token.</param>
             <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.GenerateUnauthorizedResponse(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Generates <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> response for the request.
+            </summary>
+            <param name="request">The request.</param>
+            <returns>A response with status code unauthorized.</returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConversationsExtensions">
             <summary>

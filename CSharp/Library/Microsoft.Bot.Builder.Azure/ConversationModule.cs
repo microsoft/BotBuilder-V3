@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Builder.Azure
         private bool ShouldUseTableStorage()
         {
             bool shouldUseTableStorage = false;
-            var useTableStore = Utils.GetAppSetting(AppSettingKeys.UseTableStorage);
+            var useTableStore = Utils.GetAppSetting(AppSettingKeys.UseTableStorageForConversationState);
             return bool.TryParse(useTableStore, out shouldUseTableStorage) && shouldUseTableStorage;
         }
 

@@ -19,9 +19,9 @@ namespace Microsoft.Bot.Builder.Azure.Tests
         [TestMethod]
         public async Task UseTableStorage_Test()
         {
-            System.Environment.SetEnvironmentVariable(AppSettingKeys.UseTableStorage, true.ToString());
+            System.Environment.SetEnvironmentVariable(AppSettingKeys.UseTableStorageForConversationState, true.ToString());
             bool shouldUse = false;
-            Assert.IsTrue(bool.TryParse(Utils.GetAppSetting(AppSettingKeys.UseTableStorage), out shouldUse) && shouldUse);
+            Assert.IsTrue(bool.TryParse(Utils.GetAppSetting(AppSettingKeys.UseTableStorageForConversationState), out shouldUse) && shouldUse);
 
             var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
 
