@@ -51,15 +51,29 @@ namespace Microsoft.Bot.Builder.Azure
 {
 
     /// <summary>
-    /// IBotDataStore<> Implementation using Azure Storage Table 
+    /// <see cref="IBotDataStore{T}"/> Implementation using Azure Storage Table 
     /// </summary>
     public class TableBotDataStore : IBotDataStore<BotData>
     {
         private static HashSet<string> checkedTables = new HashSet<string>();
 
+        /// <summary>
+        /// Creates an instance of the <see cref="IBotDataStore{T}"/> that uses the azure table storage.
+        /// </summary>
+        /// <param name="connectionString">The storage connection string.</param>
+        /// <param name="tableName">The name of table.</param>
         public TableBotDataStore(string connectionString, string tableName = "botdata")
+            : this(CloudStorageAccount.Parse(connectionString), tableName)
         {
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connectionString);
+        }
+
+        /// <summary>
+        /// Creates an instance of the <see cref="IBotDataStore{T}"/> that uses the azure table storage.
+        /// </summary>
+        /// <param name="storageAccount">The storage account.</param>
+        /// <param name="tableName">The name of table.</param>
+        public TableBotDataStore(CloudStorageAccount storageAccount, string tableName = "botdata")
+        {
             var tableClient = storageAccount.CreateCloudTableClient();
             this.Table = tableClient.GetTableReference(tableName);
 
@@ -73,11 +87,18 @@ namespace Microsoft.Bot.Builder.Azure
             }
         }
 
+        /// <summary>
+        /// Creates an instance of the <see cref="IBotDataStore{T}"/> that uses the azure table storage.
+        /// </summary>
+        /// <param name="table">The cloud table.</param>
         public TableBotDataStore(CloudTable table)
         {
             this.Table = table;
         }
 
+        /// <summary>
+        /// The <see cref="CloudTable"/>.
+        /// </summary>
         public CloudTable Table { get; private set; }
 
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
