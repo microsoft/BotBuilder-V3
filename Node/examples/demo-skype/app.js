@@ -30,7 +30,7 @@ send Receipts, and use Carousels.
 
 var restify = require('restify');
 var builder = require('../../core/');
-var builderAzure = require('E:\\Repos\\BotBuilder-Azure\\Node\\');
+
 //=========================================================
 // Bot Setup
 //=========================================================
