@@ -1453,6 +1453,91 @@ export class ThumbnailCard implements IIsAttachment {
     toAttachment(): IAttachment;
 }
 
+export interface IVideoCard extends IMediaCard {
+    aspect: string;
+}
+
+export interface IAudioCard extends IMediaCard {
+    aspect: string;
+}
+
+export interface IAnimationCard extends IMediaCard {
+    aspect: string;
+}
+
+export interface IMediaCard {
+    title: string;                  // Title of the Card 
+    subtitle: string;               // Subtitle appears just below Title field, differs from Title in font styling only 
+    text: string;                   // Text field appears just below subtitle, differs from Subtitle in font styling only 
+    image: ICardImage;           // Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download.
+    media: ICardMediaUrl[];
+    tap: ICardAction;               // This action will be activated when user taps on the section bubble.
+    buttons?: ICardAction[];  
+    autoloop: boolean;
+    autostart: boolean;
+    shareable: boolean;
+}
+
+export interface ICardMediaUrl {
+    url: string,
+    profile: string
+}
+
+export class VideoCard extends MediaCard implements IIsAttachment {
+    constructor(session?: Session);
+    aspect(text: string|string[], ...args: any[]): this;
+}
+
+export class AnimationCard extends MediaCard implements IIsAttachment {
+    constructor(session?: Session);
+}
+
+export class AudioCard extends MediaCard implements IIsAttachment{
+    constructor(session?: Session); 
+}
+
+export class MediaCard  implements IIsAttachment{
+    constructor(session?: Session);
+    
+    title(text: string|string[], ...args: any[]): this;
+
+    subtitle(text: string|string[], ...args: any[]): this;
+    
+    text(text: string|string[], ...args: any[]): this;
+    
+    image(image: ICardImage|IIsCardImage): this;
+
+    media(list: ICardMediaUrl[]): this;
+    
+    tap(action: ICardAction|IIsCardAction): this;
+
+        /** Returns the JSON for the card, */
+    toAttachment(): IAttachment;
+
+    autoloop(choice: boolean): this;
+    
+    autostart(choice: boolean): this;
+
+    shareable(choice: boolean): this;
+}
+
+export interface IIsCardMedia{
+    toMedia(): ICardMediaUrl; 
+}
+
+export class CardMedia implements IIsCardMedia{
+    
+    constructor(session?: Session);
+    
+    url(u: string): this;
+    
+    profile(text: string): this;
+    
+    toMedia(): ICardMediaUrl;
+
+    static create(session: Session, url: string): CardMedia;
+}
+
 /** Card builder class that simplifies building hero cards. Hero cards contain the same information as a thumbnail card, just with a larger more pronounced layout for the cards images. */
 export class HeroCard extends ThumbnailCard {
 

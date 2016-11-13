@@ -30,7 +30,7 @@ send Receipts, and use Carousels.
 
 var restify = require('restify');
 var builder = require('../../core/');
-
+var builderAzure = require('E:\\Repos\\BotBuilder-Azure\\Node\\');
 //=========================================================
 // Bot Setup
 //=========================================================
@@ -46,7 +46,16 @@ var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var bot = new builder.UniversalBot(connector);
+
+var botSettings = {
+    storage: new builderAzure.TableBotStorage({
+        gzipData: false,
+        accountName: '',
+        accountKey: ''
+    })    
+};
+
+var bot = new builder.UniversalBot(connector, botSettings);
 server.post('/api/messages', connector.listen());
 
 
@@ -236,6 +245,58 @@ bot.dialog('/cards', [
                     .tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/Space_Needle"))
             ]);
         session.send(msg);
+
+        msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
+            .attachments([
+                new builder.VideoCard(session)
+                    .title("Video Card")
+                    .subtitle("Microsoft Band")
+                    .text("This is Microsoft Band. For people who want to live healthier and achieve more there is Microsoft Band. Reach your health and fitness goals by tracking your heart rate, exercise, calorie burn, and sleep quality, and be productive with email, text, and calendar alerts on your wrist.")
+                    .image(builder.CardImage.create(session, "https://tse1.mm.bing.net/th?id=OVP.Vffb32d4de3ecaecb56e16cadca8398bb&w=150&h=84&c=7&rs=1&pid=2.1"))
+                    .media([
+                        builder.CardMedia.create(session, "http://video.ch9.ms/ch9/08e5/6a4338c7-8492-4688-998b-43e164d908e5/thenewmicrosoftband2_mid.mp4")
+                    ])
+                    .autoloop(true)
+                    .autostart(true)
+                    .shareable(true)                    
+            ]);
+        session.send(msg);
+
+        msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
+            .attachments([
+                new builder.AnimationCard(session)
+                    .title("Animation Card")
+                    .subtitle("Subtitle")
+                    .text("This is how we prepare for the release")
+                    .image(builder.CardImage.create(session, "https://tse1.mm.bing.net/th?id=OVP.Vffb32d4de3ecaecb56e16cadca8398bb&w=150&h=84&c=7&rs=1&pid=2.1"))
+                    .media([
+                        builder.CardMedia.create(session, "https://intercomscratch.blob.core.windows.net/files/video.mp4")//http://i.imgur.com/wJTZIPB.gif")
+                    ])
+                    .autoloop(true)
+                    .autostart(true)
+                    .shareable(true)                    
+            ]);
+        session.send(msg);
+        
+        
+        msg = new builder.Message(session)
+            .textFormat(builder.TextFormat.xml)
+            .attachments([
+                new builder.AudioCard(session)
+                    .title("Audio Card")
+                    .subtitle("Audio test")
+                    .text("This is an audio card.")
+                    .media([
+                        builder.CardMedia.create(session, "http://www.stephaniequinn.com/Music/Allegro%20from%20Duet%20in%20C%20Major.mp3")
+                    ])
+                    .autoloop(true)
+                    .autostart(false)
+                    .shareable(true)                    
+            ]);
+        session.send(msg);
+        
 
         msg = new builder.Message(session)
             .textFormat(builder.TextFormat.xml)
