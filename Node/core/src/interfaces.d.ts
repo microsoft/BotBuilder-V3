@@ -95,6 +95,37 @@ interface IThumbnailCard extends IKeyboard {
     tap: ICardAction;               // This action will be activated when user taps on the section bubble. 
 }
 
+interface IMediaCard extends IKeyboard{
+    title: string;                  // Title of the Card 
+    subtitle: string;               // Subtitle appears just below Title field, differs from Title in font styling only 
+    text: string;                   // Text field appears just below subtitle, differs from Subtitle in font styling only 
+    image: ICardImage;           // Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download.
+    media: ICardMediaUrl[];
+    autoloop: boolean;
+    autostart: boolean;
+    shareable: boolean; 
+    buttons: ICardAction[];             // Set of actions applicable to the current card.
+}
+
+interface IVideoCard extends IMediaCard {
+    aspect: string;
+}
+
+interface IAnimationCard extends IMediaCard {
+}
+
+interface IAudioCard extends IMediaCard {
+}
+
+interface IIsCardMedia{
+    toMedia(): ICardMediaUrl; 
+}
+
+interface ICardMediaUrl {
+    url: string,
+    profile: string
+}
+
 interface IReceiptCard {
     title: string;                  // Title of the Card 
     items: IReceiptItem[];          // Array of receipt items.
