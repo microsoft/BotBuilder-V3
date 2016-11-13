@@ -258,45 +258,10 @@ bot.dialog('/cards', [
                         builder.CardMedia.create(session, "http://video.ch9.ms/ch9/08e5/6a4338c7-8492-4688-998b-43e164d908e5/thenewmicrosoftband2_mid.mp4")
                     ])
                     .autoloop(true)
-                    .autostart(true)
-                    .shareable(true)                    
-            ]);
-        session.send(msg);
-
-        msg = new builder.Message(session)
-            .textFormat(builder.TextFormat.xml)
-            .attachments([
-                new builder.AnimationCard(session)
-                    .title("Animation Card")
-                    .subtitle("Subtitle")
-                    .text("This is how we prepare for the release")
-                    .image(builder.CardImage.create(session, "https://tse1.mm.bing.net/th?id=OVP.Vffb32d4de3ecaecb56e16cadca8398bb&w=150&h=84&c=7&rs=1&pid=2.1"))
-                    .media([
-                        builder.CardMedia.create(session, "https://intercomscratch.blob.core.windows.net/files/video.mp4")//http://i.imgur.com/wJTZIPB.gif")
-                    ])
-                    .autoloop(true)
-                    .autostart(true)
-                    .shareable(true)                    
-            ]);
-        session.send(msg);
-        
-        
-        msg = new builder.Message(session)
-            .textFormat(builder.TextFormat.xml)
-            .attachments([
-                new builder.AudioCard(session)
-                    .title("Audio Card")
-                    .subtitle("Audio test")
-                    .text("This is an audio card.")
-                    .media([
-                        builder.CardMedia.create(session, "http://www.stephaniequinn.com/Music/Allegro%20from%20Duet%20in%20C%20Major.mp3")
-                    ])
-                    .autoloop(true)
                     .autostart(false)
                     .shareable(true)                    
             ]);
-        session.send(msg);
-        
+        session.send(msg);  
 
         msg = new builder.Message(session)
             .textFormat(builder.TextFormat.xml)

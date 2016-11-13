@@ -1660,92 +1660,164 @@ export class ThumbnailCard implements IIsAttachment {
     /** This action will be activated when user taps on the card. Not all channels support tap actions and some channels may choose to render the tap action as the titles link. */  
     tap(action: ICardAction|IIsCardAction): ThumbnailCard;
 
-    /** Returns the JSON for the card, */
+    /** Returns the JSON for the card */
     toAttachment(): IAttachment;
 }
 
+
+/** Interface definition for a video card */
 export interface IVideoCard extends IMediaCard {
+
+    /** Hint of the aspect ratio of the video or animation. (16:9)(4:3) */
     aspect: string;
 }
 
+/** Interface definition for an audio card */
 export interface IAudioCard extends IMediaCard {
-    aspect: string;
 }
 
+/** Interface definition for an animation card */
 export interface IAnimationCard extends IMediaCard {
+
+    /** Hint of the aspect ratio of the video or animation. (16:9)(4:3) */
     aspect: string;
 }
 
+/** Interface definition of a generic MediaCard, which in its concrete form can be an Audio, Animation or Video card */
 export interface IMediaCard {
-    title: string;                  // Title of the Card 
-    subtitle: string;               // Subtitle appears just below Title field, differs from Title in font styling only 
-    text: string;                   // Text field appears just below subtitle, differs from Subtitle in font styling only 
-    image: ICardImage;           // Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download.
+
+    /** Title of the Card */
+    title: string; 
+
+    /** Subtitle appears just below Title field, differs from Title in font styling only */
+    subtitle: string; 
+
+    /** Text field appears just below subtitle, differs from Subtitle in font styling only */ 
+    text: string; 
+
+    /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download.*/ 
+    image: ICardImage;
+
+    /** Media source for video, audio or animations */
     media: ICardMediaUrl[];
-    tap: ICardAction;               // This action will be activated when user taps on the section bubble.
-    buttons?: ICardAction[];  
-    autoloop: boolean;
+
+    /** Set of actions applicable to the current card */
+    buttons?: ICardAction[]; 
+
+    /** Should the media source reproduction run in a loop */
+    autoloop: boolean; 
+    
+    /** Should the media start automatically */
     autostart: boolean;
-    shareable: boolean;
+    
+    /** Should media be shareable */
+    shareable: boolean; 
 }
 
+/** Url information describing media for a card */
 export interface ICardMediaUrl {
-    url: string,
-    profile: string
+
+    /** Url to audio, video or animation media */
+    url: string; 
+
+    /** Optional profile hint to the client to differentiate multiple MediaUrl objects from each other */
+    profile: string ;
 }
 
+/** Card builder class that simplifies building Video cards. */
 export class VideoCard extends MediaCard implements IIsAttachment {
+    
+    /** 
+     * Creates a new VideoCard. 
+     * @param session (Optional) will be used to localize any text. 
+     */
     constructor(session?: Session);
     aspect(text: string|string[], ...args: any[]): this;
 }
 
+/** Card builder class that simplifies building Animation cards. */
 export class AnimationCard extends MediaCard implements IIsAttachment {
+
+    /** 
+     * Creates a new AnimationCard. 
+     * @param session (Optional) will be used to localize any text. 
+     */
     constructor(session?: Session);
 }
 
+/** Card builder class that simplifies building Media cards. */
 export class AudioCard extends MediaCard implements IIsAttachment{
+
+    /** 
+     * Creates a new Audio. 
+     * @param session (Optional) will be used to localize any text. 
+     */
     constructor(session?: Session); 
 }
 
+/** Card builder class that simplifies building Media cards. */
 export class MediaCard  implements IIsAttachment{
+
+    /** 
+     * Creates a new MediaCard. 
+     * @param session (Optional) will be used to localize any text. 
+     */
     constructor(session?: Session);
     
+    /** Title of the Card */
     title(text: string|string[], ...args: any[]): this;
 
+    /** Subtitle appears just below Title field, differs from Title in font styling only */
     subtitle(text: string|string[], ...args: any[]): this;
     
+    /** Text field appears just below subtitle, differs from Subtitle in font styling only */
     text(text: string|string[], ...args: any[]): this;
     
+    /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download.*/
     image(image: ICardImage|IIsCardImage): this;
 
+    /** Media source for video, audio or animations */
     media(list: ICardMediaUrl[]): this;
-    
-    tap(action: ICardAction|IIsCardAction): this;
-
-        /** Returns the JSON for the card, */
+        
+    /** Returns the JSON for the card*/
     toAttachment(): IAttachment;
 
+    /** Should the media source reproduction run in a loop */
     autoloop(choice: boolean): this;
     
+    /** Should the media start automatically */
     autostart(choice: boolean): this;
 
-    shareable(choice: boolean): this;
+    /** Should media be shareable */
+    shareable(choice: boolean): this;  
 }
 
+/** Entities that can be converted to Media for cards */
 export interface IIsCardMedia{
+
+    /** Returns the url definition for a Media entity for a card */
     toMedia(): ICardMediaUrl; 
 }
 
+/** Definition of a media entity for a card */
 export class CardMedia implements IIsCardMedia{
     
+    /** 
+     * Creates a new CardMedia, which defines a media entity for a card. 
+     * @param session (Optional) will be used to localize any text. 
+     */
     constructor(session?: Session);
     
+    /** Url of the media */
     url(u: string): this;
     
+    /** Optional profile hint to the client to differentiate multiple MediaUrl objects from each other */
     profile(text: string): this;
     
+    /** Returns the url definition for a Media entity for a card */    
     toMedia(): ICardMediaUrl;
 
+    /** Factory method for creation of Card media entities */
     static create(session: Session, url: string): CardMedia;
 }
 
