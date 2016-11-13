@@ -4,14 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var dlg = require('./Dialog');
-var consts = require('../consts');
-var entities = require('./EntityRecognizer');
-var mb = require('../Message');
+var Dialog_1 = require('./Dialog');
+var EntityRecognizer_1 = require('./EntityRecognizer');
+var Message_1 = require('../Message');
+var Library_1 = require('../bots/Library');
+var Keyboard_1 = require('../cards/Keyboard');
+var CardAction_1 = require('../cards/CardAction');
 var Channel = require('../Channel');
-var dl = require('../bots/Library');
-var kb = require('../cards/Keyboard');
-var ca = require('../cards/CardAction');
+var consts = require('../consts');
 var logger = require('../logger');
 (function (PromptType) {
     PromptType[PromptType["text"] = 0] = "text";
@@ -35,9 +35,9 @@ var SimplePromptRecognizer = (function () {
     }
     SimplePromptRecognizer.prototype.recognize = function (args, callback, session) {
         function findChoice(args, text) {
-            var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
+            var best = EntityRecognizer_1.EntityRecognizer.findBestMatch(args.enumValues, text);
             if (!best) {
-                var n = entities.EntityRecognizer.parseNumber(text);
+                var n = EntityRecognizer_1.EntityRecognizer.parseNumber(text);
                 if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
                     best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
                 }
@@ -54,14 +54,14 @@ var SimplePromptRecognizer = (function () {
                 response = text;
                 break;
             case PromptType.number:
-                var n = entities.EntityRecognizer.parseNumber(text);
+                var n = EntityRecognizer_1.EntityRecognizer.parseNumber(text);
                 if (!isNaN(n)) {
                     var score = n.toString().length / text.length;
                     response = n;
                 }
                 break;
             case PromptType.confirm:
-                var b = entities.EntityRecognizer.parseBoolean(text);
+                var b = EntityRecognizer_1.EntityRecognizer.parseBoolean(text);
                 if (typeof b !== 'boolean') {
                     var best = findChoice(args, text);
                     if (best) {
@@ -74,7 +74,7 @@ var SimplePromptRecognizer = (function () {
                 }
                 break;
             case PromptType.time:
-                var entity = entities.EntityRecognizer.recognizeTime(text, args.refDate ? new Date(args.refDate) : null);
+                var entity = EntityRecognizer_1.EntityRecognizer.recognizeTime(text, args.refDate ? new Date(args.refDate) : null);
                 if (entity) {
                     score = entity.entity.length / text.length;
                     response = entity;
@@ -95,10 +95,10 @@ var SimplePromptRecognizer = (function () {
                 break;
         }
         if (score > 0) {
-            callback({ score: score, resumed: dlg.ResumeReason.completed, promptType: args.promptType, response: response });
+            callback({ score: score, resumed: Dialog_1.ResumeReason.completed, promptType: args.promptType, response: response });
         }
         else {
-            callback({ score: score, resumed: dlg.ResumeReason.notCompleted, promptType: args.promptType });
+            callback({ score: score, resumed: Dialog_1.ResumeReason.notCompleted, promptType: args.promptType });
         }
     };
     return SimplePromptRecognizer;
@@ -122,13 +122,13 @@ var Prompts = (function (_super) {
     };
     Prompts.prototype.replyReceived = function (session, result) {
         var args = session.dialogData;
-        if (result.error || result.resumed == dlg.ResumeReason.completed) {
+        if (result.error || result.resumed == Dialog_1.ResumeReason.completed) {
             result.promptType = args.promptType;
             session.endDialogWithResult(result);
         }
         else if (typeof args.maxRetries === 'number' && args.retryCnt >= args.maxRetries) {
             result.promptType = args.promptType;
-            result.resumed = dlg.ResumeReason.notCompleted;
+            result.resumed = Dialog_1.ResumeReason.notCompleted;
             session.endDialogWithResult(result);
         }
         else {
@@ -188,32 +188,32 @@ var Prompts = (function (_super) {
             var prompt;
             if (retry) {
                 if (args.retryPrompt) {
-                    prompt = mb.Message.randomPrompt(args.retryPrompt);
+                    prompt = Message_1.Message.randomPrompt(args.retryPrompt);
                 }
                 else {
                     var type = PromptType[args.promptType];
-                    prompt = mb.Message.randomPrompt(Prompts.defaultRetryPrompt[type]);
+                    prompt = Message_1.Message.randomPrompt(Prompts.defaultRetryPrompt[type]);
                     args.localizationNamespace = consts.Library.system;
                     logger.debug("prompts::sendPrompt setting ns to %s", args.localizationNamespace);
                 }
             }
             else {
-                prompt = mb.Message.randomPrompt(args.prompt);
+                prompt = Message_1.Message.randomPrompt(args.prompt);
             }
             var locale = session.preferredLocale();
             prompt = session.localizer.gettext(locale, prompt, args.localizationNamespace);
             var connector = '';
             var list;
-            var msg = new mb.Message();
+            var msg = new Message_1.Message();
             switch (style) {
                 case ListStyle.button:
                     var buttons = [];
                     for (var i = 0; i < session.dialogData.enumValues.length; i++) {
                         var option = session.dialogData.enumValues[i];
-                        buttons.push(ca.CardAction.imBack(session, option, option));
+                        buttons.push(CardAction_1.CardAction.imBack(session, option, option));
                     }
                     msg.text(prompt)
-                        .attachments([new kb.Keyboard(session).buttons(buttons)]);
+                        .attachments([new Keyboard_1.Keyboard(session).buttons(buttons)]);
                     break;
                 case ListStyle.inline:
                     list = ' (';
@@ -285,7 +285,7 @@ var Prompts = (function (_super) {
         args.promptType = PromptType.choice;
         args.prompt = prompt;
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
-        var c = entities.EntityRecognizer.expandChoices(choices);
+        var c = EntityRecognizer_1.EntityRecognizer.expandChoices(choices);
         if (c.length == 0) {
             console.error("0 length choice for prompt:", prompt);
             throw "0 length choice list supplied";
@@ -318,9 +318,9 @@ var Prompts = (function (_super) {
         attachment: "default_file"
     };
     return Prompts;
-}(dlg.Dialog));
+}(Dialog_1.Dialog));
 exports.Prompts = Prompts;
-dl.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
+Library_1.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 function beginPrompt(session, args) {
     if (typeof args.prompt == 'object' && args.prompt.toMessage) {
         args.prompt = args.prompt.toMessage();

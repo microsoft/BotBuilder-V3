@@ -8,7 +8,9 @@ exports.channels = {
     slack: 'slack',
     groupme: 'groupme',
     sms: 'sms',
-    emulator: 'emulator'
+    emulator: 'emulator',
+    directline: 'directline',
+    console: 'console'
 };
 function supportsKeyboards(session, buttonCnt) {
     if (buttonCnt === void 0) { buttonCnt = 100; }

@@ -1,8 +1,8 @@
 "use strict";
-var sprintf = require('sprintf-js');
+var Prompts_1 = require('./dialogs/Prompts');
 var Channel = require('./Channel');
 var consts = require('./consts');
-var prompts = require('./dialogs/Prompts');
+var sprintf = require('sprintf-js');
 var debugLoggingEnabled = new RegExp('\\bbotbuilder\\b', 'i').test(process.env.NODE_DEBUG || '');
 function error(fmt) {
     var args = [];
@@ -73,7 +73,7 @@ function getPrefix(addressable) {
                 var cur = callstack[i];
                 switch (cur.id) {
                     case consts.DialogId.Prompts:
-                        var promptType = prompts.PromptType[cur.state.promptType];
+                        var promptType = Prompts_1.PromptType[cur.state.promptType];
                         prefix += 'Prompts.' + promptType + ' - ';
                         break;
                     case consts.DialogId.FirstRun:

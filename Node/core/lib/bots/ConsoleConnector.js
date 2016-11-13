@@ -1,7 +1,7 @@
 "use strict";
-var readline = require('readline');
-var mb = require('../Message');
+var Message_1 = require('../Message');
 var utils = require('../utils');
+var readline = require('readline');
 var ConsoleConnector = (function () {
     function ConsoleConnector() {
         this.replyCnt = 0;
@@ -24,7 +24,7 @@ var ConsoleConnector = (function () {
     };
     ConsoleConnector.prototype.processMessage = function (line) {
         if (this.handler) {
-            var msg = new mb.Message()
+            var msg = new Message_1.Message()
                 .address({
                 channelId: 'console',
                 user: { id: 'user', name: 'User1' },
@@ -50,11 +50,11 @@ var ConsoleConnector = (function () {
                 log(msg.text);
             }
             if (msg.attachments && msg.attachments.length > 0) {
-                for (var i = 0; i < msg.attachments.length; i++) {
-                    if (i > 0) {
+                for (var j = 0; j < msg.attachments.length; j++) {
+                    if (j > 0) {
                         console.log();
                     }
-                    renderAttachment(msg.attachments[i]);
+                    renderAttachment(msg.attachments[j]);
                 }
             }
         }

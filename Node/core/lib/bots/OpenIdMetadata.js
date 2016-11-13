@@ -1,6 +1,6 @@
 "use strict";
-var request = require('request');
 var logger = require('../logger');
+var request = require('request');
 var getPem = require('rsa-pem-from-mod-exp');
 var base64url = require('base64url');
 var OpenIdMetadata = (function () {

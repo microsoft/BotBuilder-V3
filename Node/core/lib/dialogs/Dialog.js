@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var actions = require('./ActionSet');
+var ActionSet_1 = require('./ActionSet');
 (function (ResumeReason) {
     ResumeReason[ResumeReason["completed"] = 0] = "completed";
     ResumeReason[ResumeReason["notCompleted"] = 1] = "notCompleted";
@@ -30,5 +30,5 @@ var Dialog = (function (_super) {
         cb(null, { score: 0.5 });
     };
     return Dialog;
-}(actions.ActionSet));
+}(ActionSet_1.ActionSet));
 exports.Dialog = Dialog;
