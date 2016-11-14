@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Tests;
 using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.WindowsAzure.Storage;
 
 namespace Microsoft.Bot.Builder.Azure.Tests
 {
@@ -32,6 +33,11 @@ namespace Microsoft.Bot.Builder.Azure.Tests
                 builder
                     .RegisterInstance(echo)
                     .As<IDialog<object>>();
+
+                builder.Register(c => new TableBotDataStore(CloudStorageAccount.DevelopmentStorageAccount))
+                    .Keyed<IBotDataStore<BotData>>(ConversationModule.Key_DataStore)
+                    .AsSelf()
+                    .SingleInstance();
 
                 builder.Update(container);
 

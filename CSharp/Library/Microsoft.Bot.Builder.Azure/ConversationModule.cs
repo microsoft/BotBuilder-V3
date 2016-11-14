@@ -32,7 +32,6 @@ namespace Microsoft.Bot.Builder.Azure
 
             if (ShouldUseTableStorage())
             {
-
                 builder.Register(c => MakeTableBotDataStore())
                     .Keyed<IBotDataStore<BotData>>(Key_DataStore)
                     .AsSelf()
@@ -62,20 +61,15 @@ namespace Microsoft.Bot.Builder.Azure
 
         private TableBotDataStore MakeTableBotDataStore()
         {
-            TableBotDataStore tableDataStore = default(TableBotDataStore);
             var connectionString = Utils.GetAppSetting(AppSettingKeys.TableStorageConnectionString);
 
             if (!string.IsNullOrEmpty(connectionString))
             {
-                tableDataStore = new TableBotDataStore(connectionString);
-            }
-            else
-            {
-                // if no connection string try to use the storage emulator
-                tableDataStore = new TableBotDataStore(CloudStorageAccount.DevelopmentStorageAccount);
+                return new TableBotDataStore(connectionString);
             }
 
-            return tableDataStore;
+            // no connection string in application settings but should use table storage flag is set.
+            throw new ArgumentException("connection string for table storage is not set in application setting.");
         }
     }
 }
