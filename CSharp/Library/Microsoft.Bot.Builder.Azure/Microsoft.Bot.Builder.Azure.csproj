@@ -22,8 +22,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Microsoft.Bot.Builder.Azure.XML</DocumentationFile>
-    <NoWarn>
-    </NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -79,8 +77,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Conversation.cs" />
-    <Compile Include="ConversationModule.cs" />
+    <Compile Include="AzureBot.cs" />
+    <Compile Include="AzureModule.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="TableBotDataStore.cs" />
     <Compile Include="TableLogger.cs" />

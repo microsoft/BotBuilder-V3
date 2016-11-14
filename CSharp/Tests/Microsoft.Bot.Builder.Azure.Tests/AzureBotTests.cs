@@ -15,11 +15,12 @@ using Microsoft.WindowsAzure.Storage;
 namespace Microsoft.Bot.Builder.Azure.Tests
 {
     [TestClass]
-    public class ConversationTests : DialogTestBase
+    public class AzureBotTests : DialogTestBase
     {
         [TestMethod]
         public async Task UseTableStorage_Test()
         {
+            var oldValue = Environment.GetEnvironmentVariable(AppSettingKeys.UseTableStorageForConversationState);
             System.Environment.SetEnvironmentVariable(AppSettingKeys.UseTableStorageForConversationState, true.ToString());
             bool shouldUse = false;
             Assert.IsTrue(bool.TryParse(Utils.GetAppSetting(AppSettingKeys.UseTableStorageForConversationState), out shouldUse) && shouldUse);
@@ -29,13 +30,13 @@ namespace Microsoft.Bot.Builder.Azure.Tests
             using (var container = Build(Options.ResolveDialogFromContainer))
             {
                 var builder = new ContainerBuilder();
-                builder.RegisterModule(new ConversationModule());
+                builder.RegisterModule(new AzureModule());
                 builder
                     .RegisterInstance(echo)
                     .As<IDialog<object>>();
 
                 builder.Register(c => new TableBotDataStore(CloudStorageAccount.DevelopmentStorageAccount))
-                    .Keyed<IBotDataStore<BotData>>(ConversationModule.Key_DataStore)
+                    .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
                     .AsSelf()
                     .SingleInstance();
 
@@ -61,6 +62,8 @@ namespace Microsoft.Bot.Builder.Azure.Tests
                     BotStoreType.BotPrivateConversationData, CancellationToken.None);
                 Assert.IsNotNull(privateConversationData.Data);
             }
+
+            Environment.SetEnvironmentVariable(AppSettingKeys.UseTableStorageForConversationState, oldValue);
         }
     }
 }
