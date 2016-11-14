@@ -117,6 +117,9 @@ export class LuisRecognizer implements IIntentRecognizer {
                         result = JSON.parse(body);
                         result.intents = result.intents || [];
                         result.entities = result.entities || [];
+                        if (result.topScoringIntent && result.intents.length == 0) {
+                            result.intents.push(result.topScoringIntent);
+                        }
                         if (result.intents.length == 1 && typeof result.intents[0].score !== 'number') {
                             // Intents for the builtin Cortana app don't return a score.
                             result.intents[0].score = 1.0;
@@ -146,6 +149,7 @@ export class LuisRecognizer implements IIntentRecognizer {
 
 interface ILuisResults {
     query: string;
+    topScoringIntent: IIntent;
     intents: IIntent[];
     entities: IEntity[];
 }
