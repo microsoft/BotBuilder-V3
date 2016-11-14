@@ -144,8 +144,10 @@ function alarmCount() {
 
 function switchTasks(session, args, next, alreadyActiveMessage) {
     // Check to see if we're already active.
+    // - We're assuming that we're being called from a triggerAction() some
+    //   args.action is the fully qualified dialog ID.
     var stack = session.dialogStack();
-    if (builder.Session.findDialogStackEntry(stack, args.libraryName + ':' + args.action) >= 0) {
+    if (builder.Session.findDialogStackEntry(stack, args.action) >= 0) {
         session.send(alreadyActiveMessage);
     } else {
         // Clear stack and switch tasks
