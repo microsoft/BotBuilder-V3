@@ -123,7 +123,7 @@ export class Library extends EventEmitter {
     public findRoutes(session: Session, callback: (err: Error, routes: IRouteResult[]) => void): void {
         // Add triggers on first calls
         if (!this.triggersAdded) {
-            this.forEachDialog((dialog, id) => dialog.addDialogTrigger(this.actions, id));
+            this.forEachDialog((dialog, id) => dialog.addDialogTrigger(this.actions, this.name + ':' + id));
             this.triggersAdded = true;
         }
 

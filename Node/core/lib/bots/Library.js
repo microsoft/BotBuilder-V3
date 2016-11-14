@@ -40,7 +40,7 @@ var Library = (function (_super) {
     Library.prototype.findRoutes = function (session, callback) {
         var _this = this;
         if (!this.triggersAdded) {
-            this.forEachDialog(function (dialog, id) { return dialog.addDialogTrigger(_this.actions, id); });
+            this.forEachDialog(function (dialog, id) { return dialog.addDialogTrigger(_this.actions, _this.name + ':' + id); });
             this.triggersAdded = true;
         }
         if (this._onFindRoutes) {
