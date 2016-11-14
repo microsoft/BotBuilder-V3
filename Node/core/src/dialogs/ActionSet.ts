@@ -54,6 +54,10 @@ export interface IBeginDialogActionOptions extends IDialogActionOptions {
     dialogArgs?: any;
 }
 
+export interface ICancelActionOptions extends IDialogActionOptions {
+    confirmPrompt?: string|string[]|IMessage|IIsMessage;
+}
+
 export interface IActionRouteData {
     action?: string;
     intent?: IIntentRecognizerResult;
@@ -216,13 +220,21 @@ export class ActionSet {
         }
     }
 
-    public cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): this {
+    public cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): this {
         return this.action(name, (session, args) => {
             if (args && typeof args.dialogIndex === 'number') {
-                if (msg) {
-                    session.send(msg)
+                if (options.confirmPrompt) {
+                    session.beginDialog(consts.DialogId.ConfirmCancel, {
+                        confirmPrompt: options.confirmPrompt,
+                        dialogIndex: args.dialogIndex,
+                        message: msg 
+                    });
+                } else {
+                    if (msg) {
+                        session.send(msg)
+                    }
+                    session.cancelDialog(args.dialogIndex);
                 }
-                session.cancelDialog(args.dialogIndex);
             }
         }, options);
     }
