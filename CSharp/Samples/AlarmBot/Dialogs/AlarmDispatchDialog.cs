@@ -2,6 +2,7 @@
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
@@ -16,43 +17,47 @@ using System.Threading.Tasks;
 namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
 {
     /// <summary>
-    /// Entities for the built-in alarm LUIS model.
-    /// </summary>
-    public static partial class BuiltIn
-    {
-        public static partial class Alarm
-        {
-            public const string Alarm_State = "builtin.alarm.alarm_state";
-            public const string Duration = "builtin.alarm.duration";
-            public const string Start_Date = "builtin.alarm.start_date";
-            public const string Start_Time = "builtin.alarm.start_time";
-            public const string Title = "builtin.alarm.title";
-        }
-    }
-
-    /// <summary>
     /// The top-level natural language dialog for the alarm sample.
     /// </summary>
     [Serializable]
-    public sealed class AlarmLuisDialog : LuisDialog<object>
+    [LuisModel("unitTestMockReturnedFromMakeService", "unitTestMockReturnedFromMakeService")]
+    public sealed class AlarmDispatchDialog : DispatchDialog<object>
     {
         private readonly IAlarmService service;
         private readonly IEntityToType entityToType;
+        private readonly ILuisService luis;
         private readonly IClock clock;
-        public AlarmLuisDialog(IAlarmService service, IEntityToType entityToType, ILuisService luis, IClock clock)
-            : base(luis)
+        public AlarmDispatchDialog(IAlarmService service, IEntityToType entityToType, ILuisService luis, IClock clock)
         {
             SetField.NotNull(out this.service, nameof(service), service);
             SetField.NotNull(out this.entityToType, nameof(entityToType), entityToType);
+            SetField.NotNull(out this.luis, nameof(luis), luis);
             SetField.NotNull(out this.clock, nameof(clock), clock);
         }
 
+        protected override ILuisService MakeService(ILuisModel model)
+        {
+            return this.luis;
+        }
+
+        protected override Task OnPostAsync(IDialogContext context, IActivity activity)
+        {
+            return Task.CompletedTask;
+        }
+
         [LuisIntent("builtin.intent.none")]
+        // ScorableOrder allows the user to override the scoring process to create
+        // ordered scorable groups, where the scores from the first scorable group
+        // are compared first, and if there is no scorable that wishes to participate
+        // from the first scorable group, then the second scorable group is considered.
+        // You might use this to ensure that regular expression scorables are considered
+        // before LUIS intent scorables.
+        [ScorableOrder(1)]
         public async Task None(IDialogContext context, LuisResult result)
         {
             string message = $"Sorry I did not understand: " + string.Join(", ", result.Intents.Select(i => i.Intent));
             await context.PostAsync(message);
-            context.Wait(MessageReceived);
+            context.Wait(ActivityReceivedAsync);
         }
 
         public bool TryFindTitle(LuisResult result, out string title)
@@ -69,6 +74,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
         }
 
         [LuisIntent("builtin.intent.alarm.delete_alarm")]
+        [ScorableOrder(1)]
         public async Task DeleteAlarm(IDialogContext context, LuisResult result)
         {
             string title;
@@ -82,10 +88,11 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
                 await context.PostAsync("did not find alarm");
             }
 
-            context.Wait(MessageReceived);
+            context.Wait(ActivityReceivedAsync);
         }
 
         [LuisIntent("builtin.intent.alarm.find_alarm")]
+        [ScorableOrder(1)]
         public async Task FindAlarm(IDialogContext context, LuisResult result)
         {
             string title;
@@ -99,11 +106,12 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
                 await context.PostAsync("did not find alarm");
             }
 
-            context.Wait(MessageReceived);
+            context.Wait(ActivityReceivedAsync);
         }
 
         [LuisIntent("builtin.intent.alarm.set_alarm")]
-        public async Task SetAlarm(IDialogContext context, IAwaitable<IMessageActivity> activity, LuisResult result)
+        [ScorableOrder(1)]
+        public async Task SetAlarm(IDialogContext context, IMessageActivity activity, LuisResult result)
         {
             string title;
             bool? state = null;
@@ -133,10 +141,11 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
 
             await this.service.UpsertAsync(title, when, state);
 
-            context.Wait(MessageReceived);
+            context.Wait(ActivityReceivedAsync);
         }
 
         [LuisIntent("builtin.intent.alarm.snooze")]
+        [ScorableOrder(1)]
         public async Task AlarmSnooze(IDialogContext context, LuisResult result)
         {
             string title;
@@ -150,10 +159,11 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
                 await context.PostAsync("did not find alarm");
             }
 
-            context.Wait(MessageReceived);
+            context.Wait(ActivityReceivedAsync);
         }
 
         [LuisIntent("builtin.intent.alarm.turn_off_alarm")]
+        [ScorableOrder(1)]
         public async Task TurnOffAlarm(IDialogContext context, LuisResult result)
         {
             string title;
@@ -167,15 +177,16 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
                 await context.PostAsync("did not find alarm");
             }
 
-            context.Wait(MessageReceived);
+            context.Wait(ActivityReceivedAsync);
         }
 
         [LuisIntent("builtin.intent.alarm.time_remaining")]
         [LuisIntent("builtin.intent.alarm.alarm_other")]
+        [ScorableOrder(1)]
         public async Task AlarmOther(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("Sorry, I don't know how to handle that.");
-            context.Wait(MessageReceived);
+            context.Wait(ActivityReceivedAsync);
         }
     }
 }

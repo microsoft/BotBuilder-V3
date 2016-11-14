@@ -47,11 +47,29 @@ using Microsoft.Bot.Sample.AlarmBot.Models;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Sample.AlarmBot.Dialogs;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Sample.Tests
 {
     [TestClass]
-    public sealed class AlarmBotTests : LuisTestBase
+    public sealed class AlarmBotTests_Luis : AlarmBotTest_Shared
+    {
+        public override void Customize(ContainerBuilder builder)
+        {
+            builder.RegisterType<AlarmLuisDialog>().As<IDialog<object>>().InstancePerDependency();
+        }
+    }
+
+    [TestClass]
+    public sealed class AlarmBotTests_Dispatch : AlarmBotTest_Shared
+    {
+        public override void Customize(ContainerBuilder builder)
+        {
+            builder.RegisterType<AlarmDispatchDialog>().As<IDialog<object>>().InstancePerDependency();
+        }
+    }
+
+    public abstract class AlarmBotTest_Shared : LuisTestBase
     {
         private sealed class TestAlarmScheduler : IAlarmScheduler
         {
@@ -65,8 +83,10 @@ namespace Microsoft.Bot.Sample.Tests
             }
         }
 
+        public abstract void Customize(ContainerBuilder builder);
+
         [TestMethod]
-        public async Task AlarmLuisDialog_Flow()
+        public async Task AlarmDialog_Flow()
         {
             var luis = new Mock<ILuisService>(MockBehavior.Strict);
             var clock = new Mock<IClock>(MockBehavior.Strict);
@@ -98,6 +118,7 @@ namespace Microsoft.Bot.Sample.Tests
                 builder.RegisterType<TestAlarmScheduler>().Keyed<IAlarmScheduler>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().SingleInstance();
                 builder.Register(c => clock.Object).Keyed<IClock>(FiberModule.Key_DoNotSerialize).As<IClock>().SingleInstance();
                 builder.Register(c => luis.Object).Keyed<ILuisService>(FiberModule.Key_DoNotSerialize).As<ILuisService>().SingleInstance();
+                Customize(builder);
                 builder.Update(container);
 
                 var scheduler = container.Resolve<IAlarmScheduler>();
