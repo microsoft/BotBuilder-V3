@@ -39,7 +39,8 @@ bot.dialog('/listBuilder', function (session) {
         session.save();
     }
 }).cancelAction('cancelList', "List canceled", { 
-    matches: /^cancel/i 
+    matches: /^cancel/i,
+    confirmPrompt: "Are you sure?"
 }).cancelAction('endList', null, {
     matches: /^end list/i,
     onSelectAction: function (session) {

@@ -50,7 +50,10 @@ bot.dialog('/orderPizza', [
             switchTasks(session, args, next, "You're already ordering a pizza.");
         }
   })
-  .cancelAction('cancelOrder', "Order canceled.", { matches: /^(cancel order|cancel)/i })
+  .cancelAction('cancelOrder', "Order canceled.", { 
+      matches: /^(cancel order|cancel)/i,
+      confirmPrompt: "Are you sure?"
+  })
   .beginDialogAction('viewCart', '/viewCart', { matches: /^view cart/i })
   .beginDialogAction('checkout', '/checkout', { matches: /^checkout/i });
 
