@@ -21,8 +21,10 @@ namespace Microsoft.Bot.Builder.Azure.Tests
         public async Task UseTableStorage_Test()
         {
             var oldValue = Environment.GetEnvironmentVariable(AppSettingKeys.UseTableStorageForConversationState);
+            // set the environment variable so bot uses table storage as state store
             System.Environment.SetEnvironmentVariable(AppSettingKeys.UseTableStorageForConversationState, true.ToString());
             bool shouldUse = false;
+            // assert that UseTableStorage is set to true
             Assert.IsTrue(bool.TryParse(Utils.GetAppSetting(AppSettingKeys.UseTableStorageForConversationState), out shouldUse) && shouldUse);
 
             var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
@@ -35,6 +37,7 @@ namespace Microsoft.Bot.Builder.Azure.Tests
                     .RegisterInstance(echo)
                     .As<IDialog<object>>();
 
+                // register the development storage as the storage for TableBotDataStore
                 builder.Register(c => new TableBotDataStore(CloudStorageAccount.DevelopmentStorageAccount))
                     .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
                     .AsSelf()

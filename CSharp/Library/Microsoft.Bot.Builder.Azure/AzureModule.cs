@@ -60,6 +60,9 @@ namespace Microsoft.Bot.Builder.Azure
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
+            // if application settings indicate that bot should use the table storage, 
+            // TableBotDataStore will be registered as underlying storage
+            // otherwise bot connector state service will be used.
             if (ShouldUseTableStorage())
             {
                 builder.Register(c => MakeTableBotDataStore())
@@ -75,12 +78,15 @@ namespace Microsoft.Bot.Builder.Azure
                     .InstancePerLifetimeScope();
             }
 
+            // register the data store with caching data store
+            // and set the consistency policy to be "Last write wins".
             builder.Register(c => new CachingBotDataStore(c.ResolveKeyed<IBotDataStore<BotData>>(Key_DataStore),
                         CachingBotDataStoreConsistencyPolicy.LastWriteWins))
                     .As<IBotDataStore<BotData>>()
                     .AsSelf()
                     .InstancePerLifetimeScope();
 
+            // register the appropriate StateClient based on the state api url.
             builder.Register(c =>
                 {
                     var activity = c.Resolve<IActivity>();
