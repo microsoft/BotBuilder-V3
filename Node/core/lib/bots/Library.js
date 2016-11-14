@@ -125,7 +125,7 @@ var Library = (function (_super) {
         context.intent = topIntent;
         context.libraryName = this.name;
         context.routeType = Library.RouteTypes.StackAction;
-        async.forEachOf((dialogStack || []).reverse(), function (entry, index, next) {
+        async.forEachOf(dialogStack || [], function (entry, index, next) {
             var parts = entry.id.split(':');
             if (parts[0] == _this.name) {
                 var dialog = _this.dialog(parts[1]);

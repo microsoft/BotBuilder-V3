@@ -70,6 +70,9 @@ var LuisRecognizer = (function () {
                         result = JSON.parse(body);
                         result.intents = result.intents || [];
                         result.entities = result.entities || [];
+                        if (result.topScoringIntent && result.intents.length == 0) {
+                            result.intents.push(result.topScoringIntent);
+                        }
                         if (result.intents.length == 1 && typeof result.intents[0].score !== 'number') {
                             result.intents[0].score = 1.0;
                         }
