@@ -1064,7 +1064,10 @@ export enum ResumeReason {
     back,
 
     /** The user requested to skip the current step of a dialog flow. */
-    forward
+    forward,
+
+    /** The dialog is being resumed because of an interruption and should reprompt. */
+    reprompt
 }
 
 /** Order in which an [IntentDialogs](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html) recognizers should be evaluated. */

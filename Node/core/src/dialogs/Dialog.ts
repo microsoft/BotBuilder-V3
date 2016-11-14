@@ -35,7 +35,7 @@ import { Session } from '../Session';
 import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizerSet';
 import { ActionSet } from './ActionSet';
 
-export enum ResumeReason { completed, notCompleted, canceled, back, forward }
+export enum ResumeReason { completed, notCompleted, canceled, back, forward, reprompt }
 
 export interface IDialogResult<T> {
     resumed: ResumeReason;

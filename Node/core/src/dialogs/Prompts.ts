@@ -437,7 +437,32 @@ systemLib.dialog(consts.DialogId.ConfirmCancel, [
                 session.cancelDialog(session.dialogData.dialogIndex);
             }
         } else {
-            session.endDialog();
+            session.endDialogWithResult({ resumed: ResumeReason.reprompt });
         }
     }
 ]);
+
+/**
+ * Begins a new dialog as an interruption. If the stack has a depth of 1 that means
+ * only the interruption exists so it will be replaced with the new dialog. Otherwise,
+ * the interruption will stay on the stack and ensure that ResumeReason.reprompt is
+ * returned.  This is to fix an issue with waterfalls that they can advance when we
+ * don't want them too.
+ * dialogArgs: { 
+ *      dialogId: string; 
+ *      dialogArgs?: any;
+ * }
+ */
+systemLib.dialog(consts.DialogId.Interruption, [
+    function (session, args) {
+        if (session.sessionState.callstack.length > 1) {
+            session.beginDialog(args.dialogId, args.dialogArgs);
+        } else {
+            session.replaceDialog(args.dialogId, args.dialogArgs);
+        }
+    },
+    function (session, results) {
+        session.endDialogWithResult({ resumed: ResumeReason.reprompt });
+    }
+]);
+
