@@ -27,7 +27,7 @@ namespace Microsoft.Bot.Connector
         /// Checks if bot authentication is disabled.
         /// </summary>
         /// <returns>true if bot authentication is disabled.</returns>
-        Task<bool> IsAuthenticationDisabled();
+        Task<bool> IsAuthenticationDisabledAsync();
     }
 
     public class SimpleCredentialProvider : ICredentialProvider
@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Connector
             return Task.FromResult((appId == this.AppId) ? this.Password : null);
         }
 
-        public Task<bool> IsAuthenticationDisabled()
+        public Task<bool> IsAuthenticationDisabledAsync()
         {
             return Task.FromResult(string.IsNullOrEmpty(AppId));
         }

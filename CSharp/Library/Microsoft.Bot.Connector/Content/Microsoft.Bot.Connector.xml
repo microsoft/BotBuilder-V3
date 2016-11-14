@@ -151,7 +151,7 @@
             <param name="appId">bot appid</param>
             <returns>password or null for invalid appid</returns>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.IsAuthenticationDisabled">
+        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.IsAuthenticationDisabledAsync">
             <summary>
             Checks if bot authentication is disabled.
             </summary>

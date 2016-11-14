@@ -215,7 +215,7 @@ namespace Microsoft.Bot.Connector
             CancellationToken token)
         {
             // then auth is disabled
-            if (await this.credentialProvider.IsAuthenticationDisabled())
+            if (await this.credentialProvider.IsAuthenticationDisabledAsync())
             {
                 return new IdentityToken(true, null);
             }
