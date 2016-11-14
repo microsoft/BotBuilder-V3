@@ -9,6 +9,8 @@
       Provide Microsoft Azure extensions to the Microsoft Bot Builder.  In particular this includes:
       * TableLogger -- Activity logger for table storage which allows recording and retrieving conversation activities.
       * ReplayTranscript -- Replay activity history on any channel.
+      * AzureModule -- Module for setting up components for bot builder based on Azure dependencies
+      * TableBotDataStore -- IBotDataStore implementation based on Azure table storage.
     </description>
     <projectUrl>https://github.com/Microsoft/BotBuilder</projectUrl>
     <iconUrl>http://docs.botframework.com/images/bot_icon.png</iconUrl>
