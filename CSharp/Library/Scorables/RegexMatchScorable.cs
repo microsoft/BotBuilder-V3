@@ -48,6 +48,10 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public abstract class AttributeString : Attribute, IEquatable<AttributeString>
     {
         protected abstract string Text { get; }
+        public override string ToString()
+        {
+            return $"{this.GetType().Name}({this.Text})";
+        }
         bool IEquatable<AttributeString>.Equals(AttributeString other)
         {
             return other != null
@@ -208,6 +212,12 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         {
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
+
+        public override string ToString()
+        {
+            return $"{this.GetType().Name}({this.regex}, {this.inner})";
+        }
+
         protected override async Task<Scope> PrepareAsync(IResolver resolver, CancellationToken token)
         {
             IMessageActivity message;

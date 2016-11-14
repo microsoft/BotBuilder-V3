@@ -173,6 +173,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             SetField.NotNull(out this.intent, nameof(intent), intent);
         }
 
+        public override string ToString()
+        {
+            return $"{this.GetType().Name}({this.intent}, {this.inner})";
+        }
+
         // assumes that LuisResult is cacheable with Uri as complete key (i.e. ILuisService is not required)
         private static readonly ConditionalWeakTable<IResolver, Dictionary<Uri, Task<LuisResult>>> Cache
             = new ConditionalWeakTable<IResolver, Dictionary<Uri, Task<LuisResult>>>();
