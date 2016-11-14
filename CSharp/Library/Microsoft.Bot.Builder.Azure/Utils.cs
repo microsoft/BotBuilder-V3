@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Azure
@@ -85,6 +86,47 @@ namespace Microsoft.Bot.Builder.Azure
             }
             return result;
         }
+    }
+    
+    /// <summary>
+    /// A helper class responsible for resolving the calling assembly
+    /// </summary>
+    public sealed class ResolveCallingAssembly : IDisposable
+    {
+        private readonly Assembly assembly;
+        
+        /// <summary>
+        /// Creates an instance of ResovelCallingAssembly
+        /// </summary>
+        /// <param name="assembly"> The assembly</param>
+        public static ResolveCallingAssembly Create(Assembly assembly)
+        {
+            return new ResolveCallingAssembly(assembly);
+        }
 
+        /// <summary>
+        /// Creates an instance of ResovelCallingAssembly
+        /// </summary>
+        /// <param name="assembly"> The assembly</param>
+        private ResolveCallingAssembly(Assembly assembly)
+        {
+            this.assembly = assembly;
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+        }
+
+        void IDisposable.Dispose()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
+        }
+
+        private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs arguments)
+        {
+            if (arguments.Name == this.assembly.FullName)
+            {
+                return this.assembly;
+            }
+
+            return null;
+        }
     }
 }
