@@ -350,7 +350,20 @@ Library_1.systemLib.dialog(consts.DialogId.ConfirmCancel, [
             }
         }
         else {
-            session.endDialog();
+            session.endDialogWithResult({ resumed: Dialog_1.ResumeReason.reprompt });
         }
+    }
+]);
+Library_1.systemLib.dialog(consts.DialogId.Interruption, [
+    function (session, args) {
+        if (session.sessionState.callstack.length > 1) {
+            session.beginDialog(args.dialogId, args.dialogArgs);
+        }
+        else {
+            session.replaceDialog(args.dialogId, args.dialogArgs);
+        }
+    },
+    function (session, results) {
+        session.endDialogWithResult({ resumed: Dialog_1.ResumeReason.reprompt });
     }
 ]);

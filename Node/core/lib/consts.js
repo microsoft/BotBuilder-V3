@@ -26,7 +26,8 @@ exports.Data = {
 exports.DialogId = {
     Prompts: 'BotBuilder:Prompts',
     FirstRun: 'BotBuilder:FirstRun',
-    ConfirmCancel: 'BotBuilder:ConfirmCancel'
+    ConfirmCancel: 'BotBuilder:ConfirmCancel',
+    Interruption: 'BotBuilder:Interruption'
 };
 exports.Id = {
     DefaultGroup: 'BotBuilder.Id.DefaultGroup'

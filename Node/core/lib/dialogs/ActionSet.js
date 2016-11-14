@@ -182,7 +182,7 @@ var ActionSet = (function () {
                 var lib = args.dialogId ? args.dialogId.split(':')[0] : args.libraryName;
                 id = lib + ':' + id;
             }
-            session.beginDialog(id, args);
+            session.beginDialog(consts.DialogId.Interruption, { dialogId: id, dialogArgs: args });
         }, options);
     };
     ActionSet.prototype.endConversationAction = function (name, msg, options) {

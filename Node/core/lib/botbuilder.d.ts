@@ -1064,7 +1064,10 @@ export enum ResumeReason {
     back,
 
     /** The user requested to skip the current step of a dialog flow. */
-    forward
+    forward,
+
+    /** The dialog is being resumed because of an interruption and should reprompt. */
+    reprompt
 }
 
 /** Order in which an [IntentDialogs](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html) recognizers should be evaluated. */
@@ -1918,7 +1921,7 @@ export abstract class Dialog extends ActionSet {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action.
      */
-    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): Dialog;
+    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
 }
 
 /** 
@@ -2217,7 +2220,7 @@ export class Library {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action.
      */
-    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): Dialog;
+    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
 
     /**
      * Helper method called from the various route finding methods to manage adding a candidate
