@@ -222,10 +222,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return null;
             }
 
-            if (!intent.Score.HasValue)
-            {
-                return null;
-            }
+            // "builtin.intent.none" seems to have a null score
 
             var scope = new Scope(this.model, result, intent, resolver);
             scope.Scorable = this.inner;
