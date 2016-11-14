@@ -62,7 +62,7 @@ namespace Microsoft.Bot.Builder.Azure
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns>The open id configuration.</returns>
-        public static string GetOpenIdConfigurationUrl(string key = AppSettingKeys.SateEndpoint)
+        public static string GetOpenIdConfigurationUrl(string key = AppSettingKeys.OpenIdMetadata)
         {
             var result = Utils.GetAppSetting(key);
             if (String.IsNullOrEmpty(result))
