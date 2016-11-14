@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
-    public sealed class DeleteProfileScorable : IScorable<IActivity, double>
+    public sealed class DeleteProfileScorable : ScorableBase<IActivity, string, double>
     {
         private readonly IDialogStack stack;
         private readonly IBotData botData;
@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
 
-        async Task<object> IScorable<IActivity, double>.PrepareAsync(IActivity activity, CancellationToken token)
+        protected override async Task<string> PrepareAsync(IActivity activity, CancellationToken token)
         {
             var message = activity as IMessageActivity;
             if (message != null && message.Text != null)
@@ -43,21 +43,28 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             return null;
         }
-        bool IScorable<IActivity, double>.HasScore(IActivity item, object state)
+
+        protected override bool HasScore(IActivity item, string state)
         {
             return state != null;
         }
-        double IScorable<IActivity, double>.GetScore(IActivity item, object state)
+
+        protected override double GetScore(IActivity item, string state)
         {
             return 1.0;
         }
-        async Task IScorable<IActivity, double>.PostAsync(IActivity message, object state, CancellationToken token)
+
+        protected override async Task PostAsync(IActivity item, string state, CancellationToken token)
         {
             this.stack.Reset();
             botData.UserData.Clear();
             botData.PrivateConversationData.Clear();
             await botData.FlushAsync(token);
             await botToUser.PostAsync(Resources.UserProfileDeleted);
+        }
+        protected override Task DoneAsync(IActivity item, string state, CancellationToken token)
+        {
+            return Task.CompletedTask;
         }
     }
 }

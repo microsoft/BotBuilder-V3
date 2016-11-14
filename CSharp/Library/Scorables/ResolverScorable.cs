@@ -66,58 +66,28 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
-    }
 
-    /// <summary>
-    /// Scorable for introducing a lifetime scope to resources needed during a IScorable.PrepareAsync.
-    /// </summary>
-    public sealed class ScopeScorable<InnerState, InnerScore> : ResolverScorable<ScopeScorable<InnerState, InnerScore>.Scope, InnerScore, InnerState, InnerScore>
-    {
-        public sealed class Scope : ResolverScope<InnerScore>
+        protected override Task DoneAsync(IResolver resolver, OuterState state, CancellationToken token)
         {
-            private readonly TryResolve tryResolve;
-            private readonly Dictionary<object, object> valueByTag = new Dictionary<object, object>();
-            public Scope(TryResolve tryResolve, IResolver inner)
-                : base(inner)
+            try
             {
-                SetField.NotNull(out this.tryResolve, nameof(this.tryResolve), tryResolve);
-            }
-            public override bool TryResolve(Type type, object tag, out object value)
-            {
-                // TODO: should include type in key?
-                if (tag != null)
+                if (state != null)
                 {
-                    if (valueByTag.TryGetValue(tag, out value))
-                    {
-                        return true;
-                    }
-
-                    if (this.tryResolve(type, tag, out value))
-                    {
-                        valueByTag.Add(tag, value);
-                        return true;
-                    }
+                    return this.inner.DoneAsync(resolver, state.State, token);
                 }
-
-                return base.TryResolve(type, tag, out value);
+                else
+                {
+                    return Task.CompletedTask;
+                }
             }
-        }
-        private readonly TryResolve tryResolve;
-        public ScopeScorable(TryResolve tryResolve, IScorable<IResolver, InnerScore> inner)
-            : base(inner)
-        {
-            SetField.NotNull(out this.tryResolve, nameof(tryResolve), tryResolve);
-        }
-        public override async Task<Scope> PrepareAsync(IResolver item, CancellationToken token)
-        {
-            var state = new Scope(this.tryResolve, item);
-            state.Scorable = this.inner;
-            state.State = await this.inner.PrepareAsync(state, token);
-            return state;
-        }
-        public override InnerScore GetScore(IResolver item, Scope state)
-        {
-            return state.Scorable.GetScore(item, state);
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
         }
     }
 }

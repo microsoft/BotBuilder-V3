@@ -31,8 +31,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import msg = require('../Message');
+import { Session } from '../Session';
+import { fmtText } from '../Message';
 
 export class SigninCard implements IIsAttachment {
     private data = {
@@ -40,12 +40,12 @@ export class SigninCard implements IIsAttachment {
         content: <ISigninCard>{}
     };
     
-    constructor(private session?: ses.Session) {
+    constructor(private session?: Session) {
     }
     
     public text(prompts: string|string[], ...args: any[]): this {
         if (prompts) {
-            this.data.content.text = msg.fmtText(this.session, prompts, args); 
+            this.data.content.text = fmtText(this.session, prompts, args); 
         }
         return this; 
     }
@@ -54,7 +54,7 @@ export class SigninCard implements IIsAttachment {
         if (title && url) {
             this.data.content.buttons = [{
                 type: 'signin',
-                title: msg.fmtText(this.session, title),
+                title: fmtText(this.session, title),
                 value: url
             }];
         }

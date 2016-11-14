@@ -31,16 +31,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import readline = require('readline');
-import ub = require('./UniversalBot');
-import mb = require('../Message');
-import utils = require('../utils');
+import { IConnector } from './UniversalBot';
+import { Message } from '../Message';
+import * as utils from '../utils';
+import * as readline from 'readline';
 
-export class ConsoleConnector implements ub.IConnector {
+export class ConsoleConnector implements IConnector {
     private handler: (events: IEvent[], cb?: (err: Error) => void) => void;
     private rl: readline.ReadLine;
     private replyCnt = 0;
-    
+
     public listen(): this {
         this.rl = readline.createInterface({ input: process.stdin, output: process.stdout, terminal: false });
         this.rl.on('line', (line: string) => {
@@ -59,7 +59,7 @@ export class ConsoleConnector implements ub.IConnector {
     public processMessage(line: string): this {
         if (this.handler) {
             // TODO: Add some sort of logic to support attachment uploads.
-            var msg = new mb.Message()
+            var msg = new Message()
                 .address({
                     channelId: 'console',
                     user: { id: 'user', name: 'User1' },
@@ -72,11 +72,11 @@ export class ConsoleConnector implements ub.IConnector {
         }
         return this;
     }
-    
+
     public onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void {
         this.handler = handler;
     }
-    
+
     public send(messages: IMessage[], done: (err: Error) => void): void {
         for (var i = 0; i < messages.length; i++ ){
             if (this.replyCnt++ > 0) {
@@ -87,14 +87,14 @@ export class ConsoleConnector implements ub.IConnector {
                 log(msg.text);
             }
             if (msg.attachments && msg.attachments.length > 0) {
-                for (var i = 0; i < msg.attachments.length; i++) {
-                    if (i > 0) {
+                for (var j = 0; j < msg.attachments.length; j++) {
+                    if (j > 0) {
                         console.log();
                     }
-                    renderAttachment(msg.attachments[i]);
+                    renderAttachment(msg.attachments[j]);
                 }
             }
-        }        
+        }
 
         done(null);
     }

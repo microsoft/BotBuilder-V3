@@ -31,24 +31,83 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import dialog = require('./Dialog');
-import ses = require('../Session');
+import { Dialog, ResumeReason, IDialogResult } from './Dialog';
+import { Session } from '../Session';
+import * as consts from '../consts';
+import * as logger from '../logger';
 
-export class SimpleDialog extends dialog.Dialog {
-    constructor(private fn: (session: ses.Session, args?: any) => void) {
+export interface IDialogWaterfallStep {
+    (session: Session, result?: any, skip?: (results?: IDialogResult<any>) => void): void;
+}
+
+export class SimpleDialog extends Dialog {
+    constructor(private fn: (session: Session, args?: any) => void) {
         super();
     }
 
-    public begin<T>(session: ses.Session, args?: T): void {
+    public begin<T>(session: Session, args?: T): void {
         this.fn(session, args);
     }
 
-    public replyReceived(session: ses.Session): void {
+    public replyReceived(session: Session): void {
         this.fn(session);
     }
 
-    public dialogResumed(session: ses.Session, result: any): void {
+    public dialogResumed(session: Session, result: any): void {
         this.fn(session, result);
     }
+}
+
+export function createWaterfall(steps: IDialogWaterfallStep[]): (session: Session, args?: any) => void {
+    return function waterfallAction(s: Session, r: IDialogResult<any>) {
+        var skip = (result?: IDialogResult<any>) => {
+            result = result || <any>{};
+            if (result.resumed == null) {
+                result.resumed = ResumeReason.forward;
+            }
+            waterfallAction(s, result);
+        };
+
+        // Check for continuation of waterfall
+        if (r && r.hasOwnProperty('resumed')) {
+            // Adjust step based on users utterance
+            var step = s.dialogData[consts.Data.WaterfallStep];
+            switch (r.resumed) {
+                case ResumeReason.back:
+                    step -= 1;
+                    break;
+                default:
+                    step++;
+            }
+
+            // Handle result
+            if (step >= 0 && step < steps.length) {
+                // Execute next step of the waterfall
+                try {
+                    logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
+                    s.dialogData[consts.Data.WaterfallStep] = step;
+                    steps[step](s, r, skip);
+                } catch (e) {
+                    s.error(e);
+                }
+            } else {
+                // End the current dialog and return results to parent
+                s.endDialogWithResult(r);
+            }
+        } else if (steps && steps.length > 0) {
+            // Start waterfall
+            try {
+                logger.info(s, 'waterfall() step %d of %d', 1, steps.length);
+                s.dialogData[consts.Data.WaterfallStep] = 0;
+                steps[0](s, r, skip);
+            } catch (e) {
+                s.error(e);
+            }
+        } else {
+            // Empty waterfall so end dialog with not completed
+            logger.warn(s, 'waterfall() empty waterfall detected');
+            s.endDialogWithResult({ resumed: ResumeReason.notCompleted });
+        }
+    }; 
 }
 

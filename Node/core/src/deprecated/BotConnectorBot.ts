@@ -31,10 +31,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ub = require('../bots/UniversalBot');
-import chat = require('../bots/ChatConnector');
-import dlg = require('../dialogs/Dialog');
-import actions = require('../dialogs/DialogAction');
+import { UniversalBot, IUniversalBotSettings } from '../bots/UniversalBot';
+import { ChatConnector, IChatConnectorSettings } from '../bots/ChatConnector';
+import { Dialog } from '../dialogs/Dialog';
+import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
 
 export interface IBotConnectorOptions {
     botId: string;
@@ -59,8 +59,8 @@ export interface IBotConnectorOptions {
 }
 
 export class BotConnectorBot  {
-    private connector: chat.ChatConnector;
-    private bot: ub.UniversalBot;
+    private connector: ChatConnector;
+    private bot: UniversalBot;
     private groupWelcomeMessage: string;
     private userWelcomeMessage: string;
     private goodbyeMessage: string;
@@ -69,8 +69,8 @@ export class BotConnectorBot  {
         console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a ChatConnector class.')
 
         // Map options into settings
-        var oConnector: chat.IChatConnectorSettings = {};
-        var oBot: ub.IUniversalBotSettings = {};
+        var oConnector: IChatConnectorSettings = {};
+        var oBot: IUniversalBotSettings = {};
         for (var key in options) {
             switch (key) {
                 case 'appId':
@@ -104,8 +104,8 @@ export class BotConnectorBot  {
         }
 
         // Initialize connector & universal bot
-        this.connector = new chat.ChatConnector(oConnector);
-        this.bot = new ub.UniversalBot(this.connector, oBot);
+        this.connector = new ChatConnector(oConnector);
+        this.bot = new UniversalBot(this.connector, oBot);
     }
 
     public on(event: string, listener: Function): this {
@@ -113,7 +113,7 @@ export class BotConnectorBot  {
         return this;
     }
 
-    public add(id: string, dialog?: dlg.Dialog | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep): this {
+    public add(id: string, dialog?: Dialog | IDialogWaterfallStep[] | IDialogWaterfallStep): this {
         this.bot.dialog(id, dialog); 
         return this;
     }

@@ -33,6 +33,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
@@ -52,12 +53,12 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
     public interface IFiberLoop<C> : IFiber<C>
     {
-        Task<IWait<C>> PollAsync(C context);
+        Task<IWait<C>> PollAsync(C context, CancellationToken token);
     }
 
     public interface IFrameLoop<C>
     {
-        Task<IWait<C>> PollAsync(IFiber<C> fiber, C context);
+        Task<IWait<C>> PollAsync(IFiber<C> fiber, C context, CancellationToken token);
     }
 
 
@@ -109,9 +110,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return wait;
         }
 
-        async Task<IWait<C>> IFrameLoop<C>.PollAsync(IFiber<C> fiber, C context)
+        async Task<IWait<C>> IFrameLoop<C>.PollAsync(IFiber<C> fiber, C context, CancellationToken token)
         {
-            return await this.wait.PollAsync(fiber, context);
+            return await this.wait.PollAsync(fiber, context, token);
         }
     }
 
@@ -197,7 +198,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return leaf.NextWait<T>();
         }
 
-        async Task<IWait<C>> IFiberLoop<C>.PollAsync(C context)
+        async Task<IWait<C>> IFiberLoop<C>.PollAsync(C context, CancellationToken token)
         {
             while (this.stack.Count > 0)
             {
@@ -217,7 +218,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
                 try
                 {
-                    var next = await leaf.PollAsync(this, context);
+                    var next = await leaf.PollAsync(this, context, token);
                     var peek = this.stack.Peek();
                     bool fine = object.ReferenceEquals(next, peek.Wait) || next is NullWait<C>;
                     if (!fine)

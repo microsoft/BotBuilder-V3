@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 //
 // INTERFACES
 //
@@ -393,49 +393,137 @@ export interface IDialogResult<T> {
     response?: T;
 }
 
-/** Context of the received message passed to the Dialog.recognize() method. */
+/** Context of the received message passed to various recognition methods. */
 export interface IRecognizeContext {
-    /** Message that was received. */
+    /** The message received from the user. For bot originated messages this may only contain the "to" & "from" fields. */
     message: IMessage;
 
-    /** The users preferred locale for the message. */
+    /** Data for the user that's persisted across all conversations with the bot. */
+    userData: any;
+    
+    /** Shared conversation data that's visible to all members of the conversation. */
+    conversationData: any;
+    
+    /** Private conversation data that's only visible to the user. */
+    privateConversationData: any;
+
+    /** The localizer for the session. */
+    localizer: ILocalizer ;    
+
+    /** Returns the users preferred locale. */
+    preferredLocale(): string;
+
+    /**
+     * Loads a localized string for the messages language. If arguments are passed the localized string
+     * will be treated as a template and formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see their docs for details.) 
+     * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
+     * @param args (Optional) arguments used to format the final output string. 
+     */
+    gettext(msgid: string, ...args: any[]): string;
+
+    /**
+     * Loads the plural form of a localized string for the messages language. The output string will be formatted to 
+     * include the count by replacing %d in the string with the count.
+     * @param msgid Singular form of the string to use as a key in the localized string table. Use %d to specify where the count should go.
+     * @param msgid_plural Plural form of the string to use as a key in the localized string table. Use %d to specify where the count should go.
+     * @param count Count to use when determining whether the singular or plural form of the string should be used.
+     */
+    ngettext(msgid: string, msgid_plural: string, count: number): string;
+
+    /** Returns a copy of the current dialog stack for the session. */
+    dialogStack(): IDialogState[];
+
+    /** __DEPRECATED__ use [preferredLocale()](#preferredlocale) instead. */
     locale: string;
+}
+
+/** Context passed to `Dialog.recognize()`. */
+export interface IRecognizeDialogContext extends IRecognizeContext {
+    /** (Optional) The top intent identified for the message. */
+    intent?: IIntentRecognizerResult;
 
     /** If true the Dialog is the active dialog on the callstack. */
     activeDialog: boolean;
 
-    /** Data persisted for the current dialog. */
+    /** Data persisted for the current dialog . */
     dialogData: any;
 }
 
-/** Results from a call to a recognize() function. The implementation is free to add any additional properties to the result. */
-export interface IRecognizeResult {
-    /** Confidence that the users utterance was understood on a scale from 0.0 - 1.0.  */
-    score: number;
+/** Context passed to `ActionSet.findActionRoutes()`. */
+export interface IFindActionRouteContext extends IRecognizeContext {
+    /** (Optional) The top intent identified for the message. */
+    intent?: IIntentRecognizerResult;
+
+    /** The name of the library being searched over. */
+    libraryName: string;
+
+    /** The type of route being searched for. */
+    routeType: string;
 }
 
-/** Options passed when binding a dialog action handler. */
+/** Options passed when defining a dialog action. */
 export interface IDialogActionOptions {
-    /** (Optional) regular expression that should be matched against the users utterance to trigger an action. If this is ommitted the action can only be invoked from a button. */
-    matches?: RegExp;
+    /** 
+     * (Optional) intent(s) used to trigger the action. Either a regular expression or a named 
+     * intent can be provided and multiple intents can be specified.  When a named intent is 
+     * provided the action will be matched using the recognizers assigned to the library/bot using
+     * [Library.recognizer()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#recognizer). 
+     * If a matches option isn't provided then the action can only be triggered from a button click. 
+     */
+    matches?: RegExp|RegExp[]|string|string[];
 
-    /** Minimum score needed to trigger the action using the value of [expression](#expression). The default value is 0.1. */
+    /** (Optional) minimum score needed to trigger the action using the value of [matches](#matches). The default value is 0.1. */
     intentThreshold?: number;
 
+    /**
+     * (Optional) custom handler that's invoked whenever the action is being checked to see if it 
+     * should be triggered. The handler is passed a context object containing the received message 
+     * and any intents detected. The handler should return a confidence score for 0.0 to 1.0 and
+     * routeData that should be passed in during the `selectActionRoute` call.   
+     */
+    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error, score: number, routeData?: IActionRouteData) => void) => void;
+
+    /**
+     * (Optional) custom handler that's invoked whenever the action is triggered.  This lets you
+     * customize the behaviour of an action. For instance you could clear the dialog stack before
+     * the new dialog is started, changing the default behaviour which is to just push the new 
+     * dialog onto the end of the stack. 
+     * 
+     * It's important to note that this is not a waterfall and you should call `next()` if you 
+     * would like the actions default behaviour to run. 
+     */
+    onSelectAction?: (session: Session, args?: IActionRouteData, next?: Function) => void;
+
+    /** (Optional) display label for the action which can be presented to the user when disambiguting between actions. */
+    label?: string;    
+}
+
+/** Options passed when defining a `beginDialogAction()`. */
+export interface IBeginDialogActionOptions extends IDialogActionOptions {
     /** (Optional) arguments to pass to the dialog spawned when the action is triggered. */
     dialogArgs?: any;
 }
 
-/** Results for a recognized dialog action. */
-export interface IRecognizeActionResult extends IRecognizeResult {
+/** Options passed when defining a `cancelAction()`. */
+export interface ICancelActionOptions extends IDialogActionOptions {
+    /**
+     * If specified the user will be asked to confirm that they truely would like to cancel an
+     * action when triggered. 
+     * * _{string}_ - Initial message to send the user.
+     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
+     */
+    confirmPrompt?: string|string[]|IMessage|IIsMessage;
+}
+
+/** Arguments passed to a triggered action. */
+export interface IActionRouteData {
     /** Named dialog action that was matched. */
     action?: string;
 
-    /** A regular expression that was matched. */
-    expression?: RegExp;
-
-    /** The results of the [expression](#expression) that was matched. matched[0] will be the text that was matched and matched[1...n] is the result of capture groups.  */
-    matched?: string[];
+    /** Intent that triggered the action. */
+    intent?: IIntentRecognizerResult;
 
     /** Optional data passed as part of the action binding. */    
     data?: string;
@@ -590,28 +678,46 @@ export interface IEntity {
     score?: number;
 }
 
-/** Options used to configure an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html). */
-export interface IIntentDialogOptions {
-    /** Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
+/** Options used to configure an [IntentRecognizerSet](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentrecognizerset.html). */
+export interface IIntentRecognizerSetOptions {
+    /** (optional) Minimum score needed to trigger the recognition of an intent. The default value is 0.1. */
     intentThreshold?: number;
 
-    /** Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
-    recognizeMode?: RecognizeMode;
-
-    /** The order in which the configured [recognizers](#recognizers) should be evaluated. The default order is parallel. */
+    /** (Optional) The order in which the configured [recognizers](#recognizers) should be evaluated. The default order is parallel. */
     recognizeOrder?: RecognizeOrder;
 
     /** (Optional) list of intent recognizers to run the users utterance through. */
     recognizers?: IIntentRecognizer[];
 
-    /** Maximum number of recognizers to evaluate at one time when [recognizerOrder](#recognizerorder) is parallel. */
+    /** (Optional) Maximum number of recognizers to evaluate at one time when [recognizerOrder](#recognizerorder) is parallel. */
     processLimit?: number;
+
+    /** (Optional) If true the recognition will stop when a score of 1.0 is encountered. The default value is true.  */
+    stopIfExactMatch?: boolean;
+}
+
+/** Options used to configure an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html). */
+export interface IIntentDialogOptions extends IIntentRecognizerSetOptions {
+    /** (Optional) Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
+    recognizeMode?: RecognizeMode;
 } 
 
-/** export interface implemented by intent recognizers like the LuisRecognizer class. */
+/** Interface implemented by intent recognizer plugins like the [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer.html) class. */
 export interface IIntentRecognizer {
-    /** Attempts to match a users text utterance to an intent. */
+    /** 
+     * Attempts to match a users text utterance to an intent.
+     * @param context Contextual information for a received message that's being recognized.
+     * @param callback Function to invoke with the results of the recognition operation.
+     * @param callback.error Any error that occured or `null`.
+     * @param callback.result The result of the recognition.
+     */
     recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+}
+
+/** Results from a call to a recognize() function. The implementation is free to add any additional properties to the result. */
+export interface IRecognizeResult {
+    /** Confidence that the users utterance was understood on a scale from 0.0 - 1.0.  */
+    score: number;
 }
 
 /** Results returned by an intent recognizer. */
@@ -673,7 +779,7 @@ export interface IFindMatchResult {
     /** Value that was matched.  */
     entity: string;
 
-    /** Confidence score on a scale from 0.0 - 1.0 that an value matched the users utterance. */
+    /** Confidence score on a scale from 0.0 - 1.0 that a value matched the users utterance. */
     score: number;
 }
 
@@ -864,6 +970,11 @@ export interface IDialogWaterfallStep {
     (session: Session, result?: any | IDialogResult<any>, skip?: (results?: IDialogResult<any>) => void): any;
 }
 
+/** A per/local mapping of regular expressions to use for a RegExpRecognizer.  */
+export interface IRegExpMap {
+    [local: string]: RegExp;
+}
+
 /** A per/local mapping of LUIS service url's to use for a LuisRecognizer.  */
 export interface ILuisModelMap {
     [local: string]: string;
@@ -904,6 +1015,34 @@ export interface IFirstRunOptions {
     upgradeDialogArgs?: string;
 }
 
+/** Candidate route returned by [Library.findRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#findroutes). */
+export interface IRouteResult {
+    /** Confidence score on a scale from 0.0 - 1.0 that the route is best suited for handling the current message. */
+    score: number;
+
+    /** Name of the library the route came from. */
+    libraryName: string;
+
+    /** (Optional) display label for the route which can be presented to the user when disambiguting between routes. */
+    label?: string;
+
+    /** (Optional) type of route returned. */
+    routeType?: string;
+
+    /** (Optional) data used to assist with triggering a selected route. */
+    routeData?: any;
+}
+
+/** Custom route searching logic passed to [Library.onFindRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onfindroutes). */
+export interface IFindRoutesHandler {
+    (session: Session, callback: (err: Error, routes: IRouteResult[]) => void): void;
+}
+
+/** Custom route searching logic passed to [Library.onSelectRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onselectroute). */
+export interface ISelectRoutheandler {
+    (session: Session, route: IRouteResult): void;
+}
+
 //=============================================================================
 //
 // ENUMS
@@ -925,7 +1064,10 @@ export enum ResumeReason {
     back,
 
     /** The user requested to skip the current step of a dialog flow. */
-    forward
+    forward,
+
+    /** The dialog is being resumed because of an interruption and should reprompt. */
+    reprompt
 }
 
 /** Order in which an [IntentDialogs](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html) recognizers should be evaluated. */
@@ -1037,13 +1179,18 @@ export class Session {
      */
     constructor(options: ISessionOptions);
 
+    /** Returns the session object as a read only context object. */
+    toRecognizeContext(): IRecognizeContext;
+
     /**
-     * Dispatches a message for processing. The session will call any installed middleware before
-     * the message to the active dialog for processing. 
-     * @param sessionState The current session state. If _null_ a new conversation will be started beginning with the configured [dialogId](#dialogid).  
-     * @param message The message to dispatch.
+     * Finalizes the initialization of the session object and then routes the session through all
+     * installed middleware. The passed in `next()` function will be called as the last step of the
+     * middleware chain. 
+     * @param sessionState The current session state. If `null` a new conversation will be started beginning with the configured [dialogId](#dialogid).  
+     * @param message The message to route through middleware.
+     * @param next The function to invoke as the last step of the middleware chain.
      */
-    dispatch(sessionState: ISessionState, message: IMessage): Session;
+    dispatch(sessionState: ISessionState, message: IMessage, next: Function): Session;
 
     /** The bots root library of dialogs. */
     library: Library;
@@ -1066,7 +1213,7 @@ export class Session {
     /** Data that's only visible to the current dialog. */
     dialogData: any;
 
-    /** The localizer (if available) to use. */
+    /** The localizer for the current session. */
     localizer:ILocalizer ;    
     
     /**
@@ -1164,7 +1311,7 @@ export class Session {
     /**
      * Ends the current dialog and optionally returns a result to the dialogs parent. 
      */
-    endDialogWithResult<T>(result?: IDialogResult<T>): Session;
+    endDialogWithResult(result?: IDialogResult<any>): Session;
     
     /** 
      * Cancels an existing dialog and optionally starts a new one it its place.  Unlike [endDialog()](#enddialog)
@@ -1195,6 +1342,79 @@ export class Session {
      * @param callback (Optional) function called when the batch was either successfully delievered or failed for some reason. 
      */
     sendBatch(callback?: (err: Error) => void): void;
+
+    /**
+     * Gets/sets the current dialog stack. A copy of the current dialog is returned so if any 
+     * changes are made to the returned stack they will need to be copied back to the session 
+     * via a second call to `session.dialogStack()`.
+     * @param newStack (Optional) dialog stack to assign to session. The sessions [dialogData](#dialogdata) will be updated to reflect the state of the new active dialog. 
+     */
+    dialogStack(newStack?: IDialogState[]): IDialogState[];
+
+    /**
+     * Clears the current dialog stack.
+     */
+    clearDialogStack(): Session;
+
+    /**
+     * Dispatches the session to eitehr the active dialog or the default dialog for processing.
+     * @param recognizeResult (Optional) results returned from calling [Library.findRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#findroutes), [Library.findActiveDialogRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#findactivedialogroutes), * or [Dialog.recognize()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialog#recognize).
+     */
+    routeToActiveDialog(recognizeResult?: IRecognizeResult): void;
+
+    /**
+     * Enumerates all a stacks dialog entries in either a forward or reverse direction.
+     * @param stack The dialog stack to enumerate.
+     * @param reverse If true the entries will be enumerated starting with the active dialog and working up to the root dialog.
+     * @param fn Function to invoke with each entry on the stack.
+     * @param fn.entry The dialog stack entry.
+     * @param fn.index The index of the dialog within the stack.
+     */
+    static forEachDialogStackEntry(stack: IDialogState[], reverse: boolean, fn: (entry: IDialogState, index: number) => void): void;
+
+    /** 
+     * Searches a dialog stack for a specific dialog, in either a forward or reverse direction, 
+     * returning its index.
+     * @param stack The dialog stack to search.
+     * @param dialogId The unique ID of the dialog, in `<namespace>:<dialog>` format, to search for.
+     * @param reverse (Optional) if true the stack will be searched starting with the active dialog and working its way up to the root.
+     */
+    static findDialogStackEntry(stack: IDialogState[], dialogId: string, reverse?: boolean): number;
+
+    /** 
+     * Returns a stacks active dialog or null. 
+     * @param stack The dialog stack to return the entry for.
+     */
+    static activeDialogStackEntry(stack: IDialogState[]): IDialogState;
+
+    /** 
+     * Pushes a new dialog onto a stack and returns it as the active dialog. 
+     * @param stack The dialog stack to update.
+     * @param entry Dialog entry to push onto the stack.
+     */
+    static pushDialogStackEntry(stack: IDialogState[], entry: IDialogState): IDialogState;
+    
+    /** 
+     * Pops the active dialog off a stack and returns the new one if the stack isn't empty.  
+     * @param stack The dialog stack to update.
+     */
+    static popDialogStackEntry(stack: IDialogState[]): IDialogState;
+
+    /** 
+     * Deletes all dialog stack entries starting with the specified index and returns the new 
+     * active dialog. 
+     * @param stack The dialog stack to update.
+     * @param start Index of the first element to remove.
+     */
+    static pruneDialogStack(stack: IDialogState[], start: number): IDialogState;
+    
+    /** 
+     * Ensures that all of the entries on a dialog stack reference valid dialogs within a library 
+     * hierarchy. 
+     * @param stack The dialog stack to validate.
+     * @param root The root of the library hierarchy, typically the bot.
+     */
+    static validateDialogStack(stack: IDialogState[], root: Library): boolean;
 }
     
 /**
@@ -1570,18 +1790,29 @@ export class Fact implements IIsFact {
  */
 export class ActionSet {
     /**
-     * Called to recognize any actions triggered by the users utterance.
-     * @param message The message received from the user.
-     * @param callback Function to invoke with the results of the recognition. The top scoring action, if any, will be returned.
+     * Called once for each dialog within a library to give the dialog a chance to add its 
+     * `triggerAction()` to the libraries global action set.  These triggers get mapped to
+     * a `beginDialogAction()` that starts the dialog when the trigger condition is met.
+     * @param actions Libraries global action set.
+     * @param dialogId The fully qualified ID of the dialog to trigger.
      */
-    recognizeAction(message: IMessage, callback: (err: Error, result: IRecognizeActionResult) => void): void;
+    addDialogTrigger(actions: ActionSet, dialogId: string): void;
 
     /**
-     * Invokes an action that had the highest confidence score for the utterance.
-     * @param session Session object for the current conversation.
-     * @param recognizeResult Results returned from call to [recognizeAction()](#recognizeaction).
+     * Called during the [Library.findRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#findroutes) 
+     * call for each dialog on the stack to determine if any of the dialogs actions are triggered 
+     * by the users utterance. 
+     * @param context The context of the incoming message as well as the [dialogData](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#dialogdata) for the evaluated dialog.
+     * @param callback Function to invoke with the top candidate route(s).
      */
-    invokeAction(session: Session, recognizeResult: IRecognizeActionResult): void;
+    findActionRoutes(context: IRecognizeDialogContext, callback: (err: Error, results: IRouteResult[]) => void): void;
+
+    /**
+     * Selects the route that had the highest confidence score for the utterance.
+     * @param session Session object for the current conversation.
+     * @param route Results returned from the call to [findActionRoutes()](#findactionroute).
+     */
+    selectActionRoute(session: Session, route: IRouteResult): void;
 }
 
 /**
@@ -1634,7 +1865,17 @@ export abstract class Dialog extends ActionSet {
      * @param context The context of the request.
      * @param callback Function to invoke with the recognition results.
      */
-    recognize(context: IRecognizeContext, callback: (err: Error, result: IRecognizeResult) => void): void;
+    recognize(context: IRecognizeDialogContext, callback: (err: Error, result: IRecognizeResult) => void): void;
+
+    /**
+     * Binds an action to the dialog that will make it the active dialog anytime its triggered.
+     * The default behaviour is to simply push the dialog onto the existing stack such that the
+     * previous task will continue once the new dialog ends. This behaviour can easily be 
+     * modified by adding a custom [onSelectAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ibegindialogactionsoptions#onselectaction)
+     * handler to your options.
+     * @param options Options used to configure the action.
+     */
+    triggerAction(options: IBeginDialogActionOptions): Dialog;
 
     /**
      * Binds an action to the dialog that will cancel the dialog anytime its triggered. When canceled, the 
@@ -1645,7 +1886,7 @@ export abstract class Dialog extends ActionSet {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action.
      */
-    cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): Dialog;
+    cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
 
     /**
      * Binds an action to the dialog that will cause the dialog to be reloaded anytime its triggered. This is
@@ -1656,7 +1897,7 @@ export abstract class Dialog extends ActionSet {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action. You can also use [dialogArgs](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#dialogargs) to pass additional params to the dialog when reloaded.
      */
-    reloadAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): Dialog;
+    reloadAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IBeginDialogActionOptions): Dialog;
 
     /**
      * Binds an action to the dialog that will start another dialog anytime its triggered. The new 
@@ -1670,7 +1911,7 @@ export abstract class Dialog extends ActionSet {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action. You can also use [dialogArgs](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#dialogargs) to pass additional params to the dialog being started.
      */
-    beginDialogAction(name: string, id: string, options?: IDialogActionOptions): Dialog;
+    beginDialogAction(name: string, id: string, options?: IBeginDialogActionOptions): Dialog;
 
     /**
      * Binds an action that will end the conversation with the user when triggered.
@@ -1680,7 +1921,7 @@ export abstract class Dialog extends ActionSet {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action.
      */
-    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): Dialog;
+    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
 }
 
 /** 
@@ -1766,11 +2007,23 @@ export class DialogAction {
  * include the library name prefix.  
  */
 export class Library {
+    /** Supported [routeType](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.irouteresult#routetype) values returned by default from [findRoutes()](#findroutes). */
+    static RouteTypes: {
+        /** The route is for one of the libraries global actions that has been triggered. */
+        GlobalAction: string;
+
+        /** The route is for an action on the dialog stack that has been triggered. */
+        StackAction: string;
+
+        /** The route is for the active dialog on the stack. */
+        ActiveDialog: string;
+    };
+
     /** 
      * The libraries unique namespace. This is used to issolate the libraries dialogs and localized
      * prompts. 
      */
-    name: string;
+    readonly name: string;
 
     /** 
      * Creates a new instance of the library.
@@ -1787,6 +2040,113 @@ export class Library {
      */
     localePath(path?: string): string;
 
+    /** 
+     * Attempts to match a users text utterance to an intent using the libraries recognizers. See 
+     * [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) 
+     * for details.
+     * @param session Session object for the current conversation.
+     * @param callback Function that should be invoked upon completion of the recognition.
+     * @param callback.err Any error that occured during the operation.
+     * @param callback.result The result of the recognition operation. 
+     */
+    recognize(session: Session, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /**
+     * Adds a new recognizer plugin to the library.
+     * @param plugin The recognizer to add. 
+     */
+    recognizer(plugin: IIntentRecognizer): IntentDialog;
+
+    /**
+     * Searches for candidate routes to handle the current message. To actually initiate the 
+     * handling of the message you should call [selectRoute()](#selectroute) with one of the 
+     * returned results. 
+     * 
+     * The default search logic can be overriden using [onFindRoute()](#onfindroute) and only the
+     * current library is searched so you should call `findRoutes()` seperately for each library 
+     * within the hierarchy.
+     * @param session Session object for the current conversation.
+     * @param callback Function that should be invoked with the found routes.
+     * @param callback.err Any error that occured during the operation.
+     * @param callback.routes List of routes best suited to handle the current message. 
+     */
+    findRoutes(session: Session, callback: (err: Error, routes: IRouteResult[]) => void): void
+
+    /**
+     * Replaces [findRoutes()](#findroutes) default route searching logic with a custom 
+     * implementation.
+     * @param handler Function that will be invoked anytime `findRoutes()` is called for the library. 
+     */
+    onFindRoutes(handler: IFindRoutesHandler): void;
+
+    /**
+     * Triggers the handling of the current message using the selected route. The default logic can
+     * be overriden using [onSelectRoute()](#onselectroute).
+     * @param session Session object for the current conversation.
+     * @param route Route result returned from a previous call to [findRoutes()](#findroutes).
+     */
+    selectRoute(session: Session, route: IRouteResult): void;
+
+    /**
+     * Replaces the default logic for [selectRoute()](#selectroute) with a custom implementation.
+     * @param handler Function that will be invoked anytime `selectRoute()` is called. 
+     */
+    onSelectRoute(handler: ISelectRoutheandler): void;
+
+    /**
+     * Gets the active dialogs confidence that it understands the current message. The dialog 
+     * must be a member of the current library, otherwise a score of 0.0 will be returned.
+     * @param session Session object for the current conversation.
+     * @param topIntent (Optional) top intent identified from a previous call to [Library.recognize()](#recognize). This can be `null`.
+     * @param callback Function that should be invoked with the found routes.
+     * @param callback.err Any error that occured during the operation.
+     * @param callback.routes List of routes best suited to handle the current message.
+     * @param dialogStack (Optional) dialog stack to search over. The default behaviour is to search over the sessions current dialog stack. 
+     */
+    findActiveDialogRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void;
+
+    /**
+     * Routes the current message to the active dialog.
+     * @param session Session object for the current conversation.
+     * @param route Route result returned from a previous call to [findRoutes()](#findroutes) or [findActiveDialogRoutes()](#findactivedialogroutes).
+     */
+    selectActiveDialogRoute(session: Session, route: IRouteResult, newStack?: IDialogState[]): void;
+
+    /**
+     * Searches the sessions dialog stack to see if any actions have been triggered.
+     * @param session Session object for the current conversation.
+     * @param topIntent (Optional) top intent identified from a previous call to [Library.recognize()](#recognize). This can be `null`.
+     * @param callback Function that should be invoked with the found routes.
+     * @param callback.err Any error that occured during the operation.
+     * @param callback.routes List of routes best suited to handle the current message.
+     * @param dialogStack (Optional) dialog stack to search over. The default behaviour is to search over the sessions current dialog stack. 
+     */
+    findStackActionRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void;
+
+    /**
+     * Routes the current message to a triggered stack action.
+     * @param session Session object for the current conversation.
+     * @param route Route result returned from a previous call to [findRoutes()](#findroutes) or [findStackActionRoutes()](#findstackactionroutes).
+     */
+    selectStackActionRoute(session: Session, route: IRouteResult, newStack?: IDialogState[]): void;
+
+    /**
+     * Searches the library to see if any global actions have been triggered.
+     * @param session Session object for the current conversation.
+     * @param topIntent (Optional) top intent identified from a previous call to [Library.recognize()](#recognize). This can be `null`.
+     * @param callback Function that should be invoked with the found routes.
+     * @param callback.err Any error that occured during the operation.
+     * @param callback.routes List of routes best suited to handle the current message.
+     */
+    findGlobalActionRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void): void;
+
+    /**
+     * Routes the current message to a triggered global action.
+     * @param session Session object for the current conversation.
+     * @param route Route result returned from a previous call to [findRoutes()](#findroutes) or [findGlobalActionRoutes()](#findglobalactionroutes).
+     */
+    selectGlobalActionRoute(session: Session, route: IRouteResult, newStack?: IDialogState[]): void;
+
     /**
      * Registers or returns a dialog from the library.
      * @param id Unique ID of the dialog being regsitered or retrieved.
@@ -1797,14 +2157,6 @@ export class Library {
      */
     dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
 
-    /**  
-     * Registers or returns a library dependency.
-     * @param lib 
-     * * __lib:__ _{Library}_ - Library to register as a dependency.
-     * * __lib:__ _{string}_ - Unique name of the library to lookup. All dependencies will be searched as well.
-     */
-    library(lib: Library|string): Library;
-
     /**
      * Searches the library and all of its dependencies for a specific dialog. Returns the dialog 
      * if found, otherwise null.
@@ -1814,13 +2166,87 @@ export class Library {
     findDialog(libName: string, dialogId: string): Dialog;
 
     /**
+     * Enumerates all of the libraries dialogs. 
+     * @param callback Iterator function to call with each dialog.
+     * @param callback.dialog The current dialog.
+     * @param id Unique ID of the dialog.
+     */
+    forEachDialog(callback: (dialog: Dialog, id: string) => void): void;
+
+    /**  
+     * Registers or returns a library dependency.
+     * @param lib 
+     * * __lib:__ _{Library}_ - Library to register as a dependency.
+     * * __lib:__ _{string}_ - Unique name of the library to lookup. All dependencies will be searched as well.
+     */
+    library(lib: Library|string): Library;
+
+    /**
      * Enumerates all of the libraries child libraries. The caller should take appropriate steps to
-     * avoid circular references when enumerating the hierarchy. Maintaining a map of visited 
-     * libraries should be enough.
-     * @param callback Iterator function to call with each child.
+     * avoid circular references when enumerating the hierarchy. In most cases calling 
+     * [libraryList()](#librarylist) is a better choice as it already contains logic to avoid cycles.
+     * @param callback Iterator function to call with each child libray.
      * @param callback.library The current child.
      */
     forEachLibrary(callback: (library: Library) => void): void;
+
+    /**
+     * Returns a list of unique libraries within the hierarchy. Should be called on the root of the
+     * library hierarchy and avoids cycles created when two child libraries reference the same
+     * dependent library.
+     * @param reverse (Optional) If true list will be generated from the leaves up meaning the root library will be listed last. The default value is false which means it will be generated from the roots down and the root library will be listed first.
+     */
+    libraryList(reverse?: boolean): Library[];
+
+    /**
+     * Registers a global action that will start another dialog anytime its triggered. The new 
+     * dialog will be pushed onto the stack so it does not automatically end any current task. The 
+     * current task will be continued once the new dialog ends. The built-in prompts will automatically
+     * re-prompt the user once this happens but that behaviour can be disabled by setting the [promptAfterAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptoptions#promptafteraction) 
+     * flag when calling a built-in prompt.
+     * @param name Unique name to assign the action.
+     * @param id ID of the dialog to start.
+     * @param options (Optional) options used to configure the action. If [matches](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#matches) is specified the action will listen 
+     * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
+     * to trigger the action. You can also use [dialogArgs](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#dialogargs) to pass additional params to the dialog being started.
+     */
+    beginDialogAction(name: string, id: string, options?: IDialogActionOptions): Dialog;
+
+    /**
+     * Registers a global action that will end the conversation with the user when triggered.
+     * @param name Unique name to assign the action.
+     * @param msg (Optional) message to send the user prior to ending the conversation.
+     * @param options (Optional) options used to configure the action. If [matches](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#matches) is specified the action will listen 
+     * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
+     * to trigger the action.
+     */
+    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
+
+    /**
+     * Helper method called from the various route finding methods to manage adding a candidate
+     * route to the result set. 
+     * 
+     * * If the score is greater then the current best match in the set a new result set will be returned containing just the new match. 
+     * * If the score is equal to the current best match it will be added to the existing set. 
+     * * If the score is less than the current best match it will be ignored.
+     * @param route The candidate route to add to the set.
+     * @param current (Optional) result set to add the route too. If missing then a new set with just the route will be returned.
+     */
+    static addRouteResult(route: IRouteResult, current?: IRouteResult[]): IRouteResult[];
+
+    /**
+     * Finds the best route to use within a result set containing multiple ambiguous routes. The
+     * following disambigution strategy will be used:
+     * 
+     * 1. __<custom>__: Custom route types are the highest priority and will alwsays be preferred. This lets the developer override routing within a bot in very powerful way.  
+     * 2. __ActiveDialog__: The active dialog is the next highest priority.
+     * 3. __StackAction__: Stack actions are the next highest priority and the action with the deepest stack position will be returned.
+     * 4. __GlobalAction__: Global actions are the lowest priority. If a `dialogStack` is past in the actions from the library deepest on the stack will be favored. Otherwise the first one will be returned.
+     * @param routes Array of candidate routes to filter.
+     * @param dialogStack (Optional) dialog stack used to determine which libraries global actions to favor. 
+     * @param rootLibraryName (Optional) library namespace to prefer when disambiguating global actions and there's no dialogs on the stack.
+     */
+    static bestRouteResult(routes: IRouteResult[], dialogStack?: IDialogState[], rootLibraryName?: string): IRouteResult;
 }
 
 /**
@@ -1925,6 +2351,24 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
     recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void): void;
 }
 
+/** Federates a recognize() call across a set of intent recognizers. */
+export class IntentRecognizerSet implements IIntentRecognizer {
+    /**  
+     * Constructs a new instance of an IntentRecognizerSet.
+     * @param options (Optional) options used to initialize the set and control the flow of recognition.
+     */
+    constructor(options?: IIntentRecognizerSetOptions);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /**
+     * Adds a new recognizer plugin to the set.
+     * @param plugin The recognizer to add. 
+     */
+    recognizer(plugin: IIntentRecognizer): IntentDialog;
+}
+
 /** Identifies a users intent and optionally extracts entities from a users utterance. */
 export class IntentDialog extends Dialog {
     /**  
@@ -1998,19 +2442,35 @@ export class IntentDialog extends Dialog {
     recognizer(plugin: IIntentRecognizer): IntentDialog;
 }
 
+/** 
+ * Intent recognizer plugin that detects a users intent using a regular expression. Multiple
+ * expressions can be passed in to support recognizing across multiple languages. 
+ */
+export class RegExpRecognizer implements IIntentRecognizer {
+    /**
+     * Constructs a new instance of the recognizer.
+     * @param intent The name of the intent to return when the expression is matched.
+     * @param expressions Either an individual expression used for all utterances or a map of per/locale expressions conditionally used depending on the locale of the utterance. 
+     */
+    constructor(intent: string, expressions: RegExp|IRegExpMap);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+}
+
 /**
- * Routes incoming messages to a LUIS app hosted on http://luis.ai for intent recognition.
- * Once a messages intent has been recognized it will rerouted to a registered intent handler, along
- * with any entities, for further processing. 
+ * Intent recognizer plugin that detects a users intent using Microsofts [Language Understanding Intelligent Service (LUIS)](https://luis.ai)
+ * The service URLs for multiple LUIS models (apps) can be passed in to support recognition 
+ * across multiple languages. 
  */
 export class LuisRecognizer implements IIntentRecognizer {
     /**
-     * Constructs a new instance of a LUIS recognizer.
-     * @param models Either an individual LUIS model used for all utterances or a map of per/local models conditionally used depending on the local of the utterance. 
+     * Constructs a new instance of the recognizer.
+     * @param models Either an individual LUIS model used for all utterances or a map of per/locale models conditionally used depending on the locale of the utterance. 
      */
     constructor(models: string|ILuisModelMap);
 
-    /** Called by the IntentDialog to perform the actual recognition. */
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
     public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
     /**
@@ -2159,14 +2619,14 @@ export class MemoryBotStorage implements IBotStorage {
 }
 
 /** Manages your bots conversations with users across multiple channels. */
-export class UniversalBot  {
-    
+export class UniversalBot extends Library  {
     /** 
      * Creates a new instance of the UniversalBot.
      * @param connector (Optional) the default connector to use for requests. If there's not a more specific connector registered for a channel then this connector will be used./**
      * @param settings (Optional) settings to configure the bot with.
+     * @param libraryName (Optional) library namespace for the bot.  The default value is '*'.
      */
-    constructor(connector?: IConnector, settings?: IUniversalBotSettings);
+    constructor(connector?: IConnector, settings?: IUniversalBotSettings, libraryName?: string);
 
     /**
      * Registers an event listener. The bot will emit its own events as it process incoming and outgoing messages. It will also forward activity related events emitted from the connector, giving you one place to listen for all activity from your bot. The flow of events from the bot is as follows:
@@ -2234,24 +2694,6 @@ export class UniversalBot  {
      * @param connector (Optional) connector to register. If ommited the connector for __channelId__ will be returned. 
      */    
     connector(channelId: string, connector?: IConnector): IConnector;
-
-    /**
-     * Registers or returns a dialog for the bot.
-     * @param id Unique ID of the dialog being regsitered or retrieved.
-     * @param dialog (Optional) dialog or waterfall to register.
-     * * __dialog:__ _{Dialog}_ - Dialog to add.
-     * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
-     * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
-     */
-    dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
-    
-    /**  
-     * Registers or returns a library dependency.
-     * @param lib 
-     * * __lib:__ _{Library}_ - Library to register as a dependency.
-     * * __lib:__ _{string}_ - Unique name of the library to lookup. All dependencies will be searched as well.
-     */
-    library(lib: Library|string): Library;
     
     /** 
      * Installs middleware for the bot. Middleware lets you intercept incoming and outgoing events/messages. 
@@ -2290,30 +2732,6 @@ export class UniversalBot  {
      * @param callback Function to invoke with the results of the query.
      */
     isInConversation(address: IAddress, callback: (err: Error, lastAccess: Date) => void): void;
-
-    /**
-     * Registers a global action that will start another dialog anytime its triggered. The new 
-     * dialog will be pushed onto the stack so it does not automatically end any current task. The 
-     * current task will be continued once the new dialog ends. The built-in prompts will automatically
-     * re-prompt the user once this happens but that behaviour can be disabled by setting the [promptAfterAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptoptions#promptafteraction) 
-     * flag when calling a built-in prompt.
-     * @param name Unique name to assign the action.
-     * @param id ID of the dialog to start.
-     * @param options (Optional) options used to configure the action. If [matches](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#matches) is specified the action will listen 
-     * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
-     * to trigger the action. You can also use [dialogArgs](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#dialogargs) to pass additional params to the dialog being started.
-     */
-    beginDialogAction(name: string, id: string, options?: IDialogActionOptions): Dialog;
-
-    /**
-     * Registers a global action that will end the conversation with the user when triggered.
-     * @param name Unique name to assign the action.
-     * @param msg (Optional) message to send the user prior to ending the conversation.
-     * @param options (Optional) options used to configure the action. If [matches](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#matches) is specified the action will listen 
-     * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
-     * to trigger the action.
-     */
-    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): Dialog;
 }
 
 /** Connects a UniversalBot to multiple channels via the Bot Framework. */

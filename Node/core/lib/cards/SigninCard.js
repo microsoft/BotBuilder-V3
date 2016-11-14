@@ -1,5 +1,5 @@
 "use strict";
-var msg = require('../Message');
+var Message_1 = require('../Message');
 var SigninCard = (function () {
     function SigninCard(session) {
         this.session = session;
@@ -14,7 +14,7 @@ var SigninCard = (function () {
             args[_i - 1] = arguments[_i];
         }
         if (prompts) {
-            this.data.content.text = msg.fmtText(this.session, prompts, args);
+            this.data.content.text = Message_1.fmtText(this.session, prompts, args);
         }
         return this;
     };
@@ -22,7 +22,7 @@ var SigninCard = (function () {
         if (title && url) {
             this.data.content.buttons = [{
                     type: 'signin',
-                    title: msg.fmtText(this.session, title),
+                    title: Message_1.fmtText(this.session, title),
                     value: url
                 }];
         }

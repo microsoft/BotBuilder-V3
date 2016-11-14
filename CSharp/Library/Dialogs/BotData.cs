@@ -41,6 +41,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -444,6 +445,33 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class DialogTaskManagerBotDataLoader : IBotData
+    {
+        private readonly IBotData inner;
+        private readonly IDialogTaskManager dialogTaskManager;
+        
+        public DialogTaskManagerBotDataLoader(IBotData inner, IDialogTaskManager dialogTaskManager)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.dialogTaskManager, nameof(dialogTaskManager), dialogTaskManager);
+        }
+
+        public IBotDataBag UserData { get { return inner.UserData; } }
+        public IBotDataBag ConversationData { get { return inner.ConversationData; } }
+        public IBotDataBag PrivateConversationData { get { return inner.PrivateConversationData; } }
+        public async Task LoadAsync(CancellationToken token)
+        {
+            await this.inner.LoadAsync(token);
+            await this.dialogTaskManager.LoadDialogTasks(token);
+        }
+
+        public async Task FlushAsync(CancellationToken token)
+        {
+            await this.dialogTaskManager.FlushDialogTasks(token);
+            await this.inner.FlushAsync(token);
+        }
+    }
+    
     public abstract class BotDataBase<T> : IBotData
     {
         protected readonly IBotDataStore<BotData> botDataStore;
@@ -551,6 +579,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 this.bag[key] = value;
             }
 
+            bool IBotDataBag.ContainsKey(string key)
+            {
+                return this.bag.ContainsKey(key);
+            }
+
             bool IBotDataBag.TryGetValue<T>(string key, out T value)
             {
                 object boxed;
@@ -613,6 +646,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 var copy = token.ToObject<T>();
 #endif
                 this.bag[key] = token;
+            }
+
+            bool IBotDataBag.ContainsKey(string key)
+            {
+                return this.bag[key] != null;
             }
 
             bool IBotDataBag.TryGetValue<T>(string key, out T value)

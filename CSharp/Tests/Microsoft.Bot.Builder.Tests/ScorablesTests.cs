@@ -62,7 +62,7 @@ namespace Microsoft.Bot.Builder.Tests
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
 
-        public override async Task<double?> PrepareAsync(IActivity item, CancellationToken token)
+        protected override async Task<double?> PrepareAsync(IActivity item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -77,18 +77,22 @@ namespace Microsoft.Bot.Builder.Tests
 
             return null;
         }
-        public override bool HasScore(IActivity item, double? state)
+        protected override bool HasScore(IActivity item, double? state)
         {
             return state.HasValue;
         }
-        public override double GetScore(IActivity item, double? state)
+        protected override double GetScore(IActivity item, double? state)
         {
             return state.Value;
         }
-        public override async Task PostAsync(IActivity item, double? state, CancellationToken token)
+        protected override async Task PostAsync(IActivity item, double? state, CancellationToken token)
         {
             this.stack.Fail(new OperationCanceledException());
             await this.stack.PollAsync(token);
+        }
+        protected override Task DoneAsync(IActivity item, double? state, CancellationToken token)
+        {
+            return Task.CompletedTask;
         }
     }
 
@@ -230,7 +234,7 @@ namespace Microsoft.Bot.Builder.Tests
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
 
-        public override async Task<string> PrepareAsync(IActivity item, CancellationToken token)
+        protected override async Task<string> PrepareAsync(IActivity item, CancellationToken token)
         {
             var message = item as IMessageActivity;
             if (message != null && message.Text != null)
@@ -245,15 +249,15 @@ namespace Microsoft.Bot.Builder.Tests
 
             return null;
         }
-        public override bool HasScore(IActivity item, string state)
+        protected override bool HasScore(IActivity item, string state)
         {
             return state != null;
         }
-        public override double GetScore(IActivity item, string state)
+        protected override double GetScore(IActivity item, string state)
         {
             return 1.0;
         }
-        public override async Task PostAsync(IActivity item, string state, CancellationToken token)
+        protected override async Task PostAsync(IActivity item, string state, CancellationToken token)
         {
             var dialog = new CalculatorDialog();
 
@@ -263,6 +267,10 @@ namespace Microsoft.Bot.Builder.Tests
 
             await this.stack.Forward(dialog.Void<double, IMessageActivity>(), null, message, token);
             await this.stack.PollAsync(token);
+        }
+        protected override Task DoneAsync(IActivity item, string state, CancellationToken token)
+        {
+            return Task.CompletedTask;
         }
     }
 

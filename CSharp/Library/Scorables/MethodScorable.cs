@@ -42,6 +42,30 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Internals.Scorables
 {
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [Serializable]
+    // TODO: name this better
+    public sealed class MethodBindAttribute : Attribute
+    {
+    }
+
+    public sealed class MethodScorableFactory : IScorableFactory<IResolver, Binding>
+    {
+        IScorable<IResolver, Binding> IScorableFactory<IResolver, Binding>.ScorableFor(IEnumerable<MethodInfo> methods)
+        {
+            var specs =
+                from method in methods
+                from bind in InheritedAttributes.For<MethodBindAttribute>(method)
+                select new { method, bind };
+
+            var scorables = from spec in specs
+                            select new MethodScorable(spec.method);
+
+            var all = scorables.ToArray().Fold(Binding.ResolutionComparer.Instance);
+            return all;
+        }
+    }
+
     // TODO: more generic name, or reuse existing attribute for overriding name?
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true, Inherited = true)]
     [Serializable]
@@ -85,10 +109,18 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             var entity = parameter.GetCustomAttribute<EntityAttribute>();
             if (entity != null)
             {
-                return resolver.TryResolve(parameter.ParameterType, entity.Entity, out argument);
+                if (resolver.TryResolve(parameter.ParameterType, entity.Entity, out argument))
+                {
+                    return true;
+                }
             }
 
-            return resolver.TryResolve(parameter.ParameterType, parameter.Name, out argument);
+            if (resolver.TryResolve(parameter.ParameterType, parameter.Name, out argument))
+            {
+                return true;
+            }
+
+            return resolver.TryResolve(parameter.ParameterType, null, out argument);
         }
         private bool TryResolveArguments(IResolver resolver, out object[] arguments)
         {
@@ -122,7 +154,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             return arguments != null;
         }
 
-        public override Task<Binding> PrepareAsync(IResolver item, CancellationToken token)
+        protected override Task<Binding> PrepareAsync(IResolver item, CancellationToken token)
         {
             try
             {
@@ -150,15 +182,15 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException<Binding>(error);
             }
         }
-        public override bool HasScore(IResolver resolver, Binding state)
+        protected override bool HasScore(IResolver resolver, Binding state)
         {
             return state != null;
         }
-        public override Binding GetScore(IResolver resolver, Binding state)
+        protected override Binding GetScore(IResolver resolver, Binding state)
         {
             return state;
         }
-        public override Task PostAsync(IResolver item, Binding state, CancellationToken token)
+        protected override Task PostAsync(IResolver item, Binding state, CancellationToken token)
         {
             try
             {
@@ -166,12 +198,16 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             }
             catch (OperationCanceledException error)
             {
-                return Task.FromCanceled<Binding>(error.CancellationToken);
+                return Task.FromCanceled(error.CancellationToken);
             }
             catch (Exception error)
             {
                 return Task.FromException(error);
             }
+        }
+        protected override Task DoneAsync(IResolver item, Binding state, CancellationToken token)
+        {
+            return Task.CompletedTask;
         }
     }
 }

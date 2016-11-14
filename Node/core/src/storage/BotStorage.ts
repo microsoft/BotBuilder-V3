@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import utils = require('../utils');
+import * as utils from '../utils';
 
 export interface IBotStorageContext {
     userId?: string;

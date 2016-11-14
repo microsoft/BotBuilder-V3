@@ -31,35 +31,36 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import dlg = require('../dialogs/Dialog');
-import intent = require('../dialogs/IntentDialog');
-import luis = require('../dialogs/LuisRecognizer');
-import actions = require('../dialogs/DialogAction');
+import { Session } from '../Session';
+import { Dialog, IRecognizeDialogContext, IDialogResult } from '../dialogs/Dialog';
+import { IRecognizeResult } from '../dialogs/IntentRecognizerSet';
+import { IntentDialog, IBeginDialogHandler } from '../dialogs/IntentDialog';
+import { LuisRecognizer } from '../dialogs/LuisRecognizer';
+import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
 
-export class LuisDialog extends dlg.Dialog {
-    private dialog: intent.IntentDialog;
+export class LuisDialog extends Dialog {
+    private dialog: IntentDialog;
 
     constructor(serviceUri: string) {
         super();
         console.warn('LuisDialog class is deprecated. Use IntentDialog with a LuisRecognizer instead.')
-        var recognizer = new luis.LuisRecognizer(serviceUri);
-        this.dialog = new intent.IntentDialog({ recognizers: [recognizer] });
+        var recognizer = new LuisRecognizer(serviceUri);
+        this.dialog = new IntentDialog({ recognizers: [recognizer] });
     }
 
-    public begin<T>(session: ses.Session, args?: T): void {
+    public begin<T>(session: Session, args?: T): void {
         this.dialog.begin(session, args);
     }
 
-    public replyReceived(session: ses.Session, recognizeResult?: dlg.IRecognizeResult): void {
-        this.dialog.replyReceived(session, recognizeResult);
+    public replyReceived(session: Session, recognizeResult?: IRecognizeResult): void {
+        //this.dialog.replyReceived(session, recognizeResult);
     }
 
-    public dialogResumed<T>(session: ses.Session, result: dlg.IDialogResult<T>): void {
+    public dialogResumed<T>(session: Session, result: IDialogResult<T>): void {
         this.dialog.dialogResumed(session, result);
     }
 
-    public recognize(context: dlg.IRecognizeContext, cb: (err: Error, result: dlg.IRecognizeResult) => void): void {
+    public recognize(context: IRecognizeDialogContext, cb: (err: Error, result: IRecognizeResult) => void): void {
         this.dialog.recognize(context, cb);
     }
 
@@ -68,12 +69,12 @@ export class LuisDialog extends dlg.Dialog {
         return this;
     }
 
-    public on(intent: string, dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
+    public on(intent: string, dialogId: string | IDialogWaterfallStep[] | IDialogWaterfallStep, dialogArgs?: any): this {
         this.dialog.matches(intent, dialogId, dialogArgs);
         return this;
     }
 
-    public onDefault(dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
+    public onDefault(dialogId: string | IDialogWaterfallStep[] | IDialogWaterfallStep, dialogArgs?: any): this {
         this.dialog.onDefault(dialogId, dialogArgs);
         return this;
     }

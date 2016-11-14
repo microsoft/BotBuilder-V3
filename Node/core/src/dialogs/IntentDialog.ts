@@ -31,20 +31,25 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import actions = require('./DialogAction');
-import consts = require('../consts');
-import logger = require('../logger');
-import async = require('async');
-import { Dialog, IRecognizeContext, IRecognizeResult, IDialogResult } from './Dialog';
+import { Session } from '../Session';
+import { IDialogWaterfallStep, createWaterfall } from './SimpleDialog';
+import { DialogAction, IDialogHandler } from './DialogAction';
+import { Dialog, IRecognizeDialogContext, IDialogResult } from './Dialog';
 import { IntentRecognizerSet, IIntentRecognizerSetOptions, IIntentRecognizer, IIntentRecognizerResult } from './IntentRecognizerSet';
 import { RegExpRecognizer } from './RegExpRecognizer';
+import * as consts from '../consts';
+import * as logger from '../logger';
+import * as async from 'async';
 
 export enum RecognizeMode { onBegin, onBeginIfRoot, onReply }
 
 export interface IIntentDialogOptions extends IIntentRecognizerSetOptions {
     recognizeMode?: RecognizeMode;
 } 
+
+export interface IBeginDialogHandler {
+    (session: Session, args: any, next: (handled: boolean) => void): void; 
+}
 
 export class IntentDialog extends Dialog {
     private beginDialog: IBeginDialogHandler;
@@ -58,7 +63,7 @@ export class IntentDialog extends Dialog {
         this.recognizeMode = options.recognizeMode || RecognizeMode.onBeginIfRoot;
     }
 
-    public begin<T>(session: ses.Session, args: any): void {
+    public begin<T>(session: Session, args: any): void {
         var mode = this.recognizeMode;
         var isRoot = (session.sessionState.callstack.length == 1);
         var recognize = (mode == RecognizeMode.onBegin || (isRoot && mode == RecognizeMode.onBeginIfRoot)); 
@@ -78,10 +83,13 @@ export class IntentDialog extends Dialog {
         }
     }
 
-    public replyReceived(session: ses.Session, recognizeResult?: IRecognizeResult): void {
+    public replyReceived(session: Session, recognizeResult?: IIntentRecognizerResult): void {
         if (!recognizeResult) {
             var locale = session.preferredLocale();
-            this.recognize({ message: session.message, locale: locale, dialogData: session.dialogData, activeDialog: true }, (err, result) => {
+            var context = <IRecognizeDialogContext>session.toRecognizeContext();
+            context.dialogData = session.dialogData;
+            context.activeDialog = true;
+            this.recognize(context, (err, result) => {
                 if (!err) {
                     this.invokeIntent(session, <IIntentRecognizerResult>result);
                 } else {
@@ -93,7 +101,7 @@ export class IntentDialog extends Dialog {
         }
     }
 
-    public dialogResumed(session: ses.Session, result: IDialogResult<any>): void {
+    public dialogResumed(session: Session, result: IDialogResult<any>): void {
         var activeIntent: string = session.dialogData[consts.Data.Intent];
         if (activeIntent && this.handlers.hasOwnProperty(activeIntent)) {
             try {
@@ -106,7 +114,7 @@ export class IntentDialog extends Dialog {
         }
     }
 
-    public recognize(context: IRecognizeContext, cb: (err: Error, result: IRecognizeResult) => void): void {
+    public recognize(context: IRecognizeDialogContext, cb: (err: Error, result: IIntentRecognizerResult) => void): void {
         this.recognizers.recognize(context, cb);
     }
 
@@ -115,7 +123,7 @@ export class IntentDialog extends Dialog {
         return this;
     }
 
-    public matches(intent: string|RegExp, dialogId: string|actions.IDialogWaterfallStep[]|actions.IDialogWaterfallStep, dialogArgs?: any): this {
+    public matches(intent: string|RegExp, dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): this {
         // Find ID and verify unique
         var id: string;
         if (intent) {
@@ -132,30 +140,30 @@ export class IntentDialog extends Dialog {
 
         // Register handler
         if (Array.isArray(dialogId)) {
-            this.handlers[id] = actions.waterfall(dialogId);
+            this.handlers[id] = createWaterfall(dialogId);
         } else if (typeof dialogId === 'string') {
-            this.handlers[id] = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
+            this.handlers[id] = DialogAction.beginDialog(<string>dialogId, dialogArgs);
         } else {
-            this.handlers[id] = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
+            this.handlers[id] = createWaterfall([<IDialogWaterfallStep>dialogId]);
         }
         return this;
     }
 
-    public matchesAny(intents: string[]|RegExp[], dialogId: string|actions.IDialogWaterfallStep[]|actions.IDialogWaterfallStep, dialogArgs?: any): this {
+    public matchesAny(intents: string[]|RegExp[], dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): this {
         for (var i = 0; i < intents.length; i++) {
             this.matches(intents[i], dialogId, dialogArgs);
         }
         return this;
     }
 
-    public onDefault(dialogId: string|actions.IDialogWaterfallStep[]|actions.IDialogWaterfallStep, dialogArgs?: any): this {
+    public onDefault(dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): this {
         // Register handler
         if (Array.isArray(dialogId)) {
-            this.handlers[consts.Intents.Default] = actions.waterfall(dialogId);
+            this.handlers[consts.Intents.Default] = createWaterfall(dialogId);
         } else if (typeof dialogId === 'string') {
-            this.handlers[consts.Intents.Default] = actions.DialogAction.beginDialog(<string>dialogId, dialogArgs);
+            this.handlers[consts.Intents.Default] = DialogAction.beginDialog(<string>dialogId, dialogArgs);
         } else {
-            this.handlers[consts.Intents.Default] = actions.waterfall([<actions.IDialogWaterfallStep>dialogId]);
+            this.handlers[consts.Intents.Default] = createWaterfall([<IDialogWaterfallStep>dialogId]);
         }
         return this;
     }
@@ -166,7 +174,7 @@ export class IntentDialog extends Dialog {
         return this;
     }
 
-    private invokeIntent(session: ses.Session, recognizeResult: IIntentRecognizerResult): void {
+    private invokeIntent(session: Session, recognizeResult: IIntentRecognizerResult): void {
         var activeIntent: string;
         if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
             logger.info(session, 'IntentDialog.matches(%s)', recognizeResult.intent);
@@ -187,7 +195,7 @@ export class IntentDialog extends Dialog {
         }
     }
 
-    private emitError(session: ses.Session, err: Error): void {
+    private emitError(session: Session, err: Error): void {
         var m = err.toString();
         err = err instanceof Error ? err : new Error(m);
         session.error(err);

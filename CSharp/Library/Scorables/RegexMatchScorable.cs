@@ -36,6 +36,7 @@ using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -43,6 +44,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Internals.Scorables
 {
+    [Serializable]
     public abstract class AttributeString : Attribute, IEquatable<AttributeString>
     {
         protected abstract string Text { get; }
@@ -77,6 +79,37 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             {
                 return this.Pattern;
             }
+        }
+    }
+
+    public sealed class RegexMatchScorableFactory : IScorableFactory<IResolver, Match>
+    {
+        private readonly Func<string, Regex> make;
+        public RegexMatchScorableFactory(Func<string, Regex> make)
+        {
+            SetField.NotNull(out this.make, nameof(make), make);
+        }
+
+        IScorable<IResolver, Match> IScorableFactory<IResolver, Match>.ScorableFor(IEnumerable<MethodInfo> methods)
+        {
+            var specs =
+                from method in methods
+                from pattern in InheritedAttributes.For<RegexPatternAttribute>(method)
+                select new { method, pattern };
+
+            var scorableByMethod = methods.ToDictionary(m => m, m => new MethodScorable(m));
+
+            // for a given regular expression pattern, fold the corresponding method scorables together to enable overload resolution
+            var scorables =
+                from spec in specs
+                group spec by spec.pattern into patterns
+                let method = patterns.Select(m => scorableByMethod[m.method]).ToArray().Fold(Binding.ResolutionComparer.Instance)
+                let regex = this.make(patterns.Key.Pattern)
+                select new RegexMatchScorable<Binding, Binding>(regex, method);
+
+            var all = scorables.ToArray().Fold(MatchComparer.Instance);
+
+            return all;
         }
     }
 
@@ -146,7 +179,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         {
             SetField.NotNull(out this.regex, nameof(regex), regex);
         }
-        public override async Task<Scope> PrepareAsync(IResolver resolver, CancellationToken token)
+        protected override async Task<Scope> PrepareAsync(IResolver resolver, CancellationToken token)
         {
             IMessageActivity message;
             if (!resolver.TryResolve(null, out message))
@@ -171,7 +204,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             scope.State = await this.inner.PrepareAsync(scope, token);
             return scope;
         }
-        public override Match GetScore(IResolver resolver, Scope state)
+        protected override Match GetScore(IResolver resolver, Scope state)
         {
             return state.Match;
         }

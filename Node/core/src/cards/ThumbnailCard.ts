@@ -20,33 +20,33 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import msg = require('../Message');
-import kb = require('./Keyboard');
+import { Session } from '../Session';
+import { fmtText } from '../Message';
+import { Keyboard } from './Keyboard';
 
-export class ThumbnailCard extends kb.Keyboard {
-    constructor(session?: ses.Session) {
+export class ThumbnailCard extends Keyboard {
+    constructor(session?: Session) {
         super(session);
         this.data.contentType = 'application/vnd.microsoft.card.thumbnail';
     }
     
     public title(text: string|string[], ...args: any[]): this {
         if (text) {
-            (<IThumbnailCard>this.data.content).title = msg.fmtText(this.session, text, args);
+            (<IThumbnailCard>this.data.content).title = fmtText(this.session, text, args);
         }
         return this;
     }
 
     public subtitle(text: string|string[], ...args: any[]): this {
         if (text) {
-            (<IThumbnailCard>this.data.content).subtitle = msg.fmtText(this.session, text, args);
+            (<IThumbnailCard>this.data.content).subtitle = fmtText(this.session, text, args);
         }
         return this;
     }
     
     public text(text: string|string[], ...args: any[]): this {
         if (text) {
-            (<IThumbnailCard>this.data.content).text = msg.fmtText(this.session, text, args);
+            (<IThumbnailCard>this.data.content).text = fmtText(this.session, text, args);
         }
         return this;
     }

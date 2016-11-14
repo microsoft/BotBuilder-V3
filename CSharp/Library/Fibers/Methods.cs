@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
@@ -64,7 +65,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             {
             }
 
-            public async Task<IWait<C>> IdentityAsync(IFiber<C> fiber, C context, IItem<T> item)
+            public async Task<IWait<C>> IdentityAsync(IFiber<C> fiber, C context, IItem<T> item, CancellationToken token)
             {
                 return fiber.Done(await item);
             }
@@ -83,7 +84,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 this.count = count;
             }
 
-            public async Task<IWait<C>> LoopAsync(IFiber<C> fiber, C context, IItem<T> item)
+            public async Task<IWait<C>> LoopAsync(IFiber<C> fiber, C context, IItem<T> item, CancellationToken token)
             {
                 this.item = await item;
 
@@ -98,7 +99,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 }
             }
 
-            public async Task<IWait<C>> NextAsync(IFiber<C> fiber, C context, IItem<object> ignore)
+            public async Task<IWait<C>> NextAsync(IFiber<C> fiber, C context, IItem<object> ignore, CancellationToken token)
             {
                 --this.count;
                 if (this.count >= 0)
@@ -122,12 +123,12 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 SetField.NotNull(out this.rest, nameof(rest), rest);
             }
 
-            public async Task<IWait<C>> RootAsync(IFiber<C> fiber, C context, IItem<T> item)
+            public async Task<IWait<C>> RootAsync(IFiber<C> fiber, C context, IItem<T> item, CancellationToken token)
             {
                 return fiber.Call<C, T, object>(this.rest, await item, DoneAsync);
             }
 
-            public async Task<IWait<C>> DoneAsync(IFiber<C> fiber, C context, IItem<object> ignore)
+            public async Task<IWait<C>> DoneAsync(IFiber<C> fiber, C context, IItem<object> ignore, CancellationToken token)
             {
                 return NullWait<C>.Instance;
             }

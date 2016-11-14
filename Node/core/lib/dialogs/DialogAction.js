@@ -1,10 +1,9 @@
 "use strict";
-var ses = require('../Session');
+var Session_1 = require('../Session');
+var Dialog_1 = require('./Dialog');
+var SimpleDialog_1 = require('./SimpleDialog');
 var consts = require('../consts');
 var utils = require('../utils');
-var dlg = require('./Dialog');
-var simple = require('./SimpleDialog');
-var logger = require('../logger');
 var DialogAction = (function () {
     function DialogAction() {
     }
@@ -15,7 +14,7 @@ var DialogAction = (function () {
         }
         args.splice(0, 0, msg);
         return function sendAction(s) {
-            ses.Session.prototype.send.apply(s, args);
+            Session_1.Session.prototype.send.apply(s, args);
         };
     };
     DialogAction.beginDialog = function (id, args) {
@@ -45,7 +44,7 @@ var DialogAction = (function () {
         };
     };
     DialogAction.validatedPrompt = function (promptType, validator) {
-        return new simple.SimpleDialog(function (s, r) {
+        return new SimpleDialog_1.SimpleDialog(function (s, r) {
             r = r || {};
             var valid = false;
             if (r.response) {
@@ -58,9 +57,9 @@ var DialogAction = (function () {
             }
             var canceled = false;
             switch (r.resumed) {
-                case dlg.ResumeReason.canceled:
-                case dlg.ResumeReason.forward:
-                case dlg.ResumeReason.back:
+                case Dialog_1.ResumeReason.canceled:
+                case Dialog_1.ResumeReason.forward:
+                case Dialog_1.ResumeReason.back:
                     canceled = true;
                     break;
             }
@@ -85,59 +84,10 @@ var DialogAction = (function () {
                 s.beginDialog(consts.DialogId.Prompts, a);
             }
             else {
-                s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
+                s.endDialogWithResult({ resumed: Dialog_1.ResumeReason.notCompleted });
             }
         });
     };
     return DialogAction;
 }());
 exports.DialogAction = DialogAction;
-function waterfall(steps) {
-    return function waterfallAction(s, r) {
-        var skip = function (result) {
-            result = result || {};
-            if (result.resumed == null) {
-                result.resumed = dlg.ResumeReason.forward;
-            }
-            waterfallAction(s, result);
-        };
-        if (r && r.hasOwnProperty('resumed')) {
-            var step = s.dialogData[consts.Data.WaterfallStep];
-            switch (r.resumed) {
-                case dlg.ResumeReason.back:
-                    step -= 1;
-                    break;
-                default:
-                    step++;
-            }
-            if (step >= 0 && step < steps.length) {
-                try {
-                    logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
-                    s.dialogData[consts.Data.WaterfallStep] = step;
-                    steps[step](s, r, skip);
-                }
-                catch (e) {
-                    s.error(e);
-                }
-            }
-            else {
-                s.endDialogWithResult(r);
-            }
-        }
-        else if (steps && steps.length > 0) {
-            try {
-                logger.info(s, 'waterfall() step %d of %d', 1, steps.length);
-                s.dialogData[consts.Data.WaterfallStep] = 0;
-                steps[0](s, r, skip);
-            }
-            catch (e) {
-                s.error(e);
-            }
-        }
-        else {
-            logger.warn(s, 'waterfall() empty waterfall detected');
-            s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
-        }
-    };
-}
-exports.waterfall = waterfall;

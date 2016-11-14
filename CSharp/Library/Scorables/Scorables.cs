@@ -49,22 +49,37 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         public static async Task<bool> TryPostAsync<Item, Score>(this IScorable<Item, Score> scorable, Item item, CancellationToken token)
         {
             var state = await scorable.PrepareAsync(item, token);
-            if (scorable.HasScore(item, state))
+            try
             {
-                var score = scorable.GetScore(item, state);
-                await scorable.PostAsync(item, state, token);
-                return true;
-            }
+                if (scorable.HasScore(item, state))
+                {
+                    var score = scorable.GetScore(item, state);
+                    await scorable.PostAsync(item, state, token);
+                    return true;
+                }
 
-            return false;
+                return false;
+            }
+            finally
+            {
+                await scorable.DoneAsync(item, state, token);
+            }
         }
 
         /// <summary>
         /// Project the score of a scorable using a lambda expression.
         /// </summary>
-        public static IScorable<Item, TargetScore> Select<Item, SourceScore, TargetScore>(this IScorable<Item, SourceScore> scorable, Func<Item, SourceScore, TargetScore> selector)
+        public static IScorable<Item, TargetScore> SelectScore<Item, SourceScore, TargetScore>(this IScorable<Item, SourceScore> scorable, Func<Item, SourceScore, TargetScore> selector)
         {
-            return new SelectScorable<Item, SourceScore, TargetScore>(scorable, selector);
+            return new SelectScoreScorable<Item, SourceScore, TargetScore>(scorable, selector);
+        }
+
+        /// <summary>
+        /// Project the item of a scorable using a lambda expression.
+        /// </summary>
+        public static IScorable<SourceItem, Score> SelectItem<SourceItem, TargetItem, Score>(this IScorable<TargetItem, Score> scorable, Func<SourceItem, TargetItem> selector)
+        {
+            return new SelectItemScorable<SourceItem, TargetItem, Score>(scorable, selector);
         }
 
         /// <summary>
@@ -80,14 +95,100 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         /// </summary>
         public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer)
         {
+            var list = scorables as IReadOnlyList<IScorable<Item, Score>>;
+            if (list != null)
+            {
+                if (list.Count == 0)
+                {
+                    return NullScorable<Item, Score>.Instance;
+                }
+                else if (list.Count == 1)
+                {
+                    return list[0];
+                }
+                else if (list.All(s => s is NullScorable<Item, Score>))
+                {
+                    return NullScorable<Item, Score>.Instance;
+                }
+            }
+
             return new FoldScorable<Item, Score>(comparer, scorables);
         }
     }
 
-    public sealed class SelectScorable<Item, SourceScore, TargetScore> : DelegatingScorable<Item, SourceScore>, IScorable<Item, TargetScore>
+    public sealed class SelectItemScorable<SourceItem, TargetItem, Score> : ScorableBase<SourceItem, SelectItemScorable<SourceItem, TargetItem, Score>.Token, Score>
+    {
+        private readonly IScorable<TargetItem, Score> scorable;
+        private readonly Func<SourceItem, TargetItem> selector;
+        public SelectItemScorable(IScorable<TargetItem, Score> scorable, Func<SourceItem, TargetItem> selector)
+        {
+            SetField.NotNull(out this.scorable, nameof(scorable), scorable);
+            SetField.NotNull(out this.selector, nameof(selector), selector);
+        }
+        public sealed class Token : Token<TargetItem, Score>
+        {
+            public TargetItem Item;
+        }
+        protected override async Task<Token> PrepareAsync(SourceItem sourceItem, CancellationToken token)
+        {
+            var targetItem = this.selector(sourceItem);
+            var state = new Token()
+            {
+                Item = targetItem,
+                Scorable = this.scorable,
+                State = await this.scorable.PrepareAsync(targetItem, token)
+            };
+            return state;
+        }
+        protected override bool HasScore(SourceItem item, Token state)
+        {
+            if (state != null)
+            {
+                return state.Scorable.HasScore(state.Item, state.State);
+            }
+
+            return false;
+        }
+        protected override Score GetScore(SourceItem item, Token state)
+        {
+            return state.Scorable.GetScore(state.Item, state.State);
+        }
+        protected override Task PostAsync(SourceItem item, Token state, CancellationToken token)
+        {
+            try
+            {
+                return state.Scorable.PostAsync(state.Item, state.State, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
+        protected override Task DoneAsync(SourceItem item, Token state, CancellationToken token)
+        {
+            try
+            {
+                return state.Scorable.DoneAsync(state.Item, state.State, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
+    }
+
+    public sealed class SelectScoreScorable<Item, SourceScore, TargetScore> : DelegatingScorable<Item, SourceScore>, IScorable<Item, TargetScore>
     {
         private readonly Func<Item, SourceScore, TargetScore> selector;
-        public SelectScorable(IScorable<Item, SourceScore> scorable, Func<Item, SourceScore, TargetScore> selector)
+        public SelectScoreScorable(IScorable<Item, SourceScore> scorable, Func<Item, SourceScore, TargetScore> selector)
             : base(scorable)
         {
             SetField.NotNull(out this.selector, nameof(selector), selector);

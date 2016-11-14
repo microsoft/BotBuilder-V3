@@ -31,13 +31,32 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { IRecognizeContext, IRecognizeResult } from './Dialog';
 import * as utils from '../utils';
+import * as async from 'async';
 
 export enum RecognizeOrder { parallel, series }
 
 export interface IIntentRecognizer {
     recognize(context: IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void;
+}
+
+export interface IRecognizeContext {
+    message: IMessage;
+    userData: any;
+    conversationData: any;
+    privateConversationData: any;
+    localizer: ILocalizer;
+    preferredLocale(): string;
+    gettext(messageid: string, ...args: any[]): string;
+    ngettext(messageid: string, messageid_plural: string, count: number): string;
+    dialogStack(): IDialogState[];
+
+    /** deprecated */
+    locale: string;     
+}
+
+export interface IRecognizeResult {
+    score: number;
 }
 
 export interface IIntentRecognizerResult extends IRecognizeResult {

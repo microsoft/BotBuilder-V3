@@ -20,8 +20,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import msg = require('../Message');
+import { Session } from '../Session';
 
 export class Keyboard implements IIsAttachment {
     protected data = {
@@ -29,7 +28,7 @@ export class Keyboard implements IIsAttachment {
         content: <IKeyboard>{}
     };
     
-    constructor(protected session?: ses.Session) {
+    constructor(protected session?: Session) {
     }
 
     public buttons(list: ICardAction[]|IIsCardAction[]): this {

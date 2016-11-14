@@ -31,32 +31,32 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import consts = require('../consts');
-import utils = require('../utils');
-import dlg = require('./Dialog');
-import prompts = require('./Prompts');
-import simple = require('./SimpleDialog');
-import logger = require('../logger');
+import { Session } from '../Session';
+import { Dialog, IDialogResult, ResumeReason } from './Dialog';
+import { PromptType, IPromptArgs } from './Prompts';
+import { SimpleDialog } from './SimpleDialog';
+import * as consts from '../consts';
+import * as utils from '../utils';
 
-export interface IDialogWaterfallStep {
-    (session: ses.Session, result?: any, skip?: (results?: dlg.IDialogResult<any>) => void): void;
+
+export interface IDialogHandler<T> {
+    (session: Session, args?: T): void;
 }
 
 export class DialogAction {
     static send(msg: string|string[]|IMessage|IIsMessage, ...args: any[]): IDialogHandler<any> {
         args.splice(0, 0, msg);
-        return function sendAction(s: ses.Session) {
+        return function sendAction(s: Session) {
             // Send a message to the user.
-            ses.Session.prototype.send.apply(s, args);
+            Session.prototype.send.apply(s, args);
         };
     }
 
     static beginDialog<T>(id: string, args?: T): IDialogHandler<T> {
-        return function beginDialogAction(s: ses.Session, a: any) {
+        return function beginDialogAction(s: Session, a: any) {
             // Handle calls where we're being resumed.
             if (a && a.hasOwnProperty('resumed')) {
-                var r = <dlg.IDialogResult<any>>a;
+                var r = <IDialogResult<any>>a;
                 if (r.error) {
                     s.error(r.error);
                 }
@@ -78,14 +78,14 @@ export class DialogAction {
     }
 
     static endDialog(result?: any): IDialogHandler<any> {
-        return function endDialogAction(s: ses.Session) {
+        return function endDialogAction(s: Session) {
             // End dialog
             s.endDialog(result);
         };
     }
     
-    static validatedPrompt(promptType: prompts.PromptType, validator: (response: any) => boolean): dlg.Dialog {
-        return new simple.SimpleDialog((s: ses.Session, r: dlg.IDialogResult<any>) => {
+    static validatedPrompt(promptType: PromptType, validator: (response: any) => boolean): Dialog {
+        return new SimpleDialog((s: Session, r: IDialogResult<any>) => {
             r = r || <any>{};
 
             // Validate response
@@ -101,9 +101,9 @@ export class DialogAction {
             // Check for the user canceling the prompt
             var canceled = false;
             switch (r.resumed) {
-                case dlg.ResumeReason.canceled:
-                case dlg.ResumeReason.forward:
-                case dlg.ResumeReason.back:
+                case ResumeReason.canceled:
+                case ResumeReason.forward:
+                case ResumeReason.back:
                     canceled = true;
                     break;
             }
@@ -121,73 +121,20 @@ export class DialogAction {
                 }
                 
                 // Prompt user
-                var a: prompts.IPromptArgs = utils.clone(s.dialogData);
+                var a: IPromptArgs = utils.clone(s.dialogData);
                 a.maxRetries = 0;
                 s.beginDialog(consts.DialogId.Prompts, a);
             } else if (s.dialogData.maxRetries > 0) {
                 // Reprompt the user
                 s.dialogData.maxRetries--;
-                var a: prompts.IPromptArgs = utils.clone(s.dialogData);
+                var a: IPromptArgs = utils.clone(s.dialogData);
                 a.maxRetries = 0;
                 a.prompt = s.dialogData.retryPrompt || "I didn't understand. " + s.dialogData.prompt;
                 s.beginDialog(consts.DialogId.Prompts, a);
             } else {
                 // User failed to enter a valid response
-                s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
+                s.endDialogWithResult({ resumed: ResumeReason.notCompleted });
             }
         }); 
     }
-}
-
-export function waterfall(steps: IDialogWaterfallStep[]): IDialogHandler<any> {
-    return function waterfallAction(s: ses.Session, r: dlg.IDialogResult<any>) {
-        var skip = (result?: dlg.IDialogResult<any>) => {
-            result = result || <any>{};
-            if (result.resumed == null) {
-                result.resumed = dlg.ResumeReason.forward;
-            }
-            waterfallAction(s, result);
-        };
-
-        // Check for continuation of waterfall
-        if (r && r.hasOwnProperty('resumed')) {
-            // Adjust step based on users utterance
-            var step = s.dialogData[consts.Data.WaterfallStep];
-            switch (r.resumed) {
-                case dlg.ResumeReason.back:
-                    step -= 1;
-                    break;
-                default:
-                    step++;
-            }
-
-            // Handle result
-            if (step >= 0 && step < steps.length) {
-                // Execute next step of the waterfall
-                try {
-                    logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
-                    s.dialogData[consts.Data.WaterfallStep] = step;
-                    steps[step](s, r, skip);
-                } catch (e) {
-                    s.error(e);
-                }
-            } else {
-                // End the current dialog and return results to parent
-                s.endDialogWithResult(r);
-            }
-        } else if (steps && steps.length > 0) {
-            // Start waterfall
-            try {
-                logger.info(s, 'waterfall() step %d of %d', 1, steps.length);
-                s.dialogData[consts.Data.WaterfallStep] = 0;
-                steps[0](s, r, skip);
-            } catch (e) {
-                s.error(e);
-            }
-        } else {
-            // Empty waterfall so end dialog with not completed
-            logger.warn(s, 'waterfall() empty waterfall detected');
-            s.endDialogWithResult({ resumed: dlg.ResumeReason.notCompleted });
-        }
-    }; 
 }

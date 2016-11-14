@@ -56,7 +56,14 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         {
             SetField.NotNull(out this.method, nameof(method), method);
             SetField.NotNull(out this.parameters, nameof(parameters), parameters);
-            SetField.NotNull(out this.instance, nameof(instance), instance);
+            if (this.method.IsStatic)
+            {
+                this.instance = instance;
+            }
+            else
+            {
+                SetField.NotNull(out this.instance, nameof(instance), instance);
+            }
             SetField.NotNull(out this.arguments, nameof(arguments), arguments);
         }
         public Task InvokeAsync(CancellationToken token)

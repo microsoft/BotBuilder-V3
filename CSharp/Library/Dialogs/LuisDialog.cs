@@ -52,6 +52,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// Associate a LUIS intent with a dialog method.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
+    [Serializable]
     public class LuisIntentAttribute : AttributeString
     {
         /// <summary>
@@ -202,8 +203,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             var message = await item;
             var messageText = await GetLuisQueryTextAsync(context, message);
-            // TODO: obtain CancellationToken from IPostToBot.PostAsync
-            var tasks = this.services.Select(s => s.QueryAsync(messageText, CancellationToken.None)).ToArray();
+            var tasks = this.services.Select(s => s.QueryAsync(messageText, context.CancellationToken)).ToArray();
             var winner = this.BestResultFrom(await Task.WhenAll(tasks));
 
             IntentActivityHandler handler = null;

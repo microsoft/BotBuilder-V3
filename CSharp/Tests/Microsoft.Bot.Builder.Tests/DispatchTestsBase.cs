@@ -1,6 +1,4 @@
-﻿using Autofac;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
+﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Builder.Luis;
@@ -15,15 +13,12 @@ using System.Text.RegularExpressions;
 using Match = System.Text.RegularExpressions.Match;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using Moq;
-using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Tests
 {
-    [TestClass]
-    public sealed class DispatchTests
+    [Ignore]
+    public abstract class DispatchTestsBase
     {
         public const string IntentAll = "intentAll";
         public const string IntentOne = "intentOne";
@@ -68,81 +63,91 @@ namespace Microsoft.Bot.Builder.Tests
             //  regex: longer matches and result scoring
             //  errors: ambiguous binding message, no match found?
 
+            [MethodBind]
+            [ScorableOrder(2)]
             Task Activity(IMessageActivity activity);
+            [MethodBind]
+            [ScorableOrder(2)]
             Task Activity(ITypingActivity activity);
+            [MethodBind]
+            [ScorableOrder(2)]
             Task Activity(IActivity activity);
 
 
             [LuisIntent(IntentAll)]
-            Task LuisAllTypes
-                (
+            [ScorableOrder(1)]
+            Task LuisAllTypes(
                 ILuisModel model,
                 IntentRecommendation intent,
                 LuisResult result,
-                [Entity(EntityTypeA)] string entityA_S,
-                [Entity(EntityTypeA)] IEnumerable<string> entityA_IE_S,
-                [Entity(EntityTypeA)] IReadOnlyCollection<string> entityA_IC_S,
-                [Entity(EntityTypeA)] IReadOnlyList<string> entityA_IL_S,
-                [Entity(EntityTypeA)] EntityRecommendation entityA_E,
-                [Entity(EntityTypeA)] IEnumerable<EntityRecommendation> entityA_IE_E,
-                [Entity(EntityTypeA)] IReadOnlyCollection<EntityRecommendation> entityA_IC_E,
-                [Entity(EntityTypeA)] IReadOnlyList<EntityRecommendation> entityA_IL_E,
-                [Entity(EntityTypeB)] string entityB_S,
-                [Entity(EntityTypeB)] IEnumerable<string> entityB_IE_S,
-                [Entity(EntityTypeB)] IReadOnlyCollection<string> entityB_IC_S,
-                [Entity(EntityTypeB)] IReadOnlyList<string> entityB_IL_S,
-                [Entity(EntityTypeB)] EntityRecommendation entityB_E,
-                [Entity(EntityTypeB)] IEnumerable<EntityRecommendation> entityB_IE_E,
-                [Entity(EntityTypeB)] IReadOnlyCollection<EntityRecommendation> entityB_IC_E,
-                [Entity(EntityTypeB)] IReadOnlyList<EntityRecommendation> entityB_IL_E
+                [Entity(EntityTypeA)] string entityA_as_String,
+                [Entity(EntityTypeA)] IEnumerable<string> entityA_as_IEnumerable_String,
+                [Entity(EntityTypeA)] IReadOnlyCollection<string> entityA_as_IReadOnlyCollection_String,
+                [Entity(EntityTypeA)] IReadOnlyList<string> entityA_as_IReadOnlyList_String,
+                [Entity(EntityTypeA)] EntityRecommendation entityA_as_EntityRecommendation,
+                [Entity(EntityTypeA)] IEnumerable<EntityRecommendation> entityA_as_IEnumerable_EntityRecommendation,
+                [Entity(EntityTypeA)] IReadOnlyCollection<EntityRecommendation> entityA_as_IReadOnlyCollection_EntityRecommendation,
+                [Entity(EntityTypeA)] IReadOnlyList<EntityRecommendation> entityA_as_IReadOnlyList_EntityRecommendation,
+                [Entity(EntityTypeB)] string entityB_as_String,
+                [Entity(EntityTypeB)] IEnumerable<string> entityB_as_IEnumerable_String,
+                [Entity(EntityTypeB)] IReadOnlyCollection<string> entityB_as_IReadOnlyCollection_String,
+                [Entity(EntityTypeB)] IReadOnlyList<string> entityB_as_IReadOnlyList_String,
+                [Entity(EntityTypeB)] EntityRecommendation entityB_as_EntityRecommendation,
+                [Entity(EntityTypeB)] IEnumerable<EntityRecommendation> entityB_as_IEnumerable_EntityRecommendation,
+                [Entity(EntityTypeB)] IReadOnlyCollection<EntityRecommendation> entityB_as_IReadOnlyCollection_EntityRecommendation,
+                [Entity(EntityTypeB)] IReadOnlyList<EntityRecommendation> entityB_as_IReadOnlyList_EntityRecommendation
                 );
 
             [LuisIntent(IntentOne)]
-            Task LuisOne(ILuisModel model, [Entity(EntityTypeA)] IEnumerable<string> entityA);
+            [ScorableOrder(1)]
+            Task LuisOne(
+                ILuisModel model,
+                [Entity(EntityTypeA)] IEnumerable<string> entityA);
 
             [LuisIntent(IntentTwo)]
-            Task LuisTwo(ILuisModel model, [Entity(EntityTypeA)] string entityA);
+            [ScorableOrder(1)]
+            Task LuisTwo(
+                ILuisModel model,
+                [Entity(EntityTypeA)] string entityA);
 
             [LuisIntent(IntentNone)]
+            [ScorableOrder(1)]
             Task LuisNone(ILuisModel model);
 
             [RegexPattern("RegexAll (?<captureAll>.*)")]
-            Task RegexAllTypes(Regex regex, Match match, CaptureCollection captures, [Entity("captureAll")] Capture capture, [Entity("captureAll")] string text);
+            [ScorableOrder(0)]
+            Task RegexAllTypes(
+                Regex regex,
+                Match match,
+                CaptureCollection captures,
+                [Entity("captureAll")] Capture capture,
+                [Entity("captureAll")] string text);
 
             [RegexPattern("RegexOne (?<captureOne>.*)")]
-            Task RegexOne([Entity("captureOne")] Capture capture);
+            [ScorableOrder(0)]
+            Task RegexOne(
+                [Entity("captureOne")] Capture capture);
 
             [RegexPattern("RegexTwo (?<captureTwo>.*)")]
-            Task RegexTwo([Entity("captureTwo")] string capture);
+            [ScorableOrder(0)]
+            Task RegexTwo(
+                [Entity("captureTwo")] string capture);
         }
 
-        private readonly CancellationToken token = new CancellationTokenSource().Token;
-        private readonly Mock<IMethods> methods = new Mock<IMethods>(MockBehavior.Strict);
-        private readonly Mock<ILuisService> luisOne = new Mock<ILuisService>(MockBehavior.Strict);
-        private readonly Mock<ILuisService> luisTwo = new Mock<ILuisService>(MockBehavior.Strict);
-        private readonly Activity activity = new Activity();
-        private readonly IResolver resolver;
-        private readonly IScorable<IResolver, object> scorable;
+        protected readonly CancellationToken token = new CancellationTokenSource().Token;
+        protected readonly Mock<IMethods> methods = new Mock<IMethods>(MockBehavior.Strict);
+        protected readonly Mock<ILuisService> luisOne = new Mock<ILuisService>(MockBehavior.Strict);
+        protected readonly Mock<ILuisService> luisTwo = new Mock<ILuisService>(MockBehavior.Strict);
+        protected readonly Activity activity = (Activity)DialogTestBase.MakeTestMessage();
 
-        private readonly Dictionary<string, LuisResult> luisOneByText = new Dictionary<string, LuisResult>();
-        private readonly Dictionary<string, LuisResult> luisTwoByText = new Dictionary<string, LuisResult>();
+        protected readonly Dictionary<string, LuisResult> luisOneByText = new Dictionary<string, LuisResult>();
+        protected readonly Dictionary<string, LuisResult> luisTwoByText = new Dictionary<string, LuisResult>();
 
-        public DispatchTests()
+        public DispatchTestsBase()
         {
-            // TODO: not working
-            //methods.Setup(m => m.ToString()).Returns("methods");
-
-            this.resolver =
-                new ActivityResolver(
-                    new DictionaryResolver(new Dictionary<Type, object>()
-                    {
-                        { typeof(IActivity), this.activity },
-                        { typeof(IMethods), this.methods.Object },
-                    }, new NullResolver()));
-
             luisOne
                 .Setup(l => l.BuildUri(It.IsAny<string>()))
-                .Returns<string>(q => new UriBuilder() { Path = q }.Uri);
+                .Returns<string>(q => new UriBuilder() { Host = "one", Path = q }.Uri);
 
             luisOne
                 .Setup(l => l.QueryAsync(It.IsAny<Uri>(), token))
@@ -154,7 +159,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             luisTwo
                 .Setup(l => l.BuildUri(It.IsAny<string>()))
-                .Returns<string>(q => new UriBuilder() { Path = q }.Uri);
+                .Returns<string>(q => new UriBuilder() { Host = "two", Path = q }.Uri);
 
             luisTwo
                 .Setup(l => l.QueryAsync(It.IsAny<Uri>(), token))
@@ -163,19 +168,17 @@ namespace Microsoft.Bot.Builder.Tests
                     var text = u.LocalPath.Substring(1);
                     return luisTwoByText[text];
                 });
+        }
 
-            Func<ILuisModel, ILuisService> make = model =>
-            {
-                if (model.SubscriptionKey == KeyOne && model.ModelID == ModelOne) return luisOne.Object;
-                if (model.SubscriptionKey == KeyTwo && model.ModelID == ModelTwo) return luisTwo.Object;
-                throw new NotImplementedException();
-            };
-
-            this.scorable = new AttributeScorable(typeof(IMethods), make);
+        public ILuisService MakeLuisService(ILuisModel model)
+        {
+            if (model.SubscriptionKey == KeyOne && model.ModelID == ModelOne) return luisOne.Object;
+            if (model.SubscriptionKey == KeyTwo && model.ModelID == ModelTwo) return luisTwo.Object;
+            throw new NotImplementedException();
         }
 
         [TestInitialize]
-        public void TestInitialize()
+        public virtual void TestInitialize()
         {
             this.activity.Type = null;
             this.activity.Text = null;
@@ -186,6 +189,19 @@ namespace Microsoft.Bot.Builder.Tests
             this.luisTwoByText.Clear();
         }
 
+        public abstract Task ActAsync();
+
+        public virtual void VerifyMocks()
+        {
+            methods.VerifyAll();
+
+            foreach (var luis in new[] { luisOne, luisTwo })
+            {
+                luis
+                    .Verify(l => l.QueryAsync(It.IsAny<Uri>(), token), Times.AtMostOnce);
+            }
+        }
+
         [TestMethod]
         public async Task Dispatch_Activity_Message()
         {
@@ -193,17 +209,17 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Message;
             activity.Text = "blah";
 
-            this.luisOneByText[activity.Text] = Result(null, null, null, null);
-            this.luisTwoByText[activity.Text] = Result(null, null, null, null);
+            luisOneByText[activity.Text] = Result(null, null, null, null);
+            luisTwoByText[activity.Text] = Result(null, null, null, null);
             methods
                 .Setup(m => m.Activity((IMessageActivity) this.activity))
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -213,17 +229,17 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Typing;
             activity.Text = "blah";
 
-            this.luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
-            this.luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
+            luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
+            luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
             methods
                 .Setup(m => m.Activity((ITypingActivity)this.activity))
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -233,17 +249,17 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.DeleteUserData;
             activity.Text = "blah";
 
-            this.luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
-            this.luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
+            luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
+            luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
             methods
                 .Setup(m => m.Activity((IActivity)this.activity))
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -253,8 +269,8 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Message;
             activity.Text = "RegexAll captureThis";
 
-            this.luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
-            this.luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
+            luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
+            luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
             methods
                 .Setup(m => m.RegexAllTypes
                     (
@@ -267,10 +283,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -280,8 +296,8 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Message;
             activity.Text = "RegexOne captureOneValue";
 
-            this.luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
-            this.luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
+            luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
+            luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
             methods
                 .Setup(m => m.RegexOne
                     (
@@ -289,10 +305,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -302,8 +318,8 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Message;
             activity.Text = "RegexTwo captureTwoValue";
 
-            this.luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
-            this.luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
+            luisOneByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
+            luisTwoByText[activity.Text] = Result(0.7, 0.8, 0.9, 1.0);
             methods
                 .Setup(m => m.RegexTwo
                     (
@@ -311,10 +327,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -324,8 +340,8 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Message;
             activity.Text = "blah";
 
-            this.luisOneByText[activity.Text] = Result(0.9, 0.8, 0.7, 0.6);
-            this.luisTwoByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
+            luisOneByText[activity.Text] = Result(0.9, 0.8, 0.7, 0.6);
+            luisTwoByText[activity.Text] = Result(1.0, 0.9, 0.8, 0.7);
 
             methods
                 .Setup(m => m.LuisAllTypes
@@ -353,12 +369,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
-            luisOne.VerifyAll();
-            luisTwo.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -368,8 +382,8 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Message;
             activity.Text = "blah";
 
-            this.luisOneByText[activity.Text] = Result(0.0, 0.9, 0.5, 0.5);
-            this.luisTwoByText[activity.Text] = Result(0.0, 0.5, 0.5, 0.5);
+            luisOneByText[activity.Text] = Result(0.0, 0.9, 0.5, 0.5);
+            luisTwoByText[activity.Text] = Result(0.0, 0.5, 0.5, 0.5);
 
             methods
                 .Setup(m => m.LuisOne
@@ -380,12 +394,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
-            luisOne.VerifyAll();
-            luisTwo.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -395,8 +407,8 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Message;
             activity.Text = "blah";
 
-            this.luisOneByText[activity.Text] = Result(0.0, 0.5, 0.5, 0.5);
-            this.luisTwoByText[activity.Text] = Result(0.0, 0.9, 0.5, 0.5);
+            luisOneByText[activity.Text] = Result(0.0, 0.5, 0.5, 0.5);
+            luisTwoByText[activity.Text] = Result(0.0, 0.9, 0.5, 0.5);
 
             methods
                 .Setup(m => m.LuisOne
@@ -407,12 +419,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
-            luisOne.VerifyAll();
-            luisTwo.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -422,8 +432,8 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Message;
             activity.Text = "blah";
 
-            this.luisOneByText[activity.Text] = Result(0.0, 0.5, 0.9, 0.5);
-            this.luisTwoByText[activity.Text] = Result(0.0, 0.5, 0.5, 0.5);
+            luisOneByText[activity.Text] = Result(0.0, 0.5, 0.9, 0.5);
+            luisTwoByText[activity.Text] = Result(0.0, 0.5, 0.5, 0.5);
 
             methods
                 .Setup(m => m.LuisTwo
@@ -434,12 +444,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
-            luisOne.VerifyAll();
-            luisTwo.VerifyAll();
+            VerifyMocks();
         }
 
         [TestMethod]
@@ -449,8 +457,8 @@ namespace Microsoft.Bot.Builder.Tests
             activity.Type = ActivityTypes.Message;
             activity.Text = "blah";
 
-            this.luisOneByText[activity.Text] = Result(0.0, 0.5, 0.5, 0.5);
-            this.luisTwoByText[activity.Text] = Result(0.0, 0.5, 0.9, 0.5);
+            luisOneByText[activity.Text] = Result(0.0, 0.5, 0.5, 0.5);
+            luisTwoByText[activity.Text] = Result(0.0, 0.5, 0.9, 0.5);
 
             methods
                 .Setup(m => m.LuisTwo
@@ -461,12 +469,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns(Task.CompletedTask);
 
             // act
-            Assert.IsTrue(await scorable.TryPostAsync(resolver, token));
+            await ActAsync();
 
             // assert
-            methods.VerifyAll();
-            luisOne.VerifyAll();
-            luisTwo.VerifyAll();
+            VerifyMocks();
         }
     }
 }

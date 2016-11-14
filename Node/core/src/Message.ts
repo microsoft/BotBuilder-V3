@@ -31,13 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('./Session');
-import sprintf = require('sprintf-js');
-import utils = require('./utils');
-import hc = require('./cards/HeroCard');
-import img = require('./cards/CardImage');
-import ca = require('./cards/CardAction');
-import consts = require('./consts');
+import { Session } from './Session';
+import { HeroCard } from './cards/HeroCard';
+import { CardImage } from './cards/CardImage';
+import { CardAction } from './cards/CardAction';
+import * as utils from './utils';
+import * as consts from './consts';
+import * as sprintf from 'sprintf-js';
 
 export interface ISourceEventMap {
     [source: string]: any;
@@ -57,7 +57,7 @@ export var AttachmentLayout = {
 export class Message implements IIsMessage {
     private data = <IMessage>{};
     
-    constructor(private session?: ses.Session) {
+    constructor(private session?: Session) {
         this.data.type = consts.messageType;
         this.data.agent = consts.agent;
         if (this.session) {
@@ -203,7 +203,7 @@ export class Message implements IIsMessage {
         if (isOldSchema) {
             console.warn('Using old attachment schema. Upgrade to new card schema.');
             var v2 = <IAttachmentV2>a;
-            var card = new hc.HeroCard();
+            var card = new HeroCard();
             if (v2.title) {
                 card.title(v2.title);
             }
@@ -211,18 +211,18 @@ export class Message implements IIsMessage {
                 card.text(v2.text);
             }
             if (v2.thumbnailUrl) {
-                card.images([new img.CardImage().url(v2.thumbnailUrl)]);
+                card.images([new CardImage().url(v2.thumbnailUrl)]);
             }
             if (v2.titleLink) {
-                card.tap(ca.CardAction.openUrl(null, v2.titleLink));
+                card.tap(CardAction.openUrl(null, v2.titleLink));
             }
             if (v2.actions) {
-                var list: ca.CardAction[] = [];
+                var list: CardAction[] = [];
                 for (var i = 0; i < v2.actions.length; i++) {
                     var old = v2.actions[i];
                     var btn = old.message ? 
-                        ca.CardAction.imBack(null, old.message, old.title) : 
-                        ca.CardAction.openUrl(null, old.url, old.title);
+                        CardAction.imBack(null, old.message, old.title) : 
+                        CardAction.openUrl(null, old.url, old.title);
                     if (old.image) {
                         btn.image(old.image);
                     }
@@ -245,7 +245,7 @@ export class Message implements IIsMessage {
         }
     }
     
-    static composePrompt(session: ses.Session, prompts: string[][], args?: any[]): string {
+    static composePrompt(session: Session, prompts: string[][], args?: any[]): string {
         var connector = '';
         var prompt = '';
         for (var i = 0; i < prompts.length; i++) {
@@ -265,7 +265,7 @@ export class Message implements IIsMessage {
         return this.textLocale(local);
     }
     
-    public setText(session: ses.Session, prompts: string|string[], ...args: any[]): this {
+    public setText(session: Session, prompts: string|string[], ...args: any[]): this {
         console.warn("Message.setText() is deprecated. Use Message.text() instead.");
         if (session && !this.session) {
             this.session = session;
@@ -274,7 +274,7 @@ export class Message implements IIsMessage {
         return Message.prototype.text.apply(this, args);
     }
 
-    public setNText(session: ses.Session, msg: string, msg_plural: string, count: number): this {
+    public setNText(session: Session, msg: string, msg_plural: string, count: number): this {
         console.warn("Message.setNText() is deprecated. Use Message.ntext() instead.");
         if (session && !this.session) {
             this.session = session;
@@ -282,7 +282,7 @@ export class Message implements IIsMessage {
         return this.ntext(msg, msg_plural, count);
     }
     
-    public composePrompt(session: ses.Session, prompts: string[][], ...args: any[]): this {
+    public composePrompt(session: Session, prompts: string[][], ...args: any[]): this {
         console.warn("Message.composePrompt() is deprecated. Use Message.compose() instead.");
         if (session && !this.session) {
             this.session = session;
@@ -297,7 +297,7 @@ export class Message implements IIsMessage {
     }
 }
 
-export function fmtText(session: ses.Session, prompts: string|string[], args?: any[]): string {
+export function fmtText(session: Session, prompts: string|string[], args?: any[]): string {
     var fmt = Message.randomPrompt(prompts);
     if (session) {
         // Run prompt through localizer

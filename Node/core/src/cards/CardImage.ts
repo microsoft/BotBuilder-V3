@@ -31,13 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import msg = require('../Message');
+import { Session } from '../Session';
+import { fmtText } from '../Message';
 
 export class CardImage implements IIsCardImage {
     private data = <ICardImage>{};
     
-    constructor(private session?: ses.Session) {
+    constructor(private session?: Session) {
         
     }
     
@@ -50,7 +50,7 @@ export class CardImage implements IIsCardImage {
     
     public alt(text: string|string[], ...args: any[]): this {
         if (text) {
-            this.data.alt = msg.fmtText(this.session, text, args);
+            this.data.alt = fmtText(this.session, text, args);
         }
         return this;
     }
@@ -66,7 +66,7 @@ export class CardImage implements IIsCardImage {
         return this.data;    
     }
 
-    static create(session: ses.Session, url: string): CardImage {
+    static create(session: Session, url: string): CardImage {
         return new CardImage(session).url(url);
     }
 }

@@ -1,10 +1,10 @@
 "use strict";
-var sprintf = require('sprintf-js');
+var HeroCard_1 = require('./cards/HeroCard');
+var CardImage_1 = require('./cards/CardImage');
+var CardAction_1 = require('./cards/CardAction');
 var utils = require('./utils');
-var hc = require('./cards/HeroCard');
-var img = require('./cards/CardImage');
-var ca = require('./cards/CardAction');
 var consts = require('./consts');
+var sprintf = require('sprintf-js');
 exports.TextFormat = {
     plain: 'plain',
     markdown: 'markdown',
@@ -159,7 +159,7 @@ var Message = (function () {
         if (isOldSchema) {
             console.warn('Using old attachment schema. Upgrade to new card schema.');
             var v2 = a;
-            var card = new hc.HeroCard();
+            var card = new HeroCard_1.HeroCard();
             if (v2.title) {
                 card.title(v2.title);
             }
@@ -167,18 +167,18 @@ var Message = (function () {
                 card.text(v2.text);
             }
             if (v2.thumbnailUrl) {
-                card.images([new img.CardImage().url(v2.thumbnailUrl)]);
+                card.images([new CardImage_1.CardImage().url(v2.thumbnailUrl)]);
             }
             if (v2.titleLink) {
-                card.tap(ca.CardAction.openUrl(null, v2.titleLink));
+                card.tap(CardAction_1.CardAction.openUrl(null, v2.titleLink));
             }
             if (v2.actions) {
                 var list = [];
                 for (var i = 0; i < v2.actions.length; i++) {
                     var old = v2.actions[i];
                     var btn = old.message ?
-                        ca.CardAction.imBack(null, old.message, old.title) :
-                        ca.CardAction.openUrl(null, old.url, old.title);
+                        CardAction_1.CardAction.imBack(null, old.message, old.title) :
+                        CardAction_1.CardAction.openUrl(null, old.url, old.title);
                     if (old.image) {
                         btn.image(old.image);
                     }

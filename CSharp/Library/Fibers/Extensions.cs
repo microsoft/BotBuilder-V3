@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
@@ -138,6 +139,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
 
             return stack[stack.Count - 1];
+        }
+
+        public static T GetValue<T>(this SerializationInfo info, string name)
+        {
+            return (T)info.GetValue(name, typeof(T));
         }
 
         public static V GetOrAdd<K, V>(this IDictionary<K, V> valueByKey, K key, Func<K, V> make)

@@ -213,6 +213,46 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task DialogTask_CancellationToken_Propagated_Through_Context()
+        {
+            var dialog = new Mock<IDialogFrames<object>>(MockBehavior.Strict);
+
+            var source = new CancellationTokenSource();
+
+            dialog
+                .Setup(d => d.StartAsync(It.Is<IDialogContext>(c => c.CancellationToken.Equals(source.Token))))
+                .Returns<IDialogContext>(async context =>
+                {
+                    context.Wait(dialog.Object.ItemReceived);
+                });
+
+            dialog
+                .Setup(d => d.ItemReceived(It.Is<IDialogContext>(c => c.CancellationToken.Equals(source.Token)), It.IsAny<IAwaitable<IMessageActivity>>()))
+                .Returns<IDialogContext, IAwaitable<IMessageActivity>>(async (context, item) =>
+                {
+                    context.Wait(dialog.Object.ItemReceived);
+                });
+
+            var toBot = MakeTestMessage();
+
+            using (new FiberTestBase.ResolveMoqAssembly(dialog.Object))
+            using (var container = Build(Options.ResolveDialogFromContainer, dialog.Object))
+            {
+                var builder = new ContainerBuilder();
+                builder.RegisterInstance(dialog.Object).As<IDialog<object>>();
+                builder.Update(container);
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    await PostActivityAsync(container, toBot, source.Token);
+                    await PostActivityAsync(container, toBot, source.Token);
+                }
+            }
+
+            dialog.VerifyAll();
+        }
+
+        [TestMethod]
         public async Task DialogTask_Frames_After_Poll_No_Post()
         {
             var dialog = new Mock<IDialogFrames<object>>(MockBehavior.Loose);
@@ -500,12 +540,8 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable = MockScorable(item, state, score);
 
             var inner = new Mock<IPostToBot>();
-            var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
-            stack
-                .SetupGet(i => i.Frames)
-                    .Returns(Array.Empty<Delegate>());
-
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
+            
             var token = new CancellationToken();
             scorable
                 .Setup(s => s.PostAsync(item, state, token))
@@ -535,12 +571,8 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable = MockScorable(item, state, score);
 
             var inner = new Mock<IPostToBot>();
-            var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
-            stack
-                .SetupGet(i => i.Frames)
-                    .Returns(Array.Empty<Delegate>());
-
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
+           
             try
             {
                 var token = new CancellationToken();
@@ -575,12 +607,8 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable2 = new Mock<IScorable<object, double>>(MockBehavior.Strict);
 
             var inner = new Mock<IPostToBot>();
-            var stack = new Mock<IDialogStack>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, stack.Object, new TraitsScorable<object, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable1.Object, scorable2.Object }));
-            stack
-                .SetupGet(i => i.Frames)
-                    .Returns(Array.Empty<Delegate>());
-
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<object, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable1.Object, scorable2.Object }));
+            
             var token = new CancellationToken();
             scorable1
                 .Setup(s => s.PostAsync(item, state1, token))

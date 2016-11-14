@@ -36,9 +36,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Resources;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -47,13 +45,17 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public sealed class DialogTask : IDialogStack, IPostToBot
+    public interface IDialogTask : IDialogStack, IPostToBot
     {
-        private readonly Func<IDialogContext> makeContext;
+    }
+
+    public sealed class DialogTask : IDialogTask
+    {
+        private readonly Func<CancellationToken, IDialogContext> makeContext;
         private readonly IStore<IFiberLoop<DialogTask>> store;
         private readonly IFiberLoop<DialogTask> fiber;
         private readonly Frames frames;
-        public DialogTask(Func<IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store)
+        public DialogTask(Func<CancellationToken, IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store)
         {
             SetField.NotNull(out this.makeContext, nameof(makeContext), makeContext);
             SetField.NotNull(out this.store, nameof(store), store);
@@ -85,7 +87,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 }
             }
 
-            public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<object> item)
+            public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<object> item, CancellationToken token)
             {
                 var result = await item;
                 if (result != null)
@@ -93,7 +95,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     throw new ArgumentException(nameof(item));
                 }
 
-                await this.start(task.makeContext());
+                await this.start(task.makeContext(token));
                 return task.wait;
             }
         }
@@ -115,9 +117,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 }
             }
 
-            public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item)
+            public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item, CancellationToken token)
             {
-                await this.resume(task.makeContext(), item);
+                await this.resume(task.makeContext(token), item);
                 return task.wait;
             }
         }
@@ -235,7 +237,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             try
             {
-                await this.fiber.PollAsync(this);
+                await this.fiber.PollAsync(this, token);
 
                 // this line will throw an error if the code does not schedule the next callback
                 // to wait for the next message sent from the user to the bot.
@@ -266,20 +268,24 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             IDialogStack stack = this;
             await stack.PollAsync(token);
         }
+
+        internal IStore<IFiberLoop<DialogTask>> Store
+        {
+            get
+            {
+                return this.store;
+            }
+        }
     }
 
     public sealed class ReactiveDialogTask : IPostToBot
     {
-        private readonly IPostToBot inner;
-        private readonly IDialogStack stack;
-        private readonly IStore<IFiberLoop<DialogTask>> store;
+        private readonly IDialogTask dialogTask;
         private readonly Func<IDialog<object>> makeRoot;
 
-        public ReactiveDialogTask(IPostToBot inner, IDialogStack stack, IStore<IFiberLoop<DialogTask>> store, Func<IDialog<object>> makeRoot)
+        public ReactiveDialogTask(IDialogTask dialogTask, Func<IDialog<object>> makeRoot)
         {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.stack, nameof(stack), stack);
-            SetField.NotNull(out this.store, nameof(store), store);
+            SetField.NotNull(out this.dialogTask, nameof(dialogTask), dialogTask);
             SetField.NotNull(out this.makeRoot, nameof(makeRoot), makeRoot);
         }
 
@@ -287,19 +293,19 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             try
             {
-                if (this.stack.Frames.Count == 0)
+                if (dialogTask.Frames.Count == 0)
                 {
                     var root = this.makeRoot();
                     var loop = root.Loop();
-                    this.stack.Call(loop, null);
-                    await this.stack.PollAsync(token);
+                    dialogTask.Call(loop, null);
+                    await dialogTask.PollAsync(token);
                 }
 
-                await this.inner.PostAsync(item, token);
+                await dialogTask.PostAsync(item, token);
             }
             catch
             {
-                this.store.Reset();
+                dialogTask.Reset();
                 throw;
             }
         }

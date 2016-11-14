@@ -184,11 +184,16 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             builder
                 .RegisterType<Fiber<C>>()
                 .As<IFiberLoop<C>>()
-                .InstancePerLifetimeScope();
+                .InstancePerDependency();
 
             builder
-                .Register((c, p) => new FactoryStore<IFiberLoop<C>>(new ErrorResilientStore<IFiberLoop<C>>(new FormatterStore<IFiberLoop<C>>(c.Resolve<Stream>(p), c.Resolve<IFormatter>(p))), c.Resolve<Func<IFiberLoop<C>>>(p)))
+                .Register((c, p) => new FactoryStore<IFiberLoop<C>>(new ErrorResilientStore<IFiberLoop<C>>(new FormatterStore<IFiberLoop<C>>(p.TypedAs<Stream>(), c.Resolve<IFormatter>(p))), c.Resolve<Func<IFiberLoop<C>>>(p)))
                 .As<IStore<IFiberLoop<C>>>()
+                .InstancePerDependency();
+
+            builder
+                .RegisterType<StoreFromStack<C>>()
+                .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
         }
     }

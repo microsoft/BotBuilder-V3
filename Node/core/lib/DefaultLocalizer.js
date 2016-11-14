@@ -1,9 +1,9 @@
 "use strict";
+var logger = require('./logger');
 var fs = require('fs');
 var async = require('async');
 var Promise = require('promise');
 var path = require('path');
-var logger = require('./logger');
 var DefaultLocalizer = (function () {
     function DefaultLocalizer(root, defaultLocale) {
         this.localePaths = [];
@@ -27,7 +27,7 @@ var DefaultLocalizer = (function () {
     }
     DefaultLocalizer.prototype.defaultLocale = function (locale) {
         if (locale) {
-            this._defaultLocale = locale.toLowerCase();
+            this._defaultLocale = locale;
         }
         else {
             return this._defaultLocale;
@@ -36,7 +36,7 @@ var DefaultLocalizer = (function () {
     DefaultLocalizer.prototype.load = function (locale, done) {
         var _this = this;
         logger.debug("localizer.load(%s)", locale);
-        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
         var fbLocale = this.getFallback(locale);
         var locales = ['en'];
@@ -61,7 +61,7 @@ var DefaultLocalizer = (function () {
         });
     };
     DefaultLocalizer.prototype.trygettext = function (locale, msgid, ns) {
-        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
         var fbLocale = this.getFallback(locale);
         ns = ns ? ns.toLocaleLowerCase() : null;
@@ -166,7 +166,7 @@ var DefaultLocalizer = (function () {
             var readFile = Promise.denodeify(fs.readFile);
             readFile(filePath, 'utf8')
                 .then(function (data) {
-                var ns = path.parse(filename).name;
+                var ns = path.parse(filename).name.toLocaleLowerCase();
                 if (ns == 'index') {
                     ns = null;
                 }

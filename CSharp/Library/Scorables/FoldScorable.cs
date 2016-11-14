@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Fold an aggregation of scorables to produce a winning scorable.
     /// </summary>
-    public class FoldScorable<Item, Score> : ScorableAggregator<Item, Token<Item, Score>, Score, object, Score>
+    public class FoldScorable<Item, Score> : ScorableBase<Item, IReadOnlyList<FoldScorable<Item, Score>.State>, Score>
     {
         protected readonly IComparer<Score> comparer;
         protected readonly IEnumerable<IScorable<Item, Score>> scorables;
@@ -59,56 +59,101 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             return true;
         }
 
-        public override async Task<Token<Item, Score>> PrepareAsync(Item item, CancellationToken token)
+        /// <summary>
+        /// Per-scorable opaque state used during scoring process.
+        /// </summary>
+        public struct State
         {
-            Score maximumScore = default(Score);
-            object maximumState = null;
-            IScorable<Item, Score> maximumScorable = null;
+            public readonly IScorable<Item, Score> scorable;
+            public readonly object state;
+            public State(IScorable<Item, Score> scorable, object state)
+            {
+                this.scorable = scorable;
+                this.state = state;
+            }
+        }
+
+        protected override async Task<IReadOnlyList<State>> PrepareAsync(Item item, CancellationToken token)
+        {
+            var states = new List<State>();
 
             foreach (var scorable in this.scorables)
             {
                 var state = await scorable.PrepareAsync(item, token);
+                states.Add(new State(scorable, state));
                 if (scorable.HasScore(item, state))
                 {
                     var score = scorable.GetScore(item, state);
-                    bool better;
-                    if (maximumScorable == null)
+                    if (!OnFold(scorable, item, state, score))
                     {
-                        better = true;
-                    }
-                    else
-                    {
-                        var compare = this.comparer.Compare(score, maximumScore);
-                        better = compare > 0;
-                    }
-
-                    if (better)
-                    {
-                        maximumScore = score;
-                        maximumState = state;
-                        maximumScorable = scorable;
-
-                        if (! OnFold(scorable, item, state, score))
-                        {
-                            break;
-                        }
+                        break;
                     }
                 }
             }
 
-            if (maximumScorable != null)
+            states.Sort((one, two) =>
             {
-                return new Token<Item, Score>() { Scorable = maximumScorable, State = maximumState };
+                var oneHasScore = one.scorable.HasScore(item, one.state);
+                var twoHasScore = two.scorable.HasScore(item, two.state);
+                if (oneHasScore && twoHasScore)
+                {
+                    var oneScore = one.scorable.GetScore(item, one.state);
+                    var twoScore = two.scorable.GetScore(item, two.state);
+                    return this.comparer.Compare(twoScore, oneScore);
+                }
+                else if (oneHasScore)
+                {
+                    return -1;
+                }
+                else if (twoHasScore)
+                {
+                    return +1;
+                }
+                else
+                {
+                    return 0;
+                }
+            });
+
+            return states;
+        }
+        protected override bool HasScore(Item item, IReadOnlyList<State> states)
+        {
+            if (states.Count > 0)
+            {
+                var state = states[0];
+                return state.scorable.HasScore(item, state.state); 
             }
-            else
+
+            return false;
+        }
+        protected override Score GetScore(Item item, IReadOnlyList<State> states)
+        {
+            var state = states[0];
+            return state.scorable.GetScore(item, state.state);
+        }
+        protected override Task PostAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
+        {
+            try
             {
-                return null;
+                var state = states[0];
+                return state.scorable.PostAsync(item, state.state, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
             }
         }
-
-        public override Score GetScore(Item item, Token<Item, Score> state)
+        protected override async Task DoneAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
         {
-            return state.Scorable.GetScore(item, state.State);
+            foreach (var state in states)
+            {
+                await state.scorable.DoneAsync(item, state.state, token);
+            }
         }
     }
 }

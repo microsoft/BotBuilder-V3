@@ -44,12 +44,18 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Allow for static type checking of opaque state for convenience of scorable implementations.
     /// </summary>
+    /// <remarks>
+    /// The IScorable methods are marked with DebuggerStepThrough because once the compiler has verified the type
+    /// safety of the derived class that implements the abstract State-typed methods, these DebuggerStepThrough
+    /// methods will not throw exceptions due to runtime type errors.
+    /// </remarks>
     public abstract class ScorableBase<Item, State, Score> : IScorable<Item, Score>
     {
-        public abstract Task<State> PrepareAsync(Item item, CancellationToken token);
-        public abstract bool HasScore(Item item, State state);
-        public abstract Score GetScore(Item item, State state);
-        public abstract Task PostAsync(Item item, State state, CancellationToken token);
+        protected abstract Task<State> PrepareAsync(Item item, CancellationToken token);
+        protected abstract bool HasScore(Item item, State state);
+        protected abstract Score GetScore(Item item, State state);
+        protected abstract Task PostAsync(Item item, State state, CancellationToken token);
+        protected abstract Task DoneAsync(Item item, State state, CancellationToken token);
 
         [DebuggerStepThrough]
         async Task<object> IScorable<Item, Score>.PrepareAsync(Item item, CancellationToken token)
@@ -90,6 +96,23 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
+        [DebuggerStepThrough]
+        Task IScorable<Item, Score>.DoneAsync(Item item, object opaque, CancellationToken token)
+        {
+            try
+            {
+                var state = (State)opaque;
+                return this.DoneAsync(item, state, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
     }
 
     /// <summary>
@@ -107,7 +130,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public abstract class ScorableAggregator<Item, OuterState, OuterScore, InnerState, InnerScore> : ScorableBase<Item, OuterState, OuterScore>
         where OuterState : Token<Item, InnerScore>
     {
-        public override bool HasScore(Item item, OuterState state)
+        protected override bool HasScore(Item item, OuterState state)
         {
             if (state != null)
             {
@@ -116,7 +139,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return false;
         }
-        public override Task PostAsync(Item item, OuterState state, CancellationToken token)
+        protected override Task PostAsync(Item item, OuterState state, CancellationToken token)
         {
             try
             {
@@ -124,7 +147,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             }
             catch (OperationCanceledException error)
             {
-                return Task.FromCanceled<Binding>(error.CancellationToken);
+                return Task.FromCanceled(error.CancellationToken);
             }
             catch (Exception error)
             {
