@@ -222,19 +222,17 @@ export class ActionSet {
 
     public cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): this {
         return this.action(name, (session, args) => {
-            if (args && typeof args.dialogIndex === 'number') {
-                if (options.confirmPrompt) {
-                    session.beginDialog(consts.DialogId.ConfirmCancel, {
-                        confirmPrompt: options.confirmPrompt,
-                        dialogIndex: args.dialogIndex,
-                        message: msg 
-                    });
-                } else {
-                    if (msg) {
-                        session.send(msg)
-                    }
-                    session.cancelDialog(args.dialogIndex);
+            if (options.confirmPrompt) {
+                session.beginDialog(consts.DialogId.ConfirmCancel, {
+                    confirmPrompt: options.confirmPrompt,
+                    dialogIndex: args.dialogIndex,
+                    message: msg 
+                });
+            } else {
+                if (msg) {
+                    session.send(msg)
                 }
+                session.cancelDialog(args.dialogIndex);
             }
         }, options);
     }
@@ -261,9 +259,17 @@ export class ActionSet {
         }, options);
     }
 
-    public endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): this {
+    public endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): this {
         return this.action(name, (session, args) => {
-            session.endConversation(msg);
+            if (options.confirmPrompt) {
+                session.beginDialog(consts.DialogId.ConfirmCancel, {
+                    confirmPrompt: options.confirmPrompt,
+                    endConversation: true,
+                    message: msg 
+                });
+            } else {
+                session.endConversation(msg);
+            }
         }, options);
     }
 

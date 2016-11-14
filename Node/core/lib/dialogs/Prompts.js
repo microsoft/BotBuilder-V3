@@ -334,6 +334,7 @@ Library_1.systemLib.dialog(consts.DialogId.ConfirmCancel, [
     function (session, args) {
         session.dialogData.dialogIndex = args.dialogIndex;
         session.dialogData.message = args.message;
+        session.dialogData.endConversation = args.endConversation;
         Prompts.confirm(session, args.confirmPrompt);
     },
     function (session, results) {
@@ -341,7 +342,12 @@ Library_1.systemLib.dialog(consts.DialogId.ConfirmCancel, [
             if (session.dialogData.message) {
                 session.send(session.dialogData.message);
             }
-            session.cancelDialog(session.dialogData.dialogIndex);
+            if (session.dialogData.endConversation) {
+                session.endConversation();
+            }
+            else {
+                session.cancelDialog(session.dialogData.dialogIndex);
+            }
         }
         else {
             session.endDialog();
