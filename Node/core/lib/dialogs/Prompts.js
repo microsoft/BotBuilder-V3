@@ -330,3 +330,21 @@ function beginPrompt(session, args) {
     }
     session.beginDialog(consts.DialogId.Prompts, args);
 }
+Library_1.systemLib.dialog(consts.DialogId.ConfirmCancel, [
+    function (session, args) {
+        session.dialogData.dialogIndex = args.dialogIndex;
+        session.dialogData.message = args.message;
+        Prompts.confirm(session, args.confirmPrompt);
+    },
+    function (session, results) {
+        if (results.response) {
+            if (session.dialogData.message) {
+                session.send(session.dialogData.message);
+            }
+            session.cancelDialog(session.dialogData.dialogIndex);
+        }
+        else {
+            session.endDialog();
+        }
+    }
+]);

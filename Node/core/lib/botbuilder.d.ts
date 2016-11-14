@@ -498,9 +498,23 @@ export interface IDialogActionOptions {
     label?: string;    
 }
 
+/** Options passed when defining a `beginDialogAction()`. */
 export interface IBeginDialogActionOptions extends IDialogActionOptions {
     /** (Optional) arguments to pass to the dialog spawned when the action is triggered. */
     dialogArgs?: any;
+}
+
+/** Options passed when defining a `cancelAction()`. */
+export interface ICancelActionOptions extends IDialogActionOptions {
+    /**
+     * If specified the user will be asked to confirm that they truely would like to cancel an
+     * action when triggered. 
+     * * _{string}_ - Initial message to send the user.
+     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
+     */
+    confirmPrompt?: string|string[]|IMessage|IIsMessage;
 }
 
 /** Arguments passed to a triggered action. */
@@ -1869,7 +1883,7 @@ export abstract class Dialog extends ActionSet {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action.
      */
-    cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): Dialog;
+    cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
 
     /**
      * Binds an action to the dialog that will cause the dialog to be reloaded anytime its triggered. This is

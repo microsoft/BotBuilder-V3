@@ -1,4 +1,5 @@
 "use strict";
+var consts = require('../consts');
 var utils = require('../utils');
 var async = require('async');
 var ActionSet = (function () {
@@ -148,10 +149,19 @@ var ActionSet = (function () {
     ActionSet.prototype.cancelAction = function (name, msg, options) {
         return this.action(name, function (session, args) {
             if (args && typeof args.dialogIndex === 'number') {
-                if (msg) {
-                    session.send(msg);
+                if (options.confirmPrompt) {
+                    session.beginDialog(consts.DialogId.ConfirmCancel, {
+                        confirmPrompt: options.confirmPrompt,
+                        dialogIndex: args.dialogIndex,
+                        message: msg
+                    });
                 }
-                session.cancelDialog(args.dialogIndex);
+                else {
+                    if (msg) {
+                        session.send(msg);
+                    }
+                    session.cancelDialog(args.dialogIndex);
+                }
             }
         }, options);
     };
