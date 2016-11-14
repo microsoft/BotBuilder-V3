@@ -214,20 +214,20 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
     public sealed class AutofacResolver : DelegatingResolver
     {
-        private readonly ILifetimeScope scope;
-        public AutofacResolver(ILifetimeScope scope, IResolver inner)
+        private readonly IComponentContext context;
+        public AutofacResolver(IComponentContext context, IResolver inner)
             : base(inner)
         {
-            SetField.NotNull(out this.scope, nameof(scope), scope);
+            SetField.NotNull(out this.context, nameof(context), context);
         }
 
         public override bool TryResolve(Type type, object tag, out object value)
         {
-            if (tag != null && this.scope.TryResolveKeyed(tag, type, out value))
+            if (tag != null && this.context.TryResolveKeyed(tag, type, out value))
             {
                 return true;
             }
-            else if (this.scope.TryResolve(type, out value))
+            else if (this.context.TryResolve(type, out value))
             {
                 return true;
             }
