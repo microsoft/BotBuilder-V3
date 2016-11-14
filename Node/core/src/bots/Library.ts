@@ -229,7 +229,7 @@ export class Library extends EventEmitter {
         context.intent = topIntent;
         context.libraryName = this.name;
         context.routeType = Library.RouteTypes.StackAction;
-        async.forEachOf((dialogStack || []).reverse(), (entry: IDialogState, index: number, next: ErrorCallback) => {
+        async.forEachOf(dialogStack || [], (entry: IDialogState, index: number, next: ErrorCallback) => {
             // Filter to library.
             var parts = entry.id.split(':');
             if (parts[0] == this.name) {
