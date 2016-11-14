@@ -1,13 +1,15 @@
 /*-----------------------------------------------------------------------------
-This Bot demonstrates how to intercept an action before it runs using  a custom 
-onSelectAction() function. In this specific example we have two tasks for 
-either flipping a coin and rolling some dice. The onSelectAction() function for
-these two tasks lets us first prevent the user from starting the same task twice
-and then ensures that the current task is ended before a new one is started.
+This Bot demonstrates how to add a simple context aware help system to your 
+bot. The '/help' dialogs triggerAction() will invoke the dialog anytime 
+someone asks for help. It can be made context aware by adding a 
+beginDialogAction('<name>', '/help') to other dialogs throughout your bot. You
+can use the name of the action that triggered the dialog to render context 
+sensitive help. 
 
-You can use this function to do other more advanced things like prompt a user to
-confirm they want to cancel an order before swtching tasks or use it save the 
-users current task and return to it later.
+This system leverages the fact that anytime multiple actions are triggered the
+framework will favor the action for the deepest dialog on the stack. The name
+of the action that started the dialog is then passed in which is what we use to
+determine the context.  
 
 # RUN THE BOT:
 
@@ -26,6 +28,7 @@ bot.recognizer(new builder.RegExpRecognizer('Help', /^(help|options)/i));
 bot.dialog('/help', function (session, args) {
     switch (args.action) {
         default:
+            // args.action is '*:/help' indicating the triggerAction() was matched
             session.endDialog("You can say 'flip a coin' or 'roll dice'.");
             break;
         case 'flipCoinHelp':
