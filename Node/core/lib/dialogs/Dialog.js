@@ -27,7 +27,7 @@ var Dialog = (function (_super) {
         }
     };
     Dialog.prototype.recognize = function (context, cb) {
-        cb(null, { score: 0.5 });
+        cb(null, { score: 0.1 });
     };
     return Dialog;
 }(ActionSet_1.ActionSet));

@@ -64,6 +64,6 @@ export abstract class Dialog extends ActionSet {
     }
 
     public recognize(context: IRecognizeDialogContext, cb: (err: Error, result: IRecognizeResult) => void): void {
-        cb(null, { score: 0.5 });
+        cb(null, { score: 0.1 });
     }
 }
