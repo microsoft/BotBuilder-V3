@@ -80,7 +80,7 @@ bot.dialog('/setAlarm', [
     onSelectAction: function (session, args, next) {
         switchTasks(session, args, next, "You're already setting an alarm. You need to cancel the current alarm first.");
     } 
-}).cancelAction('cancelAlarm', "Alarm canceled.", {
+}).cancelAction('cancelSetAlarm', "Alarm canceled.", {
     matches: /^(cancel|nevermind)/i
 });
 
@@ -113,7 +113,7 @@ bot.dialog('/deleteAlarm', [
     }
 ]).triggerAction({
     matches: 'builtin.intent.alarm.delete_alarm'
-}).cancelAction('cancelDelete', "Ok.", {
+}).cancelAction('cancelDeleteAlarm', "Ok.", {
     matches: /^(cancel|nevermind)/i
 });
 

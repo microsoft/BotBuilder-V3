@@ -42,15 +42,7 @@ bot.dialog('/flipCoin', [
 ]).triggerAction({ 
     matches: /flip/i,
     onSelectAction: function (session, args, next) {
-        // Check to see if we're already active.
-        var stack = session.dialogStack();
-        if (builder.Session.findDialogStackEntry(stack, '*:/flipCoin') >= 0) {
-            session.send("We're already flipping a coin.")
-        } else {
-            // Clear stack and switch tasks
-            session.clearDialogStack();
-            next();
-        }
+        switchTasks(session, args, next, "We're already flipping a coin.");
     }
 });
 
@@ -74,14 +66,18 @@ bot.dialog('/rollDice', [
 ]).triggerAction({
     matches: /roll/i,
     onSelectAction: function (session, args, next) {
-        // Check to see if we're already active.
-        var stack = session.dialogStack();
-        if (builder.Session.findDialogStackEntry(stack, '*:/rollDice') >= 0) {
-            session.send("We're already rolling some dice.")
-        } else {
-            // Clear stack and switch tasks
-            session.clearDialogStack();
-            next();
-        }
+        switchTasks(session, args, next, "We're already rolling some dice.");
     }
 });
+
+function switchTasks(session, args, next, alreadyActiveMessage) {
+    // Check to see if we're already active.
+    var stack = session.dialogStack();
+    if (builder.Session.findDialogStackEntry(stack, args.libraryName + ':' + args.action) >= 0) {
+        session.send(alreadyActiveMessage);
+    } else {
+        // Clear stack and switch tasks
+        session.clearDialogStack();
+        next();
+    }
+}
