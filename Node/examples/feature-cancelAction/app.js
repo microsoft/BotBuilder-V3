@@ -1,6 +1,10 @@
 /*-----------------------------------------------------------------------------
-This Bot demonstrates how to add a trigger action to a dialog that will cause 
-it to automatically be pushed onto the dialog stack based on a users utterance.
+This Bot demonstrates how to add cancel actions which will cause the dialog to 
+end based off a users utterance. In the sample we let the user create a list
+of items and they can say either 'end list' to finish the list or 'cancel' to
+discard it. Both commands are achieved using cancel actions and the 'endList'
+action contains a custom onSelectAction() handler to return the list being 
+built.
 
 # RUN THE BOT:
 
