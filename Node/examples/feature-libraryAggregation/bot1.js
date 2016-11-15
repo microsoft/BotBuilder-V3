@@ -4,10 +4,13 @@ var builder = require('../../core/');
 // ensure that each bot being federated over has a unique library name.
 var bot = new builder.UniversalBot(null, null, 'bot1');
 
+// Export create function
+exports.create = function (parent) {
+    // Add to parent as library
+    parent.library(bot);
+}
+
 // Add a dialog with a trigger action like you normally would.
 bot.dialog('/greeting', function (session) {
     session.endDialog("Hello %s... I'm Bot1", session.userData.name || 'there');
 }).triggerAction({ matches: /(hello|hi) bot1/i });
-
-// Export your bot
-module.exports = bot;
