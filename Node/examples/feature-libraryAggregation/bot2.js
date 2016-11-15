@@ -5,7 +5,7 @@ var builder = require('../../core/');
 var bot = new builder.UniversalBot(null, null, 'bot2');
 
 // Export createLibrary() function
-exports.createLibrary() = function () {
+exports.createLibrary = function () {
     return bot;
 }
 
