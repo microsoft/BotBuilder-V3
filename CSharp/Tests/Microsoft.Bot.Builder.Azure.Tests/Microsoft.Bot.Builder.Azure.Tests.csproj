@@ -78,7 +78,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureBotTests.cs" />
+    <Compile Include="BotServiceTests.cs" />
     <Compile Include="TableDataStoreTests.cs" />
     <Compile Include="LoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

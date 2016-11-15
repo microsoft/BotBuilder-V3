@@ -96,8 +96,8 @@ namespace Microsoft.Bot.Builder.Azure
                         return new StateClient(new Uri(activity.ServiceUrl));
                     }
 
-                    MicrosoftAppCredentials.TrustServiceUrl(AzureBot.stateApi.Value, DateTime.MaxValue);
-                    return new StateClient(new Uri(AzureBot.stateApi.Value));
+                    MicrosoftAppCredentials.TrustServiceUrl(BotService.stateApi.Value, DateTime.MaxValue);
+                    return new StateClient(new Uri(BotService.stateApi.Value));
                 })
             .As<IStateClient>()
             .InstancePerLifetimeScope();

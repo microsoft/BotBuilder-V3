@@ -15,7 +15,7 @@ using Microsoft.WindowsAzure.Storage;
 namespace Microsoft.Bot.Builder.Azure.Tests
 {
     [TestClass]
-    public class AzureBotTests : DialogTestBase
+    public class BotServiceTests : DialogTestBase
     {
         [TestMethod]
         public async Task UseTableStorage_Test()

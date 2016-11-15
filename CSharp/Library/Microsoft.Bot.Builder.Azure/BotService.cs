@@ -33,8 +33,11 @@
 
 
 using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Reflection;
-
+using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -44,28 +47,69 @@ namespace Microsoft.Bot.Builder.Azure
     /// <summary>
     /// The azure bot utilities and helpers.
     /// </summary>
-    public static class AzureBot
+    public static class BotService
     {
+        /// <summary>
+        /// Initialize bot service by updating the <see cref="Conversation.Container"/> with <see cref="AzureModule"/>.
+        /// </summary>
+        static BotService()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new AzureModule());
+            builder.Update(Conversation.Container);
+        }
+
         /// <summary>
         /// The bot authenticator.
         /// </summary>
         public static BotAuthenticator Authenticator => authenticator.Value;
         
+
         /// <summary>
-        /// Update the <see cref="Conversation.Container"/> for azure bots.
+        /// Authenticate the request and add the service url in the activities to <see cref="MicrosoftAppCredentials.TrustedHostNames"/>.
         /// </summary>
-        public static void Initialize()
+        /// <param name="request">The incoming request.</param>
+        /// <param name="activities">The incoming activities.</param>
+        /// <param name="token">The cancellation token</param>
+        /// <returns> The <see cref="BotServiceScope"/> that should be disposed when bot service operation is done for the request.</returns>
+        public static async Task<BotServiceScope> Authenticate(HttpRequestMessage request, IEnumerable<Activity> activities, CancellationToken token = default(CancellationToken))
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(new AzureModule());
-            builder.Update(Conversation.Container);
-            // register the calling assembly with AppDomain.AssemblyResolve
-            ResolveCallingAssembly.Create(Assembly.GetCallingAssembly());
+            if (await Authenticator.TryAuthenticateAsync(request, activities, token))
+            {
+                return  new BotServiceScope(ResolveCallingAssembly.Create(Assembly.GetCallingAssembly()));
+            }
+
+            throw new UnauthorizedAccessException("Bot authentication failed!");
         }
         
         internal static readonly Lazy<string> stateApi = new Lazy<string>(() => Utils.GetStateApiUrl());
 
         private static readonly Lazy<BotAuthenticator> authenticator = new Lazy<BotAuthenticator>(() => new BotAuthenticator(new StaticCredentialProvider(Utils.GetAppSetting(AppSettingKeys.AppId), Utils.GetAppSetting(AppSettingKeys.Password)),
             Utils.GetOpenIdConfigurationUrl(), false));
+    }
+
+    /// <summary>
+    /// The scope for the <see cref="BotService"/>
+    /// </summary>
+    public sealed class BotServiceScope : IDisposable
+    {
+        private readonly IEnumerable<IDisposable> disposables;
+
+        /// <summary>
+        /// Creates an instance of BotServiceScope
+        /// </summary>
+        /// <param name="disposables"> The list of items that should be disposed when scope is disposed.</param>
+        public BotServiceScope(params IDisposable[] disposables)
+        {
+            this.disposables = disposables;
+        }
+
+        void IDisposable.Dispose()
+        {
+            foreach (var disposable in this.disposables)
+            {
+                disposable.Dispose();
+            }
+        }
     }
 }

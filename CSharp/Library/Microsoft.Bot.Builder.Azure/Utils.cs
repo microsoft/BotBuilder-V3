@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Builder.Azure
         /// <summary>
         /// The bot state endpoint key.
         /// </summary>
-        public const string SateEndpoint = "BotStateEndpoint";
+        public const string StateEndpoint = "BotStateEndpoint";
 
         /// <summary>
         /// The open id url key.
@@ -77,7 +77,7 @@ namespace Microsoft.Bot.Builder.Azure
         /// </summary>
         /// <param name="key">The key.</param>
         /// <returns>The state api endpoint.</returns>
-        public static string GetStateApiUrl(string key = AppSettingKeys.SateEndpoint)
+        public static string GetStateApiUrl(string key = AppSettingKeys.StateEndpoint)
         {
             var result = Utils.GetAppSetting(key);
             if (String.IsNullOrEmpty(result))
