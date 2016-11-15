@@ -12,6 +12,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs =
     [ "DeleteProfileScorable", "d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable.html", "d7/d6c/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_delete_profile_scorable" ],
     [ "DetectChannelCapability", "d9/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_detect_channel_capability.html", "d9/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_detect_channel_capability" ],
     [ "DialogStackException", "d6/dc6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_dialog_stack_exception.html", "d6/dc6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_dialog_stack_exception" ],
+    [ "DispatchDialog", "d9/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_dispatch_dialog.html", "d9/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_dispatch_dialog" ],
     [ "Extensions", "d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html", "d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions" ],
     [ "IAddress", "dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html", "dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address" ],
     [ "IAwaitable", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html", "d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable" ],

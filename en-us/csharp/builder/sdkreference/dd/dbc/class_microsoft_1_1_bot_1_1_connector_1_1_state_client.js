@@ -10,6 +10,8 @@ var class_microsoft_1_1_bot_1_1_connector_1_1_state_client =
     [ "StateClient", "dd/dbc/class_microsoft_1_1_bot_1_1_connector_1_1_state_client.html#a8a23d6ac476b28232de2a59dde25784f", null ],
     [ "StateClient", "dd/dbc/class_microsoft_1_1_bot_1_1_connector_1_1_state_client.html#ab5642d297529737044f7d9d07589fd67", null ],
     [ "StateClient", "dd/dbc/class_microsoft_1_1_bot_1_1_connector_1_1_state_client.html#a2927c564397bf4141c782e0a1deff85c", null ],
+    [ "StateClient", "dd/dbc/class_microsoft_1_1_bot_1_1_connector_1_1_state_client.html#aac1dd6052511d002d103453e54b8ff46", null ],
+    [ "StateClient", "dd/dbc/class_microsoft_1_1_bot_1_1_connector_1_1_state_client.html#a15041d4e4c3e08002c48ae1504f53149", null ],
     [ "StateClient", "dd/dbc/class_microsoft_1_1_bot_1_1_connector_1_1_state_client.html#a69b24f9fc6e84f5f76ecbdf20e4cff12", null ],
     [ "BaseUri", "dd/dbc/class_microsoft_1_1_bot_1_1_connector_1_1_state_client.html#a9b10b8fc25d04745cdb43901d0ff6b37", null ],
     [ "BotState", "dd/dbc/class_microsoft_1_1_bot_1_1_connector_1_1_state_client.html#afd1bb118c35b90c9df7a1bb76ea9e731", null ],

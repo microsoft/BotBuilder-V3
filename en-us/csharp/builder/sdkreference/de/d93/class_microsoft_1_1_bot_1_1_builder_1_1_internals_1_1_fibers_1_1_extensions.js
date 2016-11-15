@@ -7,6 +7,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions 
     [ "Equals< T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a0ba2a0093f204e8cd145a382e7cbd44d", null ],
     [ "Fail< C >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a7125125d65c386d07854582452ecb356", null ],
     [ "GetOrAdd< K, V >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a4011d4226ec4214d89547dc57b2757d2", null ],
+    [ "GetValue< T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#ad7c893edff09f1d527d396362daec3ef", null ],
     [ "Min< T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a40dad77177f0f5ccdd5e1efba7f7d704", null ],
     [ "Peek< T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a1fed4d8a91ff149b569db37bbe5384f7", null ],
     [ "Pop< T >", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html#a88d5f3413bed9464b5effc25baa5063b", null ],
