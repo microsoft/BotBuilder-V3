@@ -1,15 +1,11 @@
-﻿using Autofac;
-using Microsoft.Bot.Builder.Dialogs;
+﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Sample.AlarmBot.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Microsoft.Bot.Sample.AlarmBot.Models
 {

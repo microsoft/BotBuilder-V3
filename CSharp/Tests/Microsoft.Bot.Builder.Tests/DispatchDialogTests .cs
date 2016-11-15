@@ -2,9 +2,9 @@
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -15,10 +15,6 @@ using System.Text.RegularExpressions;
 using Match = System.Text.RegularExpressions.Match;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using Moq;
-using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Tests
 {

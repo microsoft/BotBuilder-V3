@@ -45,7 +45,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     public sealed class LuisIntentScorableFactory : IScorableFactory<IResolver, IntentRecommendation>
     {
@@ -229,10 +229,12 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             scope.State = await this.inner.PrepareAsync(scope, token);
             return scope;
         }
+
         protected override IntentRecommendation GetScore(IResolver resolver, Scope state)
         {
             return state.Intent;
         }
+
         protected override Task DoneAsync(IResolver item, Scope state, CancellationToken token)
         {
             try
@@ -257,6 +259,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         private IntentComparer()
         {
         }
+
         int IComparer<IntentRecommendation>.Compare(IntentRecommendation one, IntentRecommendation two)
         {
             Func<IntentRecommendation, Pair<bool, double>> PairFor = intent => Pair.Create

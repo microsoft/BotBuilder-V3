@@ -41,7 +41,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     /// <summary>
     /// Allow the resolution of values based on type and optionally tag.
@@ -77,9 +77,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public sealed class NullResolver : IResolver
     {
         public static readonly IResolver Instance = new NullResolver();
+
         private NullResolver()
         {
         }
+
         bool IResolver.TryResolve(Type type, object tag, out object value)
         {
             value = null;
@@ -90,10 +92,13 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public sealed class NoneResolver : IResolver
     {
         public static readonly IResolver Instance = new NoneResolver();
+
         private NoneResolver()
         {
         }
+
         public static readonly object BoxedToken = CancellationToken.None;
+
         bool IResolver.TryResolve(Type type, object tag, out object value)
         {
             if (typeof(CancellationToken).IsAssignableFrom(type))
@@ -110,10 +115,12 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public abstract class DelegatingResolver : IResolver
     {
         protected readonly IResolver inner;
+
         protected DelegatingResolver(IResolver inner)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
+
         public virtual bool TryResolve(Type type, object tag, out object value)
         {
             return inner.TryResolve(type, tag, out value);
@@ -123,6 +130,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public sealed class ArrayResolver : DelegatingResolver
     {
         private readonly object[] services;
+
         public ArrayResolver(IResolver inner, params object[] services)
             : base(inner)
         {
@@ -215,6 +223,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public sealed class AutofacResolver : DelegatingResolver
     {
         private readonly IComponentContext context;
+
         public AutofacResolver(IComponentContext context, IResolver inner)
             : base(inner)
         {

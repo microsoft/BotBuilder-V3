@@ -42,19 +42,40 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables
 {
+    /// <summary>
+    /// This attribute is used to control scorable groups for <see cref="DispatchDialog{R}"/>.  
+    /// </summary>
+    /// <remarks>
+    /// <see cref="ScorableGroupAttribute"/> allows the user to override the scoring process to create
+    /// ordered scorable groups, where the scores from the first scorable group
+    /// are compared first, and if there is no scorable that wishes to participate
+    /// from the first scorable group, then the second scorable group is considered, and so forth.
+    /// </remarks>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-    public class ScorableOrderAttribute : Attribute
+    public class ScorableGroupAttribute : Attribute
     {
         private readonly int order;
+
+        /// <summary>
+        /// The scorable group order.
+        /// </summary>
         public int Order => this.order;
-        public ScorableOrderAttribute(int order)
+
+        /// <summary>
+        /// Construct the <see cref="ScorableGroupAttribute"/>. 
+        /// </summary>
+        /// <param name="order">The scorable group order.</param>
+        public ScorableGroupAttribute(int order)
         {
             this.order = order;
         }
     }
+}
 
+namespace Microsoft.Bot.Builder.Scorables.Internals
+{
     // http://blog.ploeh.dk/2014/06/13/passive-attributes/
     public interface IScorableFactory<in Item, out Score>
     {
@@ -64,20 +85,23 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public sealed class OrderScorableFactory<Item, Score> : IScorableFactory<Item, Score>
     {
         private readonly IEnumerable<IScorableFactory<Item, Score>> factories;
+
         public OrderScorableFactory(IEnumerable<IScorableFactory<Item, Score>> factories)
         {
             SetField.NotNull(out this.factories, nameof(factories), factories);
         }
+
         public OrderScorableFactory(params IScorableFactory<Item, Score>[] factories)
             : this((IEnumerable<IScorableFactory<Item, Score>>)factories)
         {
         }
+
         IScorable<Item, Score> IScorableFactory<Item, Score>.ScorableFor(IEnumerable<MethodInfo> methods)
         {
             var levels = from method in methods
                          // note, this is non-deterministic across executions, which seems lame
                          let defaultOrder = method.Name.GetHashCode()
-                         let orders = InheritedAttributes.For<ScorableOrderAttribute>(method).Select(order => order.Order).DefaultIfEmpty(defaultOrder)
+                         let orders = InheritedAttributes.For<ScorableGroupAttribute>(method).Select(order => order.Order).DefaultIfEmpty(defaultOrder)
                          from order in orders
                          group method by order into g
                          orderby g.Key

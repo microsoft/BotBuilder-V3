@@ -38,7 +38,7 @@ using System.Text;
 using System.Threading;
 
 using Autofac;
-using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;

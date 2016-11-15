@@ -40,15 +40,17 @@ using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     public abstract class ResolverScope<InnerScore> : Token<IResolver, InnerScore>, IResolver
     {
         protected readonly IResolver inner;
+
         public ResolverScope(IResolver inner)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
+
         public virtual bool TryResolve(Type type, object tag, out object value)
         {
             return inner.TryResolve(type, tag, out value);
@@ -60,6 +62,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         where OuterState : ResolverScope<InnerScore>
     {
         protected readonly IScorable<IResolver, InnerScore> inner;
+
         public ResolverScorable(IScorable<IResolver, InnerScore> inner)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);

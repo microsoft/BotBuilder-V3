@@ -39,7 +39,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     /// <summary>
     /// Fold an aggregation of scorables to produce a winning scorable.
@@ -48,6 +48,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     {
         protected readonly IComparer<Score> comparer;
         protected readonly IEnumerable<IScorable<Item, Score>> scorables;
+
         public FoldScorable(IComparer<Score> comparer, IEnumerable<IScorable<Item, Score>> scorables)
         {
             SetField.NotNull(out this.comparer, nameof(comparer), comparer);
@@ -117,6 +118,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return states;
         }
+
         protected override bool HasScore(Item item, IReadOnlyList<State> states)
         {
             if (states.Count > 0)
@@ -127,11 +129,13 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return false;
         }
+
         protected override Score GetScore(Item item, IReadOnlyList<State> states)
         {
             var state = states[0];
             return state.scorable.GetScore(item, state.state);
         }
+
         protected override Task PostAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
         {
             try
@@ -148,6 +152,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
+
         protected override async Task DoneAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
         {
             foreach (var state in states)

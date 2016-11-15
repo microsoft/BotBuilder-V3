@@ -31,6 +31,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Scorables;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -39,7 +41,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     /// <summary>
     /// Allow for static type checking of opaque state for convenience of scorable implementations.
@@ -53,9 +55,13 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public abstract class ScorableBase<Item, State, Score> : IScorable<Item, Score>
     {
         protected abstract Task<State> PrepareAsync(Item item, CancellationToken token);
+
         protected abstract bool HasScore(Item item, State state);
+
         protected abstract Score GetScore(Item item, State state);
+
         protected abstract Task PostAsync(Item item, State state, CancellationToken token);
+
         protected abstract Task DoneAsync(Item item, State state, CancellationToken token);
 
         [DebuggerStepThrough]
@@ -63,12 +69,14 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         {
             return await this.PrepareAsync(item, token);
         }
+
         [DebuggerStepThrough]
         bool IScorable<Item, Score>.HasScore(Item item, object opaque)
         {
             var state = (State)opaque;
             return this.HasScore(item, state);
         }
+
         [DebuggerStepThrough]
         Score IScorable<Item, Score>.GetScore(Item item, object opaque)
         {
@@ -80,6 +88,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return this.GetScore(item, state);
         }
+
         [DebuggerStepThrough]
         Task IScorable<Item, Score>.PostAsync(Item item, object opaque, CancellationToken token)
         {
@@ -102,6 +111,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
+
         [DebuggerStepThrough]
         Task IScorable<Item, Score>.DoneAsync(Item item, object opaque, CancellationToken token)
         {
@@ -110,6 +120,76 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 var state = (State)opaque;
                
                 return this.DoneAsync(item, state, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
+    }
+
+
+    [Serializable]
+    public abstract class DelegatingScorable<Item, Score> : IScorable<Item, Score>
+    {
+        protected readonly IScorable<Item, Score> inner;
+
+        protected DelegatingScorable(IScorable<Item, Score> inner)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+        }
+
+        public virtual Task<object> PrepareAsync(Item item, CancellationToken token)
+        {
+            try
+            {
+                return this.inner.PrepareAsync(item, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled<object>(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException<object>(error);
+            }
+        }
+
+        public virtual bool HasScore(Item item, object state)
+        {
+            return this.inner.HasScore(item, state);
+        }
+
+        public virtual Score GetScore(Item item, object state)
+        {
+            return this.inner.GetScore(item, state);
+        }
+
+        public virtual Task PostAsync(Item item, object state, CancellationToken token)
+        {
+            try
+            {
+                return this.inner.PostAsync(item, state, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
+        }
+
+        public virtual Task DoneAsync(Item item, object state, CancellationToken token)
+        {
+            try
+            {
+                return this.inner.DoneAsync(item, state, token);
             }
             catch (OperationCanceledException error)
             {
@@ -148,6 +228,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return false;
         }
+
         protected override Task PostAsync(OuterItem item, OuterState state, CancellationToken token)
         {
             try
@@ -163,6 +244,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
+
         protected override Task DoneAsync(OuterItem item, OuterState state, CancellationToken token)
         {
             try

@@ -43,8 +43,9 @@ using System.Threading;
 using Autofac;
 using Microsoft.Bot.Builder.History;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Scorables;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -224,6 +225,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     var cc = c.Resolve<IComponentContext>();
                     Func<IActivity, IResolver> make = activity =>
                     {
+                        //var x = c.Resolve<Func<IDialogStack, CancellationToken, IDialogContext>>();
+
                         var resolver = NoneResolver.Instance;
                         resolver = new ArrayResolver(resolver,
                             activity,

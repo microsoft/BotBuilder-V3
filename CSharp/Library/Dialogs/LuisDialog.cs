@@ -42,9 +42,9 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Builder.Scorables.Internals;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {

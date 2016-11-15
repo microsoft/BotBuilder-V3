@@ -36,8 +36,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Scorables;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {

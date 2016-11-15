@@ -41,7 +41,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     /// <summary>
     /// Represents a binding of arguments to a method's parameters.
@@ -66,6 +66,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             }
             SetField.NotNull(out this.arguments, nameof(arguments), arguments);
         }
+
         public Task InvokeAsync(CancellationToken token)
         {
             try
@@ -107,6 +108,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
+
         public override string ToString()
         {
             return this.method.ToString();
@@ -135,9 +137,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         public sealed class ResolutionComparer : IComparer<Binding>
         {
             public static readonly IComparer<Binding> Instance = new ResolutionComparer();
+
             private ResolutionComparer()
             {
             }
+
             private bool TryCompareParameterTypeAssignability(Binding one, Binding two, int index, out int compare)
             {
                 var l = one.parameters[index].ParameterType;
@@ -218,6 +222,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 : base($"{message}: {one.method} and {two.method}")
             {
             }
+
             private MethodResolutionException(SerializationInfo info, StreamingContext context)
                 : base(info, context)
             {

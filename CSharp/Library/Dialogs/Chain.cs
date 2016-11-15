@@ -32,7 +32,8 @@
 //
 
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Builder.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
@@ -13,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Scorables;
 
 namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
 {
@@ -49,10 +48,10 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
         // ScorableOrder allows the user to override the scoring process to create
         // ordered scorable groups, where the scores from the first scorable group
         // are compared first, and if there is no scorable that wishes to participate
-        // from the first scorable group, then the second scorable group is considered.
+        // from the first scorable group, then the second scorable group is considered, and so forth.
         // You might use this to ensure that regular expression scorables are considered
         // before LUIS intent scorables.
-        [ScorableOrder(1)]
+        [ScorableGroup(1)]
         public async Task None(IDialogContext context, LuisResult result)
         {
             string message = $"Sorry I did not understand: " + string.Join(", ", result.Intents.Select(i => i.Intent));
@@ -74,7 +73,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
         }
 
         [LuisIntent("builtin.intent.alarm.delete_alarm")]
-        [ScorableOrder(1)]
+        [ScorableGroup(1)]
         public async Task DeleteAlarm(IDialogContext context, LuisResult result)
         {
             string title;
@@ -92,7 +91,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
         }
 
         [LuisIntent("builtin.intent.alarm.find_alarm")]
-        [ScorableOrder(1)]
+        [ScorableGroup(1)]
         public async Task FindAlarm(IDialogContext context, LuisResult result)
         {
             string title;
@@ -110,7 +109,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
         }
 
         [LuisIntent("builtin.intent.alarm.set_alarm")]
-        [ScorableOrder(1)]
+        [ScorableGroup(1)]
         public async Task SetAlarm(IDialogContext context, IMessageActivity activity, LuisResult result)
         {
             string title;
@@ -145,7 +144,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
         }
 
         [LuisIntent("builtin.intent.alarm.snooze")]
-        [ScorableOrder(1)]
+        [ScorableGroup(1)]
         public async Task AlarmSnooze(IDialogContext context, LuisResult result)
         {
             string title;
@@ -163,7 +162,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
         }
 
         [LuisIntent("builtin.intent.alarm.turn_off_alarm")]
-        [ScorableOrder(1)]
+        [ScorableGroup(1)]
         public async Task TurnOffAlarm(IDialogContext context, LuisResult result)
         {
             string title;
@@ -182,7 +181,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
 
         [LuisIntent("builtin.intent.alarm.time_remaining")]
         [LuisIntent("builtin.intent.alarm.alarm_other")]
-        [ScorableOrder(1)]
+        [ScorableGroup(1)]
         public async Task AlarmOther(IDialogContext context, LuisResult result)
         {
             await context.PostAsync("Sorry, I don't know how to handle that.");

@@ -39,16 +39,46 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Scorables.Internals;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables
 {
+    /// <summary>
+    /// This attribute is used to specify that a method will participate in the
+    /// scoring process for overload resolution.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
     [Serializable]
-    // TODO: name this better
     public sealed class MethodBindAttribute : Attribute
     {
     }
 
+    /// <summary>
+    /// This attribute is used to specify that a method parameter is bound to an entity
+    /// that can be resolved by an implementation of <see cref="IResolver"/>. 
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true, Inherited = true)]
+    [Serializable]
+    public sealed class EntityAttribute : Attribute
+    {
+        /// <summary>
+        /// The entity name.
+        /// </summary>
+        public readonly string Name;
+
+        /// <summary>
+        /// Construct the <see cref="EntityAttribute"/>. 
+        /// </summary>
+        /// <param name="name">The entity name.</param>
+        public EntityAttribute(string name)
+        {
+            SetField.NotNull(out this.Name, nameof(name), name);
+        }
+    }
+}
+
+namespace Microsoft.Bot.Builder.Scorables.Internals
+{
     public sealed class MethodScorableFactory : IScorableFactory<IResolver, Binding>
     {
         IScorable<IResolver, Binding> IScorableFactory<IResolver, Binding>.ScorableFor(IEnumerable<MethodInfo> methods)
@@ -66,18 +96,6 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
-    // TODO: more generic name, or reuse existing attribute for overriding name?
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = true, Inherited = true)]
-    [Serializable]
-    public sealed class EntityAttribute : Attribute
-    {
-        public readonly string Entity;
-        public EntityAttribute(string entity)
-        {
-            SetField.NotNull(out this.Entity, nameof(entity), entity);
-        }
-    }
-
     /// <summary>
     /// Scorable to represent binding arguments to a method's parameters.
     /// </summary>
@@ -86,15 +104,18 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     {
         protected readonly MethodInfo method;
         protected readonly ParameterInfo[] parameters;
+
         public MethodScorable(MethodInfo method)
         {
             SetField.NotNull(out this.method, nameof(method), method);
             this.parameters = this.method.GetParameters();
         }
+
         public override string ToString()
         {
             return $"{this.GetType().Name}({this.method})";
         }
+
         protected virtual bool TryResolveInstance(IResolver resolver, out object instance)
         {
             if (this.method.IsStatic)
@@ -105,12 +126,13 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return resolver.TryResolve(this.method.DeclaringType, null, out instance);
         }
+
         protected virtual bool TryResolveArgument(IResolver resolver, ParameterInfo parameter, out object argument)
         {
             var entity = parameter.GetCustomAttribute<EntityAttribute>();
             if (entity != null)
             {
-                if (resolver.TryResolve(parameter.ParameterType, entity.Entity, out argument))
+                if (resolver.TryResolve(parameter.ParameterType, entity.Name, out argument))
                 {
                     return true;
                 }
@@ -123,6 +145,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
 
             return resolver.TryResolve(parameter.ParameterType, null, out argument);
         }
+
         protected virtual bool TryResolveArguments(IResolver resolver, out object[] arguments)
         {
             if (this.parameters.Length == 0)
@@ -183,14 +206,17 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException<Binding>(error);
             }
         }
+
         protected override bool HasScore(IResolver resolver, Binding state)
         {
             return state != null;
         }
+
         protected override Binding GetScore(IResolver resolver, Binding state)
         {
             return state;
         }
+
         protected override Task PostAsync(IResolver item, Binding state, CancellationToken token)
         {
             try
@@ -206,6 +232,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return Task.FromException(error);
             }
         }
+
         protected override Task DoneAsync(IResolver item, Binding state, CancellationToken token)
         {
             return Task.CompletedTask;
@@ -216,11 +243,13 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public class DelegateScorable : MethodScorable
     {
         private readonly object target;
+
         public DelegateScorable(Delegate lambda)
             : base(lambda.Method)
         {
             this.target = lambda.Target;
         }
+
         protected override bool TryResolveInstance(IResolver resolver, out object instance)
         {
             if (this.target != null)

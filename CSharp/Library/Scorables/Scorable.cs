@@ -31,7 +31,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Builder.Internals.Fibers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +38,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables
 {
     /// <summary>
     /// Allow the scoring of items, with external comparison of scores, and enable the winner to take some action.
@@ -73,97 +72,5 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         /// The scoring process has completed - dispose of any scoped resources.
         /// </summary>
         Task DoneAsync(Item item, object state, CancellationToken token);
-    }
-
-    [Serializable]
-    public sealed class NullScorable<Item, Score> : IScorable<Item, Score>
-    {
-        public static readonly IScorable<Item, Score> Instance = new NullScorable<Item, Score>();
-        private NullScorable()
-        {
-        }
-        Task<object> IScorable<Item, Score>.PrepareAsync(Item item, CancellationToken token)
-        {
-            return Tasks<object>.Null;
-        }
-        bool IScorable<Item, Score>.HasScore(Item item, object state)
-        {
-            return false;
-        }
-        Score IScorable<Item, Score>.GetScore(Item item, object state)
-        {
-            throw new NotImplementedException();
-        }
-        Task IScorable<Item, Score>.PostAsync(Item item, object state, CancellationToken token)
-        {
-            return Task.FromException(new NotImplementedException());
-        }
-        Task IScorable<Item, Score>.DoneAsync(Item item, object state, CancellationToken token)
-        {
-            return Task.CompletedTask;
-        }
-    }
-
-    [Serializable]
-    public abstract class DelegatingScorable<Item, Score> : IScorable<Item, Score>
-    {
-        protected readonly IScorable<Item, Score> inner;
-        protected DelegatingScorable(IScorable<Item, Score> inner)
-        {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-        }
-        public virtual Task<object> PrepareAsync(Item item, CancellationToken token)
-        {
-            try
-            {
-                return this.inner.PrepareAsync(item, token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled<object>(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException<object>(error);
-            }
-        }
-        public virtual bool HasScore(Item item, object state)
-        {
-            return this.inner.HasScore(item, state);
-        }
-        public virtual Score GetScore(Item item, object state)
-        {
-            return this.inner.GetScore(item, state);
-        }
-        public virtual Task PostAsync(Item item, object state, CancellationToken token)
-        {
-            try
-            {
-                return this.inner.PostAsync(item, state, token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException(error);
-            }
-        }
-        public virtual Task DoneAsync(Item item, object state, CancellationToken token)
-        {
-            try
-            {
-                return this.inner.DoneAsync(item, state, token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException(error);
-            }
-        }
     }
 }

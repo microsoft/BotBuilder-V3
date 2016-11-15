@@ -35,17 +35,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Builder.Scorables;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -68,18 +65,22 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             return resolver;
         }
+
         protected virtual ILuisService MakeService(ILuisModel model)
         {
             return new LuisService(model);
         }
+
         protected virtual Regex MakeRegex(string pattern)
         {
             return new Regex(pattern);
         }
+
         protected virtual IEnumerable<MethodInfo> MakeMethods(IDialogContext context, IActivity activity)
         {
             return this.GetType().GetMethods();
         }
+
         protected virtual IScorableFactory<IResolver, object> MakeFactory(IDialogContext context, IActivity activity)
         {
             IScorableFactory<IResolver, object> factory = new OrderScorableFactory<IResolver, object>
@@ -91,6 +92,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             return factory;
         }
+
         protected virtual IScorable<IResolver, object> MakeScorable(IDialogContext context, IActivity activity)
         {
             var factory = MakeFactory(context, activity);

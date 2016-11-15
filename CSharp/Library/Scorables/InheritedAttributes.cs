@@ -32,7 +32,6 @@
 //
 
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Internals.Fibers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -42,7 +41,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     /// <summary>
     /// Helper methods to enumerate inherited attributes for a method.

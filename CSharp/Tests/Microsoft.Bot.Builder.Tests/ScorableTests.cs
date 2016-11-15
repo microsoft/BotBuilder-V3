@@ -32,7 +32,8 @@
 //
 
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Builder.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -176,9 +177,9 @@ namespace Microsoft.Bot.Builder.Tests
         {
             IEnumerable<IScorable<Item, Score>> scorables = test;
             IScorable<Item, Score> scorable;
-            var success = Scorables.TryReduce(ref scorables, out scorable);
+            var success = Scorable.TryReduce(ref scorables, out scorable);
 
-            var filtered = test.Where(Scorables.Keep).ToArray();
+            var filtered = test.Where(Scorable.Keep).ToArray();
             switch (filtered.Length)
             {
                 case 0:

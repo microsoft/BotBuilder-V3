@@ -42,9 +42,11 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Builder.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -72,43 +74,60 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             await this.inner.PostAsync<T>(item, token);
         }
     }
+}
 
+namespace Microsoft.Bot.Builder.Scorables
+{
     public static partial class Scorable
     {
         public static IScorable<IResolver, Binding> For(Delegate lambda)
         {
             return new DelegateScorable(lambda);
         }
+
         public static IScorable<IResolver, Binding> For<R>(Func<R> method)
         {
             return For((Delegate)method);
         }
+
         public static IScorable<IResolver, Binding> For<T1, R>(Func<T1, R> method)
         {
             return For((Delegate)method);
         }
+
         public static IScorable<IResolver, Binding> For<T1, T2, R>(Func<T1, T2, R> method)
         {
             return For((Delegate)method);
         }
+
         public static IScorable<IResolver, Binding> For<T1, T2, T3, R>(Func<T1, T2, T3, R> method)
         {
             return For((Delegate)method);
         }
+
         public static IScorable<IResolver, Binding> For<T1, T2, T3, T4, R>(Func<T1, T2, T3, T4, R> method)
         {
             return For((Delegate)method);
         }
+
         public static IScorable<IResolver, Binding> For<T1, T2, T3, T4, T5, R>(Func<T1, T2, T3, T4, T5, R> method)
         {
             return For((Delegate)method);
         }
+
+        public static IScorable<IResolver, double> When(this IScorable<IResolver, Binding> scorable)
+        {
+            var normalized = scorable.SelectScore((r, b) => 1.0);
+            return normalized;
+        }
+
         public static IScorable<IResolver, double> When(this IScorable<IResolver, Binding> scorable, Regex regex)
         {
             var resolved = new RegexMatchScorable<Binding, Binding>(regex, scorable);
             var normalized = resolved.SelectScore((r, m) => RegexMatchScorable.ScoreFor(m));
             return normalized;
         }
+
         public static IScorable<IResolver, double> When(this IScorable<IResolver, Binding> scorable, ILuisModel model, LuisIntentAttribute intent, ILuisService service = null)
         {
             service = service ?? new LuisService(model);
