@@ -81,7 +81,8 @@ bot.dialog('/setAlarm', [
         switchTasks(session, args, next, "You're already setting an alarm. You need to cancel the current alarm first.");
     } 
 }).cancelAction('cancelSetAlarm', "Alarm canceled.", {
-    matches: /^(cancel|nevermind)/i
+    matches: /^(cancel|nevermind)/i,
+    confirmPrompt: "Are you sure?"
 });
 
 // Delete Alarm dialog
