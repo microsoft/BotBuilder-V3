@@ -70,29 +70,32 @@ export function createWaterfall(steps: IDialogWaterfallStep[]): (session: Sessio
 
         // Check for continuation of waterfall
         if (r && r.hasOwnProperty('resumed')) {
-            // Adjust step based on users utterance
-            var step = s.dialogData[consts.Data.WaterfallStep];
-            switch (r.resumed) {
-                case ResumeReason.back:
-                    step -= 1;
-                    break;
-                default:
-                    step++;
-            }
-
-            // Handle result
-            if (step >= 0 && step < steps.length) {
-                // Execute next step of the waterfall
-                try {
-                    logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
-                    s.dialogData[consts.Data.WaterfallStep] = step;
-                    steps[step](s, r, skip);
-                } catch (e) {
-                    s.error(e);
+            // Ignore re-prompts
+            if (r.resumed !== ResumeReason.reprompt) {
+                // Adjust step based on users utterance
+                var step = s.dialogData[consts.Data.WaterfallStep];
+                switch (r.resumed) {
+                    case ResumeReason.back:
+                        step -= 1;
+                        break;
+                    default:
+                        step++;
                 }
-            } else {
-                // End the current dialog and return results to parent
-                s.endDialogWithResult(r);
+
+                // Handle result
+                if (step >= 0 && step < steps.length) {
+                    // Execute next step of the waterfall
+                    try {
+                        logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
+                        s.dialogData[consts.Data.WaterfallStep] = step;
+                        steps[step](s, r, skip);
+                    } catch (e) {
+                        s.error(e);
+                    }
+                } else {
+                    // End the current dialog and return results to parent
+                    s.endDialogWithResult(r);
+                }
             }
         } else if (steps && steps.length > 0) {
             // Start waterfall
