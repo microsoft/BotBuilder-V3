@@ -63,7 +63,13 @@ var ChatConnector = (function () {
             var decoded = jwt.decode(token, { complete: true });
             var verifyOptions;
             var openIdMetadata;
-            if (isEmulator && decoded.payload.iss == this.settings.endpoint.msaIssuer) {
+            if (decoded.payload.iss == this.settings.endpoint.msaIssuer) {
+                if(decoded.payload.appid !== this.settings.appId) {
+                    logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID.');
+                    res.status(403);
+                    res.end();
+                    return;
+                }
                 openIdMetadata = this.msaOpenIdMetadata;
                 verifyOptions = {
                     issuer: this.settings.endpoint.msaIssuer,
