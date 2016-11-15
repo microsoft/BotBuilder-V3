@@ -15,7 +15,7 @@ We’ve made a number of enhancements in the November Bot Framework Update all o
 
 * Direct Line 3.0 has been updated to support the latest Bot Framework card types and activities. Additionally, Direct Line 3.0 now supports both sockets and polling for increased efficiency and responsiveness. More details [here](/en-us/restapi/directline3).
 
-* The Web Chat control (open source coming soon) is now built upon DirectLine 3.0. To use the new Web Chat control edit the webchat channel in the dev portal.
+* The Web Chat control is now Open Sourced on Github [here](https://github.com/microsoft/botframework-webchat) is now built upon DirectLine 3.0. To use the new Web Chat control edit the webchat channel in the dev portal.
 
 * Both Bot Builder SDK's have had significant updates (both [Node.js](/en-us/node/builder/whats-new) and [.NET](/en-us/csharp/builder/libraries/latest/)) enable your bot to have more flexible conversations with users by allowing for in-progress dialogs to be interrupted and changed to another dialog based on an action or trigger. Additionally, the .Net SDK now provides improved integrated language understanding dialogs, powered by Cognitive Services.
 
