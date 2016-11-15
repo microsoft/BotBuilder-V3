@@ -45,7 +45,7 @@ using Microsoft.Bot.Connector;
 namespace Microsoft.Bot.Builder.Azure
 {
     /// <summary>
-    /// The azure bot utilities and helpers.
+    /// The azure bot service.
     /// </summary>
     public static class BotService
     {
@@ -69,13 +69,15 @@ namespace Microsoft.Bot.Builder.Azure
         /// </summary>
         /// <param name="request">The incoming request.</param>
         /// <param name="activities">The incoming activities.</param>
+        /// <param name="assembly">The assembly that should be resolved. <see cref="ResolveAssembly"/> for more information.</param>
         /// <param name="token">The cancellation token</param>
         /// <returns> The <see cref="BotServiceScope"/> that should be disposed when bot service operation is done for the request.</returns>
-        public static async Task<BotServiceScope> Authenticate(HttpRequestMessage request, IEnumerable<Activity> activities, CancellationToken token = default(CancellationToken))
+        public static async Task<BotServiceScope> AuthenticateAsync(HttpRequestMessage request, IEnumerable<Activity> activities, Assembly assembly = null, CancellationToken token = default(CancellationToken))
         {
             if (await Authenticator.TryAuthenticateAsync(request, activities, token))
             {
-                return  new BotServiceScope(ResolveCallingAssembly.Create(Assembly.GetCallingAssembly()));
+                var resolveAssembly = assembly ?? Assembly.GetCallingAssembly();
+                return new BotServiceScope(ResolveAssembly.Create(resolveAssembly));
             }
 
             throw new UnauthorizedAccessException("Bot authentication failed!");
@@ -107,7 +109,7 @@ namespace Microsoft.Bot.Builder.Azure
         {
             foreach (var disposable in this.disposables)
             {
-                disposable.Dispose();
+                disposable?.Dispose();
             }
         }
     }

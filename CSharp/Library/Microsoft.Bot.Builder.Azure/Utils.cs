@@ -91,7 +91,7 @@ namespace Microsoft.Bot.Builder.Azure
     /// <summary>
     /// A helper class responsible for resolving the calling assembly
     /// </summary>
-    public sealed class ResolveCallingAssembly : IDisposable
+    public sealed class ResolveAssembly : IDisposable
     {
         private readonly Assembly assembly;
         
@@ -99,16 +99,16 @@ namespace Microsoft.Bot.Builder.Azure
         /// Creates an instance of ResovelCallingAssembly
         /// </summary>
         /// <param name="assembly"> The assembly</param>
-        public static ResolveCallingAssembly Create(Assembly assembly)
+        public static ResolveAssembly Create(Assembly assembly)
         {
-            return new ResolveCallingAssembly(assembly);
+            return new ResolveAssembly(assembly);
         }
 
         /// <summary>
         /// Creates an instance of ResovelCallingAssembly
         /// </summary>
         /// <param name="assembly"> The assembly</param>
-        private ResolveCallingAssembly(Assembly assembly)
+        private ResolveAssembly(Assembly assembly)
         {
             this.assembly = assembly;
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
