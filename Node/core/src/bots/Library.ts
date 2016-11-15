@@ -60,7 +60,7 @@ export interface IRouteResult {
 }
 
 export interface IFindRoutesHandler {
-    (session: Session, callback: (err: Error, routes: IRouteResult[]) => void): void;
+    (context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void;
 }
 
 export interface ISelectRouteHandler {
@@ -104,8 +104,19 @@ export class Library extends EventEmitter {
     //-------------------------------------------------------------------------
 
     /** Attempts to recognize the top intent for the current message. */
-    public recognize(session: Session, callback: (err: Error, result: IIntentRecognizerResult) => void): void {
-        this.recognizers.recognize(session.toRecognizeContext(), callback);
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void {
+        // Check to see if our recognizer has already been run.
+        // - When a message is received the root libraries recognizers are run and the
+        //   top intent is passed along as part of routing. The root libraries recognize()
+        //   method will be called a second time so we want to avoid the second recognize
+        //   pass.
+        var skipRecognize = (context.intent && context.libraryName === this.name);
+        if (this.recognizers.length > 0 && !skipRecognize) {
+            this.recognizers.recognize(context, callback);
+        } else {
+            // Pass through the top intent recognized by the root libraries recognizers.
+            callback(null, context.intent);
+        }
     }
 
     /** Adds a recognizer to the libraries intent recognizer set. */
@@ -120,7 +131,7 @@ export class Library extends EventEmitter {
     //-------------------------------------------------------------------------
 
     /** Finds candidate routes. */
-    public findRoutes(session: Session, callback: (err: Error, routes: IRouteResult[]) => void): void {
+    public findRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void {
         // Add triggers on first calls
         if (!this.triggersAdded) {
             this.forEachDialog((dialog, id) => dialog.addDialogTrigger(this.actions, this.name + ':' + id));
@@ -129,9 +140,9 @@ export class Library extends EventEmitter {
 
         // Search for route
         if (this._onFindRoutes) {
-            this._onFindRoutes(session, callback);
+            this._onFindRoutes(context, callback);
         } else {
-            this.defaultFindRoutes(session, callback);
+            this.defaultFindRoutes(context, callback);
         }
     }
 
@@ -155,10 +166,10 @@ export class Library extends EventEmitter {
     }
 
     /** Checks to see if the active dialog is from the current library and gets its confidence score for the utterance. */
-    public findActiveDialogRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void {
+    public findActiveDialogRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void {
         // Find stack to search over
         if (!dialogStack) {
-            dialogStack = session.dialogStack();
+            dialogStack = context.dialogStack();
         }
 
         // Ensure that the active dialog is for this library 
@@ -170,11 +181,11 @@ export class Library extends EventEmitter {
             var dialog = this.dialog(parts[1]);
             if (dialog) {
                 // Call recognize for the active dialog
-                var context = <IRecognizeDialogContext>session.toRecognizeContext();
-                context.intent = topIntent;
-                context.dialogData = entry.state;
-                context.activeDialog = true;
-                dialog.recognize(context, (err, result) => {
+                var ctx = <IRecognizeDialogContext>utils.clone(context);
+                ctx.libraryName = this.name;
+                ctx.dialogData = entry.state;
+                ctx.activeDialog = true;
+                dialog.recognize(ctx, (err, result) => {
                     if (!err) {
                         if (result.score < 0.1) {
                             // The active dialog should always have some score otherwise it
@@ -193,7 +204,7 @@ export class Library extends EventEmitter {
                     }
                 });
             } else {
-                logger.warn(session, "Active dialog '%s' not found in library.", entry.id);
+                logger.warn(ctx, "Active dialog '%s' not found in library.", entry.id);
                 callback(null, results);
             }
         } else {
@@ -217,18 +228,17 @@ export class Library extends EventEmitter {
     }
 
     /** Searches for any stack actions that have been triggered for the library. */
-    public findStackActionRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void {
+    public findStackActionRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void {
         // Find stack to search over
         if (!dialogStack) {
-            dialogStack = session.dialogStack();
+            dialogStack = context.dialogStack();
         }        
 
         // Search all stack entries in parallel
         var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
-        var context = <IFindActionRouteContext>session.toRecognizeContext();
-        context.intent = topIntent;
-        context.libraryName = this.name;
-        context.routeType = Library.RouteTypes.StackAction;
+        var ctx = <IFindActionRouteContext>utils.clone(context);
+        ctx.libraryName = this.name;
+        ctx.routeType = Library.RouteTypes.StackAction;
         async.forEachOf(dialogStack || [], (entry: IDialogState, index: number, next: ErrorCallback) => {
             // Filter to library.
             var parts = entry.id.split(':');
@@ -236,7 +246,7 @@ export class Library extends EventEmitter {
                 var dialog = this.dialog(parts[1]);
                 if (dialog) {
                     // Find trigered actions
-                    dialog.findActionRoutes(context, (err, ra) => {
+                    dialog.findActionRoutes(ctx, (err, ra) => {
                         if (!err) {
                             for (var i = 0; i < ra.length; i++) {
                                 var r = ra[i];
@@ -250,7 +260,7 @@ export class Library extends EventEmitter {
                         next(err);
                     });
                 } else {
-                    logger.warn(session, "Dialog '%s' not found in library.", entry.id);
+                    logger.warn(ctx, "Dialog '%s' not found in library.", entry.id);
                     next(null);
                 }
             } else {
@@ -283,13 +293,12 @@ export class Library extends EventEmitter {
     }
 
     /** Searches for any global actions that have been triggered for the library. */
-    public findGlobalActionRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void): void {
+    public findGlobalActionRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void {
         var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
-        var context = <IFindActionRouteContext>session.toRecognizeContext();
-        context.intent = topIntent;
-        context.libraryName = this.name;
-        context.routeType = Library.RouteTypes.GlobalAction;
-        this.actions.findActionRoutes(context, (err, ra) => {
+        var ctx = <IFindActionRouteContext>utils.clone(context);
+        ctx.libraryName = this.name;
+        ctx.routeType = Library.RouteTypes.GlobalAction;
+        this.actions.findActionRoutes(ctx, (err, ra) => {
             if (!err) {
                 for (var i = 0; i < ra.length; i++) {
                     var r = ra[i];
@@ -313,14 +322,17 @@ export class Library extends EventEmitter {
     }
 
     /** Libraries default logic for finding candidate routes. */
-    private defaultFindRoutes(session: Session, callback: (err: Error, routes: IRouteResult[]) => void): void {
+    private defaultFindRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void {
         var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
-        this.recognize(session, (err, topIntent) => {
+        this.recognize(context, (err, topIntent) => {
             if (!err) {
+                var ctx = <IRecognizeContext>utils.clone(context);
+                ctx.intent = topIntent && topIntent.score > 0 ? topIntent : null;
+                ctx.libraryName = this.name;
                 async.parallel([
                     (cb) => {
                         // Check the active dialogs score
-                        this.findActiveDialogRoutes(session, topIntent, (err, routes) => {
+                        this.findActiveDialogRoutes(ctx, (err, routes) => {
                             if (!err && routes) {
                                 routes.forEach((r) => results = Library.addRouteResult(r, results));
                             }
@@ -329,7 +341,7 @@ export class Library extends EventEmitter {
                     },
                     (cb) => {
                         // Search for triggered stack actions.
-                        this.findStackActionRoutes(session, topIntent, (err, routes) => {
+                        this.findStackActionRoutes(ctx, (err, routes) => {
                             if (!err && routes) {
                                 routes.forEach((r) => results = Library.addRouteResult(r, results));
                             }
@@ -338,7 +350,7 @@ export class Library extends EventEmitter {
                     },
                     (cb) => {
                         // Search for global actions.
-                        this.findGlobalActionRoutes(session, topIntent, (err, routes) => {
+                        this.findGlobalActionRoutes(ctx, (err, routes) => {
                             if (!err && routes) {
                                 routes.forEach((r) => results = Library.addRouteResult(r, results));
                             }

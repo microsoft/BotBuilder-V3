@@ -32,6 +32,7 @@
 //
 
 import { Session } from './Session';
+import { IRecognizeContext } from './dialogs/IntentRecognizerSet';
 
 export var channels = {
     facebook: 'facebook',
@@ -74,7 +75,7 @@ export function supportsCardActions(session: Session, buttonCnt = 100) {
     }
 }
 
-export function getChannelId(addressable: Session|IMessage|IAddress): string {
+export function getChannelId(addressable: Session|IRecognizeContext|IMessage|IAddress): string {
     var channelId: string;
     if (addressable) {
         if (addressable.hasOwnProperty('message')) {

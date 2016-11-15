@@ -383,29 +383,40 @@ export class UniversalBot extends Library {
     }
 
     private routeMessage(session: Session, done: (err: Error) => void): void {
-        // Federate across all libraries to find the best route to trigger. 
-        var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
-        async.each(this.libraryList(), (lib, cb) => {
-            lib.findRoutes(session, (err, routes) => {
-                if (!err && routes) {
-                    routes.forEach((r) => results = Library.addRouteResult(r, results));
-                }
-                cb(err);
-            });
-        }, (err) => {
-            if (!err) {
-                // Select the best route
-                var route = Library.bestRouteResult(results, session.dialogStack(), this.name);
-                if (route) {
-                    this.library(route.libraryName).selectRoute(session, route);
-                } else {
-                    // Just let the active dialog process the message
-                    session.routeToActiveDialog();
-                }
-            } else {
-                // Let the session process the error
-                session.error(err);
+        // Run the root libraries recognizers
+        var context = session.toRecognizeContext();
+        this.recognize(context, (err, topIntent) => {
+            if (topIntent && topIntent.score > 0) {
+                // This intent will be automatically inherited by child libraries
+                // that don't implement their own recognizers.
+                context.intent = topIntent;
+                context.libraryName = this.name;
             }
+
+            // Federate across all libraries to find the best route to trigger. 
+            var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
+            async.each(this.libraryList(), (lib, cb) => {
+                lib.findRoutes(context, (err, routes) => {
+                    if (!err && routes) {
+                        routes.forEach((r) => results = Library.addRouteResult(r, results));
+                    }
+                    cb(err);
+                });
+            }, (err) => {
+                if (!err) {
+                    // Select the best route
+                    var route = Library.bestRouteResult(results, session.dialogStack(), this.name);
+                    if (route) {
+                        this.library(route.libraryName).selectRoute(session, route);
+                    } else {
+                        // Just let the active dialog process the message
+                        session.routeToActiveDialog();
+                    }
+                } else {
+                    // Let the session process the error
+                    session.error(err);
+                }
+            });
         });
     }
 

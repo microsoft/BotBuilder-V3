@@ -32,6 +32,7 @@
 //
 
 import { Session } from './Session';
+import { IRecognizeContext } from './dialogs/IntentRecognizerSet'
 import { PromptType, IPromptArgs } from './dialogs/Prompts';
 import * as Channel from './Channel';
 import * as consts from './consts';
@@ -44,13 +45,13 @@ export function error(fmt: string, ...args: any[]): void {
     console.error('ERROR: ' + msg);
 }
 
-export function warn(addressable: Session|IMessage|IAddress, fmt: string, ...args: any[]): void {
+export function warn(addressable: Session|IRecognizeContext|IMessage|IAddress, fmt: string, ...args: any[]): void {
     var prefix = getPrefix(<Session>addressable);
     var msg = args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
     console.warn(prefix + 'WARN: ' + msg);
 }
 
-export function info(addressable: Session|IMessage|IAddress, fmt: string, ...args: any[]): void {
+export function info(addressable: Session|IRecognizeContext|IMessage|IAddress, fmt: string, ...args: any[]): void {
     var channelId = Channel.getChannelId(addressable);
     if (channelId === Channel.channels.emulator || debugLoggingEnabled){
         var prefix = getPrefix(<Session>addressable);

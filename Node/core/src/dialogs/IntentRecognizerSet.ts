@@ -50,6 +50,8 @@ export interface IRecognizeContext {
     gettext(messageid: string, ...args: any[]): string;
     ngettext(messageid: string, messageid_plural: string, count: number): string;
     dialogStack(): IDialogState[];
+    intent?: IIntentRecognizerResult;
+    libraryName?: string;
 
     /** deprecated */
     locale: string;     
@@ -76,6 +78,8 @@ export interface IIntentRecognizerSetOptions {
 } 
 
 export class IntentRecognizerSet implements IIntentRecognizer {
+    public length: number;
+
     constructor(private options: IIntentRecognizerSetOptions = {}) {
         if (typeof this.options.intentThreshold !== 'number') {
             this.options.intentThreshold = 0.1;
@@ -92,6 +96,7 @@ export class IntentRecognizerSet implements IIntentRecognizer {
         if (!this.options.hasOwnProperty('stopIfExactMatch')) {
             this.options.stopIfExactMatch = true;
         }
+        this.length = this.options.recognizers.length;
     }
 
     public recognize(context: IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void {
@@ -105,6 +110,7 @@ export class IntentRecognizerSet implements IIntentRecognizer {
     public recognizer(plugin: IIntentRecognizer): this {
         // Append recognizer
         this.options.recognizers.push(plugin);
+        this.length++;
         return this;
     }
 
