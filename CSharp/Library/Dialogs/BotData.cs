@@ -61,9 +61,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <summary>
         /// Return BotData with Data pointing to a JObject or an empty BotData() record with ETag:""
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="botStoreType"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="key"> The key.</param>
+        /// <param name="botStoreType"> The bot store type.</param>
+        /// <param name="cancellationToken"> The cancellation token.</param>
         /// <returns>Bot record that is stored for this key, or "empty" bot record ready to be stored</returns>
         Task<T> LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken);
 
@@ -75,17 +75,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         ///     If ETag matches then this will update the value if it is unchanged.
         /// If Data is null this removes record, otherwise it stores
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="botStoreType"></param>
-        /// <param name="botData"></param>
-        /// <param name="cancellationToken"></param>
+        /// <param name="key"> The key.</param>
+        /// <param name="botStoreType">The bot store type.</param>
+        /// <param name="data"> The data that should be saved.</param>
+        /// <param name="cancellationToken"> The cancellation token.</param>
         /// <returns>throw HttpException(HttpStatusCode.PreconditionFailed) if update fails</returns>
         Task SaveAsync(IAddress key, BotStoreType botStoreType, T data, CancellationToken cancellationToken);
         Task<bool> FlushAsync(IAddress key, CancellationToken cancellationToken);
     }
 
     /// <summary>
-    /// Volitile in-memory implementation of IBotDatStore<BotData>
+    /// Volitile in-memory implementation of <see cref="IBotDataStore{BotData}"/>
     /// </summary>
     public class InMemoryDataStore : IBotDataStore<BotData>
     {

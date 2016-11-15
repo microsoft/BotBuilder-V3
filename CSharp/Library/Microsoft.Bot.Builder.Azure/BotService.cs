@@ -50,6 +50,11 @@ namespace Microsoft.Bot.Builder.Azure
     public static class BotService
     {
         /// <summary>
+        /// The bot authenticator.
+        /// </summary>
+        public static BotAuthenticator Authenticator => authenticator.Value;
+
+        /// <summary>
         /// Initialize bot service by updating the <see cref="Conversation.Container"/> with <see cref="AzureModule"/>.
         /// </summary>
         static BotService()
@@ -58,12 +63,6 @@ namespace Microsoft.Bot.Builder.Azure
             builder.RegisterModule(new AzureModule());
             builder.Update(Conversation.Container);
         }
-
-        /// <summary>
-        /// The bot authenticator.
-        /// </summary>
-        public static BotAuthenticator Authenticator => authenticator.Value;
-        
 
         /// <summary>
         /// Authenticate the request and add the service url in the activities to <see cref="MicrosoftAppCredentials.TrustedHostNames"/>.

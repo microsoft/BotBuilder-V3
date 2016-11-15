@@ -1801,6 +1801,16 @@
             OpenIdConnect configuration manager for this instances
             </summary>
         </member>
+        <member name="F:Microsoft.Bot.Connector.MicrosoftAppCredentials.MicrosoftAppIdKey">
+            <summary>
+            The key for Microsoft app Id.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.MicrosoftAppCredentials.MicrosoftAppPasswordKey">
+            <summary>
+            The key for Microsoft app Password.
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime)">
             <summary>
             Adds the host of service url to <see cref="T:Microsoft.Bot.Connector.MicrosoftAppCredentials"/> trusted hosts.
