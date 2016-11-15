@@ -6,10 +6,9 @@ var builder = require('../../core/');
 
 var lib = new builder.Library('profile');
 
-// Export create function
-exports.create = function (parent) {
-    // Add to parent library
-    parent.library(lib);
+// Export createLibrary() function
+exports.createLibrary = function () {
+    return lib;
 }
 
 //=========================================================

@@ -1,16 +1,16 @@
 /*-----------------------------------------------------------------------------
 This examples shows how to create an uber bot that aggregates multiple child 
-bots and libraries. As of v3.5 all bots are libraries and they can easily be 
-aggregated just like any library. The only real requirement is that each bot 
-should have a unique namespace.
+libraries. Since all bots are also libraries you can easily add sub-bots to 
+your bot just like you would any library. The only real requirement is that each 
+sub-bot should have a unique namespace.
 
-To deal with situations like 'help' where you want each bot, including the uber 
-bot, to provide their own help dialogs, the framework will naturally trigger the 
-dialog/action it determines is most relevant to the user. If the user is 
-currently interacting with a child bot they'll get that child bots help dialog 
-otherwise they'll get the uber bots help dialog. To understand the specific 
-rules for how the framework decides what to choose, review the reference docs
-the Library.bestRouteResult() method. 
+To deal with situations like 'help' where you want each library, including the 
+uber bot, to provide their own help dialogs, the framework will naturally 
+trigger the dialog/action it determines is most relevant to the user. If the 
+user is currently interacting with a child library they'll get that child 
+libraries help dialog otherwise they'll get the uber bots help dialog. To 
+understand the specific rules for how the framework decides what to choose, 
+review the reference docs the Library.bestRouteResult() method. 
 
 # RUN THE BOT:
 
@@ -30,10 +30,10 @@ var bot1 = require('./bot1');
 var bot2 = require('./bot2');
 var profile = require('./profileLib');
 
-// Initialize them with their parent bot
-bot1.create(bot);
-bot2.create(bot);
-profile.create(bot);
+// Add libraries to bot
+bot.library(bot1.createLibrary());
+bot.library(bot2.createLibrary());
+bot.library(profile.createLibrary());
 
 // Add default dialog to uber bot
 bot.dialog('/', [
