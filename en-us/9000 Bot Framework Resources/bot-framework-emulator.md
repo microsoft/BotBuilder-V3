@@ -6,6 +6,9 @@ weight: 9250
 parent1: Bot Framework Resources
 ---
 
+<div class="docs-text-note">We have released a new Bot Framework Emulator! Download it <a href="https://emulator.botframework.com/" target="_blank">here (Mac and Windows)</a>. Also, the new Emulator is open source, please check it out on <a href="https://github.com/Microsoft/BotFramework-Emulator" target="_blank">GitHub</a></div>
+
+{% comment %}
 * TOC
 {:toc}
 
@@ -136,3 +139,5 @@ To install
         "counter": 1
       }
     }
+
+{% endcomment %}

@@ -9,9 +9,7 @@ parent1: Bot Framework Resources
 Here's a handy list of Bot Framework downloads:
 
 ## Tools
-* [Bot Framework Emulator (Windows)](https://aka.ms/bf-bc-emulator)
-* [Bot Framework Emulator (Console)](https://aka.ms/bfemulator)  
-    * [Instructions on how to use the console app on Mac and Linux with Mono](/en-us/tools/bot-framework-emulator/#mac-and-linux-support-using-command-line-emulator)
+* [Bot Framework Emulator (Mac and Windows)](https://emulator.botframework.com/){:target="_blank"}
 * [Visual Studio Template - C#](http://aka.ms/bf-bc-vstemplate)
 
 ## Bot Builder SDK
@@ -34,6 +32,14 @@ Here's a handy list of Bot Framework downloads:
 ```
     npm install botbuilder
 ```
+
+## Archive
+
+### Tools
+
+* [Bot Framework Emulator (Windows)](https://aka.ms/bf-bc-emulator)
+* [Bot Framework Emulator (Console)](https://aka.ms/bfemulator)  
+    * [Instructions on how to use the console app on Mac and Linux with Mono](/en-us/tools/bot-framework-emulator/#mac-and-linux-support-using-command-line-emulator)
 
 {% comment %}
 * [Bot Builder Node.js self-host (e.g. Heroku)]()
