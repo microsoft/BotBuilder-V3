@@ -20,14 +20,8 @@ var request = require('request');
 
 var lib = new builder.Library('localeTools');
 
-exports.create = function (bot, options) {
-    // Add Library to bot
-    bot.library(lib);
-
-    // Install optional middleware
-    if (options && options.languageDetectionKey) {
-        bot.use(languageDetection(options.languageDetectionKey));
-    }
+exports.createLibrary = function () {
+    return lib;
 }
 
 //=========================================================
@@ -70,7 +64,12 @@ lib.dialog('chooseLocale', [
     }
 ]);
 
-function languageDetection(apiKey) {
+
+//=========================================================
+// Language Detection Middleware
+//=========================================================
+
+exports.languageDetection = function (apiKey) {
     return {
         receive: function (event, next) {
             if (event.text && !event.textLocale) {
