@@ -135,7 +135,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// Creates a message from the resumption cookie.
         /// </summary>
         /// <returns> The message that can be sent to bot based on the resumption cookie</returns>
-        public IMessageActivity GetMessage()
+        public Activity GetMessage()
         {
             return new Activity
             {
