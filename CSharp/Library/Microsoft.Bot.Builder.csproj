@@ -197,6 +197,7 @@
     <EmbeddedResource Include="Resource\Resources.fr.resx" />
     <EmbeddedResource Include="Resource\Resources.it.resx" />
     <EmbeddedResource Include="Resource\Resources.ja.resx" />
+    <EmbeddedResource Include="Resource\Resources.nl.resx" />
     <EmbeddedResource Include="Resource\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -219,6 +220,7 @@
       <SubType>Designer</SubType>
     </XliffResource>
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.ja.xlf" />
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.nl.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.ru.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.zh-Hans.xlf" />
   </ItemGroup>
