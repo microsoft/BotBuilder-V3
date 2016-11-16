@@ -6,7 +6,22 @@ weight: 9250
 parent1: Bot Framework Resources
 ---
 
-<div class="docs-text-note">We have released a new Bot Framework Emulator! Download it <a href="https://emulator.botframework.com/" target="_blank">here (Mac and Windows)</a>. Also, the new Emulator is open source, please check it out on <a href="https://github.com/Microsoft/BotFramework-Emulator" target="_blank">GitHub</a></div>
+We have released a new Bot Framework Emulator! Get it [here](https://emulator.botframework.com/) and for documentation, [here](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started). 
+
+![Bot Framework Emulator running on Ubuntu](/en-us/images/emulator/newemulator-ubuntu.png)
+
+The Emulator is one of your most powerful tools in building your bot, and the new one is a great upgrade over our v1 emulator.
+
+* **New** Support for Mac, Linux and Windows
+* **New** All the Bot Framework card types are supported
+* **New** Save multiple profiles for when you're working online and off
+* **New** Simplifies configuration when you're working with ngrok
+* **New** Uses the webchat control for higher fidelity layout and consistency with the webchat experience
+* Send requests and receive responses to/from your bot endpoint on localhost
+* Inspect the Json response
+* Emulate a specific user and/or conversation
+
+<div>And - a much requested feature, the new Emulator is open source, please check it out on <a href="https://github.com/Microsoft/BotFramework-Emulator" target="_blank">GitHub</a></div>
 
 {% comment %}
 * TOC
