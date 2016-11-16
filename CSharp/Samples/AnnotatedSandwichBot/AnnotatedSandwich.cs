@@ -149,7 +149,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
                                 case LengthOptions.SixInch: cost = 5.0; break;
                                 case LengthOptions.FootLong: cost = 6.50; break;
                             }
-                            return new PromptAttribute($"Total for your sandwich is {cost:C2} is that ok?");
+                            return new PromptAttribute($"Total for your sandwich is {cost:C2} is that ok? {{||}}");
                         })
                         .Field(nameof(SandwichOrder.DeliveryAddress),
                             validate: async (state, response) =>
