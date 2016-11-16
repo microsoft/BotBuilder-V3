@@ -13,21 +13,21 @@ Get started in seconds with out-of-the-box templates including basic bot, LUIS b
 
 You can write your bot in C# or Node.js directly in the browser using the Azure editor without any need for a tool chain (local editor and source control). The integrated chat window sits side-by-side with the Azure editor, which lets you test your bot on the fly as you write the code in the browser. 
 
-The Azure editor does not allow you to manage the files by adding new files or renaming or deleting existing files. If need to manage the files, you should set up [continuous integration](/en-us/azure-bots/manage/setting-up-continuous-integration/). This would let you use the IDE and source control of your choice (for example, Visual Studio Team, GitHub, and Bitbucket). Continuous integration will automatically deploy to Azure the changes that you commit to source control. Note that after configuring continuous integration, you will no longer be able to update the bot in the Azure editor.
+The Azure editor does not allow you to manage the files by adding new files or renaming or deleting existing files. If need to manage the files, you should set up [continuous integration](/en-us/azure-bot-service/manage/setting-up-continuous-integration/). This would let you use the IDE and source control of your choice (for example, Visual Studio Team, GitHub, and Bitbucket). Continuous integration will automatically deploy to Azure the changes that you commit to source control. Note that after configuring continuous integration, you will no longer be able to update the bot in the Azure editor.
 
 Once you have setup continuous integration, you can debug your bot locally by following [these instructions](/en-us/azure-bot-service/manage/debug/).
 
 The following are the Bot App templates that you can create.
 
-- Basic&mdash;A simple bot that uses dialogs to respond to user input. See [Basic bot template](/en-us/azure-bots/templates/basic).
-- Form&mdash;A bot that uses a guided conversation to collect user input. The C# template uses FormFlow to collect user input, and the Node.js template uses waterfalls. See [Form bot template](/en-us/azure-bots/templates/form).
-- Language understanding&mdash;A bot that uses natural language models (LUIS) to understand user intent. See [Nautral language bot template](/en-us/azure-bots/templates/luis).
-- Proactive&mdash;A bot that uses Azure Functions to alert bot users of events. See [Proactive bot template](/en-us/azure-bots/templates/proactive).
+- Basic&mdash;A simple bot that uses dialogs to respond to user input. See [Basic bot template](/en-us/azure-bot-service/templates/basic).
+- Form&mdash;A bot that uses a guided conversation to collect user input. The C# template uses FormFlow to collect user input, and the Node.js template uses waterfalls. See [Form bot template](/en-us/azure-bot-service/templates/form).
+- Language understanding&mdash;A bot that uses natural language models (LUIS) to understand user intent. See [Nautral language bot template](/en-us/azure-bot-service/templates/luis).
+- Proactive&mdash;A bot that uses Azure Functions to alert bot users of events. See [Proactive bot template](/en-us/azure-bot-service/templates/proactive).
 
-For a walkthrough that shows creating a bot using Azure Bot Service, see [Creating your first bot](/en-us/azure-bots/build/first-bot/).
+For a walkthrough that shows creating a bot using Azure Bot Service, see [Creating your first bot](/en-us/azure-bot-service/build/first-bot/).
 
 {% comment %}
-- qnamaker bot&mdash;A bot that uses a knowledge base to answer the user’s questions. See [Knowledge base bot template](/en-us/azure-bots/templates/qna). 
+- qnamaker bot&mdash;A bot that uses a knowledge base to answer the user’s questions. See [Knowledge base bot template](/en-us/azure-bot-service/templates/qna). 
 {% endcomment %}
 
 {% comment %}
