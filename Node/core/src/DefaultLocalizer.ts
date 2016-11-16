@@ -33,6 +33,7 @@
 
 import { Library } from './bots/Library';
 import * as logger from './logger';
+import * as consts from './consts';
 import * as fs from 'fs';
 import * as async from 'async';
 import * as Promise from 'promise';
@@ -96,7 +97,7 @@ export class DefaultLocalizer implements ILocalizer {
         if (fbLocale !== fbDefault) {
             locales.push(fbLocale);
         }
-        if (locale !== fbLocale) {
+        if (locale !== fbLocale && locale !== this._defaultLocale) {
             locales.push(locale);
         }
 
@@ -130,6 +131,9 @@ export class DefaultLocalizer implements ILocalizer {
         }
         if (!text && fbDefault !== this._defaultLocale) {
             text = this.getEntry(fbDefault, key);
+        }
+        if (!text && fbDefault !== 'en') {
+            text = this.getEntry('en', key);
         }
 
         // Return localized message
@@ -257,7 +261,7 @@ export class DefaultLocalizer implements ILocalizer {
     private createKey(ns: string, msgid: string) : string {
         var escapedMsgId = this.escapeKey(msgid);
         var prepend = "";
-        if (ns) {
+        if (ns && ns !== consts.Library.default) {
             prepend = ns + ":";
         }
         return prepend + msgid;

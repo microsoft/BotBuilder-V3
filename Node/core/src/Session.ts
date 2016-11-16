@@ -648,7 +648,9 @@ export class Session extends events.EventEmitter {
     private vgettext(messageid: string, args?: any[]): string {
         var tmpl: string;
         if (this.localizer && this.message) {
-            tmpl = this.localizer.gettext(this.preferredLocale() || this.message.textLocale || '', messageid);
+            var cur = this.curDialog();
+            var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : this.library.name;
+            tmpl = this.localizer.gettext(this.preferredLocale() || this.message.textLocale || '', messageid, libName);
         } else {
             tmpl = messageid;
         }
