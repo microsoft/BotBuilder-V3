@@ -261,27 +261,34 @@ var UniversalBot = (function (_super) {
     };
     UniversalBot.prototype.routeMessage = function (session, done) {
         var _this = this;
-        var results = Library_1.Library.addRouteResult({ score: 0.0, libraryName: this.name });
-        async.each(this.libraryList(), function (lib, cb) {
-            lib.findRoutes(session, function (err, routes) {
-                if (!err && routes) {
-                    routes.forEach(function (r) { return results = Library_1.Library.addRouteResult(r, results); });
-                }
-                cb(err);
-            });
-        }, function (err) {
-            if (!err) {
-                var route = Library_1.Library.bestRouteResult(results, session.dialogStack(), _this.name);
-                if (route) {
-                    _this.library(route.libraryName).selectRoute(session, route);
+        var context = session.toRecognizeContext();
+        this.recognize(context, function (err, topIntent) {
+            if (topIntent && topIntent.score > 0) {
+                context.intent = topIntent;
+                context.libraryName = _this.name;
+            }
+            var results = Library_1.Library.addRouteResult({ score: 0.0, libraryName: _this.name });
+            async.each(_this.libraryList(), function (lib, cb) {
+                lib.findRoutes(context, function (err, routes) {
+                    if (!err && routes) {
+                        routes.forEach(function (r) { return results = Library_1.Library.addRouteResult(r, results); });
+                    }
+                    cb(err);
+                });
+            }, function (err) {
+                if (!err) {
+                    var route = Library_1.Library.bestRouteResult(results, session.dialogStack(), _this.name);
+                    if (route) {
+                        _this.library(route.libraryName).selectRoute(session, route);
+                    }
+                    else {
+                        session.routeToActiveDialog();
+                    }
                 }
                 else {
-                    session.routeToActiveDialog();
+                    session.error(err);
                 }
-            }
-            else {
-                session.error(err);
-            }
+            });
         });
     };
     UniversalBot.prototype.eventMiddleware = function (event, middleware, done, error) {

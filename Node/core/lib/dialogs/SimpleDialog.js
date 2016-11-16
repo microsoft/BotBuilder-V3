@@ -35,26 +35,28 @@ function createWaterfall(steps) {
             waterfallAction(s, result);
         };
         if (r && r.hasOwnProperty('resumed')) {
-            var step = s.dialogData[consts.Data.WaterfallStep];
-            switch (r.resumed) {
-                case Dialog_1.ResumeReason.back:
-                    step -= 1;
-                    break;
-                default:
-                    step++;
-            }
-            if (step >= 0 && step < steps.length) {
-                try {
-                    logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
-                    s.dialogData[consts.Data.WaterfallStep] = step;
-                    steps[step](s, r, skip);
+            if (r.resumed !== Dialog_1.ResumeReason.reprompt) {
+                var step = s.dialogData[consts.Data.WaterfallStep];
+                switch (r.resumed) {
+                    case Dialog_1.ResumeReason.back:
+                        step -= 1;
+                        break;
+                    default:
+                        step++;
                 }
-                catch (e) {
-                    s.error(e);
+                if (step >= 0 && step < steps.length) {
+                    try {
+                        logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
+                        s.dialogData[consts.Data.WaterfallStep] = step;
+                        steps[step](s, r, skip);
+                    }
+                    catch (e) {
+                        s.error(e);
+                    }
                 }
-            }
-            else {
-                s.endDialogWithResult(r);
+                else {
+                    s.endDialogWithResult(r);
+                }
             }
         }
         else if (steps && steps.length > 0) {

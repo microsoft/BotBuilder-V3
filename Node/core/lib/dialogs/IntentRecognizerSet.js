@@ -24,6 +24,7 @@ var IntentRecognizerSet = (function () {
         if (!this.options.hasOwnProperty('stopIfExactMatch')) {
             this.options.stopIfExactMatch = true;
         }
+        this.length = this.options.recognizers.length;
     }
     IntentRecognizerSet.prototype.recognize = function (context, done) {
         if (this.options.recognizeOrder == RecognizeOrder.parallel) {
@@ -35,6 +36,7 @@ var IntentRecognizerSet = (function () {
     };
     IntentRecognizerSet.prototype.recognizer = function (plugin) {
         this.options.recognizers.push(plugin);
+        this.length++;
         return this;
     };
     IntentRecognizerSet.prototype.recognizeInParallel = function (context, done) {

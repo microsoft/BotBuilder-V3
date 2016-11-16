@@ -433,15 +433,18 @@ export interface IRecognizeContext {
     /** Returns a copy of the current dialog stack for the session. */
     dialogStack(): IDialogState[];
 
+    /** (Optional) The top intent identified for the message. */
+    intent?: IIntentRecognizerResult;
+
+    /** (Optional) The name of the library passing the context is from. */
+    libraryName?: string;
+
     /** __DEPRECATED__ use [preferredLocale()](#preferredlocale) instead. */
     locale: string;
 }
 
 /** Context passed to `Dialog.recognize()`. */
 export interface IRecognizeDialogContext extends IRecognizeContext {
-    /** (Optional) The top intent identified for the message. */
-    intent?: IIntentRecognizerResult;
-
     /** If true the Dialog is the active dialog on the callstack. */
     activeDialog: boolean;
 
@@ -451,12 +454,6 @@ export interface IRecognizeDialogContext extends IRecognizeContext {
 
 /** Context passed to `ActionSet.findActionRoutes()`. */
 export interface IFindActionRouteContext extends IRecognizeContext {
-    /** (Optional) The top intent identified for the message. */
-    intent?: IIntentRecognizerResult;
-
-    /** The name of the library being searched over. */
-    libraryName: string;
-
     /** The type of route being searched for. */
     routeType: string;
 }
@@ -1035,7 +1032,7 @@ export interface IRouteResult {
 
 /** Custom route searching logic passed to [Library.onFindRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onfindroutes). */
 export interface IFindRoutesHandler {
-    (session: Session, callback: (err: Error, routes: IRouteResult[]) => void): void;
+    (context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void;
 }
 
 /** Custom route searching logic passed to [Library.onSelectRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onselectroute). */
@@ -2044,12 +2041,12 @@ export class Library {
      * Attempts to match a users text utterance to an intent using the libraries recognizers. See 
      * [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) 
      * for details.
-     * @param session Session object for the current conversation.
+     * @param context Read-only recognizer context for the current conversation.
      * @param callback Function that should be invoked upon completion of the recognition.
      * @param callback.err Any error that occured during the operation.
      * @param callback.result The result of the recognition operation. 
      */
-    recognize(session: Session, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+    recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
     /**
      * Adds a new recognizer plugin to the library.
@@ -2065,12 +2062,12 @@ export class Library {
      * The default search logic can be overriden using [onFindRoute()](#onfindroute) and only the
      * current library is searched so you should call `findRoutes()` seperately for each library 
      * within the hierarchy.
-     * @param session Session object for the current conversation.
+     * @param context Read-only recognizer context for the current conversation.
      * @param callback Function that should be invoked with the found routes.
      * @param callback.err Any error that occured during the operation.
      * @param callback.routes List of routes best suited to handle the current message. 
      */
-    findRoutes(session: Session, callback: (err: Error, routes: IRouteResult[]) => void): void
+    findRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void
 
     /**
      * Replaces [findRoutes()](#findroutes) default route searching logic with a custom 
@@ -2096,14 +2093,13 @@ export class Library {
     /**
      * Gets the active dialogs confidence that it understands the current message. The dialog 
      * must be a member of the current library, otherwise a score of 0.0 will be returned.
-     * @param session Session object for the current conversation.
-     * @param topIntent (Optional) top intent identified from a previous call to [Library.recognize()](#recognize). This can be `null`.
+     * @param context Read-only recognizer context for the current conversation.
      * @param callback Function that should be invoked with the found routes.
      * @param callback.err Any error that occured during the operation.
      * @param callback.routes List of routes best suited to handle the current message.
      * @param dialogStack (Optional) dialog stack to search over. The default behaviour is to search over the sessions current dialog stack. 
      */
-    findActiveDialogRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void;
+    findActiveDialogRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void;
 
     /**
      * Routes the current message to the active dialog.
@@ -2114,14 +2110,13 @@ export class Library {
 
     /**
      * Searches the sessions dialog stack to see if any actions have been triggered.
-     * @param session Session object for the current conversation.
-     * @param topIntent (Optional) top intent identified from a previous call to [Library.recognize()](#recognize). This can be `null`.
+     * @param context Read-only recognizer context for the current conversation.
      * @param callback Function that should be invoked with the found routes.
      * @param callback.err Any error that occured during the operation.
      * @param callback.routes List of routes best suited to handle the current message.
      * @param dialogStack (Optional) dialog stack to search over. The default behaviour is to search over the sessions current dialog stack. 
      */
-    findStackActionRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void;
+    findStackActionRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void, dialogStack?: IDialogState[]): void;
 
     /**
      * Routes the current message to a triggered stack action.
@@ -2132,13 +2127,12 @@ export class Library {
 
     /**
      * Searches the library to see if any global actions have been triggered.
-     * @param session Session object for the current conversation.
-     * @param topIntent (Optional) top intent identified from a previous call to [Library.recognize()](#recognize). This can be `null`.
+     * @param context Read-only recognizer context for the current conversation.
      * @param callback Function that should be invoked with the found routes.
      * @param callback.err Any error that occured during the operation.
      * @param callback.routes List of routes best suited to handle the current message.
      */
-    findGlobalActionRoutes(session: Session, topIntent: IIntentRecognizerResult, callback: (err: Error, routes: IRouteResult[]) => void): void;
+    findGlobalActionRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void;
 
     /**
      * Routes the current message to a triggered global action.
@@ -2353,6 +2347,9 @@ export class SimplePromptRecognizer implements IPromptRecognizer {
 
 /** Federates a recognize() call across a set of intent recognizers. */
 export class IntentRecognizerSet implements IIntentRecognizer {
+    /** Number of recognizers in the set. */
+    readonly length: number;
+
     /**  
      * Constructs a new instance of an IntentRecognizerSet.
      * @param options (Optional) options used to initialize the set and control the flow of recognition.

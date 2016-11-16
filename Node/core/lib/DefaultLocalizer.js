@@ -1,5 +1,6 @@
 "use strict";
 var logger = require('./logger');
+var consts = require('./consts');
 var fs = require('fs');
 var async = require('async');
 var Promise = require('promise');
@@ -49,7 +50,7 @@ var DefaultLocalizer = (function () {
         if (fbLocale !== fbDefault) {
             locales.push(fbLocale);
         }
-        if (locale !== fbLocale) {
+        if (locale !== fbLocale && locale !== this._defaultLocale) {
             locales.push(locale);
         }
         async.each(locales, function (locale, cb) {
@@ -75,6 +76,9 @@ var DefaultLocalizer = (function () {
         }
         if (!text && fbDefault !== this._defaultLocale) {
             text = this.getEntry(fbDefault, key);
+        }
+        if (!text && fbDefault !== 'en') {
+            text = this.getEntry('en', key);
         }
         return text ? this.getValue(text) : null;
     };
@@ -191,7 +195,7 @@ var DefaultLocalizer = (function () {
     DefaultLocalizer.prototype.createKey = function (ns, msgid) {
         var escapedMsgId = this.escapeKey(msgid);
         var prepend = "";
-        if (ns) {
+        if (ns && ns !== consts.Library.default) {
             prepend = ns + ":";
         }
         return prepend + msgid;
