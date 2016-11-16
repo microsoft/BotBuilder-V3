@@ -21,7 +21,7 @@ The Emulator is one of your most powerful tools in building your bot, and the ne
 * Inspect the Json response
 * Emulate a specific user and/or conversation
 
-And - a much requested feature, the new Emulator is open source, please check it out on <a href="https://github.com/Microsoft/BotFramework-Emulator" target="_blank">GitHub</a></div>
+<div>And - a much requested feature, the new Emulator is open source, please check it out on <a href="https://github.com/Microsoft/BotFramework-Emulator" target="_blank">GitHub</a></div>
 
 {% comment %}
 * TOC
