@@ -223,6 +223,8 @@ bot.on('trigger', function (message) {
     </div>  
 </div>
 
+For information about the other files that Bot Service creates, see [Bot Service Template Overview](/en-us/azure-bot-service/templates/overview/).
+
 
 ## Conclusion
 This template should give you the basic ideas about how to enable proactive scenarios for your bots. By leveraging the power of Azure Bot Service and Azure Functions, you can build complex systems really fast with fault-tolerant, independent pieces.

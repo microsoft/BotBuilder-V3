@@ -63,10 +63,5 @@ public class BasicLuisDialog : LuisDialog<object>
     }
 }{% endhighlight %}
 
-The following are the project files used by the function; you should not have to modify any of them.
 
-|**File**|**Description**
-|function.json|This file contains the function’s bindings. You should not modify this file.
-|project.json|This file contains the project’s NuGet references. You should only have to change this file if you add a new reference.
-|project.lock.json|This file contains the list of packages. You should not modify this file.
-|host.json|A metadata file that contains the global configuration options affecting the function.
+For information about the other files that Bot Service creates, see [Bot Service Template Overview](/en-us/azure-bot-service/templates/overview/).
