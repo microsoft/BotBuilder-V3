@@ -23,7 +23,7 @@ For information about using LUIS in the Bot Framework, see [Alarm Bot](/en-us/cs
 The routing of the message is identical to the one presented in the [Basic bot template](/en-us/azure-bot-service/templates/basic/), please refer to that document for more info.
 
 
-Most messages will have a Message activity type, and will contain the text and attachments that the user sent. If the message’s activity type is Message, the template posts the message to **BasicLuisDialog** in the context of the current message (see BasicLuisDialog.csx). For details about the **PostInScratchAsync** method, see the PostDialogExtensions.csx file.
+Most messages will have a Message activity type, and will contain the text and attachments that the user sent. If the message’s activity type is Message, the template posts the message to **BasicLuisDialog** in the context of the current message (see BasicLuisDialog.csx). 
 
 {% highlight csharp %}
         switch (activity.GetActivityType())
@@ -34,7 +34,7 @@ Most messages will have a Message activity type, and will contain the text and a
 {% endhighlight %}
 
 
-The BaiscLuisDialog.csx file contains the root dialog that controls the conversation with the user. The **BasicLuisDialog** object defines an intent method handler for each intent that you define in your LUIS model. The naming convention for intent handlers is, \<intent name\>+Intent (for example, NoneIntent). In this example, the dialog will handle the None intent which LUIS returns if it cannot determine the intent, and the MyIntent intent, which you still need to define in your LUIS model. You use the LuisIntent method attribute to define the method as an intent handler. The name in the LuisIntent attribute must match the name that you used in your model. 
+The BaiscLuisDialog.csx file contains the root dialog that controls the conversation with the user. The **BasicLuisDialog** object defines an intent method handler for each intent that you define in your LUIS model. The naming convention for intent handlers is, \<intent name\>+Intent (for example, NoneIntent). In this example, the dialog will handle the None intent which LUIS returns if it cannot determine the intent, and the MyIntent intent, which you still need to define in your LUIS model. The LuisIntent method attribute defines the method as an intent handler. The name in the LuisIntent attribute must match the name that you used in your model. 
 
 The **BasicLuisDialog** object inherits from the [LuisDialog](/en-us/csharp/builder/sdkreference/d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html) object. The **LuisDialog** object contains the **StartAsync** and **MessageReceived** methods. When the dialog’s instantiated, the dialog’s StartAsync method runs and calls IDialogContext.Wait with the continuation delegate that’s called when there is a new message. In the initial case, there is an immediate message available (the one that launched the dialog) and the message is immediately passed to the **MessageReceived** method (in the **LuisDialog** object).
 

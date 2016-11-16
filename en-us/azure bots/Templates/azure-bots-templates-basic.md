@@ -77,7 +77,7 @@ Most messages will have a Message activity type, and will contain the text and a
     switch (activity.GetActivityType())
     {
         case ActivityTypes.Message:
-            await Conversation.SendAsync(activity, () => new BasicLuisDialog());
+            await Conversation.SendAsync(activity, () => new EchoDialog());
             break;
 {% endhighlight %}
 
@@ -108,7 +108,7 @@ public class EchoDialog : IDialog<object>
     }
 {% endhighlight %}
 
-The **MessageReceivedAsync** method echoes the user’s input and counts the number of interactions with the user. If the user’s input is the word, *reset*, the method uses a [PromptDialog](/en-us/csharp/builder/sdkreference/d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html) to confirm that the user wants to reset the counter. The method calls the IDialogContext.Wait method which suspends the bot until it receives the next message.
+The **MessageReceivedAsync** method echoes the user’s input and counts the number of interactions with the user. If the user’s input is the word, *reset*, the method uses [PromptDialog](/en-us/csharp/builder/sdkreference/d9/d03/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_prompt_dialog.html) to confirm that the user wants to reset the counter. The method calls the IDialogContext.Wait method which suspends the bot until it receives the next message.
 
 {% highlight csharp %}
     public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
@@ -131,7 +131,7 @@ The **MessageReceivedAsync** method echoes the user’s input and counts the num
     }
 {% endhighlight %}
 
-The **AfterResetAsync** method processes the user’s response to the **PromptDialog**. If the user confirms the request, the counter is reset and a message is sent to the user confirming the action. The method then calls the IDialogContext.Wait method to suspend the bot until it receives the next message, which gets processed by **MessageReceivedAsync**. 
+The **AfterResetAsync** method processes the user’s response to **PromptDialog**. If the user confirms the request, the counter is reset and a message is sent to the user confirming the action. The method then calls the IDialogContext.Wait method to suspend the bot until it receives the next message, which gets processed by **MessageReceivedAsync**. 
 
 {% highlight csharp %}
     public async Task AfterResetAsync(IDialogContext context, IAwaitable<bool> argument)
@@ -149,8 +149,6 @@ The **AfterResetAsync** method processes the user’s response to the **PromptDi
         context.Wait(MessageReceivedAsync);
     }
 {% endhighlight %}
-
- You might update this code if you want to change the conversation with the user. For example, by adding other prompts to get information from the user, adding [attachments](/en-us/csharp/builder/sdkreference/attachments.html) such as cards to provide a richer user experience, or chaining together other dialogs (see [Dialog Chains](/en-us/csharp/builder/sdkreference/dialogs.html#Fluent)).
 
 The following are the project files used by the function; you should not have to modify any of them.
 

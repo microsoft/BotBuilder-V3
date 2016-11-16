@@ -23,69 +23,37 @@ Most messages will have a Message activity type, and will contain the text and a
                 break;
 {% endhighlight %}
 
-The **MainDialog** object inherits from **BasicFormFlowDialog**. The parameter to the **MainDialog** constructor is the name of the method (delegate) that builds the form. In this case, it’s the **BuildForm** method defined by **BasicFormFlowDialog** (see BasicFormFlowDialog.csx). The delegate is used later in the dialog’s **MessageReceivedAsync** method when it instantiates the **FormDialog** object.
-
-{% comment %}
-???
-The **DefaultIfExceptionMethod** stops the propagation of the exception and returns the **BasicFormFlowDialog** object. 
-??
-{% endcomment %}
-
-
-The MainDialog.csx file contains the root dialog that controls the conversation with the user. When the dialog’s instantiated, the dialog’s **StartAsync** method runs and calls IDialogContext.Wait with the continuation delegate that’s called when there is a new message. In the initial case, there is an immediate message available (the one that launched the dialog) and the message is immediately passed to the **MessageReceivedAsync** method.
+The **MainDialog** object inherits from the **BasicForm** dialog, which defines the form (see BasicForm.csx). The MainDialog.csx file contains the root dialog that controls the conversation with the user. When the dialog’s instantiated, the dialog’s **StartAsync** method runs and calls IDialogContext.Wait with the continuation delegate that’s called when there is a new message. In the initial case, there is an immediate message available (the one that launched the dialog) and the message is immediately passed to the **MessageReceivedAsync** method.
 
 {% highlight csharp %}
-public class MainDialog: IDialog<BasicFormFlowDialog>
+public class MainDialog : IDialog<BasicForm>
+{
+    public MainDialog()
     {
-        private readonly BuildFormDelegate<BasicFormFlowDialog> MakeForm;
-        
-        internal MainDialog(BuildFormDelegate<BasicFormFlowDialog> makeForm)
-        {
-            this.MakeForm = makeForm; 
-        }
+    }
 
-        public Task StartAsync(IDialogContext context)
-        {
-            try
-            {
-                context.Wait(MessageReceivedAsync);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException(error);
-            }
+    public Task StartAsync(IDialogContext context)
+    {
+        context.Wait(MessageReceivedAsync);
+        return Task.CompletedTask;
+    }
 
-            return Task.CompletedTask;
-        }
 {% endhighlight %}
 
-The **MessageReceivedAsync** method creates the form and starts asking the questions. The parameters to the **FormDialog** constructor are the **BasicFormFlowDialog**, which defines the form (or list of questions), and the `MakeForm` variable, which contains the name of the delegate that builds the form. The delegate’s name is specified in the **Run** method when it processes the user’s original message. The **Call** method starts the form and specifies the delegate that handles the completed form. After the **FormCompleted** method finishes processing the user’s input, the method calls the IDialogContext.Wait method, which suspends the bot until it receives the next message.
+The **MessageReceivedAsync** method creates the form and starts asking the questions. The **Call** method starts the form and specifies the delegate that handles the completed form. After the **FormComplete** method finishes processing the user’s input, the method calls the IDialogContext.Wait method, which suspends the bot until it receives the next message.
 
 {% highlight csharp %}
-        public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
-        {
-            var message = await argument;
-            var sampleForm = new FormDialog<BasicFormFlowDialog>(new BasicFormFlowDialog(), MakeForm, FormOptions.PromptInStart, null);
-            context.Call<BasicFormFlowDialog>(sampleForm, FormComplete);
-        }
+    public virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
+    {
+        var message = await argument;
+        context.Call(BasicForm.BuildFormDialog(FormOptions.PromptInStart), FormComplete);
+    }
 
-        private async Task FormComplete(IDialogContext context, IAwaitable<BasicFormFlowDialog> result)
+    private async Task FormComplete(IDialogContext context, IAwaitable<BasicForm> result)
+    {
+        try
         {
-            BasicFormFlowDialog form = null;
-            try
-            {
-                form = await result;
-            }
-            catch (OperationCanceledException)
-            {
-                await context.PostAsync("You canceled the form! Type anything to restart it.");
-                return;
-            }
-
+            var form = await result;
             if (form != null)
             {
                 await context.PostAsync("Thanks for completing the form! Just type anything to restart it.");
@@ -94,19 +62,24 @@ The **MessageReceivedAsync** method creates the form and starts asking the quest
             {
                 await context.PostAsync("Form returned empty response! Type anything to restart it.");
             }
-
-            context.Wait(MessageReceivedAsync);
         }
+        catch (OperationCanceledException)
+        {
+            await context.PostAsync("You canceled the form! Type anything to restart it.");
+        }
+
+        context.Wait(MessageReceivedAsync);
+    }
 {% endhighlight %}
 
-The following shows the **BasicFormFlowDialog** object that defines the form. The public properties define the questions to ask. The Prompt property attribute contains the prompt text that’s shown to the user. Anything within curly brackets ({}) are substitution characters. For example, {&} tells the form to use the property’s name in the prompt. If the property’s data type is an enumeration, {\|\|} tells the form to display the enumeration’s values as the list of possible values that the user can choose from. For example, the data type for the Color property is ColorOptions. When the form asks the user for their favorite car color, the form will display **1. Red, 2. White, and 3. Blue** as possible values. For more information about substitution strings, see [Pattern Language](/en-us/csharp/builder/sdkreference/forms.html#patterns). 
+The following shows the **BasicForm** object that defines the form. The public properties define the questions to ask. The Prompt property attribute contains the prompt text that’s shown to the user. Anything within curly brackets ({}) are substitution characters. For example, {&} tells the form to use the property’s name in the prompt. If the property’s data type is an enumeration, {\|\|} tells the form to display the enumeration’s values as the list of possible values that the user can choose from. For example, the data type for the Color property is ColorOptions. When the form asks the user for their favorite car color, the form will display **1. Red, 2. White, and 3. Blue** as possible values. For more information about substitution strings, see [Pattern Language](/en-us/csharp/builder/sdkreference/forms.html#patterns). 
 
 {% highlight csharp %}
 public enum CarOptions { Convertible=1, SUV, EV };
 public enum ColorOptions { Red=1, White, Blue };
 
 [Serializable]
-public class BasicFormFlowDialog
+public class BasicForm
 {
     [Prompt("Hi! What is your {&}?")]
     public string Name { get; set; }
@@ -117,16 +90,16 @@ public class BasicFormFlowDialog
     [Prompt("Please select your favorite {&} {||}")]
     public ColorOptions Color { get; set; }
 
-    public static IForm<BasicFormFlowDialog> BuildForm()
+    public static IForm<BasicForm> BuildForm()
     {
-        // Builds an IForm<T> based on BasicFormFlowDialog
-        return new FormBuilder<BasicFormFlowDialog>().Build();
+        // Builds an IForm<T> based on BasicForm
+        return new FormBuilder<BasicForm>().Build();
     }
 
-    public static IFormDialog<BasicFormFlowDialog> BuildFormDialog()
+    public static IFormDialog<BasicForm> BuildFormDialog(FormOptions options = FormOptions.PromptInStart)
     {
-        // Generates a new FormDialog<T> based on IForm<BasicFormFlowDialog>
-        return FormDialog.FromForm(BasicFormFlowDialog.BuildForm);
+        // Generated a new FormDialog<T> based on IForm<BasicForm>
+        return FormDialog.FromForm(BuildForm, options);
     }
 }
 {% endhighlight %}

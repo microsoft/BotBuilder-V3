@@ -11,18 +11,18 @@ parent2: Templates
 {:toc}
 
 ## What is a proactive bot?
-The most common bot use case is when a user initiates the interaction by chatting with the bot via their favorite channel. What if you wanted to have the bot contact the user based on some triggered event, some lengthy job, or some external events changing state of system (e.g. pizza ready to pickup)? The proactive bot template is designed to illustrate just that! 
+The most common bot use case is when a user initiates the interaction by chatting with the bot via their favorite channel. What if you wanted to have the bot contact the user based on some triggered event or lengthy job or an external event such as a state change in the system (for example, the pizza is ready to pick up)? The proactive bot template is designed to do just that! 
 
 ## The proactive bot scenario in the proactive template
-The proactive bot template provides all the Azure resources you need to enable a very simple proactive scenario, in particular. Here is a diagram with brief overview of system in our example:
+The proactive bot template provides all the Azure resources you need to enable a very simple proactive scenario. The following diagram provides an overview of how triggered events work.
 
 ![Overview of Example Proactive Bot](/en-us/images/azure-bots/azure-bot-proactive-diagram.png)
 
 When you create a proactive bot with the Azure Bot Service, you will find these Azure resources in your resource group:
 
 - Azure Storage (used to create the queue)
-- Azure Function App (a queueTrigger Azure Function) - Triggered whenever there is a message in queue, and communicates to Bot service via DirectLine. This function uses Bot binding to send out message as part of trigger payload. Our example function forwards user message as is from the queue.
-- Azure Bot Service (your bot) - Contains logic of receiving message from user, enqueue message with required properties (Recipient, User's message) into to Azure Queue, and logic for receiving triggers from Azure Function sending back the message it received from trigger payload.
+- Azure Function App (a queueTrigger Azure Function)&mdash;Triggered whenever there is a message in the queue, and communicates to the Bot service via Direct Line. This function uses bot binding to send the message as part of the trigger’s payload. Our example function forwards the user’s message as is from the queue.
+- Azure Bot Service (your bot) - Contains the logic that receivies the message from user, adds the message with required properties (Recipient and the user's message) to the Azure queue, and receives the triggers from Azure Function and sends back the message it received from trigger's payload.
 
 Everything is properly configured and ready to work.
 
@@ -86,9 +86,9 @@ bot.dialog('/', function (session) {
 
 
 ### Triggering an Azure Function with the queue, and sending the message back to the user (Azure Functions)
-Once the message has been added to the queue, the Function will be triggered, it will de-queue the message, and send it back to the user. If you inspect the Function configuration file, you will see that it contains an input binding of type "queueTrigger", and an output binding of type "bot".
+After the message is added to the queue, the function is triggered. The message is then removed from the queue and sent back to the user. If you inspect the function's configuration file, you will see that it contains an input binding of type “queueTrigger” and an output binding of type “bot”.
 
-This is the Functions configuration file functions.json.
+This following shows the functions.json configuration file.
 
 {% highlight JSON %}
 {
@@ -115,7 +115,7 @@ This is the Functions configuration file functions.json.
 }
 {% endhighlight %} 
 
-The Function code looks like this.
+The Function code looks like this:
 
 
 
@@ -225,7 +225,7 @@ bot.on('trigger', function (message) {
 
 
 ## Conclusion
-This template should give you basic idea to enable a proactive scenarios for your bots. Leveraging the power of Azure Bot Service and Azure Functions, one can build really complex system really fast with fault-tolerant, independent pieces.
+This template should give you the basic ideas about how to enable proactive scenarios for your bots. By leveraging the power of Azure Bot Service and Azure Functions, you can build complex systems really fast with fault-tolerant, independent pieces.
 
 ## Additional resources
 

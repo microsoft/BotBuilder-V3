@@ -24,7 +24,7 @@ The following are the Bot App templates that you can create.
 - Language understanding&mdash;A bot that uses natural language models (LUIS) to understand user intent. See [Nautral language bot template](/en-us/azure-bot-service/templates/luis).
 - Proactive&mdash;A bot that uses Azure Functions to alert bot users of events. See [Proactive bot template](/en-us/azure-bot-service/templates/proactive).
 
-For a walkthrough that shows creating a bot using Azure Bot Service, see [Creating your first bot](/en-us/azure-bots/build/first-bot/).
+For a walkthrough that shows creating a bot using Azure Bot Service, see [Creating your first bot](/en-us/azure-bot-service/build/first-bot/).
 
 {% comment %}
 - qnamaker bot&mdash;A bot that uses a knowledge base to answer the user’s questions. See [Knowledge base bot template](/en-us/azure-bot-service/templates/qna). 
