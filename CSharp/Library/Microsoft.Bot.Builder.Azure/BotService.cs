@@ -31,13 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
@@ -57,11 +57,15 @@ namespace Microsoft.Bot.Builder.Azure
         /// <summary>
         /// Initialize bot service by updating the <see cref="Conversation.Container"/> with <see cref="AzureModule"/>.
         /// </summary>
-        static BotService()
+        /// <param name="assembly"> The assembly that should be resolved.</param>
+        /// <returns> The <see cref="BotServiceScope"/> that should be disposed when bot service operation is done for the request.</returns>
+        public static BotServiceScope Initialize(Assembly assembly = null)
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule(new AzureModule());
             builder.Update(Conversation.Container);
+            var resolveAssembly = assembly ?? Assembly.GetCallingAssembly();
+            return new BotServiceScope(ResolveAssembly.Create(resolveAssembly));
         }
 
         /// <summary>
@@ -69,18 +73,13 @@ namespace Microsoft.Bot.Builder.Azure
         /// </summary>
         /// <param name="request">The incoming request.</param>
         /// <param name="activities">The incoming activities.</param>
-        /// <param name="assembly">The assembly that should be resolved. <see cref="ResolveAssembly"/> for more information.</param>
         /// <param name="token">The cancellation token</param>
-        /// <returns> The <see cref="BotServiceScope"/> that should be disposed when bot service operation is done for the request.</returns>
-        public static async Task<BotServiceScope> AuthenticateAsync(HttpRequestMessage request, IEnumerable<Activity> activities, Assembly assembly = null, CancellationToken token = default(CancellationToken))
+        public static async Task AuthenticateAsync(HttpRequestMessage request, IEnumerable<Activity> activities, CancellationToken token = default(CancellationToken))
         {
-            if (await Authenticator.TryAuthenticateAsync(request, activities, token))
+            if (!await Authenticator.TryAuthenticateAsync(request, activities, token))
             {
-                var resolveAssembly = assembly ?? Assembly.GetCallingAssembly();
-                return new BotServiceScope(ResolveAssembly.Create(resolveAssembly));
+                throw new UnauthorizedAccessException("Bot authentication failed!");
             }
-
-            throw new UnauthorizedAccessException("Bot authentication failed!");
         }
         
         internal static readonly Lazy<string> stateApi = new Lazy<string>(() => Utils.GetStateApiUrl());

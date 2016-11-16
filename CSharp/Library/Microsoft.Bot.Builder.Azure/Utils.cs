@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Azure
@@ -119,9 +120,26 @@ namespace Microsoft.Bot.Builder.Azure
             AppDomain.CurrentDomain.AssemblyResolve -= CurrentDomain_AssemblyResolve;
         }
 
+
+        private static readonly Regex AzureFunctionAssembly = new Regex(@"(\S+)#\d+-\d+", RegexOptions.Compiled);
+
+        private static string RemoveAzureFunctionsDynamicSuffix(string name)
+        {
+            var match = AzureFunctionAssembly.Match(name);
+            if (match.Success)
+            {
+                return match.Groups[1].Value;
+            }
+            else
+            {
+                return name;
+            }
+        }
+
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs arguments)
         {
-            if (arguments.Name == this.assembly.FullName)
+            if (RemoveAzureFunctionsDynamicSuffix(arguments.Name) == RemoveAzureFunctionsDynamicSuffix(this.assembly.FullName)
+                || arguments.Name == this.assembly.FullName)
             {
                 return this.assembly;
             }
