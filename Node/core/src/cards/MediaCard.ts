@@ -20,9 +20,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import msg = require('../Message');
-import kb = require('./Keyboard');
+import * as ses from '../Session';
+import * as msg from '../Message';
+import * as kb from './Keyboard';
 
 export class MediaCard extends kb.Keyboard {
     constructor(session?: ses.Session) {
@@ -72,12 +72,12 @@ export class MediaCard extends kb.Keyboard {
         return this;
     }
 
-    public media(list: IIsCardMedia[]): this {
+    public media(list: ICardMediaUrl[]|IIsCardMedia[]): this {
         (<IMediaCard>this.data.content).media = [];
         if (list) {
             for (var i = 0; i < list.length; i++) {
                 var media = list[i];
-                (<IMediaCard>this.data.content).media.push(<ICardMediaUrl>media.toMedia());    
+                (<IMediaCard>this.data.content).media.push((<IIsCardMedia>media).toMedia ? (<IIsCardMedia>media).toMedia() : <ICardMediaUrl>media);    
             }
         }
         return this;

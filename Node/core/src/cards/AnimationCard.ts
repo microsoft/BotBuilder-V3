@@ -20,9 +20,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import msg = require('../Message');
-import mc = require('./MediaCard');
+import * as ses from '../Session';
+import * as msg from '../Message';
+import * as mc from './MediaCard';
 
 export class AnimationCard extends mc.MediaCard {
     constructor(session?: ses.Session) {

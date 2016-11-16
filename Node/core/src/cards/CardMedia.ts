@@ -20,10 +20,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import msg = require('../Message');
-import kb = require('./Keyboard');
-
+import * as ses from '../Session';
+import * as msg from '../Message';
+import * as kb from './Keyboard';
 
 export class CardMedia {
     private data = <ICardMediaUrl>{};
