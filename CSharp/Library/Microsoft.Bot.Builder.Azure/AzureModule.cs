@@ -32,10 +32,17 @@
 //
 
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters;
+using System.Runtime.Serialization.Formatters.Binary;
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
+using Module = Autofac.Module;
 
 namespace Microsoft.Bot.Builder.Azure
 {
@@ -49,6 +56,20 @@ namespace Microsoft.Bot.Builder.Azure
         /// The key for data store register with the container.
         /// </summary>
         public static readonly object Key_DataStore = new object();
+
+        private readonly Assembly assembly;
+
+        /// <summary>
+        /// Instantiates the azure module. 
+        /// </summary>
+        /// <param name="assembly">
+        /// The assembly used by <see cref="BotServiceDelegateSurrogate"/> and
+        /// <see cref="BotServiceSerializationBinder"/>
+        /// </param>
+        public AzureModule(Assembly assembly)
+        {
+            SetField.NotNull(out this.assembly, nameof(assembly), assembly);
+        }
 
         /// <summary>
         /// Registers dependencies with the <paramref name="builder"/>.
@@ -101,6 +122,41 @@ namespace Microsoft.Bot.Builder.Azure
                 })
             .As<IStateClient>()
             .InstancePerLifetimeScope();
+            
+            // register the bot service serialization binder for type mapping to current assembly
+            builder.Register(c => new BotServiceSerializationBinder(assembly))
+                .AsSelf()
+                .As<SerializationBinder>()
+                .InstancePerLifetimeScope();
+
+            // register the Delegate surrogate provide to map delegate to current assembly during deserialization
+            builder
+                .Register(c => new BotServiceDelegateSurrogate(assembly))
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            // extend surrogate providers with bot service delegate surrogate provider and register the surrogate selector
+            builder
+                .Register(c =>
+                    {
+                        var providers = c.ResolveKeyed<IEnumerable<Serialization.ISurrogateProvider>>(FiberModule.Key_SurrogateProvider).ToList();
+                        // need to add the latest delegate surrogate to make sure that surrogate selector
+                        // can deal with latest assembly
+                        providers.Add(c.Resolve<BotServiceDelegateSurrogate>());
+                        return new Serialization.SurrogateSelector(providers);
+                    })
+                .As<ISurrogateSelector>()
+                .InstancePerLifetimeScope();
+
+            // register binary formatter used for binary serialization operation
+            builder
+                .Register((c, p) => new BinaryFormatter(c.Resolve<ISurrogateSelector>(), new StreamingContext(StreamingContextStates.All, c.Resolve<Serialization.StoreInstanceByTypeSurrogate.IResolver>(p)))
+                    {
+                        AssemblyFormat = FormatterAssemblyStyle.Simple,
+                        Binder = c.Resolve<SerializationBinder>()
+                    })
+                .As<IFormatter>()
+                .InstancePerLifetimeScope();
         }
 
         private bool ShouldUseTableStorage()

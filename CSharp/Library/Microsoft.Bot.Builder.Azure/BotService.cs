@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -61,10 +62,13 @@ namespace Microsoft.Bot.Builder.Azure
         /// <returns> The <see cref="BotServiceScope"/> that should be disposed when bot service operation is done for the request.</returns>
         public static BotServiceScope Initialize(Assembly assembly = null)
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(new AzureModule());
-            builder.Update(Conversation.Container);
             var resolveAssembly = assembly ?? Assembly.GetCallingAssembly();
+
+            // update the container with azure module components
+            var builder = new ContainerBuilder();
+            builder.RegisterModule(new AzureModule(resolveAssembly));
+            builder.Update(Conversation.Container);
+
             return new BotServiceScope(ResolveAssembly.Create(resolveAssembly));
         }
 
