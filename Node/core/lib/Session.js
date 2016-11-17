@@ -138,12 +138,12 @@ var Session = (function (_super) {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        return this.vgettext(messageid, args);
+        return this.vgettext(this.curLibraryName(), messageid, args);
     };
     Session.prototype.ngettext = function (messageid, messageid_plural, count) {
         var tmpl;
         if (this.localizer && this.message) {
-            tmpl = this.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
+            tmpl = this.localizer.ngettext(this.preferredLocale(), messageid, messageid_plural, count, this.curLibraryName());
         }
         else if (count == 1) {
             tmpl = messageid;
@@ -163,11 +163,19 @@ var Session = (function (_super) {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
+        args.unshift(this.curLibraryName(), message);
+        return Session.prototype.sendLocalized.apply(this, args);
+    };
+    Session.prototype.sendLocalized = function (localizationNamespace, message) {
+        var args = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            args[_i - 2] = arguments[_i];
+        }
         this.msgSent = true;
         if (message) {
             var m;
             if (typeof message == 'string' || Array.isArray(message)) {
-                m = this.createMessage(message, args);
+                m = this.createMessage(localizationNamespace, message, args);
             }
             else if (message.toMessage) {
                 m = message.toMessage();
@@ -227,7 +235,7 @@ var Session = (function (_super) {
         var m;
         if (message) {
             if (typeof message == 'string' || Array.isArray(message)) {
-                m = this.createMessage(message, args);
+                m = this.createMessage(this.curLibraryName(), message, args);
             }
             else if (message.toMessage) {
                 m = message.toMessage();
@@ -260,7 +268,7 @@ var Session = (function (_super) {
             var m;
             if (message) {
                 if (typeof message == 'string' || Array.isArray(message)) {
-                    m = this.createMessage(message, args);
+                    m = this.createMessage(this.curLibraryName(), message, args);
                 }
                 else if (message.toMessage) {
                     m = message.toMessage();
@@ -506,10 +514,9 @@ var Session = (function (_super) {
             }, this.options.autoBatchDelay);
         }
     };
-    Session.prototype.createMessage = function (text, args) {
-        args.unshift(text);
-        var message = new Message_1.Message(this);
-        Message_1.Message.prototype.text.apply(message, args);
+    Session.prototype.createMessage = function (localizationNamespace, text, args) {
+        var message = new Message_1.Message(this)
+            .text(this.vgettext(localizationNamespace, Message_1.Message.randomPrompt(text), args));
         return message.toMessage();
     };
     Session.prototype.prepareMessage = function (msg) {
@@ -523,12 +530,10 @@ var Session = (function (_super) {
             msg.textLocale = this.message.textLocale;
         }
     };
-    Session.prototype.vgettext = function (messageid, args) {
+    Session.prototype.vgettext = function (localizationNamespace, messageid, args) {
         var tmpl;
         if (this.localizer && this.message) {
-            var cur = this.curDialog();
-            var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : this.library.name;
-            tmpl = this.localizer.gettext(this.preferredLocale() || this.message.textLocale || '', messageid, libName);
+            tmpl = this.localizer.gettext(this.preferredLocale(), messageid, localizationNamespace);
         }
         else {
             tmpl = messageid;
@@ -546,12 +551,11 @@ var Session = (function (_super) {
         return true;
     };
     Session.prototype.resolveDialogId = function (id) {
-        if (id.indexOf(':') >= 0) {
-            return id;
-        }
+        return id.indexOf(':') >= 0 ? id : this.curLibraryName() + ':' + id;
+    };
+    Session.prototype.curLibraryName = function () {
         var cur = this.curDialog();
-        var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : this.library.name;
-        return libName + ':' + id;
+        return cur && !this.inMiddleware ? cur.id.split(':')[0] : this.library.name;
     };
     Session.prototype.findDialog = function (id) {
         var parts = id.split(':');

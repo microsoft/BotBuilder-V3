@@ -150,6 +150,7 @@ var ActionSet = (function () {
         return this.action(name, function (session, args) {
             if (options.confirmPrompt) {
                 session.beginDialog(consts.DialogId.ConfirmCancel, {
+                    localizationNamespace: args.libraryName,
                     confirmPrompt: options.confirmPrompt,
                     dialogIndex: args.dialogIndex,
                     message: msg
@@ -157,7 +158,7 @@ var ActionSet = (function () {
             }
             else {
                 if (msg) {
-                    session.send(msg);
+                    session.sendLocalized(args.libraryName, msg);
                 }
                 session.cancelDialog(args.dialogIndex);
             }
@@ -167,7 +168,7 @@ var ActionSet = (function () {
         if (options === void 0) { options = {}; }
         return this.action(name, function (session, args) {
             if (msg) {
-                session.send(msg);
+                session.sendLocalized(args.libraryName, msg);
             }
             session.cancelDialog(args.dialogIndex, args.dialogId, options.dialogArgs);
         }, options);
@@ -189,13 +190,17 @@ var ActionSet = (function () {
         return this.action(name, function (session, args) {
             if (options.confirmPrompt) {
                 session.beginDialog(consts.DialogId.ConfirmCancel, {
+                    localizationNamespace: args.libraryName,
                     confirmPrompt: options.confirmPrompt,
                     endConversation: true,
                     message: msg
                 });
             }
             else {
-                session.endConversation(msg);
+                if (msg) {
+                    session.sendLocalized(args.libraryName, msg);
+                }
+                session.endConversation();
             }
         }, options);
     };

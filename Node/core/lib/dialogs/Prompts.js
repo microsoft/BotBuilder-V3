@@ -5,6 +5,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Dialog_1 = require('./Dialog');
+var Session_1 = require('../Session');
 var EntityRecognizer_1 = require('./EntityRecognizer');
 var Message_1 = require('../Message');
 var Library_1 = require('../bots/Library');
@@ -163,89 +164,94 @@ var Prompts = (function (_super) {
     Prompts.prototype.sendPrompt = function (session, args, retry) {
         if (retry === void 0) { retry = false; }
         logger.debug("prompts::sendPrompt called");
+        var msg;
         if (retry && typeof args.retryPrompt === 'object' && !Array.isArray(args.retryPrompt)) {
-            session.send(args.retryPrompt);
+            msg = args.retryPrompt;
         }
         else if (typeof args.prompt === 'object' && !Array.isArray(args.prompt)) {
-            session.send(args.prompt);
+            msg = args.prompt;
         }
         else {
-            var style = ListStyle.none;
-            if (args.promptType == PromptType.choice || args.promptType == PromptType.confirm) {
-                style = args.listStyle;
-                if (style == ListStyle.auto) {
-                    if (Channel.supportsKeyboards(session, args.enumValues.length)) {
-                        style = ListStyle.button;
-                    }
-                    else if (!retry && args.promptType == PromptType.choice) {
-                        style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
-                    }
-                    else {
-                        style = ListStyle.none;
-                    }
+            msg = this.createPrompt(session, args, retry);
+        }
+        session.send(msg);
+        session.sendBatch();
+    };
+    Prompts.prototype.createPrompt = function (session, args, retry) {
+        var msg = new Message_1.Message(session);
+        var locale = session.preferredLocale();
+        var localizationNamespace = args.localizationNamespace;
+        var style = ListStyle.none;
+        if (args.promptType == PromptType.choice || args.promptType == PromptType.confirm) {
+            style = args.listStyle;
+            if (style == ListStyle.auto) {
+                if (Channel.supportsKeyboards(session, args.enumValues.length)) {
+                    style = ListStyle.button;
                 }
-            }
-            var prompt;
-            if (retry) {
-                if (args.retryPrompt) {
-                    prompt = Message_1.Message.randomPrompt(args.retryPrompt);
+                else if (!retry && args.promptType == PromptType.choice) {
+                    style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
                 }
                 else {
-                    var type = PromptType[args.promptType];
-                    prompt = Message_1.Message.randomPrompt(Prompts.defaultRetryPrompt[type]);
-                    args.localizationNamespace = consts.Library.system;
-                    logger.debug("prompts::sendPrompt setting ns to %s", args.localizationNamespace);
+                    style = ListStyle.none;
                 }
             }
-            else {
-                prompt = Message_1.Message.randomPrompt(args.prompt);
-            }
-            var locale = session.preferredLocale();
-            prompt = session.localizer.gettext(locale, prompt, args.localizationNamespace);
-            var connector = '';
-            var list;
-            var msg = new Message_1.Message();
-            switch (style) {
-                case ListStyle.button:
-                    var buttons = [];
-                    for (var i = 0; i < session.dialogData.enumValues.length; i++) {
-                        var option = session.dialogData.enumValues[i];
-                        buttons.push(CardAction_1.CardAction.imBack(session, option, option));
-                    }
-                    msg.text(prompt)
-                        .attachments([new Keyboard_1.Keyboard(session).buttons(buttons)]);
-                    break;
-                case ListStyle.inline:
-                    list = ' (';
-                    args.enumValues.forEach(function (v, index) {
-                        var value = v.toString();
-                        list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
-                        if (index == args.enumValues.length - 2) {
-                            connector = index == 0 ? session.localizer.gettext(locale, "list_or", consts.Library.system) : session.localizer.gettext(locale, "list_or_more", consts.Library.system);
-                        }
-                        else {
-                            connector = ', ';
-                        }
-                    });
-                    list += ')';
-                    msg.text(prompt + '%s', list);
-                    break;
-                case ListStyle.list:
-                    list = '\n   ';
-                    args.enumValues.forEach(function (v, index) {
-                        var value = v.toString();
-                        list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
-                        connector = '\n   ';
-                    });
-                    msg.text(prompt + '%s', list);
-                    break;
-                default:
-                    msg.text(prompt);
-                    break;
-            }
-            session.send(msg);
         }
-        session.sendBatch();
+        var prompt;
+        if (retry) {
+            if (args.retryPrompt) {
+                prompt = Message_1.Message.randomPrompt(args.retryPrompt);
+            }
+            else {
+                var type = PromptType[args.promptType];
+                prompt = Prompts.defaultRetryPrompt[type];
+                localizationNamespace = consts.Library.system;
+            }
+        }
+        else {
+            prompt = Message_1.Message.randomPrompt(args.prompt);
+        }
+        var text = session.localizer.gettext(locale, prompt, localizationNamespace);
+        var connector = '';
+        var list;
+        switch (style) {
+            case ListStyle.button:
+                var buttons = [];
+                for (var i = 0; i < session.dialogData.enumValues.length; i++) {
+                    var option = session.dialogData.enumValues[i];
+                    buttons.push(CardAction_1.CardAction.imBack(session, option, option));
+                }
+                msg.text(text)
+                    .attachments([new Keyboard_1.Keyboard(session).buttons(buttons)]);
+                break;
+            case ListStyle.inline:
+                list = ' (';
+                args.enumValues.forEach(function (v, index) {
+                    var value = v.toString();
+                    list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
+                    if (index == args.enumValues.length - 2) {
+                        connector = index == 0 ? session.localizer.gettext(locale, "list_or", consts.Library.system) : session.localizer.gettext(locale, "list_or_more", consts.Library.system);
+                    }
+                    else {
+                        connector = ', ';
+                    }
+                });
+                list += ')';
+                msg.text(text + '%s', list);
+                break;
+            case ListStyle.list:
+                list = '\n   ';
+                args.enumValues.forEach(function (v, index) {
+                    var value = v.toString();
+                    list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
+                    connector = '\n   ';
+                });
+                msg.text(text + '%s', list);
+                break;
+            default:
+                msg.text(text);
+                break;
+        }
+        return msg;
     };
     Prompts.configure = function (options) {
         if (options) {
@@ -322,6 +328,10 @@ var Prompts = (function (_super) {
 exports.Prompts = Prompts;
 Library_1.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 function beginPrompt(session, args) {
+    if (!args.localizationNamespace) {
+        var cur = Session_1.Session.activeDialogStackEntry(session.dialogStack());
+        args.localizationNamespace = cur ? cur.id.split(':')[0] : session.library.name;
+    }
     if (typeof args.prompt == 'object' && args.prompt.toMessage) {
         args.prompt = args.prompt.toMessage();
     }
@@ -332,21 +342,23 @@ function beginPrompt(session, args) {
 }
 Library_1.systemLib.dialog(consts.DialogId.ConfirmCancel, [
     function (session, args) {
+        session.dialogData.localizationNamespace = args.localizationNamespace;
         session.dialogData.dialogIndex = args.dialogIndex;
         session.dialogData.message = args.message;
         session.dialogData.endConversation = args.endConversation;
-        Prompts.confirm(session, args.confirmPrompt);
+        Prompts.confirm(session, args.confirmPrompt, { localizationNamespace: args.localizationNamespace });
     },
     function (session, results) {
         if (results.response) {
-            if (session.dialogData.message) {
-                session.send(session.dialogData.message);
+            var args = session.dialogData;
+            if (args.message) {
+                session.sendLocalized(args.localizationNamespace, args.message);
             }
-            if (session.dialogData.endConversation) {
+            if (args.endConversation) {
                 session.endConversation();
             }
             else {
-                session.cancelDialog(session.dialogData.dialogIndex);
+                session.cancelDialog(args.dialogIndex);
             }
         }
         else {
