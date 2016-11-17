@@ -127,6 +127,32 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
         }
     }
 
+    public sealed class EnumResolver : DelegatingResolver
+    {
+        public EnumResolver(IResolver inner)
+            : base(inner)
+        {
+        }
+
+        public override bool TryResolve(Type type, object tag, out object value)
+        {
+            if (type.IsEnum)
+            {
+                var name = tag as string;
+                if (name != null)
+                {
+                    if (Enum.IsDefined(type, name))
+                    {
+                        value = Enum.Parse(type, name);
+                        return true;
+                    }
+                }
+            }
+
+            return base.TryResolve(type, tag, out value);
+        }
+    }
+
     public sealed class ArrayResolver : DelegatingResolver
     {
         private readonly object[] services;
@@ -177,6 +203,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             { ActivityTypes.DeleteUserData, typeof(IActivity) },
             { ActivityTypes.Message, typeof(IMessageActivity) },
             { ActivityTypes.Ping, typeof(IActivity) },
+            { ActivityTypes.Trigger, typeof(ITriggerActivity) },
             { ActivityTypes.Typing, typeof(ITypingActivity) },
         };
 

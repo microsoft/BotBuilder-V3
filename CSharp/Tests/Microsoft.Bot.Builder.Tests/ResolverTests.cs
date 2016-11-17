@@ -77,6 +77,27 @@ namespace Microsoft.Bot.Builder.Tests
 
             CancellationToken token;
             Assert.IsTrue(resolver.TryResolve(null, out token));
+            Assert.IsFalse(token.CanBeCanceled);
+        }
+
+        [TestMethod]
+        public void Resolver_Enum()
+        {
+            var resolver = new EnumResolver(NoneResolver.Instance);
+
+            DayOfWeek actual;
+            Assert.IsFalse(resolver.TryResolve(null, out actual));
+            Assert.IsFalse(resolver.TryResolve(Some, out actual));
+
+            var expected = DayOfWeek.Monday;
+            {
+                Assert.IsTrue(resolver.TryResolve(expected.ToString(), out actual));
+                Assert.AreEqual(expected, actual);
+            }
+            {
+                Assert.IsFalse(resolver.TryResolve(((int)expected).ToString(), out actual));
+                Assert.AreEqual(DayOfWeek.Sunday, actual);
+            }
         }
 
         [TestMethod]
