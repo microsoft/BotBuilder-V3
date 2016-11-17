@@ -1,11 +1,7 @@
 @font-face {
   font-family: "Glyphs";
-  src: url("//bot-framework.azureedge.net/fonts/Glyphs/winjs-symbols.eot");
-  src: url("//bot-framework.azureedge.net/fonts/Glyphs/winjs-symbols.eot#iefix") format("embedded-opentype"), url("//bot-framework.azureedge.net/fonts/Glyphs/winjs-symbols.ttf") format("truetype");
-}
-@font-face {
-  font-family: "SegMDL2";
-  src: url("//bot-framework.azureedge.net/fonts/Glyphs/SegMDL2.1.56.woff") format("woff");
+  src: url("//bot-framework.azureedge.net/fonts/Glyphs/WinJSSymMDL2.eot");
+  src: url("//bot-framework.azureedge.net/fonts/Glyphs/WinJSSymMDL2.eot#iefix") format("embedded-opentype"), url("//bot-framework.azureedge.net/fonts/Glyphs/WinJSSymMDL2.ttf") format("truetype");
 }
 .icon-font {
   font-family: Glyphs;
@@ -140,6 +136,18 @@
 .icon-page:before {
   content: '\E132';
 }
+.icon-page-outline:before {
+  font-family: Glyphs;
+  position: static;
+  font-size: inherit;
+  top: initial;
+  left: initial;
+  vertical-align: -0.3ex;
+  margin-right: 1ex;
+}
+.icon-page-outline:before {
+  content: '\E160';
+}
 .icon-folder-closed:before {
   font-family: Glyphs;
   position: static;
@@ -150,8 +158,7 @@
   margin-right: 1ex;
 }
 .icon-folder-closed:before {
-  font-family: SegMDL2;
-  content: '\ED41';
+  content: '\F12B';
 }
 .icon-folder-opened:before {
   font-family: Glyphs;
@@ -163,8 +170,7 @@
   margin-right: 1ex;
 }
 .icon-folder-opened:before {
-  font-family: SegMDL2;
-  content: '\ED43';
+  content: '\ED25';
 }
 .icon-clear-all:before {
   font-family: Glyphs;
@@ -177,7 +183,6 @@
 }
 .icon-clear-all:before {
   content: '\E75C';
-  font-family: SegMDL2;
 }
 .svgicon {
   display: inline-block;
@@ -187,21 +192,6 @@
 }
 .svgicon-microsoft-color-logo {
   width: 4.6474609375em;
-}
-.svgicon-cognitive-services-logo {
-  width: 1.6884765625em;
-}
-.svgicon-skype {
-  width: 2.2119140625em;
-}
-.svgicon-bot-directory-v3 {
-  width: 1.0048828125em;
-}
-.svgicon-bot-builder {
-  width: 0.705078125em;
-}
-.svgicon-bot-directory {
-  width: 2.1875em;
 }
 .svgicon-meet-the-bots {
   width: 4.8447265625em;
@@ -226,6 +216,24 @@
 }
 .svgicon-telegram {
   width: 1.2001953125em;
+}
+.svgicon-azure-clouds {
+  width: 2.5em;
+}
+.svgicon-bot-chat {
+  width: 2.96875em;
+}
+.svgicon-channels {
+  width: 1.0361328125em;
+}
+.svgicon-cognitive-services {
+  width: 1.703125em;
+}
+.svgicon-phone-bezel {
+  width: 0.6943359375em;
+}
+.svgicon-web-chat {
+  width: 1.53125em;
 }
 .danger-button {
   color: white;
@@ -315,6 +323,7 @@ input,
 button,
 select {
   font-family: "Segoe UI", sans-serif;
+  font-size: inherit;
 }
 a {
   color: #3A96DD;
@@ -503,6 +512,9 @@ textarea {
 }
 .hidden {
   display: none !important;
+}
+body {
+  overflow-y: auto;
 }
 *,
 *:before,
@@ -1246,7 +1258,9 @@ ul.header-nav li a:visisted {
   position: relative;
   width: 180px;
   height: 4px;
-  top: -12px;
+  margin-top: -12px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .progress-bar .progress-circle {
   position: absolute;
@@ -1597,75 +1611,6 @@ a[disabled]:active {
 .home-intro .intro-content h2 {
   margin-top: 50px;
 }
-.home-intro .intro-bot-connector svg {
-  font-size: 428px;
-}
-.home-intro .intro-bot-builder svg {
-  font-size: 350px;
-  -webkit-transform: translate(72px, 0);
-          transform: translate(72px, 0);
-}
-.home-intro .intro-bot-directory svg {
-  font-size: 187px;
-}
-.home-intro .intro-footer svg {
-  font-size: 85px;
-}
-.home-intro .intro-footer {
-  height: auto;
-  padding-top: 30px;
-  padding-bottom: 104px;
-}
-.home-intro .intro-footer a {
-  color: #2B2B2B;
-  text-decoration: none;
-  display: block;
-}
-.home-intro .intro-footer a:hover,
-.home-intro .intro-footer a:visited {
-  color: #2B2B2B;
-}
-.home-intro .intro-footer a:hover,
-.home-intro .intro-footer a:visited,
-.home-intro .intro-footer a:active {
-  text-decoration: none;
-}
-.home-intro .intro-footer > h2 {
-  display: block;
-  font-family: "Segoe UI", sans-serif;
-}
-.home-intro .intro-footer .intro-center {
-  width: 780px;
-}
-.home-intro .intro-footer .intro-center:after {
-  content: '';
-  clear: both;
-  display: block;
-}
-.home-intro .intro-footer .intro-card {
-  padding-top: 44px;
-  float: left;
-  width: 360px;
-  margin-left: 60px;
-}
-.home-intro .intro-footer .intro-card:first-child {
-  margin-left: 0;
-}
-.home-intro .intro-footer .intro-card p {
-  margin-top: 20px;
-}
-.home-intro .intro-footer .intro-external {
-  width: 360px;
-  height: 180px;
-  padding-top: 48px;
-  margin-bottom: 20px;
-}
-.home-intro .intro-footer .intro-skype .intro-external {
-  background-color: #00AFF0;
-}
-.home-intro .intro-footer .intro-cognitive .intro-external {
-  background-color: #009580;
-}
 .home-intro .intro-content-v3 .intro-card {
   text-decoration: none;
   color: #2B2B2B;
@@ -1914,75 +1859,6 @@ a[disabled]:active {
   }
   .home-intro .intro-content h2 {
     margin-top: 50px;
-  }
-  .home-intro .intro-bot-connector svg {
-    font-size: 428px;
-  }
-  .home-intro .intro-bot-builder svg {
-    font-size: 350px;
-    -webkit-transform: translate(72px, 0);
-            transform: translate(72px, 0);
-  }
-  .home-intro .intro-bot-directory svg {
-    font-size: 187px;
-  }
-  .home-intro .intro-footer svg {
-    font-size: 85px;
-  }
-  .home-intro .intro-footer {
-    height: auto;
-    padding-top: 30px;
-    padding-bottom: 104px;
-  }
-  .home-intro .intro-footer a {
-    color: #2B2B2B;
-    text-decoration: none;
-    display: block;
-  }
-  .home-intro .intro-footer a:hover,
-  .home-intro .intro-footer a:visited {
-    color: #2B2B2B;
-  }
-  .home-intro .intro-footer a:hover,
-  .home-intro .intro-footer a:visited,
-  .home-intro .intro-footer a:active {
-    text-decoration: none;
-  }
-  .home-intro .intro-footer > h2 {
-    display: block;
-    font-family: "Segoe UI", sans-serif;
-  }
-  .home-intro .intro-footer .intro-center {
-    width: 780px;
-  }
-  .home-intro .intro-footer .intro-center:after {
-    content: '';
-    clear: both;
-    display: block;
-  }
-  .home-intro .intro-footer .intro-card {
-    padding-top: 44px;
-    float: left;
-    width: 360px;
-    margin-left: 60px;
-  }
-  .home-intro .intro-footer .intro-card:first-child {
-    margin-left: 0;
-  }
-  .home-intro .intro-footer .intro-card p {
-    margin-top: 20px;
-  }
-  .home-intro .intro-footer .intro-external {
-    width: 360px;
-    height: 180px;
-    padding-top: 48px;
-    margin-bottom: 20px;
-  }
-  .home-intro .intro-footer .intro-skype .intro-external {
-    background-color: #00AFF0;
-  }
-  .home-intro .intro-footer .intro-cognitive .intro-external {
-    background-color: #009580;
   }
   .home-intro .intro-content-v3 .intro-card {
     text-decoration: none;
@@ -2236,75 +2112,6 @@ a[disabled]:active {
   }
   .home-intro .intro-content h2 {
     margin-top: 50px;
-  }
-  .home-intro .intro-bot-connector svg {
-    font-size: 428px;
-  }
-  .home-intro .intro-bot-builder svg {
-    font-size: 350px;
-    -webkit-transform: translate(72px, 0);
-            transform: translate(72px, 0);
-  }
-  .home-intro .intro-bot-directory svg {
-    font-size: 187px;
-  }
-  .home-intro .intro-footer svg {
-    font-size: 85px;
-  }
-  .home-intro .intro-footer {
-    height: auto;
-    padding-top: 30px;
-    padding-bottom: 104px;
-  }
-  .home-intro .intro-footer a {
-    color: #2B2B2B;
-    text-decoration: none;
-    display: block;
-  }
-  .home-intro .intro-footer a:hover,
-  .home-intro .intro-footer a:visited {
-    color: #2B2B2B;
-  }
-  .home-intro .intro-footer a:hover,
-  .home-intro .intro-footer a:visited,
-  .home-intro .intro-footer a:active {
-    text-decoration: none;
-  }
-  .home-intro .intro-footer > h2 {
-    display: block;
-    font-family: "Segoe UI", sans-serif;
-  }
-  .home-intro .intro-footer .intro-center {
-    width: 780px;
-  }
-  .home-intro .intro-footer .intro-center:after {
-    content: '';
-    clear: both;
-    display: block;
-  }
-  .home-intro .intro-footer .intro-card {
-    padding-top: 44px;
-    float: left;
-    width: 360px;
-    margin-left: 60px;
-  }
-  .home-intro .intro-footer .intro-card:first-child {
-    margin-left: 0;
-  }
-  .home-intro .intro-footer .intro-card p {
-    margin-top: 20px;
-  }
-  .home-intro .intro-footer .intro-external {
-    width: 360px;
-    height: 180px;
-    padding-top: 48px;
-    margin-bottom: 20px;
-  }
-  .home-intro .intro-footer .intro-skype .intro-external {
-    background-color: #00AFF0;
-  }
-  .home-intro .intro-footer .intro-cognitive .intro-external {
-    background-color: #009580;
   }
   .home-intro .intro-content-v3 .intro-card {
     text-decoration: none;
@@ -2569,75 +2376,6 @@ a[disabled]:active {
   }
   .home-intro .intro-content h2 {
     margin-top: 50px;
-  }
-  .home-intro .intro-bot-connector svg {
-    font-size: 428px;
-  }
-  .home-intro .intro-bot-builder svg {
-    font-size: 350px;
-    -webkit-transform: translate(72px, 0);
-            transform: translate(72px, 0);
-  }
-  .home-intro .intro-bot-directory svg {
-    font-size: 187px;
-  }
-  .home-intro .intro-footer svg {
-    font-size: 85px;
-  }
-  .home-intro .intro-footer {
-    height: auto;
-    padding-top: 30px;
-    padding-bottom: 104px;
-  }
-  .home-intro .intro-footer a {
-    color: #2B2B2B;
-    text-decoration: none;
-    display: block;
-  }
-  .home-intro .intro-footer a:hover,
-  .home-intro .intro-footer a:visited {
-    color: #2B2B2B;
-  }
-  .home-intro .intro-footer a:hover,
-  .home-intro .intro-footer a:visited,
-  .home-intro .intro-footer a:active {
-    text-decoration: none;
-  }
-  .home-intro .intro-footer > h2 {
-    display: block;
-    font-family: "Segoe UI", sans-serif;
-  }
-  .home-intro .intro-footer .intro-center {
-    width: 780px;
-  }
-  .home-intro .intro-footer .intro-center:after {
-    content: '';
-    clear: both;
-    display: block;
-  }
-  .home-intro .intro-footer .intro-card {
-    padding-top: 44px;
-    float: left;
-    width: 360px;
-    margin-left: 60px;
-  }
-  .home-intro .intro-footer .intro-card:first-child {
-    margin-left: 0;
-  }
-  .home-intro .intro-footer .intro-card p {
-    margin-top: 20px;
-  }
-  .home-intro .intro-footer .intro-external {
-    width: 360px;
-    height: 180px;
-    padding-top: 48px;
-    margin-bottom: 20px;
-  }
-  .home-intro .intro-footer .intro-skype .intro-external {
-    background-color: #00AFF0;
-  }
-  .home-intro .intro-footer .intro-cognitive .intro-external {
-    background-color: #009580;
   }
   .home-intro .intro-content-v3 .intro-card {
     text-decoration: none;
@@ -2909,6 +2647,7 @@ a {
 .post-content table th {
   padding: 6px 13px;
   border: 1px solid #ddd;
+  text-align: left;
 }
 .post-content h2 {
   margin: 20px 0 15px 0;
@@ -2938,7 +2677,7 @@ a {
   background-color: white;
 }
 .imagecaption {
-  margin-top: -25px;
+  margin: -25px 0 20px 0;
   text-align: center;
   font-size: 13px;
   font-style: italic;
@@ -3205,9 +2944,6 @@ a {
   .home-intro .intro-button {
     font-size: 15px;
   }
-  .home-intro .intro-footer > div {
-    width: 100%;
-  }
   .home-intro .intro-content {
     padding-left: 2em;
     padding-right: 2em;
@@ -3222,17 +2958,6 @@ a {
   }
   .home-intro svg {
     max-width: calc(100% -  60px);
-  }
-  .home-intro .intro-bot-connector svg {
-    font-size: 256.8px;
-  }
-  .home-intro .intro-bot-builder svg {
-    font-size: 210px;
-    -webkit-transform: translate(40px, 0);
-            transform: translate(40px, 0);
-  }
-  .home-intro .intro-bot-directory svg {
-    font-size: 112.2px;
   }
   .bot-overview .ul-vert-bar {
     display: -webkit-box;
@@ -3563,4 +3288,7 @@ p.bingSearchUrl {
   word-wrap: break-word;
   font-size: .9em;
   margin: 0;
+}
+.ui-widget-content a {
+  color: #3A96DD !important;
 }
