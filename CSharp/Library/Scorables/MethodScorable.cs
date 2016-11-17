@@ -129,21 +129,23 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
         protected virtual bool TryResolveArgument(IResolver resolver, ParameterInfo parameter, out object argument)
         {
+            var type = parameter.ParameterType;
+
             var entity = parameter.GetCustomAttribute<EntityAttribute>();
             if (entity != null)
             {
-                if (resolver.TryResolve(parameter.ParameterType, entity.Name, out argument))
+                if (resolver.TryResolve(type, entity.Name, out argument))
                 {
                     return true;
                 }
             }
 
-            if (resolver.TryResolve(parameter.ParameterType, parameter.Name, out argument))
+            if (resolver.TryResolve(type, parameter.Name, out argument))
             {
                 return true;
             }
 
-            return resolver.TryResolve(parameter.ParameterType, null, out argument);
+            return resolver.TryResolve(type, null, out argument);
         }
 
         protected virtual bool TryResolveArguments(IResolver resolver, out object[] arguments)
