@@ -20,19 +20,19 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import * as ses from '../Session';
-import * as msg from '../Message';
-import * as mc from './MediaCard';
+import { Session } from '../Session';
+import { fmtText } from '../Message';
+import { MediaCard } from './MediaCard';
 
-export class VideoCard extends mc.MediaCard {
-    constructor(session?: ses.Session) {
+export class VideoCard extends MediaCard {
+    constructor(session?: Session) {
         super(session);
         this.data.contentType = 'application/vnd.microsoft.card.video';
     }
 
     public aspect(text: string|string[], ...args: any[]): this {
         if (text) {
-            (<IVideoCard>this.data.content).aspect = msg.fmtText(this.session, text, args);
+            (<IVideoCard>this.data.content).aspect = fmtText(this.session, text, args);
         }
         return this;
     }

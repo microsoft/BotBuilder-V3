@@ -20,14 +20,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import * as ses from '../Session';
-import * as msg from '../Message';
-import * as kb from './Keyboard';
+import { Session } from '../Session';
 
 export class CardMedia {
     private data = <ICardMediaUrl>{};
     
-    constructor(private session?: ses.Session) {
+    constructor(private session?: Session) {
         
     }
     
@@ -49,7 +47,7 @@ export class CardMedia {
         return this.data;
     }
 
-    static create(session: ses.Session, url: string): CardMedia {
+    static create(session: Session, url: string): CardMedia {
         return new CardMedia(session).url(url);
     }
 }
