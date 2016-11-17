@@ -9,7 +9,7 @@ parent2: Templates
 
 Azure Bot Service is powered by the serveless infrastructure of Azure Functions, and it shares its [runtime concepts](https://azure.microsoft.com/en-us/documentation/articles/functions-reference/){:target="_blank"}, which you should become familiar with.
 
-All Azure Bot Service bots include the following Azure Functions-specific files:
+All Azure Bot Service bots include the following files:
 
 
 <div id="thetabs1">
