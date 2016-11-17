@@ -85,7 +85,7 @@ parent2: Clients
         var key = encodeURIComponent($('#input_apiKey')[0].value);
         if(key && key.trim() != "") {
           var contentType = new SwaggerClient.ApiKeyAuthorization("Content-Type", "application/json; charset=utf-8", "header");
-          var authorization = new SwaggerClient.ApiKeyAuthorization("Authorization", "BotConnector " + key, "header");
+          var authorization = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + key, "header");
             window.swaggerUi.api.clientAuthorizations.add("Content-Type", contentType);
             window.swaggerUi.api.clientAuthorizations.add("Authorization", authorization);
             log("added key " + key);
@@ -95,7 +95,7 @@ parent2: Clients
       $('#input_apiKey').change(addApiKeyAuthorization);
 
       // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-        var apiKey = "";
+        var apiKey = "xtFDtPemROU.cwA.Mcs.qiScdaSx87ffj2l7OjSITqJFoN-9Ado5AgwVeknac94";
         $('#input_apiKey').val(apiKey);
 
       window.swaggerUi.load();
