@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace Microsoft.Bot.Builder.Azure.Tests
             using (var container = Build(Options.ResolveDialogFromContainer))
             {
                 var builder = new ContainerBuilder();
-                builder.RegisterModule(new AzureModule());
+                builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
                 builder
                     .RegisterInstance(echo)
                     .As<IDialog<object>>();
