@@ -222,13 +222,14 @@ export class ActionSet {
         return this.action(name, (session, args) => {
             if (options.confirmPrompt) {
                 session.beginDialog(consts.DialogId.ConfirmCancel, {
+                    localizationNamespace: args.libraryName,
                     confirmPrompt: options.confirmPrompt,
                     dialogIndex: args.dialogIndex,
                     message: msg 
                 });
             } else {
                 if (msg) {
-                    session.send(msg)
+                    session.sendLocalized(args.libraryName, msg);
                 }
                 session.cancelDialog(args.dialogIndex);
             }
@@ -238,7 +239,7 @@ export class ActionSet {
     public reloadAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options: IBeginDialogActionOptions = {}): this {
         return this.action(name, (session, args) => {
             if (msg) {
-                session.send(msg)
+                session.sendLocalized(args.libraryName, msg);
             }
             session.cancelDialog(args.dialogIndex, args.dialogId, options.dialogArgs);
         }, options);
@@ -261,12 +262,16 @@ export class ActionSet {
         return this.action(name, (session, args) => {
             if (options.confirmPrompt) {
                 session.beginDialog(consts.DialogId.ConfirmCancel, {
+                    localizationNamespace: args.libraryName,
                     confirmPrompt: options.confirmPrompt,
                     endConversation: true,
                     message: msg 
                 });
             } else {
-                session.endConversation(msg);
+                if (msg) {
+                    session.sendLocalized(args.libraryName, msg);
+                }
+                session.endConversation();
             }
         }, options);
     }

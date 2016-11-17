@@ -190,14 +190,14 @@ export class Session extends events.EventEmitter {
 
     /** Gets and formats a localized text string. */
     public gettext(messageid: string, ...args: any[]): string {
-        return this.vgettext(messageid, args);
+        return this.vgettext(this.curLibraryName(), messageid, args);
     }
 
     /** Gets and formats the singular/plural form of a localized text string. */
     public ngettext(messageid: string, messageid_plural: string, count: number): string {
         var tmpl: string;
         if (this.localizer && this.message) {
-            tmpl = this.localizer.ngettext(this.message.textLocale || '', messageid, messageid_plural, count);
+            tmpl = this.localizer.ngettext(this.preferredLocale(), messageid, messageid_plural, count, this.curLibraryName());
         } else if (count == 1) {
             tmpl = messageid;
         } else {
@@ -215,11 +215,17 @@ export class Session extends events.EventEmitter {
 
     /** Sends a message to the user. */
     public send(message: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
+        args.unshift(this.curLibraryName(), message);
+        return Session.prototype.sendLocalized.apply(this, args);
+    }
+
+    /** Sends a message to a user using a specific localization namespace. */
+    public sendLocalized(localizationNamespace: string, message: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
         this.msgSent = true;
         if (message) {
             var m: IMessage;
             if (typeof message == 'string' || Array.isArray(message)) {
-                m = this.createMessage(<any>message, args);
+                m = this.createMessage(localizationNamespace, <string|string[]>message, args);
             } else if ((<IIsMessage>message).toMessage) {
                 m = (<IIsMessage>message).toMessage();
             } else {
@@ -296,7 +302,7 @@ export class Session extends events.EventEmitter {
         var m: IMessage;
         if (message) {
             if (typeof message == 'string' || Array.isArray(message)) {
-                m = this.createMessage(<any>message, args);
+                m = this.createMessage(this.curLibraryName(), <any>message, args);
             } else if ((<IIsMessage>message).toMessage) {
                 m = (<IIsMessage>message).toMessage();
             } else {
@@ -333,7 +339,7 @@ export class Session extends events.EventEmitter {
             var m: IMessage;
             if (message) {
                 if (typeof message == 'string' || Array.isArray(message)) {
-                    m = this.createMessage(<any>message, args);
+                    m = this.createMessage(this.curLibraryName(), <any>message, args);
                 } else if ((<IIsMessage>message).toMessage) {
                     m = (<IIsMessage>message).toMessage();
                 } else {
@@ -625,10 +631,9 @@ export class Session extends events.EventEmitter {
         }
     }
 
-    private createMessage(text: string|string[], args?: any[]): IMessage {
-        args.unshift(text);
-        var message = new Message(this);
-        Message.prototype.text.apply(message, args);
+    private createMessage(localizationNamespace: string, text: string|string[], args?: any[]): IMessage {
+        var message = new Message(this)
+            .text(this.vgettext(localizationNamespace, Message.randomPrompt(text), args));
         return message.toMessage();
     }
     
@@ -645,12 +650,10 @@ export class Session extends events.EventEmitter {
     }
 
  
-    private vgettext(messageid: string, args?: any[]): string {
+    private vgettext(localizationNamespace: string, messageid: string, args?: any[]): string {
         var tmpl: string;
         if (this.localizer && this.message) {
-            var cur = this.curDialog();
-            var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : this.library.name;
-            tmpl = this.localizer.gettext(this.preferredLocale() || this.message.textLocale || '', messageid, libName);
+            tmpl = this.localizer.gettext(this.preferredLocale(), messageid, localizationNamespace);
         } else {
             tmpl = messageid;
         }
@@ -670,12 +673,12 @@ export class Session extends events.EventEmitter {
     }
 
     private resolveDialogId(id: string) {
-        if (id.indexOf(':') >= 0) {
-            return id;
-        }
+        return id.indexOf(':') >= 0 ? id : this.curLibraryName() + ':' + id;
+    }
+
+    private curLibraryName(): string {
         var cur = this.curDialog();
-        var libName = cur && !this.inMiddleware ? cur.id.split(':')[0] : this.library.name;
-        return libName + ':' + id;
+        return cur && !this.inMiddleware ? cur.id.split(':')[0] : this.library.name;
     }
 
     private findDialog(id: string): Dialog {

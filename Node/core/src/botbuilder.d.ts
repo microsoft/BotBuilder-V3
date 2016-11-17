@@ -1257,6 +1257,17 @@ export class Session {
     send(message: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
 
     /**
+     * Sends a message to a user using a specific localization namespace. 
+     * @param localizationNamespace Namespace to use for localizing the message.
+     * @param message 
+     * * __message:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer. If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
+     * * __message:__ _{string[]}_ - The sent message will be chosen at random from the array.
+     * * __message:__ _{IMessage|IIsMessage}_ - Message to send. 
+     * @param args (Optional) arguments used to format the final output text when __message__ is a _{string|string[]}_.
+     */
+    sendLocalized(localizationNamespace: string, message: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
+
+    /**
      * Sends the user an indication that the bot is typing. For long running operations this should be called every few seconds. 
      */
     sendTyping(): Session;
