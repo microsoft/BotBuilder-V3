@@ -17,6 +17,7 @@
     <summary>Microsoft Azure extensions for Microsoft Bot Builder.</summary>
     <language>en-US</language>
     <dependencies>
+      <dependency id="Microsoft.Bot.Builder" version="$builder$"/>
       <dependency id="Microsoft.Bot.Builder.History" version="$history$"/>
       <dependency id="Newtonsoft.Json" version="8.0.3" />
       <dependency id="WindowsAzure.Storage" version="7.2.1" />
