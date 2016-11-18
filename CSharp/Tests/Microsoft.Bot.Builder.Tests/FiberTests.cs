@@ -205,22 +205,38 @@ namespace Microsoft.Bot.Builder.Tests
             await Wait_is_Awaitable<Guid, Guid>(Guid.NewGuid());
         }
 
-        [TestMethod]
-        public async Task Wait_is_Awaitable_String_String()
-        {
-            await Wait_is_Awaitable<string, string>(this.GetType().Name);
-        }
+        public class TypeA { }
+        public class TypeB : TypeA { }
+        public class TypeC : TypeB { }
 
         [TestMethod]
-        public async Task Wait_is_Awaitable_String_Object()
+        public async Task Wait_is_Awaitable_A_B_C()
         {
-            await Wait_is_Awaitable<string, object>(this.GetType().Name);
-        }
+            // ItemType = TypeA
+            await Wait_is_Awaitable<TypeA, TypeA>(new TypeA());
+            await Wait_is_Awaitable<TypeA, TypeA>(new TypeB());
+            await Wait_is_Awaitable<TypeA, TypeA>(new TypeC());
 
-        [TestMethod]
-        public async Task Wait_is_Awaitable_Object_String()
-        {
-            await Wait_is_Awaitable<object, string>(this.GetType().Name);
+            await Wait_is_Awaitable<TypeA, TypeB>(new TypeB());
+            await Wait_is_Awaitable<TypeA, TypeB>(new TypeC());
+
+            await Wait_is_Awaitable<TypeA, TypeC>(new TypeC());
+
+            // ItemType = TypeB
+            await Wait_is_Awaitable<TypeB, TypeA>(new TypeB());
+            await Wait_is_Awaitable<TypeB, TypeA>(new TypeC());
+
+            await Wait_is_Awaitable<TypeB, TypeB>(new TypeB());
+            await Wait_is_Awaitable<TypeB, TypeB>(new TypeC());
+
+            await Wait_is_Awaitable<TypeB, TypeC>(new TypeC());
+
+            // ItemType = TypeC
+            await Wait_is_Awaitable<TypeC, TypeA>(new TypeC());
+
+            await Wait_is_Awaitable<TypeC, TypeB>(new TypeC());
+
+            await Wait_is_Awaitable<TypeC, TypeC>(new TypeC());
         }
 
         [TestMethod]
