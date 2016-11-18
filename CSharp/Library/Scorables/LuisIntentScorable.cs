@@ -225,6 +225,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             // "builtin.intent.none" seems to have a null score
 
             var scope = new Scope(this.model, result, intent, resolver);
+            scope.Item = resolver;
             scope.Scorable = this.inner;
             scope.State = await this.inner.PrepareAsync(scope, token);
             return scope;

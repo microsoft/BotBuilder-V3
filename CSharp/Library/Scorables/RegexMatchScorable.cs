@@ -266,6 +266,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             }
 
             var scope = new Scope(this.regex, match, resolver);
+            scope.Item = resolver;
             scope.Scorable = this.inner;
             scope.State = await this.inner.PrepareAsync(scope, token);
             return scope;
