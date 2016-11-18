@@ -76,9 +76,17 @@ namespace Microsoft.Bot.Builder.Dialogs
             return new Regex(pattern);
         }
 
+        protected virtual BindingFlags MakeBindingFlags()
+        {
+            return BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public;
+        }
+
         protected virtual IEnumerable<MethodInfo> MakeMethods(IDialogContext context, IActivity activity)
         {
-            return this.GetType().GetMethods();
+            var type = this.GetType();
+            var flags = this.MakeBindingFlags();
+            var methods = type.GetMethods(flags);
+            return methods;
         }
 
         protected virtual IScorableFactory<IResolver, object> MakeFactory(IDialogContext context, IActivity activity)
