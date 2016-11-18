@@ -547,6 +547,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        [Serializable]
         private sealed class WhereDialog<T> : IDialog<T>
         {
             public readonly IDialog<T> Antecedent;
