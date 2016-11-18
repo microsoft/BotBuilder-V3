@@ -4,32 +4,28 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var dl = require('./Library');
-var actions = require('../dialogs/ActionSet');
-var ses = require('../Session');
-var bs = require('../storage/BotStorage');
+var Library_1 = require('./Library');
+var Session_1 = require('../Session');
+var DefaultLocalizer_1 = require('../DefaultLocalizer');
+var BotStorage_1 = require('../storage/BotStorage');
 var consts = require('../consts');
 var utils = require('../utils');
 var async = require('async');
-var events = require('events');
-var DefaultLocalizer_1 = require('../DefaultLocalizer');
 var UniversalBot = (function (_super) {
     __extends(UniversalBot, _super);
-    function UniversalBot(connector, settings) {
-        _super.call(this);
+    function UniversalBot(connector, settings, libraryName) {
+        _super.call(this, libraryName || consts.Library.default);
         this.settings = {
             processLimit: 4,
             persistUserData: true,
             persistConversationData: false
         };
         this.connectors = {};
-        this.lib = new dl.Library(consts.Library.default);
-        this.actions = new actions.ActionSet();
         this.mwReceive = [];
         this.mwSend = [];
         this.mwSession = [];
-        this.lib.localePath('./locale/');
-        this.lib.library(dl.systemLib);
+        this.localePath('./locale/');
+        this.library(Library_1.systemLib);
         if (settings) {
             for (var name in settings) {
                 if (settings.hasOwnProperty(name)) {
@@ -46,7 +42,7 @@ var UniversalBot = (function (_super) {
         if (value && name === 'localizerSettings') {
             var settings = value;
             if (settings.botLocalePath) {
-                this.lib.localePath(settings.botLocalePath);
+                this.localePath(settings.botLocalePath);
             }
         }
         return this;
@@ -75,12 +71,6 @@ var UniversalBot = (function (_super) {
         }
         return c;
     };
-    UniversalBot.prototype.dialog = function (id, dialog) {
-        return this.lib.dialog(id, dialog);
-    };
-    UniversalBot.prototype.library = function (lib) {
-        return this.lib.library(lib);
-    };
     UniversalBot.prototype.use = function () {
         var _this = this;
         var args = [];
@@ -107,14 +97,6 @@ var UniversalBot = (function (_super) {
         });
         return this;
     };
-    UniversalBot.prototype.beginDialogAction = function (name, id, options) {
-        this.actions.beginDialogAction(name, id, options);
-        return this;
-    };
-    UniversalBot.prototype.endConversationAction = function (name, msg, options) {
-        this.actions.endConversationAction(name, msg, options);
-        return this;
-    };
     UniversalBot.prototype.receive = function (events, done) {
         var _this = this;
         var list = Array.isArray(events) ? events : [events];
@@ -138,7 +120,7 @@ var UniversalBot = (function (_super) {
                             persistUserData: _this.settings.persistUserData,
                             persistConversationData: _this.settings.persistConversationData
                         };
-                        _this.route(storageCtx, message, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, cb);
+                        _this.dispatch(storageCtx, message, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, cb);
                     }
                     else {
                         _this.emit(message.type, message);
@@ -170,7 +152,7 @@ var UniversalBot = (function (_super) {
                     persistUserData: _this.settings.persistUserData,
                     persistConversationData: _this.settings.persistConversationData
                 };
-                _this.route(storageCtx, msg, dialogId, dialogArgs, _this.errorLogger(done), true);
+                _this.dispatch(storageCtx, msg, dialogId, dialogArgs, _this.errorLogger(done), true);
             }, _this.errorLogger(done));
         }, this.errorLogger(done));
     };
@@ -234,20 +216,19 @@ var UniversalBot = (function (_super) {
             }, _this.errorLogger(cb));
         }, this.errorLogger(cb));
     };
-    UniversalBot.prototype.route = function (storageCtx, message, dialogId, dialogArgs, done, newStack) {
+    UniversalBot.prototype.dispatch = function (storageCtx, message, dialogId, dialogArgs, done, newStack) {
         var _this = this;
         if (newStack === void 0) { newStack = false; }
         var loadedData;
         this.getStorageData(storageCtx, function (data) {
             if (!_this.localizer) {
                 var defaultLocale = _this.settings.localizerSettings ? _this.settings.localizerSettings.defaultLocale : null;
-                _this.localizer = new DefaultLocalizer_1.DefaultLocalizer(_this.lib, defaultLocale);
+                _this.localizer = new DefaultLocalizer_1.DefaultLocalizer(_this, defaultLocale);
             }
-            var session = new ses.Session({
+            var session = new Session_1.Session({
                 localizer: _this.localizer,
                 autoBatchDelay: _this.settings.autoBatchDelay,
-                library: _this.lib,
-                actions: _this.actions,
+                library: _this,
                 middleware: _this.mwSession,
                 dialogId: dialogId,
                 dialogArgs: dialogArgs,
@@ -275,9 +256,40 @@ var UniversalBot = (function (_super) {
             }
             loadedData = data;
             _this.emit('routing', session);
-            session.dispatch(sessionState, message);
-            done(null);
+            session.dispatch(sessionState, message, function () { return _this.routeMessage(session, done); });
         }, done);
+    };
+    UniversalBot.prototype.routeMessage = function (session, done) {
+        var _this = this;
+        var context = session.toRecognizeContext();
+        this.recognize(context, function (err, topIntent) {
+            if (topIntent && topIntent.score > 0) {
+                context.intent = topIntent;
+                context.libraryName = _this.name;
+            }
+            var results = Library_1.Library.addRouteResult({ score: 0.0, libraryName: _this.name });
+            async.each(_this.libraryList(), function (lib, cb) {
+                lib.findRoutes(context, function (err, routes) {
+                    if (!err && routes) {
+                        routes.forEach(function (r) { return results = Library_1.Library.addRouteResult(r, results); });
+                    }
+                    cb(err);
+                });
+            }, function (err) {
+                if (!err) {
+                    var route = Library_1.Library.bestRouteResult(results, session.dialogStack(), _this.name);
+                    if (route) {
+                        _this.library(route.libraryName).selectRoute(session, route);
+                    }
+                    else {
+                        session.routeToActiveDialog();
+                    }
+                }
+                else {
+                    session.error(err);
+                }
+            });
+        });
     };
     UniversalBot.prototype.eventMiddleware = function (event, middleware, done, error) {
         var i = -1;
@@ -372,7 +384,7 @@ var UniversalBot = (function (_super) {
     };
     UniversalBot.prototype.getStorage = function () {
         if (!this.settings.storage) {
-            this.settings.storage = new bs.MemoryBotStorage();
+            this.settings.storage = new BotStorage_1.MemoryBotStorage();
         }
         return this.settings.storage;
     };
@@ -414,5 +426,5 @@ var UniversalBot = (function (_super) {
         }
     };
     return UniversalBot;
-}(events.EventEmitter));
+}(Library_1.Library));
 exports.UniversalBot = UniversalBot;

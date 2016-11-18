@@ -13,7 +13,8 @@ var LuisRecognizer = (function () {
         var result = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
             var utterance = context.message.text;
-            var model = this.models.hasOwnProperty(context.locale || '*') ? this.models[context.locale] : this.models['*'];
+            var locale = context.locale || '*';
+            var model = this.models.hasOwnProperty(locale) ? this.models[locale] : this.models['*'];
             if (model) {
                 LuisRecognizer.recognize(utterance, model, function (err, intents, entities) {
                     if (!err) {
@@ -48,7 +49,7 @@ var LuisRecognizer = (function () {
                 });
             }
             else {
-                cb(new Error("LUIS model not found for locale '" + context.locale + "'."), null);
+                cb(new Error("LUIS model not found for locale '" + locale + "'."), null);
             }
         }
         else {
@@ -69,6 +70,9 @@ var LuisRecognizer = (function () {
                         result = JSON.parse(body);
                         result.intents = result.intents || [];
                         result.entities = result.entities || [];
+                        if (result.topScoringIntent && result.intents.length == 0) {
+                            result.intents.push(result.topScoringIntent);
+                        }
                         if (result.intents.length == 1 && typeof result.intents[0].score !== 'number') {
                             result.intents[0].score = 1.0;
                         }

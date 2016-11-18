@@ -1,13 +1,13 @@
 "use strict";
+var OpenIdMetadata_1 = require('./OpenIdMetadata');
+var utils = require('../utils');
+var logger = require('../logger');
+var consts = require('../consts');
 var request = require('request');
 var async = require('async');
 var url = require('url');
-var utils = require('../utils');
-var logger = require('../logger');
 var jwt = require('jsonwebtoken');
-var oid = require('./OpenIdMetadata');
 var zlib = require('zlib');
-var consts = require('../consts');
 var MAX_DATA_LENGTH = 65000;
 var ChatConnector = (function () {
     function ChatConnector(settings) {
@@ -26,8 +26,8 @@ var ChatConnector = (function () {
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             };
         }
-        this.botConnectorOpenIdMetadata = new oid.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
-        this.msaOpenIdMetadata = new oid.OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
+        this.botConnectorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
+        this.msaOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
     }
     ChatConnector.prototype.listen = function () {
         var _this = this;
@@ -51,9 +51,9 @@ var ChatConnector = (function () {
         var _this = this;
         var token;
         var isEmulator = req.body['channelId'] === 'emulator';
-        if (req.headers && req.headers.hasOwnProperty('authorization')) {
-            var auth = req.headers['authorization'].trim().split(' ');
-            ;
+        var authHeaderValue = req.headers ? req.headers['authorization'] || req.headers['Authorization'] : null;
+        if (authHeaderValue) {
+            var auth = authHeaderValue.trim().split(' ');
             if (auth.length == 2 && auth[0].toLowerCase() == 'bearer') {
                 token = auth[1];
             }

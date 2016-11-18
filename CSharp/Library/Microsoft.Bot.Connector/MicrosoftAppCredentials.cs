@@ -17,6 +17,16 @@ namespace Microsoft.Bot.Connector
 {
     public class MicrosoftAppCredentials : ServiceClientCredentials
     {
+        /// <summary>
+        /// The key for Microsoft app Id.
+        /// </summary>
+        public const string MicrosoftAppIdKey = "MicrosoftAppId";
+
+        /// <summary>
+        /// The key for Microsoft app Password.
+        /// </summary>
+        public const string MicrosoftAppPasswordKey = "MicrosoftAppPassword";
+
         protected static ConcurrentDictionary<string, DateTime> TrustedHostNames = new ConcurrentDictionary<string, DateTime>(
                                                                                         new Dictionary<string, DateTime>() {
                                                                                             { "state.botframework.com", DateTime.MaxValue }
@@ -24,8 +34,8 @@ namespace Microsoft.Bot.Connector
 
         public MicrosoftAppCredentials(string appId = null, string password = null)
         {
-            MicrosoftAppId = appId ?? ConfigurationManager.AppSettings["MicrosoftAppId"];
-            MicrosoftAppPassword = password ?? ConfigurationManager.AppSettings["MicrosoftAppPassword"];
+            MicrosoftAppId = appId ?? ConfigurationManager.AppSettings[MicrosoftAppIdKey] ?? Environment.GetEnvironmentVariable(MicrosoftAppIdKey, EnvironmentVariableTarget.Process);
+            MicrosoftAppPassword = password ?? ConfigurationManager.AppSettings[MicrosoftAppPasswordKey] ?? Environment.GetEnvironmentVariable(MicrosoftAppPasswordKey, EnvironmentVariableTarget.Process);
             TokenCacheKey = $"{MicrosoftAppId}-cache";
         }
 

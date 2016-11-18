@@ -1,5 +1,5 @@
 "use strict";
-var msg = require('../Message');
+var Message_1 = require('../Message');
 var ReceiptCard = (function () {
     function ReceiptCard(session) {
         this.session = session;
@@ -14,7 +14,7 @@ var ReceiptCard = (function () {
             args[_i - 1] = arguments[_i];
         }
         if (text) {
-            this.data.content.title = msg.fmtText(this.session, text, args);
+            this.data.content.title = Message_1.fmtText(this.session, text, args);
         }
         return this;
     };
@@ -83,7 +83,7 @@ var ReceiptItem = (function () {
             args[_i - 1] = arguments[_i];
         }
         if (text) {
-            this.data.title = msg.fmtText(this.session, text, args);
+            this.data.title = Message_1.fmtText(this.session, text, args);
         }
         return this;
     };
@@ -93,7 +93,7 @@ var ReceiptItem = (function () {
             args[_i - 1] = arguments[_i];
         }
         if (text) {
-            this.data.subtitle = msg.fmtText(this.session, text, args);
+            this.data.subtitle = Message_1.fmtText(this.session, text, args);
         }
         return this;
     };
@@ -103,7 +103,7 @@ var ReceiptItem = (function () {
             args[_i - 1] = arguments[_i];
         }
         if (text) {
-            this.data.text = msg.fmtText(this.session, text, args);
+            this.data.text = Message_1.fmtText(this.session, text, args);
         }
         return this;
     };
@@ -147,7 +147,7 @@ var Fact = (function () {
             args[_i - 1] = arguments[_i];
         }
         if (text) {
-            this.data.key = msg.fmtText(this.session, text, args);
+            this.data.key = Message_1.fmtText(this.session, text, args);
         }
         return this;
     };

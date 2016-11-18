@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { IRecognizeContext } from './Dialog';
+import { IRecognizeContext } from './IntentRecognizerSet';
 import { IIntentRecognizer, IIntentRecognizerResult } from './IntentRecognizerSet';
 import * as utils from '../utils';
 

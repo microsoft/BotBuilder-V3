@@ -31,9 +31,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import utils = require('../utils');
-import sprintf = require('sprintf-js');
-import chrono = require('chrono-node');
+import * as utils from '../utils';
+import * as sprintf from 'sprintf-js';
+import * as chrono from 'chrono-node';
 
 interface ILuisDateTimeEntity extends IEntity {
     resolution: {

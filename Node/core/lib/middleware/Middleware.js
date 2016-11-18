@@ -1,7 +1,7 @@
 "use strict";
-var dlg = require('../dialogs/Dialog');
-var dl = require('../bots/Library');
-var sd = require('../dialogs/SimpleDialog');
+var Dialog_1 = require('../dialogs/Dialog');
+var Library_1 = require('../bots/Library');
+var SimpleDialog_1 = require('../dialogs/SimpleDialog');
 var consts = require('../consts');
 var Middleware = (function () {
     function Middleware() {
@@ -67,10 +67,10 @@ var Middleware = (function () {
     return Middleware;
 }());
 exports.Middleware = Middleware;
-dl.systemLib.dialog(consts.DialogId.FirstRun, new sd.SimpleDialog(function (session, args) {
+Library_1.systemLib.dialog(consts.DialogId.FirstRun, new SimpleDialog_1.SimpleDialog(function (session, args) {
     if (args && args.hasOwnProperty('resumed')) {
         var result = args;
-        if (result.resumed == dlg.ResumeReason.completed) {
+        if (result.resumed == Dialog_1.ResumeReason.completed) {
             session.userData[consts.Data.FirstRunVersion] = session.dialogData.version;
         }
         session.endDialogWithResult(result);

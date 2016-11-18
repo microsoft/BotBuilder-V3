@@ -62,8 +62,8 @@ namespace Microsoft.Bot.Connector
 
         public async Task<ClaimsIdentity> GetIdentityAsync(string scheme, string parameter)
         {
-            // No header in correct scheme?
-            if (scheme != "Bearer")
+            // No header in correct scheme or no token
+            if (scheme != "Bearer" || string.IsNullOrEmpty(parameter))
                 return null;
 
             // Issuer isn't allowed? No need to check signature

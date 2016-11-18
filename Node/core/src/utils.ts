@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import sprintf = require('sprintf-js');
+import * as sprintf from 'sprintf-js';
 
 export function clone(obj: any): any {
     var cpy: any = {};

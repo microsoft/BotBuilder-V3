@@ -1,7 +1,7 @@
 var assert = require('assert');
 var builder = require('../');
 
-describe('Dialogs', function() {
+describe('dialogs', function() {
     this.timeout(5000);
     it('should redirect to another dialog with arguments', function (done) { 
         var connector = new builder.ConsoleConnector();       

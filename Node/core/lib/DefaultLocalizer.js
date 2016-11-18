@@ -1,9 +1,10 @@
 "use strict";
+var logger = require('./logger');
+var consts = require('./consts');
 var fs = require('fs');
 var async = require('async');
 var Promise = require('promise');
 var path = require('path');
-var logger = require('./logger');
 var DefaultLocalizer = (function () {
     function DefaultLocalizer(root, defaultLocale) {
         this.localePaths = [];
@@ -27,7 +28,7 @@ var DefaultLocalizer = (function () {
     }
     DefaultLocalizer.prototype.defaultLocale = function (locale) {
         if (locale) {
-            this._defaultLocale = locale.toLowerCase();
+            this._defaultLocale = locale;
         }
         else {
             return this._defaultLocale;
@@ -36,7 +37,7 @@ var DefaultLocalizer = (function () {
     DefaultLocalizer.prototype.load = function (locale, done) {
         var _this = this;
         logger.debug("localizer.load(%s)", locale);
-        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
         var fbLocale = this.getFallback(locale);
         var locales = ['en'];
@@ -49,7 +50,7 @@ var DefaultLocalizer = (function () {
         if (fbLocale !== fbDefault) {
             locales.push(fbLocale);
         }
-        if (locale !== fbLocale) {
+        if (locale !== fbLocale && locale !== this._defaultLocale) {
             locales.push(locale);
         }
         async.each(locales, function (locale, cb) {
@@ -61,7 +62,7 @@ var DefaultLocalizer = (function () {
         });
     };
     DefaultLocalizer.prototype.trygettext = function (locale, msgid, ns) {
-        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
         var fbLocale = this.getFallback(locale);
         ns = ns ? ns.toLocaleLowerCase() : null;
@@ -75,6 +76,9 @@ var DefaultLocalizer = (function () {
         }
         if (!text && fbDefault !== this._defaultLocale) {
             text = this.getEntry(fbDefault, key);
+        }
+        if (!text && fbDefault !== 'en') {
+            text = this.getEntry('en', key);
         }
         return text ? this.getValue(text) : null;
     };
@@ -166,7 +170,7 @@ var DefaultLocalizer = (function () {
             var readFile = Promise.denodeify(fs.readFile);
             readFile(filePath, 'utf8')
                 .then(function (data) {
-                var ns = path.parse(filename).name;
+                var ns = path.parse(filename).name.toLocaleLowerCase();
                 if (ns == 'index') {
                     ns = null;
                 }
@@ -191,7 +195,7 @@ var DefaultLocalizer = (function () {
     DefaultLocalizer.prototype.createKey = function (ns, msgid) {
         var escapedMsgId = this.escapeKey(msgid);
         var prepend = "";
-        if (ns) {
+        if (ns && ns !== consts.Library.default) {
             prepend = ns + ":";
         }
         return prepend + msgid;

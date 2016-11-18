@@ -31,13 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import events = require('events');
-import request = require('request');
-import async = require('async');
-import url = require('url');
-import http = require('http');
-import utils = require('../utils');
-import logger = require('../logger');
+import * as utils from '../utils';
+import * as logger from '../logger';
+import * as events from 'events';
+import * as request from 'request';
+import * as async from 'async';
+import * as url from 'url';
+import * as http from 'http';
 var getPem = require('rsa-pem-from-mod-exp');
 var base64url = require('base64url');
 

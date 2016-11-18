@@ -31,34 +31,35 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import dlg = require('../dialogs/Dialog');
-import intent = require('../dialogs/IntentDialog');
-import luis = require('../dialogs/LuisRecognizer');
-import actions = require('../dialogs/DialogAction');
+import { Session } from '../Session';
+import { Dialog, IRecognizeDialogContext, IDialogResult } from '../dialogs/Dialog';
+import { IRecognizeResult } from '../dialogs/IntentRecognizerSet';
+import { IntentDialog, IBeginDialogHandler } from '../dialogs/IntentDialog';
+import { LuisRecognizer } from '../dialogs/LuisRecognizer';
+import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
 
-export class CommandDialog extends dlg.Dialog {
-    private dialog: intent.IntentDialog;
+export class CommandDialog extends Dialog {
+    private dialog: IntentDialog;
 
     constructor(serviceUri: string) {
         super();
         console.warn('CommandDialog class is deprecated. Use IntentDialog class instead.')
-        this.dialog = new intent.IntentDialog();
+        this.dialog = new IntentDialog();
     }
 
-    public begin<T>(session: ses.Session, args?: T): void {
+    public begin<T>(session: Session, args?: T): void {
         this.dialog.begin(session, args);
     }
 
-    public replyReceived(session: ses.Session, recognizeResult?: dlg.IRecognizeResult): void {
-        this.dialog.replyReceived(session, recognizeResult);
+    public replyReceived(session: Session, recognizeResult?: IRecognizeResult): void {
+        //this.dialog.replyReceived(session, recognizeResult);
     }
 
-    public dialogResumed<T>(session: ses.Session, result: dlg.IDialogResult<T>): void {
+    public dialogResumed<T>(session: Session, result: IDialogResult<T>): void {
         this.dialog.dialogResumed(session, result);
     }
 
-    public recognize(context: dlg.IRecognizeContext, cb: (err: Error, result: dlg.IRecognizeResult) => void): void {
+    public recognize(context: IRecognizeDialogContext, cb: (err: Error, result: IRecognizeResult) => void): void {
         this.dialog.recognize(context, cb);
     }
 
@@ -67,7 +68,7 @@ export class CommandDialog extends dlg.Dialog {
         return this;
     }
 
-    public matches(patterns: string | string[], dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
+    public matches(patterns: string | string[], dialogId: string | IDialogWaterfallStep[] | IDialogWaterfallStep, dialogArgs?: any): this {
         var list = <string[]>(!Array.isArray(patterns) ? [patterns] : patterns);
         list.forEach((p: string) => {
             this.dialog.matches(new RegExp(p, 'i'), dialogId, dialogArgs);
@@ -75,7 +76,7 @@ export class CommandDialog extends dlg.Dialog {
         return this;
     } 
 
-    public onDefault(dialogId: string | actions.IDialogWaterfallStep[] | actions.IDialogWaterfallStep, dialogArgs?: any): this {
+    public onDefault(dialogId: string | IDialogWaterfallStep[] | IDialogWaterfallStep, dialogArgs?: any): this {
         this.dialog.onDefault(dialogId, dialogArgs);
         return this;
     }

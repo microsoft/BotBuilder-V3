@@ -31,12 +31,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import ub = require('../bots/UniversalBot');
-import dlg = require('../dialogs/Dialog');
-import dl = require('../bots/Library');
-import sd = require('../dialogs/SimpleDialog');
-import consts = require('../consts');
+import { Session } from '../Session';
+import { IMiddlewareMap } from '../bots/UniversalBot';
+import { IDialogResult, ResumeReason } from '../dialogs/Dialog';
+import { systemLib } from '../bots/Library';
+import { SimpleDialog } from '../dialogs/SimpleDialog';
+import * as consts from '../consts';
 
 export interface IDialogVersionOptions {
     version: number;
@@ -53,7 +53,7 @@ export interface IFirstRunOptions {
 }
 
 export class Middleware {
-    static dialogVersion(options: IDialogVersionOptions): ub.IMiddlewareMap {
+    static dialogVersion(options: IDialogVersionOptions): IMiddlewareMap {
         return {
             botbuilder: (session, next) => {
                 var cur = session.sessionState.version || 0.0;
@@ -71,7 +71,7 @@ export class Middleware {
         };
     }
 
-    static firstRun(options: IFirstRunOptions): ub.IMiddlewareMap {
+    static firstRun(options: IFirstRunOptions): IMiddlewareMap {
         return {
             botbuilder: (session, next) => {
                 if (session.sessionState.callstack.length == 0) {
@@ -103,7 +103,7 @@ export class Middleware {
         }
     }
 
-    static sendTyping(): ub.IMiddlewareMap {
+    static sendTyping(): IMiddlewareMap {
         return {
             botbuilder: (session, next) => {
                 session.sendTyping();
@@ -120,11 +120,11 @@ interface IFirstRunDialogArgs {
     dialogArgs: any;
 }
 
-dl.systemLib.dialog(consts.DialogId.FirstRun, new sd.SimpleDialog((session: ses.Session, args: IFirstRunDialogArgs) => {
+systemLib.dialog(consts.DialogId.FirstRun, new SimpleDialog((session: Session, args: IFirstRunDialogArgs) => {
     if (args && args.hasOwnProperty('resumed')) {
         // Returning from dialog
-        var result: dlg.IDialogResult<any> = <any>args;
-        if (result.resumed == dlg.ResumeReason.completed) {
+        var result: IDialogResult<any> = <any>args;
+        if (result.resumed == ResumeReason.completed) {
             // First run successfully completed so update stored version.
             session.userData[consts.Data.FirstRunVersion] = session.dialogData.version;
         }

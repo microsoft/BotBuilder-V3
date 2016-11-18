@@ -4,14 +4,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var dlg = require('./Dialog');
-var consts = require('../consts');
-var entities = require('./EntityRecognizer');
-var mb = require('../Message');
+var Dialog_1 = require('./Dialog');
+var Session_1 = require('../Session');
+var EntityRecognizer_1 = require('./EntityRecognizer');
+var Message_1 = require('../Message');
+var Library_1 = require('../bots/Library');
+var Keyboard_1 = require('../cards/Keyboard');
+var CardAction_1 = require('../cards/CardAction');
 var Channel = require('../Channel');
-var dl = require('../bots/Library');
-var kb = require('../cards/Keyboard');
-var ca = require('../cards/CardAction');
+var consts = require('../consts');
 var logger = require('../logger');
 (function (PromptType) {
     PromptType[PromptType["text"] = 0] = "text";
@@ -35,9 +36,9 @@ var SimplePromptRecognizer = (function () {
     }
     SimplePromptRecognizer.prototype.recognize = function (args, callback, session) {
         function findChoice(args, text) {
-            var best = entities.EntityRecognizer.findBestMatch(args.enumValues, text);
+            var best = EntityRecognizer_1.EntityRecognizer.findBestMatch(args.enumValues, text);
             if (!best) {
-                var n = entities.EntityRecognizer.parseNumber(text);
+                var n = EntityRecognizer_1.EntityRecognizer.parseNumber(text);
                 if (!isNaN(n) && n > 0 && n <= args.enumValues.length) {
                     best = { index: n - 1, entity: args.enumValues[n - 1], score: 1.0 };
                 }
@@ -54,14 +55,14 @@ var SimplePromptRecognizer = (function () {
                 response = text;
                 break;
             case PromptType.number:
-                var n = entities.EntityRecognizer.parseNumber(text);
+                var n = EntityRecognizer_1.EntityRecognizer.parseNumber(text);
                 if (!isNaN(n)) {
                     var score = n.toString().length / text.length;
                     response = n;
                 }
                 break;
             case PromptType.confirm:
-                var b = entities.EntityRecognizer.parseBoolean(text);
+                var b = EntityRecognizer_1.EntityRecognizer.parseBoolean(text);
                 if (typeof b !== 'boolean') {
                     var best = findChoice(args, text);
                     if (best) {
@@ -74,7 +75,7 @@ var SimplePromptRecognizer = (function () {
                 }
                 break;
             case PromptType.time:
-                var entity = entities.EntityRecognizer.recognizeTime(text, args.refDate ? new Date(args.refDate) : null);
+                var entity = EntityRecognizer_1.EntityRecognizer.recognizeTime(text, args.refDate ? new Date(args.refDate) : null);
                 if (entity) {
                     score = entity.entity.length / text.length;
                     response = entity;
@@ -95,10 +96,10 @@ var SimplePromptRecognizer = (function () {
                 break;
         }
         if (score > 0) {
-            callback({ score: score, resumed: dlg.ResumeReason.completed, promptType: args.promptType, response: response });
+            callback({ score: score, resumed: Dialog_1.ResumeReason.completed, promptType: args.promptType, response: response });
         }
         else {
-            callback({ score: score, resumed: dlg.ResumeReason.notCompleted, promptType: args.promptType });
+            callback({ score: score, resumed: Dialog_1.ResumeReason.notCompleted, promptType: args.promptType });
         }
     };
     return SimplePromptRecognizer;
@@ -122,13 +123,13 @@ var Prompts = (function (_super) {
     };
     Prompts.prototype.replyReceived = function (session, result) {
         var args = session.dialogData;
-        if (result.error || result.resumed == dlg.ResumeReason.completed) {
+        if (result.error || result.resumed == Dialog_1.ResumeReason.completed) {
             result.promptType = args.promptType;
             session.endDialogWithResult(result);
         }
         else if (typeof args.maxRetries === 'number' && args.retryCnt >= args.maxRetries) {
             result.promptType = args.promptType;
-            result.resumed = dlg.ResumeReason.notCompleted;
+            result.resumed = Dialog_1.ResumeReason.notCompleted;
             session.endDialogWithResult(result);
         }
         else {
@@ -163,89 +164,94 @@ var Prompts = (function (_super) {
     Prompts.prototype.sendPrompt = function (session, args, retry) {
         if (retry === void 0) { retry = false; }
         logger.debug("prompts::sendPrompt called");
+        var msg;
         if (retry && typeof args.retryPrompt === 'object' && !Array.isArray(args.retryPrompt)) {
-            session.send(args.retryPrompt);
+            msg = args.retryPrompt;
         }
         else if (typeof args.prompt === 'object' && !Array.isArray(args.prompt)) {
-            session.send(args.prompt);
+            msg = args.prompt;
         }
         else {
-            var style = ListStyle.none;
-            if (args.promptType == PromptType.choice || args.promptType == PromptType.confirm) {
-                style = args.listStyle;
-                if (style == ListStyle.auto) {
-                    if (Channel.supportsKeyboards(session, args.enumValues.length)) {
-                        style = ListStyle.button;
-                    }
-                    else if (!retry && args.promptType == PromptType.choice) {
-                        style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
-                    }
-                    else {
-                        style = ListStyle.none;
-                    }
+            msg = this.createPrompt(session, args, retry);
+        }
+        session.send(msg);
+        session.sendBatch();
+    };
+    Prompts.prototype.createPrompt = function (session, args, retry) {
+        var msg = new Message_1.Message(session);
+        var locale = session.preferredLocale();
+        var localizationNamespace = args.localizationNamespace;
+        var style = ListStyle.none;
+        if (args.promptType == PromptType.choice || args.promptType == PromptType.confirm) {
+            style = args.listStyle;
+            if (style == ListStyle.auto) {
+                if (Channel.supportsKeyboards(session, args.enumValues.length)) {
+                    style = ListStyle.button;
                 }
-            }
-            var prompt;
-            if (retry) {
-                if (args.retryPrompt) {
-                    prompt = mb.Message.randomPrompt(args.retryPrompt);
+                else if (!retry && args.promptType == PromptType.choice) {
+                    style = args.enumValues.length < 3 ? ListStyle.inline : ListStyle.list;
                 }
                 else {
-                    var type = PromptType[args.promptType];
-                    prompt = mb.Message.randomPrompt(Prompts.defaultRetryPrompt[type]);
-                    args.localizationNamespace = consts.Library.system;
-                    logger.debug("prompts::sendPrompt setting ns to %s", args.localizationNamespace);
+                    style = ListStyle.none;
                 }
             }
-            else {
-                prompt = mb.Message.randomPrompt(args.prompt);
-            }
-            var locale = session.preferredLocale();
-            prompt = session.localizer.gettext(locale, prompt, args.localizationNamespace);
-            var connector = '';
-            var list;
-            var msg = new mb.Message();
-            switch (style) {
-                case ListStyle.button:
-                    var buttons = [];
-                    for (var i = 0; i < session.dialogData.enumValues.length; i++) {
-                        var option = session.dialogData.enumValues[i];
-                        buttons.push(ca.CardAction.imBack(session, option, option));
-                    }
-                    msg.text(prompt)
-                        .attachments([new kb.Keyboard(session).buttons(buttons)]);
-                    break;
-                case ListStyle.inline:
-                    list = ' (';
-                    args.enumValues.forEach(function (v, index) {
-                        var value = v.toString();
-                        list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
-                        if (index == args.enumValues.length - 2) {
-                            connector = index == 0 ? session.localizer.gettext(locale, "list_or", consts.Library.system) : session.localizer.gettext(locale, "list_or_more", consts.Library.system);
-                        }
-                        else {
-                            connector = ', ';
-                        }
-                    });
-                    list += ')';
-                    msg.text(prompt + '%s', list);
-                    break;
-                case ListStyle.list:
-                    list = '\n   ';
-                    args.enumValues.forEach(function (v, index) {
-                        var value = v.toString();
-                        list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
-                        connector = '\n   ';
-                    });
-                    msg.text(prompt + '%s', list);
-                    break;
-                default:
-                    msg.text(prompt);
-                    break;
-            }
-            session.send(msg);
         }
-        session.sendBatch();
+        var prompt;
+        if (retry) {
+            if (args.retryPrompt) {
+                prompt = Message_1.Message.randomPrompt(args.retryPrompt);
+            }
+            else {
+                var type = PromptType[args.promptType];
+                prompt = Prompts.defaultRetryPrompt[type];
+                localizationNamespace = consts.Library.system;
+            }
+        }
+        else {
+            prompt = Message_1.Message.randomPrompt(args.prompt);
+        }
+        var text = session.localizer.gettext(locale, prompt, localizationNamespace);
+        var connector = '';
+        var list;
+        switch (style) {
+            case ListStyle.button:
+                var buttons = [];
+                for (var i = 0; i < session.dialogData.enumValues.length; i++) {
+                    var option = session.dialogData.enumValues[i];
+                    buttons.push(CardAction_1.CardAction.imBack(session, option, option));
+                }
+                msg.text(text)
+                    .attachments([new Keyboard_1.Keyboard(session).buttons(buttons)]);
+                break;
+            case ListStyle.inline:
+                list = ' (';
+                args.enumValues.forEach(function (v, index) {
+                    var value = v.toString();
+                    list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
+                    if (index == args.enumValues.length - 2) {
+                        connector = index == 0 ? session.localizer.gettext(locale, "list_or", consts.Library.system) : session.localizer.gettext(locale, "list_or_more", consts.Library.system);
+                    }
+                    else {
+                        connector = ', ';
+                    }
+                });
+                list += ')';
+                msg.text(text + '%s', list);
+                break;
+            case ListStyle.list:
+                list = '\n   ';
+                args.enumValues.forEach(function (v, index) {
+                    var value = v.toString();
+                    list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
+                    connector = '\n   ';
+                });
+                msg.text(text + '%s', list);
+                break;
+            default:
+                msg.text(text);
+                break;
+        }
+        return msg;
     };
     Prompts.configure = function (options) {
         if (options) {
@@ -285,7 +291,7 @@ var Prompts = (function (_super) {
         args.promptType = PromptType.choice;
         args.prompt = prompt;
         args.listStyle = args.hasOwnProperty('listStyle') ? args.listStyle : ListStyle.auto;
-        var c = entities.EntityRecognizer.expandChoices(choices);
+        var c = EntityRecognizer_1.EntityRecognizer.expandChoices(choices);
         if (c.length == 0) {
             console.error("0 length choice for prompt:", prompt);
             throw "0 length choice list supplied";
@@ -318,10 +324,14 @@ var Prompts = (function (_super) {
         attachment: "default_file"
     };
     return Prompts;
-}(dlg.Dialog));
+}(Dialog_1.Dialog));
 exports.Prompts = Prompts;
-dl.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
+Library_1.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 function beginPrompt(session, args) {
+    if (!args.localizationNamespace) {
+        var cur = Session_1.Session.activeDialogStackEntry(session.dialogStack());
+        args.localizationNamespace = cur ? cur.id.split(':')[0] : session.library.name;
+    }
     if (typeof args.prompt == 'object' && args.prompt.toMessage) {
         args.prompt = args.prompt.toMessage();
     }
@@ -330,3 +340,42 @@ function beginPrompt(session, args) {
     }
     session.beginDialog(consts.DialogId.Prompts, args);
 }
+Library_1.systemLib.dialog(consts.DialogId.ConfirmCancel, [
+    function (session, args) {
+        session.dialogData.localizationNamespace = args.localizationNamespace;
+        session.dialogData.dialogIndex = args.dialogIndex;
+        session.dialogData.message = args.message;
+        session.dialogData.endConversation = args.endConversation;
+        Prompts.confirm(session, args.confirmPrompt, { localizationNamespace: args.localizationNamespace });
+    },
+    function (session, results) {
+        if (results.response) {
+            var args = session.dialogData;
+            if (args.message) {
+                session.sendLocalized(args.localizationNamespace, args.message);
+            }
+            if (args.endConversation) {
+                session.endConversation();
+            }
+            else {
+                session.cancelDialog(args.dialogIndex);
+            }
+        }
+        else {
+            session.endDialogWithResult({ resumed: Dialog_1.ResumeReason.reprompt });
+        }
+    }
+]);
+Library_1.systemLib.dialog(consts.DialogId.Interruption, [
+    function (session, args) {
+        if (session.sessionState.callstack.length > 1) {
+            session.beginDialog(args.dialogId, args.dialogArgs);
+        }
+        else {
+            session.replaceDialog(args.dialogId, args.dialogArgs);
+        }
+    },
+    function (session, results) {
+        session.endDialogWithResult({ resumed: Dialog_1.ResumeReason.reprompt });
+    }
+]);

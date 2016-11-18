@@ -20,12 +20,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import * as ses from '../Session';
-import * as msg from '../Message';
-import * as mc from './MediaCard';
+import { Session } from '../Session';
+import { MediaCard } from './MediaCard';
 
-export class AudioCard extends mc.MediaCard {
-    constructor(session?: ses.Session) {
+export class AudioCard extends MediaCard {
+    constructor(session?: Session) {
         super(session);
         this.data.contentType = 'application/vnd.microsoft.card.audio';
     }

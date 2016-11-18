@@ -31,25 +31,26 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import fs = require('fs');
-import async = require('async');
-import Promise = require('promise');
-import path = require('path');
-import logger = require('./logger');
-import lib = require('./bots/Library');
+import { Library } from './bots/Library';
+import * as logger from './logger';
+import * as consts from './consts';
+import * as fs from 'fs';
+import * as async from 'async';
+import * as Promise from 'promise';
+import * as path from 'path';
 
 export class DefaultLocalizer implements ILocalizer {
     private _defaultLocale: string;
     private localePaths = <string[]>[];
     private locales: { [locale:string]: ILocaleEntry; } = {}
 
-    constructor(root: lib.Library, defaultLocale: string) {
+    constructor(root: Library, defaultLocale: string) {
         this.defaultLocale(defaultLocale || 'en');
 
         // Find all of the searchable 
         var libsSeen = <any>{};
         var _that = this;
-        function addPaths(library: lib.Library) {
+        function addPaths(library: Library) {
             // Protect against circular references.
             if (!libsSeen.hasOwnProperty(library.name)) {
                 libsSeen[library.name] = true;
@@ -73,7 +74,7 @@ export class DefaultLocalizer implements ILocalizer {
 
     public defaultLocale(locale?: string): string {
         if (locale) {
-            this._defaultLocale = locale.toLowerCase();
+            this._defaultLocale = locale;
         } else {
             return this._defaultLocale;
         }
@@ -83,7 +84,7 @@ export class DefaultLocalizer implements ILocalizer {
         logger.debug("localizer.load(%s)", locale);                                               
 
         // Build list of locales to load
-        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
         var fbLocale = this.getFallback(locale);
         var locales = ['en'];
@@ -96,7 +97,7 @@ export class DefaultLocalizer implements ILocalizer {
         if (fbLocale !== fbDefault) {
             locales.push(fbLocale);
         }
-        if (locale !== fbLocale) {
+        if (locale !== fbLocale && locale !== this._defaultLocale) {
             locales.push(locale);
         }
 
@@ -112,7 +113,7 @@ export class DefaultLocalizer implements ILocalizer {
 
     public trygettext(locale: string, msgid: string, ns: string): string {
         // Calculate fallbacks
-        locale = locale ? locale.toLowerCase() : this._defaultLocale;
+        locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
         var fbLocale = this.getFallback(locale);
 
@@ -130,6 +131,9 @@ export class DefaultLocalizer implements ILocalizer {
         }
         if (!text && fbDefault !== this._defaultLocale) {
             text = this.getEntry(fbDefault, key);
+        }
+        if (!text && fbDefault !== 'en') {
+            text = this.getEntry('en', key);
         }
 
         // Return localized message
@@ -229,7 +233,7 @@ export class DefaultLocalizer implements ILocalizer {
             readFile(filePath, 'utf8')
                 .then((data) => {
                     // Find namespace 
-                    var ns = path.parse(filename).name;
+                    var ns = path.parse(filename).name.toLocaleLowerCase();
                     if (ns == 'index') {
                         ns = null;
                     }
@@ -257,7 +261,7 @@ export class DefaultLocalizer implements ILocalizer {
     private createKey(ns: string, msgid: string) : string {
         var escapedMsgId = this.escapeKey(msgid);
         var prepend = "";
-        if (ns) {
+        if (ns && ns !== consts.Library.default) {
             prepend = ns + ":";
         }
         return prepend + msgid;

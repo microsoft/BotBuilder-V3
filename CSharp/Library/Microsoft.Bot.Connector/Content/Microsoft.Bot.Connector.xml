@@ -44,6 +44,33 @@
             Signin button
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationResourceResponse">
+            <summary>
+            A response containing a resource
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationResourceResponse.#ctor">
+            <summary>
+            Initializes a new instance of the ConversationResourceResponse
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationResourceResponse.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the ConversationResourceResponse
+            class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationResourceResponse.ActivityId">
+            <summary>
+            Id of the Activity (if one was created)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationResourceResponse.Id">
+            <summary>
+            Id of the resource
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.Error">
             <summary>
             Object representing error information
@@ -123,6 +150,12 @@
             </summary>
             <param name="appId">bot appid</param>
             <returns>password or null for invalid appid</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ICredentialProvider.IsAuthenticationDisabledAsync">
+            <summary>
+            Checks if bot authentication is disabled.
+            </summary>
+            <returns>true if bot authentication is disabled.</returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.StaticCredentialProvider">
             <summary>
@@ -944,7 +977,7 @@
             Initializes a new instance of the ConversationParameters class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(Microsoft.Bot.Connector.ChannelAccount,System.Nullable{System.Boolean},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(System.Nullable{System.Boolean},Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,Microsoft.Bot.Connector.Activity,System.Object)">
             <summary>
             Initializes a new instance of the ConversationParameters class.
             </summary>
@@ -967,6 +1000,17 @@
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.TopicName">
             <summary>
             (Optional) Topic of the conversation (if supported by the channel)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationParameters.Activity">
+            <summary>
+            (Optional) When creating a new conversation, use this activity as
+            the intial message to the conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationParameters.ChannelData">
+            <summary>
+            Channel specific payload
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.GeoCoordinates">
@@ -1178,43 +1222,54 @@
             <param name="token"> The cancellation token.</param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.GenerateUnauthorizedResponse(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Generates <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> response for the request.
+            </summary>
+            <param name="request">The request.</param>
+            <returns>A response with status code unauthorized.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConversationsExtensions">
             <summary>
             Extension methods for Conversations.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.Activity)">
             <summary>
             Create a new direct conversation between a bot and a user
             </summary>
             <param name='operations'>The operations group for this extension method.</param>
             <param name='bot'>Bot to create conversation from</param>
             <param name='user'>User to create conversation with</param>
+            <param name="activity">(OPTIONAL) initial message to send to the new conversation</param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversationAsync(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
             <summary>
             Create a new direct conversation between a bot and a user
             </summary>
             <param name='operations'>The operations group for this extension method.</param>
             <param name='bot'>Bot to create conversation from</param>
             <param name='user'>User to create conversation with</param>
+            <param name="activity">(OPTIONAL) initial message to send to the new conversation</param>
             <param name='cancellationToken'>The cancellation token.</param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversation(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversation(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity)">
             <summary>
             Create a new direct conversation between a bot and a user
             </summary>
             <param name='operations'>The operations group for this extension method.</param>
             <param name='botAddress'>Bot to create conversation from</param>
             <param name='userAddress'>User to create conversation with</param>
+            <param name="activity">(OPTIONAL) initial message to send to the new conversation</param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversationAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateDirectConversationAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,Microsoft.Bot.Connector.Activity,System.Threading.CancellationToken)">
             <summary>
             Create a new direct conversation between a bot and a user
             </summary>
             <param name='operations'>The operations group for this extension method.</param>
             <param name='botAddress'>Bot to create conversation from</param>
             <param name='userAddress'>User to create conversation with</param>
+            <param name="activity">(OPTIONAL) initial message to send to the new conversation</param>
             <param name='cancellationToken'>The cancellation token</param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendToConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.Activity)">
@@ -1744,6 +1799,16 @@
         <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._openIdMetadata">
             <summary>
             OpenIdConnect configuration manager for this instances
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.MicrosoftAppCredentials.MicrosoftAppIdKey">
+            <summary>
+            The key for Microsoft app Id.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.MicrosoftAppCredentials.MicrosoftAppPasswordKey">
+            <summary>
+            The key for Microsoft app Password.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime)">

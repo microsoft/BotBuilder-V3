@@ -31,13 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import ses = require('../Session');
-import msg = require('../Message');
+import { Session } from '../Session';
+import { fmtText } from '../Message';
 
 export class CardAction implements IIsCardAction {
     private data = <ICardAction>{};
     
-    constructor(private session?: ses.Session) {
+    constructor(private session?: Session) {
     }
     
     public type(t: string): this {
@@ -49,7 +49,7 @@ export class CardAction implements IIsCardAction {
     
     public title(text: string|string[], ...args: any[]): this {
         if (text) {
-            this.data.title = msg.fmtText(this.session, text, args);
+            this.data.title = fmtText(this.session, text, args);
         }
         return this;
     }
@@ -72,39 +72,39 @@ export class CardAction implements IIsCardAction {
         return this.data;
     }
 
-    static call(session: ses.Session, number: string, title?: string|string[]): CardAction {
+    static call(session: Session, number: string, title?: string|string[]): CardAction {
         return new CardAction(session).type('call').value(number).title(title || "Click to call");
     }
     
-    static openUrl(session: ses.Session, url: string, title?: string|string[]): CardAction {
+    static openUrl(session: Session, url: string, title?: string|string[]): CardAction {
         return new CardAction(session).type('openUrl').value(url).title(title || "Click to open website in your browser");
     }
     
-    static imBack(session: ses.Session, msg: string, title?: string|string[]): CardAction {
+    static imBack(session: Session, msg: string, title?: string|string[]): CardAction {
         return new CardAction(session).type('imBack').value(msg).title(title || "Click to send response to bot");
     }
     
-    static postBack(session: ses.Session, msg: string, title?: string|string[]): CardAction {
+    static postBack(session: Session, msg: string, title?: string|string[]): CardAction {
         return new CardAction(session).type('postBack').value(msg).title(title || "Click to send response to bot");
     }
     
-    static playAudio(session: ses.Session, url: string, title?: string|string[]): CardAction {
+    static playAudio(session: Session, url: string, title?: string|string[]): CardAction {
         return new CardAction(session).type('playAudio').value(url).title(title || "Click to play audio file");
     }
     
-    static playVideo(session: ses.Session, url: string, title?: string|string[]): CardAction {
+    static playVideo(session: Session, url: string, title?: string|string[]): CardAction {
         return new CardAction(session).type('playVideo').value(url).title(title || "Click to play video");
     }
     
-    static showImage(session: ses.Session, url: string, title?: string|string[]): CardAction {
+    static showImage(session: Session, url: string, title?: string|string[]): CardAction {
         return new CardAction(session).type('showImage').value(url).title(title || "Click to view image");
     }
     
-    static downloadFile(session: ses.Session, url: string, title?: string|string[]): CardAction {
+    static downloadFile(session: Session, url: string, title?: string|string[]): CardAction {
         return new CardAction(session).type('downloadFile').value(url).title(title || "Click to download file");
     }
 
-    static dialogAction(session: ses.Session, action: string, data?: string, title?: string|string[]): CardAction {
+    static dialogAction(session: Session, action: string, data?: string, title?: string|string[]): CardAction {
         var value = 'action?' + action;
         if (data) {
             value += '=' + data;

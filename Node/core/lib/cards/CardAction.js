@@ -1,5 +1,5 @@
 "use strict";
-var msg = require('../Message');
+var Message_1 = require('../Message');
 var CardAction = (function () {
     function CardAction(session) {
         this.session = session;
@@ -17,7 +17,7 @@ var CardAction = (function () {
             args[_i - 1] = arguments[_i];
         }
         if (text) {
-            this.data.title = msg.fmtText(this.session, text, args);
+            this.data.title = Message_1.fmtText(this.session, text, args);
         }
         return this;
     };
