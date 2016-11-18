@@ -33,6 +33,8 @@
 
 using System;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.Serialization;
@@ -253,13 +255,23 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
+        private static MethodInfo MethodOf(Expression<Action> action)
+        {
+            var call = (MethodCallExpression)action.Body;
+            return call.Method;
+        }
+
+        private static readonly MethodInfo MethodPost = MethodOf(() => ((IWait)null).Post(0)).GetGenericMethodDefinition();
+
         void IWait.Post<D>(D item)
         {
             this.ValidateNeed(Need.Wait);
 
+            // try generic type variance first
             var post = this as IPost<D>;
             if (post == null)
             {
+                // then work around lack of generic type variant for value types
                 if (typeof(D).IsValueType)
                 {
                     var postBoxed = this as IPost<object>;
@@ -270,14 +282,25 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 }
             }
 
-            if (post == null)
+            if (post != null)
             {
-                IWait wait = this;
-                wait.Fail(new InvalidTypeException(this, typeof(D)));
+                post.Post(item);
             }
             else
             {
-                post.Post(item);
+                // if we have runtime type information, use reflection and recurse
+                var type = item?.GetType();
+                if (type != null && type != typeof(D))
+                {
+                    var generic = MethodPost.MakeGenericMethod(type);
+                    generic.Invoke(this, new object[] { item });
+                }
+                else
+                {
+                    // otherwise, we cannot satisfy this wait with this item
+                    IWait wait = this;
+                    wait.Fail(new InvalidTypeException(this, typeof(D)));
+                }
             }
         }
 
