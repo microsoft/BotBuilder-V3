@@ -225,9 +225,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     var cc = c.Resolve<IComponentContext>();
                     Func<IActivity, IResolver> make = activity =>
                     {
-                        //var x = c.Resolve<Func<IDialogStack, CancellationToken, IDialogContext>>();
-
                         var resolver = NoneResolver.Instance;
+                        resolver = new EnumResolver(resolver);
+                        resolver = new AutofacResolver(cc, resolver);
                         resolver = new ArrayResolver(resolver,
                             activity,
                             cc.Resolve<IDialogStack>(),
