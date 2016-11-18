@@ -229,7 +229,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Switch_Case()
+        public async Task Chain_Switch_Case()
         {
             var toBot = MakeTestMessage();
 
@@ -340,7 +340,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Catch()
+        public async Task Chain_Catch()
         {
             var test = Chain
                 .PostToChain()
