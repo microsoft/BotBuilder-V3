@@ -207,6 +207,16 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Call the voided <see cref="IDialog{T}"/>, ignore the result, then restart the original dialog wait.
         /// </summary>
+        /// <remarks>
+        /// The purpose of this method is to wrap an antecedent dialog A with a new dialog D to push on the stack
+        /// on top of the existing stack top dialog L.
+        /// 1. D will call A.
+        /// 2. D will receive the value of A when A is done.
+        /// 3. D will re-initiate the typed wait (often for a message) for which a method of L was waiting
+        /// 4. D will receive that value of the re-initiated typed wait.
+        /// 5. D will return that value of the typed wait to L.
+        /// This depends on the symmetry of IDialogStack.Done and IDialogStack.Wait in how they satisfy typed waits.
+        /// </remarks>
         /// <typeparam name="T">The type of the voided dialog.</typeparam>
         /// <typeparam name="R">The type of the original dialog wait.</typeparam>
         /// <param name="antecedent">The voided dialog.</param>
@@ -219,6 +229,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Call the voided <see cref="IDialog{T}"/>, ignore the result, then restart the original dialog wait.
         /// </summary>
+        /// <remarks>
+        /// (value types don't support generic parameter variance - so this reflection-based method may not work)
+        /// It's okay to loose type information (i.e. IDialog{object}) because voided dialogs are called with a null 
+        /// <see cref="ResumeAfter{T}"/> because they are hacking the stack to satisfy the wait of the interrupted dialog. 
+        /// </remarks>
         /// <typeparam name="T">The type of the voided dialog.</typeparam>
         /// <param name="antecedent">The voided dialog.</param>
         /// <param name="stack">The dialog stack.</param>
