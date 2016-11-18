@@ -266,7 +266,7 @@ namespace Microsoft.Bot.Builder.Tests
             var message = (IMessageActivity)item;
             message.Text = state;
 
-            await this.stack.Forward(dialog.Void<double, IMessageActivity>(), null, message, token);
+            await this.stack.Forward(dialog.Void(this.stack), null, message, token);
             await this.stack.PollAsync(token);
         }
         protected override Task DoneAsync(IActivity item, string state, CancellationToken token)

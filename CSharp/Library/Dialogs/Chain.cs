@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Builder.Scorables.Internals;
@@ -213,6 +214,38 @@ namespace Microsoft.Bot.Builder.Dialogs
         public static IDialog<R> Void<T, R>(this IDialog<T> antecedent)
         {
             return new VoidDialog<T, R>(antecedent);
+        }
+
+        /// <summary>
+        /// Call the voided <see cref="IDialog{T}"/>, ignore the result, then restart the original dialog wait.
+        /// </summary>
+        /// <typeparam name="T">The type of the voided dialog.</typeparam>
+        /// <param name="antecedent">The voided dialog.</param>
+        /// <param name="stack">The dialog stack.</param>
+        /// <returns>The dialog that produces the item to satisfy the original wait.</returns>
+        public static IDialog<object> Void<T>(this IDialog<T> antecedent, IDialogStack stack)
+        {
+            var frames = stack.Frames;
+            if (frames.Count == 0)
+            {
+                throw new InvalidOperationException("Stack is empty");
+            }
+
+            var frame = stack.Frames[0];
+            var restType = frame.GetType();
+            bool valid = restType.IsGenericType && restType.GetGenericTypeDefinition() == typeof(ResumeAfter<>);
+            if (valid)
+            {
+                var waitType = restType.GetGenericArguments()[0];
+                var voidType = typeof(VoidDialog<,>).MakeGenericType(typeof(T), waitType);
+                var instance = Activator.CreateInstance(voidType, antecedent);
+                var dialog = (IDialog<object>)instance;
+                return dialog;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(restType.Name);
+            }
         }
 
         /// <summary>

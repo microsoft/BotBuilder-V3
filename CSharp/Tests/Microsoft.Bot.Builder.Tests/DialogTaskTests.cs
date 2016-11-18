@@ -463,7 +463,7 @@ namespace Microsoft.Bot.Builder.Tests
                         .Setup(s => s.PostAsync(It.IsAny<IMessageActivity>(), It.IsAny<IMessageActivity>(), It.IsAny<CancellationToken>()))
                         .Returns<IMessageActivity, IMessageActivity, CancellationToken>(async (message, state, token) =>
                         {
-                            stack.Call(dialogNew.Object.Void<DateTime, IMessageActivity>(), null);
+                            stack.Call(dialogNew.Object.Void(stack), null);
                             await stack.PollAsync(token);
                         });
 
