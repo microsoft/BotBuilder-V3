@@ -340,6 +340,31 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task Catch()
+        {
+            var test = Chain
+                .PostToChain()
+                .Select(m => m.Text)
+                .Where(a => false)
+                .Catch<string, OperationCanceledException>((antecedent, error) => Chain.Return("world"))
+                .PostToUser();
+
+            using (var container = Build(Options.ResolveDialogFromContainer))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(test)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "hello",
+                    "world"
+                    );
+            }
+        }
+
+        [TestMethod]
         public async Task SampleChain_Quiz()
         {
             var quiz = Chain

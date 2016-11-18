@@ -216,6 +216,31 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, catch and handle any exceptions of type <typeparamref name="E"/>.
+        /// </summary>
+        /// <typeparam name="T">The type returned by the antecedent dialog.</typeparam>
+        /// <typeparam name="E">The type of exception to catch and handle.</typeparam>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <param name="block">The lambda expression representing the catch block handler.</param>
+        /// <returns>The result of the catch block handler if there is an exception of type <typeparamref name="E"/>.</returns>
+        public static IDialog<T> Catch<T, E>(this IDialog<T> antecedent, Func<IDialog<T>, E, IDialog<T>> block) where E: Exception
+        {
+            return new CatchDialog<T, E>(antecedent, block);
+        }
+
+        /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, catch and handle any exceptions.
+        /// </summary>
+        /// <typeparam name="T">The type returned by the antecedent dialog.</typeparam>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <param name="block">The lambda expression representing the catch block handler.</param>
+        /// <returns>The result of the catch block handler if there is an exception.</returns>
+        public static IDialog<T> Catch<T>(this IDialog<T> antecedent, Func<IDialog<T>, Exception, IDialog<T>> block)
+        {
+            return new CatchDialog<T, Exception>(antecedent, block);
+        }
+
+        /// <summary>
         /// When the antecedent <see cref="IDialog{T}"/> has completed, stop the propagation of an exception of <typeparamref name="E"/>.
         /// </summary>
         /// <typeparam name="T">The type returned by the antecedent dialog.</typeparam>
@@ -646,6 +671,33 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 var item = await result;
                 context.Done(item);
+            }
+        }
+
+        [Serializable]
+        private sealed class CatchDialog<T, E> : IDialog<T> where E : Exception
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Func<IDialog<T>, E, IDialog<T>> Block;
+            public CatchDialog(IDialog<T> antecedent, Func<IDialog<T>, E, IDialog<T>> block)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Block, nameof(block), block);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                try
+                {
+                    context.Done(await result);
+                }
+                catch (E error)
+                {
+                    context.Call(this.Block(this.Antecedent, error), ResumeAsync);
+                }
             }
         }
 
