@@ -167,7 +167,7 @@ $(function () {
                     $('#search-results').html('no results');
                 }
             },
-            error: function() {
+            error: function(error) {
                $('#search-results').html('no results');
             },
             complete: function() {
