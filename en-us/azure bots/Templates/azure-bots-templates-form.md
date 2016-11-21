@@ -107,3 +107,7 @@ public class BasicForm
 For information about the other files that Bot Service creates, see [Bot Service Template Overview](/en-us/azure-bot-service/templates/overview/).
 
 
+### Resources
+* [Bot Builder Samples GitHub Repo](https://github.com/Microsoft/BotBuilder-Samples)
+* [Bot Builder SDK C# Reference](https://docs.botframework.com/en-us/csharp/builder/sdkreference/)
+* [Bot Builder SDK](https://github.com/Microsoft/BotBuilder-Samples)

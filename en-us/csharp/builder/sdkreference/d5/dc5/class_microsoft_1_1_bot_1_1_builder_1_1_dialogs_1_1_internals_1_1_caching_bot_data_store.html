@@ -146,12 +146,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad7a7b2b22cfcd41d61823e7d279ad4ba"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_caching_bot_data_store.html#ad7a7b2b22cfcd41d61823e7d279ad4ba">CachingBotDataStore</a> (<a class="el" href="../../dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html">IBotDataStore</a>&lt; <a class="el" href="../../d3/dfa/class_microsoft_1_1_bot_1_1_connector_1_1_bot_data.html">BotData</a> &gt; inner, <a class="el" href="../../d7/dfc/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals.html#ae7c1bdacd938d8d837bb4708ad2b3104">CachingBotDataStoreConsistencyPolicy</a> dataConsistencyPolicy)</td></tr>
 <tr class="separator:ad7a7b2b22cfcd41d61823e7d279ad4ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a350409c852093c9132493abf880d82be"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html#a350409c852093c9132493abf880d82be">SaveAsync</a> (<a class="el" href="../../dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html">IAddress</a> key, <a class="el" href="../../d7/dfc/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals.html#a1169ba8e16a6bcd3da8e2db6e76d4c49">BotStoreType</a> botStoreType, T data, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a350409c852093c9132493abf880d82be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save a BotData using the ETag. Etag consistency checks If ETag is null or empty, this will set the value if nobody has set it yet If ETag is "*" then this will unconditionally set the value If ETag matches then this will update the value if it is unchanged. If Data is null this removes record, otherwise it stores  <a href="#a350409c852093c9132493abf880d82be">More...</a><br /></td></tr>
 <tr class="separator:a350409c852093c9132493abf880d82be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Caches data for BotDataBase&lt;T&gt; and wraps the data in BotData to be stored in CachingBotDataStore.inner </p>
 
-<p>Definition at line <a class="el" href="../../d8/d31/_dialogs_2_bot_data_8cs_source.html#l00221">221</a> of file <a class="el" href="../../d8/d31/_dialogs_2_bot_data_8cs_source.html">Dialogs/BotData.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d31/_dialogs_2_bot_data_8cs_source.html#l00271">271</a> of file <a class="el" href="../../d8/d31/_dialogs_2_bot_data_8cs_source.html">Dialogs/BotData.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ad7a7b2b22cfcd41d61823e7d279ad4ba"></a>
 <div class="memitem">
@@ -185,7 +186,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d8/d31/_dialogs_2_bot_data_8cs_source.html#l00227">227</a> of file <a class="el" href="../../d8/d31/_dialogs_2_bot_data_8cs_source.html">Dialogs/BotData.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d8/d31/_dialogs_2_bot_data_8cs_source.html#l00277">277</a> of file <a class="el" href="../../d8/d31/_dialogs_2_bot_data_8cs_source.html">Dialogs/BotData.cs</a>.</p>
 
 </div>
 </div>
@@ -233,6 +234,18 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Save a BotData using the ETag. Etag consistency checks If ETag is null or empty, this will set the value if nobody has set it yet If ETag is "*" then this will unconditionally set the value If ETag matches then this will update the value if it is unchanged. If Data is null this removes record, otherwise it stores </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key.</td></tr>
+    <tr><td class="paramname">botStoreType</td><td>The bot store type.</td></tr>
+    <tr><td class="paramname">data</td><td>The data that should be saved.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>throw HttpException(HttpStatusCode.PreconditionFailed) if update fails</dd></dl>
 
 </div>
 </div>

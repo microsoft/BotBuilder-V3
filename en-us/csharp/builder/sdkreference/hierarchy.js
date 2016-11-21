@@ -26,9 +26,6 @@ var hierarchy =
     ] ],
     [ "Module", null, [
       [ "Microsoft.Bot.Builder.Azure.TableLoggerModule", "d2/da5/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_logger_module.html", null ],
-      [ "Microsoft.Bot.Builder.Calling.CallingModule_MakeBot", "d6/d3e/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_module___make_bot.html", null ],
-      [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogModule", "d2/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module.html", null ],
-      [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogModule_MakeRoot", "de/db6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module___make_root.html", null ],
       [ "Microsoft.Bot.Builder.Internals.Fibers.FiberModule< C >", "d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module.html", null ],
       [ "Microsoft.Bot.Builder.Internals.Fibers.ReflectionSurrogateModule", "dc/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_reflection_surrogate_module.html", null ]
     ] ],
@@ -74,6 +71,7 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Internals.Fibers.Wait< C, T >", "d0/deb/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_wait.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Dialogs.Internals.IBotDataStore< BotData >", "dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html", [
+      [ "Microsoft.Bot.Builder.Azure.TableBotDataStore", "d5/d4a/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_bot_data_store.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.CachingBotDataStore", "d5/dc5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_caching_bot_data_store.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.ConnectorStore", "d8/d45/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_connector_store.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.InMemoryDataStore", "df/d92/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_in_memory_data_store.html", null ]
@@ -114,6 +112,8 @@ var hierarchy =
       ] ]
     ] ],
     [ "IDisposable", null, [
+      [ "Microsoft.Bot.Builder.Azure.BotServiceScope", "d5/d55/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_bot_service_scope.html", null ],
+      [ "Microsoft.Bot.Builder.Azure.ResolveAssembly", "df/de0/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_resolve_assembly.html", null ],
       [ "Microsoft.Bot.Builder.Dialogs.Internals.LocalizedScope", "db/d2f/struct_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_localized_scope.html", null ],
       [ "Microsoft.Bot.Connector.IConnectorClient", "df/dd9/interface_microsoft_1_1_bot_1_1_connector_1_1_i_connector_client.html", [
         [ "Microsoft.Bot.Connector.ConnectorClient", "d9/d69/class_microsoft_1_1_bot_1_1_connector_1_1_connector_client.html", null ]
@@ -202,6 +202,7 @@ var hierarchy =
     ] ],
     [ "ISerializationSurrogate", null, [
       [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.ISurrogateProvider", "dc/d97/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_i_surrogate_provider.html", [
+        [ "Microsoft.Bot.Builder.Azure.BotServiceDelegateSurrogate", "d6/d3d/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_bot_service_delegate_surrogate.html", null ],
         [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.ClosureCaptureErrorSurrogate", "d9/d66/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_closure_capture_error_surrogate.html", null ],
         [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.JObjectSurrogate", "d8/da0/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_j_object_surrogate.html", null ],
         [ "Microsoft.Bot.Builder.Internals.Fibers.Serialization.StoreInstanceByFieldsSurrogate", "d5/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_serialization_1_1_store_instance_by_fields_surrogate.html", null ],
@@ -246,7 +247,11 @@ var hierarchy =
     [ "MemoryStream", null, [
       [ "Microsoft.Bot.Builder.Dialogs.Internals.BotDataBagStream", "d4/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_bot_data_bag_stream.html", null ]
     ] ],
+    [ "Microsoft.Bot.Builder.Azure.AppSettingKeys", "dc/d47/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_app_setting_keys.html", null ],
+    [ "Microsoft.Bot.Builder.Azure.AzureBot", "da/d95/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_azure_bot.html", null ],
+    [ "Microsoft.Bot.Builder.Azure.BotService", "df/dc2/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_bot_service.html", null ],
     [ "Microsoft.Bot.Builder.Azure.Extensions", "d1/d31/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_extensions.html", null ],
+    [ "Microsoft.Bot.Builder.Azure.Utils", "d2/dd8/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_utils.html", null ],
     [ "Microsoft.Bot.Builder.Calling.CallingBotServiceSettings", "d7/d5e/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_bot_service_settings.html", null ],
     [ "Microsoft.Bot.Builder.Calling.CallingContext", "de/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_context.html", null ],
     [ "Microsoft.Bot.Builder.Calling.CallingConversation", "d6/d56/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_conversation.html", null ],
@@ -477,10 +482,10 @@ var hierarchy =
       [ "Microsoft.Bot.Builder.Internals.Fibers.FormatterStore< T >", "da/dd0/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_formatter_store.html", null ]
     ] ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.ITraits< T >", "dd/d6d/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_traits.html", null ],
-    [ "Microsoft.Bot.Builder.Internals.Fibers.IWait< C >", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.IWait", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.IWait< C, out out T >", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ]
     ] ],
+    [ "Microsoft.Bot.Builder.Internals.Fibers.IWait< C >", "de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html", null ],
     [ "Microsoft.Bot.Builder.Internals.Fibers.IWaiter< C >", "d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html", [
       [ "Microsoft.Bot.Builder.Internals.Fibers.IFiber< C >", "d3/d48/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber.html", [
         [ "Microsoft.Bot.Builder.Internals.Fibers.Fiber< C >", "d6/d8d/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber.html", null ],
@@ -571,6 +576,7 @@ var hierarchy =
     [ "Microsoft.Bot.Connector.ContactRelationUpdateActionTypes", "da/ddd/class_microsoft_1_1_bot_1_1_connector_1_1_contact_relation_update_action_types.html", null ],
     [ "Microsoft.Bot.Connector.ConversationAccount", "d8/d48/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_account.html", null ],
     [ "Microsoft.Bot.Connector.ConversationParameters", "dd/d05/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_parameters.html", null ],
+    [ "Microsoft.Bot.Connector.ConversationResourceResponse", "df/dd1/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_resource_response.html", null ],
     [ "Microsoft.Bot.Connector.ConversationsExtensions", "d7/d08/class_microsoft_1_1_bot_1_1_connector_1_1_conversations_extensions.html", null ],
     [ "Microsoft.Bot.Connector.Entity", "d7/da5/class_microsoft_1_1_bot_1_1_connector_1_1_entity.html", [
       [ "Microsoft.Bot.Connector.Mention", "d7/d2e/class_microsoft_1_1_bot_1_1_connector_1_1_mention.html", null ]
@@ -614,7 +620,12 @@ var hierarchy =
     [ "Microsoft.Bot.Connector.IConversations", "de/d95/interface_microsoft_1_1_bot_1_1_connector_1_1_i_conversations.html", [
       [ "Microsoft.Bot.Connector.Conversations", "da/ddd/class_microsoft_1_1_bot_1_1_connector_1_1_conversations.html", null ]
     ] ],
-    [ "Microsoft.Bot.Connector.ICredentialProvider", "d3/d4a/interface_microsoft_1_1_bot_1_1_connector_1_1_i_credential_provider.html", null ],
+    [ "Microsoft.Bot.Connector.ICredentialProvider", "d3/d4a/interface_microsoft_1_1_bot_1_1_connector_1_1_i_credential_provider.html", [
+      [ "Microsoft.Bot.Connector.SimpleCredentialProvider", "d1/d70/class_microsoft_1_1_bot_1_1_connector_1_1_simple_credential_provider.html", [
+        [ "Microsoft.Bot.Connector.SettingsCredentialProvider", "de/d4a/class_microsoft_1_1_bot_1_1_connector_1_1_settings_credential_provider.html", null ],
+        [ "Microsoft.Bot.Connector.StaticCredentialProvider", "de/dc6/class_microsoft_1_1_bot_1_1_connector_1_1_static_credential_provider.html", null ]
+      ] ]
+    ] ],
     [ "Microsoft.Bot.Connector.JwtConfig", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html", null ],
     [ "Microsoft.Bot.Connector.JwtTokenExtractor", "d3/dfc/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_token_extractor.html", null ],
     [ "Microsoft.Bot.Connector.MediaUrl", "df/d34/class_microsoft_1_1_bot_1_1_connector_1_1_media_url.html", null ],
@@ -629,7 +640,11 @@ var hierarchy =
     [ "Microsoft.Bot.Connector.ThumbnailUrl", "df/d36/class_microsoft_1_1_bot_1_1_connector_1_1_thumbnail_url.html", null ],
     [ "Microsoft.Bot.Connector.VideoCard", "d6/da6/class_microsoft_1_1_bot_1_1_connector_1_1_video_card.html", null ],
     [ "Module", null, [
-      [ "Microsoft.Bot.Builder.Calling.CallingModule", "d0/d23/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_module.html", null ]
+      [ "Microsoft.Bot.Builder.Azure.AzureModule", "d8/daf/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_azure_module.html", null ],
+      [ "Microsoft.Bot.Builder.Calling.CallingModule", "d0/d23/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_module.html", null ],
+      [ "Microsoft.Bot.Builder.Calling.CallingModule_MakeBot", "d6/d3e/class_microsoft_1_1_bot_1_1_builder_1_1_calling_1_1_calling_module___make_bot.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogModule", "d2/d89/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module.html", null ],
+      [ "Microsoft.Bot.Builder.Dialogs.Internals.DialogModule_MakeRoot", "de/db6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_module___make_root.html", null ]
     ] ],
     [ "OperationCanceledException", null, [
       [ "Microsoft.Bot.Builder.Dialogs.Chain.WhereCanceledException", "de/d53/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain_1_1_where_canceled_exception.html", null ],
@@ -680,6 +695,9 @@ var hierarchy =
     ] ],
     [ "Microsoft.Bot.Builder.Internals.Scorables.ScorableBase< SourceItem, SelectItemScorable< SourceItem, TargetItem, Score >.Token, Score >", "de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_scorable_base.html", [
       [ "Microsoft.Bot.Builder.Internals.Scorables.SelectItemScorable< SourceItem, TargetItem, Score >", "d4/d32/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_select_item_scorable.html", null ]
+    ] ],
+    [ "SerializationBinder", null, [
+      [ "Microsoft.Bot.Builder.Azure.BotServiceSerializationBinder", "d2/d93/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_bot_service_serialization_binder.html", null ]
     ] ],
     [ "SerializationException", null, [
       [ "Microsoft.Bot.Builder.Internals.Fibers.ClosureCaptureException", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception.html", null ]

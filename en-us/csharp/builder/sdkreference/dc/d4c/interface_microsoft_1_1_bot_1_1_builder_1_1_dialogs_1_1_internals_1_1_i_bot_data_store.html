@@ -134,8 +134,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa98f2236def68afc96a736ba7ff83388"><td class="memItemLeft" align="right" valign="top">Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html#aa98f2236def68afc96a736ba7ff83388">FlushAsync</a> (<a class="el" href="../../dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html">IAddress</a> key, CancellationToken cancellationToken)</td></tr>
 <tr class="separator:aa98f2236def68afc96a736ba7ff83388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaca83cd0f58785be09f84abdf4d1bbdf"><td class="memItemLeft" align="right" valign="top">Task&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html#aaca83cd0f58785be09f84abdf4d1bbdf">LoadAsync</a> (<a class="el" href="../../dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html">IAddress</a> key, <a class="el" href="../../d7/dfc/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals.html#a1169ba8e16a6bcd3da8e2db6e76d4c49">BotStoreType</a> botStoreType, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:aaca83cd0f58785be09f84abdf4d1bbdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return BotData with Data pointing to a JObject or an empty BotData() record with ETag:""  <a href="#aaca83cd0f58785be09f84abdf4d1bbdf">More...</a><br /></td></tr>
 <tr class="separator:aaca83cd0f58785be09f84abdf4d1bbdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a350409c852093c9132493abf880d82be"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html#a350409c852093c9132493abf880d82be">SaveAsync</a> (<a class="el" href="../../dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html">IAddress</a> key, <a class="el" href="../../d7/dfc/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals.html#a1169ba8e16a6bcd3da8e2db6e76d4c49">BotStoreType</a> botStoreType, T data, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a350409c852093c9132493abf880d82be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save a BotData using the ETag. Etag consistency checks If ETag is null or empty, this will set the value if nobody has set it yet If ETag is "*" then this will unconditionally set the value If ETag matches then this will update the value if it is unchanged. If Data is null this removes record, otherwise it stores  <a href="#a350409c852093c9132493abf880d82be">More...</a><br /></td></tr>
 <tr class="separator:a350409c852093c9132493abf880d82be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -198,6 +200,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Return BotData with Data pointing to a JObject or an empty BotData() record with ETag:"" </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key.</td></tr>
+    <tr><td class="paramname">botStoreType</td><td>The bot store type.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d5/d61/namespace_microsoft_1_1_bot.html">Bot</a> record that is stored for this key, or "empty" bot record ready to be stored</dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="a350409c852093c9132493abf880d82be"></a>
@@ -235,6 +248,18 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Save a BotData using the ETag. Etag consistency checks If ETag is null or empty, this will set the value if nobody has set it yet If ETag is "*" then this will unconditionally set the value If ETag matches then this will update the value if it is unchanged. If Data is null this removes record, otherwise it stores </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key.</td></tr>
+    <tr><td class="paramname">botStoreType</td><td>The bot store type.</td></tr>
+    <tr><td class="paramname">data</td><td>The data that should be saved.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>throw HttpException(HttpStatusCode.PreconditionFailed) if update fails</dd></dl>
 
 </div>
 </div>

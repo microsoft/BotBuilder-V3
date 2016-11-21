@@ -233,3 +233,6 @@ This template should give you the basic ideas about how to enable proactive scen
 
 * Learn more about [Azure Functions](https://azure.microsoft.com/en-us/documentation/services/functions/){:target="_blank"}
 * Learn more about [Azure Functions Storage queue bindings](https://azure.microsoft.com/en-us/documentation/articles/functions-bindings-storage-queue/){:target="_blank"}
+* [Bot Builder Samples GitHub Repo](https://github.com/Microsoft/BotBuilder-Samples)
+* [Bot Builder SDK C# Reference](https://docs.botframework.com/en-us/csharp/builder/sdkreference/)
+* [Bot Builder SDK](https://github.com/Microsoft/BotBuilder-Samples)

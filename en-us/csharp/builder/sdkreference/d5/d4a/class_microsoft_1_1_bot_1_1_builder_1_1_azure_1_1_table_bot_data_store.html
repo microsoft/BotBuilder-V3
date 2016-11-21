@@ -1,0 +1,400 @@
+<!-- HTML header for doxygen 1.8.11-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>Microsoft.Bot.Builder.Azure.TableBotDataStore Class Reference | Bot Builder SDK C# Reference Library | Bot Framework</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../botframework.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/css/documentation.css?1" />
+    <script type="text/javascript" src="/css/documents.js"></script>
+    <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
+    <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
+    <script type="text/javascript" src="/js/webtrends.load.js"></script>
+    <!--
+      appInsights
+    -->
+    <script type="text/javascript">
+    var appInsights=window.appInsights||function(config){
+      function r(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s=u.createElement(o),i,f;for(s.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",u.getElementsByTagName(o)[0].parentNode.appendChild(s),t.cookie=u.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)r("track"+i.pop());return r("setAuthenticatedUserContext"),r("clearAuthenticatedUserContext"),config.disableExceptionTracking||(i="onerror",r("_"+i),f=e[i],e[i]=function(config,r,u,e,o){var s=f&&f(config,r,u,e,o);return s!==!0&&t["_"+i](config,r,u,e,o),s}),t
+      }({
+          instrumentationKey:"ecf7f29d-de8c-4169-a492-bdce0a32c300"
+      });
+      window.appInsights=appInsights;
+      appInsights.trackPageView();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var sidenav = $('#side-nav');
+            sidenav.before('<div id="content-container" class="outline"></div>');
+            var doccontent = $('#doc-content');
+			var contentcontainer = $('#content-container');
+            contentcontainer.append(sidenav);
+            contentcontainer.append(doccontent);
+            doccontent.prepend($('#referenceSearch'));
+			var top = $('#top');
+			top.before('<div class="fullWidth"></div>');
+			var fullwidth = $('div.fullWidth');
+			fullwidth.before('<div id="app-body"></div>');
+			fullwidth.append(top);
+			fullwidth.append(contentcontainer);
+			fullwidth.append($('.footer'));
+			var appbody = $('#app-body');
+			appbody.append(fullwidth);
+			var navtreecontents = $('#nav-tree-contents');
+			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
+			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            //sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            setProgrammingLanguage();
+			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
+        });
+    </script>
+</head>
+<body>
+    <div id="referenceSearch"></div>
+    <div id="top">
+        <!-- do not remove this div, it is closed by doxygen! -->
+        <div>
+            <header>
+                <div class="outline">
+                    <div class="header">
+                        <a class="logo" href="//www.microsoft.com">
+                            <svg class="svgicon svgicon-microsoft-color-logo">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo"></use>
+                            </svg>
+                        </a>
+                        <div class="loading-animation"></div>
+                        <span class="environment"></span>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="brand-primary">
+                <div class="jumbo">
+                    <div class="jumbo-header"><a href="https://www.botframework.com/">Bot Framework</a></div>
+                    <ul class="header-nav">
+                        <li><a href="https://dev.botframework.com/#/bots">My bots</a></li>
+                        <li><a href="https://dev.botframework.com/#/bots/new">Register a bot</a></li>
+                        <li class="active"><a href="/">Documentation</a></li>
+                        <li><a href="https://bots.botframework.com/">Bot Directory</a></li>
+                        <li><a href="https://blog.botframework.com/">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header part -->
+</body>
+</html><!-- Generated by Doxygen 1.8.11 -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('d5/d4a/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_bot_data_store.html','../../');});
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#properties">Properties</a> &#124;
+<a href="../../df/d88/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_bot_data_store-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">Microsoft.Bot.Builder.Azure.TableBotDataStore Class Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>IBotDataStore&lt;T&gt; Implementation using <a class="el" href="../../dc/d75/namespace_microsoft_1_1_bot_1_1_builder_1_1_azure.html" title="Namespace for Azure extensions to the Microsoft Bot Builder SDK. ">Azure</a> Storage Table  
+ <a href="../../d5/d4a/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_bot_data_store.html#details">More...</a></p>
+<div class="dynheader">
+Inheritance diagram for Microsoft.Bot.Builder.Azure.TableBotDataStore:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d5/db9/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_bot_data_store__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_azure_8_table_bot_data_store_inherit__map" alt="Inheritance graph"/></div>
+<map name="_microsoft_8_bot_8_builder_8_azure_8_table_bot_data_store_inherit__map" id="_microsoft_8_bot_8_builder_8_azure_8_table_bot_data_store_inherit__map">
+<area shape="rect" id="node2" href="../../dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html" title="IBotDataStore\&lt; BotData \&gt;" alt="" coords="11,5,185,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ab8c2129b29ef0de26db4b5c93e4deca9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d4a/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_bot_data_store.html#ab8c2129b29ef0de26db4b5c93e4deca9">TableBotDataStore</a> (string connectionString, string tableName=&quot;botdata&quot;)</td></tr>
+<tr class="memdesc:ab8c2129b29ef0de26db4b5c93e4deca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an instance of the IBotDataStore&lt;T&gt; that uses the azure table storage.  <a href="#ab8c2129b29ef0de26db4b5c93e4deca9">More...</a><br /></td></tr>
+<tr class="separator:ab8c2129b29ef0de26db4b5c93e4deca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83d9e9ceed10e5ee3e0b32725e2c5b3e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d4a/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_bot_data_store.html#a83d9e9ceed10e5ee3e0b32725e2c5b3e">TableBotDataStore</a> (CloudStorageAccount storageAccount, string tableName=&quot;botdata&quot;)</td></tr>
+<tr class="memdesc:a83d9e9ceed10e5ee3e0b32725e2c5b3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an instance of the IBotDataStore&lt;T&gt; that uses the azure table storage.  <a href="#a83d9e9ceed10e5ee3e0b32725e2c5b3e">More...</a><br /></td></tr>
+<tr class="separator:a83d9e9ceed10e5ee3e0b32725e2c5b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fadbe7d43576bd7370eccc7fc4f3afb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d4a/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_bot_data_store.html#a9fadbe7d43576bd7370eccc7fc4f3afb">TableBotDataStore</a> (CloudTable table)</td></tr>
+<tr class="memdesc:a9fadbe7d43576bd7370eccc7fc4f3afb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an instance of the IBotDataStore&lt;T&gt; that uses the azure table storage.  <a href="#a9fadbe7d43576bd7370eccc7fc4f3afb">More...</a><br /></td></tr>
+<tr class="separator:a9fadbe7d43576bd7370eccc7fc4f3afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a350409c852093c9132493abf880d82be"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html#a350409c852093c9132493abf880d82be">SaveAsync</a> (IAddress key, BotStoreType botStoreType, T data, CancellationToken cancellationToken)</td></tr>
+<tr class="memdesc:a350409c852093c9132493abf880d82be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save a BotData using the ETag. Etag consistency checks If ETag is null or empty, this will set the value if nobody has set it yet If ETag is "*" then this will unconditionally set the value If ETag matches then this will update the value if it is unchanged. If Data is null this removes record, otherwise it stores  <a href="#a350409c852093c9132493abf880d82be">More...</a><br /></td></tr>
+<tr class="separator:a350409c852093c9132493abf880d82be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:a373959de6b19888cea4ffeac8ab84ed4"><td class="memItemLeft" align="right" valign="top">CloudTable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d4a/class_microsoft_1_1_bot_1_1_builder_1_1_azure_1_1_table_bot_data_store.html#a373959de6b19888cea4ffeac8ab84ed4">Table</a><code> [get]</code></td></tr>
+<tr class="memdesc:a373959de6b19888cea4ffeac8ab84ed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The CloudTable.  <a href="#a373959de6b19888cea4ffeac8ab84ed4">More...</a><br /></td></tr>
+<tr class="separator:a373959de6b19888cea4ffeac8ab84ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>IBotDataStore&lt;T&gt; Implementation using <a class="el" href="../../dc/d75/namespace_microsoft_1_1_bot_1_1_builder_1_1_azure.html" title="Namespace for Azure extensions to the Microsoft Bot Builder SDK. ">Azure</a> Storage Table </p>
+
+<p>Definition at line <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html#l00056">56</a> of file <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html">TableBotDataStore.cs</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ab8c2129b29ef0de26db4b5c93e4deca9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Microsoft.Bot.Builder.Azure.TableBotDataStore.TableBotDataStore </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>connectionString</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>tableName</em> = <code>&quot;botdata&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an instance of the IBotDataStore&lt;T&gt; that uses the azure table storage. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">connectionString</td><td>The storage connection string.</td></tr>
+    <tr><td class="paramname">tableName</td><td>The name of table.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html#l00065">65</a> of file <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html">TableBotDataStore.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a83d9e9ceed10e5ee3e0b32725e2c5b3e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Microsoft.Bot.Builder.Azure.TableBotDataStore.TableBotDataStore </td>
+          <td>(</td>
+          <td class="paramtype">CloudStorageAccount&#160;</td>
+          <td class="paramname"><em>storageAccount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>tableName</em> = <code>&quot;botdata&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an instance of the IBotDataStore&lt;T&gt; that uses the azure table storage. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">storageAccount</td><td>The storage account.</td></tr>
+    <tr><td class="paramname">tableName</td><td>The name of table.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html#l00075">75</a> of file <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html">TableBotDataStore.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9fadbe7d43576bd7370eccc7fc4f3afb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Microsoft.Bot.Builder.Azure.TableBotDataStore.TableBotDataStore </td>
+          <td>(</td>
+          <td class="paramtype">CloudTable&#160;</td>
+          <td class="paramname"><em>table</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Creates an instance of the IBotDataStore&lt;T&gt; that uses the azure table storage. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">table</td><td>The cloud table.</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html#l00094">94</a> of file <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html">TableBotDataStore.cs</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a350409c852093c9132493abf880d82be"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Task <a class="el" href="../../dc/d4c/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data_store.html">Microsoft.Bot.Builder.Dialogs.Internals.IBotDataStore</a>&lt; T &gt;.SaveAsync </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/dc8/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_address.html">IAddress</a>&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/dfc/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals.html#a1169ba8e16a6bcd3da8e2db6e76d4c49">BotStoreType</a>&#160;</td>
+          <td class="paramname"><em>botStoreType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">T&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Save a BotData using the ETag. Etag consistency checks If ETag is null or empty, this will set the value if nobody has set it yet If ETag is "*" then this will unconditionally set the value If ETag matches then this will update the value if it is unchanged. If Data is null this removes record, otherwise it stores </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key.</td></tr>
+    <tr><td class="paramname">botStoreType</td><td>The bot store type.</td></tr>
+    <tr><td class="paramname">data</td><td>The data that should be saved.</td></tr>
+    <tr><td class="paramname">cancellationToken</td><td>The cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>throw HttpException(HttpStatusCode.PreconditionFailed) if update fails</dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="a373959de6b19888cea4ffeac8ab84ed4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CloudTable Microsoft.Bot.Builder.Azure.TableBotDataStore.Table</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The CloudTable. </p>
+
+<p>Definition at line <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html#l00102">102</a> of file <a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html">TableBotDataStore.cs</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="../../dd/dac/_table_bot_data_store_8cs_source.html">TableBotDataStore.cs</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.11-->
+<!-- start footer part -->
+<!-- id is needed for treeview function! -->
+<div class="outline footer">
+    <ul>
+        <li><a href="//aka.ms/bf-contactus">Contact us</a></li>
+        <li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
+        <li><a href="//aka.ms/bf-terms">Terms of use</a></li>
+        <li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
+        <li>&copy; 2016 Microsoft</li>
+    </ul>
+</div>
+<script src="//bot-framework.azureedge.net/libs/svgxuse.js"></script>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100954936); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100954936ns.gif" /></p></noscript>
+</body>
+</html>
