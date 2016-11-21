@@ -96,6 +96,8 @@ After installing the tools above, you have everything you need to debug your C\#
 
 Open a command prompt and navigate to the folder where your project.json file lives in your repository. Issue the command **dotnet restore** to restore the various packages referenced in your bot.
 
+<div class="docs-text-note"><strong>Note:</strong> Visual Studio 2017 RC is changing how it handles dependencies from a project.json to a .csproj model when loading in Visual Studio.  As a result, you will need to download the csproj <a href="https://aka.ms/bf-debug-project">here</a> and save the .csproj into your /repo/messages folder before running the dotnet restore command.</div>
+
 [![](/en-us/images/azure-bots/csharp-azureservice-debug-envconfig.png)](/en-us/images/azure-bots/csharp-azureservice-debug-envconfig.png)
 
 Next, run debughost.cmd to load and run your bot. 
