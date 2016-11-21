@@ -31,4 +31,4 @@ module.exports = {
         failed: "Message delivery failed.",
         sent: "Message sent."
     }
-}
+};
