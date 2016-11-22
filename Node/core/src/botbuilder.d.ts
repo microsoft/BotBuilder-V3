@@ -1955,6 +1955,12 @@ export class Fact implements IIsFact {
  */
 export class ActionSet {
     /**
+     * Returns a clone of an existing ActionSet.
+     * @param copyTo (Optional) instance to copy the current object to. If missing a new instance will be created.
+     */
+    clone(copyTo?: ActionSet): ActionSet;
+
+    /**
      * Called once for each dialog within a library to give the dialog a chance to add its 
      * `triggerAction()` to the libraries global action set.  These triggers get mapped to
      * a `beginDialogAction()` that starts the dialog when the trigger condition is met.
@@ -2195,6 +2201,13 @@ export class Library {
      * @param name Unique namespace for the library. 
      */
     constructor(name: string);
+
+    /**
+     * Returns a clone of an existing Library.
+     * @param copyTo (Optional) instance to copy the current object to. If missing a new instance will be created.
+     * @param newName (Optional) if specified the returned copy will be renamed to a new name.
+     */
+    clone(copyTo?: Library, newName?: string): Library;
 
     /** 
      * Gets or sets the path to the libraries "/locale/" folder containing its localized prompts. 
@@ -2524,6 +2537,12 @@ export class IntentRecognizerSet implements IIntentRecognizer {
      */
     constructor(options?: IIntentRecognizerSetOptions);
 
+    /**
+     * Returns a clone of an existing IntentRecognizerSet.
+     * @param copyTo (Optional) instance to copy the current object to. If missing a new instance will be created.
+     */
+    clone(copyTo?: IntentRecognizerSet): IntentRecognizerSet;
+
     /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
     recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
@@ -2792,6 +2811,13 @@ export class UniversalBot extends Library  {
      * @param libraryName (Optional) library namespace for the bot.  The default value is '*'.
      */
     constructor(connector?: IConnector, settings?: IUniversalBotSettings, libraryName?: string);
+
+    /**
+     * Returns a clone of an existing bot.
+     * @param copyTo (Optional) instance to copy the current object to. If missing a new instance will be created.
+     * @param newName (Optional) if specified the returned copy will be renamed to a new name.
+     */
+    clone(copyTo?: UniversalBot, newName?: string): UniversalBot;
 
     /**
      * Registers an event listener. The bot will emit its own events as it process incoming and outgoing messages. It will also forward activity related events emitted from the connector, giving you one place to listen for all activity from your bot. The flow of events from the bot is as follows:

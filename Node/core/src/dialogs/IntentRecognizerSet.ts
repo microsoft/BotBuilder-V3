@@ -99,6 +99,12 @@ export class IntentRecognizerSet implements IIntentRecognizer {
         this.length = this.options.recognizers.length;
     }
 
+    public clone(copyTo?: IntentRecognizerSet): IntentRecognizerSet {
+        var obj = copyTo || new IntentRecognizerSet(utils.clone(this.options));
+        obj.options.recognizers = this.options.recognizers.slice(0);
+        return obj;
+    }
+
     public recognize(context: IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void {
         if (this.options.recognizeOrder == RecognizeOrder.parallel) {
             this.recognizeInParallel(context, done);

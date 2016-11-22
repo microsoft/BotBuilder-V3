@@ -75,6 +75,15 @@ export class ActionSet {
     private actions: { [name: string]: IActionHandlerEntry; } = {};
     private trigger: IBeginDialogActionOptions;
 
+    public clone(copyTo?: ActionSet): ActionSet {
+        var obj = copyTo || new ActionSet();
+        obj.trigger = this.trigger;
+        for (var name in this.actions) {
+            obj.actions[name] = this.actions[name];
+        }
+        return obj;
+    }
+
     public addDialogTrigger(actions: ActionSet, dialogId: string): void {
         if (this.trigger) {
             actions.beginDialogAction(dialogId, dialogId, this.trigger);

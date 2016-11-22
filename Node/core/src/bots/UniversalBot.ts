@@ -105,6 +105,23 @@ export class UniversalBot extends Library {
             this.connector(consts.defaultConnector, connector);
         }
     }
+
+    public clone(copyTo?: UniversalBot, newName?: string): UniversalBot {
+        var obj = copyTo || new UniversalBot(null, null, newName || this.name);
+        for (var name in this.settings) {
+            if (this.settings.hasOwnProperty(name)) {
+                this.set(name, (<any>this.settings)[name]);
+            }
+        }
+        for (var channel in this.connectors) {
+            obj.connector(channel, this.connectors[channel]);
+        }
+        obj.mwReceive = this.mwReceive.slice(0);
+        obj.mwSession = this.mwSession.slice(0);
+        obj.mwSend = this.mwSend.slice(0);
+        // obj.localizer is automatically created based on settings
+        return <UniversalBot>super.clone(obj);
+    }
     
     //-------------------------------------------------------------------------
     // Settings

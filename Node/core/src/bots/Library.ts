@@ -87,6 +87,24 @@ export class Library extends EventEmitter {
         super();
     }
 
+    /** Returns a clone of the current library. */
+    public clone(copyTo?: Library, newName?: string): Library {
+        var obj = copyTo || new Library(newName || this.name);
+        for (var id in this.dialogs) {
+            obj.dialogs[id] = this.dialogs[id];
+        }
+        for (var name in this.libraries) {
+            obj.libraries[name] = this.libraries[name];
+        }
+        this.actions.clone(obj.actions);
+        this.recognizers.clone(obj.recognizers);
+        obj._localePath = this._localePath;
+        obj._onFindRoutes = this._onFindRoutes;
+        obj._onSelectRoute = this._onSelectRoute;
+        obj.triggersAdded = this.triggersAdded; 
+        return obj;
+    }
+
     //-------------------------------------------------------------------------
     // Localization
     //-------------------------------------------------------------------------
