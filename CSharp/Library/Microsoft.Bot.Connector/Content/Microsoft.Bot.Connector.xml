@@ -967,6 +967,27 @@
             <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.ReceiptCard"/>.</param>
             <returns> The generated attachment.</returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.ToAttachment(Microsoft.Bot.Connector.AudioCard)">
+            <summary>
+            Creates a new attachment from <see cref="T:Microsoft.Bot.Connector.AudioCard"/>.
+            </summary>
+            <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.AudioCard"/>.</param>
+            <returns> The generated attachment.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.ToAttachment(Microsoft.Bot.Connector.VideoCard)">
+            <summary>
+            Creates a new attachment from <see cref="T:Microsoft.Bot.Connector.VideoCard"/>.
+            </summary>
+            <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.VideoCard"/>.</param>
+            <returns> The generated attachment.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Extensions.ToAttachment(Microsoft.Bot.Connector.AnimationCard)">
+            <summary>
+            Creates a new attachment from <see cref="T:Microsoft.Bot.Connector.AnimationCard"/>.
+            </summary>
+            <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.AnimationCard"/>.</param>
+            <returns> The generated attachment.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConversationParameters">
             <summary>
             Parameters for creating a new conversation
