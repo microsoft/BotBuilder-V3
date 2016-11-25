@@ -28,20 +28,22 @@ To connect without a password, blank out the Microsoft App ID and Microsoft App 
 
 ***C# Bot Builder SDK web.config file:***
 
-
-    <appSettings>
-        <add key="BotId" value="MyFirstBot" />
-        <add key="MicrosoftAppId" value="" />
-        <add key="MicrosoftAppPassword" value="" />
-    </appSettings>
-
+```
+<appSettings>
+  <add key="BotId" value="MyFirstBot" />
+  <add key="MicrosoftAppId" value="" />
+  <add key="MicrosoftAppPassword" value="" />
+</appSettings>
+```
 
 ***Node.js Bot Builder:***
 
-    var connector = new builder.ChatConnector({
-        appId: null,
-        appPassword: null
-    });
+```
+var connector = new builder.ChatConnector({
+  appId: null,
+  appPassword: null
+});
+```
 
 Now, follow these steps:
 
@@ -68,11 +70,45 @@ Common errors:
 
 If your message was successful, you have verified that your bot responds on localhost when security is disabled.
 
-## Step 2: Enable security and run on localhost
+## Step 2: (Optional) Verify your App ID and Password are correct
+
+*Note: This step includes instructions to use [cURL](https://curl.haxx.se/download.html) to make an HTTP request. You can use alternatives like Postman if you know how.*
+
+The next step is to confirm that your app ID and password are correct. You can visit the [Microsoft Application Registration Portal](https://apps.dev.microsoft.com) to see your list of apps. You can view your app IDs and generate new passwords there.
+
+To verify your app ID and password, create an HTTP request to the Microsoft login service. (This request should conform to the [Bot Framework authentication protocol](/en-us/restapi/authentication/), although you can follow the example below to create a request.)
+
+*Note: These instructions disable SSL verification for login.microsoftonline.com. Only perform this step on a secure network. Consider changing your app password after making this call.*
+
+To issue the call, replace "APP_ID" and "APP_PASSWORD" in the following request with your own app ID and app password.
+
+```
+curl -k -X POST https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token -d "grant_type=client_credentials&client_id=APP_ID&client_secret=APP_PASSWORD&scope=https%3A%2F%2Fapi.botframework.com%2F.default"
+```
+
+If successful, you will receive a JSON payload containing an access_token. The value of the token is not important -- we only need to confirm that a token can be generated.
+
+```
+{"token_type":"Bearer","expires_in":3599,"ext_expires_in":0,"access_token":"eyJ0eXAJKV1Q..."}
+```
+
+Your request is successful if:
+
+1. cURL returns without an error
+2. The JSON response payload contains a property called "access_token"
+
+Common errors:
+
+1. Your app ID is not valid. Visit the [Microsoft Application Registration Portal](https://apps.dev.microsoft.com) to confirm your app ID.
+2. Your app password is not valid. App passwords cannot be viewed after they've been created. You can visit the [Microsoft Application Registration Portal](https://apps.dev.microsoft.com) to generate a new password.
+
+If your request was successful, you have verified that your app ID and password are correct.
+
+## Step 3: Enable security and run on localhost
 
 *Note: This step requires the [Bot Framework Channel Emulator](/en-us/tools/bot-framework-emulator/).*
 
-The second step is to enable security and use the emulator to test that security works on your local machine. This step assumes the bot's endpoint is responding. If you're unsure if your bot's endpoint is working, perform step 1, above.
+The third step is to enable security and use the emulator to test that security works on your local machine. This step assumes the bot's endpoint is responding. If you're unsure if your bot's endpoint is working, perform step 1, above.
 
 To enable security on your bot, you must retrieve a registration from the Bot Framework Developer Portal. Your bot's security relies on Microsoft services -- even when your bot is running only on localhost -- and the Developer Portal is where you can create and retrieve your registration.
 
@@ -93,20 +129,22 @@ Now that your bot is created in the Bot Framework Developer Portal, you can enab
 
 ***C# Bot Builder SDK web.config file:***
 
-
-    <appSettings>
-        <add key="BotId" value="MyFirstBot" />
-        <add key="MicrosoftAppId" value="791a4e72-d841-4145-96d9-23b4989d70d6" />
-        <add key="MicrosoftAppPassword" value="PASSWORD" />
-    </appSettings>
-
+```
+<appSettings>
+  <add key="BotId" value="MyFirstBot" />
+  <add key="MicrosoftAppId" value="791a4e72-d841-4145-96d9-23b4989d70d6" />
+  <add key="MicrosoftAppPassword" value="PASSWORD" />
+</appSettings>
+```
 
 ***Node.js Bot Builder:***
 
-    var connector = new builder.ChatConnector({
-        appId: '791a4e72-d841-4145-96d9-23b4989d70d6',
-        appPassword: 'PASSWORD'
-    });
+```
+var connector = new builder.ChatConnector({
+  appId: '791a4e72-d841-4145-96d9-23b4989d70d6',
+  appPassword: 'PASSWORD'
+});
+```
 
 Now, follow these steps:
 
@@ -134,9 +172,9 @@ Common errors:
 
 If your message was successful, you have verified that your bot responds on localhost when security is enabled.
 
-## Step 3: Connect to your bot using the Bot Framework Developer Portal
+## Step 4: Connect to your bot using the Bot Framework Developer Portal
 
-Once you have established that your bot's endpoint can be reached (step 1) and your bot responds when security is enabled (step 2), you can deploy your bot to the cloud and try security there.
+Once you have established that your bot's endpoint can be reached (step 1), your app ID and password are correct (step 2), and your bot responds when security is enabled (step 3), you can deploy your bot to the cloud and try security there.
 
 Bot Framework requires that bots be accessible from the internet. If you already have a cloud hosting provider, you can deploy your bot there. If not, [Microsoft Azure offers a Free Trial](https://azure.microsoft.com/en-us/free/) that has everything you need to host your bot. Azure also offers free SSL/TLS hosting on Azure Websites, which is a requirement for Bot Framework bots.
 
@@ -169,7 +207,7 @@ If your message was successful, you have verified that your bot responds while i
 
 **At this point, your bot is ready to be used in a Bot Framework channel such as Skype, Facebook Messenger, Direct Line, and others.**
 
-## Step 4: (Optional) Test in the cloud with the Emulator
+## Step 5: (Optional) Test in the cloud with the Emulator
 
 *Note: This step is optional. It can provide additional debugging information not available in step 3.*
 
