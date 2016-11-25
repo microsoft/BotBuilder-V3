@@ -190,7 +190,7 @@ The contents of this document are current as of November 2016. At this time, the
 
 The only differences between v3.0 and v3.1 are the values of the hardcoded constants used in token generation and validation. The table below describes these differences.
 
-||v3.0|v3.1|
+||v3.0 (June 2016 - TBD)|v3.1 (starting November 2016)|
 |-|-|-|
 |**Bot -> Connector**|||
 |OAuth login URL|```https://login.microsoftonline.com/common/oauth2/v2.0/token``` | ```https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token``` |
@@ -199,7 +199,7 @@ The only differences between v3.0 and v3.1 are the values of the hardcoded const
 |**Connector -> Bot**|||
 |OpenID Metadata document|```https://api.aps.skype.com/v1/.well-known/openidconfiguration``` |```https://login.botframework.com/v1/.well-known/openidconfiguration``` |
 |JWT Issuer|```https://api.botframework.com``` |```https://api.botframework.com``` |
-|||||
+||||
 |**Emulator -> Bot**|||
 |JWT Audience|```https://graph.microsoft.com``` |```{botAppId}``` |
 |JWT Issuer|```https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/``` |```https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/``` |
