@@ -1040,6 +1040,66 @@ export interface ISelectRoutheandler {
     (session: Session, route: IRouteResult): void;
 }
 
+
+/** Interface definition for a video card */
+export interface IVideoCard extends IMediaCard {
+
+    /** Hint of the aspect ratio of the video or animation. (16:9)(4:3) */
+    aspect: string;
+}
+
+/** Interface definition for an audio card */
+export interface IAudioCard extends IMediaCard {
+}
+
+/** Interface definition for an animation card */
+export interface IAnimationCard extends IMediaCard {
+
+    /** Hint of the aspect ratio of the video or animation. (16:9)(4:3) */
+    aspect: string;
+}
+
+/** Interface definition of a generic MediaCard, which in its concrete form can be an Audio, Animation or Video card */
+export interface IMediaCard {
+
+    /** Title of the Card */
+    title: string; 
+
+    /** Subtitle appears just below Title field, differs from Title in font styling only */
+    subtitle: string; 
+
+    /** Text field appears just below subtitle, differs from Subtitle in font styling only */ 
+    text: string; 
+
+    /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download.*/ 
+    image: ICardImage;
+
+    /** Media source for video, audio or animations */
+    media: ICardMediaUrl[];
+
+    /** Set of actions applicable to the current card */
+    buttons?: ICardAction[]; 
+
+    /** Should the media source reproduction run in a loop */
+    autoloop: boolean; 
+    
+    /** Should the media start automatically */
+    autostart: boolean;
+    
+    /** Should media be shareable */
+    shareable: boolean; 
+}
+
+/** Url information describing media for a card */
+export interface ICardMediaUrl {
+
+    /** Url to audio, video or animation media */
+    url: string; 
+
+    /** Optional profile hint to the client to differentiate multiple MediaUrl objects from each other */
+    profile: string ;
+}
+
 //=============================================================================
 //
 // ENUMS
@@ -1633,8 +1693,24 @@ export class CardImage implements IIsCardImage {
     static create(session: Session, url: string): CardImage;
 }
 
+/** Card builder class that simplifies building keyboard cards. */
+export class Keyboard implements IIsAttachment {
+
+    /** 
+     * Creates a new ThumbnailCard. 
+     * @param session (Optional) will be used to localize any text. 
+     */
+    constructor(session?: Session);
+
+    /** Set of actions applicable to the current card. Not all channels support buttons or cards with buttons. Some channels may choose to render the buttons using a custom keyboard. */  
+    buttons(list: ICardAction[]|IIsCardAction[]): ThumbnailCard;
+
+    /** Returns the JSON for the card */
+    toAttachment(): IAttachment;
+}
+
 /** Card builder class that simplifies building thumbnail cards. */
-export class ThumbnailCard implements IIsAttachment {
+export class ThumbnailCard extends Keyboard {
 
     /** 
      * Creates a new ThumbnailCard. 
@@ -1653,75 +1729,9 @@ export class ThumbnailCard implements IIsAttachment {
     
     /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. */  
     images(list: ICardImage[]|IIsCardImage[]): ThumbnailCard;
-
-    /** Set of actions applicable to the current card. Not all channels support buttons or cards with buttons. Some channels may choose to render the buttons using a custom keyboard. */  
-    buttons(list: ICardAction[]|IIsCardAction[]): ThumbnailCard;
     
     /** This action will be activated when user taps on the card. Not all channels support tap actions and some channels may choose to render the tap action as the titles link. */  
     tap(action: ICardAction|IIsCardAction): ThumbnailCard;
-
-    /** Returns the JSON for the card */
-    toAttachment(): IAttachment;
-}
-
-
-/** Interface definition for a video card */
-export interface IVideoCard extends IMediaCard {
-
-    /** Hint of the aspect ratio of the video or animation. (16:9)(4:3) */
-    aspect: string;
-}
-
-/** Interface definition for an audio card */
-export interface IAudioCard extends IMediaCard {
-}
-
-/** Interface definition for an animation card */
-export interface IAnimationCard extends IMediaCard {
-
-    /** Hint of the aspect ratio of the video or animation. (16:9)(4:3) */
-    aspect: string;
-}
-
-/** Interface definition of a generic MediaCard, which in its concrete form can be an Audio, Animation or Video card */
-export interface IMediaCard {
-
-    /** Title of the Card */
-    title: string; 
-
-    /** Subtitle appears just below Title field, differs from Title in font styling only */
-    subtitle: string; 
-
-    /** Text field appears just below subtitle, differs from Subtitle in font styling only */ 
-    text: string; 
-
-    /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download.*/ 
-    image: ICardImage;
-
-    /** Media source for video, audio or animations */
-    media: ICardMediaUrl[];
-
-    /** Set of actions applicable to the current card */
-    buttons?: ICardAction[]; 
-
-    /** Should the media source reproduction run in a loop */
-    autoloop: boolean; 
-    
-    /** Should the media start automatically */
-    autostart: boolean;
-    
-    /** Should media be shareable */
-    shareable: boolean; 
-}
-
-/** Url information describing media for a card */
-export interface ICardMediaUrl {
-
-    /** Url to audio, video or animation media */
-    url: string; 
-
-    /** Optional profile hint to the client to differentiate multiple MediaUrl objects from each other */
-    profile: string ;
 }
 
 /** Card builder class that simplifies building Video cards. */
@@ -1954,6 +1964,12 @@ export class Fact implements IIsFact {
  * which let your bot respond to button clicks on cards that have maybe scrolled off the screen. 
  */
 export class ActionSet {
+    /**
+     * Returns a clone of an existing ActionSet.
+     * @param copyTo (Optional) instance to copy the current object to. If missing a new instance will be created.
+     */
+    clone(copyTo?: ActionSet): ActionSet;
+
     /**
      * Called once for each dialog within a library to give the dialog a chance to add its 
      * `triggerAction()` to the libraries global action set.  These triggers get mapped to
@@ -2195,6 +2211,13 @@ export class Library {
      * @param name Unique namespace for the library. 
      */
     constructor(name: string);
+
+    /**
+     * Returns a clone of an existing Library.
+     * @param copyTo (Optional) instance to copy the current object to. If missing a new instance will be created.
+     * @param newName (Optional) if specified the returned copy will be renamed to a new name.
+     */
+    clone(copyTo?: Library, newName?: string): Library;
 
     /** 
      * Gets or sets the path to the libraries "/locale/" folder containing its localized prompts. 
@@ -2524,6 +2547,12 @@ export class IntentRecognizerSet implements IIntentRecognizer {
      */
     constructor(options?: IIntentRecognizerSetOptions);
 
+    /**
+     * Returns a clone of an existing IntentRecognizerSet.
+     * @param copyTo (Optional) instance to copy the current object to. If missing a new instance will be created.
+     */
+    clone(copyTo?: IntentRecognizerSet): IntentRecognizerSet;
+
     /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
     recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
@@ -2792,6 +2821,13 @@ export class UniversalBot extends Library  {
      * @param libraryName (Optional) library namespace for the bot.  The default value is '*'.
      */
     constructor(connector?: IConnector, settings?: IUniversalBotSettings, libraryName?: string);
+
+    /**
+     * Returns a clone of an existing bot.
+     * @param copyTo (Optional) instance to copy the current object to. If missing a new instance will be created.
+     * @param newName (Optional) if specified the returned copy will be renamed to a new name.
+     */
+    clone(copyTo?: UniversalBot, newName?: string): UniversalBot;
 
     /**
      * Registers an event listener. The bot will emit its own events as it process incoming and outgoing messages. It will also forward activity related events emitted from the connector, giving you one place to listen for all activity from your bot. The flow of events from the bot is as follows:
