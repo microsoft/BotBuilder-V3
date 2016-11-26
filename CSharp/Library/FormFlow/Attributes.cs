@@ -97,7 +97,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         public DescribeAttribute(string description = null, string image = null, string message = null, string title = null, string subTitle = null)
         {
             Description = description;
-            Title = title;
+            Title = title ?? "";
             SubTitle = subTitle;
             Image = image;
             Message = message;
