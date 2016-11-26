@@ -115,7 +115,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .As<IComparer<double>>();
 
             builder
-                .RegisterType<NormalizedTraits>()
+                .Register(c => NormalizedTraits.Instance)
                 .As<ITraits<double>>()
                 .SingleInstance();
 

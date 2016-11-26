@@ -133,7 +133,7 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
-        public static readonly ITraits<double> Traits = new NormalizedTraits();
+        public static readonly ITraits<double> Traits = NormalizedTraits.Instance;
         public static readonly IComparer<double> Comparer = Comparer<double>.Default;
 
         [TestMethod]
