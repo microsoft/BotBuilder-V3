@@ -149,6 +149,31 @@ An [ETag](https://en.wikipedia.org/wiki/HTTP_ETag) is a mechanism for [optimisti
 
 The dialog stack and state are stored in these bot data bags.  For example, you might see the ETag precondition failed error if your bot is still processing a previous message when it receives a new message for that conversation.
 
+## What causes "precondition failed" (412) or "conflict" (409) HTTP errors?
+
+The Connector's IBotState service is used to store the bot data bags (the user, conversation, and private bot data bags, where the private bot data bag includes the dialog stack "control flow" state).  Concurrency control in the IBotState service is managed by optimistic concurrency (through ETags).
+
+If there is an update conflict (e.g. due to a concurrent update to a single bot data bag) during a "read-modify-write" sequence, then
+
+1. if ETags are preserved, then a "precondition failed" (412) HTTP error will be thrown from the IBotState service (this is the default in the C# SDK).
+2. If the ETags are not preserved (ETag is set to "\*"), then the "last write wins" policy will be in effect, which will prevent "precondition failed" (412) at the risk of data loss (this is the default in the Node SDK).
+
+## How can I fix "precondition failed" (412) or "conflict" (409) HTTP errors?
+
+The "precondition failed" indicates your bot processed multiple messages for the same conversation at once. If your bot is connected to services that require precisely ordered messages, you should consider locking the conversation state to make sure messages are not processed in parallel.  In C#, there exists a mechanism (class `LocalMutualExclusion` which implements `IScope`) to pessimistically serialize the handling of a single conversations with an in-memory semaphore.  You could extend this implementation to use a Redis lease, scoped by the conversation address.
+
+If your bot is not connected to external services or if processing messages in parallel from the same conversation is acceptable, you can add this code to ignore any collisions that occur in the Bot State API. This will allow the last reply to set the conversation state.
+
+~~~~
+            var builder = new ContainerBuilder();
+            builder
+                .Register(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
+                .As<IBotDataStore<BotData>>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
+            builder.Update(Conversation.Container);
+~~~~
+
 ## Is there a limit on the amount of data I can store using the State API?
 
 Yes, each state store (e.g. User store, Conversation store, etc.) may be up to 32kb [see Bot State API](https://docs.botframework.com/en-us/restapi/state/).
