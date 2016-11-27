@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { Library, systemLib } from './Library';
+import { Library, systemLib, IRouteResult } from './Library';
 import { Session, ISessionMiddleware } from '../Session';
 import { DefaultLocalizer } from '../DefaultLocalizer';
 import { IBotStorage, IBotStorageContext, IBotStorageData, MemoryBotStorage } from '../storage/BotStorage';
@@ -76,6 +76,11 @@ export interface ILookupUser {
     (address: IAddress, done: (err: Error, user: IIdentity) => void): void;
 }
 
+export interface IDisambiguateRouteHandler {
+    (session: Session, routes: IRouteResult[], callback: (err: Error) => void): void;
+}
+
+
 export class UniversalBot extends Library {
     private settings = <IUniversalBotSettings>{ 
         processLimit: 4, 
@@ -87,6 +92,7 @@ export class UniversalBot extends Library {
     private mwSend = <IEventMiddleware[]>[];
     private mwSession = <ISessionMiddleware[]>[]; 
     private localizer: DefaultLocalizer;
+    private _onDisambiguateRoute: IDisambiguateRouteHandler;
     
     
     constructor(connector?: IConnector, settings?: IUniversalBotSettings, libraryName?: string) {
@@ -315,6 +321,11 @@ export class UniversalBot extends Library {
         }, this.errorLogger(<any>cb));
     }
 
+    /** Lets a developer override the bots default route disambiguation logic. */
+    public onDisambiguateRoute(handler: IDisambiguateRouteHandler): void {
+        this._onDisambiguateRoute = handler;
+    }
+
     //-------------------------------------------------------------------------
     // Helpers
     //-------------------------------------------------------------------------
@@ -421,17 +432,27 @@ export class UniversalBot extends Library {
                 });
             }, (err) => {
                 if (!err) {
-                    // Select the best route
-                    var route = Library.bestRouteResult(results, session.dialogStack(), this.name);
-                    if (route) {
-                        this.library(route.libraryName).selectRoute(session, route);
-                    } else {
-                        // Just let the active dialog process the message
-                        session.routeToActiveDialog();
+                    // Find disambiguation handler to use
+                    var disambiguateRoute: IDisambiguateRouteHandler = (session, routes, callback) => {
+                        var route = Library.bestRouteResult(results, session.dialogStack(), this.name);
+                        if (route) {
+                            this.library(route.libraryName).selectRoute(session, route);
+                        } else {
+                            // Just let the active dialog process the message
+                            session.routeToActiveDialog();
+                        }
+                        callback(err);                    
+                    };
+                    if (this._onDisambiguateRoute) {
+                        disambiguateRoute = this._onDisambiguateRoute;
                     }
+
+                    // Select best route and dispatch message.
+                    disambiguateRoute(session, results, done);
                 } else {
                     // Let the session process the error
                     session.error(err);
+                    done(err);
                 }
             });
         });
