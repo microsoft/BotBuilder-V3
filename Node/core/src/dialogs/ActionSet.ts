@@ -164,7 +164,6 @@ export class ActionSet {
                 addRoute({
                    score: 1.0,
                    libraryName: context.libraryName,
-                   label: options.label || name,
                    routeType: context.routeType,
                    routeData: routeData
                 });
@@ -180,7 +179,6 @@ export class ActionSet {
                             addRoute({
                                 score: score,
                                 libraryName: context.libraryName,
-                                label: entry.options.label || action,
                                 routeType: context.routeType,
                                 routeData: routeData
                             });
@@ -193,7 +191,6 @@ export class ActionSet {
                             addRoute({
                                 score: score,
                                 libraryName: context.libraryName,
-                                label: entry.options.label || name,
                                 routeType: context.routeType,
                                 routeData: routeData
                             });

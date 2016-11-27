@@ -54,7 +54,6 @@ export interface ILibraryMap {
 export interface IRouteResult {
     score: number;
     libraryName: string;
-    label?: string;
     routeType?: string;
     routeData?: any;
 }
@@ -213,7 +212,6 @@ export class Library extends EventEmitter {
                         callback(null, Library.addRouteResult({
                             score: result.score,
                             libraryName: this.name,
-                            label: 'active_dialog_label',
                             routeType: Library.RouteTypes.ActiveDialog,
                             routeData: result
                         }, results));

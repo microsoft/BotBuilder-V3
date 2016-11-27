@@ -1020,9 +1020,6 @@ export interface IRouteResult {
     /** Name of the library the route came from. */
     libraryName: string;
 
-    /** (Optional) display label for the route which can be presented to the user when disambiguting between routes. */
-    label?: string;
-
     /** (Optional) type of route returned. */
     routeType?: string;
 
