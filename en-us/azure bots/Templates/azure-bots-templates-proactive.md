@@ -21,12 +21,12 @@ The proactive bot template provides all the Azure resources you need to enable a
 When you create a proactive bot with the Azure Bot Service, you will find these Azure resources in your resource group:
 
 - Azure Storage (used to create the queue)
-- Azure Function App (a queueTrigger Azure Function)&mdash;Triggered whenever there is a message in the queue, and communicates to the Bot service via Direct Line. This function uses bot binding to send the message as part of the trigger’s payload. Our example function forwards the user’s message as is from the queue.
-- Azure Bot Service (your bot) - Contains the logic that receivies the message from user, adds the message with required properties (Recipient and the user's message) to the Azure queue, and receives the triggers from Azure Function and sends back the message it received from trigger's payload.
+- Azure Bot Service (your bot) - Contains the logic that receives the message from user, adds the message with required properties (Recipient and the user's message) to the Azure queue, and receives the triggers from Azure Function and sends back the message it received from trigger's payload.
+- Azure Function App (a queueTrigger Azure Function) - Triggered whenever there is a message in the queue, and communicates to the Bot service via Direct Line. This function uses bot binding to send the message as part of the trigger’s payload. Our example function forwards the user’s message as is from the queue.
 
 Everything is properly configured and ready to work.
 
-### Receiving a message from the user and adding it to an Azure Storage Queue (Azure Bot Service)
+### Azure Bot Service: Receiving a message from the user and adding it to an Azure Storage Queue
 Here's the snippet of code that receives the message from the user, adds it to an Azure Storage Queue, and finally sends back an acknowledgment to the user. Notice that the message is wrapped in an object that contains all the information needed to send the message back to the user on the right channel ([ResumptionCookie](/en-us/csharp/builder/sdkreference/dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html){:target="_blank"} for C# and [session.message.address]() for Node.js).
 
 <div id="thetabs1">
@@ -84,11 +84,70 @@ bot.dialog('/', function (session) {
     </div>  
 </div>
 
+<div class="imagecaption"><span>Snippet of code within the index.js file in your Azure Bot Service bot</span></div>
+
+
+### Azure Bot Service: Receiving the message back from the Azure Function
+
+The following snippet of code, shows how to receive the message from the trigger function.
+
+<div id="thetabs2">
+    <ul>
+        <li><a href="#tab21">C#</a></li>
+        <li><a href="#tab22">Node.js</a></li>
+    </ul>
+
+    <div id="tab21">
+
+{% highlight csharp %}
+switch (activity.GetActivityType())
+{
+    case ActivityTypes.Trigger:
+        // handle proactive Message from function
+        var jactivity = JsonConvert.DeserializeObject<JObject>(jsonContent);
+        var jobjectvalue = JsonConvert.DeserializeObject<JObject>(jactivity.GetValue("value").ToString());
+        var message = JsonConvert.DeserializeObject<Message>(jobjectvalue.GetValue("Message").ToString());
+        var messageactivity = (Activity)message.ResumptionCookie.GetMessage();
+            
+        using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, messageactivity))
+        {
+            var client = scope.Resolve<IConnectorClient>();
+            var reply = messageactivity.CreateReply();
+            reply.Text = $"This is coming back from the trigger! {message.Text}";
+            await client.Conversations.ReplyToActivityAsync(reply);
+        }
+        
+        break;
+    default:
+        break;
+}
+
+{% endhighlight %}
+
+    </div>
+    <div id="tab22">
+
+{% highlight JavaScript %}
+bot.on('trigger', function (message) {
+    // handle message from trigger function
+    var queuedMessage = message.value;
+    var reply = new builder.Message()
+        .address(queuedMessage.address)
+        .text('This is coming from the trigger: ' + queuedMessage.text);
+    bot.send(reply);
+});
+{% endhighlight %}
+
+    </div>  
+</div>
+
+<div class="imagecaption"><span>Snippet of code within the index.js file in your Azure Bot Service bot</span></div>
+
 
 ### Triggering an Azure Function with the queue, and sending the message back to the user (Azure Functions)
 After the message is added to the queue, the function is triggered. The message is then removed from the queue and sent back to the user. If you inspect the function's configuration file, you will see that it contains an input binding of type “queueTrigger” and an output binding of type “bot”.
 
-This following shows the functions.json configuration file.
+The functions.json configuration file looks like this.
 
 {% highlight JSON %}
 {
@@ -105,11 +164,6 @@ This following shows the functions.json configuration file.
       "name": "$return",
       "direction": "out",
       "botId": "yourbot"
-    },
-    {
-      "type": "http",
-      "name": "res",
-      "direction": "out"
     }
   ]
 }
@@ -169,61 +223,8 @@ module.exports = function (context, myQueueItem) {
     </div>  
 </div>
 
-### Receiving the message back from the Azure Function (Azure Bot Service)
+<div class="imagecaption"><span>Snippet of code within queueTrigger Azure Function</span></div>
 
-The following snippet of code, shows how to receive the message from the trigger function.
-
-<div id="thetabs2">
-    <ul>
-        <li><a href="#tab21">C#</a></li>
-        <li><a href="#tab22">Node.js</a></li>
-    </ul>
-
-    <div id="tab21">
-
-{% highlight csharp %}
-switch (activity.GetActivityType())
-{
-    case ActivityTypes.Trigger:
-        // handle proactive Message from function
-        var jactivity = JsonConvert.DeserializeObject<JObject>(jsonContent);
-        var jobjectvalue = JsonConvert.DeserializeObject<JObject>(jactivity.GetValue("value").ToString());
-        var message = JsonConvert.DeserializeObject<Message>(jobjectvalue.GetValue("Message").ToString());
-        var messageactivity = (Activity)message.ResumptionCookie.GetMessage();
-            
-        using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, messageactivity))
-        {
-            var client = scope.Resolve<IConnectorClient>();
-            var reply = messageactivity.CreateReply();
-            reply.Text = $"This is coming back from the trigger! {message.Text}";
-            await client.Conversations.ReplyToActivityAsync(reply);
-        }
-        
-        break;
-    default:
-        break;
-}
-
-{% endhighlight %}
-
-    </div>
-    <div id="tab22">
-
-{% highlight JavaScript %}
-bot.on('trigger', function (message) {
-    // handle message from trigger function
-    var queuedMessage = message.value;
-    var reply = new builder.Message()
-        .address(queuedMessage.address)
-        .text('This is coming from the trigger: ' + queuedMessage.text);
-    bot.send(reply);
-});
-{% endhighlight %}
-
-    </div>  
-</div>
-
-For information about the other files that Bot Service creates, see [Bot Service Template Overview](/en-us/azure-bot-service/templates/overview/).
 
 
 ## Conclusion
