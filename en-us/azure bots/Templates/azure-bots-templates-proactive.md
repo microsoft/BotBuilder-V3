@@ -84,7 +84,7 @@ bot.dialog('/', function (session) {
     </div>  
 </div>
 
-<div class="imagecaption"><span>Snippet of code within the index.js file in your Azure Bot Service bot</span></div>
+<div class="imagecaption"><span>Snippet of code within the Azure Bot Service bot</span></div>
 
 
 ### Azure Bot Service: Receiving the message back from the Azure Function
@@ -141,7 +141,7 @@ bot.on('trigger', function (message) {
     </div>  
 </div>
 
-<div class="imagecaption"><span>Snippet of code within the index.js file in your Azure Bot Service bot</span></div>
+<div class="imagecaption"><span>Snippet of code within the Azure Bot Service bot</span></div>
 
 
 ### Triggering an Azure Function with the queue, and sending the message back to the user (Azure Functions)
