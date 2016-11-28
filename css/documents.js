@@ -147,7 +147,7 @@ $(function () {
         $('.post-title').append(displayQuery);
         $('#search-progress').addClass("loading");
         // Establish the data to pass to the proxy.
-        var host = 'https://dev.botframework.com/api/docssearch';
+        var host = 'https://bots.botframework.com/api/docssearch';
         // Calls the proxy, passing the query, service operation and market.
         $.ajax({
             url: host,
@@ -167,7 +167,7 @@ $(function () {
                     $('#search-results').html('no results');
                 }
             },
-            error: function(error) {
+            error: function(err) {
                $('#search-results').html('no results');
             },
             complete: function() {
