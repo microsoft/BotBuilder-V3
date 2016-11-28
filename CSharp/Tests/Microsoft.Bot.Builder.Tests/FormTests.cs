@@ -208,7 +208,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task Simple_Form_Script()
         {
-            await VerifyFormScript(@"..\..\SimpleForm.script",
+            await VerifyFormScript(@"..\..\Scripts\SimpleForm.script",
                 "en-us", () => new FormBuilder<SimpleForm>().AddRemainingFields().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
                 "Hi",
 
@@ -235,7 +235,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task SimpleForm_Next_Script()
         {
-            await VerifyFormScript(@"..\..\SimpleForm-next.script",
+            await VerifyFormScript(@"..\..\Scripts\SimpleForm-next.script",
                 "en-us", () => new FormBuilder<SimpleForm>()
                     .Field(new FieldReflector<SimpleForm>("Text")
                         .SetNext((value, state) => new NextStep(new string[] { "Float" })))
@@ -254,7 +254,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task SimpleForm_Dependency_Script()
         {
-            await VerifyFormScript(@"..\..\SimpleForm-dependency.script",
+            await VerifyFormScript(@"..\..\Scripts\SimpleForm-dependency.script",
                 "en-us",
                 () => new FormBuilder<SimpleForm>()
                     .Field("Float")
@@ -289,7 +289,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task SimpleForm_NotUnderstood_Script()
         {
-            await VerifyFormScript(@"..\..\SimpleForm-NotUnderstood.script",
+            await VerifyFormScript(@"..\..\Scripts\SimpleForm-NotUnderstood.script",
                 "en-us", () => new FormBuilder<SimpleForm>().AddRemainingFields().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
                 "Hi",
                 "some text here",
@@ -305,7 +305,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task Pizza_Script()
         {
-            await VerifyFormScript(@"..\..\PizzaForm.script",
+            await VerifyFormScript(@"..\..\Scripts\PizzaForm.script",
                 "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), Array.Empty<EntityRecommendation>(),
                 "hi",
                 "garbage",
@@ -350,7 +350,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task Pizza_Entities_Script()
         {
-            await VerifyFormScript(@"..\..\PizzaForm-entities.script",
+            await VerifyFormScript(@"..\..\Scripts\PizzaForm-entities.script",
                 "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(),
                 new Luis.Models.EntityRecommendation[] {
                                 new Luis.Models.EntityRecommendation("DeliveryAddress","Address", "abc"),
@@ -387,7 +387,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task Pizza_Button_Script()
         {
-            await VerifyFormScript(@"..\..\PizzaFormButton.script",
+            await VerifyFormScript(@"..\..\Scripts\PizzaFormButton.script",
                 "en-us", () => PizzaOrder.BuildForm(style: ChoiceStyleOptions.Auto), FormOptions.None, new PizzaOrder(), Array.Empty<EntityRecommendation>(),
                 "hi",
                 "garbage",
@@ -432,7 +432,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task Pizza_fr_Script()
         {
-            await VerifyFormScript(@"..\..\PizzaForm-fr.script",
+            await VerifyFormScript(@"..\..\Scripts\PizzaForm-fr.script",
                 "fr", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), Array.Empty<EntityRecommendation>(),
                 "bonjour",
                 "2",
@@ -469,7 +469,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task JSON_Script()
         {
-            await VerifyFormScript(@"..\..\JSON.script",
+            await VerifyFormScript(@"..\..\Scripts\JSON.script",
                 "en-us", () => SandwichOrder.BuildJsonForm(), FormOptions.None, new JObject(), Array.Empty<EntityRecommendation>(),
                 "hi",
                 "ham",
@@ -516,7 +516,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task Optional()
         {
-            await VerifyFormScript(@"..\..\Optional.script",
+            await VerifyFormScript(@"..\..\Scripts\Optional.script",
                 "en-us", () => MyClass.Build(), FormOptions.None, new MyClass(), Array.Empty<EntityRecommendation>(),
                 "ok",
                 "This is something",

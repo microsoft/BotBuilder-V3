@@ -203,7 +203,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task PromptSuccess_Choice_Descriptions()
         {
             var choices = new[] { "19", "9", "else" };
-            await Script.VerifyDialogScript(@"..\..\ChoiceDescriptions.script", 
+            await Script.VerifyDialogScript(@"..\..\Scripts\ChoiceDescriptions.script", 
                 new PromptChoice<string>(choices, PromptText, null, 0, promptStyle: PromptStyle.Auto, descriptions: new List<string>() { "choice19", "choice9", "choiceelse" }), true, "9");
         }
 
@@ -212,7 +212,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task PromptRetry_Choice_Descriptions()
         {
             var choices = new[] { "19", "9", "else" };
-            await Script.VerifyDialogScript(@"..\..\ChoiceDescriptionsRetry.script",
+            await Script.VerifyDialogScript(@"..\..\Scripts\ChoiceDescriptionsRetry.script",
                 new PromptChoice<string>(choices, PromptText, null, 1, promptStyle: PromptStyle.Auto, descriptions: new List<string>() { "choice19", "choice9", "choiceelse" }), true, "10", "9");
         }
     }
