@@ -583,6 +583,23 @@ export interface IPromptArgs extends IPromptOptions {
     enumsValues?: string[];
 }
 
+/** 
+ * Route choices to pass to [Prompts.diambiguate()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompts#disambiguate).
+ * The key for the map should be the localized label to display to the user and the value should be
+ * the route to select when chosen by the user.  You can pass `null` for the route to give the user the option to cancel.
+ * @example
+ * <pre><code>
+ * builder.Prompts.disambiguate(session, "What would you like to cancel?", {
+ *      "Cancel Item": cancelItemRoute,
+ *      "Cancel Order": cancelOrderRoute,
+ *      "Neither": null
+ * });
+ * </code></pre>
+ */
+export interface IDisambiguateChoices {
+    [label: string]: IRouteResult;
+}
+
 /** Dialog result returned by a system prompt. */
 export interface IPromptResult<T> extends IDialogResult<T> {
     /** Type of prompt completing. */
@@ -934,7 +951,7 @@ export interface IMiddlewareMap {
  * all of its parents to move to this hidden step which will cascade the close all the way up the stack.
  * This is typically a desired behaviour but if you want to avoid it or stop it somewhere in the 
  * middle you'll need to add a step to the end of your waterfall that either does nothing or calls 
- * something liek [session.send()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#send)
+ * something like [session.send()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#send)
  * which isn't going to advance the waterfall forward.   
  * @example
  * <pre><code>
@@ -1039,7 +1056,7 @@ export interface ISelectRouteHandler {
 
 /** Custom route disambiguation logic passed to [UniversalBot.onDisambiguateRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#ondisambiguateroute). */
 export interface IDisambiguateRouteHandler {
-    (session: Session, routes: IRouteResult[], callback: (err: Error) => void): void;
+    (session: Session, routes: IRouteResult[]): void;
 }
 
 /** Interface definition for a video card */
@@ -2521,6 +2538,28 @@ export class Prompts extends Dialog {
      * @param options (Optional) parameters to control the behaviour of the prompt.
      */
     static attachment(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+
+    /**
+     * Prompts the user to disambiguate multiple triggered actions. Should typically be called 
+     * from [UniversalBot.onDisambiguateRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#ondisambiguateroute).  
+     * @example
+     * <pre><code>
+     * builder.Prompts.disambiguate(session, "What would you like to cancel?", {
+     *      "Cancel Item": cancelItemRoute,
+     *      "Cancel Order": cancelOrderRoute,
+     *      "Neither": null
+     * });
+     * </code></pre>
+     * @param session Session object for the current conversation.
+     * @param prompt 
+     * * __prompt:__ _{string}_ - Initial message to send the user.
+     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * @param choices Map of routes to select from. The key is the choice label taht will be displayed to the user.
+     * @param options (Optional) parameters to control the behaviour of the prompt.
+     */
+    static disambiguate(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: IDisambiguateChoices, options?: IPromptOptions): void;
+
 }
 
 /**

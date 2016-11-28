@@ -513,8 +513,8 @@ export class Session extends events.EventEmitter {
         var stack: IDialogState[];
         if (newStack) {
             // Update stack and dialog data.
-            stack = this.sessionState.callstack = newStack || [];
-            this.dialogData = stack.length > 0 ? stack[stack.length - 1] : null;
+            stack = this.sessionState.callstack = newStack;
+            this.dialogData = stack.length > 0 ? stack[stack.length - 1].state : null;
         } else {
             // Copy over dialog data to stack.
             stack = this.sessionState.callstack || [];

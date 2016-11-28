@@ -1,22 +1,17 @@
 /*-----------------------------------------------------------------------------
-This Bot demonstrates how to use beginDialogAction() to create actions that are
-only in scope when a particular dialog is on the stack. The '/orderPizza' adds
-actions that let the user view their cart and checkout but those actions can 
-only be taken while the user is actually ordering a pizza.
-
-This sample also shows how support multi-level cancel within a bot. When 
-ordering a pizza you can cancel either an item you're adding or the entire 
-order.  The user can say "cancel order" at anytime to cancel the order but 
-saying just "cancel" will intelligently cancel either the current item being 
-added or the order depending on where the user is in the flow. 
-
-View the "feature-onDisambiguateRoute" example to see how you'd prompt the user
-to disambiguate between "cancel item" and "cancel order".  
+This Bot demonstrates how to prompt a user to disambiguate between potentially
+ambiguous actions that have been triggered by the user. The sample updates the
+"feature-beginDialogAction" example to include a custom bot.onDisambiguateRoute()
+handler that will look for both the 'cancelOrder' and 'cancelItem' actions to be 
+triggered when this happens it will call Prompt.disambiguate() to have the user
+select between the two actions.  The user is also given the option to say 
+"neither" which will continue the current task.
 
 # RUN THE BOT:
 
     Run the bot from the command line using "node app.js" and then type 
-    "hello" to wake the bot up.
+    "order pizza" to start a new order. Choose an item to add then say 
+    "cancel" to trigger displaying of the disambigutation prompt.
     
 -----------------------------------------------------------------------------*/
 
@@ -24,6 +19,29 @@ var builder = require('../../core/');
 
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector);
+
+// Add custom disambiguation logic
+bot.onDisambiguateRoute(function (session, routes) {
+    var cancelOrder = findStackAction(routes, 'cancelOrder');
+    var cancelItem = findStackAction(routes, 'cancelItem');
+    if (cancelOrder && cancelItem) {
+        // Disambiguate between conflicting actions
+        builder.Prompts.disambiguate(session, "Which would you like to cancel?", {
+            "Cancel Item": cancelItem,
+            "Cancel Order": cancelOrder,
+            "Neither": null
+        });
+    } else {
+        // Route message as normal
+        var route = builder.Library.bestRouteResult(routes, session.dialogStack(), bot.name);
+        if (route) {
+            bot.library(route.libraryName).selectRoute(session, route);
+        } else {
+            // Just let the active dialog process the message
+            session.routeToActiveDialog();
+        }
+    }
+});
 
 // Add default dialog
 bot.dialog('/', function (session) {
@@ -131,4 +149,15 @@ function switchTasks(session, args, next, alreadyActiveMessage) {
         session.clearDialogStack();
         next();
     }
+}
+
+function findStackAction(routes, name) {
+    for (var i = 0; i < routes.length; i++) {
+        var r = routes[i];
+        if (r.routeType === builder.Library.RouteTypes.StackAction &&
+            r.routeData.action === name) {
+                return r;
+        }
+    }
+    return null;
 }

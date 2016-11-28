@@ -77,7 +77,7 @@ export interface ILookupUser {
 }
 
 export interface IDisambiguateRouteHandler {
-    (session: Session, routes: IRouteResult[], callback: (err: Error) => void): void;
+    (session: Session, routes: IRouteResult[]): void;
 }
 
 
@@ -433,7 +433,7 @@ export class UniversalBot extends Library {
             }, (err) => {
                 if (!err) {
                     // Find disambiguation handler to use
-                    var disambiguateRoute: IDisambiguateRouteHandler = (session, routes, callback) => {
+                    var disambiguateRoute: IDisambiguateRouteHandler = (session, routes) => {
                         var route = Library.bestRouteResult(results, session.dialogStack(), this.name);
                         if (route) {
                             this.library(route.libraryName).selectRoute(session, route);
@@ -441,14 +441,14 @@ export class UniversalBot extends Library {
                             // Just let the active dialog process the message
                             session.routeToActiveDialog();
                         }
-                        callback(err);                    
                     };
                     if (this._onDisambiguateRoute) {
                         disambiguateRoute = this._onDisambiguateRoute;
                     }
 
                     // Select best route and dispatch message.
-                    disambiguateRoute(session, results, done);
+                    disambiguateRoute(session, results);
+                    done(null);
                 } else {
                     // Let the session process the error
                     session.error(err);
