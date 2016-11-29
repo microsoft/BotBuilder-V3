@@ -247,6 +247,34 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
         }
     }
 
+    public sealed class TriggerValueResolver : DelegatingResolver
+    {
+        public TriggerValueResolver(IResolver inner)
+            : base(inner)
+        {
+        }
+
+        public override bool TryResolve(Type type, object tag, out object value)
+        {
+            ITriggerActivity trigger;
+            if (this.inner.TryResolve(tag, out trigger))
+            {
+                var triggerValue = trigger.Value;
+                if (triggerValue != null)
+                {
+                    var triggerValueType = triggerValue.GetType();
+                    if (type.IsAssignableFrom(triggerValueType))
+                    {
+                        value = triggerValue;
+                        return true;
+                    }
+                }
+            }
+
+            return base.TryResolve(type, tag, out value);
+        }
+    }
+
     public sealed class AutofacResolver : DelegatingResolver
     {
         private readonly IComponentContext context;

@@ -152,5 +152,26 @@ namespace Microsoft.Bot.Builder.Tests
                 Assert.IsFalse(resolver.TryResolve(Some, out actual));
             }
         }
+
+        [TestMethod]
+        public void Resolver_Trigger()
+        {
+            var expected = new Activity() { Type = ActivityTypes.Trigger };
+            var resolver = new TriggerValueResolver(new ActivityResolver(new ArrayResolver(NullResolver.Instance, expected)));
+
+            {
+                IService actual;
+                Assert.IsFalse(resolver.TryResolve(null, out actual));
+                Assert.IsFalse(resolver.TryResolve(Some, out actual));
+            }
+
+            expected.Value = new Service();
+
+            {
+                IService actual;
+                Assert.IsTrue(resolver.TryResolve(null, out actual));
+                Assert.IsFalse(resolver.TryResolve(Some, out actual));
+            }
+        }
     }
 }
