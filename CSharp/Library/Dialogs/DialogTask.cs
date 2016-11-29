@@ -36,6 +36,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Net.Mime;
 using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
@@ -466,7 +467,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 {
                     if (Debugger.IsAttached)
                     {
-                        await this.botToUser.PostAsync($"Exception: {error}");
+                        var message = this.botToUser.MakeMessage();
+                        message.Text = $"Exception: { error.Message}";
+                        message.Attachments = new[]
+                        {
+                            new Attachment(contentType: MediaTypeNames.Text.Plain, content: error.StackTrace)
+                        };
+
+                        await this.botToUser.PostAsync(message);
                     }
                     else
                     {
