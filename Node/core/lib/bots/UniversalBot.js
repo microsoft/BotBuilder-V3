@@ -37,6 +37,21 @@ var UniversalBot = (function (_super) {
             this.connector(consts.defaultConnector, connector);
         }
     }
+    UniversalBot.prototype.clone = function (copyTo, newName) {
+        var obj = copyTo || new UniversalBot(null, null, newName || this.name);
+        for (var name in this.settings) {
+            if (this.settings.hasOwnProperty(name)) {
+                this.set(name, this.settings[name]);
+            }
+        }
+        for (var channel in this.connectors) {
+            obj.connector(channel, this.connectors[channel]);
+        }
+        obj.mwReceive = this.mwReceive.slice(0);
+        obj.mwSession = this.mwSession.slice(0);
+        obj.mwSend = this.mwSend.slice(0);
+        return _super.prototype.clone.call(this, obj);
+    };
     UniversalBot.prototype.set = function (name, value) {
         this.settings[name] = value;
         if (value && name === 'localizerSettings') {
@@ -216,6 +231,9 @@ var UniversalBot = (function (_super) {
             }, _this.errorLogger(cb));
         }, this.errorLogger(cb));
     };
+    UniversalBot.prototype.onDisambiguateRoute = function (handler) {
+        this._onDisambiguateRoute = handler;
+    };
     UniversalBot.prototype.dispatch = function (storageCtx, message, dialogId, dialogArgs, done, newStack) {
         var _this = this;
         if (newStack === void 0) { newStack = false; }
@@ -277,16 +295,24 @@ var UniversalBot = (function (_super) {
                 });
             }, function (err) {
                 if (!err) {
-                    var route = Library_1.Library.bestRouteResult(results, session.dialogStack(), _this.name);
-                    if (route) {
-                        _this.library(route.libraryName).selectRoute(session, route);
+                    var disambiguateRoute = function (session, routes) {
+                        var route = Library_1.Library.bestRouteResult(results, session.dialogStack(), _this.name);
+                        if (route) {
+                            _this.library(route.libraryName).selectRoute(session, route);
+                        }
+                        else {
+                            session.routeToActiveDialog();
+                        }
+                    };
+                    if (_this._onDisambiguateRoute) {
+                        disambiguateRoute = _this._onDisambiguateRoute;
                     }
-                    else {
-                        session.routeToActiveDialog();
-                    }
+                    disambiguateRoute(session, results);
+                    done(null);
                 }
                 else {
                     session.error(err);
+                    done(err);
                 }
             });
         });

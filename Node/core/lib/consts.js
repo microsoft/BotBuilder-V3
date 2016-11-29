@@ -27,7 +27,8 @@ exports.DialogId = {
     Prompts: 'BotBuilder:Prompts',
     FirstRun: 'BotBuilder:FirstRun',
     ConfirmCancel: 'BotBuilder:ConfirmCancel',
-    Interruption: 'BotBuilder:Interruption'
+    Interruption: 'BotBuilder:Interruption',
+    Disambiguate: 'BotBuilder:Disambiguate'
 };
 exports.Id = {
     DefaultGroup: 'BotBuilder.Id.DefaultGroup'

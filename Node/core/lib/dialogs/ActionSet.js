@@ -6,6 +6,14 @@ var ActionSet = (function () {
     function ActionSet() {
         this.actions = {};
     }
+    ActionSet.prototype.clone = function (copyTo) {
+        var obj = copyTo || new ActionSet();
+        obj.trigger = this.trigger;
+        for (var name in this.actions) {
+            obj.actions[name] = this.actions[name];
+        }
+        return obj;
+    };
     ActionSet.prototype.addDialogTrigger = function (actions, dialogId) {
         if (this.trigger) {
             actions.beginDialogAction(dialogId, dialogId, this.trigger);
@@ -84,7 +92,6 @@ var ActionSet = (function () {
                 addRoute({
                     score: 1.0,
                     libraryName: context.libraryName,
-                    label: options.label || name,
                     routeType: context.routeType,
                     routeData: routeData
                 });
@@ -101,7 +108,6 @@ var ActionSet = (function () {
                             addRoute({
                                 score: score,
                                 libraryName: context.libraryName,
-                                label: entry.options.label || action,
                                 routeType: context.routeType,
                                 routeData: routeData
                             });
@@ -115,7 +121,6 @@ var ActionSet = (function () {
                             addRoute({
                                 score: score,
                                 libraryName: context.libraryName,
-                                label: entry.options.label || name,
                                 routeType: context.routeType,
                                 routeData: routeData
                             });

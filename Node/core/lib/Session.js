@@ -420,8 +420,8 @@ var Session = (function (_super) {
     Session.prototype.dialogStack = function (newStack) {
         var stack;
         if (newStack) {
-            stack = this.sessionState.callstack = newStack || [];
-            this.dialogData = stack.length > 0 ? stack[stack.length - 1] : null;
+            stack = this.sessionState.callstack = newStack;
+            this.dialogData = stack.length > 0 ? stack[stack.length - 1].state : null;
         }
         else {
             stack = this.sessionState.callstack || [];

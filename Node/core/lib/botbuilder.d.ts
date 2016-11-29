@@ -1020,9 +1020,6 @@ export interface IRouteResult {
     /** Name of the library the route came from. */
     libraryName: string;
 
-    /** (Optional) display label for the route which can be presented to the user when disambiguting between routes. */
-    label?: string;
-
     /** (Optional) type of route returned. */
     routeType?: string;
 
@@ -1036,10 +1033,14 @@ export interface IFindRoutesHandler {
 }
 
 /** Custom route searching logic passed to [Library.onSelectRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onselectroute). */
-export interface ISelectRoutheandler {
+export interface ISelectRouteHandler {
     (session: Session, route: IRouteResult): void;
 }
 
+/** Custom route disambiguation logic passed to [UniversalBot.onDisambiguateRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#ondisambiguateroute). */
+export interface IDisambiguateRouteHandler {
+    (session: Session, routes: IRouteResult[], callback: (err: Error) => void): void;
+}
 
 /** Interface definition for a video card */
 export interface IVideoCard extends IMediaCard {
@@ -2279,7 +2280,7 @@ export class Library {
      * Replaces the default logic for [selectRoute()](#selectroute) with a custom implementation.
      * @param handler Function that will be invoked anytime `selectRoute()` is called. 
      */
-    onSelectRoute(handler: ISelectRoutheandler): void;
+    onSelectRoute(handler: ISelectRouteHandler): void;
 
     /**
      * Gets the active dialogs confidence that it understands the current message. The dialog 
@@ -2933,6 +2934,12 @@ export class UniversalBot extends Library  {
      * @param callback Function to invoke with the results of the query.
      */
     isInConversation(address: IAddress, callback: (err: Error, lastAccess: Date) => void): void;
+
+    /**
+     * Replaces the bots default route disambiguation logic with a custom implementation.
+     * @param handler Function that will be invoked with the candidate routes to dispatch an incoming message to. 
+     */
+    onDisambiguateRoute(handler: IDisambiguateRouteHandler): void;
 }
 
 /** Connects a UniversalBot to multiple channels via the Bot Framework. */

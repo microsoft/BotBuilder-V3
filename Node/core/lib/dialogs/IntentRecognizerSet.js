@@ -1,4 +1,5 @@
 "use strict";
+var utils = require('../utils');
 var async = require('async');
 (function (RecognizeOrder) {
     RecognizeOrder[RecognizeOrder["parallel"] = 0] = "parallel";
@@ -26,6 +27,11 @@ var IntentRecognizerSet = (function () {
         }
         this.length = this.options.recognizers.length;
     }
+    IntentRecognizerSet.prototype.clone = function (copyTo) {
+        var obj = copyTo || new IntentRecognizerSet(utils.clone(this.options));
+        obj.options.recognizers = this.options.recognizers.slice(0);
+        return obj;
+    };
     IntentRecognizerSet.prototype.recognize = function (context, done) {
         if (this.options.recognizeOrder == RecognizeOrder.parallel) {
             this.recognizeInParallel(context, done);

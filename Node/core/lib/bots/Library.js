@@ -25,6 +25,22 @@ var Library = (function (_super) {
         this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet();
         this.triggersAdded = false;
     }
+    Library.prototype.clone = function (copyTo, newName) {
+        var obj = copyTo || new Library(newName || this.name);
+        for (var id in this.dialogs) {
+            obj.dialogs[id] = this.dialogs[id];
+        }
+        for (var name in this.libraries) {
+            obj.libraries[name] = this.libraries[name];
+        }
+        this.actions.clone(obj.actions);
+        this.recognizers.clone(obj.recognizers);
+        obj._localePath = this._localePath;
+        obj._onFindRoutes = this._onFindRoutes;
+        obj._onSelectRoute = this._onSelectRoute;
+        obj.triggersAdded = this.triggersAdded;
+        return obj;
+    };
     Library.prototype.localePath = function (path) {
         if (path) {
             this._localePath = path;
@@ -94,7 +110,6 @@ var Library = (function (_super) {
                         callback(null, Library.addRouteResult({
                             score: result.score,
                             libraryName: _this.name,
-                            label: 'active_dialog_label',
                             routeType: Library.RouteTypes.ActiveDialog,
                             routeData: result
                         }, results));
