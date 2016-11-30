@@ -2657,11 +2657,13 @@ a {
   margin: 0 0 15px 0;
 }
 .post-content p {
-  margin: 0 0 30px 0;
   line-height: 30px;
 }
 .post-content .post-header {
   margin-bottom: 0;
+}
+.post-content > p {
+  margin: 0 0 30px 0;
 }
 .post {
   padding: 30px 0;
