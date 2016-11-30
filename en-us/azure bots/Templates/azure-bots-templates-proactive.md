@@ -104,19 +104,14 @@ switch (activity.GetActivityType())
 {
     case ActivityTypes.Trigger:
         // handle proactive Message from function
-        var jactivity = JsonConvert.DeserializeObject<JObject>(jsonContent);
-        var jobjectvalue = JsonConvert.DeserializeObject<JObject>(jactivity.GetValue("value").ToString());
-        var message = JsonConvert.DeserializeObject<Message>(jobjectvalue.GetValue("Message").ToString());
+        ITriggerActivity trigger = activity;
+        var message = JsonConvert.DeserializeObject<Message>(((JObject) trigger.Value).GetValue("Message").ToString());
         var messageactivity = (Activity)message.ResumptionCookie.GetMessage();
-            
-        using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, messageactivity))
-        {
-            var client = scope.Resolve<IConnectorClient>();
-            var reply = messageactivity.CreateReply();
-            reply.Text = $"This is coming back from the trigger! {message.Text}";
-            await client.Conversations.ReplyToActivityAsync(reply);
-        }
-        
+
+        client = new ConnectorClient(new Uri(messageactivity.ServiceUrl));
+        var triggerReply = messageactivity.CreateReply();
+        triggerReply.Text = $"This is coming back from the trigger! {message.Text}";
+        await client.Conversations.ReplyToActivityAsync(triggerReply);
         break;
     default:
         break;
