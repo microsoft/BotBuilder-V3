@@ -12,8 +12,8 @@ Bots (or conversation agents) are rapidly becoming an integral part of one’s d
 
 Get started quickly with our samples:
 
-* Samples within the SDK [C#](https://github.com/Microsoft/BotBuilder/tree/master/CSharp/Samples), [Node.js](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples)
-* Task-focused samples [GitHub repo](https://github.com/Microsoft/BotBuilder-Samples)
+* Bot Builder samples [GitHub repo](https://github.com/Microsoft/BotBuilder-Samples)
+* More samples are available within the SDK [C#](https://github.com/Microsoft/BotBuilder/tree/master/CSharp/Samples), [Node.js](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples)
 
 Join the conversation on **[Gitter] (https://gitter.im/Microsoft/BotBuilder)**.
 
