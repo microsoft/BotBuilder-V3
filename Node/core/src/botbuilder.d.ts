@@ -2857,10 +2857,10 @@ export class UniversalBot extends Library  {
     /** 
      * Creates a new instance of the UniversalBot.
      * @param connector (Optional) the default connector to use for requests. If there's not a more specific connector registered for a channel then this connector will be used./**
-     * @param settings (Optional) settings to configure the bot with.
+     * @param defaultDialog (Optional) default handler of received messages. This can either be an individual function or a waterfall sequence.
      * @param libraryName (Optional) library namespace for the bot.  The default value is '*'.
      */
-    constructor(connector?: IConnector, settings?: IUniversalBotSettings, libraryName?: string);
+    constructor(connector?: IConnector, defaultDialog?: IDialogWaterfallStep|IDialogWaterfallStep[], libraryName?: string);
 
     /**
      * Returns a clone of an existing bot.

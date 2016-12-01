@@ -32,6 +32,7 @@
 //
 
 import { Library, systemLib, IRouteResult } from './Library';
+import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
 import { Session, ISessionMiddleware } from '../Session';
 import { DefaultLocalizer } from '../DefaultLocalizer';
 import { IBotStorage, IBotStorageContext, IBotStorageData, MemoryBotStorage } from '../storage/BotStorage';
@@ -94,19 +95,25 @@ export class UniversalBot extends Library {
     private localizer: DefaultLocalizer;
     private _onDisambiguateRoute: IDisambiguateRouteHandler;
     
-    
-    constructor(connector?: IConnector, settings?: IUniversalBotSettings, libraryName?: string) {
+    constructor(connector: IConnector, settings?: IUniversalBotSettings);
+    constructor(connector: IConnector, defaultDialog?: IDialogWaterfallStep|IDialogWaterfallStep[], libraryName?: string);
+    constructor(connector?: IConnector, defaultDialog?: any, libraryName?: string) {
         super(libraryName || consts.Library.default);
         this.localePath('./locale/');
         this.library(systemLib);
-        if (settings) {
-            for (var name in settings) {
-                if (settings.hasOwnProperty(name)) {
-                    this.set(name, (<any>settings)[name]);
+        if (defaultDialog) {
+            // Check for legacy settings passed in
+            if (typeof defaultDialog === 'object') {
+                var settings = <IUniversalBotSettings>defaultDialog;
+                for (var name in settings) {
+                    if (settings.hasOwnProperty(name)) {
+                        this.set(name, (<any>settings)[name]);
+                    }
                 }
+            } else {
+                this.dialog('/', defaultDialog);
             }
         }
-
         if (connector) {
             this.connector(consts.defaultConnector, connector);
         }
