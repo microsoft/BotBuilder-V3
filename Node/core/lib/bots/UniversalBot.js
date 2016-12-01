@@ -13,7 +13,7 @@ var utils = require('../utils');
 var async = require('async');
 var UniversalBot = (function (_super) {
     __extends(UniversalBot, _super);
-    function UniversalBot(connector, settings, libraryName) {
+    function UniversalBot(connector, defaultDialog, libraryName) {
         _super.call(this, libraryName || consts.Library.default);
         this.settings = {
             processLimit: 4,
@@ -26,11 +26,17 @@ var UniversalBot = (function (_super) {
         this.mwSession = [];
         this.localePath('./locale/');
         this.library(Library_1.systemLib);
-        if (settings) {
-            for (var name in settings) {
-                if (settings.hasOwnProperty(name)) {
-                    this.set(name, settings[name]);
+        if (defaultDialog) {
+            if (typeof defaultDialog === 'object') {
+                var settings = defaultDialog;
+                for (var name in settings) {
+                    if (settings.hasOwnProperty(name)) {
+                        this.set(name, settings[name]);
+                    }
                 }
+            }
+            else {
+                this.dialog('/', defaultDialog);
             }
         }
         if (connector) {
