@@ -14,8 +14,8 @@ All Azure Bot Service bots include the following files:
 
 <div id="thetabs1">
     <ul>
-        <li><a href="#tab11">C#</a></li>
-        <li><a href="#tab12">Node.js</a></li>
+        <li data-lang="csharp"><a href="#tab11">C#</a></li>
+        <li data-lang="node"><a href="#tab12">Node.js</a></li>
     </ul>
 
     <div id="tab11">

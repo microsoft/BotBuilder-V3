@@ -31,8 +31,8 @@ Here's the snippet of code that receives the message from the user, adds it to a
 
 <div id="thetabs1">
     <ul>
-        <li><a href="#tab11">C#</a></li>
-        <li><a href="#tab12">Node.js</a></li>
+        <li data-lang="csharp"><a href="#tab11">C#</a></li>
+        <li data-lang="node"><a href="#tab12">Node.js</a></li>
     </ul>
 
     <div id="tab11">
@@ -93,8 +93,8 @@ The following snippet of code, shows how to receive the message from the trigger
 
 <div id="thetabs2">
     <ul>
-        <li><a href="#tab21">C#</a></li>
-        <li><a href="#tab22">Node.js</a></li>
+        <li data-lang="csharp"><a href="#tab21">C#</a></li>
+        <li data-lang="node"><a href="#tab22">Node.js</a></li>
     </ul>
 
     <div id="tab21">
@@ -170,8 +170,8 @@ The Function code looks like this:
 
 <div id="thetabs3">
     <ul>
-        <li><a href="#tab31">C#</a></li>
-        <li><a href="#tab32">Node.js</a></li>
+        <li data-lang="csharp"><a href="#tab31">C#</a></li>
+        <li data-lang="node"><a href="#tab32">Node.js</a></li>
     </ul>
 
     <div id="tab31">
