@@ -63,4 +63,4 @@ If there's no indication as to who joined, do I send messages to the entire list
 
 After initiating the conversation, your bot sends a message to the users by posting a request to https://api.botframework.com/v3/conversations/abcd1234/activities. For details about sending and receiving messages, see [Sending and receiving messages](../messages).
 
-For details about starting a conversation using the .NET or Node SDKs, see [Alarm Bot](/en-us/csharp/builder/sdkreference/dialogs.html#alarmBot) and [Proactive Messaging](en-us/node/builder/chat/UniversalBot/#proactive-messaging). 
+For details about starting a conversation using the .NET or Node SDKs, see [Alarm Bot](/en-us/csharp/builder/sdkreference/dialogs.html#alarmBot) and [Proactive Messaging](/en-us/node/builder/chat/UniversalBot/#proactive-messaging). 

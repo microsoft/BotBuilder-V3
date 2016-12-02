@@ -25,7 +25,7 @@ The following is the base URI that you use in all Connector REST requests.
 The following are the URI templates that you use to access Connector resources.
 
 |**Template**|**Verb**|**Description**|**Resource**
-|/v3/conversation|POST|Use to start a private or group conversation. For information, see [Stating a Conversation](../conversation).|Request: [Conversation](#conversation-object)<br/>Response: [Identification](#identification)
+|/v3/conversation|POST|Use to start a private or group conversation. For information, see [Starting a Conversation](../conversation).|Request: [Conversation](#conversation-object)<br/>Response: [Identification](#identification)
 |/v3/conversation/{conversationId}/activities|POST|Use to send a message to members of the conversation. Use this only if you're not replying to a message from another member of the conversation. For information, see [Sending Messages](../messages).|Request: [Activity](#activity)
 |/v3/conversation/{conversationId}/activities/{activityId}|POST|Use to reply to a message that a member of the conversation sent. For information, see [Sending Messages](../messages).|Request: [Activity](#activity)
 |/v3/conversation/{conversationId}/members|GET|Use to get members of the conversation.|Response: [ChannelAccount](#channelaccount)
