@@ -2468,6 +2468,9 @@ p,
 dl {
   font: 15px "Segoe UI", sans-serif;
 }
+body {
+  background: #F7F7F7 !important;
+}
 #side-nav {
   width: 320px !important;
   position: relative;
