@@ -482,6 +482,7 @@ systemLib.dialog(consts.DialogId.ConfirmCancel, [
  * dialogArgs: { 
  *      dialogId: string; 
  *      dialogArgs?: any;
+ *      isRootDialog?: boolean;
  * }
  */
 systemLib.dialog(consts.DialogId.Interruption, [

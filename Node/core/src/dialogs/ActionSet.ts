@@ -54,6 +54,11 @@ export interface IBeginDialogActionOptions extends IDialogActionOptions {
     dialogArgs?: any;
 }
 
+export interface ITriggerActionOptions extends IBeginDialogActionOptions {
+    isRootDialog?: boolean;
+    onInterrupted?: (session: Session, dialogId: string, dialogArgs?: any, next?: Function) => void;
+}
+
 export interface ICancelActionOptions extends IDialogActionOptions {
     confirmPrompt?: string|string[]|IMessage|IIsMessage;
 }
@@ -73,7 +78,7 @@ export interface IFindActionRouteContext extends IRecognizeContext {
 
 export class ActionSet {
     private actions: { [name: string]: IActionHandlerEntry; } = {};
-    private trigger: IBeginDialogActionOptions;
+    private trigger: ITriggerActionOptions;
 
     public clone(copyTo?: ActionSet): ActionSet {
         var obj = copyTo || new ActionSet();
@@ -224,6 +229,20 @@ export class ActionSet {
         }
     }
 
+    public dialogInterrupted(session: Session, dialogId: string, dialogArgs: any): void {
+        function next() {
+            session.clearDialogStack();
+            session.beginDialog(dialogId, dialogArgs);
+        }
+
+        if (this.trigger && this.trigger.onInterrupted) {
+            // Call custom handler
+            this.trigger.onInterrupted(session, dialogId, dialogArgs, next);
+        } else {
+            next();
+        }
+    }
+
     public cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): this {
         return this.action(name, (session, args) => {
             if (options.confirmPrompt) {
@@ -260,7 +279,18 @@ export class ActionSet {
                 var lib = args.dialogId ? args.dialogId.split(':')[0] : args.libraryName;
                 id = lib + ':' + id;
             }
-            session.beginDialog(consts.DialogId.Interruption, { dialogId: id, dialogArgs: args });
+            if (session.sessionState.callstack.length > 0) {
+                if ((<ITriggerActionOptions>options).isRootDialog) {
+                    // Let the root dialog manage interruption
+                    var parts = session.sessionState.callstack[0].id.split(':');
+                    session.library.findDialog(parts[0], parts[1]).dialogInterrupted(session, id, args);
+                } else  {
+                    // Push an interruption wrapper onto the stack
+                    session.beginDialog(consts.DialogId.Interruption, { dialogId: id, dialogArgs: args });
+                }
+            } else {
+                session.beginDialog(id, args);
+            }
         }, options);
     }
 
@@ -282,9 +312,12 @@ export class ActionSet {
         }, options);
     }
 
-    public triggerAction(options: IBeginDialogActionOptions): this {
+    public triggerAction(options: ITriggerActionOptions): this {
         // Save trigger options. A global beginDialog() action will get setup at runtime.
-        this.trigger = options;
+        this.trigger = options || {};
+        if (!this.trigger.hasOwnProperty('isRootDialog')) {
+            this.trigger.isRootDialog = true;
+        }
         return this;
     }
 
