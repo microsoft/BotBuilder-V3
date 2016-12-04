@@ -24,7 +24,12 @@ var IntentDialog = (function (_super) {
         _super.call(this);
         this.handlers = {};
         this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet(options);
-        this.recognizeMode = options.recognizeMode || RecognizeMode.onBeginIfRoot;
+        if (typeof options.recognizeMode !== "undefined") {
+            this.recognizeMode = options.recognizeMode;
+        }
+        else {
+            this.recognizeMode = RecognizeMode.onBeginIfRoot;
+        }
     }
     IntentDialog.prototype.begin = function (session, args) {
         var _this = this;
