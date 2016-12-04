@@ -63,6 +63,7 @@ export var DialogId = {
     Prompts: 'BotBuilder:Prompts',
     FirstRun: 'BotBuilder:FirstRun',
     ConfirmCancel: 'BotBuilder:ConfirmCancel',
+    ConfirmInterruption: 'BotBuilder:ConfirmInterruption',
     Interruption: 'BotBuilder:Interruption',
     Disambiguate: 'BotBuilder:Disambiguate'
 };

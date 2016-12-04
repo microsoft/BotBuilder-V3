@@ -501,6 +501,29 @@ export interface IBeginDialogActionOptions extends IDialogActionOptions {
     dialogArgs?: any;
 }
 
+/** Options passed when defining a `triggerAction()`. */
+export interface ITriggerActionOptions extends IBeginDialogActionOptions {
+    /**
+     * If specified the user will be asked to confirm that they are ok canceling the current 
+     * uncompleted task.
+     * * _{string}_ - Initial message to send the user.
+     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * _{IMessage}_ - Message to send the user. Message can contain attachments. 
+     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
+     */
+    confirmPrompt?: string|string[]|IMessage|IIsMessage;
+
+    /** 
+     * (Optional) custom handler called when a root dialog is being interrupted by another root 
+     * dialog. This gives the dialog an opportunity to perform custom cleanup logic or to prompt
+     * the user to confirm the interruption was intended. 
+     * 
+     * It's important to note that this is not a waterfall and you should call `next()` if you 
+     * would like the actions default behaviour to run. 
+     */
+    onInterrupted?: (session: Session, dialogId: string, dialogArgs?: any, next?: Function) => void;
+}
+
 /** Options passed when defining a `cancelAction()`. */
 export interface ICancelActionOptions extends IDialogActionOptions {
     /**
@@ -508,7 +531,7 @@ export interface ICancelActionOptions extends IDialogActionOptions {
      * action when triggered. 
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * * _{IMessage}_ - Message to send the user. Message can contain attachments. 
      * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
      */
     confirmPrompt?: string|string[]|IMessage|IIsMessage;
@@ -2043,6 +2066,17 @@ export abstract class Dialog extends ActionSet {
      */
     dialogResumed<T>(session: Session, result: IDialogResult<T>): void;
 
+    /**
+     * Called when a root dialog is being interrupted by another dialog. This gives the dialog
+     * that's being interrupted a chance to run custom logic before it's removed from the stack.
+     * 
+     * The dialog itself is responsible for clearing the dialog stack and starting the new dialog.
+     * @param session Session object for the current conversation.
+     * @param dialogId ID of the dialog that should be started.
+     * @param dialogArgs Arguments that should be passed to the new dialog.
+     */
+    dialogInterrupted(session: Session, dialogId: string, dialogArgs: any): void;
+
     /** 
      * Parses the users utterance and assigns a score from 0.0 - 1.0 indicating how confident the 
      * dialog is that it understood the users utterance.  This method is always called for the active
@@ -2068,13 +2102,15 @@ export abstract class Dialog extends ActionSet {
 
     /**
      * Binds an action to the dialog that will make it the active dialog anytime its triggered.
-     * The default behaviour is to simply push the dialog onto the existing stack such that the
-     * previous task will continue once the new dialog ends. This behaviour can easily be 
-     * modified by adding a custom [onSelectAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ibegindialogactionsoptions#onselectaction)
-     * handler to your options.
+     * The default behaviour is to interupt any existing dialog by clearing the stack and starting 
+     * the dialog at the root of the stack.  The dialog being interrupted can intercept this 
+     * interruption by adding a custom [onInterrupted](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.itriggeractionsoptions#oninterrupted) 
+     * handler to their trigger action options.  Additionally, you can customize the way the 
+     * triggered dialog is started by providing a custom [onSelectAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ibegindialogactionsoptions#onselectaction)
+     * handler to your trigger action options.
      * @param options Options used to configure the action.
      */
-    triggerAction(options: IBeginDialogActionOptions): Dialog;
+    triggerAction(options: ITriggerActionOptions): Dialog;
 
     /**
      * Binds an action to the dialog that will cancel the dialog anytime its triggered. When canceled, the 

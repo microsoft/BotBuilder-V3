@@ -474,6 +474,33 @@ systemLib.dialog(consts.DialogId.ConfirmCancel, [
 ]);
 
 /**
+ * Internal dialog that prompts a user to confirm a that a root dialog should be
+ * interrupted with a new dialog.
+ * dialogArgs: { 
+ *      localizationNamespace: string;
+ *      confirmPrompt: string; 
+ *      dialogId: string;
+ *      dialogArgs?: any;
+ * }
+ */
+systemLib.dialog(consts.DialogId.ConfirmInterruption, [
+    function (session, args) {
+        session.dialogData.dialogId = args.dialogId;
+        session.dialogData.dialogArgs = args.dialogArgs;
+        Prompts.confirm(session, args.confirmPrompt, { localizationNamespace: args.localizationNamespace });
+    },
+    function (session, results) {
+        if (results.response) {
+            var args = session.dialogData;
+            session.clearDialogStack();
+            session.beginDialog(args.dialogId, args.dialogArgs);
+        } else {
+            session.endDialogWithResult({ resumed: ResumeReason.reprompt });
+        }
+    }
+]);
+
+/**
  * Begins a new dialog as an interruption. If the stack has a depth of 1 that means
  * only the interruption exists so it will be replaced with the new dialog. Otherwise,
  * the interruption will stay on the stack and ensure that ResumeReason.reprompt is
@@ -528,4 +555,4 @@ systemLib.dialog(consts.DialogId.Disambiguate, [
             session.endDialogWithResult({ resumed: ResumeReason.reprompt });
         }
     }
-])
+]);

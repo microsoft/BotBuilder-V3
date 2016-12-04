@@ -13,16 +13,13 @@ var builder = require('../../core/');
 
 // Create bot and bind to console
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
+var bot = new builder.UniversalBot(connector, function (session) {
+    session.send("Hi... I'm the alarm bot sample. I can set new alarms or delete existing ones.");
+});
 
 // Add global LUIS recognizer to bot
 var model = process.env.model || 'https://api.projectoxford.ai/luis/v2.0/apps/c413b2ef-382c-45bd-8ff0-f76d60e2a821?subscription-key=6d0966209c6e4f6b835ce34492f3e6d9';
 bot.recognizer(new builder.LuisRecognizer(model));
-
-// Default dialog
-bot.dialog('/', function (session) {
-    session.send("Hi... I'm the alarm bot sample. I can set new alarms or delete existing ones.");
-});
 
 // Set Alarm dialog
 bot.dialog('/setAlarm', [
@@ -77,9 +74,7 @@ bot.dialog('/setAlarm', [
     }
 ]).triggerAction({ 
     matches: 'builtin.intent.alarm.set_alarm',
-    onSelectAction: function (session, args, next) {
-        switchTasks(session, args, next, "You're already setting an alarm. You need to cancel the current alarm first.");
-    } 
+    confirmPrompt: "This will cancel the current alarm. Are you sure?"
 }).cancelAction('cancelSetAlarm', "Alarm canceled.", {
     matches: /^(cancel|nevermind)/i,
     confirmPrompt: "Are you sure?"
@@ -141,18 +136,4 @@ function alarmCount() {
         i++;
     }
     return i;
-}
-
-function switchTasks(session, args, next, alreadyActiveMessage) {
-    // Check to see if we're already active.
-    // - We're assuming that we're being called from a triggerAction() some
-    //   args.action is the fully qualified dialog ID.
-    var stack = session.dialogStack();
-    if (builder.Session.findDialogStackEntry(stack, args.action) >= 0) {
-        session.send(alreadyActiveMessage);
-    } else {
-        // Clear stack and switch tasks
-        session.clearDialogStack();
-        next();
-    }
 }

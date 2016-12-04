@@ -503,7 +503,15 @@ export interface IBeginDialogActionOptions extends IDialogActionOptions {
 
 /** Options passed when defining a `triggerAction()`. */
 export interface ITriggerActionOptions extends IBeginDialogActionOptions {
-    /** (Optional) If true the triggered dialog will be started at the root of the stack. */
+    /**
+     * If specified the user will be asked to confirm that they are ok canceling the current 
+     * uncompleted task.
+     * * _{string}_ - Initial message to send the user.
+     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * _{IMessage}_ - Message to send the user. Message can contain attachments. 
+     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
+     */
+    confirmPrompt?: string|string[]|IMessage|IIsMessage;
 
     /** 
      * (Optional) custom handler called when a root dialog is being interrupted by another root 
@@ -523,7 +531,7 @@ export interface ICancelActionOptions extends IDialogActionOptions {
      * action when triggered. 
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * * _{IMessage}_ - Message to send the user. Message can contain attachments. 
      * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
      */
     confirmPrompt?: string|string[]|IMessage|IIsMessage;

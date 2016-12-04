@@ -373,6 +373,23 @@ Library_1.systemLib.dialog(consts.DialogId.ConfirmCancel, [
         }
     }
 ]);
+Library_1.systemLib.dialog(consts.DialogId.ConfirmInterruption, [
+    function (session, args) {
+        session.dialogData.dialogId = args.dialogId;
+        session.dialogData.dialogArgs = args.dialogArgs;
+        Prompts.confirm(session, args.confirmPrompt, { localizationNamespace: args.localizationNamespace });
+    },
+    function (session, results) {
+        if (results.response) {
+            var args = session.dialogData;
+            session.clearDialogStack();
+            session.beginDialog(args.dialogId, args.dialogArgs);
+        }
+        else {
+            session.endDialogWithResult({ resumed: Dialog_1.ResumeReason.reprompt });
+        }
+    }
+]);
 Library_1.systemLib.dialog(consts.DialogId.Interruption, [
     function (session, args) {
         if (session.sessionState.callstack.length > 1) {
