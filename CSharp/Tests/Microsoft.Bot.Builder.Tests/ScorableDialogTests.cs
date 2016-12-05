@@ -284,12 +284,12 @@ namespace Microsoft.Bot.Builder.Tests
             var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
 
             var scorable = Scorable
-                .For((string expression, IBotData data, IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
+                .Bind((string expression, IBotData data, IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
                 {
                     var dialog = new CalculatorDialog();
                     activity.Text = expression;
                     return stack.InterruptAsync(dialog, activity, token);
-                }).When(new Regex(@".*calculate\s*(?<expression>.*)"));
+                }).When(new Regex(@".*calculate\s*(?<expression>.*)")).Normalize();
 
             echo = echo.WithScorable(scorable);
 
