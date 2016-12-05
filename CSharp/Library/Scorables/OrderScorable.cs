@@ -101,7 +101,8 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             var levels = from method in methods
                          // note, this is non-deterministic across executions, which seems lame
                          let defaultOrder = method.Name.GetHashCode()
-                         let orders = InheritedAttributes.For<ScorableGroupAttribute>(method).Select(order => order.Order).DefaultIfEmpty(defaultOrder)
+                         let attributes = InheritedAttributes.For<ScorableGroupAttribute>(method)
+                         let orders = attributes.Select(order => order.Order).DefaultIfEmpty(defaultOrder)
                          from order in orders
                          group method by order into g
                          orderby g.Key
@@ -110,7 +111,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             var scorables = from level in levels
                             from factory in this.factories
                             let scorable = factory.ScorableFor(level)
-                            //where scorable != null
+                            where Scorable.Keep(scorable)
                             select scorable;
 
             var winner = scorables.ToArray().First();
