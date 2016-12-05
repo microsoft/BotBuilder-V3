@@ -136,4 +136,16 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
     }
+
+    /// <summary>
+    /// A dialog specialized to dispatch an IScorable.
+    /// </summary>
+    /// <remarks>
+    /// This non-generic dialog is intended for use as a top-level dialog that will not
+    /// return to any calling parent dialog (and therefore the result type is object).
+    /// </remarks>
+    [Serializable]
+    public class DispatchDialog : DispatchDialog<object>
+    {
+    }
 }

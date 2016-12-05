@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
     /// </summary>
     [Serializable]
     [LuisModel("unitTestMockReturnedFromMakeService", "unitTestMockReturnedFromMakeService")]
-    public sealed class AlarmDispatchDialog : DispatchDialog<object>
+    public sealed class AlarmDispatchDialog : DispatchDialog
     {
         private readonly IAlarmService service;
         private readonly IEntityToType entityToType;
