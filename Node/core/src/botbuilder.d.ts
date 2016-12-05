@@ -1735,6 +1735,9 @@ export class Keyboard implements IIsAttachment {
      */
     constructor(session?: Session);
 
+    /** Session object for the current conversation. */
+    protected session?: Session;
+
     /** Set of actions applicable to the current card. Not all channels support buttons or cards with buttons. Some channels may choose to render the buttons using a custom keyboard. */  
     buttons(list: ICardAction[]|IIsCardAction[]): ThumbnailCard;
 
