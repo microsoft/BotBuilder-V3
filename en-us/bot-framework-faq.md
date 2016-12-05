@@ -32,10 +32,10 @@ The Bot Framework Developer Portal lets you connect your bot(s) seamlessly text/
 
 ![Developer Portal](/en-us/images/faq-overview/developer_portal_july.png)
 
-### Bot Directory (coming soon)
+### Bot Directory
 {:.no_toc}
 
-The Bot Directory is a public directory of all reviewed bots registered through the Developer Portal. Users will be able to discover, try, and add bots to their favorite conversation experiences from the Bot Directory. Initially the Bot Directory will feature bots demonstrated at [Microsoft Build 2016](http://build.microsoft.com/).
+The Bot Directory is a public directory of all reviewed bots registered through the Developer Portal. Users can discover, try, and add bots to their favorite conversation experiences from the Bot Directory. 
 
 ![Bot Directory (coming soon)](/en-us/images/faq-overview/bot_directory_july.png)
 
@@ -121,20 +121,17 @@ The [Bot Builder SDK](http://github.com/Microsoft/BotBuilder) is an open source 
 
 ## What does the Bot Directory provide to developers? How does it work?
 
-The [Bot Directory](http://bots.botframework.com) (coming soon) is a publicly accessible list of all the bots registered with Bot Framework that have been submitted and reviewed to appear in the directory. Each bot has its own contact card which includes the bot name, publisher, description, and the channels on which it is available. Your users can tap in to view details on any bot, try your bot using the web chat control and add the bot to any channels on which it is configured. Bot cards also provide a way for users to report abuse as well.
+The [Bot Directory](http://bots.botframework.com) is a publicly accessible list of all the bots registered with Bot Framework that have been submitted and reviewed to appear in the directory. Each bot has its own contact card which includes the bot name, publisher, description, and the channels on which it is available. Your users can tap in to view details on any bot, try your bot using the web chat control and add the bot to any channels on which it is configured. Bot cards also provide a way for users to report abuse as well.
 The Bot Directory includes featured bots and is searchable to aid discovery. Developers can choose whether or not to list their bot in the directory during bot registration.
 
 ## Can I submit my bot to the Bot Directory?
 
-The Bot Directory, the public directory of bots registered with Bot Framework, is open to developers for bot submission and review. The Bot Directory itself isn’t live yet, but when it is available, users will be able to discover, try and add bots to their favorite conversation experiences.
+The Bot Directory, the public directory of bots registered with Bot Framework, is open to developers for bot submission and review. Users can discover, try and add bots to their favorite conversation experiences.
 
 ## Do I have to publish my bot to the Bot Directory in order for my bot to be available to users?
 
 No, publishing your bot is an optional process. Certain channels do limit the number of users allowed to interact with a bot until a review process has been completed - this process is managed by the channel, not Microsoft Bot Framework.
 
-## You state that the Bot Directory is “coming soon” – when will it be available?
-
-Developers can elect to make their bots public and submit them for review from the bot's dashboard. We cannot provide a specific schedule for when the directory will go live at this time (a broadcast announcement will be made when the directory is made public, likely via a blog post).
 
 ## What channels does the Bot Framework currently support?
 
