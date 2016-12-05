@@ -263,15 +263,9 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
         int IComparer<IntentRecommendation>.Compare(IntentRecommendation one, IntentRecommendation two)
         {
-            Func<IntentRecommendation, Pair<bool, double>> PairFor = intent => Pair.Create
-            (
-                ! intent.Intent.Equals("none", StringComparison.OrdinalIgnoreCase),
-                intent.Score.GetValueOrDefault()
-            );
-
-            var pairOne = PairFor(one);
-            var pairTwo = PairFor(two);
-            return pairOne.CompareTo(pairTwo);
+            var scoreOne = one.Score.GetValueOrDefault();
+            var scoreTwo = two.Score.GetValueOrDefault();
+            return scoreOne.CompareTo(scoreTwo);
         }
     }
 }
