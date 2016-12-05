@@ -49,9 +49,9 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// <summary>
     /// A dialog specialized to dispatch an IScorable.
     /// </summary>
-    /// <typeparam name="T">The result type.</typeparam>
+    /// <typeparam name="TResult">The result type.</typeparam>
     [Serializable]
-    public class DispatchDialog<T> : IDialog<T>
+    public class DispatchDialog<TResult> : IDialog<TResult>
     {
         public virtual async Task StartAsync(IDialogContext context)
         {

@@ -138,9 +138,9 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// <summary>
     /// A dialog specialized to handle intents and entities from LUIS.
     /// </summary>
-    /// <typeparam name="T">The result type.</typeparam>
+    /// <typeparam name="TResult">The result type.</typeparam>
     [Serializable]
-    public class LuisDialog<T> : IDialog<T>
+    public class LuisDialog<TResult> : IDialog<TResult>
     {
         protected readonly IReadOnlyList<ILuisService> services;
 
