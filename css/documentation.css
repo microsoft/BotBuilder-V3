@@ -2648,9 +2648,8 @@ a {
   border: 1px solid #ddd;
   word-break: break-word;
 }
-
 .post-content table tr td a {
-    word-break: normal;
+  word-break: normal;
 }
 .post-content table th {
   padding: 6px 13px;
