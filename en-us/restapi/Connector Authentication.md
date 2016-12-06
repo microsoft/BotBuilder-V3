@@ -109,6 +109,7 @@ payload:
   ... other fields follow
 }
 ```
+**Note**: Actual fields may vary in practice. Create and validate all JWT tokens according to the instructions above.
 
 
 ## Authenticating calls from the Bot Connector service to the bot
@@ -185,6 +186,7 @@ payload:
   ... other fields follow
 }
 ```
+**Note**: Actual fields may vary in practice. Create and validate all JWT tokens according to the instructions above.
 
 
 ## Enabling authentication from the Bot Framework Emulator
@@ -242,6 +244,7 @@ payload:
   ... other fields follow
 }
 ```
+**Note**: Actual fields may vary in practice. Create and validate all JWT tokens according to the instructions above.
 
 
 ## Changes
