@@ -47,7 +47,7 @@ When a bot issues a call to the Bot Connector service, for example when sending 
 
 ### (Bot -> Connector) Step 1: POST to the MSA/AAD v2 login service to retrieve a token
 
-Issue an HTTPS POST call to https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/oauth2/v2.0/token with the following form-encoded values:
+Issue an HTTPS POST call to https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token with the following form-encoded values:
 
     grant_type=client_credentials
     client_id=<YOUR MICROSOFT APP ID>
@@ -57,7 +57,7 @@ Issue an HTTPS POST call to https://login.microsoftonline.com/d6d49420-f39b-4df7
 Example request to the MSA/AAD server:
 
     -- connect to login.microsftonline.com --
-    POST /d6d49420-f39b-4df7-a1dc-d59a935871db/oauth2/v2.0/token HTTP/1.1
+    POST /botframework.com/oauth2/v2.0/token HTTP/1.1
 
     grant_type=client_credentials&client_id=<YOUR MICROSOFT APP ID>&client_secret=<YOUR MICROSOFT APP PASSWORD>&scope=https%3A%2F%2Fapi.botframework.com%2F.default
 
