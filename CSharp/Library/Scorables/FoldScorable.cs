@@ -42,10 +42,20 @@ using System.Threading.Tasks;
 namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     /// <summary>
+    /// The stage of the FoldScorable events.
+    /// </summary>
+    public enum FoldStage { AfterFold, StartPost, AfterPost }
+
+    /// <summary>
     /// Fold an aggregation of scorables to produce a winning scorable.
     /// </summary>
-    public class FoldScorable<Item, Score> : ScorableBase<Item, IReadOnlyList<FoldScorable<Item, Score>.State>, Score>
+    public abstract class FoldScorable<Item, Score> : ScorableBase<Item, IReadOnlyList<FoldScorable<Item, Score>.State>, Score>
     {
+        /// <summary>
+        /// Event handler delegate for fold scorable stages.
+        /// </summary>
+        public delegate bool OnStageDelegate(FoldStage stage, IScorable<Item, Score> scorable, Item item, object state, Score score);
+
         protected readonly IComparer<Score> comparer;
         protected readonly IEnumerable<IScorable<Item, Score>> scorables;
 
@@ -55,10 +65,13 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             SetField.NotNull(out this.scorables, nameof(scorables), scorables);
         }
 
-        protected virtual bool OnFold(IScorable<Item, Score> scorable, Item item, object state, Score score)
-        {
-            return true;
-        }
+        /// <summary>
+        /// Event handler for fold scorable stages.
+        /// </summary>
+        /// <remarks>
+        /// This is late-bound to allow binding to "this" in derived classes.
+        /// </remarks>
+        protected abstract OnStageDelegate OnStage { get; }
 
         /// <summary>
         /// Per-scorable opaque state used during scoring process.
@@ -88,7 +101,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
                 if (scorable.HasScore(item, state))
                 {
                     var score = scorable.GetScore(item, state);
-                    if (!OnFold(scorable, item, state, score))
+                    if (!this.OnStage(FoldStage.AfterFold, scorable, item, state, score))
                     {
                         break;
                     }
@@ -144,20 +157,28 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             return state.scorable.GetScore(item, state.state);
         }
 
-        protected override Task PostAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
+        protected override async Task PostAsync(Item item, IReadOnlyList<State> states, CancellationToken token)
         {
-            try
+            foreach (var state in states)
             {
-                var state = states[0];
-                return state.scorable.PostAsync(item, state.state, token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException(error);
+                if (!state.scorable.HasScore(item, state.state))
+                {
+                    break;
+                }
+
+                var score = state.scorable.GetScore(item, state.state);
+
+                if (!this.OnStage(FoldStage.StartPost, state.scorable, item, state.state, score))
+                {
+                    break;
+                }
+
+                await state.scorable.PostAsync(item, state.state, token);
+
+                if (!this.OnStage(FoldStage.AfterPost, state.scorable, item, state.state, score))
+                {
+                    break;
+                }
             }
         }
 
@@ -166,6 +187,29 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             foreach (var state in states)
             {
                 await state.scorable.DoneAsync(item, state.state, token);
+            }
+        }
+    }
+
+    public class DelegatingFoldScorable<Item, Score> : FoldScorable<Item, Score>
+    {
+        private readonly OnStageDelegate onStage;
+        public DelegatingFoldScorable(OnStageDelegate onStage, IComparer<Score> comparer, IEnumerable<IScorable<Item, Score>> scorables)
+            : base(comparer, scorables)
+        {
+            this.onStage = onStage ?? this.OnStageHandler;
+        }
+
+        protected override OnStageDelegate OnStage => this.onStage;
+
+        public virtual bool OnStageHandler(FoldStage stage, IScorable<Item, Score> scorable, Item item, object state, Score score)
+        {
+            switch (stage)
+            {
+                case FoldStage.AfterFold: return true;
+                case FoldStage.StartPost: return true;
+                case FoldStage.AfterPost: return false;
+                default: throw new NotImplementedException();
             }
         }
     }

@@ -64,13 +64,15 @@ namespace Microsoft.Bot.Builder.Tests
             return mock;
         }
 
-        public static void Verify<Item, Score>(Mock<IScorable<Item, Score>> mock, Item item, CancellationToken token, Times prepare, Times hasScore, Times getScore, Times post)
+        public static void Verify<Item, Score>(Mock<IScorable<Item, Score>> mock, Item item, CancellationToken token, Times prepare, Times hasScore, Times getScore, Times post, Times? done = null)
         {
+            done = done ?? prepare;
+
             mock.Verify(s => s.PrepareAsync(item, token), prepare);
             mock.Verify(s => s.HasScore(item, It.IsAny<object>()), hasScore);
             mock.Verify(s => s.GetScore(item, It.IsAny<object>()), getScore);
             mock.Verify(s => s.PostAsync(item, It.IsAny<object>(), token), post);
-            mock.Verify(s => s.DoneAsync(item, It.IsAny<object>(), token), prepare);
+            mock.Verify(s => s.DoneAsync(item, It.IsAny<object>(), token), done.Value);
         }
     }
 
@@ -136,6 +138,53 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static readonly ITraits<double> Traits = NormalizedTraits.Instance;
         public static readonly IComparer<double> Comparer = Comparer<double>.Default;
+
+
+        [TestMethod]
+        public async Task Scorable_Fold_StableSort()
+        {
+            var scores = new[] { 0.1, 0.5, 0.5, 0.3, 0.3, 0.3, 0.4, 0.5 };
+            var mocks = scores.Select(score => Mock(Item, score, Token, true)).ToArray();
+            var sortedStartOrder = mocks.Select(m => m.Object).ToArray();
+            var sortedScoreOrder = sortedStartOrder.OrderByDescending(s => scores[Array.IndexOf(sortedStartOrder, s)]).ToArray();
+
+            var fold = sortedStartOrder.Fold(Comparer, (stage, scorable, item, state, score) =>
+            {
+                for (int indexStartOrder = 0; indexStartOrder < mocks.Length; ++indexStartOrder)
+                {
+                    int indexScoreOrder = Array.IndexOf(sortedScoreOrder, sortedStartOrder[indexStartOrder]);
+
+                    var mock = mocks[indexStartOrder];
+                    switch (stage)
+                    {
+                        case FoldStage.AfterFold:
+                            bool afterFold = indexStartOrder <= Array.IndexOf(sortedStartOrder, scorable);
+                            Verify(mock, Item, Token, Once(afterFold), Once(afterFold), Once(afterFold), Once(false), Once(false));
+                            break;
+                        case FoldStage.StartPost:
+                            bool startPost = indexScoreOrder < Array.IndexOf(sortedScoreOrder, scorable);
+                            Verify(mock, Item, Token, Once(true), Many(true), Many(true), Once(startPost), Once(false));
+                            break;
+                        case FoldStage.AfterPost:
+                            bool afterPost = indexScoreOrder <= Array.IndexOf(sortedScoreOrder, scorable);
+                            Verify(mock, Item, Token, Once(true), Many(true), Many(true), Once(afterPost), Once(false));
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                }
+
+                return true;
+            });
+
+            var success = await fold.TryPostAsync(Item, Token);
+            Assert.IsTrue(success);
+
+            foreach (var mock in mocks)
+            {
+                Verify(mock, Item, Token, Once(true), Many(true), Many(true), Once(true), Once(true));
+            }
+        }
 
         [TestMethod]
         public async Task Scorable_Traits()

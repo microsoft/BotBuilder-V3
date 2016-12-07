@@ -192,9 +192,9 @@ namespace Microsoft.Bot.Builder.Scorables
         }
 
         /// <summary>
-        /// Select a single winning scorable from an enumeration of scorables using a score comparer.
+        /// Fold an enumeration of scorables using a score comparer.
         /// </summary>
-        public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer)
+        public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer, FoldScorable<Item, Score>.OnStageDelegate onStage = null)
         {
             IScorable<Item, Score> scorable;
             if (TryReduce(ref scorables, out scorable))
@@ -202,7 +202,7 @@ namespace Microsoft.Bot.Builder.Scorables
                 return scorable;
             }
 
-            return new FoldScorable<Item, Score>(comparer, scorables);
+            return new DelegatingFoldScorable<Item, Score>(onStage, comparer, scorables);
         }
 
         private static IScorable<IResolver, Binding> Bind(Delegate lambda)
@@ -391,30 +391,47 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
         }
     }
 
-    public sealed class FirstScorable<Item, Score> : FoldScorable<Item, Score>
+    public sealed class FirstScorable<Item, Score> : DelegatingFoldScorable<Item, Score>
     {
         public FirstScorable(IEnumerable<IScorable<Item, Score>> scorables)
-            : base(Comparer<Score>.Default, scorables)
+            : base(null, Comparer<Score>.Default, scorables)
         {
         }
 
-        protected override bool OnFold(IScorable<Item, Score> scorable, Item item, object state, Score score)
+        public override bool OnStageHandler(FoldStage stage, IScorable<Item, Score> scorable, Item item, object state, Score score)
         {
-            return false;
+            switch (stage)
+            {
+                case FoldStage.AfterFold: return false;
+                case FoldStage.StartPost: return true;
+                case FoldStage.AfterPost: return false;
+                default: throw new NotImplementedException();
+            }
         }
     }
 
-    public sealed class TraitsScorable<Item, Score> : FoldScorable<Item, Score>
+    public sealed class TraitsScorable<Item, Score> : DelegatingFoldScorable<Item, Score>
     {
         private readonly ITraits<Score> traits;
 
         public TraitsScorable(ITraits<Score> traits, IComparer<Score> comparer, IEnumerable<IScorable<Item, Score>> scorables)
-            : base(comparer, scorables)
+            : base(null, comparer, scorables)
         {
             SetField.NotNull(out this.traits, nameof(traits), traits);
         }
 
-        protected override bool OnFold(IScorable<Item, Score> scorable, Item item, object state, Score score)
+        public override bool OnStageHandler(FoldStage stage, IScorable<Item, Score> scorable, Item item, object state, Score score)
+        {
+            switch (stage)
+            {
+                case FoldStage.AfterFold: return OnFold(scorable, item, state, score);
+                case FoldStage.StartPost: return true;
+                case FoldStage.AfterPost: return false;
+                default: throw new NotImplementedException();
+            }
+        }
+
+        private bool OnFold(IScorable<Item, Score> scorable, Item item, object state, Score score)
         {
             if (this.comparer.Compare(score, this.traits.Minimum) < 0)
             {
