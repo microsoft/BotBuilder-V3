@@ -161,4 +161,18 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             }
         }
     }
+
+    public sealed class NullComparer<T> : IComparer<T>
+    {
+        public static readonly IComparer<T> Instance = new NullComparer<T>();
+
+        private NullComparer()
+        {
+        }
+
+        int IComparer<T>.Compare(T x, T y)
+        {
+            return 0;
+        }
+    }
 }
