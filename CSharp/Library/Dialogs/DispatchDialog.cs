@@ -90,10 +90,37 @@ namespace Microsoft.Bot.Builder.Dialogs
             return methods;
         }
 
+        private bool continueAfterPost;
+
+        protected void ContinueWithNextGroup()
+        {
+            continueAfterPost = true;
+        }
+
+        protected virtual bool OnStage(FoldStage stage, IScorable<IResolver, object> scorable, IResolver item, object state, object score)
+        {
+            switch (stage)
+            {
+                case FoldStage.AfterFold: return true;
+                case FoldStage.StartPost: continueAfterPost = false; return true;
+                case FoldStage.AfterPost: return continueAfterPost;
+                default: throw new NotImplementedException();
+            }
+        }
+
+        protected virtual IComparer<object> MakeComparer(IDialogContext context, IActivity activity)
+        {
+            return NullComparer<object>.Instance;
+        }
+
         protected virtual IScorableFactory<IResolver, object> MakeFactory(IDialogContext context, IActivity activity)
         {
+            var comparer = MakeComparer(context, activity);
+
             IScorableFactory<IResolver, object> factory = new OrderScorableFactory<IResolver, object>
                 (
+                    this.OnStage,
+                    comparer,
                     new LuisIntentScorableFactory(MakeService),
                     new RegexMatchScorableFactory(MakeRegex),
                     new MethodScorableFactory()

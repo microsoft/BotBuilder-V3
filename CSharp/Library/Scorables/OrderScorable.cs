@@ -84,15 +84,19 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
     public sealed class OrderScorableFactory<Item, Score> : IScorableFactory<Item, Score>
     {
+        private readonly FoldScorable<Item, Score>.OnStageDelegate onStage;
+        private readonly IComparer<Score> comparer;
         private readonly IEnumerable<IScorableFactory<Item, Score>> factories;
 
-        public OrderScorableFactory(IEnumerable<IScorableFactory<Item, Score>> factories)
+        public OrderScorableFactory(FoldScorable<Item, Score>.OnStageDelegate onStage, IComparer<Score> comparer, IEnumerable<IScorableFactory<Item, Score>> factories)
         {
+            SetField.NotNull(out this.onStage, nameof(onStage), onStage);
+            SetField.NotNull(out this.comparer, nameof(comparer), comparer);
             SetField.NotNull(out this.factories, nameof(factories), factories);
         }
 
-        public OrderScorableFactory(params IScorableFactory<Item, Score>[] factories)
-            : this((IEnumerable<IScorableFactory<Item, Score>>)factories)
+        public OrderScorableFactory(FoldScorable<Item, Score>.OnStageDelegate onStage, IComparer<Score> comparer, params IScorableFactory<Item, Score>[] factories)
+            : this(onStage, comparer, (IEnumerable<IScorableFactory<Item, Score>>)factories)
         {
         }
 
@@ -114,7 +118,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
                             where Scorable.Keep(scorable)
                             select scorable;
 
-            var winner = scorables.ToArray().First();
+            var winner = scorables.ToArray().Fold(this.comparer, this.onStage);
             return winner;
         }
     }

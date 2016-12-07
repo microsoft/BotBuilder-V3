@@ -19,7 +19,91 @@ using System.Threading;
 namespace Microsoft.Bot.Builder.Tests
 {
     [TestClass]
-    public sealed class DispatchDialogTests : DispatchTestsBase
+    public sealed class DispatchDialogTests : DialogTestBase
+    {
+        private sealed class TestNextGroupDialog : DispatchDialog
+        {
+            [RegexPattern("hello")]
+            [ScorableGroup(1)]
+            public async Task MatchedLessGroupOne(IDialogContext context, IMessageActivity message)
+            {
+                if (message.Text.Contains("skip"))
+                {
+                    this.ContinueWithNextGroup();
+                }
+                else
+                {
+                    await context.PostAsync("matched less, group one");
+                }
+            }
+
+            [RegexPattern("hello world")]
+            [ScorableGroup(1)]
+            public async Task MatchedMoreGroupOne(IDialogContext context, IMessageActivity message)
+            {
+                if (message.Text.Contains("skip"))
+                {
+                    this.ContinueWithNextGroup();
+                }
+                else
+                {
+                    await context.PostAsync("matched more, group one");
+                }
+            }
+
+            [RegexPattern("hello")]
+            [ScorableGroup(2)]
+            public async Task MatchedLessGroupTwo(IDialogContext context, IMessageActivity message)
+            {
+                await context.PostAsync("matched less, group two");
+            }
+
+            [RegexPattern("hello world")]
+            [ScorableGroup(2)]
+            public async Task MatchedMoreGroupTwo(IDialogContext context, IMessageActivity message)
+            {
+                await context.PostAsync("matched more, group two");
+            }
+
+            [MethodBind]
+            [ScorableGroup(3)]
+            public async Task MatchDefault(IDialogContext context, IMessageActivity message)
+            {
+                await context.PostAsync($"echo: {message.Text}");
+            }
+        }
+
+        [TestMethod]
+        public async Task Dispatch_NextDispatchGroup()
+        {
+            using (var container = Build(Options.ResolveDialogFromContainer | Options.Reflection))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterType<TestNextGroupDialog>()
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "start",
+                    "echo: start",
+                    "hello",
+                    "matched less, group one",
+                    "hello world",
+                    "matched more, group one",
+                    "hello skip",
+                    "matched less, group two",
+                    "hello world skip",
+                    "matched more, group two",
+                    "after",
+                    "echo: after"
+                    );
+            }
+        }
+    }
+
+    [TestClass]
+    public sealed class DispatchDialogMethodsTests : DispatchTestsBase
     {
         [Serializable]
         private class TestDispatchDialog : DispatchDialog<object>, IMethods
@@ -122,7 +206,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         private readonly IContainer container;
 
-        public DispatchDialogTests()
+        public DispatchDialogMethodsTests()
         {
             this.container = DialogTestBase.Build(
                 DialogTestBase.Options.None | DialogTestBase.Options.ResolveDialogFromContainer,
