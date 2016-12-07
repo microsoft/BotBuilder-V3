@@ -146,24 +146,19 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
     /// </summary>
     public static partial class RegexMatchScorable
     {
+        public static readonly Func<Capture, string> GetOriginalString
+            = (Func<Capture, string>)
+            typeof(Capture)
+            .GetMethod("GetOriginalString", BindingFlags.Instance | BindingFlags.NonPublic)
+            .CreateDelegate(typeof(Func<Capture, string>));
+
         /// <summary>
         /// Calculate a normalized 0-1 score for a regular expression match.
         /// </summary>
-        /// <remarks>
-        /// This implementation assumes that the entire input string is matched by the regular expression
-        /// so that group 0 is the entire input string and the other groups are the significant portions of
-        /// that entire input string.
-        /// </remarks>
         public static double ScoreFor(Match match)
         {
-            var groups = match.Groups;
-            var numerator = 0;
-            for (int index = 1; index < groups.Count; ++index)
-            {
-                var group = groups[index];
-                numerator += group.Length;
-            }
-            var denominator = groups[0].Length;
+            var numerator = match.Value.Length;
+            var denominator = GetOriginalString(match).Length;
             var score = ((double)numerator) / denominator;
             return score;
         }
