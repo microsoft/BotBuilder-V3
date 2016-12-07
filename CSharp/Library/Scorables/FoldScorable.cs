@@ -65,10 +65,12 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
         /// </summary>
         public struct State
         {
+            public readonly int ordinal;
             public readonly IScorable<Item, Score> scorable;
             public readonly object state;
-            public State(IScorable<Item, Score> scorable, object state)
+            public State(int ordinal, IScorable<Item, Score> scorable, object state)
             {
+                this.ordinal = ordinal;
                 this.scorable = scorable;
                 this.state = state;
             }
@@ -81,7 +83,8 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             foreach (var scorable in this.scorables)
             {
                 var state = await scorable.PrepareAsync(item, token);
-                states.Add(new State(scorable, state));
+                int ordinal = states.Count;
+                states.Add(new State(ordinal, scorable, state));
                 if (scorable.HasScore(item, state))
                 {
                     var score = scorable.GetScore(item, state);
@@ -100,7 +103,13 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
                 {
                     var oneScore = one.scorable.GetScore(item, one.state);
                     var twoScore = two.scorable.GetScore(item, two.state);
-                    return this.comparer.Compare(twoScore, oneScore);
+
+                    // sort largest scores first
+                    var compare = this.comparer.Compare(twoScore, oneScore);
+                    if (compare != 0)
+                    {
+                        return compare;
+                    }
                 }
                 else if (oneHasScore)
                 {
@@ -110,10 +119,9 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
                 {
                     return +1;
                 }
-                else
-                {
-                    return 0;
-                }
+
+                // stable sort otherwise
+                return one.ordinal.CompareTo(two.ordinal);
             });
 
             return states;
