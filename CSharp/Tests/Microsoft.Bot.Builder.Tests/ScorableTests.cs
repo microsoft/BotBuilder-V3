@@ -42,6 +42,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -221,6 +222,32 @@ namespace Microsoft.Bot.Builder.Tests
         public void Scorable_TryReduce()
         {
             TestReduce<string, Guid>();
+        }
+
+        public static void AssertComparer<T>(IComparer<T> comparer, params T[] items)
+        {
+            for (int one = 0; one < items.Length; ++one)
+            {
+                for (int two = 0; two < items.Length; ++two)
+                {
+                    var expected = one.CompareTo(two);
+                    var itemOne = items[one];
+                    var itemTwo = items[two];
+                    var actual = comparer.Compare(itemOne, itemTwo);
+                    Assert.AreEqual(expected, actual);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void Scorable_MatchComparer()
+        {
+            var regex = new Regex("hello");
+            var matchFail = regex.Match("nothing");
+            var matchSmall = regex.Match("extra garbage hello extra garbage");
+            var matchLarge = regex.Match("hello");
+
+            AssertComparer(MatchComparer.Instance, matchFail, matchSmall, matchLarge);
         }
     }
 }
