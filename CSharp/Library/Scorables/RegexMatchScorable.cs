@@ -283,10 +283,10 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
         int IComparer<Match>.Compare(Match one, Match two)
         {
-            Func<Match, Pair<bool, int>> PairFor = match => Pair.Create
+            Func<Match, Pair<bool, double>> PairFor = match => Pair.Create
             (
-                ! match.Success,
-                -match.Value.Length
+                match.Success,
+                RegexMatchScorable.ScoreFor(match)
             );
 
             var pairOne = PairFor(one);
