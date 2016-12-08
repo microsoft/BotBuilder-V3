@@ -12,7 +12,11 @@
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
-	<script src="/css/documents.js"></script>
+	<script src="/js/index.js"></script>
+	<script src="/js/documents.js"></script>
+	<script src="/js/leftnav.js"></script>
+	<script src="/js/codetabs.js"></script>
+	<script src="/js/docssearch.js"></script>
 	<!-- START OF SmartSource Data Collector TAG v10.4.23 -->
 	<!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
 	<script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -155,7 +159,7 @@
 									<h3>Hierarchy</h3>
 									<ul class="tsd-hierarchy">
 										<li>
-											<span class="target">IIntentDialogOptions</span>
+											<a href="_botbuilder_d_.iintentrecognizersetoptions.html" class="tsd-signature-type">IIntentRecognizerSetOptions</a>
 										</li>
 									</ul>
 								</section>
@@ -166,11 +170,12 @@
 											<section class="tsd-index-section ">
 												<h3>Properties</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iintentdialogoptions.html#intentthreshold" class="tsd-kind-icon">intent<wbr>Threshold</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iintentdialogoptions.html#processlimit" class="tsd-kind-icon">process<wbr>Limit</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.iintentdialogoptions.html#intentthreshold" class="tsd-kind-icon">intent<wbr>Threshold</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.iintentdialogoptions.html#processlimit" class="tsd-kind-icon">process<wbr>Limit</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iintentdialogoptions.html#recognizemode" class="tsd-kind-icon">recognize<wbr>Mode</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iintentdialogoptions.html#recognizeorder" class="tsd-kind-icon">recognize<wbr>Order</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.iintentdialogoptions.html#recognizers" class="tsd-kind-icon">recognizers</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.iintentdialogoptions.html#recognizeorder" class="tsd-kind-icon">recognize<wbr>Order</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.iintentdialogoptions.html#recognizers" class="tsd-kind-icon">recognizers</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.iintentdialogoptions.html#stopifexactmatch" class="tsd-kind-icon">stop<wbr>IfExact<wbr>Match</a></li>
 												</ul>
 											</section>
 										</div>
@@ -178,33 +183,35 @@
 								</section>
 								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Properties</h2>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a name="intentthreshold" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagOptional">Optional</span> intent<wbr>Threshold</h3>
 										<div class="tsd-signature tsd-kind-icon">intent<wbr>Threshold<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.iintentrecognizersetoptions.html">IIntentRecognizerSetOptions</a>.<a href="_botbuilder_d_.iintentrecognizersetoptions.html#intentthreshold">intentThreshold</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L596">botbuilder.d.ts:596</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L713">botbuilder.d.ts:713</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Minimum score needed to trigger the recognition of an intent. The default value is 0.1.</p>
+												<p>(optional) Minimum score needed to trigger the recognition of an intent. The default value is 0.1.</p>
 											</div>
 										</div>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a name="processlimit" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagOptional">Optional</span> process<wbr>Limit</h3>
 										<div class="tsd-signature tsd-kind-icon">process<wbr>Limit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.iintentrecognizersetoptions.html">IIntentRecognizerSetOptions</a>.<a href="_botbuilder_d_.iintentrecognizersetoptions.html#processlimit">processLimit</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L608">botbuilder.d.ts:608</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L722">botbuilder.d.ts:722</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Maximum number of recognizers to evaluate at one time when <a href="#recognizerorder">recognizerOrder</a> is parallel.</p>
+												<p>(Optional) Maximum number of recognizers to evaluate at one time when <a href="#recognizerorder">recognizerOrder</a> is parallel.</p>
 											</div>
 										</div>
 									</section>
@@ -214,42 +221,60 @@
 										<div class="tsd-signature tsd-kind-icon">recognize<wbr>Mode<span class="tsd-signature-symbol">:</span> <a href="../enums/_botbuilder_d_.recognizemode.html" class="tsd-signature-type">RecognizeMode</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L599">botbuilder.d.ts:599</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L731">botbuilder.d.ts:731</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin.</p>
+												<p>(Optional) Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin.</p>
 											</div>
 										</div>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a name="recognizeorder" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagOptional">Optional</span> recognize<wbr>Order</h3>
 										<div class="tsd-signature tsd-kind-icon">recognize<wbr>Order<span class="tsd-signature-symbol">:</span> <a href="../enums/_botbuilder_d_.recognizeorder.html" class="tsd-signature-type">RecognizeOrder</a></div>
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.iintentrecognizersetoptions.html">IIntentRecognizerSetOptions</a>.<a href="_botbuilder_d_.iintentrecognizersetoptions.html#recognizeorder">recognizeOrder</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L602">botbuilder.d.ts:602</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L716">botbuilder.d.ts:716</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>The order in which the configured <a href="#recognizers">recognizers</a> should be evaluated. The default order is parallel.</p>
+												<p>(Optional) The order in which the configured <a href="#recognizers">recognizers</a> should be evaluated. The default order is parallel.</p>
 											</div>
 										</div>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a name="recognizers" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagOptional">Optional</span> recognizers</h3>
 										<div class="tsd-signature tsd-kind-icon">recognizers<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iintentrecognizer.html" class="tsd-signature-type">IIntentRecognizer</a><span class="tsd-signature-symbol">[]</span></div>
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.iintentrecognizersetoptions.html">IIntentRecognizerSetOptions</a>.<a href="_botbuilder_d_.iintentrecognizersetoptions.html#recognizers">recognizers</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L605">botbuilder.d.ts:605</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L719">botbuilder.d.ts:719</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>(Optional) list of intent recognizers to run the users utterance through.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a name="stopifexactmatch" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> stop<wbr>IfExact<wbr>Match</h3>
+										<div class="tsd-signature tsd-kind-icon">stop<wbr>IfExact<wbr>Match<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.iintentrecognizersetoptions.html">IIntentRecognizerSetOptions</a>.<a href="_botbuilder_d_.iintentrecognizersetoptions.html#stopifexactmatch">stopIfExactMatch</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L725">botbuilder.d.ts:725</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>(Optional) If true the recognition will stop when a score of 1.0 is encountered. The default value is true.</p>
 											</div>
 										</div>
 									</section>
@@ -273,20 +298,23 @@
 										<li class="current tsd-kind-interface tsd-parent-kind-external-module">
 											<a href="_botbuilder_d_.iintentdialogoptions.html" class="tsd-kind-icon">IIntent<wbr>Dialog<wbr>Options</a>
 											<ul>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.iintentdialogoptions.html#intentthreshold" class="tsd-kind-icon">intent<wbr>Threshold</a>
 												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.iintentdialogoptions.html#processlimit" class="tsd-kind-icon">process<wbr>Limit</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.iintentdialogoptions.html#recognizemode" class="tsd-kind-icon">recognize<wbr>Mode</a>
 												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.iintentdialogoptions.html#recognizeorder" class="tsd-kind-icon">recognize<wbr>Order</a>
 												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.iintentdialogoptions.html#recognizers" class="tsd-kind-icon">recognizers</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+													<a href="_botbuilder_d_.iintentdialogoptions.html#stopifexactmatch" class="tsd-kind-icon">stop<wbr>IfExact<wbr>Match</a>
 												</li>
 											</ul>
 										</li>

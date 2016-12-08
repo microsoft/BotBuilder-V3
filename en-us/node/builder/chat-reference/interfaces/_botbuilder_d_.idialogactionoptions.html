@@ -12,7 +12,11 @@
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
-	<script src="/css/documents.js"></script>
+	<script src="/js/index.js"></script>
+	<script src="/js/documents.js"></script>
+	<script src="/js/leftnav.js"></script>
+	<script src="/js/codetabs.js"></script>
+	<script src="/js/docssearch.js"></script>
 	<!-- START OF SmartSource Data Collector TAG v10.4.23 -->
 	<!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
 	<script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -147,7 +151,7 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Options passed when binding a dialog action handler.</p>
+											<p>Options passed when defining a dialog action.</p>
 										</div>
 									</div>
 								</section>
@@ -166,9 +170,11 @@
 											<section class="tsd-index-section ">
 												<h3>Properties</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#dialogargs" class="tsd-kind-icon">dialog<wbr>Args</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#intentthreshold" class="tsd-kind-icon">intent<wbr>Threshold</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#label" class="tsd-kind-icon">label</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#matches" class="tsd-kind-icon">matches</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#onfindaction" class="tsd-kind-icon">on<wbr>Find<wbr>Action</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#onselectaction" class="tsd-kind-icon">on<wbr>Select<wbr>Action</a></li>
 												</ul>
 											</section>
 										</div>
@@ -177,48 +183,165 @@
 								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Properties</h2>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="dialogargs" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> dialog<wbr>Args</h3>
-										<div class="tsd-signature tsd-kind-icon">dialog<wbr>Args<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L426">botbuilder.d.ts:426</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>(Optional) arguments to pass to the dialog spawned when the action is triggered.</p>
-											</div>
-										</div>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="intentthreshold" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagOptional">Optional</span> intent<wbr>Threshold</h3>
 										<div class="tsd-signature tsd-kind-icon">intent<wbr>Threshold<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L423">botbuilder.d.ts:423</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L473">botbuilder.d.ts:473</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Minimum score needed to trigger the action using the value of <a href="#expression">expression</a>. The default value is 0.1.</p>
+												<p>(Optional) minimum score needed to trigger the action using the value of <a href="#matches">matches</a>. The default value is 0.1.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="label" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> label</h3>
+										<div class="tsd-signature tsd-kind-icon">label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L495">botbuilder.d.ts:495</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>(Optional) display label for the action which can be presented to the user when disambiguting between actions.</p>
 											</div>
 										</div>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="matches" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagOptional">Optional</span> matches</h3>
-										<div class="tsd-signature tsd-kind-icon">matches<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
+										<div class="tsd-signature tsd-kind-icon">matches<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L420">botbuilder.d.ts:420</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L470">botbuilder.d.ts:470</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>(Optional) regular expression that should be matched against the users utterance to trigger an action. If this is ommitted the action can only be invoked from a button.</p>
+												<p>(Optional) intent(s) used to trigger the action. Either a regular expression or a named
+													intent can be provided and multiple intents can be specified.  When a named intent is
+													provided the action will be matched using the recognizers assigned to the library/bot using
+													<a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#recognizer">Library.recognizer()</a>.
+												If a matches option isn&#39;t provided then the action can only be triggered from a button click.</p>
 											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="onfindaction" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Find<wbr>Action</h3>
+										<div class="tsd-signature tsd-kind-icon">on<wbr>Find<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L481">botbuilder.d.ts:481</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>(Optional) custom handler that&#39;s invoked whenever the action is being checked to see if it
+													should be triggered. The handler is passed a context object containing the received message
+													and any intents detected. The handler should return a confidence score for 0.0 to 1.0 and
+												routeData that should be passed in during the <code>selectActionRoute</code> call.</p>
+											</div>
+										</div>
+										<div class="tsd-type-declaration">
+											<h4>Type declaration</h4>
+											<ul class="tsd-parameters">
+												<li class="tsd-parameter-siganture">
+													<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.ifindactionroutecontext.html" class="tsd-signature-type">IFindActionRouteContext</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+													</ul>
+													<ul class="tsd-descriptions">
+														<li class="tsd-description">
+															<h4 class="tsd-parameters-title">Parameters</h4>
+															<ul class="tsd-parameters">
+																<li>
+																	<h5>context: <a href="_botbuilder_d_.ifindactionroutecontext.html" class="tsd-signature-type">IFindActionRouteContext</a></h5>
+																</li>
+																<li>
+																	<h5>callback: <span class="tsd-signature-type">function</span></h5>
+																	<ul class="tsd-parameters">
+																		<li class="tsd-parameter-siganture">
+																			<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																				<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, score<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, routeData<span class="tsd-signature-symbol">?: </span><a href="_botbuilder_d_.iactionroutedata.html" class="tsd-signature-type">IActionRouteData</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																			</ul>
+																			<ul class="tsd-descriptions">
+																				<li class="tsd-description">
+																					<h4 class="tsd-parameters-title">Parameters</h4>
+																					<ul class="tsd-parameters">
+																						<li>
+																							<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																						</li>
+																						<li>
+																							<h5>score: <span class="tsd-signature-type">number</span></h5>
+																						</li>
+																						<li>
+																							<h5><span class="tsd-flag ts-flagOptional">Optional</span> routeData: <a href="_botbuilder_d_.iactionroutedata.html" class="tsd-signature-type">IActionRouteData</a></h5>
+																						</li>
+																					</ul>
+																					<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																				</li>
+																			</ul>
+																		</li>
+																	</ul>
+																</li>
+															</ul>
+															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="onselectaction" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Select<wbr>Action</h3>
+										<div class="tsd-signature tsd-kind-icon">on<wbr>Select<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L492">botbuilder.d.ts:492</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>(Optional) custom handler that&#39;s invoked whenever the action is triggered.  This lets you
+													customize the behaviour of an action. For instance you could clear the dialog stack before
+													the new dialog is started, changing the default behaviour which is to just push the new
+												dialog onto the end of the stack.</p>
+											</div>
+											<p>It&#39;s important to note that this is not a waterfall and you should call <code>next()</code> if you
+											would like the actions default behaviour to run.</p>
+										</div>
+										<div class="tsd-type-declaration">
+											<h4>Type declaration</h4>
+											<ul class="tsd-parameters">
+												<li class="tsd-parameter-siganture">
+													<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
+														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="../classes/_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, args<span class="tsd-signature-symbol">?: </span><a href="_botbuilder_d_.iactionroutedata.html" class="tsd-signature-type">IActionRouteData</a>, next<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+													</ul>
+													<ul class="tsd-descriptions">
+														<li class="tsd-description">
+															<h4 class="tsd-parameters-title">Parameters</h4>
+															<ul class="tsd-parameters">
+																<li>
+																	<h5>session: <a href="../classes/_botbuilder_d_.session.html" class="tsd-signature-type">Session</a></h5>
+																</li>
+																<li>
+																	<h5><span class="tsd-flag ts-flagOptional">Optional</span> args: <a href="_botbuilder_d_.iactionroutedata.html" class="tsd-signature-type">IActionRouteData</a></h5>
+																</li>
+																<li>
+																	<h5><span class="tsd-flag ts-flagOptional">Optional</span> next: <span class="tsd-signature-type">Function</span></h5>
+																</li>
+															</ul>
+															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+														</li>
+													</ul>
+												</li>
+											</ul>
 										</div>
 									</section>
 								</section>
@@ -242,13 +365,19 @@
 											<a href="_botbuilder_d_.idialogactionoptions.html" class="tsd-kind-icon">IDialog<wbr>Action<wbr>Options</a>
 											<ul>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.idialogactionoptions.html#dialogargs" class="tsd-kind-icon">dialog<wbr>Args</a>
-												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.idialogactionoptions.html#intentthreshold" class="tsd-kind-icon">intent<wbr>Threshold</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.idialogactionoptions.html#label" class="tsd-kind-icon">label</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.idialogactionoptions.html#matches" class="tsd-kind-icon">matches</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.idialogactionoptions.html#onfindaction" class="tsd-kind-icon">on<wbr>Find<wbr>Action</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.idialogactionoptions.html#onselectaction" class="tsd-kind-icon">on<wbr>Select<wbr>Action</a>
 												</li>
 											</ul>
 										</li>

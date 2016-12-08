@@ -12,7 +12,11 @@
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
-	<script src="/css/documents.js"></script>
+	<script src="/js/index.js"></script>
+	<script src="/js/documents.js"></script>
+	<script src="/js/leftnav.js"></script>
+	<script src="/js/codetabs.js"></script>
+	<script src="/js/docssearch.js"></script>
 	<!-- START OF SmartSource Data Collector TAG v10.4.23 -->
 	<!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
 	<script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -159,11 +163,6 @@
 									<ul class="tsd-hierarchy">
 										<li>
 											<span class="target">ActionSet</span>
-											<ul class="tsd-hierarchy">
-												<li>
-													<a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a>
-												</li>
-											</ul>
 										</li>
 									</ul>
 								</section>
@@ -174,8 +173,10 @@
 											<section class="tsd-index-section ">
 												<h3>Methods</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.actionset.html#invokeaction" class="tsd-kind-icon">invoke<wbr>Action</a></li>
-													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.actionset.html#recognizeaction" class="tsd-kind-icon">recognize<wbr>Action</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.actionset.html#adddialogtrigger" class="tsd-kind-icon">add<wbr>Dialog<wbr>Trigger</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.actionset.html#clone" class="tsd-kind-icon">clone</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.actionset.html#findactionroutes" class="tsd-kind-icon">find<wbr>Action<wbr>Routes</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.actionset.html#selectactionroute" class="tsd-kind-icon">select<wbr>Action<wbr>Route</a></li>
 												</ul>
 											</section>
 										</div>
@@ -184,21 +185,151 @@
 								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Methods</h2>
 									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-										<a name="invokeaction" class="tsd-anchor"></a>
-										<h3>invoke<wbr>Action</h3>
+										<a name="adddialogtrigger" class="tsd-anchor"></a>
+										<h3>add<wbr>Dialog<wbr>Trigger</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-											<li class="tsd-signature tsd-kind-icon">invoke<wbr>Action<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, recognizeResult<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.irecognizeactionresult.html" class="tsd-signature-type">IRecognizeActionResult</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+											<li class="tsd-signature tsd-kind-icon">add<wbr>Dialog<wbr>Trigger<span class="tsd-signature-symbol">(</span>actions<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.actionset.html" class="tsd-signature-type">ActionSet</a>, dialogId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1584">botbuilder.d.ts:1584</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2013">botbuilder.d.ts:2013</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
-														<p>Invokes an action that had the highest confidence score for the utterance.</p>
+														<p>Called once for each dialog within a library to give the dialog a chance to add its
+															<code>triggerAction()</code> to the libraries global action set.  These triggers get mapped to
+														a <code>beginDialogAction()</code> that starts the dialog when the trigger condition is met.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>actions: <a href="_botbuilder_d_.actionset.html" class="tsd-signature-type">ActionSet</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Libraries global action set.</p>
+														</div>
+													</li>
+													<li>
+														<h5>dialogId: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The fully qualified ID of the dialog to trigger.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+										<a name="clone" class="tsd-anchor"></a>
+										<h3>clone</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span>copyTo<span class="tsd-signature-symbol">?: </span><a href="_botbuilder_d_.actionset.html" class="tsd-signature-type">ActionSet</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.actionset.html" class="tsd-signature-type">ActionSet</a></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2004">botbuilder.d.ts:2004</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Returns a clone of an existing ActionSet.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5><span class="tsd-flag ts-flagOptional">Optional</span> copyTo: <a href="_botbuilder_d_.actionset.html" class="tsd-signature-type">ActionSet</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>(Optional) instance to copy the current object to. If missing a new instance will be created.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.actionset.html" class="tsd-signature-type">ActionSet</a></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+										<a name="findactionroutes" class="tsd-anchor"></a>
+										<h3>find<wbr>Action<wbr>Routes</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">find<wbr>Action<wbr>Routes<span class="tsd-signature-symbol">(</span>context<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.irecognizedialogcontext.html" class="tsd-signature-type">IRecognizeDialogContext</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2022">botbuilder.d.ts:2022</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Called during the <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#findroutes">Library.findRoutes()</a>
+															call for each dialog on the stack to determine if any of the dialogs actions are triggered
+														by the users utterance.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>context: <a href="../interfaces/_botbuilder_d_.irecognizedialogcontext.html" class="tsd-signature-type">IRecognizeDialogContext</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The context of the incoming message as well as the <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#dialogdata">dialogData</a> for the evaluated dialog.</p>
+														</div>
+													</li>
+													<li>
+														<h5>callback: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Function to invoke with the top candidate route(s).</p>
+														</div>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter-siganture">
+																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, results<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.irouteresult.html" class="tsd-signature-type">IRouteResult</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																</ul>
+																<ul class="tsd-descriptions">
+																	<li class="tsd-description">
+																		<h4 class="tsd-parameters-title">Parameters</h4>
+																		<ul class="tsd-parameters">
+																			<li>
+																				<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																			</li>
+																			<li>
+																				<h5>results: <a href="../interfaces/_botbuilder_d_.irouteresult.html" class="tsd-signature-type">IRouteResult</a><span class="tsd-signature-symbol">[]</span></h5>
+																			</li>
+																		</ul>
+																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+										<a name="selectactionroute" class="tsd-anchor"></a>
+										<h3>select<wbr>Action<wbr>Route</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">select<wbr>Action<wbr>Route<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a>, route<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.irouteresult.html" class="tsd-signature-type">IRouteResult</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2029">botbuilder.d.ts:2029</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Selects the route that had the highest confidence score for the utterance.</p>
 													</div>
 												</div>
 												<h4 class="tsd-parameters-title">Parameters</h4>
@@ -210,68 +341,10 @@
 														</div>
 													</li>
 													<li>
-														<h5>recognizeResult: <a href="../interfaces/_botbuilder_d_.irecognizeactionresult.html" class="tsd-signature-type">IRecognizeActionResult</a></h5>
+														<h5>route: <a href="../interfaces/_botbuilder_d_.irouteresult.html" class="tsd-signature-type">IRouteResult</a></h5>
 														<div class="tsd-comment tsd-typography">
-															<p>Results returned from call to <a href="#recognizeaction">recognizeAction()</a>.</p>
+															<p>Results returned from the call to <a href="#findactionroute">findActionRoutes()</a>.</p>
 														</div>
-													</li>
-												</ul>
-												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-											</li>
-										</ul>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-										<a name="recognizeaction" class="tsd-anchor"></a>
-										<h3>recognize<wbr>Action</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-											<li class="tsd-signature tsd-kind-icon">recognize<wbr>Action<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-										</ul>
-										<ul class="tsd-descriptions">
-											<li class="tsd-description">
-												<aside class="tsd-sources">
-													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1577">botbuilder.d.ts:1577</a></li>
-													</ul>
-												</aside>
-												<div class="tsd-comment tsd-typography">
-													<div class="lead">
-														<p>Called to recognize any actions triggered by the users utterance.</p>
-													</div>
-												</div>
-												<h4 class="tsd-parameters-title">Parameters</h4>
-												<ul class="tsd-parameters">
-													<li>
-														<h5>message: <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h5>
-														<div class="tsd-comment tsd-typography">
-															<p>The message received from the user.</p>
-														</div>
-													</li>
-													<li>
-														<h5>callback: <span class="tsd-signature-type">function</span></h5>
-														<div class="tsd-comment tsd-typography">
-															<p>Function to invoke with the results of the recognition. The top scoring action, if any, will be returned.</p>
-														</div>
-														<ul class="tsd-parameters">
-															<li class="tsd-parameter-siganture">
-																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, result<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.irecognizeactionresult.html" class="tsd-signature-type">IRecognizeActionResult</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-																</ul>
-																<ul class="tsd-descriptions">
-																	<li class="tsd-description">
-																		<h4 class="tsd-parameters-title">Parameters</h4>
-																		<ul class="tsd-parameters">
-																			<li>
-																				<h5>err: <span class="tsd-signature-type">Error</span></h5>
-																			</li>
-																			<li>
-																				<h5>result: <a href="../interfaces/_botbuilder_d_.irecognizeactionresult.html" class="tsd-signature-type">IRecognizeActionResult</a></h5>
-																			</li>
-																		</ul>
-																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-																	</li>
-																</ul>
-															</li>
-														</ul>
 													</li>
 												</ul>
 												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -299,10 +372,16 @@
 											<a href="_botbuilder_d_.actionset.html" class="tsd-kind-icon">Action<wbr>Set</a>
 											<ul>
 												<li class=" tsd-kind-method tsd-parent-kind-class">
-													<a href="_botbuilder_d_.actionset.html#invokeaction" class="tsd-kind-icon">invoke<wbr>Action</a>
+													<a href="_botbuilder_d_.actionset.html#adddialogtrigger" class="tsd-kind-icon">add<wbr>Dialog<wbr>Trigger</a>
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class">
-													<a href="_botbuilder_d_.actionset.html#recognizeaction" class="tsd-kind-icon">recognize<wbr>Action</a>
+													<a href="_botbuilder_d_.actionset.html#clone" class="tsd-kind-icon">clone</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-class">
+													<a href="_botbuilder_d_.actionset.html#findactionroutes" class="tsd-kind-icon">find<wbr>Action<wbr>Routes</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-class">
+													<a href="_botbuilder_d_.actionset.html#selectactionroute" class="tsd-kind-icon">select<wbr>Action<wbr>Route</a>
 												</li>
 											</ul>
 										</li>

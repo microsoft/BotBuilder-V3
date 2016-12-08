@@ -12,7 +12,11 @@
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
-	<script src="/css/documents.js"></script>
+	<script src="/js/index.js"></script>
+	<script src="/js/documents.js"></script>
+	<script src="/js/leftnav.js"></script>
+	<script src="/js/codetabs.js"></script>
+	<script src="/js/docssearch.js"></script>
 	<!-- START OF SmartSource Data Collector TAG v10.4.23 -->
 	<!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
 	<script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -147,7 +151,7 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>export interface implemented by intent recognizers like the LuisRecognizer class.</p>
+											<p>Interface implemented by intent recognizer plugins like the <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer.html">LuisRecognizer</a> class.</p>
 										</div>
 									</div>
 								</section>
@@ -162,7 +166,9 @@
 								<section class="tsd-panel">
 									<h3>Implemented by</h3>
 									<ul class="tsd-hierarchy">
+										<li><a href="../classes/_botbuilder_d_.intentrecognizerset.html" class="tsd-signature-type">IntentRecognizerSet</a></li>
 										<li><a href="../classes/_botbuilder_d_.luisrecognizer.html" class="tsd-signature-type">LuisRecognizer</a></li>
+										<li><a href="../classes/_botbuilder_d_.regexprecognizer.html" class="tsd-signature-type">RegExpRecognizer</a></li>
 									</ul>
 								</section>
 								<section class="tsd-panel-group tsd-index-group">
@@ -190,7 +196,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L614">botbuilder.d.ts:614</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L743">botbuilder.d.ts:743</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -202,9 +208,15 @@
 												<ul class="tsd-parameters">
 													<li>
 														<h5>context: <a href="_botbuilder_d_.irecognizecontext.html" class="tsd-signature-type">IRecognizeContext</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Contextual information for a received message that&#39;s being recognized.</p>
+														</div>
 													</li>
 													<li>
 														<h5>callback: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Function to invoke with the results of the recognition operation.</p>
+														</div>
 														<ul class="tsd-parameters">
 															<li class="tsd-parameter-siganture">
 																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -219,6 +231,9 @@
 																			</li>
 																			<li>
 																				<h5>result: <a href="_botbuilder_d_.iintentrecognizerresult.html" class="tsd-signature-type">IIntentRecognizerResult</a></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>The result of the recognition.</p>
+																				</div>
 																			</li>
 																		</ul>
 																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

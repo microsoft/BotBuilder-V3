@@ -12,7 +12,11 @@
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
-	<script src="/css/documents.js"></script>
+	<script src="/js/index.js"></script>
+	<script src="/js/documents.js"></script>
+	<script src="/js/leftnav.js"></script>
+	<script src="/js/codetabs.js"></script>
+	<script src="/js/docssearch.js"></script>
 	<!-- START OF SmartSource Data Collector TAG v10.4.23 -->
 	<!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
 	<script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -163,6 +167,7 @@
 													<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.resumereason.html#completed" class="tsd-kind-icon">completed</a></li>
 													<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.resumereason.html#forward" class="tsd-kind-icon">forward</a></li>
 													<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.resumereason.html#notcompleted" class="tsd-kind-icon">not<wbr>Completed</a></li>
+													<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="_botbuilder_d_.resumereason.html#reprompt" class="tsd-kind-icon">reprompt</a></li>
 												</ul>
 											</section>
 										</div>
@@ -176,7 +181,7 @@
 										<div class="tsd-signature tsd-kind-icon">back<span class="tsd-signature-symbol">:</span> </div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L925">botbuilder.d.ts:925</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1154">botbuilder.d.ts:1154</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -191,7 +196,7 @@
 										<div class="tsd-signature tsd-kind-icon">canceled<span class="tsd-signature-symbol">:</span> </div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L922">botbuilder.d.ts:922</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1151">botbuilder.d.ts:1151</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -206,7 +211,7 @@
 										<div class="tsd-signature tsd-kind-icon">completed<span class="tsd-signature-symbol">:</span> </div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L916">botbuilder.d.ts:916</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1145">botbuilder.d.ts:1145</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -221,7 +226,7 @@
 										<div class="tsd-signature tsd-kind-icon">forward<span class="tsd-signature-symbol">:</span> </div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L928">botbuilder.d.ts:928</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1157">botbuilder.d.ts:1157</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -236,12 +241,27 @@
 										<div class="tsd-signature tsd-kind-icon">not<wbr>Completed<span class="tsd-signature-symbol">:</span> </div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L919">botbuilder.d.ts:919</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1148">botbuilder.d.ts:1148</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>The user did not complete the child dialog for some reason. They may have exceeded maxRetries or canceled.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+										<a name="reprompt" class="tsd-anchor"></a>
+										<h3>reprompt</h3>
+										<div class="tsd-signature tsd-kind-icon">reprompt<span class="tsd-signature-symbol">:</span> </div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1160">botbuilder.d.ts:1160</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>The dialog is being resumed because of an interruption and should reprompt.</p>
 											</div>
 										</div>
 									</section>
@@ -279,6 +299,9 @@
 												</li>
 												<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
 													<a href="_botbuilder_d_.resumereason.html#notcompleted" class="tsd-kind-icon">not<wbr>Completed</a>
+												</li>
+												<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+													<a href="_botbuilder_d_.resumereason.html#reprompt" class="tsd-kind-icon">reprompt</a>
 												</li>
 											</ul>
 										</li>

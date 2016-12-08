@@ -12,7 +12,11 @@
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
-	<script src="/css/documents.js"></script>
+	<script src="/js/index.js"></script>
+	<script src="/js/documents.js"></script>
+	<script src="/js/leftnav.js"></script>
+	<script src="/js/codetabs.js"></script>
+	<script src="/js/docssearch.js"></script>
 	<!-- START OF SmartSource Data Collector TAG v10.4.23 -->
 	<!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
 	<script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -147,9 +151,9 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Routes incoming messages to a LUIS app hosted on <a href="http://luis.ai">http://luis.ai</a> for intent recognition.
-												Once a messages intent has been recognized it will rerouted to a registered intent handler, along
-											with any entities, for further processing.</p>
+											<p>Intent recognizer plugin that detects a users intent using Microsofts <a href="https://luis.ai">Language Understanding Intelligent Service (LUIS)</a>
+												The service URLs for multiple LUIS models (apps) can be passed in to support recognition
+											across multiple languages.</p>
 										</div>
 									</div>
 								</section>
@@ -199,12 +203,12 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L2006">botbuilder.d.ts:2006</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2728">botbuilder.d.ts:2728</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
-														<p>Constructs a new instance of a LUIS recognizer.</p>
+														<p>Constructs a new instance of the recognizer.</p>
 													</div>
 												</div>
 												<h4 class="tsd-parameters-title">Parameters</h4>
@@ -213,7 +217,7 @@
 														<h5>models: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.iluismodelmap.html" class="tsd-signature-type">ILuisModelMap</a></h5>
 														<div class="tsd-comment tsd-typography">
 															<div class="lead">
-																<p>Either an individual LUIS model used for all utterances or a map of per/local models conditionally used depending on the local of the utterance.</p>
+																<p>Either an individual LUIS model used for all utterances or a map of per/locale models conditionally used depending on the locale of the utterance.</p>
 															</div>
 														</div>
 													</li>
@@ -235,12 +239,12 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L2014">botbuilder.d.ts:2014</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2736">botbuilder.d.ts:2736</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
-														<p>Called by the IntentDialog to perform the actual recognition.</p>
+														<p>Attempts to match a users text utterance to an intent. See <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize">IIntentRecognizer.recognize()</a> for details.</p>
 													</div>
 												</div>
 												<h4 class="tsd-parameters-title">Parameters</h4>
@@ -287,7 +291,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L2025">botbuilder.d.ts:2025</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2747">botbuilder.d.ts:2747</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">

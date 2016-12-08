@@ -12,7 +12,11 @@
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
-	<script src="/css/documents.js"></script>
+	<script src="/js/index.js"></script>
+	<script src="/js/documents.js"></script>
+	<script src="/js/leftnav.js"></script>
+	<script src="/js/codetabs.js"></script>
+	<script src="/js/docssearch.js"></script>
 	<!-- START OF SmartSource Data Collector TAG v10.4.23 -->
 	<!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
 	<script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -155,12 +159,7 @@
 									<h3>Hierarchy</h3>
 									<ul class="tsd-hierarchy">
 										<li>
-											<span class="target">ThumbnailCard</span>
-											<ul class="tsd-hierarchy">
-												<li>
-													<a href="_botbuilder_d_.herocard.html" class="tsd-signature-type">HeroCard</a>
-												</li>
-											</ul>
+											<a href="_botbuilder_d_.keyboard.html" class="tsd-signature-type">Keyboard</a>
 										</li>
 									</ul>
 								</section>
@@ -177,19 +176,19 @@
 											<section class="tsd-index-section ">
 												<h3>Constructors</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="_botbuilder_d_.thumbnailcard.html#constructor" class="tsd-kind-icon">constructor</a></li>
+													<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_botbuilder_d_.thumbnailcard.html#constructor" class="tsd-kind-icon">constructor</a></li>
 												</ul>
 											</section>
 											<section class="tsd-index-section ">
 												<h3>Methods</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.thumbnailcard.html#buttons" class="tsd-kind-icon">buttons</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.thumbnailcard.html#buttons" class="tsd-kind-icon">buttons</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.thumbnailcard.html#images" class="tsd-kind-icon">images</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.thumbnailcard.html#subtitle" class="tsd-kind-icon">subtitle</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.thumbnailcard.html#tap" class="tsd-kind-icon">tap</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.thumbnailcard.html#text" class="tsd-kind-icon">text</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.thumbnailcard.html#title" class="tsd-kind-icon">title</a></li>
-													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.thumbnailcard.html#toattachment" class="tsd-kind-icon">to<wbr>Attachment</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.thumbnailcard.html#toattachment" class="tsd-kind-icon">to<wbr>Attachment</a></li>
 												</ul>
 											</section>
 										</div>
@@ -197,17 +196,18 @@
 								</section>
 								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Constructors</h2>
-									<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+									<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 										<a name="constructor" class="tsd-anchor"></a>
 										<h3>constructor</h3>
-										<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
+										<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 											<li class="tsd-signature tsd-kind-icon">new <wbr>Thumbnail<wbr>Card<span class="tsd-signature-symbol">(</span>session<span class="tsd-signature-symbol">?: </span><a href="_botbuilder_d_.session.html" class="tsd-signature-type">Session</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.thumbnailcard.html" class="tsd-signature-type">ThumbnailCard</a></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
+													<p>Overwrites <a href="_botbuilder_d_.keyboard.html">Keyboard</a>.<a href="_botbuilder_d_.keyboard.html#constructor">constructor</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1409">botbuilder.d.ts:1409</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1746">botbuilder.d.ts:1746</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -233,17 +233,18 @@
 								</section>
 								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Methods</h2>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a name="buttons" class="tsd-anchor"></a>
 										<h3>buttons</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 											<li class="tsd-signature tsd-kind-icon">buttons<span class="tsd-signature-symbol">(</span>list<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.icardaction.html" class="tsd-signature-type">ICardAction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.iiscardaction.html" class="tsd-signature-type">IIsCardAction</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.thumbnailcard.html" class="tsd-signature-type">ThumbnailCard</a></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
+													<p>Inherited from <a href="_botbuilder_d_.keyboard.html">Keyboard</a>.<a href="_botbuilder_d_.keyboard.html#buttons">buttons</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1430">botbuilder.d.ts:1430</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1739">botbuilder.d.ts:1739</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -271,7 +272,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1427">botbuilder.d.ts:1427</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1764">botbuilder.d.ts:1764</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -299,7 +300,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1421">botbuilder.d.ts:1421</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1758">botbuilder.d.ts:1758</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -330,7 +331,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1433">botbuilder.d.ts:1433</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1767">botbuilder.d.ts:1767</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -358,7 +359,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1424">botbuilder.d.ts:1424</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1761">botbuilder.d.ts:1761</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -389,7 +390,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1418">botbuilder.d.ts:1418</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1755">botbuilder.d.ts:1755</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -410,23 +411,24 @@
 											</li>
 										</ul>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 										<a name="toattachment" class="tsd-anchor"></a>
 										<h3>to<wbr>Attachment</h3>
-										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 											<li class="tsd-signature tsd-kind-icon">to<wbr>Attachment<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.iattachment.html" class="tsd-signature-type">IAttachment</a></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<p>Implementation of <a href="../interfaces/_botbuilder_d_.iisattachment.html">IIsAttachment</a>.<a href="../interfaces/_botbuilder_d_.iisattachment.html#toattachment">toAttachment</a></p>
+													<p>Inherited from <a href="_botbuilder_d_.keyboard.html">Keyboard</a>.<a href="_botbuilder_d_.keyboard.html#toattachment">toAttachment</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L1436">botbuilder.d.ts:1436</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L1742">botbuilder.d.ts:1742</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
-														<p>Returns the JSON for the card,</p>
+														<p>Returns the JSON for the card</p>
 													</div>
 												</div>
 												<h4 class="tsd-returns-title">Returns <a href="../interfaces/_botbuilder_d_.iattachment.html" class="tsd-signature-type">IAttachment</a></h4>
@@ -453,10 +455,10 @@
 										<li class="current tsd-kind-class tsd-parent-kind-external-module">
 											<a href="_botbuilder_d_.thumbnailcard.html" class="tsd-kind-icon">Thumbnail<wbr>Card</a>
 											<ul>
-												<li class=" tsd-kind-constructor tsd-parent-kind-class">
+												<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 													<a href="_botbuilder_d_.thumbnailcard.html#constructor" class="tsd-kind-icon">constructor</a>
 												</li>
-												<li class=" tsd-kind-method tsd-parent-kind-class">
+												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 													<a href="_botbuilder_d_.thumbnailcard.html#buttons" class="tsd-kind-icon">buttons</a>
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -474,7 +476,7 @@
 												<li class=" tsd-kind-method tsd-parent-kind-class">
 													<a href="_botbuilder_d_.thumbnailcard.html#title" class="tsd-kind-icon">title</a>
 												</li>
-												<li class=" tsd-kind-method tsd-parent-kind-class">
+												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 													<a href="_botbuilder_d_.thumbnailcard.html#toattachment" class="tsd-kind-icon">to<wbr>Attachment</a>
 												</li>
 											</ul>

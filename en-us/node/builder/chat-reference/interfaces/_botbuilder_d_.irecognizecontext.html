@@ -12,7 +12,11 @@
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
 	<link rel="stylesheet" href="/css/documentation.css" />
-	<script src="/css/documents.js"></script>
+	<script src="/js/index.js"></script>
+	<script src="/js/documents.js"></script>
+	<script src="/js/leftnav.js"></script>
+	<script src="/js/codetabs.js"></script>
+	<script src="/js/docssearch.js"></script>
 	<!-- START OF SmartSource Data Collector TAG v10.4.23 -->
 	<!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
 	<script type="text/javascript" src="/js/webtrends.load.js"></script>
@@ -147,7 +151,7 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Context of the received message passed to the Dialog.recognize() method.</p>
+											<p>Context of the received message passed to various recognition methods.</p>
 										</div>
 									</div>
 								</section>
@@ -166,10 +170,23 @@
 											<section class="tsd-index-section ">
 												<h3>Properties</h3>
 												<ul class="tsd-index-list">
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#activedialog" class="tsd-kind-icon">active<wbr>Dialog</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#dialogdata" class="tsd-kind-icon">dialog<wbr>Data</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#conversationdata" class="tsd-kind-icon">conversation<wbr>Data</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#intent" class="tsd-kind-icon">intent</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#libraryname" class="tsd-kind-icon">library<wbr>Name</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#locale" class="tsd-kind-icon">locale</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#localizer" class="tsd-kind-icon">localizer</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#message" class="tsd-kind-icon">message</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#privateconversationdata" class="tsd-kind-icon">private<wbr>Conversation<wbr>Data</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#userdata" class="tsd-kind-icon">user<wbr>Data</a></li>
+												</ul>
+											</section>
+											<section class="tsd-index-section ">
+												<h3>Methods</h3>
+												<ul class="tsd-index-list">
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#dialogstack" class="tsd-kind-icon">dialog<wbr>Stack</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#gettext" class="tsd-kind-icon">gettext</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#ngettext" class="tsd-kind-icon">ngettext</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.irecognizecontext.html#preferredlocale" class="tsd-kind-icon">preferred<wbr>Locale</a></li>
 												</ul>
 											</section>
 										</div>
@@ -178,32 +195,47 @@
 								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Properties</h2>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="activedialog" class="tsd-anchor"></a>
-										<h3>active<wbr>Dialog</h3>
-										<div class="tsd-signature tsd-kind-icon">active<wbr>Dialog<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+										<a name="conversationdata" class="tsd-anchor"></a>
+										<h3>conversation<wbr>Data</h3>
+										<div class="tsd-signature tsd-kind-icon">conversation<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L405">botbuilder.d.ts:405</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L405">botbuilder.d.ts:405</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>If true the Dialog is the active dialog on the callstack.</p>
+												<p>Shared conversation data that&#39;s visible to all members of the conversation.</p>
 											</div>
 										</div>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="dialogdata" class="tsd-anchor"></a>
-										<h3>dialog<wbr>Data</h3>
-										<div class="tsd-signature tsd-kind-icon">dialog<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+										<a name="intent" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> intent</h3>
+										<div class="tsd-signature tsd-kind-icon">intent<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iintentrecognizerresult.html" class="tsd-signature-type">IIntentRecognizerResult</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L408">botbuilder.d.ts:408</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L437">botbuilder.d.ts:437</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Data persisted for the current dialog.</p>
+												<p>(Optional) The top intent identified for the message.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="libraryname" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> library<wbr>Name</h3>
+										<div class="tsd-signature tsd-kind-icon">library<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L440">botbuilder.d.ts:440</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>(Optional) The name of the library passing the context is from.</p>
 											</div>
 										</div>
 									</section>
@@ -213,12 +245,27 @@
 										<div class="tsd-signature tsd-kind-icon">locale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L402">botbuilder.d.ts:402</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L443">botbuilder.d.ts:443</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>The users preferred locale for the message.</p>
+												<p><strong>DEPRECATED</strong> use <a href="#preferredlocale">preferredLocale()</a> instead.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="localizer" class="tsd-anchor"></a>
+										<h3>localizer</h3>
+										<div class="tsd-signature tsd-kind-icon">localizer<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.ilocalizer.html" class="tsd-signature-type">ILocalizer</a></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L411">botbuilder.d.ts:411</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>The localizer for the session.</p>
 											</div>
 										</div>
 									</section>
@@ -228,14 +275,173 @@
 										<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/master/Node/core/lib/botbuilder.d.ts#L399">botbuilder.d.ts:399</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L399">botbuilder.d.ts:399</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Message that was received.</p>
+												<p>The message received from the user. For bot originated messages this may only contain the &quot;to&quot; &amp; &quot;from&quot; fields.</p>
 											</div>
 										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="privateconversationdata" class="tsd-anchor"></a>
+										<h3>private<wbr>Conversation<wbr>Data</h3>
+										<div class="tsd-signature tsd-kind-icon">private<wbr>Conversation<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L408">botbuilder.d.ts:408</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Private conversation data that&#39;s only visible to the user.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="userdata" class="tsd-anchor"></a>
+										<h3>user<wbr>Data</h3>
+										<div class="tsd-signature tsd-kind-icon">user<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L402">botbuilder.d.ts:402</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Data for the user that&#39;s persisted across all conversations with the bot.</p>
+											</div>
+										</div>
+									</section>
+								</section>
+								<section class="tsd-panel-group tsd-member-group ">
+									<h2>Methods</h2>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="dialogstack" class="tsd-anchor"></a>
+										<h3>dialog<wbr>Stack</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">dialog<wbr>Stack<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.idialogstate.html" class="tsd-signature-type">IDialogState</a><span class="tsd-signature-symbol">[]</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L434">botbuilder.d.ts:434</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Returns a copy of the current dialog stack for the session.</p>
+													</div>
+												</div>
+												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.idialogstate.html" class="tsd-signature-type">IDialogState</a><span class="tsd-signature-symbol">[]</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="gettext" class="tsd-anchor"></a>
+										<h3>gettext</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">gettext<span class="tsd-signature-symbol">(</span>msgid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, <span class="tsd-signature-symbol">...</span>args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L422">botbuilder.d.ts:422</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Loads a localized string for the messages language. If arguments are passed the localized string
+														will be treated as a template and formatted using <a href="https://github.com/alexei/sprintf.js">sprintf-js</a> (see their docs for details.)</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>msgid: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>String to use as a key in the localized string table. Typically this will just be the english version of the string.</p>
+														</div>
+													</li>
+													<li>
+														<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>args: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>(Optional) arguments used to format the final output string.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="ngettext" class="tsd-anchor"></a>
+										<h3>ngettext</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">ngettext<span class="tsd-signature-symbol">(</span>msgid<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msgid_plural<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, count<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L431">botbuilder.d.ts:431</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Loads the plural form of a localized string for the messages language. The output string will be formatted to
+														include the count by replacing %d in the string with the count.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>msgid: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Singular form of the string to use as a key in the localized string table. Use %d to specify where the count should go.</p>
+														</div>
+													</li>
+													<li>
+														<h5>msgid_plural: <span class="tsd-signature-type">string</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Plural form of the string to use as a key in the localized string table. Use %d to specify where the count should go.</p>
+														</div>
+													</li>
+													<li>
+														<h5>count: <span class="tsd-signature-type">number</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Count to use when determining whether the singular or plural form of the string should be used.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="preferredlocale" class="tsd-anchor"></a>
+										<h3>preferred<wbr>Locale</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">preferred<wbr>Locale<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L414">botbuilder.d.ts:414</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Returns the users preferred locale.</p>
+													</div>
+												</div>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+											</li>
+										</ul>
 									</section>
 								</section>
 							</div>
@@ -258,16 +464,40 @@
 											<a href="_botbuilder_d_.irecognizecontext.html" class="tsd-kind-icon">IRecognize<wbr>Context</a>
 											<ul>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.irecognizecontext.html#activedialog" class="tsd-kind-icon">active<wbr>Dialog</a>
+													<a href="_botbuilder_d_.irecognizecontext.html#conversationdata" class="tsd-kind-icon">conversation<wbr>Data</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.irecognizecontext.html#dialogdata" class="tsd-kind-icon">dialog<wbr>Data</a>
+													<a href="_botbuilder_d_.irecognizecontext.html#intent" class="tsd-kind-icon">intent</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.irecognizecontext.html#libraryname" class="tsd-kind-icon">library<wbr>Name</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.irecognizecontext.html#locale" class="tsd-kind-icon">locale</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.irecognizecontext.html#localizer" class="tsd-kind-icon">localizer</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.irecognizecontext.html#message" class="tsd-kind-icon">message</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.irecognizecontext.html#privateconversationdata" class="tsd-kind-icon">private<wbr>Conversation<wbr>Data</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.irecognizecontext.html#userdata" class="tsd-kind-icon">user<wbr>Data</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.irecognizecontext.html#dialogstack" class="tsd-kind-icon">dialog<wbr>Stack</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.irecognizecontext.html#gettext" class="tsd-kind-icon">gettext</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.irecognizecontext.html#ngettext" class="tsd-kind-icon">ngettext</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.irecognizecontext.html#preferredlocale" class="tsd-kind-icon">preferred<wbr>Locale</a>
 												</li>
 											</ul>
 										</li>
