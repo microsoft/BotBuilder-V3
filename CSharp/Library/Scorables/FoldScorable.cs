@@ -44,11 +44,31 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
     /// <summary>
     /// The stage of the FoldScorable events.
     /// </summary>
-    public enum FoldStage { AfterFold, StartPost, AfterPost }
+    public enum FoldStage
+    {
+        /// <summary>
+        /// After IScorable.PrepareAsync has been called and the state and score will be folded into the aggregated scorable.
+        /// </summary>
+        AfterFold,
+
+        /// <summary>
+        /// Before IScorable.PostAsync has been called to initiate the next best scorable's action.
+        /// </summary>
+        StartPost,
+
+        /// <summary>
+        /// After IScorable.PostAsync has been called to complete the next best scorable's action.
+        /// </summary>
+        AfterPost
+    }
 
     /// <summary>
     /// Fold an aggregation of scorables to produce a winning scorable.
     /// </summary>
+    /// <remarks>
+    /// Fold aka "reduce, accumulate, aggregate, compress, or inject"
+    /// https://en.wikipedia.org/wiki/Fold_(higher-order_function)
+    /// </remarks>
     public abstract class FoldScorable<Item, Score> : ScorableBase<Item, IReadOnlyList<FoldScorable<Item, Score>.State>, Score>
     {
         /// <summary>
@@ -191,6 +211,9 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
         }
     }
 
+    /// <summary>
+    /// This scorable delegates the stage event handler to an external delegate or an overridable virtual method.
+    /// </summary>
     public class DelegatingFoldScorable<Item, Score> : FoldScorable<Item, Score>
     {
         private readonly OnStageDelegate onStage;
@@ -214,6 +237,9 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
         }
     }
 
+    /// <summary>
+    /// A null comparer that pretends every item is equal.  This is particulary useful with stable sorts.
+    /// </summary>
     public sealed class NullComparer<T> : IComparer<T>
     {
         public static readonly IComparer<T> Instance = new NullComparer<T>();
