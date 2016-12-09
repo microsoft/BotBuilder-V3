@@ -327,6 +327,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 await this.inner.PostAsync(item, token);
             }
+            catch (InvalidNeedException error) when (error.Need == Need.Wait && error.Have == Need.None)
+            {
+                throw new NoResumeHandlerException(error);
+            }
             catch (InvalidNeedException error) when (error.Need == Need.Wait && error.Have == Need.Done)
             {
                 throw new NoResumeHandlerException(error);
