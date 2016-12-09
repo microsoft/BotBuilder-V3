@@ -47,23 +47,27 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         // TODO: split off R to get better type inference on T
         public static IWait<C> Call<C, T, R>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item, Rest<C, R> returnHandler)
         {
-            fiber.NextWait<R>().Wait(returnHandler);
+            var wait = fiber.Waits.Make<R>();
+            wait.Wait(returnHandler);
+            fiber.Wait = wait;
             return fiber.Call<C, T>(invokeHandler, item);
         }
 
         public static IWait<C> Call<C, T>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item)
         {
             fiber.Push();
-            var wait = fiber.NextWait<T>();
+            var wait = fiber.Waits.Make<T>();
             wait.Wait(invokeHandler);
             wait.Post(item);
+            fiber.Wait = wait;
             return wait;
         }
 
         public static IWait<C> Wait<C, T>(this IFiber<C> fiber, Rest<C, T> resumeHandler)
         {
-            var wait = fiber.NextWait<T>();
+            var wait = fiber.Waits.Make<T>();
             wait.Wait(resumeHandler);
+            fiber.Wait = wait;
             return wait;
         }
 
@@ -129,14 +133,14 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             stack.Add(item);
         }
 
-        public static T Pop<T>(this IList<T> stack)
+        public static T Pop<T>(this List<T> stack)
         {
             var top = stack.Peek();
             stack.RemoveAt(stack.Count - 1);
             return top;
         }
 
-        public static T Peek<T>(this IList<T> stack)
+        public static T Peek<T>(this IReadOnlyList<T> stack)
         {
             if (stack.Count == 0)
             {

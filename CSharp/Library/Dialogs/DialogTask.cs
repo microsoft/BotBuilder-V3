@@ -64,7 +64,32 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.frames = new Frames(this);
         }
 
-        private IWait<DialogTask> wait;
+        private IWait<DialogTask> nextWait;
+        private IWait<DialogTask> NextWait()
+        {
+            if (this.fiber.Frames.Count > 0)
+            {
+                var nextFrame = this.fiber.Frames.Peek();
+
+                switch (nextFrame.Wait.Need)
+                {
+                    case Need.Wait:
+                        nextFrame.Mark = nextFrame.Wait.CloneTyped();
+                        break;
+                    case Need.Call:
+                        this.nextWait = nextFrame.Wait = nextFrame.Mark.CloneTyped();
+                        break;
+                    case Need.None:
+                    case Need.Poll:
+                        break;
+                    case Need.Done:
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+
+            return this.nextWait;
+        }
 
         public interface IThunk
         {
@@ -97,7 +122,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 }
 
                 await this.start(task.makeContext(token));
-                return task.wait;
+                return task.NextWait();
             }
         }
 
@@ -121,7 +146,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item, CancellationToken token)
             {
                 await this.resume(task.makeContext(token), item);
-                return task.wait;
+                return task.NextWait();
             }
         }
 
@@ -202,11 +227,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             if (resume != null)
             {
                 var doneRest = ToRest(resume);
-                this.wait = this.fiber.Call<DialogTask, object, R>(callRest, null, doneRest);
+                this.nextWait = this.fiber.Call<DialogTask, object, R>(callRest, null, doneRest);
             }
             else
             {
-                this.wait = this.fiber.Call<DialogTask, object>(callRest, null);
+                this.nextWait = this.fiber.Call<DialogTask, object>(callRest, null);
             }
         }
 
@@ -221,17 +246,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         void IDialogStack.Done<R>(R value)
         {
-            this.wait = this.fiber.Done(value);
+            this.nextWait = this.fiber.Done(value);
         }
 
         void IDialogStack.Fail(Exception error)
         {
-            this.wait = this.fiber.Fail(error);
+            this.nextWait = this.fiber.Fail(error);
         }
 
         void IDialogStack.Wait<R>(ResumeAfter<R> resume)
         {
-            this.wait = this.fiber.Wait<DialogTask, R>(ToRest(resume));
+            this.nextWait = this.fiber.Wait<DialogTask, R>(ToRest(resume));
         }
 
         async Task IDialogStack.PollAsync(CancellationToken token)

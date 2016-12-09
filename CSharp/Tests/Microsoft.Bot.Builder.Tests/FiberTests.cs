@@ -258,7 +258,7 @@ namespace Microsoft.Bot.Builder.Tests
                 var previous = fiber;
                 AssertSerializable(container, ref fiber);
                 Assert.IsFalse(object.ReferenceEquals(previous, fiber));
-                Assert.IsTrue(object.ReferenceEquals(previous.FrameFactory, fiber.FrameFactory));
+                Assert.IsTrue(object.ReferenceEquals(((IFiber<C>)previous).Waits, ((IFiber<C>)fiber).Waits));
             }
         }
 
