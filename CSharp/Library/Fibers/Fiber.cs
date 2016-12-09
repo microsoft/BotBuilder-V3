@@ -38,9 +38,22 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
 {
+    /// <summary>
+    /// Waiters wait for an item to be posted.
+    /// </summary>
+    /// <remarks>
+    /// Fibers and fiber frames are both waiters.
+    /// </remarks>
     public interface IWaiter<C>
     {
+        /// <summary>
+        /// A "mailbox" for storing a wait associated with this frame.
+        /// </summary>
         IWait<C> Mark { get; set; }
+
+        /// <summary>
+        /// The active wait for this waiter.
+        /// </summary>
         IWait<C> Wait { get; set; }
     }
 

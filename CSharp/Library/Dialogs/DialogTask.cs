@@ -74,9 +74,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 switch (nextFrame.Wait.Need)
                 {
                     case Need.Wait:
+                        // since the leaf frame is waiting, save this wait as the mark for that frame
                         nextFrame.Mark = nextFrame.Wait.CloneTyped();
                         break;
                     case Need.Call:
+                        // because the user did not specify a new wait for the leaf frame during the call,
+                        // reuse the previous mark for this frame
                         this.nextWait = nextFrame.Wait = nextFrame.Mark.CloneTyped();
                         break;
                     case Need.None:

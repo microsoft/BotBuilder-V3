@@ -51,15 +51,67 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
     public delegate Task<IWait<C>> Rest<C, in T>(IFiber<C> fiber, C context, IItem<T> item, CancellationToken token);
 
-    public enum Need { None, Wait, Poll, Call, Done };
+    /// <summary>
+    /// This is the stage of the wait, showing what the wait needs during its lifecycle.
+    /// </summary>
+    public enum Need
+    {
+        /// <summary>
+        /// The wait does not need anything.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// The wait needs an item to be posted.
+        /// </summary>
+        Wait,
+
+        /// <summary>
+        /// The wait needs to be polled for execution after an item has been posted.
+        /// </summary>
+        Poll,
+
+        /// <summary>
+        /// The wait is in the middle of executing the rest delegate.
+        /// </summary>
+        Call,
+
+        /// <summary>
+        /// The wait has completed executing the rest delegate.
+        /// </summary>
+        Done
+    };
 
     public interface IWait
     {
+        /// <summary>
+        /// The stage of the wait.
+        /// </summary>
         Need Need { get; }
+
+        /// <summary>
+        /// The type of the item parameter for the rest delegate.
+        /// </summary>
         Type ItemType { get; }
+
+        /// <summary>
+        /// The static type of the wait item.
+        /// </summary>
         Type NeedType { get; }
+
+        /// <summary>
+        /// The rest delegate method.
+        /// </summary>
         Delegate Rest { get; }
+
+        /// <summary>
+        /// Mark this wait as satisfied with this item.
+        /// </summary>
         void Post<T>(T item);
+
+        /// <summary>
+        /// Mark this wait as satisfied with this fail exception.
+        /// </summary>
         void Fail(Exception error);
     }
 
@@ -68,6 +120,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         Task<IWait<C>> PollAsync(IFiber<C> fiber, C context, CancellationToken token);
     }
 
+    /// <summary>
+    /// Null object pattern implementation of wait interface.
+    /// </summary>
     public sealed class NullWait<C> : IWait<C>
     {
         public static readonly IWait<C> Instance = new NullWait<C>();
