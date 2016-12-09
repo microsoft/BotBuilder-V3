@@ -75,21 +75,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
         }
 
-        Need IWait.Need
-        {
-            get
-            {
-                return Need.None;
-            }
-        }
+        Need IWait.Need => Need.None;
 
-        Type IWait.NeedType
-        {
-            get
-            {
-                return typeof(object);
-            }
-        }
+        Type IWait.NeedType => typeof(object);
 
         Delegate IWait.Rest
         {
@@ -99,13 +87,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        Type IWait.ItemType
-        {
-            get
-            {
-                return typeof(object);
-            }
-        }
+        Type IWait.ItemType => typeof(object);
 
         void IWait.Post<T>(T item)
         {
@@ -202,13 +184,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 ;
         }
 
-        Need IWait.Need
-        {
-            get
-            {
-                return this.need;
-            }
-        }
+        Need IWait.Need => this.need;
 
         Type IWait.NeedType
         {
@@ -229,21 +205,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        Delegate IWait.Rest
-        {
-            get
-            {
-                return this.rest;
-            }
-        }
+        Delegate IWait.Rest => this.rest;
 
-        Type IWait.ItemType
-        {
-            get
-            {
-                return typeof(T);
-            }
-        }
+        Type IWait.ItemType => typeof(T);
 
         async Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context, CancellationToken token)
         {
