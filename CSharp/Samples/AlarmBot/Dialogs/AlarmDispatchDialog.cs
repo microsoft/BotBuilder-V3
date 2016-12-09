@@ -39,11 +39,6 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
             return this.luis;
         }
 
-        protected override Task OnPostAsync(IDialogContext context, IActivity activity)
-        {
-            return Task.CompletedTask;
-        }
-
         [LuisIntent("builtin.intent.none")]
         // ScorableOrder allows the user to override the scoring process to create
         // ordered scorable groups, where the scores from the first scorable group

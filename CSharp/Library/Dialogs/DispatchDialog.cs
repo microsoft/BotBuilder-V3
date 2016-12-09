@@ -139,12 +139,10 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         protected virtual async Task OnPostAsync(IDialogContext context, IActivity activity)
         {
-            context.Wait(ActivityReceivedAsync);
         }
 
         protected virtual async Task OnFailAsync(IDialogContext context, IActivity activity)
         {
-            context.Wait(ActivityReceivedAsync);
         }
 
         protected virtual async Task ActivityReceivedAsync(IDialogContext context, IAwaitable<IActivity> item)
