@@ -179,6 +179,12 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .As<IFrameFactory<C>>()
                 .SingleInstance();
 
+            builder
+                .RegisterInstance(NullWait<C>.Instance)
+                .Keyed<NullWait<C>>(Key_DoNotSerialize)
+                .AsSelf()
+                .SingleInstance();
+
             // per request, no resolution parameter dependency
 
             builder
