@@ -171,10 +171,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<Stream>()
                 .InstancePerDependency();
 
-            builder.Register(c => new DialogTaskManager(DialogModule.BlobKey, 
-                                                        c.Resolve<JObjectBotData>(), 
-                                                        c.Resolve<IStackStoreFactory<DialogTask>>(),
-                                                        c.Resolve<Func<IDialogStack, CancellationToken, IDialogContext>>()))
+            builder
+                .Register(c => new DialogTaskManager(DialogModule.BlobKey, 
+                                                     c.Resolve<JObjectBotData>(), 
+                                                     c.Resolve<IStackStoreFactory<DialogTask>>(),
+                                                     c.Resolve<Func<IDialogStack, CancellationToken, IDialogContext>>()))
                 .AsSelf()
                 .As<IDialogTaskManager>()
                 .InstancePerLifetimeScope();
