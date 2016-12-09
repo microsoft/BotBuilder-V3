@@ -2648,7 +2648,7 @@ a {
   border: 1px solid #ddd;
   word-break: break-word;
 }
-.post-content table tr td a {
+.post-content table tr td a, .post-content table tr td strong {
   word-break: normal;
 }
 .post-content table th {
