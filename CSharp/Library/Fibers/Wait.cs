@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         void Fail(Exception error);
     }
 
-    public interface IWait<C> : IWait
+    public interface IWait<C> : IWait, ICloneable
     {
         Task<IWait<C>> PollAsync(IFiber<C> fiber, C context, CancellationToken token);
     }
@@ -120,6 +120,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context, CancellationToken token)
         {
             throw new InvalidNeedException(this, Need.Poll);
+        }
+
+        object ICloneable.Clone()
+        {
+            return NullWait<C>.Instance;
         }
     }
 
@@ -370,6 +375,16 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         void INotifyCompletion.OnCompleted(Action continuation)
         {
             throw new NotImplementedException();
+        }
+
+        object ICloneable.Clone()
+        {
+            var clone = new Wait<C, T>();
+            clone.rest = this.rest;
+            clone.need = Need.Wait;
+            clone.item = default(T);
+            clone.fail = null;
+            return clone;
         }
     }
 
