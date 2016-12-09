@@ -105,6 +105,7 @@ namespace Microsoft.Bot.Builder.Luis
         /// </summary>
         /// <param name="modelID">The LUIS model ID.</param>
         /// <param name="subscriptionKey">The LUIS subscription key.</param>
+        /// <param name="apiVersion">The LUIS API version.</param>
         public LuisModelAttribute(string modelID, string subscriptionKey, LuisApiVersion apiVersion = LuisApiVersion.V1)
         {
             SetField.NotNull(out this.modelID, nameof(modelID), modelID);
