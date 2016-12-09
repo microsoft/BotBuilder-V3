@@ -103,6 +103,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
+        public static IWait<C> CloneTyped<C>(this IWait<C> wait)
+        {
+            return (IWait<C>)wait.Clone();
+        }
+
         public static Task<T> ToTask<T>(this IAwaitable<T> item)
         {
             var source = new TaskCompletionSource<T>();
