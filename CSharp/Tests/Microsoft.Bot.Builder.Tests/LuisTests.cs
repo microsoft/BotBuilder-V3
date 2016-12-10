@@ -426,7 +426,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public void UrlEncoding_UTF8_Then_Hex()
         {
-            ILuisService service = new LuisService(new LuisModelAttribute("modelID", "subscriptionID"));
+            ILuisService service = new LuisService(new LuisModelAttribute("modelID", "subscriptionID", LuisApiVersion.V1));
 
             var uri = service.BuildUri("Français");
 
