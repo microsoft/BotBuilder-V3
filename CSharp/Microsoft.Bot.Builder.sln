@@ -105,6 +105,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Histo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Azure.Tests", "tests\Microsoft.Bot.Builder.Azure.Tests\Microsoft.Bot.Builder.Azure.Tests.csproj", "{C0FC2275-93A1-462C-ACC6-7329AAFDDAB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleDispatchDialog", "Microsoft.Bot.Sample.SimpleDispatchDialog\Microsoft.Bot.Sample.SimpleDispatchDialog.csproj", "{54B0706E-FE37-4387-A1C2-FD695A30CA92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -248,6 +250,12 @@ Global
 		{C0FC2275-93A1-462C-ACC6-7329AAFDDAB4}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{C0FC2275-93A1-462C-ACC6-7329AAFDDAB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0FC2275-93A1-462C-ACC6-7329AAFDDAB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54B0706E-FE37-4387-A1C2-FD695A30CA92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B0706E-FE37-4387-A1C2-FD695A30CA92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54B0706E-FE37-4387-A1C2-FD695A30CA92}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{54B0706E-FE37-4387-A1C2-FD695A30CA92}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{54B0706E-FE37-4387-A1C2-FD695A30CA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54B0706E-FE37-4387-A1C2-FD695A30CA92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -276,5 +284,6 @@ Global
 		{77299F9C-8F49-4839-B7EA-55BA726321D5} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{D2834D71-D7A2-451B-9A61-1488AF049526} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{C0FC2275-93A1-462C-ACC6-7329AAFDDAB4} = {8E05398E-3CBE-4DCD-9382-072DC8859427}
+		{54B0706E-FE37-4387-A1C2-FD695A30CA92} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 	EndGlobalSection
 EndGlobal
