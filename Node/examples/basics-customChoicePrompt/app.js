@@ -14,14 +14,9 @@ their choice to the list.
 var builder = require('../../core/');
 var savedListPrompt = require('./savedListPrompt');
 
+// Setup bot and define root waterfall
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-
-// Create prompts
-savedListPrompt.create(bot);
-
-// Root dialog
-bot.dialog('/', [
+var bot = new builder.UniversalBot(connector, [
     function (session) {
         // Prompt for message to send
         savedListPrompt.beginDialog(session, {
@@ -34,3 +29,6 @@ bot.dialog('/', [
         session.send("Sending message: " + results.response);
     }
 ]);
+
+// Create prompts
+savedListPrompt.create(bot);

@@ -6,11 +6,11 @@ will be saved to a field off session.userData.
 var builder = require('../../core/');
 
 exports.beginDialog = function (session, options) {
-    session.beginDialog('/savedListPrompt', options);
+    session.beginDialog('savedListPrompt', options);
 }
 
 exports.create = function (bot) {
-    bot.dialog('/savedListPrompt', [
+    bot.dialog('savedListPrompt', [
         function (session, args) {
             // Check to see if there are any saved values.
             session.dialogData.args = args;
@@ -38,7 +38,7 @@ exports.create = function (bot) {
             if (results.response) {
                 // Add value to list.
                 var args = session.dialogData.args;
-                session.replaceDialog('/savedListPrompt/add', {
+                session.replaceDialog('savedListPrompt/add', {
                     field: args.field,
                     addPrompt: args.addPrompt,
                     value: value
@@ -50,7 +50,7 @@ exports.create = function (bot) {
         }
     ]);
 
-    bot.dialog('/savedListPrompt/add', [
+    bot.dialog('savedListPrompt/add', [
         function (session, args) {
             // Prompt user for the name
             session.dialogData.args = args;

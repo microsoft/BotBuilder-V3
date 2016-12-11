@@ -70,9 +70,12 @@ lib.dialog('chooseLocale', [
 //=========================================================
 
 exports.languageDetection = function (apiKey) {
+    if (!apiKey) {
+        console.warn('No API Key passed to localeTools.languageDetection().');
+    }
     return {
         receive: function (event, next) {
-            if (event.text && !event.textLocale) {
+            if (apiKey && event.text && !event.textLocale) {
                 var options = {
                     method: 'POST',
                     url: 'https://westus.api.cognitive.microsoft.com/text/analytics/v2.0/languages?numberOfLanguagesToDetect=1',
@@ -83,8 +86,8 @@ exports.languageDetection = function (apiKey) {
                     }
                 };
                 request(options, function (error, response, body) {
-                    if (!error && body) {
-                        if (body.documents && body.documents.length > 0) {
+                    if (!error) {
+                        if (body && body.documents && body.documents.length > 0) {
                             var languages = body.documents[0].detectedLanguages;
                             if (languages && languages.length > 0) {
                                 event.textLocale = languages[0].iso6391Name;

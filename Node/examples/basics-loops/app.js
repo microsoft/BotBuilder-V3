@@ -11,19 +11,19 @@ loop that dyanmically populates a form.
 
 var builder = require('../../core/');
 
+// Setup bot and root waterfall
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-
-bot.dialog('/', [
+var bot = new builder.UniversalBot(connector, [
     function (session) {
-        session.beginDialog('/q&a');
+        session.beginDialog('q&aDialog');
     },
     function (session, results) {
         session.send("Thanks %(name)s... You're %(age)s and located in %(state)s.", results.response);
     }
 ]);
 
-bot.dialog('/q&a', [
+// Add Q&A dialog
+bot.dialog('q&aDialog', [
     function (session, args) {
         // Save previous state (create on first call)
         session.dialogData.index = args ? args.index : 0;
@@ -43,7 +43,7 @@ bot.dialog('/q&a', [
             session.endDialogWithResult({ response: session.dialogData.form });
         } else {
             // Next field
-            session.replaceDialog('/q&a', session.dialogData);
+            session.replaceDialog('q&aDialog', session.dialogData);
         }
     }
 ]);

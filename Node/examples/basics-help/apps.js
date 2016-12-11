@@ -20,12 +20,15 @@ determine the context.
 
 var builder = require('../../core/');
 
+// Setup bot and root message handler.
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
+var bot = new builder.UniversalBot(connector, function (session) {
+    session.send("Ask me to flip a coin or roll some dice.");
+});
 
 // Setup help system
-bot.recognizer(new builder.RegExpRecognizer('Help', /^(help|options)/i));
-bot.dialog('/help', function (session, args) {
+bot.recognizer(new builder.RegExpRecognizer('HelpIntent', /^(help|options)/i));
+bot.dialog('helpDialog', function (session, args) {
     switch (args.action) {
         default:
             // args.action is '*:/help' indicating the triggerAction() was matched
@@ -38,15 +41,10 @@ bot.dialog('/help', function (session, args) {
             session.endDialog("Say the number of dice you'd like rolled.");
             break;
     }
-}).triggerAction({ matches: 'Help' });
-
-// Add default dialog
-bot.dialog('/', function (session) {
-    session.send("Ask me to flip a coin or roll some dice.");
-});
+}).triggerAction({ matches: 'HelpIntent' });
 
 // Add flipCoin task
-bot.dialog('/flipCoin', [
+bot.dialog('flipCoinDialog', [
     function (session, args) {
         builder.Prompts.choice(session, "Choose heads or tails.", "heads|tails", { listStyle: builder.ListStyle.none })
     },
@@ -59,14 +57,11 @@ bot.dialog('/flipCoin', [
         }
     }
 ]).triggerAction({ 
-    matches: /flip/i,
-    onSelectAction: function (session, args, next) {
-        switchTasks(session, args, next, "We're already flipping a coin.");
-    }
-}).beginDialogAction('flipCoinHelp', '/help', { matches: 'Help' });
+    matches: /flip/i
+}).beginDialogAction('flipCoinHelp', 'helpDialog', { matches: 'HelpIntent' });
 
 // Add rollDice task
-bot.dialog('/rollDice', [
+bot.dialog('rollDiceDialog', [
     function (session, args) {
         builder.Prompts.number(session, "How many dice should I roll?");
     },
@@ -83,11 +78,8 @@ bot.dialog('/rollDice', [
         }
     }
 ]).triggerAction({
-    matches: /roll/i,
-    onSelectAction: function (session, args, next) {
-        switchTasks(session, args, next, "We're already rolling some dice.");
-    }
-}).beginDialogAction('rollDiceHelp', '/help', { matches: 'Help' });
+    matches: /roll/i
+}).beginDialogAction('rollDiceHelp', 'helpDialog', { matches: 'HelpIntent' });
 
 function switchTasks(session, args, next, alreadyActiveMessage) {
     // Check to see if we're already active.

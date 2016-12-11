@@ -12,17 +12,15 @@ you not only trigger the dialog but also pass it custom arguments.
 
 var builder = require('../../core/');
 
+// Setup bot and default message handler
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-
-// Add default dialog
-bot.dialog('/', function (session) {
+var bot = new builder.UniversalBot(connector, function (session) {
     session.send("You said: '%s'. Try asking for 'help'.", session.message.text);
 });
 
 // Add help dialog with a trigger action bound to a custom onFindAction() function looking 
 // for the user to ask for help.
-bot.dialog('/help', function (session, args) {
+bot.dialog('helpDialog', function (session, args) {
     session.endDialog(args.topic + ": This bot will echo back anything you say.");
 }).triggerAction({ 
     onFindAction: function (context, callback) {

@@ -18,14 +18,9 @@ pizza topping and supports answering questions like "which ones are gluten free?
 var builder = require('../../core/');
 var meaningOfLife = require('./meaningOfLife');
 
+// Setup bot and define root waterfall
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-
-// Create prompts
-meaningOfLife.create(bot);
-
-// Root dialog
-bot.dialog('/', [
+var bot = new builder.UniversalBot(connector, [
     function (session) {
         // Ask user the meaning of life
         meaningOfLife.beginDialog(session);
@@ -39,3 +34,6 @@ bot.dialog('/', [
         }
     }
 ]);
+
+// Create prompts
+meaningOfLife.create(bot);

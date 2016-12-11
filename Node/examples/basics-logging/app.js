@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------
 This example demonstrates how to add logging/filtering of incoming messages 
 using a piece of middleware. Users can turn logging on and off individually by 
-sending a "/log on" or "/log off" message.
+sending either a "log on" or "log off" message.
 
 # RUN THE BOT:
 
@@ -12,19 +12,19 @@ sending a "/log on" or "/log off" message.
 
 var builder = require('../../core/');
 
+// Setup bot and root message handler
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-bot.dialog('/', function (session) {
+var bot = new builder.UniversalBot(connector, function (session) {
     session.send("Tell me about it...");
 });
 
 // Install logging middleware
 bot.use({
     botbuilder: function (session, next) {
-        if (/^\/log on/i.test(session.message.text)) {
+        if (/^log on/i.test(session.message.text)) {
             session.userData.isLogging = true;
             session.send('Logging is now turned on');
-        } else if (/^\/log off/i.test(session.message.text)) {
+        } else if (/^log off/i.test(session.message.text)) {
             session.userData.isLogging = false;
             session.send('Logging is now turned off');
         } else {

@@ -18,16 +18,14 @@ users current task and return to it later.
 
 var builder = require('../../core/');
 
+// Setup bot and default message handler
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-
-// Add default dialog
-bot.dialog('/', function (session) {
+var bot = new builder.UniversalBot(connector, function (session) {
     session.send("Ask me to flip a coin or roll some dice.");
 });
 
-// Add flipCoin task
-bot.dialog('/flipCoin', [
+// Add dialog fpr flipping a coin
+bot.dialog('flipCoinDialog', [
     function (session, args) {
         builder.Prompts.choice(session, "Choose heads or tails.", "heads|tails", { listStyle: builder.ListStyle.none })
     },
@@ -39,15 +37,10 @@ bot.dialog('/flipCoin', [
             session.endDialog("Sorry... It was %s. you lost :(", flip);
         }
     }
-]).triggerAction({ 
-    matches: /flip/i,
-    onSelectAction: function (session, args, next) {
-        switchTasks(session, args, next, "We're already flipping a coin.");
-    }
-});
+]).triggerAction({ matches: /flip/i });
 
-// Add rollDice task
-bot.dialog('/rollDice', [
+// Add dialog for rolling some dice
+bot.dialog('rollDiceDialog', [
     function (session, args) {
         builder.Prompts.number(session, "How many dice should I roll?");
     },

@@ -16,8 +16,11 @@ send an image or calls some external web service to determine the users intent.
 
 var builder = require('../../core/');
 
+// Setup bot and default message handler
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
+var bot = new builder.UniversalBot(connector, function (session) {
+    session.send("You said: '%s'. Try asking for 'help' or say 'goodbye' to quit", session.message.text);
+});
 
 // Install a custom recognizer to look for user saying 'help' or 'goodbye'.
 bot.recognizer({
@@ -37,16 +40,11 @@ bot.recognizer({
     }
 });
 
-// Add default dialog
-bot.dialog('/', function (session) {
-    session.send("You said: '%s'. Try asking for 'help' or say 'goodbye' to quit", session.message.text);
-});
-
 // Add help dialog with a trigger action bound to the 'Help' intent
-bot.dialog('/help', function (session) {
+bot.dialog('helpDialog', function (session) {
     session.endDialog("This bot will echo back anything you say. Say 'goodbye' to quit.");
 }).triggerAction({ matches: 'Help' });
 
 // Add global endConversation() action bound to the 'Goodbye' intent
-bot.endConversationAction('goodbye', "Ok... See you later.", { matches: 'Goodbye' });
+bot.endConversationAction('goodbyeAction', "Ok... See you later.", { matches: 'Goodbye' });
 

@@ -5,13 +5,16 @@ something and then wants to ask a series of follow-up questions. To support this
 the bot needs to track the current context or topic of the conversation. This
 sample shows a simple way to use session.dialogState to do just that.
 
-In this specific sample we're using a IntentDialog with a LuisRecognizer to to give 
+In this specific sample we're using a global LuisRecognizer to to give 
 the bot a more natural language interface but there's nothing specific about 
 multi-turn that requires the use of LUIS.
 
 The basic idea is that before we can answer a question we need to know the company 
 to answer the question for. This is the “context” of the question. We’re using a 
 LUIS model to identify the question the user would like asked and so for every 
+message we'll first run the users utterance through LUIS to identify their intent
+and then we'll launch the appropriate dialog to answer the user question using a
+triggerAction() bound to each dialog. When invoked we'll run through '
 intent handler we have the same two basic steps which we’re representing using a 
 waterfall. 
 
@@ -57,129 +60,135 @@ context for future questions and returns an answer for data that was asked for.
 -----------------------------------------------------------------------------*/
 
 var builder = require('../../core/');
-var prompts = require('./prompts');
 
+// Load company data (Sample data sourced from http://crunchbase.com on 3/18/2016)
+var companyData = require('./companyData.json');
+
+// Setup bot and root message handler
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
+var bot = new builder.UniversalBot(connector, function (session) {
+    // Simply defer to help dialog for un-recognized intents
+    session.beginDialog('helpDialog');
+});
 
-/** Use CrunchBot LUIS model for the root dialog. */
+// Add global recognizer for LUIS model (run for every message)
 var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=56c73d36-e6de-441f-b2c2-6ba7ea73a1bf&subscription-key=6d0966209c6e4f6b835ce34492f3e6d9&q=';
-var recognizer = new builder.LuisRecognizer(model);
-var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
-bot.dialog('/', dialog);
+bot.recognizer(new builder.LuisRecognizer(model));
 
-/** Answer help related questions like "what can I say?" */
-dialog.matches('Help', builder.DialogAction.send(prompts.helpMessage));
-dialog.onDefault(builder.DialogAction.send(prompts.helpMessage));
+// Answer help related questions like "what can I say?"
+bot.dialog('helpDialog', function (session) {
+    // Send help message and end dialog.
+    session.endDialog('helpMessage');
+}).triggerAction({ matches: 'Help' });
 
-/** Answer acquisition related questions like "how many companies has microsoft bought?" */
-dialog.matches('Acquisitions', [askCompany, answerQuestion('acquisitions', prompts.answerAcquisitions)]);
+// Answer acquisition related questions like "how many companies has microsoft bought?"
+bot.dialog('acquisitionsDialog', function (session, args) {
+    // Any entities recognized by LUIS will be passed in via the args.
+    var entities = args.intent.entities;
 
-/** Answer IPO date related questions like "when did microsoft go public?" */
-dialog.matches('IpoDate', [askCompany, answerQuestion('ipoDate', prompts.answerIpoDate)]);
+    // Call common answer dialog
+    session.beginDialog('answerDialog', {
+        company: builder.EntityRecognizer.findEntity(entities, 'CompanyName'),
+        field: 'acquisitions',
+        template: 'answerAcquisitions'
+    });
+}).triggerAction({ matches: 'Acquisitions' });
 
-/** Answer headquarters related questions like "where is microsoft located?" */
-dialog.matches('Headquarters', [askCompany, answerQuestion('headquarters', prompts.answerHeadquarters)]);
+// Answer IPO date related questions like "when did microsoft go public?"
+bot.dialog('ipoDateDialog', function (session, args) {
+    var entities = args.intent.entities;
+    session.beginDialog('answerDialog', {
+        company: builder.EntityRecognizer.findEntity(entities, 'CompanyName'),
+        field: 'ipoDate',
+        template: 'answerIpoDate'
+    });
+}).triggerAction({ matches: 'IpoDate' });
 
-/** Answer description related questions like "tell me about microsoft" */
-dialog.matches('Description', [askCompany, answerQuestion('description', prompts.answerDescription)]);
+// Answer headquarters related questions like "where is microsoft located?"
+bot.dialog('headquartersDialog', function (session, args) {
+    var entities = args.intent.entities;
+    session.beginDialog('answerDialog', {
+        company: builder.EntityRecognizer.findEntity(entities, 'CompanyName'),
+        field: 'headquarters',
+        template: 'answerHeadquarters'
+    });
+}).triggerAction({ matches: 'Headquarters' });
 
-/** Answer founder related questions like "who started microsoft?" */
-dialog.matches('Founders', [askCompany, answerQuestion('founders', prompts.answerFounders)]);
+// Answer description related questions like "tell me about microsoft"
+bot.dialog('descriptionDialog', function (session, args) {
+    var entities = args.intent.entities;
+    session.beginDialog('answerDialog', {
+        company: builder.EntityRecognizer.findEntity(entities, 'CompanyName'),
+        field: 'description',
+        template: 'answerDescription'
+    });
+}).triggerAction({ matches: 'Description' });
 
-/** Answer website related questions like "how can I contact microsoft?" */
-dialog.matches('website', [askCompany, answerQuestion('website', prompts.answerWebsite)]);
+// Answer founder related questions like "who started microsoft?"
+bot.dialog('foundersDialog', function (session, args) {
+    var entities = args.intent.entities;
+    session.beginDialog('answerDialog', {
+        company: builder.EntityRecognizer.findEntity(entities, 'CompanyName'),
+        field: 'founders',
+        template: 'answerFounders'
+    });
+}).triggerAction({ matches: 'Founders' });
 
-/** 
- * This function the first step in the waterfall for intent handlers. It will use the company mentioned
- * in the users question if specified and valid. Otherwise it will use the last company a user asked 
- * about. If it the company is missing it will prompt the user to pick one. 
- */
-function askCompany(session, args, next) {
-    // First check to see if we either got a company from LUIS or have a an existing company
-    // that we can multi-turn over.
-    var company;
-    var entity = builder.EntityRecognizer.findEntity(args.entities, 'CompanyName');
-    if (entity) {
-        // The user specified a company so lets look it up to make sure its valid.
-        // * This calls the underlying function Prompts.choice() uses to match a users response
-        //   to a list of choices. When you pass it an object it will use the field names as the
-        //   list of choices to match against. 
-        company = builder.EntityRecognizer.findBestMatch(data, entity.entity);
-    } else if (session.dialogData.company) {
-        // Just multi-turn over the existing company
-        company = session.dialogData.company;
-    }
-    
-    // Prompt the user to pick a ocmpany if they didn't specify a valid one.
-    if (!company) {
-        // Lets see if the user just asked for a company we don't know about.
-        var txt = entity ? session.gettext(prompts.companyUnknown, { company: entity.entity }) : prompts.companyMissing;
-        
-        // Prompt the user to pick a company from the list. They can also ask to cancel the operation.
-        builder.Prompts.choice(session, txt, data);
-    } else {
-        // Great! pass the company to the next step in the waterfall which will answer the question.
-        // * This will match the format of the response returned from Prompts.choice().
-        next({ response: company })
-    }
-}
+// Answer website related questions like "how can I contact microsoft?"
+bot.dialog('websiteDialog', function (session, args) {
+    var entities = args.intent.entities;
+    session.beginDialog('answerDialog', {
+        company: builder.EntityRecognizer.findEntity(entities, 'CompanyName'),
+        field: 'website',
+        template: 'answerWebsite'
+    });
+}).triggerAction({ matches: 'Website' });
 
-/**
- * This function generates a generic answer step for an intent handlers waterfall. The company to answer
- * a question about will be passed into the step and the specified field from the data will be returned to 
- * the user using the specified answer template. 
- */
-function answerQuestion(field, answerTemplate) {
-    return function (session, results) {
-        // Check to see if we have a company. The user can cancel picking a company so IPromptResult.response
-        // can be null. 
-        if (results.response) {
-            // Save company for multi-turn case and compose answer            
-            var company = session.dialogData.company = results.response;
-            var answer = { company: company.entity, value: data[company.entity][field] };
-            session.send(answerTemplate, answer);
-        } else {
-            session.send(prompts.cancel);
+// Common answer dialog. It expects the following args:
+// {
+//      field: string;
+//      template: string;   
+//      company?: IEntity;
+// }
+bot.dialog('answerDialog', [
+    function askCompany(session, args, next) {
+        // Save args passed to dialogData which remembers them for just this answer.
+        session.dialogData.args = args;
+
+        // Validate company passed in
+        var company, isValid;
+        if (args.company) {
+            company = args.company.entity.toLowerCase();
+            isValid = companyData.hasOwnProperty(company);
+        } else if (session.privateConversationData.company) {
+            // Use valid company selected in previous turn
+            company = session.privateConversationData.company;
+            isValid = true;
         }
-    };
-}
+       
+        // Prompt the user to pick a company if they didn't specify a valid one.
+        if (!isValid) {
+            // Lets see if the user just asked for a company we don't know about.
+            var txt = args.company ? session.gettext('companyUnknown', { company: args.company }) : 'companyMissing';
+            
+            // Prompt the user to pick a company from the list. This will use the
+            // keys of the companyData map for the choices.
+            builder.Prompts.choice(session, txt, companyData);
+        } else {
+            // Great! pass the company to the next step in the waterfall which will answer the question.
+            // * This will match the format of the response returned from Prompts.choice().
+            next({ response: { entity: company } });
+        }
+    },
+    function answerQuestion(session, results) {
+        // Get args we saved away
+        var args = session.dialogData.args;
 
+        // Remember company for future turns with the user
+        var company = session.privateConversationData.company = results.response.entity;
 
-/** 
- * Sample data sourced from http://crunchbase.com on 3/18/2016 
- */
-var data = {
-  'Microsoft': {
-      acquisitions: 170,
-      ipoDate: 'Mar 13, 1986',
-      headquarters: 'Redmond, WA',
-      description: 'Microsoft, a software corporation, develops licensed and support products and services ranging from personal use to enterprise application.',
-      founders: 'Bill Gates and Paul Allen',
-      website: 'http://www.microsoft.com'
-  },
-  'Apple': {
-      acquisitions: 72,
-      ipoDate: 'Dec 19, 1980',
-      headquarters: 'Cupertino, CA',
-      description: 'Apple is a multinational corporation that designs, manufactures, and markets consumer electronics, personal computers, and software.',
-      founders: 'Kevin Harvey, Steve Wozniak, Steve Jobs, and Ron Wayne',
-      website: 'http://www.apple.com'
-  },
-  'Google': {
-      acquisitions: 39,
-      ipoDate: 'Aug 19, 2004',
-      headquarters: 'Mountain View, CA',
-      description: 'Google is a multinational corporation that is specialized in internet-related services and products.',
-      founders: 'Baris Gultekin, Michoel Ogince, Sergey Brin, and Larry Page',
-      website: 'http://www.google.com'
-  },
-  'Amazon': {
-      acquisitions: 58,
-      ipoDate: 'May 15, 1997',
-      headquarters: 'Seattle, WA',
-      description: 'Amazon.com is an international e-commerce website for consumers, sellers, and content creators.',
-      founders: 'Sachin Agarwal and Jeff Bezos',
-      website: 'http://amazon.com'
-  }
-};
+        // Reply to user with answer
+        var answer = { company: company, value: companyData[company][args.field] };
+        session.endDialog(args.template, answer);
+    }
+]).cancelAction('cancelAnswer', "cancelMessage", { matches: /^cancel/i });

@@ -14,19 +14,13 @@ This Bot demonstrates basic localization support for a bot. It shows how to:
 
 var builder = require('../../core/');
 
+// Setup bot and root waterfall
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector, {
-    localizerSettings: { 
-        botLocalePath: "./locale", 
-        defaultLocale: "en" 
-    }
-});
-
-bot.dialog("/", [
+var bot = new builder.UniversalBot(connector, [
     function (session) {
         session.send("greeting");
         session.send("instructions");
-        session.beginDialog('/localePicker');
+        session.beginDialog('localePickerDialog');
     },
     function (session) {
         builder.Prompts.text(session, "text_prompt");
@@ -59,9 +53,17 @@ bot.dialog("/", [
         session.send("time_response", JSON.stringify(results.response));
         session.endDialog("demo_finished");
     }
-])
+]);
 
-bot.dialog('/localePicker', [
+// Configure bots default locale and locale folder path.
+bot.set('localizerSettings', {
+    botLocalePath: "./customLocale", 
+    defaultLocale: "en" 
+});
+
+
+// Add locale picker dialog 
+bot.dialog('localePickerDialog', [
     function (session) {
         // Prompt the user to select their preferred locale
         builder.Prompts.choice(session, "locale_prompt", 'English|Español|Italiano');
@@ -91,4 +93,3 @@ bot.dialog('/localePicker', [
         });
     }
 ]);
-

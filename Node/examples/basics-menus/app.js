@@ -12,33 +12,33 @@ child dialog by simply saying "menu" or "back".
 
 var builder = require('../../core/');
 
+// Setup bot and root waterfall
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-
-bot.dialog('/', [
+var bot = new builder.UniversalBot(connector, [
     function (session) {
         session.send("Hello... I'm a decision bot.");
-        session.beginDialog('/menu');
+        session.beginDialog('rootMenu');
     },
     function (session, results) {
         session.endConversation("Goodbye until next time...");
     }
 ]);
 
-bot.dialog('/menu', [
+// Add root menu dialog
+bot.dialog('rootMenu', [
     function (session) {
         builder.Prompts.choice(session, "Choose an option:", 'Flip A Coin|Roll Dice|Magic 8-Ball|Quit');
     },
     function (session, results) {
         switch (results.response.index) {
             case 0:
-                session.beginDialog('/flipCoin');
+                session.beginDialog('flipCoinDialog');
                 break;
             case 1:
-                session.beginDialog('/rollDice');
+                session.beginDialog('rollDiceDialog');
                 break;
             case 2:
-                session.beginDialog('/magicBall');
+                session.beginDialog('magicBallDialog');
                 break;
             default:
                 session.endDialog();
@@ -47,11 +47,12 @@ bot.dialog('/menu', [
     },
     function (session) {
         // Reload menu
-        session.replaceDialog('/menu');
+        session.replaceDialog('rootMenu');
     }
 ]).reloadAction('showMenu', null, { matches: /^(menu|back)/i });
 
-bot.dialog('/flipCoin', [
+// Flip a coin
+bot.dialog('flipCoinDialog', [
     function (session, args) {
         builder.Prompts.choice(session, "Choose heads or tails.", "heads|tails", { listStyle: builder.ListStyle.none })
     },
@@ -65,7 +66,8 @@ bot.dialog('/flipCoin', [
     }
 ]);
 
-bot.dialog('/rollDice', [
+// Roll some dice
+bot.dialog('rollDiceDialog', [
     function (session, args) {
         builder.Prompts.number(session, "How many dice should I roll?");
     },
@@ -83,7 +85,8 @@ bot.dialog('/rollDice', [
     }
 ]);
 
-bot.dialog('/magicBall', [
+// Magic 8-Ball
+bot.dialog('magicBallDialog', [
     function (session, args) {
         builder.Prompts.text(session, "What is your question?");
     },

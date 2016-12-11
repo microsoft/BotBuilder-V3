@@ -14,10 +14,9 @@ about a specific user.
 
 var builder = require('../../core/');
 
+// Setup bot and root waterfall
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-
-bot.dialog('/', [
+var bot = new builder.UniversalBot(connector, [
     function (session) {
         builder.Prompts.text(session, "Hello... What's your name?");
     },

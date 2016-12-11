@@ -6,10 +6,10 @@ var bot = new builder.UniversalBot(null, null, 'bot1');
 
 // Export createLibrary() function
 exports.createLibrary = function () {
-    return bot;
+    return bot.clone();
 }
 
 // Add a dialog with a trigger action like you normally would.
 bot.dialog('/greeting', function (session) {
     session.endDialog("Hello %s... I'm Bot1", session.userData.name || 'there');
-}).triggerAction({ matches: /(hello|hi) bot1/i });
+}).triggerAction({ matches: /(hello|hi).*bot1/i });

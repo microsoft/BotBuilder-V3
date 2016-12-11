@@ -10,7 +10,10 @@ A simple "Hello World" bot that can be run from a console window.
 
 var builder = require('../../core/');
 
+// Create console connector and listen to stdin for messages 
 var connector = new builder.ConsoleConnector().listen();
+
+// Create your bot with a function to receive messages from the user
 var bot = new builder.UniversalBot(connector, function (session) {
-   session.send('Hello World'); 
+    session.send("You said: %s", session.message.text);
 });

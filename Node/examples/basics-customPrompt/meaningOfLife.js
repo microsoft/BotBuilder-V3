@@ -7,7 +7,7 @@ wish to invoke the prompt.
 var builder = require('../../core/');
 
 exports.beginDialog = function (session, options) {
-    session.beginDialog('/meaningOfLife', options || {});
+    session.beginDialog('meaningOfLife', options || {});
 }
 
 exports.create = function (bot) {
@@ -34,5 +34,5 @@ exports.create = function (bot) {
                 session.send(session.dialogData.retryPrompt);
             }
         });
-    bot.dialog('/meaningOfLife', prompt);
+    bot.dialog('meaningOfLife', prompt);
 }

@@ -1,17 +1,10 @@
 /*-----------------------------------------------------------------------------
-This Bot demonstrates how to create a First Run experience using a piece of
-middleware. 
-
-The middleware function will be run for every incoming message and its simply
-using a flag persisted off userData to know if the user been sent to the 
-/firstRun dialog. The first run experience can be as simple or as complex as
-you'd like. In our example we're prompting the user for their name but if you
-just wanted to show a simple message you could have called session.send() 
-instead of session.beginDialog().
-
-You can also use a version number instead of a flag if say you need to 
-periodically update your Terms Of Use and want to re-show an existing user the 
-new TOU on their next interaction with the bot.
+This Bot demonstrates how to create a simple First Run experience for a bot.
+The triggerAction() for the first run dialog shows how to add a custom 
+onFindAction handler that lets you programatically trigger the dialog based off 
+a version check. It also uses a custom onInterrupted handler to prevent the 
+first run dialog from being interrupted should the user trigger another dialog 
+like 'help'. 
 
 # RUN THE BOT:
 
@@ -22,17 +15,20 @@ new TOU on their next interaction with the bot.
 
 var builder = require('../../core/');
 
+// Setup bot and root message handler
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-bot.dialog('/', function (session) {
+var bot = new builder.UniversalBot(connector, function (session) {
     session.send("%s, I heard: %s", session.userData.name, session.message.text);
-    session.send("Say something else...");
+    session.send("Say 'help' or something else...");
 });
 
-// Install First Run middleware and dialog
-bot.use(builder.Middleware.firstRun({ version: 1.0, dialogId: '*:/firstRun' }));
-bot.dialog('/firstRun', [
+// Add first run dialog
+bot.dialog('firstRun', [
     function (session) {
+        // Update versio number and start Prompts
+        // - The version number needs to be updated first to prevent re-triggering 
+        //   the dialog. 
+        session.userData.version = 1.0; 
         builder.Prompts.text(session, "Hello... What's your name?");
     },
     function (session, results) {
@@ -41,4 +37,21 @@ bot.dialog('/firstRun', [
         session.userData.name = results.response;
         session.endDialog("Hi %s, say something to me and I'll echo it back.", session.userData.name); 
     }
-]);
+]).triggerAction({
+    onFindAction: function (context, callback) {
+        // Trigger dialog if the users version field is less than 1.0
+        // - When triggered we return a score of 1.1 to ensure the dialog is always triggered.
+        var ver = context.userData.version || 0;
+        var score = ver < 1.0 ? 1.1: 0.0;
+        callback(null, score);
+    },
+    onInterrupted: function (session, dialogId, dialogArgs, next) {
+        // Prevent dialog from being interrupted.
+        session.send("Sorry... We need some information from you first.");
+    }
+});
+
+// Add help dialog
+bot.dialog('help', function (session) {
+    session.send("I'm a simple echo bot.");
+}).triggerAction({ matches: /^help/i });

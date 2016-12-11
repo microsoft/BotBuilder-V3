@@ -21,22 +21,14 @@ review the reference docs the Library.bestRouteResult() method.
 
 var builder = require('../../core/');
 
-// Setup your uber bot as you normally would 
-var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-
 // Import child libraries
 var bot1 = require('./bot1');
 var bot2 = require('./bot2');
 var profile = require('./profileLib');
 
-// Add libraries to bot
-bot.library(bot1.createLibrary());
-bot.library(bot2.createLibrary());
-bot.library(profile.createLibrary());
-
-// Add default dialog to uber bot
-bot.dialog('/', [
+// Setup your uber bot as you normally would 
+var connector = new builder.ConsoleConnector().listen();
+var bot = new builder.UniversalBot(connector, [
     function (session, args, next) {
         // Ask user their name on first run
         if (!session.userData.name) {
@@ -50,3 +42,7 @@ bot.dialog('/', [
     }
 ]);
 
+// Add libraries to bot
+bot.library(bot1.createLibrary());
+bot.library(bot2.createLibrary());
+bot.library(profile.createLibrary());

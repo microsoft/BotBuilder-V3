@@ -8,7 +8,7 @@ var lib = new builder.Library('profile');
 
 // Export createLibrary() function
 exports.createLibrary = function () {
-    return lib;
+    return lib.clone();
 }
 
 //=========================================================
@@ -16,10 +16,10 @@ exports.createLibrary = function () {
 //=========================================================
 
 exports.changeName = function (session) {
-    session.beginDialog('profile:/changeName');
+    session.beginDialog('profile:changeName');
 }
 
-lib.dialog('/changeName', [
+lib.dialog('changeName', [
     function (session) {
         session.dialogData.updating = session.userData.hasOwnProperty('name');
         var prompt =  session.dialogData.updating ? "What would you like to change your name to?" : "Hi... What's your name?";
@@ -33,4 +33,4 @@ lib.dialog('/changeName', [
             session.endDialog();
         }
     }    
-]).triggerAction({ matches: /^(change|set|update) name/i });
+]).triggerAction({ matches: /(change|set|update).*name/i });

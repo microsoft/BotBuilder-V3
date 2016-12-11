@@ -24,11 +24,9 @@ good option.
 var builder = require('../../core/');
 var async = require('async');
 
+// Setup bot and default message handler
 var connector = new builder.ConsoleConnector().listen();
-var bot = new builder.UniversalBot(connector);
-
-// Add default dialog
-bot.dialog('/', function (session) {
+var bot = new builder.UniversalBot(connector, function (session) {
     session.send("You said: '%s'.", session.message.text);
 });
 
