@@ -27,16 +27,16 @@ var UniversalBot = (function (_super) {
         this.localePath('./locale/');
         this.library(Library_1.systemLib);
         if (defaultDialog) {
-            if (typeof defaultDialog === 'object') {
+            if (typeof defaultDialog === 'function' || Array.isArray(defaultDialog)) {
+                this.dialog('/', defaultDialog);
+            }
+            else {
                 var settings = defaultDialog;
                 for (var name in settings) {
                     if (settings.hasOwnProperty(name)) {
                         this.set(name, settings[name]);
                     }
                 }
-            }
-            else {
-                this.dialog('/', defaultDialog);
             }
         }
         if (connector) {

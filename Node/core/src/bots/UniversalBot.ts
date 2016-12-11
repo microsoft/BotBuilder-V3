@@ -103,15 +103,15 @@ export class UniversalBot extends Library {
         this.library(systemLib);
         if (defaultDialog) {
             // Check for legacy settings passed in
-            if (typeof defaultDialog === 'object') {
+            if (typeof defaultDialog === 'function' || Array.isArray(defaultDialog)) {
+                this.dialog('/', defaultDialog);
+            } else {
                 var settings = <IUniversalBotSettings>defaultDialog;
                 for (var name in settings) {
                     if (settings.hasOwnProperty(name)) {
                         this.set(name, (<any>settings)[name]);
                     }
                 }
-            } else {
-                this.dialog('/', defaultDialog);
             }
         }
         if (connector) {
