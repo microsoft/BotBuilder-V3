@@ -38,8 +38,8 @@
     <file src="bin\release\Microsoft.Bot.Connector.xml" target="lib\net46" />
     <file src="bin\release\Microsoft.Bot.Builder.pdb" target="lib\net46" />
     <file src="bin\release\Microsoft.Bot.Connector.pdb" target="lib\net46" />
-    <file src="**\*.cs" exclude="**\obj\**\*.cs;Microsoft.Bot.Builder.FormFlow.Json\**\*.cs" target="src" />
-    <file src="..\tools\rview\bin\release\RView.exe" target="tools"/>
+    <file src="**\*.cs" exclude="**\obj\**\*.cs" target="src" />
+    <file src="..\..\tools\rview\bin\release\RView.exe" target="tools"/>
     <file src="bin\release\ar\*.dll" target="lib\net46\ar"/>
     <file src="bin\release\en\*.dll" target="lib\net46\en"/>
     <file src="bin\release\es\*.dll" target="lib\net46\es"/>
