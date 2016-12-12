@@ -7,10 +7,14 @@ parent1: none
 ---
 
 
+## December 13, 2016
+Today we're excited to announce that we are releasing two new offerings designed to help make it easier for you to create smart bots, QnA Maker Service and Bing Location Control.
+[Read more on our Blog](https://blog.botframework.com/2016/12/13/More-Ways-to-Make-Smart-Bots/){:target="_blank"}.
+
 ## December 8, 2016
 
 We've release a new and Improved Bot Framework Emulator (v3.5.22).
-[Check out the blog post](https://blog.botframework.com/2016/12/08/bot-framework-emulator-3522/)!
+[Check out the blog post](https://blog.botframework.com/2016/12/08/bot-framework-emulator-3522/){:target="_blank"}! 
 
 ## November 16, 2016
 
