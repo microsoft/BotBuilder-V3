@@ -2942,6 +2942,7 @@ export class UniversalBot extends Library  {
      * - __incoming:__ An incoming message has been received and processed by middleware. Passed an [IMessage](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html) object.
      * - __routing:__ An incoming message has been bound to a session and is about to be routed through any session middleware and then dispatched to the active dialog for processing. Passed a [Session](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html) object.
      * - __send:__ An outgoing message is about to be sent to middleware for processing. Passed an [IMessage](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html) object.
+     * - __outgoing:__ An outgoing message has just been sent through middleware and is about to be delivered to the users chat client.
      * - __getStorageData:__ The sessions persisted state data is being loaded from storage. Passed an [IBotStorageContext](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ibotstoragecontext.html) object.
      * - __saveStorageData:__ The sessions persisted state data is being written to storage. Passed an [IBotStorageContext](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ibotstoragecontext.html) object.
      * 
