@@ -15,11 +15,7 @@ namespace Microsoft.Bot.Connector
         /// <returns> The generated attachment.</returns>
         public static Attachment ToAttachment(this HeroCard card)
         {
-            return new Attachment
-            {
-                Content = card,
-                ContentType = HeroCard.ContentType
-            };
+            return CreateAttachment(card, HeroCard.ContentType);
         }
 
         /// <summary>
@@ -29,11 +25,7 @@ namespace Microsoft.Bot.Connector
         /// <returns> The generated attachment.</returns>
         public static Attachment ToAttachment(this ThumbnailCard card)
         {
-            return new Attachment
-            {
-                Content = card,
-                ContentType = ThumbnailCard.ContentType
-            };
+            return CreateAttachment(card, ThumbnailCard.ContentType);
         }
 
         /// <summary>
@@ -43,11 +35,7 @@ namespace Microsoft.Bot.Connector
         /// <returns> The generated attachment.</returns>
         public static Attachment ToAttachment(this SigninCard card)
         {
-            return new Attachment
-            {
-                Content = card,
-                ContentType = SigninCard.ContentType
-            };
+            return CreateAttachment(card, SigninCard.ContentType);
         }
 
         /// <summary>
@@ -57,10 +45,46 @@ namespace Microsoft.Bot.Connector
         /// <returns> The generated attachment.</returns>
         public static Attachment ToAttachment(this ReceiptCard card)
         {
+            return CreateAttachment(card, ReceiptCard.ContentType);
+        }
+
+        /// <summary>
+        /// Creates a new attachment from <see cref="AudioCard"/>.
+        /// </summary>
+        /// <param name="card"> The instance of <see cref="AudioCard"/>.</param>
+        /// <returns> The generated attachment.</returns>
+        public static Attachment ToAttachment(this AudioCard card)
+        {
+            return CreateAttachment(card, AudioCard.ContentType);
+        }
+
+
+        /// <summary>
+        /// Creates a new attachment from <see cref="VideoCard"/>.
+        /// </summary>
+        /// <param name="card"> The instance of <see cref="VideoCard"/>.</param>
+        /// <returns> The generated attachment.</returns>
+        public static Attachment ToAttachment(this VideoCard card)
+        {
+            return CreateAttachment(card, VideoCard.ContentType);
+        }
+
+        /// <summary>
+        /// Creates a new attachment from <see cref="AnimationCard"/>.
+        /// </summary>
+        /// <param name="card"> The instance of <see cref="AnimationCard"/>.</param>
+        /// <returns> The generated attachment.</returns>
+        public static Attachment ToAttachment(this AnimationCard card)
+        {
+            return CreateAttachment(card, AnimationCard.ContentType);
+        }
+
+        private static Attachment CreateAttachment<T>(T card, string contentType)
+        {
             return new Attachment
             {
                 Content = card,
-                ContentType = ReceiptCard.ContentType
+                ContentType = contentType
             };
         }
     }

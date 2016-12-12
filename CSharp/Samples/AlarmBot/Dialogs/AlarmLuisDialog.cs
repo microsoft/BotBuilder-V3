@@ -8,12 +8,10 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Sample.AlarmBot.Models;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static Microsoft.Bot.Builder.Luis.BuiltIn.DateTime;
 
 namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
 {
@@ -49,7 +47,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
             SetField.NotNull(out this.clock, nameof(clock), clock);
         }
 
-        [LuisIntent("")]
+        [LuisIntent("builtin.intent.none")]
         public async Task None(IDialogContext context, LuisResult result)
         {
             string message = $"Sorry I did not understand: " + string.Join(", ", result.Intents.Select(i => i.Intent));

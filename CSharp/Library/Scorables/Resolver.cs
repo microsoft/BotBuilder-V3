@@ -38,9 +38,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     /// <summary>
     /// Allow the resolution of values based on type and optionally tag.
@@ -76,11 +77,36 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public sealed class NullResolver : IResolver
     {
         public static readonly IResolver Instance = new NullResolver();
+
         private NullResolver()
         {
         }
+
         bool IResolver.TryResolve(Type type, object tag, out object value)
         {
+            value = null;
+            return false;
+        }
+    }
+
+    public sealed class NoneResolver : IResolver
+    {
+        public static readonly IResolver Instance = new NoneResolver();
+
+        private NoneResolver()
+        {
+        }
+
+        public static readonly object BoxedToken = CancellationToken.None;
+
+        bool IResolver.TryResolve(Type type, object tag, out object value)
+        {
+            if (typeof(CancellationToken).IsAssignableFrom(type))
+            {
+                value = BoxedToken;
+                return true;
+            }
+
             value = null;
             return false;
         }
@@ -89,19 +115,48 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     public abstract class DelegatingResolver : IResolver
     {
         protected readonly IResolver inner;
+
         protected DelegatingResolver(IResolver inner)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
+
         public virtual bool TryResolve(Type type, object tag, out object value)
         {
             return inner.TryResolve(type, tag, out value);
         }
     }
 
+    public sealed class EnumResolver : DelegatingResolver
+    {
+        public EnumResolver(IResolver inner)
+            : base(inner)
+        {
+        }
+
+        public override bool TryResolve(Type type, object tag, out object value)
+        {
+            if (type.IsEnum)
+            {
+                var name = tag as string;
+                if (name != null)
+                {
+                    if (Enum.IsDefined(type, name))
+                    {
+                        value = Enum.Parse(type, name);
+                        return true;
+                    }
+                }
+            }
+
+            return base.TryResolve(type, tag, out value);
+        }
+    }
+
     public sealed class ArrayResolver : DelegatingResolver
     {
         private readonly object[] services;
+
         public ArrayResolver(IResolver inner, params object[] services)
             : base(inner)
         {
@@ -148,6 +203,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             { ActivityTypes.DeleteUserData, typeof(IActivity) },
             { ActivityTypes.Message, typeof(IMessageActivity) },
             { ActivityTypes.Ping, typeof(IActivity) },
+            { ActivityTypes.Trigger, typeof(ITriggerActivity) },
             { ActivityTypes.Typing, typeof(ITypingActivity) },
         };
 
@@ -191,22 +247,51 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
-    public sealed class AutofacResolver : DelegatingResolver
+    public sealed class TriggerValueResolver : DelegatingResolver
     {
-        private readonly ILifetimeScope scope;
-        public AutofacResolver(ILifetimeScope scope, IResolver inner)
+        public TriggerValueResolver(IResolver inner)
             : base(inner)
         {
-            SetField.NotNull(out this.scope, nameof(scope), scope);
         }
 
         public override bool TryResolve(Type type, object tag, out object value)
         {
-            if (tag != null && this.scope.TryResolveKeyed(tag, type, out value))
+            ITriggerActivity trigger;
+            if (this.inner.TryResolve(tag, out trigger))
+            {
+                var triggerValue = trigger.Value;
+                if (triggerValue != null)
+                {
+                    var triggerValueType = triggerValue.GetType();
+                    if (type.IsAssignableFrom(triggerValueType))
+                    {
+                        value = triggerValue;
+                        return true;
+                    }
+                }
+            }
+
+            return base.TryResolve(type, tag, out value);
+        }
+    }
+
+    public sealed class AutofacResolver : DelegatingResolver
+    {
+        private readonly IComponentContext context;
+
+        public AutofacResolver(IComponentContext context, IResolver inner)
+            : base(inner)
+        {
+            SetField.NotNull(out this.context, nameof(context), context);
+        }
+
+        public override bool TryResolve(Type type, object tag, out object value)
+        {
+            if (tag != null && this.context.TryResolveKeyed(tag, type, out value))
             {
                 return true;
             }
-            else if (this.scope.TryResolve(type, out value))
+            else if (this.context.TryResolve(type, out value))
             {
                 return true;
             }

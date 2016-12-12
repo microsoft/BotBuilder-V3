@@ -47,29 +47,42 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         // TODO: split off R to get better type inference on T
         public static IWait<C> Call<C, T, R>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item, Rest<C, R> returnHandler)
         {
-            fiber.NextWait<R>().Wait(returnHandler);
+            // tell the leaf frame of the stack to wait for the return value
+            var wait = fiber.Waits.Make<R>();
+            wait.Wait(returnHandler);
+            fiber.Wait = wait;
+            
+            // call the child
             return fiber.Call<C, T>(invokeHandler, item);
         }
 
         public static IWait<C> Call<C, T>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item)
         {
+            // make a frame on the stack for calling the method
             fiber.Push();
-            var wait = fiber.NextWait<T>();
+            
+            // initiate and immediately compete a wait for calling the child
+            var wait = fiber.Waits.Make<T>();
             wait.Wait(invokeHandler);
             wait.Post(item);
+            fiber.Wait = wait;
             return wait;
         }
 
         public static IWait<C> Wait<C, T>(this IFiber<C> fiber, Rest<C, T> resumeHandler)
         {
-            var wait = fiber.NextWait<T>();
+            var wait = fiber.Waits.Make<T>();
             wait.Wait(resumeHandler);
+            fiber.Wait = wait;
             return wait;
         }
 
         public static IWait<C> Done<C, T>(this IFiber<C> fiber, T item)
         {
+            // pop the stack
             fiber.Done();
+
+            // complete the caller's wait for the return value
             fiber.Wait.Post(item);
             return fiber.Wait;
         }
@@ -90,7 +103,10 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
         public static IWait<C> Fail<C>(this IFiber<C> fiber, Exception error)
         {
+            // pop the stack
             fiber.Done();
+
+            // complete the caller's wait with an exception
             fiber.Wait.Fail(error);
             return fiber.Wait;
         }
@@ -101,6 +117,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             {
                 throw new InvalidNeedException(wait, need);
             }
+        }
+
+        public static IWait<C> CloneTyped<C>(this IWait<C> wait)
+        {
+            return (IWait<C>)wait.Clone();
         }
 
         public static Task<T> ToTask<T>(this IAwaitable<T> item)
@@ -124,14 +145,14 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             stack.Add(item);
         }
 
-        public static T Pop<T>(this IList<T> stack)
+        public static T Pop<T>(this List<T> stack)
         {
             var top = stack.Peek();
             stack.RemoveAt(stack.Count - 1);
             return top;
         }
 
-        public static T Peek<T>(this IList<T> stack)
+        public static T Peek<T>(this IReadOnlyList<T> stack)
         {
             if (stack.Count == 0)
             {

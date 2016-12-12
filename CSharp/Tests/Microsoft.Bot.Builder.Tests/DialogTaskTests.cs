@@ -40,8 +40,9 @@ using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
 
 using Autofac;
@@ -462,7 +463,7 @@ namespace Microsoft.Bot.Builder.Tests
                         .Setup(s => s.PostAsync(It.IsAny<IMessageActivity>(), It.IsAny<IMessageActivity>(), It.IsAny<CancellationToken>()))
                         .Returns<IMessageActivity, IMessageActivity, CancellationToken>(async (message, state, token) =>
                         {
-                            stack.Call(dialogNew.Object.Void<DateTime, IMessageActivity>(), null);
+                            stack.Call(dialogNew.Object.Void(stack), null);
                             await stack.PollAsync(token);
                         });
 
@@ -540,8 +541,8 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable = MockScorable(item, state, score);
 
             var inner = new Mock<IPostToBot>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
-            
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(NormalizedTraits.Instance, Comparer<double>.Default, new[] { scorable.Object }));
+
             var token = new CancellationToken();
             scorable
                 .Setup(s => s.PostAsync(item, state, token))
@@ -571,8 +572,8 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable = MockScorable(item, state, score);
 
             var inner = new Mock<IPostToBot>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable.Object }));
-           
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(NormalizedTraits.Instance, Comparer<double>.Default, new[] { scorable.Object }));
+
             try
             {
                 var token = new CancellationToken();
@@ -607,8 +608,8 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable2 = new Mock<IScorable<object, double>>(MockBehavior.Strict);
 
             var inner = new Mock<IPostToBot>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<object, double>(new NormalizedTraits(), Comparer<double>.Default, new[] { scorable1.Object, scorable2.Object }));
-            
+            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<object, double>(NormalizedTraits.Instance, Comparer<double>.Default, new[] { scorable1.Object, scorable2.Object }));
+
             var token = new CancellationToken();
             scorable1
                 .Setup(s => s.PostAsync(item, state1, token))
@@ -618,6 +619,124 @@ namespace Microsoft.Bot.Builder.Tests
 
             scorable1.Verify();
             scorable2.Verify();
+        }
+
+        [TestMethod]
+        public async Task DialogTask_RememberLastWait()
+        {
+            var dialogOne = new Mock<IDialogFrames<string>>(MockBehavior.Strict);
+            const string testMessage = "foo";
+
+            dialogOne
+                .Setup(d => d.StartAsync(It.IsAny<IDialogContext>()))
+                .Returns<IDialogContext>(async context => { context.Wait(dialogOne.Object.ItemReceived); });
+
+            dialogOne
+                .Setup(d => d.ItemReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<IMessageActivity>>()))
+                .Returns<IDialogContext, IAwaitable<IMessageActivity>>(async (context, message) =>
+                {
+                    var msg = await message;
+                    var reply = context.MakeMessage();
+                    reply.Text = msg.Text;
+                    await context.PostAsync(reply);
+                    // no need to call context.Wait(...) since frame remembers the last wait from StartAsync(...)
+                });
+
+            Func<IDialog<object>> MakeRoot = () => dialogOne.Object;
+            var toBot = MakeTestMessage();
+
+            using (new FiberTestBase.ResolveMoqAssembly(dialogOne.Object))
+            using (var container = Build(Options.None, dialogOne.Object))
+            {
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+                    var task = scope.Resolve<IPostToBot>();
+                    toBot.Text = testMessage;
+                    await task.PostAsync(toBot, CancellationToken.None);
+
+                    dialogOne.Verify(d => d.StartAsync(It.IsAny<IDialogContext>()), Times.Once);
+                    dialogOne.Verify(d => d.ItemReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<IMessageActivity>>()), Times.Once);
+                }
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    DialogModule_MakeRoot.Register(scope, MakeRoot);
+                    var task = scope.Resolve<IPostToBot>();
+                    toBot.Text = testMessage;
+                    await task.PostAsync(toBot, CancellationToken.None);
+
+                    dialogOne.Verify(d => d.StartAsync(It.IsAny<IDialogContext>()), Times.Once);
+                    dialogOne.Verify(d => d.ItemReceived(It.IsAny<IDialogContext>(), It.IsAny<IAwaitable<IMessageActivity>>()), Times.Exactly(2));
+                }
+            }
+
+        }
+
+        [Serializable]
+        public class DialogOne : IDialog
+        {
+            public async Task StartAsync(IDialogContext context)
+            {
+                context.Wait(ItemReceived);
+            }
+
+            public async Task ItemReceived(IDialogContext context, IAwaitable<IMessageActivity> item)
+            {
+                await context.Forward(new DialogTwo(), DialogTwoDone, await item, CancellationToken.None);
+            }
+
+            public async Task DialogTwoDone(IDialogContext context, IAwaitable<string> item)
+            {
+                var reply = context.MakeMessage();
+                reply.Text = await item;
+                await context.PostAsync(reply);
+                // no need to wait here because of the frame memory
+            }
+        }
+
+        [Serializable]
+        public class DialogTwo : IDialog<string>
+        {
+            public async Task StartAsync(IDialogContext context)
+            {
+                context.Wait(ItemReceived);
+            }
+
+            public async Task ItemReceived(IDialogContext context, IAwaitable<IMessageActivity> item)
+            {
+                var msg = await item;
+                context.Done(msg.Text);
+            }
+        }
+
+
+        [TestMethod]
+        public async Task DialogTask_RememberLastWait_ReturningFromChild()
+        {
+            string testMessage = "foo";
+            Func<IDialog<object>> MakeRoot = () => new DialogOne();
+            var toBot = MakeTestMessage();
+            toBot.Text = testMessage;
+
+
+            using (var container = Build(Options.MockConnectorFactory))
+            {
+                int count = 2;
+                for (int i = 0; i < count; i++)
+                {
+                    using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                    {
+                        DialogModule_MakeRoot.Register(scope, MakeRoot);
+                        var task = scope.Resolve<IPostToBot>();
+                        await task.PostAsync(toBot, CancellationToken.None);
+                    }
+                }
+
+                var queue = container.Resolve<Queue<IMessageActivity>>();
+                Assert.AreEqual(count, queue.Count);
+                Assert.AreEqual(testMessage, queue.Dequeue().Text);
+            }
         }
     }
 }

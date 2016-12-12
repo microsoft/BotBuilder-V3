@@ -32,7 +32,7 @@
 //
 
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,20 +41,139 @@ using System.Web;
 using Newtonsoft.Json;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Rest;
 
 namespace Microsoft.Bot.Builder.Luis
 {
+    /// <summary>
+    /// Object that contains all the possible parameters to build Luis request.
+    /// </summary>
+    public sealed class LuisRequest
+    {
+        /// <summary>
+        /// The text query.
+        /// </summary>
+        public readonly string Query;
+
+        /// <summary>
+        /// The time zone offset.
+        /// </summary>
+        public readonly double? TimezoneOffset;
+
+        /// <summary>
+        /// The context id.
+        /// </summary>
+        public readonly string ContextId;
+
+        /// <summary>
+        /// The verbose flag.
+        /// </summary>
+        public readonly bool? Verbose;
+
+        /// <summary>
+        /// Force setting the parameter.
+        /// </summary>
+        public readonly string ForceSet;
+
+        /// <summary>
+        /// Indicates if sampling is allowed.
+        /// </summary>
+        public readonly string AllowSampling;
+
+        /// <summary>
+        /// Contructs an instance of the LuisReqeuest.
+        /// </summary>
+        /// <param name="query"> The text query.</param>
+        /// <param name="timezoneOffset"> The time zone offset.</param>
+        /// <param name="contextId"> The context id for Luis dialog.</param>
+        /// <param name="verbose"> Indicates if the <see cref="LuisResult"/> should be verbose.</param>
+        /// <param name="forceSet"> Force setting the parameter.</param>
+        /// <param name="allowSampling"> Allow sampling.</param>
+        public LuisRequest(string query, double? timezoneOffset = default(double?),
+            string contextId = default(string), bool? verbose = default(bool?), string forceSet = default(string),
+            string allowSampling = default(string))
+        {
+            this.Query = query;
+            this.TimezoneOffset = timezoneOffset;
+            this.ContextId = contextId;
+            this.Verbose = verbose;
+            this.ForceSet = forceSet;
+            this.AllowSampling = allowSampling;
+        }
+
+        /// <summary>
+        /// Build the Uri for issuing the request for the specified Luis model.
+        /// </summary>
+        /// <param name="model"> The Luis model.</param>
+        /// <returns> The request Uri.</returns>
+        public Uri BuildUri(ILuisModel model)
+        {
+            if (model.ModelID == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "id");
+            }
+            if (model.SubscriptionKey == null)
+            {
+                throw new ValidationException(ValidationRules.CannotBeNull, "subscriptionKey");
+            }
+
+            var queryParameters = new List<string>();
+            queryParameters.Add($"subscription-key={Uri.EscapeDataString(model.SubscriptionKey)}");
+            queryParameters.Add($"q={Uri.EscapeDataString(Query)}");
+            UriBuilder builder;
+
+            var id = Uri.EscapeDataString(model.ModelID);
+            switch (model.ApiVersion)
+            {
+                case LuisApiVersion.V1:
+                    builder = new UriBuilder(model.UriBase);
+                    queryParameters.Add($"id={id}");
+                    break;
+                case LuisApiVersion.V2:
+                    //v2.0 have the model as path parameter
+                    builder = new UriBuilder(new Uri(model.UriBase, id));
+                    break;
+                default:
+                    throw new ArgumentException($"{model.ApiVersion} is not a valid Luis api version.");
+            }
+
+            if (TimezoneOffset != null)
+            {
+                queryParameters.Add($"timezoneOffset={Uri.EscapeDataString(Convert.ToString(TimezoneOffset))}");
+            }
+            if (ContextId != null)
+            {
+                queryParameters.Add($"contextId={Uri.EscapeDataString(ContextId)}");
+            }
+            if (Verbose != null)
+            {
+                queryParameters.Add($"verbose={Uri.EscapeDataString(Convert.ToString(Verbose))}");
+            }
+            if (ForceSet != null)
+            {
+                queryParameters.Add($"forceSet={Uri.EscapeDataString(ForceSet)}");
+            }
+            if (AllowSampling != null)
+            {
+                queryParameters.Add($"allowSampling={Uri.EscapeDataString(AllowSampling)}");
+            }
+
+            builder.Query = string.Join("&", queryParameters);
+            return builder.Uri;
+        }
+    }
+
     /// <summary>
     /// A mockable interface for the LUIS service.
     /// </summary>
     public interface ILuisService
     {
         /// <summary>
-        /// Build the query uri for the query text.
+        /// Build the query uri for the <see cref="LuisRequest"/>.
         /// </summary>
-        /// <param name="text">The query text.</param>
+        /// <param name="luisRequest">The luis request text.</param>
         /// <returns>The query uri.</returns>
-        Uri BuildUri(string text);
+        Uri BuildUri(LuisRequest luisRequest);
 
         /// <summary>
         /// Query the LUIS service using this uri.
@@ -82,20 +201,9 @@ namespace Microsoft.Bot.Builder.Luis
             SetField.NotNull(out this.model, nameof(model), model);
         }
 
-        /// <summary>
-        /// The base URi for accessing LUIS.
-        /// </summary>
-        public static readonly Uri UriBase = new Uri("https://api.projectoxford.ai/luis/v1/application");
-
-        Uri ILuisService.BuildUri(string text)
+        Uri ILuisService.BuildUri(LuisRequest luisRequest)
         {
-            var id = HttpUtility.UrlEncode(this.model.ModelID);
-            var sk = HttpUtility.UrlEncode(this.model.SubscriptionKey);
-            var q = HttpUtility.UrlEncode(text);
-
-            var builder = new UriBuilder(UriBase);
-            builder.Query = $"id={id}&subscription-key={sk}&q={q}";
-            return builder.Uri;
+            return luisRequest.BuildUri(this.model);
         }
 
         async Task<LuisResult> ILuisService.QueryAsync(Uri uri, CancellationToken token)
@@ -104,50 +212,26 @@ namespace Microsoft.Bot.Builder.Luis
             using (var client = new HttpClient())
             using (var response = await client.GetAsync(uri, HttpCompletionOption.ResponseContentRead, token))
             {
+                response.EnsureSuccessStatusCode();
                 json = await response.Content.ReadAsStringAsync();
             }
 
             try
             {
                 var result = JsonConvert.DeserializeObject<LuisResult>(json);
+                // fix up Luis result for backward compatibility
+                // v2 api is not returning list of intents if verbose query parameter 
+                // is not set. This will move IntentRecommendation in TopScoringIntent
+                // to list of Intents.
+                if (result.TopScoringIntent != null && result.Intents == null)
+                {
+                    result.Intents = new List<IntentRecommendation> { result.TopScoringIntent };
+                }
                 return result;
             }
             catch (JsonException ex)
             {
                 throw new ArgumentException("Unable to deserialize the LUIS response.", ex);
-            }
-        }
-    }
-
-    [Serializable]
-    public sealed class CachingLuisService : ILuisService
-    {
-        private readonly ILuisService service;
-        private readonly ICache<ILuisService, Uri, LuisResult> cache;
-        public CachingLuisService(ILuisService service, ICache<ILuisService, Uri, LuisResult> cache)
-        {
-            SetField.NotNull(out this.service, nameof(service), service);
-            SetField.NotNull(out this.cache, nameof(cache), cache);
-        }
-
-        Uri ILuisService.BuildUri(string text)
-        {
-            return this.service.BuildUri(text);
-        }
-
-        Task<LuisResult> ILuisService.QueryAsync(Uri uri, CancellationToken token)
-        {
-            try
-            {
-                return this.cache.GetOrAddAsync(this.service, uri, (s, u, t) => s.QueryAsync(u, t), token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled<LuisResult>(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException<LuisResult>(error);
             }
         }
     }
@@ -166,8 +250,19 @@ namespace Microsoft.Bot.Builder.Luis
         /// <returns>The LUIS result.</returns>
         public static async Task<LuisResult> QueryAsync(this ILuisService service, string text, CancellationToken token)
         {
-            var uri = service.BuildUri(text);
+            var uri = service.BuildUri(new LuisRequest(query: text));
             return await service.QueryAsync(uri, token);
+        }
+        
+        /// <summary>
+        /// Builds luis uri with text query.
+        /// </summary>
+        /// <param name="service">LUIS service.</param>
+        /// <param name="text">The query text.</param>
+        /// <returns>The LUIS request Uri.</returns>
+        public static Uri BuildUri(this ILuisService service, string text)
+        {
+            return service.BuildUri(new LuisRequest(query: text));
         }
     }
 }

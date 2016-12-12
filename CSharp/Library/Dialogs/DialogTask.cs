@@ -36,6 +36,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Net.Mime;
 using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
@@ -63,7 +64,35 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.frames = new Frames(this);
         }
 
-        private IWait<DialogTask> wait;
+        private IWait<DialogTask> nextWait;
+        private IWait<DialogTask> NextWait()
+        {
+            if (this.fiber.Frames.Count > 0)
+            {
+                var nextFrame = this.fiber.Frames.Peek();
+
+                switch (nextFrame.Wait.Need)
+                {
+                    case Need.Wait:
+                        // since the leaf frame is waiting, save this wait as the mark for that frame
+                        nextFrame.Mark = nextFrame.Wait.CloneTyped();
+                        break;
+                    case Need.Call:
+                        // because the user did not specify a new wait for the leaf frame during the call,
+                        // reuse the previous mark for this frame
+                        this.nextWait = nextFrame.Wait = nextFrame.Mark.CloneTyped();
+                        break;
+                    case Need.None:
+                    case Need.Poll:
+                        break;
+                    case Need.Done:
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+
+            return this.nextWait;
+        }
 
         public interface IThunk
         {
@@ -96,7 +125,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 }
 
                 await this.start(task.makeContext(token));
-                return task.wait;
+                return task.NextWait();
             }
         }
 
@@ -120,7 +149,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item, CancellationToken token)
             {
                 await this.resume(task.makeContext(token), item);
-                return task.wait;
+                return task.NextWait();
             }
         }
 
@@ -201,11 +230,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             if (resume != null)
             {
                 var doneRest = ToRest(resume);
-                this.wait = this.fiber.Call<DialogTask, object, R>(callRest, null, doneRest);
+                this.nextWait = this.fiber.Call<DialogTask, object, R>(callRest, null, doneRest);
             }
             else
             {
-                this.wait = this.fiber.Call<DialogTask, object>(callRest, null);
+                this.nextWait = this.fiber.Call<DialogTask, object>(callRest, null);
             }
         }
 
@@ -220,17 +249,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         void IDialogStack.Done<R>(R value)
         {
-            this.wait = this.fiber.Done(value);
+            this.nextWait = this.fiber.Done(value);
         }
 
         void IDialogStack.Fail(Exception error)
         {
-            this.wait = this.fiber.Fail(error);
+            this.nextWait = this.fiber.Fail(error);
         }
 
         void IDialogStack.Wait<R>(ResumeAfter<R> resume)
         {
-            this.wait = this.fiber.Wait<DialogTask, R>(ToRest(resume));
+            this.nextWait = this.fiber.Wait<DialogTask, R>(ToRest(resume));
         }
 
         async Task IDialogStack.PollAsync(CancellationToken token)
@@ -325,6 +354,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             try
             {
                 await this.inner.PostAsync(item, token);
+            }
+            catch (InvalidNeedException error) when (error.Need == Need.Wait && error.Have == Need.None)
+            {
+                throw new NoResumeHandlerException(error);
             }
             catch (InvalidNeedException error) when (error.Need == Need.Wait && error.Have == Need.Done)
             {
@@ -466,7 +499,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 {
                     if (Debugger.IsAttached)
                     {
-                        await this.botToUser.PostAsync($"Exception: {error}");
+                        var message = this.botToUser.MakeMessage();
+                        message.Text = $"Exception: { error.Message}";
+                        message.Attachments = new[]
+                        {
+                            new Attachment(contentType: MediaTypeNames.Text.Plain, content: error.StackTrace)
+                        };
+
+                        await this.botToUser.PostAsync(message);
                     }
                     else
                     {

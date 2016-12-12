@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using System.Runtime.CompilerServices;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
@@ -45,6 +46,8 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
+    using Microsoft.Bot.Builder.Internals.Fibers;
+
     /// <summary>
     /// Explicit interface to support the compiling of async/await.
     /// </summary>
@@ -56,5 +59,52 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <returns>The awaiter.</returns>
         Builder.Internals.Fibers.IAwaiter<T> GetAwaiter();
+    }
+
+    /// <summary>
+    /// Creates a <see cref="IAwaitable{T}"/> from item passed to constructor.
+    /// </summary>
+    /// <typeparam name="T"> The type of the item.</typeparam>
+    public sealed class AwaitableFromItem<T> : IAwaitable<T>, IAwaiter<T>
+    {
+        private readonly T item;
+
+        public AwaitableFromItem(T item)
+        {
+            this.item = item;
+        }
+        
+        bool IAwaiter<T>.IsCompleted
+        {
+            get { return true; }
+        }
+
+        T IAwaiter<T>.GetResult()
+        {
+            return item;
+        }
+
+        void INotifyCompletion.OnCompleted(Action continuation)
+        {
+            throw new NotImplementedException();
+        }
+
+        IAwaiter<T> IAwaitable<T>.GetAwaiter()
+        {
+            return this;
+        }
+    }
+
+    public partial class Awaitable
+    {
+        /// <summary>
+        /// Wraps item in a <see cref="IAwaitable{T}"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of the item.</typeparam>
+        /// <param name="item">The item that will be wrapped.</param>
+        public static IAwaitable<T> FromItem<T>(T item)
+        {
+            return new AwaitableFromItem<T>(item);
+        }
     }
 }

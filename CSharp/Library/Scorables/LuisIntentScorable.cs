@@ -40,11 +40,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables.Internals
 {
     public sealed class LuisIntentScorableFactory : IScorableFactory<IResolver, IntentRecommendation>
     {
@@ -81,6 +82,7 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
     /// <summary>
     /// Scorable to represent a specific LUIS intent recommendation.
     /// </summary>
+    [Serializable]
     public sealed class LuisIntentScorable<InnerState, InnerScore> : ResolverScorable<LuisIntentScorable<InnerState, InnerScore>.Scope, IntentRecommendation, InnerState, InnerScore>
     {
         private readonly ILuisService service;
@@ -170,6 +172,16 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             SetField.NotNull(out this.model, nameof(model), model);
             SetField.NotNull(out this.intent, nameof(intent), intent);
         }
+
+        public override string ToString()
+        {
+            return $"{this.GetType().Name}({this.intent}, {this.inner})";
+        }
+
+        // assumes that LuisResult is cacheable with Uri as complete key (i.e. ILuisService is not required)
+        private static readonly ConditionalWeakTable<IResolver, Dictionary<Uri, Task<LuisResult>>> Cache
+            = new ConditionalWeakTable<IResolver, Dictionary<Uri, Task<LuisResult>>>();
+
         protected override async Task<Scope> PrepareAsync(IResolver resolver, CancellationToken token)
         {
             IMessageActivity message;
@@ -184,7 +196,20 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return null;
             }
 
-            var result = await this.service.QueryAsync(text, token);
+            var taskByUri = Cache.GetOrCreateValue(resolver);
+
+            var uri = this.service.BuildUri(text);
+            Task<LuisResult> task;
+            lock (taskByUri)
+            {
+                if (! taskByUri.TryGetValue(uri, out task))
+                {
+                    task = this.service.QueryAsync(uri, token);
+                    taskByUri.Add(uri, task);
+                }
+            }
+
+            var result = await task;
             var intents = result.Intents;
             if (intents == null)
             {
@@ -197,19 +222,35 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
                 return null;
             }
 
-            if (!intent.Score.HasValue)
-            {
-                return null;
-            }
+            // "builtin.intent.none" seems to have a null score
 
             var scope = new Scope(this.model, result, intent, resolver);
+            scope.Item = resolver;
             scope.Scorable = this.inner;
             scope.State = await this.inner.PrepareAsync(scope, token);
             return scope;
         }
+
         protected override IntentRecommendation GetScore(IResolver resolver, Scope state)
         {
             return state.Intent;
+        }
+
+        protected override Task DoneAsync(IResolver item, Scope state, CancellationToken token)
+        {
+            try
+            {
+                Cache.Remove(item);
+                return base.DoneAsync(item, state, token);
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException(error);
+            }
         }
     }
 
@@ -219,17 +260,12 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         private IntentComparer()
         {
         }
+
         int IComparer<IntentRecommendation>.Compare(IntentRecommendation one, IntentRecommendation two)
         {
-            Func<IntentRecommendation, Pair<bool, double>> PairFor = intent => Pair.Create
-            (
-                ! intent.Intent.Equals("none", StringComparison.OrdinalIgnoreCase),
-                intent.Score.GetValueOrDefault()
-            );
-
-            var pairOne = PairFor(one);
-            var pairTwo = PairFor(two);
-            return pairOne.CompareTo(pairTwo);
+            var scoreOne = one.Score.GetValueOrDefault();
+            var scoreTwo = two.Score.GetValueOrDefault();
+            return scoreOne.CompareTo(scoreTwo);
         }
     }
 }

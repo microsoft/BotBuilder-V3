@@ -115,7 +115,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .As<IComparer<double>>();
 
             builder
-                .RegisterType<NormalizedTraits>()
+                .Register(c => NormalizedTraits.Instance)
                 .As<ITraits<double>>()
                 .SingleInstance();
 
@@ -177,6 +177,12 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .RegisterType<FrameFactory<C>>()
                 .Keyed<IFrameFactory<C>>(Key_DoNotSerialize)
                 .As<IFrameFactory<C>>()
+                .SingleInstance();
+
+            builder
+                .RegisterInstance(NullWait<C>.Instance)
+                .Keyed<NullWait<C>>(Key_DoNotSerialize)
+                .AsSelf()
                 .SingleInstance();
 
             // per request, no resolution parameter dependency

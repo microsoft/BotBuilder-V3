@@ -47,6 +47,10 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
     public sealed class NormalizedTraits : ITraits<double>
     {
+        public static readonly ITraits<double> Instance = new NormalizedTraits();
+        private NormalizedTraits()
+        {
+        }
         double ITraits<double>.Maximum
         {
             get { return 1.0; }

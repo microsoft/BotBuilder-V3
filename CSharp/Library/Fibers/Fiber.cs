@@ -38,14 +38,28 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
 {
+    /// <summary>
+    /// Waiters wait for an item to be posted.
+    /// </summary>
+    /// <remarks>
+    /// Fibers and fiber frames are both waiters.
+    /// </remarks>
     public interface IWaiter<C>
     {
-        IWait<C> Wait { get; }
-        IWait<C, T> NextWait<T>();
+        /// <summary>
+        /// A "mailbox" for storing a wait associated with this frame.
+        /// </summary>
+        IWait<C> Mark { get; set; }
+
+        /// <summary>
+        /// The active wait for this waiter.
+        /// </summary>
+        IWait<C> Wait { get; set; }
     }
 
     public interface IFiber<C> : IWaiter<C>
     {
+        IWaitFactory<C> Waits { get; }
         IReadOnlyList<IFrame<C>> Frames { get; }
         void Push();
         void Done();
@@ -69,45 +83,38 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     [Serializable]
     public sealed class Frame<C> : IFrame<C>
     {
-        private readonly IWaitFactory<C> factory;
-        private IWait<C> wait;
-
-        public Frame(IWaitFactory<C> factory)
-        {
-            SetField.NotNull(out this.factory, nameof(factory), factory);
-            this.wait = NullWait<C>.Instance;
-        }
+        private IWait<C> mark = NullWait<C>.Instance;
+        private IWait<C> wait = NullWait<C>.Instance;
 
         public override string ToString()
         {
             return this.wait.ToString();
         }
 
+        IWait<C> IWaiter<C>.Mark
+        {
+            get { return this.mark; }
+            set { this.mark = value; }
+        }
+
         IWait<C> IWaiter<C>.Wait
         {
             get { return this.wait; }
-        }
-
-        IWait<C, T> IWaiter<C>.NextWait<T>()
-        {
-            if (this.wait is NullWait<C>)
+            set
             {
-                this.wait = null;
-            }
-
-            if (this.wait != null)
-            {
-                if (this.wait.Need != Need.Call)
+                if (this.wait is NullWait<C>)
                 {
-                    throw new InvalidNeedException(this.wait, Need.Call);
+                    this.wait = null;
                 }
 
-                this.wait = null;
-            }
+                if (this.wait != null)
+                {
+                    this.wait.ValidateNeed(Need.Call);
+                    this.wait = null;
+                }
 
-            var wait = this.factory.Make<T>();
-            this.wait = wait;
-            return wait;
+                this.wait = value;
+            }
         }
 
         async Task<IWait<C>> IFrameLoop<C>.PollAsync(IFiber<C> fiber, C context, CancellationToken token)
@@ -124,56 +131,57 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     [Serializable]
     public sealed class FrameFactory<C> : IFrameFactory<C>
     {
-        private readonly IWaitFactory<C> factory;
-
-        public FrameFactory(IWaitFactory<C> factory)
-        {
-            SetField.NotNull(out this.factory, nameof(factory), factory);
-        }
-
         IFrame<C> IFrameFactory<C>.Make()
         {
-            return new Frame<C>(this.factory);
+            return new Frame<C>();
         }
     }
 
     [Serializable]
     public sealed class Fiber<C> : IFiber<C>, IFiberLoop<C>
     {
-        public delegate IFiberLoop<C> Factory();
-
         private readonly List<IFrame<C>> stack = new List<IFrame<C>>();
-        private readonly IFrameFactory<C> factory;
+        private readonly IFrameFactory<C> frames;
+        private readonly IWaitFactory<C> waits;
 
-        public Fiber(IFrameFactory<C> factory)
+        public Fiber(IFrameFactory<C> factory, IWaitFactory<C> waits)
         {
-            SetField.NotNull(out this.factory, nameof(factory), factory);
+            SetField.NotNull(out this.frames, nameof(factory), factory);
+            SetField.NotNull(out this.waits, nameof(waits), waits);
         }
 
-        public IFrameFactory<C> FrameFactory
-        {
-            get
-            {
-                return this.factory;
-            }
-        }
+        IWaitFactory<C> IFiber<C>.Waits => this.waits;
 
-        IReadOnlyList<IFrame<C>> IFiber<C>.Frames
-        {
-            get
-            {
-                return this.stack;
-            }
-        }
+        IReadOnlyList<IFrame<C>> IFiber<C>.Frames => this.stack;
 
         void IFiber<C>.Push()
         {
-            this.stack.Push(this.factory.Make());
+            this.stack.Push(this.frames.Make());
         }
 
         void IFiber<C>.Done()
         {
             this.stack.Pop();
+        }
+
+        IWait<C> IWaiter<C>.Mark
+        {
+            get
+            {
+                if (this.stack.Count > 0)
+                {
+                    var leaf = this.stack.Peek();
+                    return leaf.Mark;
+                }
+                else
+                {
+                    return NullWait<C>.Instance;
+                }
+            }
+            set
+            {
+                this.stack.Peek().Mark = value;
+            }
         }
 
         IWait<C> IWaiter<C>.Wait
@@ -190,12 +198,10 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                     return NullWait<C>.Instance;
                 }
             }
-        }
-
-        IWait<C, T> IWaiter<C>.NextWait<T>()
-        {
-            var leaf = this.stack.Peek();
-            return leaf.NextWait<T>();
+            set
+            {
+                this.stack.Peek().Wait = value;
+            }
         }
 
         async Task<IWait<C>> IFiberLoop<C>.PollAsync(C context, CancellationToken token)

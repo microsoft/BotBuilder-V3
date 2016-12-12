@@ -740,9 +740,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             else
             {
                 --promptOptions.Attempts;
-                if (promptOptions.Attempts > 0)
+                if (promptOptions.Attempts >= 0)
                 {
-                    await context.PostAsync(this.MakePrompt(context, promptOptions.Retry ?? promptOptions.DefaultRetry, promptOptions.Options));
+                    await context.PostAsync(this.MakePrompt(context, promptOptions.Retry ?? promptOptions.DefaultRetry, promptOptions.Options, promptOptions.Descriptions));
                     context.Wait(MessageReceivedAsync);
                 }
                 else

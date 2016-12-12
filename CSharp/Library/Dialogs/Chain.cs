@@ -31,7 +31,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -204,6 +207,16 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Call the voided <see cref="IDialog{T}"/>, ignore the result, then restart the original dialog wait.
         /// </summary>
+        /// <remarks>
+        /// The purpose of this method is to wrap an antecedent dialog A with a new dialog D to push on the stack
+        /// on top of the existing stack top dialog L.
+        /// 1. D will call A.
+        /// 2. D will receive the value of A when A is done.
+        /// 3. D will re-initiate the typed wait (often for a message) for which a method of L was waiting
+        /// 4. D will receive that value of the re-initiated typed wait.
+        /// 5. D will return that value of the typed wait to L.
+        /// This depends on the symmetry of IDialogStack.Done and IDialogStack.Wait in how they satisfy typed waits.
+        /// </remarks>
         /// <typeparam name="T">The type of the voided dialog.</typeparam>
         /// <typeparam name="R">The type of the original dialog wait.</typeparam>
         /// <param name="antecedent">The voided dialog.</param>
@@ -211,6 +224,68 @@ namespace Microsoft.Bot.Builder.Dialogs
         public static IDialog<R> Void<T, R>(this IDialog<T> antecedent)
         {
             return new VoidDialog<T, R>(antecedent);
+        }
+
+        /// <summary>
+        /// Call the voided <see cref="IDialog{T}"/>, ignore the result, then restart the original dialog wait.
+        /// </summary>
+        /// <remarks>
+        /// (value types don't support generic parameter variance - so this reflection-based method may not work)
+        /// It's okay to loose type information (i.e. IDialog{object}) because voided dialogs are called with a null 
+        /// <see cref="ResumeAfter{T}"/> because they are hacking the stack to satisfy the wait of the interrupted dialog. 
+        /// </remarks>
+        /// <typeparam name="T">The type of the voided dialog.</typeparam>
+        /// <param name="antecedent">The voided dialog.</param>
+        /// <param name="stack">The dialog stack.</param>
+        /// <returns>The dialog that produces the item to satisfy the original wait.</returns>
+        public static IDialog<object> Void<T>(this IDialog<T> antecedent, IDialogStack stack)
+        {
+            var frames = stack.Frames;
+            if (frames.Count == 0)
+            {
+                throw new InvalidOperationException("Stack is empty");
+            }
+
+            var frame = stack.Frames[0];
+            var restType = frame.GetType();
+            bool valid = restType.IsGenericType && restType.GetGenericTypeDefinition() == typeof(ResumeAfter<>);
+            if (valid)
+            {
+                var waitType = restType.GetGenericArguments()[0];
+                var voidType = typeof(VoidDialog<,>).MakeGenericType(typeof(T), waitType);
+                var instance = Activator.CreateInstance(voidType, antecedent);
+                var dialog = (IDialog<object>)instance;
+                return dialog;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(restType.Name);
+            }
+        }
+
+        /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, catch and handle any exceptions of type <typeparamref name="E"/>.
+        /// </summary>
+        /// <typeparam name="T">The type returned by the antecedent dialog.</typeparam>
+        /// <typeparam name="E">The type of exception to catch and handle.</typeparam>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <param name="block">The lambda expression representing the catch block handler.</param>
+        /// <returns>The result of the catch block handler if there is an exception of type <typeparamref name="E"/>.</returns>
+        public static IDialog<T> Catch<T, E>(this IDialog<T> antecedent, Func<IDialog<T>, E, IDialog<T>> block) where E: Exception
+        {
+            return new CatchDialog<T, E>(antecedent, block);
+        }
+
+        /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, catch and handle any exceptions.
+        /// </summary>
+        /// <typeparam name="T">The type returned by the antecedent dialog.</typeparam>
+        /// <param name="antecedent">The antecedent dialog <see cref="IDialog{T}"/>.</param>
+        /// <param name="block">The lambda expression representing the catch block handler.</param>
+        /// <returns>The result of the catch block handler if there is an exception.</returns>
+        public static IDialog<T> Catch<T>(this IDialog<T> antecedent, Func<IDialog<T>, Exception, IDialog<T>> block)
+        {
+            return new CatchDialog<T, Exception>(antecedent, block);
         }
 
         /// <summary>
@@ -288,6 +363,20 @@ namespace Microsoft.Bot.Builder.Dialogs
         public static IDialog<T> Fold<T>(this IDialog<IEnumerable<IDialog<T>>> antecedent, Func<T, T, T> folder)
         {
             return new FoldDialog<T>(antecedent, folder);
+        }
+
+        /// <summary>
+        /// Decorate a dialog with a scorable, so that a scorable can participate on the dialog stack.
+        /// </summary>
+        /// <typeparam name="T">The type of the dialog.</typeparam>
+        /// <typeparam name="Item">The type of the item scored by the scorable.</typeparam>
+        /// <typeparam name="Score">The type of the scope produced by the scorable.</typeparam>
+        /// <param name="antecedent">The antecedent dialog.</param>
+        /// <param name="scorable">The scorable.</param>
+        /// <returns>The dialog augmented with the scorables.</returns>
+        public static IDialog<T> WithScorable<T, Item, Score>(this IDialog<T> antecedent, IScorable<Item, Score> scorable)
+        {
+            return new WithScorableDialog<T, Item, Score>(antecedent, scorable);
         }
 
         /// <summary>
@@ -506,6 +595,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        [Serializable]
         private sealed class WhereDialog<T> : IDialog<T>
         {
             public readonly IDialog<T> Antecedent;
@@ -630,6 +720,33 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 var item = await result;
                 context.Done(item);
+            }
+        }
+
+        [Serializable]
+        private sealed class CatchDialog<T, E> : IDialog<T> where E : Exception
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly Func<IDialog<T>, E, IDialog<T>> Block;
+            public CatchDialog(IDialog<T> antecedent, Func<IDialog<T>, E, IDialog<T>> block)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                SetField.NotNull(out this.Block, nameof(block), block);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                try
+                {
+                    context.Done(await result);
+                }
+                catch (E error)
+                {
+                    context.Call(this.Block(this.Antecedent, error), ResumeAsync);
+                }
             }
         }
 
@@ -802,6 +919,25 @@ namespace Microsoft.Bot.Builder.Dialogs
                 ++this.index;
 
                 await this.Iterate(context);
+            }
+        }
+
+        [Serializable]
+        private sealed class WithScorableDialog<T, Item, Score> : DelegatingScorable<Item, Score>, IDialog<T>
+        {
+            public readonly IDialog<T> Antecedent;
+            public WithScorableDialog(IDialog<T> antecedent, IScorable<Item, Score> scorable)
+                : base(scorable)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+            }
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, ResumeAsync);
+            }
+            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
+            {
+                context.Done(await result);
             }
         }
     }

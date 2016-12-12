@@ -108,11 +108,12 @@
     <Compile Include="PromptTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConversationTest.cs" />
+    <Compile Include="ScorableTests.cs" />
     <Compile Include="DataStoreTests.cs" />
     <Compile Include="UrlTokenTests.cs" />
     <Compile Include="RangeTests.cs" />
     <Compile Include="ScopeTests.cs" />
-    <Compile Include="ScorablesTests.cs" />
+    <Compile Include="ScorableDialogTests.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="DispatchTestsBase.cs" />
   </ItemGroup>
@@ -145,6 +146,18 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Scripts\ChoiceDescriptions.script" />
+    <None Include="Scripts\ChoiceDescriptionsRetry.script" />
+    <None Include="Scripts\JSON.script" />
+    <None Include="Scripts\Optional.script" />
+    <None Include="Scripts\PizzaForm-entities.script" />
+    <None Include="Scripts\PizzaForm-fr.script" />
+    <None Include="Scripts\PizzaForm.script" />
+    <None Include="Scripts\PizzaFormButton.script" />
+    <None Include="Scripts\SimpleForm-dependency.script" />
+    <None Include="Scripts\SimpleForm-next.script" />
+    <None Include="Scripts\SimpleForm-NotUnderstood.script" />
+    <None Include="Scripts\SimpleForm.script" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

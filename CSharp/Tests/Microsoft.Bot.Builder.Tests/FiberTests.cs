@@ -163,12 +163,9 @@ namespace Microsoft.Bot.Builder.Tests
     [TestClass]
     public sealed class FiberTests : FiberTestBase
     {
-        [TestMethod]
-        public async Task Wait_is_Awaitable()
+        public static async Task Wait_is_Awaitable<ItemType, PostType>(PostType expected)
         {
-            var expected = Guid.NewGuid();
-
-            var completion = new Wait<object, Guid>();
+            var completion = new Wait<object, ItemType>();
 
             IWait wait = completion;
             Assert.AreEqual(Need.None, wait.Need, "at initial state");
@@ -176,8 +173,9 @@ namespace Microsoft.Bot.Builder.Tests
             IFiber<object> fiber = new Mock<IFiber<object>>(MockBehavior.Strict).Object;
             object context = new object();
 
-            IWait<object, Guid> typed = completion;
-            typed.Wait(async (f, c, item, token) => {
+            IWait<object, ItemType> typed = completion;
+            typed.Wait(async (f, c, item, token) =>
+            {
                 Assert.AreEqual(Need.Call, wait.Need, "inside callback state");
 
                 Assert.AreEqual(fiber, f);
@@ -189,17 +187,64 @@ namespace Microsoft.Bot.Builder.Tests
             });
             Assert.AreEqual(Need.Wait, wait.Need, "waiting state");
 
-            IPost<Guid> post = completion;
-            post.Post(expected);
+            wait.Post(expected);
             Assert.AreEqual(Need.Poll, wait.Need, "need to poll state");
 
             await typed.PollAsync(fiber, context, CancellationToken.None);
             Assert.AreEqual(Need.Done, wait.Need, "done state");
 
-            IAwaitable<Guid> awaitable = completion;
+            IAwaitable<ItemType> awaitable = completion;
             var actual = await awaitable;
 
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public async Task Wait_is_Awaitable_Guid_Guid()
+        {
+            await Wait_is_Awaitable<Guid, Guid>(Guid.NewGuid());
+        }
+
+        public class TypeA { }
+        public class TypeB : TypeA { }
+        public class TypeC : TypeB { }
+
+        [TestMethod]
+        public async Task Wait_is_Awaitable_A_B_C()
+        {
+            // ItemType = TypeA
+            await Wait_is_Awaitable<TypeA, TypeA>(new TypeA());
+            await Wait_is_Awaitable<TypeA, TypeA>(new TypeB());
+            await Wait_is_Awaitable<TypeA, TypeA>(new TypeC());
+
+            await Wait_is_Awaitable<TypeA, TypeB>(new TypeB());
+            await Wait_is_Awaitable<TypeA, TypeB>(new TypeC());
+
+            await Wait_is_Awaitable<TypeA, TypeC>(new TypeC());
+
+            // ItemType = TypeB
+            await Wait_is_Awaitable<TypeB, TypeA>(new TypeB());
+            await Wait_is_Awaitable<TypeB, TypeA>(new TypeC());
+
+            await Wait_is_Awaitable<TypeB, TypeB>(new TypeB());
+            await Wait_is_Awaitable<TypeB, TypeB>(new TypeC());
+
+            await Wait_is_Awaitable<TypeB, TypeC>(new TypeC());
+
+            // ItemType = TypeC
+            await Wait_is_Awaitable<TypeC, TypeA>(new TypeC());
+
+            await Wait_is_Awaitable<TypeC, TypeB>(new TypeC());
+
+            await Wait_is_Awaitable<TypeC, TypeC>(new TypeC());
+        }
+
+        [TestMethod]
+        public async Task Awaitable_From_Item()
+        {
+            var expected = Guid.NewGuid();
+            var awaitable = Awaitable.FromItem(expected);
+            Assert.AreEqual(expected, await awaitable);
         }
 
         [TestMethod]
@@ -213,7 +258,7 @@ namespace Microsoft.Bot.Builder.Tests
                 var previous = fiber;
                 AssertSerializable(container, ref fiber);
                 Assert.IsFalse(object.ReferenceEquals(previous, fiber));
-                Assert.IsTrue(object.ReferenceEquals(previous.FrameFactory, fiber.FrameFactory));
+                Assert.IsTrue(object.ReferenceEquals(((IFiber<C>)previous).Waits, ((IFiber<C>)fiber).Waits));
             }
         }
 

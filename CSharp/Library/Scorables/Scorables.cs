@@ -32,16 +32,20 @@
 //
 
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Luis.Models;
 
-namespace Microsoft.Bot.Builder.Internals.Scorables
+namespace Microsoft.Bot.Builder.Scorables
 {
-    public static partial class Scorables
+    public static partial class Scorable
     {
         /// <summary>
         /// Invoke the scorable calling protocol against a single scorable.
@@ -66,6 +70,11 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             }
         }
 
+        public static IScorable<Item, Score> WhereScore<Item, Score>(this IScorable<Item, Score> scorable, Func<Item, Score, bool> predicate)
+        {
+            return new WhereScoreScorable<Item, Score>(scorable, predicate);
+        }
+
         /// <summary>
         /// Project the score of a scorable using a lambda expression.
         /// </summary>
@@ -83,56 +92,271 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
 
         /// <summary>
+        /// True if the scorable is non-null, false otherwise.
+        /// </summary>
+        public static bool Keep<Item, Score>(IScorable<Item, Score> scorable)
+        {
+            // complicated because IScorable<Item, Score> is variant on generic parameter,
+            // so generic type arguments of NullScorable<,> may not match generic type
+            // arguments of IScorable<,>
+            var type = scorable.GetType();
+            if (type.IsGenericType)
+            {
+                var definition = type.GetGenericTypeDefinition();
+                if (typeof(NullScorable<,>).IsAssignableFrom(definition))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Try to simplify a list of scorables.
+        /// </summary>
+        /// <param name="scorables">The simplified list of scorables.</param>
+        /// <param name="scorable">The single scorable representing the list, if possible.</param>
+        /// <returns>True if it were possible to reduce the list of scorables to a single scorable, false otherwise.</returns>
+        public static bool TryReduce<Item, Score>(ref IEnumerable<IScorable<Item, Score>> scorables, out IScorable<Item, Score> scorable)
+        {
+            // only if this is a fixed list of scorables, but never a lazy enumerable
+            var list = scorables as IReadOnlyList<IScorable<Item, Score>>;
+            if (list != null)
+            {
+                var itemCount = list.Count;
+                int keepCount = 0;
+                for (int index = 0; index < itemCount; ++index)
+                {
+                    var item = list[index];
+                    if (Keep(item))
+                    {
+                        ++keepCount;
+                    }
+                }
+
+                // empty non-null list is null scorable
+                if (keepCount == 0)
+                {
+                    scorable = NullScorable<Item, Score>.Instance;
+                    return true;
+                }
+                // single item non-null list is just that scorable
+                else if (keepCount == 1)
+                {
+                    for (int index = 0; index < itemCount; ++index)
+                    {
+                        var item = list[index];
+                        if (Keep(item))
+                        {
+                            scorable = item;
+                            return true;
+                        }
+                    }
+                }
+                // non-null subset of that list is just those scorables
+                else if (keepCount < itemCount)
+                {
+                    var keep = new IScorable<Item, Score>[keepCount];
+                    int keepIndex = 0;
+                    for (int index = 0; index < itemCount; ++index)
+                    {
+                        var item = list[index];
+                        if (Keep(item))
+                        {
+                            keep[keepIndex] = item;
+                            ++keepIndex;
+                        }
+                    }
+
+                    scorables = keep;
+                }
+            }
+
+            scorable = null;
+            return false;
+        }
+
+        /// <summary>
         /// Select the first scorable that produces a score.
         /// </summary>
         public static IScorable<Item, Score> First<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables)
         {
+            IScorable<Item, Score> scorable;
+            if (TryReduce(ref scorables, out scorable))
+            {
+                return scorable;
+            }
+
             return new FirstScorable<Item, Score>(scorables);
         }
 
         /// <summary>
-        /// Select a single winning scorable from an enumeration of scorables using a score comparer.
+        /// Fold an enumeration of scorables using a score comparer.
         /// </summary>
-        public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer)
+        public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer, FoldScorable<Item, Score>.OnStageDelegate onStage = null)
         {
-            var list = scorables as IReadOnlyList<IScorable<Item, Score>>;
-            if (list != null)
+            IScorable<Item, Score> scorable;
+            if (TryReduce(ref scorables, out scorable))
             {
-                if (list.Count == 0)
-                {
-                    return NullScorable<Item, Score>.Instance;
-                }
-                else if (list.Count == 1)
-                {
-                    return list[0];
-                }
-                else if (list.All(s => s is NullScorable<Item, Score>))
-                {
-                    return NullScorable<Item, Score>.Instance;
-                }
+                return scorable;
             }
 
-            return new FoldScorable<Item, Score>(comparer, scorables);
+            return new DelegatingFoldScorable<Item, Score>(onStage, comparer, scorables);
+        }
+
+        private static IScorable<IResolver, Binding> Bind(Delegate lambda)
+        {
+            return new DelegateScorable(lambda);
+        }
+
+        public static IScorable<IResolver, Binding> Bind<R>(Func<R> method)
+        {
+            return Bind((Delegate)method);
+        }
+
+        public static IScorable<IResolver, Binding> Bind<T1, R>(Func<T1, R> method)
+        {
+            return Bind((Delegate)method);
+        }
+
+        public static IScorable<IResolver, Binding> Bind<T1, T2, R>(Func<T1, T2, R> method)
+        {
+            return Bind((Delegate)method);
+        }
+
+        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, R>(Func<T1, T2, T3, R> method)
+        {
+            return Bind((Delegate)method);
+        }
+
+        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, R>(Func<T1, T2, T3, T4, R> method)
+        {
+            return Bind((Delegate)method);
+        }
+
+        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, T5, R>(Func<T1, T2, T3, T4, T5, R> method)
+        {
+            return Bind((Delegate)method);
+        }
+
+        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, T5, T6, R>(Func<T1, T2, T3, T4, T5, T6, R> method)
+        {
+            return Bind((Delegate)method);
+        }
+
+        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, T5, T6, T7, R>(Func<T1, T2, T3, T4, T5, T6, T7, R> method)
+        {
+            return Bind((Delegate)method);
+        }
+
+        public static IScorable<IResolver, Match> When(this IScorable<IResolver, Binding> scorable, Regex regex)
+        {
+            return new RegexMatchScorable<Binding, Binding>(regex, scorable);
+        }
+
+        public static IScorable<IResolver, IntentRecommendation> When(this IScorable<IResolver, Binding> scorable, ILuisModel model, LuisIntentAttribute intent, ILuisService service = null)
+        {
+            service = service ?? new LuisService(model);
+            return new LuisIntentScorable<Binding, Binding>(service, model, intent, scorable);
+        }
+
+        public static IScorable<IResolver, double> Normalize(this IScorable<IResolver, Binding> scorable)
+        {
+            return scorable.SelectScore((r, b) => 1.0);
+        }
+
+        public static IScorable<IResolver, double> Normalize(this IScorable<IResolver, Match> scorable)
+        {
+            return scorable.SelectScore((r, m) => RegexMatchScorable.ScoreFor(m));
+        }
+
+        public static IScorable<IResolver, double> Normalize(this IScorable<IResolver, IntentRecommendation> scorable)
+        {
+            return scorable.SelectScore((r, i) => i.Score ?? 0);
+        }
+    }
+}
+
+namespace Microsoft.Bot.Builder.Scorables.Internals
+{
+    [Serializable]
+    public sealed class NullScorable<Item, Score> : IScorable<Item, Score>
+    {
+        public static readonly IScorable<Item, Score> Instance = new NullScorable<Item, Score>();
+
+        private NullScorable()
+        {
+        }
+
+        Task<object> IScorable<Item, Score>.PrepareAsync(Item item, CancellationToken token)
+        {
+            return Tasks<object>.Null;
+        }
+
+        bool IScorable<Item, Score>.HasScore(Item item, object state)
+        {
+            return false;
+        }
+
+        Score IScorable<Item, Score>.GetScore(Item item, object state)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IScorable<Item, Score>.PostAsync(Item item, object state, CancellationToken token)
+        {
+            return Task.FromException(new NotImplementedException());
+        }
+
+        Task IScorable<Item, Score>.DoneAsync(Item item, object state, CancellationToken token)
+        {
+            return Task.CompletedTask;
         }
     }
 
-    public sealed class SelectItemScorable<SourceItem, TargetItem, Score> : ScorableBase<SourceItem, SelectItemScorable<SourceItem, TargetItem, Score>.Token, Score>
+    [Serializable]
+    public sealed class WhereScoreScorable<Item, Score> : DelegatingScorable<Item, Score>
     {
-        private readonly IScorable<TargetItem, Score> scorable;
-        private readonly Func<SourceItem, TargetItem> selector;
-        public SelectItemScorable(IScorable<TargetItem, Score> scorable, Func<SourceItem, TargetItem> selector)
+        private readonly Func<Item, Score, bool> predicate;
+
+        public WhereScoreScorable(IScorable<Item, Score> scorable, Func<Item, Score, bool> predicate)
+            : base(scorable)
+        {
+            SetField.NotNull(out this.predicate, nameof(predicate), predicate);
+        }
+
+        public override bool HasScore(Item item, object state)
+        {
+            if (base.HasScore(item, state))
+            {
+                var score = base.GetScore(item, state);
+                if (this.predicate(item, score))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    [Serializable]
+    public sealed class SelectItemScorable<OuterItem, InnerItem, Score> : ScorableAggregator<OuterItem, Token<InnerItem, Score>, Score, InnerItem, object, Score>
+    {
+        private readonly IScorable<InnerItem, Score> scorable;
+        private readonly Func<OuterItem, InnerItem> selector;
+
+        public SelectItemScorable(IScorable<InnerItem, Score> scorable, Func<OuterItem, InnerItem> selector)
         {
             SetField.NotNull(out this.scorable, nameof(scorable), scorable);
             SetField.NotNull(out this.selector, nameof(selector), selector);
         }
-        public sealed class Token : Token<TargetItem, Score>
-        {
-            public TargetItem Item;
-        }
-        protected override async Task<Token> PrepareAsync(SourceItem sourceItem, CancellationToken token)
+
+        protected override async Task<Token<InnerItem, Score>> PrepareAsync(OuterItem sourceItem, CancellationToken token)
         {
             var targetItem = this.selector(sourceItem);
-            var state = new Token()
+            var state = new Token<InnerItem, Score>()
             {
                 Item = targetItem,
                 Scorable = this.scorable,
@@ -140,54 +364,18 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
             };
             return state;
         }
-        protected override bool HasScore(SourceItem item, Token state)
-        {
-            if (state != null)
-            {
-                return state.Scorable.HasScore(state.Item, state.State);
-            }
 
-            return false;
-        }
-        protected override Score GetScore(SourceItem item, Token state)
+        protected override Score GetScore(OuterItem item, Token<InnerItem, Score> state)
         {
             return state.Scorable.GetScore(state.Item, state.State);
         }
-        protected override Task PostAsync(SourceItem item, Token state, CancellationToken token)
-        {
-            try
-            {
-                return state.Scorable.PostAsync(state.Item, state.State, token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException(error);
-            }
-        }
-        protected override Task DoneAsync(SourceItem item, Token state, CancellationToken token)
-        {
-            try
-            {
-                return state.Scorable.DoneAsync(state.Item, state.State, token);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException(error);
-            }
-        }
     }
 
+    [Serializable]
     public sealed class SelectScoreScorable<Item, SourceScore, TargetScore> : DelegatingScorable<Item, SourceScore>, IScorable<Item, TargetScore>
     {
         private readonly Func<Item, SourceScore, TargetScore> selector;
+
         public SelectScoreScorable(IScorable<Item, SourceScore> scorable, Func<Item, SourceScore, TargetScore> selector)
             : base(scorable)
         {
@@ -203,27 +391,47 @@ namespace Microsoft.Bot.Builder.Internals.Scorables
         }
     }
 
-    public sealed class FirstScorable<Item, Score> : FoldScorable<Item, Score>
+    public sealed class FirstScorable<Item, Score> : DelegatingFoldScorable<Item, Score>
     {
         public FirstScorable(IEnumerable<IScorable<Item, Score>> scorables)
-            : base(Comparer<Score>.Default, scorables)
+            : base(null, Comparer<Score>.Default, scorables)
         {
         }
-        protected override bool OnFold(IScorable<Item, Score> scorable, Item item, object state, Score score)
+
+        public override bool OnStageHandler(FoldStage stage, IScorable<Item, Score> scorable, Item item, object state, Score score)
         {
-            return false;
+            switch (stage)
+            {
+                case FoldStage.AfterFold: return false;
+                case FoldStage.StartPost: return true;
+                case FoldStage.AfterPost: return false;
+                default: throw new NotImplementedException();
+            }
         }
     }
 
-    public sealed class TraitsScorable<Item, Score> : FoldScorable<Item, Score>
+    public sealed class TraitsScorable<Item, Score> : DelegatingFoldScorable<Item, Score>
     {
         private readonly ITraits<Score> traits;
+
         public TraitsScorable(ITraits<Score> traits, IComparer<Score> comparer, IEnumerable<IScorable<Item, Score>> scorables)
-            : base(comparer, scorables)
+            : base(null, comparer, scorables)
         {
             SetField.NotNull(out this.traits, nameof(traits), traits);
         }
-        protected override bool OnFold(IScorable<Item, Score> scorable, Item item, object state, Score score)
+
+        public override bool OnStageHandler(FoldStage stage, IScorable<Item, Score> scorable, Item item, object state, Score score)
+        {
+            switch (stage)
+            {
+                case FoldStage.AfterFold: return OnFold(scorable, item, state, score);
+                case FoldStage.StartPost: return true;
+                case FoldStage.AfterPost: return false;
+                default: throw new NotImplementedException();
+            }
+        }
+
+        private bool OnFold(IScorable<Item, Score> scorable, Item item, object state, Score score)
         {
             if (this.comparer.Compare(score, this.traits.Minimum) < 0)
             {

@@ -35,25 +35,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Builder.Scorables;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
     /// <summary>
     /// A dialog specialized to dispatch an IScorable.
     /// </summary>
+    /// <typeparam name="TResult">The result type.</typeparam>
     [Serializable]
-    public class DispatchDialog<R> : IDialog<R>
+    public class DispatchDialog<TResult> : IDialog<TResult>
     {
         public virtual async Task StartAsync(IDialogContext context)
         {
@@ -62,51 +60,75 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         protected virtual IResolver MakeResolver(IDialogContext context, IActivity activity)
         {
-            var resolver = NullResolver.Instance;
+            var resolver = NoneResolver.Instance;
             resolver = new ArrayResolver(resolver, context, activity, this);
             resolver = new ActivityResolver(resolver);
 
             return resolver;
         }
+
         protected virtual ILuisService MakeService(ILuisModel model)
         {
             return new LuisService(model);
         }
+
         protected virtual Regex MakeRegex(string pattern)
         {
             return new Regex(pattern);
         }
+
+        protected virtual BindingFlags MakeBindingFlags()
+        {
+            return BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public;
+        }
+
         protected virtual IEnumerable<MethodInfo> MakeMethods(IDialogContext context, IActivity activity)
         {
-            return this.GetType().GetMethods();
+            var type = this.GetType();
+            var flags = this.MakeBindingFlags();
+            var methods = type.GetMethods(flags);
+            return methods;
         }
+
+        private bool continueAfterPost;
+
+        protected void ContinueWithNextGroup()
+        {
+            continueAfterPost = true;
+        }
+
+        protected virtual bool OnStage(FoldStage stage, IScorable<IResolver, object> scorable, IResolver item, object state, object score)
+        {
+            switch (stage)
+            {
+                case FoldStage.AfterFold: return true;
+                case FoldStage.StartPost: continueAfterPost = false; return true;
+                case FoldStage.AfterPost: return continueAfterPost;
+                default: throw new NotImplementedException();
+            }
+        }
+
+        protected virtual IComparer<object> MakeComparer(IDialogContext context, IActivity activity)
+        {
+            return NullComparer<object>.Instance;
+        }
+
         protected virtual IScorableFactory<IResolver, object> MakeFactory(IDialogContext context, IActivity activity)
         {
-            var cache = new DictionaryCache<ILuisService, Uri, LuisResult>(EqualityComparer<Uri>.Default);
-
-            var serviceByModel = new Dictionary<ILuisModel, ILuisService>();
-
-            Func<ILuisModel, ILuisService> MakeLuisService = model =>
-            {
-                ILuisService service;
-                if (!serviceByModel.TryGetValue(model, out service))
-                {
-                    service = new CachingLuisService(MakeService(model), cache);
-                    serviceByModel.Add(model, service);
-                }
-
-                return service;
-            };
+            var comparer = MakeComparer(context, activity);
 
             IScorableFactory<IResolver, object> factory = new OrderScorableFactory<IResolver, object>
                 (
-                    new LuisIntentScorableFactory(MakeLuisService),
+                    this.OnStage,
+                    comparer,
+                    new LuisIntentScorableFactory(MakeService),
                     new RegexMatchScorableFactory(MakeRegex),
                     new MethodScorableFactory()
                 );
 
             return factory;
         }
+
         protected virtual IScorable<IResolver, object> MakeScorable(IDialogContext context, IActivity activity)
         {
             var factory = MakeFactory(context, activity);
@@ -117,12 +139,10 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         protected virtual async Task OnPostAsync(IDialogContext context, IActivity activity)
         {
-            context.Wait(ActivityReceivedAsync);
         }
 
         protected virtual async Task OnFailAsync(IDialogContext context, IActivity activity)
         {
-            context.Wait(ActivityReceivedAsync);
         }
 
         protected virtual async Task ActivityReceivedAsync(IDialogContext context, IAwaitable<IActivity> item)
@@ -140,5 +160,17 @@ namespace Microsoft.Bot.Builder.Dialogs
                 await OnFailAsync(context, activity);
             }
         }
+    }
+
+    /// <summary>
+    /// A dialog specialized to dispatch an IScorable.
+    /// </summary>
+    /// <remarks>
+    /// This non-generic dialog is intended for use as a top-level dialog that will not
+    /// return to any calling parent dialog (and therefore the result type is object).
+    /// </remarks>
+    [Serializable]
+    public class DispatchDialog : DispatchDialog<object>
+    {
     }
 }

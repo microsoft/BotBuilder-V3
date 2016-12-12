@@ -25,4 +25,19 @@ namespace Microsoft.Bot.Connector
     {
         public const string ContentType = "application/vnd.microsoft.card.signin";
     }
+
+    public partial class AnimationCard
+    {
+        public const string ContentType = "application/vnd.microsoft.card.animation";
+    }
+
+    public partial class AudioCard
+    {
+        public const string ContentType = "application/vnd.microsoft.card.audio";
+    }
+
+    public partial class VideoCard
+    {
+        public const string ContentType = "application/vnd.microsoft.card.video";
+    }
 }

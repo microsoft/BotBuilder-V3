@@ -35,9 +35,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using Autofac;
-using Microsoft.Bot.Builder.Internals.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -63,6 +64,40 @@ namespace Microsoft.Bot.Builder.Tests
             IService service;
             Assert.IsFalse(resolver.TryResolve(null, out service));
             Assert.IsFalse(resolver.TryResolve(Some, out service));
+        }
+
+        [TestMethod]
+        public void Resolver_None()
+        {
+            var resolver = NoneResolver.Instance;
+
+            IService service;
+            Assert.IsFalse(resolver.TryResolve(null, out service));
+            Assert.IsFalse(resolver.TryResolve(Some, out service));
+
+            CancellationToken token;
+            Assert.IsTrue(resolver.TryResolve(null, out token));
+            Assert.IsFalse(token.CanBeCanceled);
+        }
+
+        [TestMethod]
+        public void Resolver_Enum()
+        {
+            var resolver = new EnumResolver(NoneResolver.Instance);
+
+            DayOfWeek actual;
+            Assert.IsFalse(resolver.TryResolve(null, out actual));
+            Assert.IsFalse(resolver.TryResolve(Some, out actual));
+
+            var expected = DayOfWeek.Monday;
+            {
+                Assert.IsTrue(resolver.TryResolve(expected.ToString(), out actual));
+                Assert.AreEqual(expected, actual);
+            }
+            {
+                Assert.IsFalse(resolver.TryResolve(((int)expected).ToString(), out actual));
+                Assert.AreEqual(DayOfWeek.Sunday, actual);
+            }
         }
 
         [TestMethod]
@@ -113,6 +148,27 @@ namespace Microsoft.Bot.Builder.Tests
 
             {
                 ITypingActivity actual;
+                Assert.IsTrue(resolver.TryResolve(null, out actual));
+                Assert.IsFalse(resolver.TryResolve(Some, out actual));
+            }
+        }
+
+        [TestMethod]
+        public void Resolver_Trigger()
+        {
+            var expected = new Activity() { Type = ActivityTypes.Trigger };
+            var resolver = new TriggerValueResolver(new ActivityResolver(new ArrayResolver(NullResolver.Instance, expected)));
+
+            {
+                IService actual;
+                Assert.IsFalse(resolver.TryResolve(null, out actual));
+                Assert.IsFalse(resolver.TryResolve(Some, out actual));
+            }
+
+            expected.Value = new Service();
+
+            {
+                IService actual;
                 Assert.IsTrue(resolver.TryResolve(null, out actual));
                 Assert.IsFalse(resolver.TryResolve(Some, out actual));
             }

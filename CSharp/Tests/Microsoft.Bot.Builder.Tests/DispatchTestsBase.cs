@@ -1,6 +1,5 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
@@ -14,6 +13,7 @@ using Match = System.Text.RegularExpressions.Match;
 using System.Threading.Tasks;
 using System.Threading;
 using Moq;
+using Microsoft.Bot.Builder.Scorables;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -64,18 +64,18 @@ namespace Microsoft.Bot.Builder.Tests
             //  errors: ambiguous binding message, no match found?
 
             [MethodBind]
-            [ScorableOrder(2)]
+            [ScorableGroup(2)]
             Task Activity(IMessageActivity activity);
             [MethodBind]
-            [ScorableOrder(2)]
+            [ScorableGroup(2)]
             Task Activity(ITypingActivity activity);
             [MethodBind]
-            [ScorableOrder(2)]
+            [ScorableGroup(2)]
             Task Activity(IActivity activity);
 
 
             [LuisIntent(IntentAll)]
-            [ScorableOrder(1)]
+            [ScorableGroup(1)]
             Task LuisAllTypes(
                 ILuisModel model,
                 IntentRecommendation intent,
@@ -99,23 +99,23 @@ namespace Microsoft.Bot.Builder.Tests
                 );
 
             [LuisIntent(IntentOne)]
-            [ScorableOrder(1)]
+            [ScorableGroup(1)]
             Task LuisOne(
                 ILuisModel model,
                 [Entity(EntityTypeA)] IEnumerable<string> entityA);
 
             [LuisIntent(IntentTwo)]
-            [ScorableOrder(1)]
+            [ScorableGroup(1)]
             Task LuisTwo(
                 ILuisModel model,
                 [Entity(EntityTypeA)] string entityA);
 
             [LuisIntent(IntentNone)]
-            [ScorableOrder(1)]
+            [ScorableGroup(1)]
             Task LuisNone(ILuisModel model);
 
             [RegexPattern("RegexAll (?<captureAll>.*)")]
-            [ScorableOrder(0)]
+            [ScorableGroup(0)]
             Task RegexAllTypes(
                 Regex regex,
                 Match match,
@@ -124,12 +124,12 @@ namespace Microsoft.Bot.Builder.Tests
                 [Entity("captureAll")] string text);
 
             [RegexPattern("RegexOne (?<captureOne>.*)")]
-            [ScorableOrder(0)]
+            [ScorableGroup(0)]
             Task RegexOne(
                 [Entity("captureOne")] Capture capture);
 
             [RegexPattern("RegexTwo (?<captureTwo>.*)")]
-            [ScorableOrder(0)]
+            [ScorableGroup(0)]
             Task RegexTwo(
                 [Entity("captureTwo")] string capture);
         }
@@ -146,8 +146,8 @@ namespace Microsoft.Bot.Builder.Tests
         public DispatchTestsBase()
         {
             luisOne
-                .Setup(l => l.BuildUri(It.IsAny<string>()))
-                .Returns<string>(q => new UriBuilder() { Host = "one", Path = q }.Uri);
+                .Setup(l => l.BuildUri(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(q => new UriBuilder() { Host = "one", Path = q.Query }.Uri);
 
             luisOne
                 .Setup(l => l.QueryAsync(It.IsAny<Uri>(), token))
@@ -158,8 +158,8 @@ namespace Microsoft.Bot.Builder.Tests
                 });
 
             luisTwo
-                .Setup(l => l.BuildUri(It.IsAny<string>()))
-                .Returns<string>(q => new UriBuilder() { Host = "two", Path = q }.Uri);
+                .Setup(l => l.BuildUri(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(q => new UriBuilder() { Host = "two", Path = q.Query }.Uri);
 
             luisTwo
                 .Setup(l => l.QueryAsync(It.IsAny<Uri>(), token))

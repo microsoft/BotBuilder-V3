@@ -34,15 +34,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Internals.Scorables;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Scorables;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -68,34 +67,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
 
             await this.inner.PostAsync<T>(item, token);
-        }
-    }
-
-
-    public partial class Extensions
-    {
-        public static IDialog<T> WithScorable<T, Item, Score>(this IDialog<T> antecedent, IScorable<Item, Score> scorable)
-        {
-            return new WithScorableDialog<T, Item, Score>(antecedent, scorable);
-        }
-
-        [Serializable]
-        private sealed class WithScorableDialog<T, Item, Score> : DelegatingScorable<Item, Score>, IDialog<T>
-        {
-            public readonly IDialog<T> Antecedent;
-            public WithScorableDialog(IDialog<T> antecedent, IScorable<Item, Score> scorable)
-                : base(scorable)
-            {
-                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
-            }
-            async Task IDialog<T>.StartAsync(IDialogContext context)
-            {
-                context.Call<T>(this.Antecedent, ResumeAsync);
-            }
-            private async Task ResumeAsync(IDialogContext context, IAwaitable<T> result)
-            {
-                context.Done(await result);
-            }
         }
     }
 }

@@ -41,6 +41,15 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 namespace Microsoft.Bot.Builder.Luis
 {
     /// <summary>
+    /// Luis api version.
+    /// </summary>
+    public enum LuisApiVersion
+    {
+        V1,
+        V2
+    }
+
+    /// <summary>
     /// A mockable interface for the LUIS model.
     /// </summary>
     public interface ILuisModel
@@ -54,6 +63,16 @@ namespace Microsoft.Bot.Builder.Luis
         /// The LUIS subscription key.
         /// </summary>
         string SubscriptionKey { get; }
+
+        /// <summary>
+        /// The base Uri for accessing LUIS.
+        /// </summary>
+        Uri UriBase { get; }
+
+        /// <summary>
+        /// Luis Api Version.
+        /// </summary>
+        LuisApiVersion ApiVersion { get; }
     }
 
     /// <summary>
@@ -69,15 +88,30 @@ namespace Microsoft.Bot.Builder.Luis
         private readonly string subscriptionKey;
         public string SubscriptionKey => subscriptionKey;
 
+        private readonly Uri uriBase; 
+        public Uri UriBase => uriBase;
+
+        private readonly LuisApiVersion apiVersion;
+        public LuisApiVersion ApiVersion => apiVersion;
+
+        public static readonly IReadOnlyDictionary<LuisApiVersion, Uri> LuisEndpoints = new Dictionary<LuisApiVersion, Uri>()
+        {
+            {LuisApiVersion.V1, new Uri("https://api.projectoxford.ai/luis/v1/application")},
+            {LuisApiVersion.V2, new Uri("https://api.projectoxford.ai/luis/v2.0/apps/")}
+        };
+        
         /// <summary>
         /// Construct the LUIS model information.
         /// </summary>
         /// <param name="modelID">The LUIS model ID.</param>
         /// <param name="subscriptionKey">The LUIS subscription key.</param>
-        public LuisModelAttribute(string modelID, string subscriptionKey)
+        /// <param name="apiVersion">The LUIS API version.</param>
+        public LuisModelAttribute(string modelID, string subscriptionKey, LuisApiVersion apiVersion = LuisApiVersion.V2)
         {
             SetField.NotNull(out this.modelID, nameof(modelID), modelID);
             SetField.NotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
+            this.apiVersion = apiVersion;
+            this.uriBase = LuisEndpoints[this.apiVersion];
         }
 
         public bool Equals(ILuisModel other)
@@ -85,6 +119,8 @@ namespace Microsoft.Bot.Builder.Luis
             return other != null
                 && object.Equals(this.ModelID, other.ModelID)
                 && object.Equals(this.SubscriptionKey, other.SubscriptionKey)
+                && object.Equals(this.ApiVersion, other.ApiVersion)
+                && object.Equals(this.UriBase, other.UriBase)
                 ;
         }
 
@@ -95,7 +131,10 @@ namespace Microsoft.Bot.Builder.Luis
 
         public override int GetHashCode()
         {
-            return ModelID.GetHashCode() ^ SubscriptionKey.GetHashCode();
+            return ModelID.GetHashCode() 
+                ^ SubscriptionKey.GetHashCode() 
+                ^ UriBase.GetHashCode() 
+                ^ ApiVersion.GetHashCode();
         }
     }
 }

@@ -229,7 +229,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public async Task Switch_Case()
+        public async Task Chain_Switch_Case()
         {
             var toBot = MakeTestMessage();
 
@@ -336,6 +336,31 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                     formatter.Serialize(stream, query);
                 }
+            }
+        }
+
+        [TestMethod]
+        public async Task Chain_Catch()
+        {
+            var test = Chain
+                .PostToChain()
+                .Select(m => m.Text)
+                .Where(a => false)
+                .Catch<string, OperationCanceledException>((antecedent, error) => Chain.Return("world"))
+                .PostToUser();
+
+            using (var container = Build(Options.ResolveDialogFromContainer))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(test)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "hello",
+                    "world"
+                    );
             }
         }
 

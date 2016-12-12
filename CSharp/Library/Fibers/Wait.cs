@@ -33,6 +33,8 @@
 
 using System;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Runtime.Serialization;
@@ -49,23 +51,78 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
     public delegate Task<IWait<C>> Rest<C, in T>(IFiber<C> fiber, C context, IItem<T> item, CancellationToken token);
 
-    public enum Need { None, Wait, Poll, Call, Done };
+    /// <summary>
+    /// This is the stage of the wait, showing what the wait needs during its lifecycle.
+    /// </summary>
+    public enum Need
+    {
+        /// <summary>
+        /// The wait does not need anything.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// The wait needs an item to be posted.
+        /// </summary>
+        Wait,
+
+        /// <summary>
+        /// The wait needs to be polled for execution after an item has been posted.
+        /// </summary>
+        Poll,
+
+        /// <summary>
+        /// The wait is in the middle of executing the rest delegate.
+        /// </summary>
+        Call,
+
+        /// <summary>
+        /// The wait has completed executing the rest delegate.
+        /// </summary>
+        Done
+    };
 
     public interface IWait
     {
+        /// <summary>
+        /// The stage of the wait.
+        /// </summary>
         Need Need { get; }
+
+        /// <summary>
+        /// The type of the item parameter for the rest delegate.
+        /// </summary>
         Type ItemType { get; }
+
+        /// <summary>
+        /// The static type of the wait item.
+        /// </summary>
         Type NeedType { get; }
+
+        /// <summary>
+        /// The rest delegate method.
+        /// </summary>
         Delegate Rest { get; }
+
+        /// <summary>
+        /// Mark this wait as satisfied with this item.
+        /// </summary>
         void Post<T>(T item);
+
+        /// <summary>
+        /// Mark this wait as satisfied with this fail exception.
+        /// </summary>
         void Fail(Exception error);
     }
 
-    public interface IWait<C> : IWait
+    public interface IWait<C> : IWait, ICloneable
     {
         Task<IWait<C>> PollAsync(IFiber<C> fiber, C context, CancellationToken token);
     }
 
+    /// <summary>
+    /// Null object pattern implementation of wait interface.
+    /// </summary>
     public sealed class NullWait<C> : IWait<C>
     {
         public static readonly IWait<C> Instance = new NullWait<C>();
@@ -73,21 +130,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         {
         }
 
-        Need IWait.Need
-        {
-            get
-            {
-                return Need.None;
-            }
-        }
+        Need IWait.Need => Need.None;
 
-        Type IWait.NeedType
-        {
-            get
-            {
-                return typeof(object);
-            }
-        }
+        Type IWait.NeedType => typeof(object);
 
         Delegate IWait.Rest
         {
@@ -97,13 +142,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        Type IWait.ItemType
-        {
-            get
-            {
-                return typeof(object);
-            }
-        }
+        Type IWait.ItemType => typeof(object);
 
         void IWait.Post<T>(T item)
         {
@@ -118,6 +157,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context, CancellationToken token)
         {
             throw new InvalidNeedException(this, Need.Poll);
+        }
+
+        object ICloneable.Clone()
+        {
+            return NullWait<C>.Instance;
         }
     }
 
@@ -195,13 +239,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 ;
         }
 
-        Need IWait.Need
-        {
-            get
-            {
-                return this.need;
-            }
-        }
+        Need IWait.Need => this.need;
 
         Type IWait.NeedType
         {
@@ -222,21 +260,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        Delegate IWait.Rest
-        {
-            get
-            {
-                return this.rest;
-            }
-        }
+        Delegate IWait.Rest => this.rest;
 
-        Type IWait.ItemType
-        {
-            get
-            {
-                return typeof(T);
-            }
-        }
+        Type IWait.ItemType => typeof(T);
 
         async Task<IWait<C>> IWait<C>.PollAsync(IFiber<C> fiber, C context, CancellationToken token)
         {
@@ -253,13 +279,23 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
+        private static MethodInfo MethodOf(Expression<Action> action)
+        {
+            var call = (MethodCallExpression)action.Body;
+            return call.Method;
+        }
+
+        private static readonly MethodInfo MethodPost = MethodOf(() => ((IWait)null).Post(0)).GetGenericMethodDefinition();
+
         void IWait.Post<D>(D item)
         {
             this.ValidateNeed(Need.Wait);
 
+            // try generic type variance first
             var post = this as IPost<D>;
             if (post == null)
             {
+                // then work around lack of generic type variant for value types
                 if (typeof(D).IsValueType)
                 {
                     var postBoxed = this as IPost<object>;
@@ -270,14 +306,26 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 }
             }
 
-            if (post == null)
+            if (post != null)
             {
-                IWait wait = this;
-                wait.Fail(new InvalidTypeException(this, typeof(D)));
+                post.Post(item);
             }
             else
             {
-                post.Post(item);
+                // if we have runtime type information, use reflection and recurse
+                var type = item?.GetType();
+                bool reflection = type != null && !type.IsAssignableFrom(typeof(D));
+                if (reflection)
+                {
+                    var generic = MethodPost.MakeGenericMethod(type);
+                    generic.Invoke(this, new object[] { item });
+                }
+                else
+                {
+                    // otherwise, we cannot satisfy this wait with this item
+                    IWait wait = this;
+                    wait.Fail(new InvalidTypeException(this, typeof(D)));
+                }
             }
         }
 
@@ -346,6 +394,16 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         void INotifyCompletion.OnCompleted(Action continuation)
         {
             throw new NotImplementedException();
+        }
+
+        object ICloneable.Clone()
+        {
+            var clone = new Wait<C, T>();
+            clone.rest = this.rest;
+            clone.need = Need.Wait;
+            clone.item = default(T);
+            clone.fail = null;
+            return clone;
         }
     }
 
