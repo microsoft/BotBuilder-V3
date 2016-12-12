@@ -198,7 +198,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             if (actions.Count > 0)
             {
                 var description = prompt.Description;
-                attachments.Add(new HeroCard(text: prompt.Prompt, title: description.Title, subtitle: description.SubTitle,
+                // Facebook requires a title https://github.com/Microsoft/BotBuilder/issues/1678
+                attachments.Add(new HeroCard(text: prompt.Prompt, title: description.Title ?? string.Empty, subtitle: description.SubTitle,
                     buttons: actions,
                     images: prompt.Description?.Image == null ? null : new List<CardImage>() { new CardImage() { Url = description.Image } })
                     .ToAttachment());
@@ -214,7 +215,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 string image = button.Image ?? description.Image;
                 attachments.Add(new HeroCard(
-                    title: button.Title ?? description.Title,
+                    title: button.Title ?? description.Title ?? string.Empty,
                     subtitle: button.SubTitle ?? description.SubTitle,
                     text: prompt.Prompt,
                     images: (image == null ? null : (new List<CardImage>() { new CardImage() { Url = image } })),
@@ -289,7 +290,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             var response = ExpandTemplate(_annotation.Pattern(), currentChoice, noValue, state, field, args, ref buttons);
             return new FormPrompt
             {
-                Prompt = (response == null ? "" : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1")),
+                Prompt = (response == null ? string.Empty : _spacesPunc.Replace(_spaces.Replace(Language.ANormalization(response), "$1 "), "$1")),
                 Description = field?.FieldDescription,
                 Buttons = buttons,
                 Style = _annotation.ChoiceStyle
@@ -324,8 +325,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 else if (expr.StartsWith("&"))
                 {
                     var name = expr.Substring(1);
-                    if (name == "" && field != null) name = field.Name;
-                    ok = (name == "" || fields.Field(name) != null);
+                    if (name == string.Empty && field != null) name = field.Name;
+                    ok = (name == string.Empty || fields.Field(name) != null);
                 }
                 else if (expr.StartsWith("?"))
                 {
@@ -354,8 +355,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var formatArgs = expr.Split(':');
                     var name = formatArgs[0];
-                    if (name == "" && field != null) name = field.Name;
-                    ok = (name == "" || fields.Field(name) != null);
+                    if (name == string.Empty && field != null) name = field.Name;
+                    ok = (name == string.Empty || fields.Field(name) != null);
                 }
                 if (!ok)
                 {
@@ -375,11 +376,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             foreach (Match match in _args.Matches(template))
             {
                 var expr = match.Groups[1].Value.Trim();
-                var substitute = "";
+                var substitute = string.Empty;
                 if (expr.StartsWith("&"))
                 {
                     var name = expr.Substring(1);
-                    if (name == "" && field != null) name = field.Name;
+                    if (name == string.Empty && field != null) name = field.Name;
                     var pathField = _fields.Field(name);
                     substitute = Language.Normalize(pathField == null ? field.Name : pathField.FieldDescription.Description, _annotation.FieldCase);
                 }
@@ -501,7 +502,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         }
                         var formatArgs = spec.Substring(1, spec.Length - 2).Trim().Split(':');
                         var name = formatArgs[0];
-                        if (name == "" && field != null) name = field.Name;
+                        if (name == string.Empty && field != null) name = field.Name;
                         var format = (formatArgs.Length > 1 ? "0:" + formatArgs[1] : "0");
                         var eltDesc = _fields.Field(name);
                         if (!eltDesc.IsUnknown(state))
@@ -534,7 +535,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var subValue = ExpandTemplate(expr.Substring(1), currentChoice, null, state, field, args, ref buttons);
                     if (subValue == null)
                     {
-                        substitute = "";
+                        substitute = string.Empty;
                     }
                     else
                     {
@@ -558,7 +559,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var formatArgs = expr.Split(':');
                     var name = formatArgs[0];
-                    if (name == "" && field != null) name = field.Name;
+                    if (name == string.Empty && field != null) name = field.Name;
                     var pathDesc = _fields.Field(name);
                     if (pathDesc.IsUnknown(state))
                     {
