@@ -107,7 +107,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Histo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Azure.Tests", "tests\Microsoft.Bot.Builder.Azure.Tests\Microsoft.Bot.Builder.Azure.Tests.csproj", "{C0FC2275-93A1-462C-ACC6-7329AAFDDAB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleDispatchDialog", "Microsoft.Bot.Sample.SimpleDispatchDialog\Microsoft.Bot.Sample.SimpleDispatchDialog.csproj", "{54B0706E-FE37-4387-A1C2-FD695A30CA92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleDispatchDialog", "Samples\SimpleDispatchDialog\Microsoft.Bot.Sample.SimpleDispatchDialog.csproj", "{54B0706E-FE37-4387-A1C2-FD695A30CA92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
