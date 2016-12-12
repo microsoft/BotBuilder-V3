@@ -37,6 +37,7 @@ import { IRecognizeContext } from './dialogs/IntentRecognizerSet';
 export var channels = {
     facebook: 'facebook',
     skype: 'skype',
+    skypeteams: 'skypeteams',
     telegram: 'telegram',
     kik: 'kik',
     email: 'email',
@@ -45,6 +46,7 @@ export var channels = {
     sms: 'sms',
     emulator: 'emulator',
     directline: 'directline',
+    webchat: 'webchat',
     console: 'console'
 };
 
@@ -56,7 +58,6 @@ export function supportsKeyboards(session: Session, buttonCnt = 100) {
             return (buttonCnt <= 20);
         case channels.slack:
         case channels.telegram:
-        case channels.emulator:
             return (buttonCnt <= 100);
         default:
             return false;
@@ -67,8 +68,12 @@ export function supportsCardActions(session: Session, buttonCnt = 100) {
     switch (getChannelId(session)) {
         case channels.facebook:
         case channels.skype:
+        case channels.skypeteams:
             return (buttonCnt <= 3);
         case channels.slack:
+        case channels.emulator:
+        case channels.directline:
+        case channels.webchat:
             return (buttonCnt <= 100);
         default:
             return false;
