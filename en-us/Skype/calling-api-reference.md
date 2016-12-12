@@ -1,8 +1,8 @@
 ---
 layout: page
-title: Skype Calling API Reference
+title: Skype Calling API
 permalink: /en-us/skype/calling/
-weight: 5030
+weight: 5130
 parent1: Skype bots
 ---
 

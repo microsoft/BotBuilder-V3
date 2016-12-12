@@ -2,7 +2,7 @@
 layout: page
 title: Getting Started
 permalink: /en-us/skype/getting-started/
-weight: 5000
+weight: 5100
 parent1: Skype bots
 ---
 
@@ -17,11 +17,11 @@ All bots created using the Microsoft Bot Framework are automatically configured 
 
 See the [Microsoft Bot Framework Overview](/en-us/) to learn how to:
 
-1. Build a bot using the [C# SDK](/en-us/csharp/builder/sdkreference/), [Node.js SDK](/en-us/node/builder/chat-reference/modules/_botbuilder_d_.html) or [Skype REST API](/en-us/skype/chat)
+1. Build a bot using the [C# SDK](/en-us/csharp/builder/sdkreference/), [Node.js SDK](/en-us/node/builder/chat-reference/modules/_botbuilder_d_.html) or [REST API](/en-us/restapi/connector/#navtitle)
 2. Test it using the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/)
 3. Deploy the bot to a cloud service, such as [Microsoft Azure](https://azure.microsoft.com/en-gb/)
-4. [Register](https://dev.botframework.com/bots/new) the bot with the Microsoft Bot Framework, which will automatically add Skype as a channel. **When you first register a bot it will be in Preview**, which means it can be added by up to 100 users using an [add button or URL](#add-button-or-URL). To remove the limit you can easily publish it in Skype using the Microsoft Bot Framework.
-5. [Add the bot](#adding-a-bot) to the latest version of Skype for mobile or desktop platforms - and test
+4. [Register](https://dev.botframework.com/bots/new) the bot with the Microsoft Bot Framework, which will automatically add Skype as a channel. **When you first register a bot it will be in Preview**, which means it can be added by up to 100 users using an [add button or URL](#add-button-or-URL). To remove the limit you can easily publish it in Skype via the Microsoft Bot Framework Portal.
+5. [Add the bot](#adding-a-bot) and test it using the latest version of Skype
 
 ## Publishing
 
@@ -42,14 +42,14 @@ You can create an add button [here](https://www.skype.com/en/developer/create-ad
 
 ![Add button](/en-us/images/skype/skype-add-to-button.png)
 
-When a user taps or clicks the add button or add URL they will be prompted to sign into Skype if necessary and redirected to a page with information about your bot and its capabilities. After they tap to add your bot they will be redirected straight into a chat with the bot in a [Skype app](#) or the [Skype web app](http://web.skype.com).
+When a user taps or clicks the add button or add URL they will be prompted to sign into Skype if necessary and redirected to a web page with information about your bot and its capabilities. After they tap to add your bot they will be redirected straight into a chat with the bot in a [Skype app](#) or the [Skype web app](http://web.skype.com).
 
 ![Add to contacts](/en-us/images/skype/skype-add-to-contacts.png)
 
 ### Skype bot directory
 {:.no_toc}
 
-In specific markets (Currently USA, Canada, UK, Ireland, Australia, and New Zealand) Skype users with the most recent app version will see an Add bots button which opens the Skype bot directory.
+In specific markets (Currently USA, Canada, UK, Ireland, Australia, and New Zealand) Skype users will see an Add bots button which opens the Skype bot directory.
 
 ![Search for a bot](/en-us/images/skype/skype-bot-search.png)
 
@@ -62,7 +62,7 @@ In specific markets (Currently USA, Canada, UK, Ireland, Australia, and New Zeal
 ### Microsoft bot directory
 {:.no_toc}
 
-Bots that are approved for Skype may also appear in the [Microsoft bot directory](https://bots.botframework.com/)
+Bots that are approved for Skype will also appear in the [Microsoft bot directory](https://bots.botframework.com/)
 
 ### How a bot appears in Skype
 {:.no_toc}
@@ -112,14 +112,14 @@ Each Skype user is assigned a unique ID for your bot, which is sent along with t
 }
 {% endhighlight %}
 
-The from field contains the unique user ID (prefixed by 29) and user Display Name. The to field contains the App ID (prefixed by 28: which indicates a bot in Skype) and bot Display Name. In Skype your bot is addressed using the Bot Framework App ID (a GUID).
+The from field contains the unique user ID (prefixed by 29:) and user Display Name. The to field contains the App ID (prefixed by 28: which indicates a bot in Skype) and bot Display Name.
 
 <div class="docs-text-note"><b>Note:</b> You cannot currently use slash (“/”) commands as part of conversations with your bot. This is a reserved character in Skype.</div>
 
 ### Rich text
 {:.no_toc}
 
-Skype supports all the [text properties](#) supported by the Microsoft Bot Framework.
+For Skype you should set the [TextFormat property](https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html#TextFormat-Property) to XML. Skype supports Bold, Italic, Underline, Strikethrough and link tags.
 
 ### Skype emoticons 
 {:.no_toc}
@@ -150,7 +150,11 @@ Pictures and videos are sent by adding [attachments](/en-us/csharp/builder/sdkre
 
 Pictures can be PNG, JPEG or GIF up to 20Mb.
 
-Videos can be MP4, AAC+h264 up to 15Mb (approx. 1 minute), plus JPEG thumbnail
+Videos can be MP4, AAC+h264 up to 15Mb (approx. 1 minute), plus JPEG thumbnail. To send a video cards with inline playback, autostart and autoloop properties see [Video cards](#video-card).
+
+## Typing indicator
+
+Your bot can send a typing indicator using the [C# SDK](/en-us/csharp/builder/sdkreference/activities.html#typing), [Node.js SDK](/en-us/node/builder/chat/session/#typing-indicator) or REST API to tell the user that the bot is preparing to respond, for example when processing a request.
 
 ## Cards and buttons
 
@@ -158,6 +162,9 @@ Skype supports the following cards which may have several properties and attachm
 
 * Hero card
 * Thumbnail card
+* Video card
+* Audio card
+* Animated GIF card
 * Carousel card (with hero or thumbnail images)
 * Sign in card
 * Receipt card
@@ -195,7 +202,6 @@ It can be useful to send context back to your bot (e.g. a request ID) without sh
 
     Visible message &lt;context hiddenId='10'/&gt;
 
-
 ### Hero card
 {:.no_toc}
 
@@ -229,18 +235,139 @@ Property|Type|Description
 title|Rich text|Title of the card. Maximum 2 lines
 subtitle|Rich text|Subtitle appears just below the Title. Maximum 2 lines
 text|Rich text|Text appears just below the subtitle. 2, 4 or 6 lines depending on whether title and subtitle are specified
-images:[]|Array of images|Image displayed at top of card. The image aspect ratio in a thumbnail card is 1:1
-buttons:[]|Array of action objects|Set of actions applicable to the current card. Maximum 3 buttons.
+images|Array of images|Image displayed at top of card. The image aspect ratio in a thumbnail card is 1:1
+buttons|Array of action objects|Set of actions applicable to the current card. Maximum 3 buttons.
 tap|Action object|This action will be activated when the user taps on the card itself
+
+### Video card
+{:.no_toc}
+
+Use the Bot Connector REST API [video card](/en-us/core-concepts/reference/#videocard) to send a video card with inline playback, autostart and autoloop controls. The content is served directly from your own service. Video can be set to automatically play by setting the autoplay capability in the Skype channel settings for your bot, which notifies the user that content will be autoplayed from an external source.
+
+**Skype supported properties**
+
+**Property**|**Type**|**Description**
+|:----------------------------:|---------------------------------|---------------------------------
+title|Rich text|Title text
+subtitle|Rich text|Subtitle text
+image.url|URL|**Mandatory** thumbnail image 360x202, 202x360 (JPEG)
+image.alt|String|Image text used by screenreaders
+media[]|Array|List of media objects each with a single profile.
+media.url|URL (**must be HTTPS**)|URL to media source which can be SD (360x202 or 202x360, ~300kpbs, H.264 AAC) or HD (1280x720, 720x1280 ~1.5 mbps, H.264 AAC)
+media.profile|string|Name of profile (sd or hd).
+aspect|string|Aspect ratio of thumbnail. Allowed values are 16x9 or 9x16.
+autostart|Boolean|Automatically play muted media as soon as it is received. **This the autoplay setting to be in the Skype channel setting, which notifies the user that media will be autoplayed from an external source**
+autoloop|Boolean|Automatically loop media when set to true. 
+buttons|Array of action objects|Set of button actions applicable to the current card. Maximum 3 buttons.
+
+**Example JSON**
+
+{% highlight json %}
+{
+  "type": "message/card",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.video",
+      "content": {
+        "title": "Video card",
+        "subtitle": "About this video",
+        "aspect": "16:9",
+        "autoloop": true,
+        "autostart": true,
+        "image": { "url": "https://c.s-microsoft.com/en-gb/CMSImages/Ofc365_Enterprise_1201_540x304_ROW.jpg?version=abf91106-cacc-e236-fd10-59e8b612bea6" },
+        "media": [
+          {
+            "profile": "hd",
+            "url": "https://archive.org/download/BigBuckBunny_328/BigBuckBunny_512kb.mp4"
+          }
+        ],
+        "buttons": [
+          {
+            "type": "imBack",
+            "title": "More like this",
+            "value": "More like this"
+          },
+          {
+            "type": "imBack",
+            "title": "No more like this",
+            "value": "No more like this"
+          }
+        ]
+      }
+    }
+  ]
+}
+{% endhighlight %}
+
+### Audio card
+{:.no_toc}
+
+Use the Bot Connector REST API [audio card](/en-us/core-concepts/reference/#audiocard) to send an audio card with inline playback, autostart and autoloop properties. The content is served directly from your own service.
+
+**Property**|**Type**|**Description**
+|:----------------------------:|---------------------------------|---------------------------------
+title|Rich text|Title text
+subtitle|Rich text|Subtitle text
+image.url|URL|Optional thumbnail image 360x202, 202x360 (JPEG).
+image.alt|String|Image text used by screenreaders
+media[]|Array|List of media objects each with a single profile.
+media.url|URL (must be HTTPS)|URL to media source.
+media.profile|string|Name of presentation profile (audio).
+aspect|string|Aspect ratio of thumbnail. Allowed values are 16x9 or 9x16.
+autoloop|Boolean|Automatically loop media when set to true. 
+buttons|Array of action objects|Set of button actions applicable to the current card. Maximum 3 buttons.
+
+**Example JSON**
+
+{% highlight json %}
+{
+  "type": "message/card",
+  "attachments": [
+     {
+      "contentType": "application/vnd.microsoft.card.audio",
+      "content": {
+        "title": "Audio card",
+        "subtitle": "About this card",
+        "autoloop": true,
+        "image": { "url": "https://img.youtube.com/vi/FyKYBei9D08/default.jpg" },
+        "media": [
+          {
+            "profile": "audio",
+            "url": "https://ia802608.us.archive.org/10/items/SmallPercussion/small%20percussion.mp3"
+          }
+        ]
+      }
+    }
+  ]
+}
+{% endhighlight %}
+
+### Animated GIF card
+{:.no_toc}
+
+Use the Bot Connector REST API [animation card](/en-us/core-concepts/reference/#animationcard) to send animated GIFs.
+
+**Property**|**Type**|**Description**
+|:----------------------------:|---------------------------------|---------------------------------
+title|Rich text|Title text
+subtitle|Rich text|Subtitle text
+image.url|URL|Optional thumbnail image 360x202, 202x360 (JPEG).
+image.alt|String|Image text used by screenreaders
+media[]|Array|List of media objects each with a single profile.
+media.url|URL (must be HTTPS)|URL to media source.
+media.profile|string|Name of presentation profile (animation).
+aspect|string|Aspect ratio of thumbnail. Allowed values are 16x9 or 9x16.
+autoloop|Boolean|Automatically loop media when set to true. 
+buttons|Array of action objects|Set of button actions applicable to the current card. Maximum 3 buttons.
 
 ### Carousel
 {:.no_toc}
 
-The [carousel card](/en-us/csharp/builder/sdkreference/activities.html) can be used to show a carousel of images and text, with associated action buttons.
+The [carousel card](/en-us/csharp/builder/sdkreference/activities.html) can be used to show a carousel of cards, with associated action buttons.
 
 ![Carousel card](/en-us/images/skype/skype-bot-carousel-card.png)
 
-Properties are the same as for the hero or thumbnail card.
+Each card attachment in a carousel can be a hero, thumbnail, video, audio or animated GIF card.
 
 ### Sign in
 {:.no_toc}
@@ -283,7 +410,7 @@ To enable a bot to be added to a group chat you need to add this capability in S
 
 ![Add groups](/en-us/images/skype/skype-settingsgroups.png)
 
-## Calling (Preview)
+## Calling
 
 You can build Skype bots that can receive and handle voice calls using the [.NET SDK](http://docs.botframework.com/en-us/csharp/builder/sdkreference/calling.html), [Node.js SDK](#) or [Skype  API](http://docs.botframework.com/en-us/skype/calling/#navtitle).
 
@@ -302,9 +429,7 @@ The Skype bot platform will execute the actions on the bot's behalf according to
 
 If the workflow is successful, Skype will post a result of the last action to your calling webhook. For example, if the last action was to record an audio message the result will be audio content. 
 
-During a voice call your bot can decide after each result on how to continue interaction with the Skype user. 
-
-<div class="docs-text-note"><b>Note:</b> Skype bots with calling enabled are for preview only cannot currently be published. To publish a bot in Skype you will need to disable calling in the Skype settings for your bot and then set published to enabled in the bot dashboard. </div>
+During a voice call your bot can decide after each result on how to continue interaction with the Skype user.
 
 <div class="docs-text-note"><b>Note:</b> Bots can handle 1:1 calls, but not group calls</div>
 
