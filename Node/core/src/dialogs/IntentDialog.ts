@@ -60,7 +60,12 @@ export class IntentDialog extends Dialog {
     constructor(options: IIntentDialogOptions = {}) {
         super();
         this.recognizers = new IntentRecognizerSet(options);
-        this.recognizeMode = options.recognizeMode || RecognizeMode.onBeginIfRoot;
+        if(typeof options.recognizeMode !== "undefined") {
+            this.recognizeMode = options.recognizeMode;
+        }
+        else {
+            this.recognizeMode = RecognizeMode.onBeginIfRoot;
+        }
     }
 
     public begin<T>(session: Session, args: any): void {

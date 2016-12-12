@@ -1,14 +1,14 @@
 var assert = require('assert');
 var builder = require('../');
 
-describe('dialogs', function() {
+describe('dialogs', function () {
     this.timeout(5000);
-    it('should redirect to another dialog with arguments', function (done) { 
-        var connector = new builder.ConsoleConnector();       
-        var bot = new builder.UniversalBot(connector); 
+    it('should redirect to another dialog with arguments', function (done) {
+        var connector = new builder.ConsoleConnector();
+        var bot = new builder.UniversalBot(connector);
         bot.dialog('/', [
             function (session) {
-                session.beginDialog('/child', { foo: 'bar' }) 
+                session.beginDialog('/child', { foo: 'bar' })
             },
             function (session, results) {
                 assert(results.response.bar === 'foo');
@@ -17,7 +17,7 @@ describe('dialogs', function() {
         ]);
         bot.dialog('/child', function (session, args) {
             assert(args.foo === 'bar');
-            session.endDialog({ response: { bar: 'foo' }});
+            session.endDialog({ response: { bar: 'foo' } });
         });
         bot.on('send', function (message) {
             assert(message.text == 'done');
@@ -28,8 +28,8 @@ describe('dialogs', function() {
 
     it('should process a waterfall of all built-in prompt types', function (done) {
         var step = 0;
-        var connector = new builder.ConsoleConnector();       
-        var bot = new builder.UniversalBot(connector); 
+        var connector = new builder.ConsoleConnector();
+        var bot = new builder.UniversalBot(connector);
         bot.dialog('/', [
             function (session) {
                 assert(session.message.text == 'start');
@@ -84,4 +84,27 @@ describe('dialogs', function() {
         });
         connector.processMessage('start');
     });
+
+    it("should process default action for intentDialog onBegin", function (done) {
+        var connector = new builder.ConsoleConnector();
+        var bot = new builder.UniversalBot(connector);
+
+        var intentDialog = new builder.IntentDialog({ recognizeMode: builder.RecognizeMode.onBegin })
+            .onBegin((session, args, next) => {
+                session.dialogData.begin = true;
+                next();
+            })
+            .onDefault((session) => {
+                assert(session.dialogData.begin == true);
+                done();
+            });
+
+        bot.dialog('/intentDialog', intentDialog);
+
+        bot.dialog('/', function (session) {
+            session.beginDialog("/intentDialog");
+        });
+
+        connector.processMessage("test");
+    })
 });
