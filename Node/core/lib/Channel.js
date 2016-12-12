@@ -2,7 +2,7 @@
 exports.channels = {
     facebook: 'facebook',
     skype: 'skype',
-    skypeteams: 'skypeteams',
+    msteams: 'msteams',
     telegram: 'telegram',
     kik: 'kik',
     email: 'email',
@@ -34,7 +34,7 @@ function supportsCardActions(session, buttonCnt) {
     switch (getChannelId(session)) {
         case exports.channels.facebook:
         case exports.channels.skype:
-        case exports.channels.skypeteams:
+        case exports.channels.msteams:
             return (buttonCnt <= 3);
         case exports.channels.slack:
         case exports.channels.emulator:

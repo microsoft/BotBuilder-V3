@@ -37,7 +37,7 @@ import { IRecognizeContext } from './dialogs/IntentRecognizerSet';
 export var channels = {
     facebook: 'facebook',
     skype: 'skype',
-    skypeteams: 'skypeteams',
+    msteams: 'msteams',
     telegram: 'telegram',
     kik: 'kik',
     email: 'email',
@@ -68,7 +68,7 @@ export function supportsCardActions(session: Session, buttonCnt = 100) {
     switch (getChannelId(session)) {
         case channels.facebook:
         case channels.skype:
-        case channels.skypeteams:
+        case channels.msteams:
             return (buttonCnt <= 3);
         case channels.slack:
         case channels.emulator:
