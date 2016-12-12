@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Builder.Tests
     [TestClass]
     public class InMemoryStoreTests : BaseDataStoreTests
     {
-        public virtual IBotDataStore<BotData> GetTestCaseDataStore()
+        public override IBotDataStore<BotData> GetTestCaseDataStore()
         {
             return new InMemoryDataStore();
         }
