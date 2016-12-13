@@ -161,6 +161,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scorables\Actions.cs" />
     <Compile Include="Scorables\InheritedAttributes.cs" />
     <Compile Include="Scorables\Binding.cs" />
     <Compile Include="Scorables\ResolverScorable.cs" />
