@@ -59,8 +59,8 @@ The example initiates the location control with default parameters, which return
 
 <div id="thetabs1">
   <ul>
-    <li><a href="#tab11">C#</a></li>
-    <li><a href="#tab12">Node.js</a></li>
+    <li data-lang="csharp"><a href="#tab11">C#</a></li>
+    <li data-lang="node"><a href="#tab12">Node.js</a></li>
   </ul>
 
 <div id="tab11">
@@ -90,8 +90,8 @@ FB Messenger supports a location picker GUI dialog to let the user select an add
 
 <div id="thetabs2">
   <ul>
-    <li><a href="#tab21">C#</a></li>
-    <li><a href="#tab22">Node.js</a></li>
+    <li data-lang="csharp"><a href="#tab21">C#</a></li>
+    <li data-lang="node"><a href="#tab22">Node.js</a></li>
   </ul>
 
 <div id="tab21">
@@ -121,8 +121,8 @@ FB Messenger by default returns only the lat/long coordinates for any address se
 
 <div id="thetabs3">
   <ul>
-    <li><a href="#tab31">C#</a></li>
-    <li><a href="#tab32">Node.js</a></li>
+    <li data-lang="csharp"><a href="#tab31">C#</a></li>
+    <li data-lang="node"><a href="#tab32">Node.js</a></li>
   </ul>
 
 <div id="tab31">
@@ -158,8 +158,8 @@ You can specify required location fields that need to be collected by the contro
 
 <div id="thetabs4">
   <ul>
-    <li><a href="#tab41">C#</a></li>
-    <li><a href="#tab42">Node.js</a></li>
+    <li data-lang="csharp"><a href="#tab41">C#</a></li>
+    <li data-lang="node"><a href="#tab42">Node.js</a></li>
   </ul>
 
 <div id="tab41">
@@ -194,8 +194,8 @@ The following example shows how you can leverage the location object returned by
 
 <div id="thetabs5">
   <ul>
-    <li><a href="#tab51">C#</a></li>
-    <li><a href="#tab52">Node.js</a></li>
+    <li data-lang="csharp"><a href="#tab51">C#</a></li>
+    <li data-lang="node"><a href="#tab52">Node.js</a></li>
   </ul>
 
 <div id="tab51">
