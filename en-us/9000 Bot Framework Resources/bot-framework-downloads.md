@@ -37,7 +37,7 @@ Here's a handy list of Bot Framework downloads:
 
 ### Tools
 
-* [Bot Framework Emulator (Windows)](https://aka.ms/bf-bc-emulator)
+* [Bot Framework Emulator (Windows)](https://download.botframework.com/bf-v3/tools/emulator/publish.htm)
 * [Bot Framework Emulator (Console)](https://aka.ms/bfemulator)  
     * [Instructions on how to use the console app on Mac and Linux with Mono](/en-us/tools/bot-framework-emulator/#mac-and-linux-support-using-command-line-emulator)
 
