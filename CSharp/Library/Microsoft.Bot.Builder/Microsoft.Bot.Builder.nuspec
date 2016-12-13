@@ -32,14 +32,25 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\release\Microsoft.Bot.Builder.dll" target="lib\net46"/>
-    <file src="bin\release\Microsoft.Bot.Builder.xml" target="lib\net46" />
-    <file src="bin\release\Microsoft.Bot.Connector.dll" target="lib\net46"/>
-    <file src="bin\release\Microsoft.Bot.Connector.xml" target="lib\net46" />
-    <file src="bin\release\Microsoft.Bot.Builder.pdb" target="lib\net46" />
-    <file src="bin\release\Microsoft.Bot.Connector.pdb" target="lib\net46" />
-    <file src="**\*.cs" exclude="**\obj\**\*.cs" target="src" />
+    <!-- assembly Microsoft.Bot.Connector -->
+    <file src="..\Microsoft.Bot.Connector\bin\release\Microsoft.Bot.Connector.dll" target="lib\net46"/>
+    <file src="..\Microsoft.Bot.Connector\bin\release\Microsoft.Bot.Connector.xml" target="lib\net46" />
+    <file src="..\Microsoft.Bot.Connector\bin\release\Microsoft.Bot.Connector.pdb" target="lib\net46" />
+    <!-- assembly Microsoft.Bot.Builder -->
+    <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.dll" target="lib\net46"/>
+    <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.xml" target="lib\net46" />
+    <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.pdb" target="lib\net46" />
+    <!-- assembly Microsoft.Bot.Builder.Autofac -->
+    <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.dll"  target="lib\net46" />
+    <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.xml"  target="lib\net46" />
+    <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.pdb"  target="lib\net46" />
+    <!-- source -->
+    <file src="..\**\*.cs"
+          exclude="**\obj\**\*.cs;..\Microsoft.Bot.Builder.Azure\**;..\Microsoft.Bot.Builder.Calling\**;..\Microsoft.Bot.Builder.FormFlow.Json\**;..\Microsoft.Bot.Builder.History\**"
+          target="src" />
+    <!-- tools -->
     <file src="..\..\tools\rview\bin\release\RView.exe" target="tools"/>
+    <!-- resources -->
     <file src="bin\release\ar\*.dll" target="lib\net46\ar"/>
     <file src="bin\release\en\*.dll" target="lib\net46\en"/>
     <file src="bin\release\es\*.dll" target="lib\net46\es"/>

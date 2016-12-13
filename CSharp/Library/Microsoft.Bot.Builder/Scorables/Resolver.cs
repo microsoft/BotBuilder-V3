@@ -31,7 +31,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Autofac;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using System;
@@ -269,31 +268,6 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
                         return true;
                     }
                 }
-            }
-
-            return base.TryResolve(type, tag, out value);
-        }
-    }
-
-    public sealed class AutofacResolver : DelegatingResolver
-    {
-        private readonly IComponentContext context;
-
-        public AutofacResolver(IComponentContext context, IResolver inner)
-            : base(inner)
-        {
-            SetField.NotNull(out this.context, nameof(context), context);
-        }
-
-        public override bool TryResolve(Type type, object tag, out object value)
-        {
-            if (tag != null && this.context.TryResolveKeyed(tag, type, out value))
-            {
-                return true;
-            }
-            else if (this.context.TryResolve(type, out value))
-            {
-                return true;
             }
 
             return base.TryResolve(type, tag, out value);

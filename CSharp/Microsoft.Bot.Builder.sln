@@ -107,6 +107,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Azure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleDispatchDialog", "Samples\SimpleDispatchDialog\Microsoft.Bot.Sample.SimpleDispatchDialog.csproj", "{54B0706E-FE37-4387-A1C2-FD695A30CA92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Autofac", "Library\Microsoft.Bot.Builder.Autofac\Microsoft.Bot.Builder.Autofac.csproj", "{2C145824-38DD-409C-AB52-B3538997726C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -250,6 +252,12 @@ Global
 		{54B0706E-FE37-4387-A1C2-FD695A30CA92}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{54B0706E-FE37-4387-A1C2-FD695A30CA92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54B0706E-FE37-4387-A1C2-FD695A30CA92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C145824-38DD-409C-AB52-B3538997726C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C145824-38DD-409C-AB52-B3538997726C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C145824-38DD-409C-AB52-B3538997726C}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C145824-38DD-409C-AB52-B3538997726C}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{2C145824-38DD-409C-AB52-B3538997726C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C145824-38DD-409C-AB52-B3538997726C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -278,5 +286,6 @@ Global
 		{D2834D71-D7A2-451B-9A61-1488AF049526} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{C0FC2275-93A1-462C-ACC6-7329AAFDDAB4} = {8E05398E-3CBE-4DCD-9382-072DC8859427}
 		{54B0706E-FE37-4387-A1C2-FD695A30CA92} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+		{2C145824-38DD-409C-AB52-B3538997726C} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 	EndGlobalSection
 EndGlobal

@@ -41,10 +41,6 @@
     <MultilingualFallbackLanguage>en</MultilingualFallbackLanguage>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Chronic.Signed.0.3.2\lib\net40\Chronic.dll</HintPath>
       <Private>True</Private>
@@ -74,11 +70,9 @@
   <ItemGroup>
     <Compile Include="ConnectorEx\KeyboardCard.cs" />
     <Compile Include="Dialogs\DeleteProfileScorable.cs" />
-    <Compile Include="Dialogs\DialogModule.cs" />
     <Compile Include="Dialogs\BotData.cs" />
     <Compile Include="Dialogs\BotToUser.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
-    <Compile Include="Dialogs\Conversation.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
     <Compile Include="Dialogs\Chain.cs" />
     <Compile Include="Dialogs\DialogRouter.cs" />
@@ -96,7 +90,6 @@
     <Compile Include="Dialogs\LuisDialog.cs" />
     <Compile Include="Dialogs\UrlToken.cs" />
     <Compile Include="Dialogs\DialogTaskManager.cs" />
-    <Compile Include="Fibers\FiberModule.cs" />
     <Compile Include="Fibers\Pair.cs" />
     <Compile Include="Fibers\Range.cs" />
     <Compile Include="Fibers\Scope.cs" />
@@ -200,7 +193,7 @@
     <EmbeddedResource Include="Resource\Resources.it.resx" />
     <EmbeddedResource Include="Resource\Resources.ja.resx" />
     <EmbeddedResource Include="Resource\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>

@@ -8,6 +8,7 @@ mkdir ..\nuget
 erase /s ..\nuget\Microsoft.Bot.Connector*.nupkg
 erase /s ..\nuget\Microsoft.Bot.Builder*.nupkg
 msbuild /property:Configuration=release ..\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj 
+msbuild /property:Configuration=release ..\Microsoft.Bot.Builder.Autofac\Microsoft.Bot.Builder.Autofac.csproj 
 msbuild /property:Configuration=release Microsoft.Bot.Builder.csproj 
 msbuild /property:Configuration=release ..\..\tools\rview\rview.csproj
 for /f %%v in ('powershell -noprofile "(Get-Command .\bin\release\Microsoft.Bot.Builder.dll).FileVersionInfo.FileVersion"') do set version=%%v
