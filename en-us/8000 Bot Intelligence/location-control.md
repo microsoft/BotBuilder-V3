@@ -52,8 +52,6 @@ In Node.js, install the BotBuilder-Location module using npm and load it.
 var locationDialog = require('botbuilder-location');
 {% endhighlight %}
 
-<br />
-
 ### Calling the location control with default parameters
 {:.no_toc}
 
@@ -84,7 +82,6 @@ locationDialog.getLocation(session,
 
 </div>  
 </div>
-<br />
 
 ### Using FB Messenger's location picker GUI dialog 
 {:.no_toc}
@@ -119,7 +116,6 @@ locationDialog.getLocation(session, options);
 
 </div>  
 </div>
-<br />
 
 FB Messenger by default returns only the lat/long coordinates for any address selected via the location picker GUI dialog. You can additionally use the `LocationOptions.ReverseGeocode` option to have Bing reverse geocode the returned coordinates and automatically fill in the remaining address fields. 
 
@@ -152,11 +148,8 @@ locationDialog.getLocation(session, options);
 
 </div>  
 </div>
-<br />
 
 **Note**: Reverse geocoding is an inherently imprecise operation. For that reason, when the reverse geocode option is selected, the location control will collect only the `PostalAddress.Locality`, `PostalAddress.Region`, `PostalAddress.Country` and `PostalAddress.PostalCode` fields and ask the user to provide the desired street address manually. 
-
-<br />
 
 ### Specifying required fields 
 {:.no_toc}
@@ -193,7 +186,6 @@ locationDialog.getLocation(session, options);
 
 </div>  
 </div>
-<br />
 
 ### Handling returned location
 {:.no_toc}
@@ -261,7 +253,6 @@ bot.dialog("/", [
 
 </div>  
 </div>
-<br />
 
 ## Examples
 The examples show different location selection scenarios supported by the Bing location control. 
