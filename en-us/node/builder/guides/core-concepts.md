@@ -270,7 +270,7 @@ Our updated bot now requires the use of [Restify](http://restify.com/){:target="
 
 While our bot has a bit of new setup code, all of our bots dialogs stay the same.  To complete the conversion, you'll need to register your bot with the developer portal for the Bot Framework and then configure the ChatConnector with your bots App ID & Password. You pass these to the bot via environment variables when running locally or via your hosting sites web config when deployed to the cloud.
 
-If you're running Windows you can use the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/){:target="_blank"} to locally test your changes and verify you have everything properly configured prior to deploying your bot. Make sure you set the App ID & Password within the emulator to match your bots configured App ID & Password.
+You can use the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/){:target="_blank"} to locally test your changes and verify you have everything properly configured prior to deploying your bot. Make sure you set the App ID & Password within the emulator to match your bots configured App ID & Password.
 
 ## Debugging locally using ngrok
 If you're running on a mac and can't use the emulator, or you just want to debug an issue you're seeing when deployed, you can easily configure your bot to run locally using [ngrok](https://ngrok.com/){:target="_blank"}. First install ngrok and then from a console window type:

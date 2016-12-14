@@ -191,7 +191,7 @@ payload:
 
 ## Enabling authentication from the Bot Framework Emulator
 
-The Bot Framework Emulator is a desktop tool that developers can use to test the functionality of their bot. The Bot Framework Emulator uses the same authentication technologies listed above but is unable to impersonate the real Bot Connector service. Instead, it uses the Microsoft App ID and Microsoft App Password supplied by the developer (typically pasted into the App ID and Password fields in the Emulator UI, if using the Windows desktop version of the emulator) and it creates tokens identical to those that the bot creates. When it authenticates to the bot, it sends this token to the bot -- in essence, it uses the bot's own credentials when connecting to the bot.
+The Bot Framework Emulator is a desktop tool that developers can use to test the functionality of their bot. The Bot Framework Emulator uses the same authentication technologies listed above but is unable to impersonate the real Bot Connector service. Instead, it uses the Microsoft App ID and Microsoft App Password supplied by the developer (typically pasted into the App ID and Password fields in the Emulator UI) and it creates tokens identical to those that the bot creates. When it authenticates to the bot, it sends this token to the bot -- in essence, it uses the bot's own credentials when connecting to the bot.
 
 If you are implementing an authentication library and want to accept calls from the Bot Framework Emulator, you must add this additional verification path.
 

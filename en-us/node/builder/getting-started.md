@@ -60,7 +60,7 @@ bot.dialog('/', function (session) {
 });
 {% endhighlight %}
 
-## Test your bot (Windows Only)
+## Test your bot
 Use the [Bot Framework Emulator](/en-us/tools/bot-framework-emulator/){:target="_blank"} to test your bot on localhost. 
 
 Install the emulator from [here](https://aka.ms/bf-bc-emulator){:target="_blank"} and then start your bot in a console window.
