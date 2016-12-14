@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\Extensions.cs" />
+    <Compile Include="Base\Resolver.cs" />
     <Compile Include="ConnectorEx\KeyboardCard.cs" />
     <Compile Include="Dialogs\DeleteProfileScorable.cs" />
     <Compile Include="ConnectorEx\BotData.cs" />
@@ -165,7 +166,7 @@
     <Compile Include="Scorables\MethodScorable.cs" />
     <Compile Include="Scorables\FoldScorable.cs" />
     <Compile Include="Scorables\RegexMatchScorable.cs" />
-    <Compile Include="Scorables\Resolver.cs" />
+    <Compile Include="ConnectorEx\Resolver.cs" />
     <Compile Include="Scorables\Scorables.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -42,6 +42,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 using Autofac;
 using Autofac.Core;
 
+using Microsoft.Bot.Builder.Scorables.Internals;
+
 namespace Microsoft.Bot.Builder.Internals.Fibers
 {
     /// <summary>
@@ -77,25 +79,6 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                         }
                     }
                 }
-            }
-        }
-
-        private sealed class Resolver : Serialization.StoreInstanceByTypeSurrogate.IResolver
-        {
-            private readonly Dictionary<Type, object> instanceByType;
-            public Resolver(IEnumerable<object> instances)
-            {
-                this.instanceByType = instances.ToDictionary(o => o.GetType(), o => o);
-            }
-            bool Serialization.StoreInstanceByTypeSurrogate.IResolver.Handles(Type type)
-            {
-                return this.instanceByType.ContainsKey(type);
-            }
-
-            object Serialization.StoreInstanceByTypeSurrogate.IResolver.Resolve(Type type)
-            {
-                var instance = instanceByType[type];
-                return instance;
             }
         }
 
@@ -145,12 +128,12 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             // per request, depends on resolution parameters through "p"
 
             builder
-                .Register((c, p) => new Resolver(DoNotSerialize(c, p).Distinct().ToArray()))
-                .As<Serialization.StoreInstanceByTypeSurrogate.IResolver>()
+                .Register((c, p) => new ArrayResolver(NullResolver.Instance, DoNotSerialize(c, p).Distinct().ToArray()))
+                .As<IResolver>()
                 .InstancePerLifetimeScope();
 
             builder
-                .Register((c, p) => new BinaryFormatter(c.Resolve<ISurrogateSelector>(), new StreamingContext(StreamingContextStates.All, c.Resolve<Serialization.StoreInstanceByTypeSurrogate.IResolver>(p))))
+                .Register((c, p) => new BinaryFormatter(c.Resolve<ISurrogateSelector>(), new StreamingContext(StreamingContextStates.All, c.Resolve<IResolver>(p))))
                 .As<IFormatter>()
                 .InstancePerLifetimeScope();
         }

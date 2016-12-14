@@ -32,7 +32,6 @@
 //
 
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +56,23 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
     public static partial class Extensions
     {
+        public static bool CanResolve(this IResolver resolver, Type type, object tag)
+        {
+            object value;
+            return resolver.TryResolve(type, tag, out value);
+        }
+
+        public static object Resolve(this IResolver resolver, Type type, object tag)
+        {
+            object value;
+            if (!resolver.TryResolve(type, null, out value))
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            return value;
+        }
+
         public static bool TryResolve<T>(this IResolver resolver, object tag, out T value)
         {
             object inner;
@@ -177,95 +193,6 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
                             value = service;
                             return true;
                         }
-                    }
-                }
-            }
-
-            return base.TryResolve(type, tag, out value);
-        }
-    }
-
-    /// <summary>
-    /// A resolver to recover C# type information from Activity schema types.
-    /// </summary>
-    public sealed class ActivityResolver : DelegatingResolver
-    {
-        public ActivityResolver(IResolver inner)
-            : base(inner)
-        {
-        }
-
-        public static readonly IReadOnlyDictionary<string, Type> TypeByName = new Dictionary<string, Type>(StringComparer.OrdinalIgnoreCase)
-        {
-            { ActivityTypes.ContactRelationUpdate, typeof(IContactRelationUpdateActivity) },
-            { ActivityTypes.ConversationUpdate, typeof(IConversationUpdateActivity) },
-            { ActivityTypes.DeleteUserData, typeof(IActivity) },
-            { ActivityTypes.Message, typeof(IMessageActivity) },
-            { ActivityTypes.Ping, typeof(IActivity) },
-            { ActivityTypes.Trigger, typeof(ITriggerActivity) },
-            { ActivityTypes.Typing, typeof(ITypingActivity) },
-        };
-
-        public override bool TryResolve(Type type, object tag, out object value)
-        {
-            if (tag == null)
-            {
-                // if type is Activity, we're not delegating to the inner IResolver.
-                if (typeof(IActivity).IsAssignableFrom(type))
-                {
-                    // if we have a registered IActivity
-                    IActivity activity;
-                    if (this.inner.TryResolve<IActivity>(tag, out activity))
-                    {
-                        // then make sure the IActivity.Type allows the desired type
-                        Type allowedType;
-                        if (TypeByName.TryGetValue(activity.Type, out allowedType))
-                        {
-                            if (type.IsAssignableFrom(allowedType))
-                            {
-                                // and make sure the actual CLR type also allows the desired type
-                                // (this is true most of the time since Activity implements all of the interfaces)
-                                Type clrType = activity.GetType();
-                                if (allowedType.IsAssignableFrom(clrType))
-                                {
-                                    value = activity;
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-
-                    // otherwise we were asking for IActivity and it wasn't assignable from the IActivity.Type
-                    value = null;
-                    return false;
-                }
-            }
-
-            // delegate to the inner for all remaining type resolutions
-            return base.TryResolve(type, tag, out value);
-        }
-    }
-
-    public sealed class TriggerValueResolver : DelegatingResolver
-    {
-        public TriggerValueResolver(IResolver inner)
-            : base(inner)
-        {
-        }
-
-        public override bool TryResolve(Type type, object tag, out object value)
-        {
-            ITriggerActivity trigger;
-            if (this.inner.TryResolve(tag, out trigger))
-            {
-                var triggerValue = trigger.Value;
-                if (triggerValue != null)
-                {
-                    var triggerValueType = triggerValue.GetType();
-                    if (type.IsAssignableFrom(triggerValueType))
-                    {
-                        value = triggerValue;
-                        return true;
                     }
                 }
             }
