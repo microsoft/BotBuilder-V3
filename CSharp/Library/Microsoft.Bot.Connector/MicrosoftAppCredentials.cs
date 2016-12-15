@@ -1,17 +1,14 @@
-﻿using Microsoft.Rest;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
+using Microsoft.Rest;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Connector
 {
@@ -42,8 +39,8 @@ namespace Microsoft.Bot.Connector
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppPassword { get; set; }
 
-        public virtual string OAuthEndpoint { get { return "https://login.microsoftonline.com/common/oauth2/v2.0/token"; } }
-        public virtual string OAuthScope { get { return "https://graph.microsoft.com/.default"; } }
+        public virtual string OAuthEndpoint { get { return JwtConfig.ToChannelFromBotLoginUrl; } }
+        public virtual string OAuthScope { get { return JwtConfig.ToChannelFromBotOAuthScope; } }
 
         protected readonly string TokenCacheKey;
 
