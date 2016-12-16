@@ -44,31 +44,9 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 {
     public static partial class Extensions
     {
-        // TODO: split off R to get better type inference on T
-        public static IWait<C> Call<C, T, R>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item, Rest<C, R> returnHandler)
-        {
-            // tell the leaf frame of the stack to wait for the return value
-            var wait = fiber.Waits.Make<R>();
-            wait.Wait(returnHandler);
-            fiber.Wait = wait;
-            
-            // call the child
-            return fiber.Call<C, T>(invokeHandler, item);
-        }
-
-        public static IWait<C> Call<C, T>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item)
-        {
-            // make a frame on the stack for calling the method
-            fiber.Push();
-            
-            // initiate and immediately compete a wait for calling the child
-            var wait = fiber.Waits.Make<T>();
-            wait.Wait(invokeHandler);
-            wait.Post(item);
-            fiber.Wait = wait;
-            return wait;
-        }
-
+        /// <summary>
+        /// Without pushing or popping the stack, schedule a wait to be satisfied later.
+        /// </summary>
         public static IWait<C> Wait<C, T>(this IFiber<C> fiber, Rest<C, T> resumeHandler)
         {
             var wait = fiber.Waits.Make<T>();
@@ -77,6 +55,39 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return wait;
         }
 
+        /// <summary>
+        /// Scheduled a wait for the return value, then invoke the <see cref="Call{C, T}(IFiber{C}, Rest{C, T}, T)"/> method.
+        /// </summary>
+        public static IWait<C> Call<C, T, R>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item, Rest<C, R> returnHandler)
+        {
+            // tell the leaf frame of the stack to wait for the return value
+            var wait = fiber.Wait(returnHandler);
+            
+            // call the child
+            return fiber.Call<C, T>(invokeHandler, item);
+        }
+
+        /// <summary>
+        /// Push a frame on the stack, schedule a wait, and immediately satisfy that wait.
+        /// </summary>
+        /// <remarks>
+        /// This overload is used to allow a child to later call <see cref="Done{C, T}(IFiber{C}, T)"/>
+        /// to satisfy an existing wait without scheduling a new wait for the child's return value.
+        /// </remarks>
+        public static IWait<C> Call<C, T>(this IFiber<C> fiber, Rest<C, T> invokeHandler, T item)
+        {
+            // make a frame on the stack for calling the method
+            fiber.Push();
+
+            // initiate and immediately complete a wait for calling the child
+            var wait = fiber.Wait(invokeHandler);
+            wait.Post(item);
+            return wait;
+        }
+
+        /// <summary>
+        /// Remove the frame from the stack, and satisfy the existing wait with the return value.
+        /// </summary>
         public static IWait<C> Done<C, T>(this IFiber<C> fiber, T item)
         {
             // pop the stack
