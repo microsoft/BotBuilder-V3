@@ -4,7 +4,7 @@ using System.Linq;
 namespace Microsoft.Bot.Connector
 {
     /// <summary>
-    /// basic shared properties for all activities
+    /// Shared properties for all activities
     /// </summary>
     public interface IActivity
     {
@@ -102,8 +102,13 @@ namespace Microsoft.Bot.Connector
         IEndOfConversationActivity AsEndOfConversationActivity();
 
         /// <summary>
-        /// Returns ITriggerActivity if this is a trigger activity, null otherwise
+        /// Returns IEventActivity if this is an event activity, null otherwise
         /// </summary>
-        ITriggerActivity AsTriggerActivity();
+        IEventActivity AsEventActivity();
+
+        /// <summary>
+        /// Returns IInvokeActivity if this is an invoke activity, null otherwise
+        /// </summary>
+        IInvokeActivity AsInvokeActivity();
     }
 }

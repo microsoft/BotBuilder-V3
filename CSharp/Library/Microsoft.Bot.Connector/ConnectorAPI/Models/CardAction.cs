@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the CardAction class.
         /// </summary>
-        public CardAction(string type = default(string), string title = default(string), string image = default(string), string value = default(string))
+        public CardAction(string type = default(string), string title = default(string), string image = default(string), object value = default(object))
         {
             Type = type;
             Title = title;
@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Connector
         /// depends on the ActionType
         /// </summary>
         [JsonProperty(PropertyName = "value")]
-        public string Value { get; set; }
+        public object Value { get; set; }
 
     }
 }

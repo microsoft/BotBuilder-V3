@@ -1,19 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Connector
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using Newtonsoft.Json;
-    using Microsoft.Rest;
-    using Microsoft.Rest.Serialization;
-    using Newtonsoft.Json.Linq;
-    using System.Net.Http;
-    using System.Configuration;
-    using System.Text;
-    using System.Security.Claims;
-
+    /// <summary>
+    /// An Activity is the basic communication type for the Bot Framework 3.0 protocol
+    /// </summary>
+    /// <remarks>
+    /// The Activity class contains all properties that individual, more specific activities
+    /// could contain. It is a superset type.
+    /// </remarks>
     public partial class Activity :
         IActivity,
         IConversationUpdateActivity,
@@ -21,10 +21,13 @@ namespace Microsoft.Bot.Connector
         IMessageActivity,
         ITypingActivity,
         IEndOfConversationActivity,
-        ITriggerActivity
+        IEventActivity,
+        IInvokeActivity
     {
-        [JsonExtensionData(ReadData = true, WriteData = true)]
-        public JObject Properties { get; set; }
+        /// <summary>
+        /// Content-type for an Activity
+        /// </summary>
+        public const string ContentType = "application/vnd.microsoft.activity";
 
         /// <summary>
         /// Take a message and create a reply message for it with the routing information 
@@ -51,17 +54,45 @@ namespace Microsoft.Bot.Connector
             return reply;
         }
 
+        /// <summary>
+        /// Create an instance of the Activity class with IMessageActivity masking
+        /// </summary>
         public static IMessageActivity CreateMessageActivity() { return new Activity(ActivityTypes.Message); }
 
+        /// <summary>
+        /// Create an instance of the Activity class with IContactRelationUpdateActivity masking
+        /// </summary>
         public static IContactRelationUpdateActivity CreateContactRelationUpdateActivity() { return new Activity(ActivityTypes.ContactRelationUpdate); }
 
+        /// <summary>
+        /// Create an instance of the Activity class with IConversationUpdateActivity masking
+        /// </summary>
         public static IConversationUpdateActivity CreateConversationUpdateActivity() { return new Activity(ActivityTypes.ConversationUpdate); }
 
+        /// <summary>
+        /// Create an instance of the Activity class with ITypingActivity masking
+        /// </summary>
         public static ITypingActivity CreateTypingActivity() { return new Activity(ActivityTypes.Typing); }
 
+        /// <summary>
+        /// Create an instance of the Activity class with IActivity masking
+        /// </summary>
+        public static IActivity CreatePingActivity() { return new Activity(ActivityTypes.Ping); }
+
+        /// <summary>
+        /// Create an instance of the Activity class with IEndOfConversationActivity masking
+        /// </summary>
         public static IEndOfConversationActivity CreateEndOfConversationActivity() { return new Activity(ActivityTypes.EndOfConversation); }
 
-        public static ITriggerActivity CreateTriggerActivity() { return new Activity(ActivityTypes.Trigger); }
+        /// <summary>
+        /// Create an instance of the Activity class with an IEventActivity masking
+        /// </summary>
+        public static IEventActivity CreateEventActivity() { return new Activity(ActivityTypes.Event); }
+
+        /// <summary>
+        /// Create an instance of the Activity class with IInvokeActivity masking
+        /// </summary>
+        public static IInvokeActivity CreateInvokeActivity() { return new Activity(ActivityTypes.Invoke); }
 
         /// <summary>
         /// True if the Activity is of the specified activity type
@@ -89,14 +120,19 @@ namespace Microsoft.Bot.Connector
         public ITypingActivity AsTypingActivity() { return IsActivity(ActivityTypes.Typing) ? this : null; }
 
         /// <summary>
-        /// Return an ITriggerActivity mask if this is a trigger activity
-        /// </summary>
-        public ITriggerActivity AsTriggerActivity() { return IsActivity(ActivityTypes.Trigger) ? this : null; }
-
-        /// <summary>
         /// Return an IEndOfConversationActivity mask if this is an end of conversation activity
         /// </summary>
         public IEndOfConversationActivity AsEndOfConversationActivity() { return IsActivity(ActivityTypes.EndOfConversation) ? this : null; }
+
+        /// <summary>
+        /// Return an IEventActivity mask if this is an event activity
+        /// </summary>
+        public IEventActivity AsEventActivity() { return IsActivity(ActivityTypes.Event) ? this : null; }
+
+        /// <summary>
+        /// Return an IInvokeActivity mask if this is an invoke activity
+        /// </summary>
+        public IInvokeActivity AsInvokeActivity() { return IsActivity(ActivityTypes.Invoke) ? this : null; }
 
         /// <summary>
         /// Get StateClient appropriate for this activity

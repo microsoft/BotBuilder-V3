@@ -24,8 +24,9 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the VideoCard class.
         /// </summary>
-        public VideoCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?))
+        public VideoCard(string aspect = default(string), string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?))
         {
+            Aspect = aspect;
             Title = title;
             Subtitle = subtitle;
             Text = text;
@@ -36,6 +37,12 @@ namespace Microsoft.Bot.Connector
             Autoloop = autoloop;
             Autostart = autostart;
         }
+
+        /// <summary>
+        /// Aspect ratio (16:9)(4:3)
+        /// </summary>
+        [JsonProperty(PropertyName = "aspect")]
+        public string Aspect { get; set; }
 
         /// <summary>
         /// Title of the card

@@ -90,7 +90,8 @@
           "200": {
             "description": "﻿An array of bytes which represent the content.",
             "schema": {
-              "type": "file"
+              "format": "byte",
+              "type": "string"
             }
           },
           "301": { "description": "﻿The Location header describes where the content is now." },
@@ -136,15 +137,15 @@
         ],
         "responses": {
           "200": {
-            "description": "",
+            "description": "﻿An object will be returned containing \r\n* the ID for the conversation\r\n* ActivityId for the activity if provided.  If ActivityId is null then the channel doesn't support returning resource id's for activity.",
             "schema": { "$ref": "#/definitions/ConversationResourceResponse" }
           },
           "201": {
-            "description": "",
+            "description": "﻿An object will be returned containing \r\n* the ID for the conversation\r\n* ActivityId for the activity if provided.  If ActivityId is null then the channel doesn't support returning resource id's for activity.",
             "schema": { "$ref": "#/definitions/ConversationResourceResponse" }
           },
           "202": {
-            "description": "",
+            "description": "﻿An object will be returned containing \r\n* the ID for the conversation\r\n* ActivityId for the activity if provided.  If ActivityId is null then the channel doesn't support returning resource id's for activity.",
             "schema": { "$ref": "#/definitions/ConversationResourceResponse" }
           },
           "400": {
@@ -676,7 +677,7 @@
         },
         "channelData": {
           "$ref": "#/definitions/Object",
-          "description": "Channel specific payload"
+          "description": "Channel specific payload for creating the conversation"
         }
       }
     },
@@ -699,29 +700,29 @@
       "type": "object",
       "properties": {
         "type": {
-          "description": "The type of the activity [message|contactRelationUpdate|converationUpdate|typing]",
+          "description": "The type of the activity [message|contactRelationUpdate|converationUpdate|typing|endOfConversation|event|invoke]",
           "type": "string"
         },
         "id": {
-          "description": "Id for the activity",
+          "description": "ID of this activity",
           "type": "string"
         },
         "timestamp": {
           "format": "date-time",
-          "description": "UTC Time when message was sent (Set by service)",
+          "description": "UTC Time when message was sent (set by service)",
           "type": "string"
         },
         "localTimestamp": {
           "format": "date-time",
-          "description": "Local time when message was sent (set by client Ex: 2016-09-23T13:07:49.4714686-07:00)",
+          "description": "Local time when message was sent (set by client, Ex: 2016-09-23T13:07:49.4714686-07:00)",
           "type": "string"
         },
         "serviceUrl": {
-          "description": "Service endpoint",
+          "description": "Service endpoint where operations concerning the activity may be performed",
           "type": "string"
         },
         "channelId": {
-          "description": "ChannelId the activity was on",
+          "description": "ID of the channel where the activity was sent",
           "type": "string"
         },
         "from": {
@@ -741,7 +742,7 @@
           "type": "string"
         },
         "attachmentLayout": {
-          "description": "AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] Default:list",
+          "description": "Hint for how to deal with multiple attachments: [list|carousel] Default:list",
           "type": "string"
         },
         "membersAdded": {
@@ -759,7 +760,7 @@
           "type": "string"
         },
         "historyDisclosed": {
-          "description": "the previous history of the channel was disclosed",
+          "description": "True if the previous history of the channel is disclosed",
           "type": "boolean"
         },
         "locale": {
@@ -771,8 +772,13 @@
           "type": "string"
         },
         "summary": {
-          "description": "Text to display if you can't render cards",
+          "description": "Text to display if the channel cannot render cards",
           "type": "string"
+        },
+        "suggestedActions": {
+          "description": "SuggestedActions are used to provide keyboard/quickreply like behavior in many clients",
+          "type": "array",
+          "items": { "$ref": "#/definitions/CardAction" }
         },
         "attachments": {
           "description": "Attachments",
@@ -786,19 +792,27 @@
         },
         "channelData": {
           "$ref": "#/definitions/Object",
-          "description": "Channel specific payload"
+          "description": "Channel-specific payload"
         },
         "action": {
           "description": "ContactAdded/Removed action",
           "type": "string"
         },
         "replyToId": {
-          "description": "the original id this message is a response to",
+          "description": "The original ID this message is a response to",
           "type": "string"
         },
         "value": {
           "$ref": "#/definitions/Object",
-          "description": "Open ended value"
+          "description": "Open-ended value"
+        },
+        "name": {
+          "description": "Name of the operation to invoke or the name of the event",
+          "type": "string"
+        },
+        "relatesTo": {
+          "$ref": "#/definitions/Address",
+          "description": "Reference to another conversation or activity"
         }
       }
     },
@@ -821,6 +835,28 @@
         "name": {
           "description": "Display friendly name",
           "type": "string"
+        }
+      }
+    },
+    "CardAction": {
+      "description": "An action on a card",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Defines the type of action implemented by this button.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Text description which appear on the button.",
+          "type": "string"
+        },
+        "image": {
+          "description": "URL Picture which will appear on the button, next to text label.",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/definitions/Object",
+          "description": "Supplementary parameter for action. Content of this property depends on the ActionType"
         }
       }
     },
@@ -860,12 +896,50 @@
         }
       }
     },
+    "Address": {
+      "description": "An object relating to a particular point in a conversation",
+      "type": "object",
+      "properties": {
+        "activityId": {
+          "description": "(Optional) ID of the activity to refer to",
+          "type": "string"
+        },
+        "user": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "(Optional) User participating in this conversation"
+        },
+        "bot": {
+          "$ref": "#/definitions/ChannelAccount",
+          "description": "Bot participating in this conversation"
+        },
+        "conversation": {
+          "$ref": "#/definitions/ConversationAccount",
+          "description": "Conversation reference"
+        },
+        "channelId": {
+          "description": "Channel ID",
+          "type": "string"
+        },
+        "serviceUrl": {
+          "description": "Service endpoint where operations concerning the referenced conversation may be performed",
+          "type": "string"
+        },
+        "locale": {
+          "description": "The language code for the conversation",
+          "type": "string"
+        }
+      }
+    },
     "ConversationResourceResponse": {
       "description": "A response containing a resource",
       "type": "object",
       "properties": {
         "activityId": {
-          "description": "Id of the Activity (if one was created)",
+          "description": "ID of the Activity (if sent)",
+          "type": "string"
+        },
+        "serviceUrl": {
+          "description": "Service endpoint where operations concerning the conversation may be performed",
           "type": "string"
         },
         "id": {
@@ -955,28 +1029,6 @@
         "tap": {
           "$ref": "#/definitions/CardAction",
           "description": "Action assigned to specific Attachment.E.g.navigate to specific URL or play/open media content"
-        }
-      }
-    },
-    "CardAction": {
-      "description": "An action on a card",
-      "type": "object",
-      "properties": {
-        "type": {
-          "description": "Defines the type of action implemented by this button.",
-          "type": "string"
-        },
-        "title": {
-          "description": "Text description which appear on the button.",
-          "type": "string"
-        },
-        "image": {
-          "description": "URL Picture which will appear on the button, next to text label.",
-          "type": "string"
-        },
-        "value": {
-          "description": "Supplementary parameter for action. Content of this property depends on the ActionType",
-          "type": "string"
         }
       }
     },
@@ -1240,6 +1292,10 @@
       "description": "A video card",
       "type": "object",
       "properties": {
+        "aspect": {
+          "description": "Aspect ratio (16:9)(4:3)",
+          "type": "string"
+        },
         "title": {
           "description": "Title of the card",
           "type": "string"

@@ -26,17 +26,25 @@ namespace Microsoft.Bot.Connector
         /// Initializes a new instance of the ConversationResourceResponse
         /// class.
         /// </summary>
-        public ConversationResourceResponse(string activityId = default(string), string id = default(string))
+        public ConversationResourceResponse(string activityId = default(string), string serviceUrl = default(string), string id = default(string))
         {
             ActivityId = activityId;
+            ServiceUrl = serviceUrl;
             Id = id;
         }
 
         /// <summary>
-        /// Id of the Activity (if one was created)
+        /// ID of the Activity (if sent)
         /// </summary>
         [JsonProperty(PropertyName = "activityId")]
         public string ActivityId { get; set; }
+
+        /// <summary>
+        /// Service endpoint where operations concerning the conversation may
+        /// be performed
+        /// </summary>
+        [JsonProperty(PropertyName = "serviceUrl")]
+        public string ServiceUrl { get; set; }
 
         /// <summary>
         /// Id of the resource

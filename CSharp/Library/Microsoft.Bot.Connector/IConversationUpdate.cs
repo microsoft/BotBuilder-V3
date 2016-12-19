@@ -5,23 +5,28 @@ using System.Linq;
 namespace Microsoft.Bot.Connector
 {
     /// <summary>
-    /// The Properties of a conversation are different
+    /// The referenced conversation has been updated
     /// </summary>
     public interface IConversationUpdateActivity : IActivity
     {
         /// <summary>
-        /// Array of address added
+        /// Members added to the conversation
         /// </summary>
         IList<ChannelAccount> MembersAdded { get; set; }
 
         /// <summary>
-        /// Array of addresses removed
+        /// Members removed from the conversation
         /// </summary>
         IList<ChannelAccount> MembersRemoved { get; set; }
 
         /// <summary>
-        /// Conversations new topic name
+        /// The conversation's updated topic name
         /// </summary>
         string TopicName { get; set; }
+
+        /// <summary>
+        /// True if prior history of the channel is disclosed
+        /// </summary>
+        bool? HistoryDisclosed { get; set; }
     }
 }

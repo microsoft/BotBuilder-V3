@@ -162,7 +162,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
 
         internal static FacebookQuickReply ToFacebookQuickReply(this CardAction button)
         {
-            return new FacebookQuickReply(contentType: FacebookQuickReply.ContentTypes.Text, title: button.Title, payload: button.Value, image: button.Image);
+            return new FacebookQuickReply(contentType: FacebookQuickReply.ContentTypes.Text, title: button.Title, payload: (string)button.Value, image: button.Image);
         }
     }
 }

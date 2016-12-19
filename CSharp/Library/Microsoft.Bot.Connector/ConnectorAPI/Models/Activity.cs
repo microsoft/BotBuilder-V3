@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Activity class.
         /// </summary>
-        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), DateTime? localTimestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object))
+        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), DateTime? localTimestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<CardAction> suggestedActions = default(IList<CardAction>), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object), string name = default(string), Models.Address relatesTo = default(Models.Address))
         {
             Type = type;
             Id = id;
@@ -45,48 +45,52 @@ namespace Microsoft.Bot.Connector
             Locale = locale;
             Text = text;
             Summary = summary;
+            SuggestedActions = suggestedActions;
             Attachments = attachments;
             Entities = entities;
             ChannelData = channelData;
             Action = action;
             ReplyToId = replyToId;
             Value = value;
+            Name = name;
+            RelatesTo = relatesTo;
         }
 
         /// <summary>
         /// The type of the activity
-        /// [message|contactRelationUpdate|converationUpdate|typing]
+        /// [message|contactRelationUpdate|converationUpdate|typing|endOfConversation|event|invoke]
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
         /// <summary>
-        /// Id for the activity
+        /// ID of this activity
         /// </summary>
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
 
         /// <summary>
-        /// UTC Time when message was sent (Set by service)
+        /// UTC Time when message was sent (set by service)
         /// </summary>
         [JsonProperty(PropertyName = "timestamp")]
         public DateTime? Timestamp { get; set; }
 
         /// <summary>
-        /// Local time when message was sent (set by client Ex:
+        /// Local time when message was sent (set by client, Ex:
         /// 2016-09-23T13:07:49.4714686-07:00)
         /// </summary>
         [JsonProperty(PropertyName = "localTimestamp")]
         public DateTimeOffset? LocalTimestamp { get; set; }
 
         /// <summary>
-        /// Service endpoint
+        /// Service endpoint where operations concerning the activity may be
+        /// performed
         /// </summary>
         [JsonProperty(PropertyName = "serviceUrl")]
         public string ServiceUrl { get; set; }
 
         /// <summary>
-        /// ChannelId the activity was on
+        /// ID of the channel where the activity was sent
         /// </summary>
         [JsonProperty(PropertyName = "channelId")]
         public string ChannelId { get; set; }
@@ -116,8 +120,8 @@ namespace Microsoft.Bot.Connector
         public string TextFormat { get; set; }
 
         /// <summary>
-        /// AttachmentLayout - hint for how to deal with multiple attachments
-        /// Values: [list|carousel] Default:list
+        /// Hint for how to deal with multiple attachments: [list|carousel]
+        /// Default:list
         /// </summary>
         [JsonProperty(PropertyName = "attachmentLayout")]
         public string AttachmentLayout { get; set; }
@@ -141,7 +145,7 @@ namespace Microsoft.Bot.Connector
         public string TopicName { get; set; }
 
         /// <summary>
-        /// the previous history of the channel was disclosed
+        /// True if the previous history of the channel is disclosed
         /// </summary>
         [JsonProperty(PropertyName = "historyDisclosed")]
         public bool? HistoryDisclosed { get; set; }
@@ -159,10 +163,17 @@ namespace Microsoft.Bot.Connector
         public string Text { get; set; }
 
         /// <summary>
-        /// Text to display if you can't render cards
+        /// Text to display if the channel cannot render cards
         /// </summary>
         [JsonProperty(PropertyName = "summary")]
         public string Summary { get; set; }
+
+        /// <summary>
+        /// SuggestedActions are used to provide keyboard/quickreply like
+        /// behavior in many clients
+        /// </summary>
+        [JsonProperty(PropertyName = "suggestedActions")]
+        public IList<CardAction> SuggestedActions { get; set; }
 
         /// <summary>
         /// Attachments
@@ -178,7 +189,7 @@ namespace Microsoft.Bot.Connector
         public IList<Entity> Entities { get; set; }
 
         /// <summary>
-        /// Channel specific payload
+        /// Channel-specific payload
         /// </summary>
         [JsonProperty(PropertyName = "channelData")]
         public object ChannelData { get; set; }
@@ -190,16 +201,28 @@ namespace Microsoft.Bot.Connector
         public string Action { get; set; }
 
         /// <summary>
-        /// the original id this message is a response to
+        /// The original ID this message is a response to
         /// </summary>
         [JsonProperty(PropertyName = "replyToId")]
         public string ReplyToId { get; set; }
 
         /// <summary>
-        /// Open ended value
+        /// Open-ended value
         /// </summary>
         [JsonProperty(PropertyName = "value")]
         public object Value { get; set; }
+
+        /// <summary>
+        /// Name of the operation to invoke or the name of the event
+        /// </summary>
+        [JsonProperty(PropertyName = "name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Reference to another conversation or activity
+        /// </summary>
+        [JsonProperty(PropertyName = "relatesTo")]
+        public Models.Address RelatesTo { get; set; }
 
     }
 }

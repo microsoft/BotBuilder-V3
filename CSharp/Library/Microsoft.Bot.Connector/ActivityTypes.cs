@@ -39,9 +39,20 @@ namespace Microsoft.Bot.Connector
         public const string EndOfConversation = "endOfConversation";
 
         /// <summary>
-        /// External system has triggered 
+        /// NOTE: Trigger activity has been renamed to Event activity
         /// </summary>
+        [Obsolete]
         public const string Trigger = "trigger";
+
+        /// <summary>
+        /// Asynchronous external event
+        /// </summary>
+        public const string Event = "event";
+
+        /// <summary>
+        /// Synchronous request to invoke a command
+        /// </summary>
+        public const string Invoke = "invoke";
 
         /// <summary>
         /// Delete user data

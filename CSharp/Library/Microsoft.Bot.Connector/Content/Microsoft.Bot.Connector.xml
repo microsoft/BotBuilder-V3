@@ -44,6 +44,57 @@
             Signin button
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.Models.Address">
+            <summary>
+            An object relating to a particular point in a conversation
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Models.Address.#ctor">
+            <summary>
+            Initializes a new instance of the Address class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Models.Address.#ctor(System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the Address class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Models.Address.ActivityId">
+            <summary>
+            (Optional) ID of the activity to refer to
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Models.Address.User">
+            <summary>
+            (Optional) User participating in this conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Models.Address.Bot">
+            <summary>
+            Bot participating in this conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Models.Address.Conversation">
+            <summary>
+            Conversation reference
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Models.Address.ChannelId">
+            <summary>
+            Channel ID
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Models.Address.ServiceUrl">
+            <summary>
+            Service endpoint where operations concerning the referenced
+            conversation may be performed
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Models.Address.Locale">
+            <summary>
+            The language code for the conversation
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConversationResourceResponse">
             <summary>
             A response containing a resource
@@ -55,7 +106,7 @@
             class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationResourceResponse.#ctor(System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationResourceResponse.#ctor(System.String,System.String,System.String)">
             <summary>
             Initializes a new instance of the ConversationResourceResponse
             class.
@@ -63,7 +114,13 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationResourceResponse.ActivityId">
             <summary>
-            Id of the Activity (if one was created)
+            ID of the Activity (if sent)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationResourceResponse.ServiceUrl">
+            <summary>
+            Service endpoint where operations concerning the conversation may
+            be performed
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationResourceResponse.Id">
@@ -195,6 +252,26 @@
         <member name="F:Microsoft.Bot.Connector.ErrorCodes.MessageSizeTooBig">
             <summary>
             Message exceeded size limits
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IInvokeActivity">
+            <summary>
+            Synchronous request to invoke an operation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IInvokeActivity.Name">
+            <summary>
+            Name of the operation to invoke
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IInvokeActivity.Value">
+            <summary>
+            Open-ended value 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IInvokeActivity.RelatesTo">
+            <summary>
+            Reference to another conversation or activity
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.SigninCard">
@@ -422,9 +499,14 @@
             Initializes a new instance of the VideoCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <summary>
             Initializes a new instance of the VideoCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Aspect">
+            <summary>
+            Aspect ratio (16:9)(4:3)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.VideoCard.Title">
@@ -498,19 +580,48 @@
             Conversation is ending, or a request to end the conversation
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.ITriggerActivity">
+        <member name="T:Microsoft.Bot.Connector.IEventActivity">
             <summary>
-            Activity generated by external sources with open ended value payload
+            Asynchronous external event
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.ITriggerActivity.Value">
+        <member name="P:Microsoft.Bot.Connector.IEventActivity.Name">
             <summary>
-            Open ended value 
+            Name of the event
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IEventActivity.Value">
+            <summary>
+            Open-ended value 
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IEventActivity.RelatesTo">
+            <summary>
+            Reference to another conversation or activity
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ITriggerActivity">
+            <summary>
+            NOTE: Trigger activity has been renamed to Event activity
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ITypingActivity">
             <summary>
             The From address is typing
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.APIResponse.#ctor">
+            <summary>
+            Initializes a new instance of the APIResponse class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.APIResponse.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the APIResponse class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.APIResponse.Message">
+            <summary>
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">
@@ -638,7 +749,17 @@
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.Trigger">
             <summary>
-            External system has triggered 
+            NOTE: Trigger activity has been renamed to Event activity
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Event">
+            <summary>
+            Asynchronous external event
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Invoke">
+            <summary>
+            Synchronous request to invoke a command
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.DeleteUserData">
@@ -882,7 +1003,7 @@
             Initializes a new instance of the CardAction class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.CardAction.#ctor(System.String,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.CardAction.#ctor(System.String,System.String,System.String,System.Object)">
             <summary>
             Initializes a new instance of the CardAction class.
             </summary>
@@ -1031,7 +1152,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.ChannelData">
             <summary>
-            Channel specific payload
+            Channel specific payload for creating the conversation
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.GeoCoordinates">
@@ -3595,8 +3716,20 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.Activity">
             <summary>
+            An Activity is the basic communication type for the Bot Framework 3.0 protocol
+            </summary>
+            <remarks>
+            The Activity class contains all properties that individual, more specific activities
+            could contain. It is a superset type.
+            </remarks>
+            <summary>
             An Activity is the basic communication type for the Bot Framework 3.0
             protocol
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Activity.ContentType">
+            <summary>
+            Content-type for an Activity
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Activity.CreateReply(System.String,System.String)">
@@ -3607,6 +3740,46 @@
             <param name="text">text you want to reply with</param>
             <param name="locale">language of your reply</param>
             <returns>message set up to route back to the sender</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreateMessageActivity">
+            <summary>
+            Create an instance of the Activity class with IMessageActivity masking
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreateContactRelationUpdateActivity">
+            <summary>
+            Create an instance of the Activity class with IContactRelationUpdateActivity masking
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreateConversationUpdateActivity">
+            <summary>
+            Create an instance of the Activity class with IConversationUpdateActivity masking
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreateTypingActivity">
+            <summary>
+            Create an instance of the Activity class with ITypingActivity masking
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreatePingActivity">
+            <summary>
+            Create an instance of the Activity class with IActivity masking
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreateEndOfConversationActivity">
+            <summary>
+            Create an instance of the Activity class with IEndOfConversationActivity masking
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreateEventActivity">
+            <summary>
+            Create an instance of the Activity class with an IEventActivity masking
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreateInvokeActivity">
+            <summary>
+            Create an instance of the Activity class with IInvokeActivity masking
+            </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Activity.IsActivity(System.String)">
             <summary>
@@ -3633,14 +3806,19 @@
             Return an ITypingActivity mask if this is a typing activity
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.AsTriggerActivity">
-            <summary>
-            Return an ITriggerActivity mask if this is a trigger activity
-            </summary>
-        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.AsEndOfConversationActivity">
             <summary>
             Return an IEndOfConversationActivity mask if this is an end of conversation activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsEventActivity">
+            <summary>
+            Return an IEventActivity mask if this is an event activity
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsInvokeActivity">
+            <summary>
+            Return an IInvokeActivity mask if this is an invoke activity
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Activity.GetStateClient(Microsoft.Bot.Connector.MicrosoftAppCredentials,System.String,System.Net.Http.DelegatingHandler[])">
@@ -3718,7 +3896,7 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.Models.Address)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
@@ -3726,33 +3904,34 @@
         <member name="P:Microsoft.Bot.Connector.Activity.Type">
             <summary>
             The type of the activity
-            [message|contactRelationUpdate|converationUpdate|typing]
+            [message|contactRelationUpdate|converationUpdate|typing|endOfConversation|event|invoke]
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Id">
             <summary>
-            Id for the activity
+            ID of this activity
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Timestamp">
             <summary>
-            UTC Time when message was sent (Set by service)
+            UTC Time when message was sent (set by service)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.LocalTimestamp">
             <summary>
-            Local time when message was sent (set by client Ex:
+            Local time when message was sent (set by client, Ex:
             2016-09-23T13:07:49.4714686-07:00)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ServiceUrl">
             <summary>
-            Service endpoint
+            Service endpoint where operations concerning the activity may be
+            performed
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ChannelId">
             <summary>
-            ChannelId the activity was on
+            ID of the channel where the activity was sent
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.From">
@@ -3777,8 +3956,8 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.AttachmentLayout">
             <summary>
-            AttachmentLayout - hint for how to deal with multiple attachments
-            Values: [list|carousel] Default:list
+            Hint for how to deal with multiple attachments: [list|carousel]
+            Default:list
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.MembersAdded">
@@ -3798,7 +3977,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.HistoryDisclosed">
             <summary>
-            the previous history of the channel was disclosed
+            True if the previous history of the channel is disclosed
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Locale">
@@ -3813,7 +3992,13 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Summary">
             <summary>
-            Text to display if you can't render cards
+            Text to display if the channel cannot render cards
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.SuggestedActions">
+            <summary>
+            SuggestedActions are used to provide keyboard/quickreply like
+            behavior in many clients
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Attachments">
@@ -3829,7 +4014,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ChannelData">
             <summary>
-            Channel specific payload
+            Channel-specific payload
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Action">
@@ -3839,12 +4024,22 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ReplyToId">
             <summary>
-            the original id this message is a response to
+            The original ID this message is a response to
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Value">
             <summary>
-            Open ended value
+            Open-ended value
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Name">
+            <summary>
+            Name of the operation to invoke or the name of the event
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.RelatesTo">
+            <summary>
+            Reference to another conversation or activity
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Attachment">
@@ -4070,7 +4265,7 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.IActivity">
             <summary>
-            basic shared properties for all activities
+            Shared properties for all activities
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IActivity.Type">
@@ -4166,14 +4361,19 @@
             Return IEndOfConversationActivity if this is an end-of-conversation activity, null otherwise
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IActivity.AsTriggerActivity">
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsEventActivity">
             <summary>
-            Returns ITriggerActivity if this is a trigger activity, null otherwise
+            Returns IEventActivity if this is an event activity, null otherwise
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsInvokeActivity">
+            <summary>
+            Returns IInvokeActivity if this is an invoke activity, null otherwise
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.IContactRelationUpdateActivity">
             <summary>
-            Someone has updated their contact list
+            A user has added a bot to their contact list, removed the bot from their contact list, or otherwise changed the relationship between user and bot
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IContactRelationUpdateActivity.Action">
@@ -4183,27 +4383,32 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.IConversationUpdateActivity">
             <summary>
-            The Properties of a conversation are different
+            The referenced conversation has been updated
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IConversationUpdateActivity.MembersAdded">
             <summary>
-            Array of address added
+            Members added to the conversation
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IConversationUpdateActivity.MembersRemoved">
             <summary>
-            Array of addresses removed
+            Members removed from the conversation
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IConversationUpdateActivity.TopicName">
             <summary>
-            Conversations new topic name
+            The conversation's updated topic name
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IConversationUpdateActivity.HistoryDisclosed">
+            <summary>
+            True if prior history of the channel is disclosed
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.IMessageActivity">
             <summary>
-            Someone has added a message to the conversation
+            A message in a conversation
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Locale">
@@ -4216,33 +4421,37 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Text">
             <summary>
-            Text for the message
+            Content for the message
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Summary">
             <summary>
-            Text for the message
+            Text to display if the channel cannot render cards
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.TextFormat">
             <summary>
-            Format of text fields [plain|markdown] default:markdown
+            Format of text fields [plain|markdown] Default:markdown
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.AttachmentLayout">
             <summary>
-            AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] default:list
+            Hint for how to deal with multiple attachments: [list|carousel] Default:list
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Attachments">
             <summary>
-            content attachemnts
+            Attachments
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.SuggestedActions">
+            <summary>
+            SuggestedActions are used to express actions for interacting with a card like keyboards/quickReplies
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Entities">
             <summary>
-            Entities 
-            Collection of objects which contain metadata about this activity
+            Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.IMessageActivity.HasContent">

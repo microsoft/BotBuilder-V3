@@ -66,7 +66,7 @@ namespace Microsoft.Bot.Connector
         public Activity Activity { get; set; }
 
         /// <summary>
-        /// Channel specific payload
+        /// Channel specific payload for creating the conversation
         /// </summary>
         [JsonProperty(PropertyName = "channelData")]
         public object ChannelData { get; set; }

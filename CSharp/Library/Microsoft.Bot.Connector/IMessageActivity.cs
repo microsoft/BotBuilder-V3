@@ -5,7 +5,7 @@ using System.Linq;
 namespace Microsoft.Bot.Connector
 {
     /// <summary>
-    /// Someone has added a message to the conversation
+    /// A message in a conversation
     /// </summary>
     public interface IMessageActivity : IActivity
     {
@@ -18,33 +18,37 @@ namespace Microsoft.Bot.Connector
         string Locale { get; set; }
 
         /// <summary>
-        /// Text for the message
+        /// Content for the message
         /// </summary>
         string Text { get; set; }
 
         /// <summary>
-        /// Text for the message
+        /// Text to display if the channel cannot render cards
         /// </summary>
         string Summary { get; set; }
 
         /// <summary>
-        /// Format of text fields [plain|markdown] default:markdown
+        /// Format of text fields [plain|markdown] Default:markdown
         /// </summary>
         string TextFormat { get; set; }
 
         /// <summary>
-        /// AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] default:list
+        /// Hint for how to deal with multiple attachments: [list|carousel] Default:list
         /// </summary>
         string AttachmentLayout { get; set; }
 
         /// <summary>
-        /// content attachemnts
+        /// Attachments
         /// </summary>
         IList<Attachment> Attachments { get; set; }
 
         /// <summary>
-        /// Entities 
-        /// Collection of objects which contain metadata about this activity
+        /// SuggestedActions are used to express actions for interacting with a card like keyboards/quickReplies
+        /// </summary>
+        IList<CardAction> SuggestedActions { get; set; }
+
+        /// <summary>
+        /// Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.
         /// </summary>
         IList<Entity> Entities { get; set; }
 
