@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="BotServiceTests.cs" />
     <Compile Include="DocumentDbDataStoreTests.cs" />
+    <Compile Include="DocumentDbDeleter.cs" />
     <Compile Include="TableDataStoreTests.cs" />
     <Compile Include="LoggerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

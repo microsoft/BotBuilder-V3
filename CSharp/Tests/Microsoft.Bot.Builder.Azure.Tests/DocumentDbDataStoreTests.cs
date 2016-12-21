@@ -42,7 +42,6 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Azure.Tests
 {
-
     [TestClass]
     public class DocumentDbDataStoreTests : BaseDataStoreTests
     {
@@ -55,7 +54,7 @@ namespace Microsoft.Bot.Builder.Azure.Tests
         //Fixed docDb emulator key
         private static readonly string docDbEmulatorKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
 
-        private DocumentDbBotDataStore store;
+        private DocumentDbDeleter docDbDeleter;
 
         public override IBotDataStore<BotData> GetTestCaseDataStore()
         {
@@ -65,18 +64,18 @@ namespace Microsoft.Bot.Builder.Azure.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            if (store == null)
+            if (docDbDeleter == null)
             {
-                store = new DocumentDbBotDataStore(docDbEmulatorUri, docDbEmulatorKey);
+                docDbDeleter = new DocumentDbDeleter(docDbEmulatorUri, docDbEmulatorKey);
             }
 
-            store.DeleteDatabaseIfExists().Wait();
+            docDbDeleter.DeleteDatabaseIfExists().Wait();
         }
 
         [TestCleanup]
         public void TestCleanup()
         {
-            store.DeleteDatabaseIfExists().Wait();
+            docDbDeleter.DeleteDatabaseIfExists().Wait();
         }
 
         [TestMethod]
@@ -98,3 +97,4 @@ namespace Microsoft.Bot.Builder.Azure.Tests
         }
     }
 }
+

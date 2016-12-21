@@ -43,6 +43,7 @@ using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
@@ -68,15 +69,15 @@ namespace Microsoft.Bot.Builder.Azure
         /// <param name="collectionId">The name of the DocumentDb collection to use.</param>
         public DocumentDbBotDataStore(IDocumentClient documentClient, string databaseId = "botdb", string collectionId = "botcollection")
         {
-            if (string.IsNullOrEmpty(databaseId)) throw new ArgumentException(nameof(databaseId));
-            if (string.IsNullOrEmpty(collectionId)) throw new ArgumentException(nameof(collectionId));
+            SetField.NotNull(out this.databaseId, nameof(databaseId), databaseId);
+            SetField.NotNull(out this.collectionId, nameof(collectionId), collectionId);
 
             this.documentClient = documentClient;
             this.databaseId = databaseId;
             this.collectionId = collectionId;
 
-            CreateDatabaseIfNotExistsAsync().Wait(MaxInitTime);
-            CreateCollectionIfNotExistsAsync().Wait(MaxInitTime);
+            CreateDatabaseIfNotExistsAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            CreateCollectionIfNotExistsAsync().ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace Microsoft.Bot.Builder.Azure
         /// ResourceToken obtained from the permission feed for the user.
         /// Using Direct connectivity, wherever possible, is recommended.</remarks>
         public DocumentDbBotDataStore(Uri serviceEndpoint, string authKey, string databaseId = "botdb", string collectionId = "botcollection")
-            : this( new DocumentClient(serviceEndpoint, authKey)) { }
+            : this( new DocumentClient(serviceEndpoint, authKey), databaseId, collectionId) { }
 
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType,
             CancellationToken cancellationToken)
@@ -104,6 +105,9 @@ namespace Microsoft.Bot.Builder.Azure
 
                 var response = await documentClient.ReadDocumentAsync(UriFactory.CreateDocumentUri(databaseId, collectionId, entityKey));
 
+                // The Resource property of the response, of type IDynamicMetaObjectProvider, has a dynamic nature, 
+                // similar to DynamicTableEntity in Azure storage. When casting to a static type, properties that exist in the static type will be 
+                // populated from the dynamic type.
                 DocDbBotDataEntity entity = (dynamic) response.Resource;
                 return new BotData(response?.Resource.ETag, entity?.Data);
             }
@@ -211,26 +215,6 @@ namespace Microsoft.Bot.Builder.Azure
                     await documentClient.CreateDocumentCollectionAsync(
                         UriFactory.CreateDatabaseUri(databaseId),
                         new DocumentCollection { Id = collectionId });
-                }
-                else
-                {
-                    throw;
-                }
-            }
-        }
-
-        public async Task DeleteDatabaseIfExists()
-        {
-            try
-            {
-                await documentClient.ReadDatabaseAsync(UriFactory.CreateDatabaseUri(databaseId));
-                await documentClient.DeleteDatabaseAsync(UriFactory.CreateDatabaseUri(databaseId));
-            }
-            catch (DocumentClientException e)
-            {
-                if (e.StatusCode == HttpStatusCode.NotFound)
-                {
-                    //Database already non existent, nothing to do here.
                 }
                 else
                 {
