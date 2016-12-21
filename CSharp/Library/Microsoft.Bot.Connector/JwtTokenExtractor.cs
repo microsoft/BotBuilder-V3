@@ -99,7 +99,7 @@ namespace Microsoft.Bot.Connector
             if (identity == null)
                 return null;
 
-            Claim botClaim = identity.Claims.FirstOrDefault(c => _tokenValidationParameters.ValidIssuers.Contains(c.Issuer) && c.Type == "appid");
+            Claim botClaim = identity.Claims.FirstOrDefault(c => _tokenValidationParameters.ValidIssuers.Contains(c.Issuer) && c.Type == "aud");
             return botClaim?.Value;
         }
 
