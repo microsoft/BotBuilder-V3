@@ -46,10 +46,20 @@ namespace Microsoft.Bot.Builder.Azure.Tests
     [TestClass]
     public class DocumentDbDataStoreTests : BaseDataStoreTests
     {
+        //This test requires the DocDbEmulator to be installed and started. 
+        //Reference: https://docs.microsoft.com/en-us/azure/documentdb/documentdb-nosql-local-emulator
+        
+        //Fixed docDb emulator local Uri.
+        private static readonly Uri docDbEmulatorUri = new Uri("https://localhost:8081");
+
+        //Fixed docDb emulator key
+        private static readonly string docDbEmulatorKey = "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+
         private DocumentDbBotDataStore store;
+
         public override IBotDataStore<BotData> GetTestCaseDataStore()
         {
-            return new DocumentDbBotDataStore(new Uri("https://localhost:8081"), "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
+            return new DocumentDbBotDataStore(docDbEmulatorUri, docDbEmulatorKey);
         }
 
         [TestInitialize]
@@ -57,7 +67,7 @@ namespace Microsoft.Bot.Builder.Azure.Tests
         {
             if (store == null)
             {
-                store = new DocumentDbBotDataStore(new Uri("https://localhost:8081"), "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
+                store = new DocumentDbBotDataStore(docDbEmulatorUri, docDbEmulatorKey);
             }
 
             store.DeleteDatabaseIfExists().Wait();
