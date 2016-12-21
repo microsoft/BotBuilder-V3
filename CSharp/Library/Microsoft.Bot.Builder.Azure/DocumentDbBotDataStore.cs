@@ -57,16 +57,24 @@ namespace Microsoft.Bot.Builder.Azure
         private static readonly TimeSpan MaxInitTime = TimeSpan.FromSeconds(5);
 
         private readonly IDocumentClient documentClient;
-        private readonly string databaseId = "botdb";
-        private readonly string collectionId = "botcollection";
+        private readonly string databaseId;
+        private readonly string collectionId;
 
         /// <summary>
         /// Creates an instance of the <see cref="IBotDataStore{T}"/> that uses the Azure DocumentDb.
         /// </summary>
         /// <param name="documentClient">The DocumentDb client to use.</param>
-        public DocumentDbBotDataStore(IDocumentClient documentClient)
+        /// <param name="databaseId">The name of the DocumentDb database to use.</param>
+        /// <param name="collectionId">The name of the DocumentDb collection to use.</param>
+        public DocumentDbBotDataStore(IDocumentClient documentClient, string databaseId = "botdb", string collectionId = "botcollection")
         {
+            if (string.IsNullOrEmpty(databaseId)) throw new ArgumentException(nameof(databaseId));
+            if (string.IsNullOrEmpty(collectionId)) throw new ArgumentException(nameof(collectionId));
+
             this.documentClient = documentClient;
+            this.databaseId = databaseId;
+            this.collectionId = collectionId;
+
             CreateDatabaseIfNotExistsAsync().Wait(MaxInitTime);
             CreateCollectionIfNotExistsAsync().Wait(MaxInitTime);
         }
@@ -76,21 +84,16 @@ namespace Microsoft.Bot.Builder.Azure
         /// </summary>
         /// <param name="serviceEndpoint">The service endpoint to use to create the client.</param>
         /// <param name="authKey">The authorization key or resource token to use to create the client.</param>
-        /// <param name="connectionPolicy">(Optional) The connection policy for the client.</param>
-        /// <param name="consistencyLevel">(Optional) The default consistency policy for client operations.</param>
+        /// <param name="databaseId">The name of the DocumentDb database to use.</param>
+        /// <param name="collectionId">The name of the DocumentDb collection to use.</param>
         /// <remarks>The service endpoint can be obtained from the Azure Management Portal. If you
         /// are connecting using one of the Master Keys, these can be obtained along with
         /// the endpoint from the Azure Management Portal If however you are connecting as
         /// a specific DocumentDB User, the value passed to authKeyOrResourceToken is the
         /// ResourceToken obtained from the permission feed for the user.
         /// Using Direct connectivity, wherever possible, is recommended.</remarks>
-        public DocumentDbBotDataStore(Uri serviceEndpoint, string authKey, ConnectionPolicy connectionPolicy = null,
-            ConsistencyLevel? consistencyLevel = null)
-        {
-            this.documentClient = new DocumentClient(serviceEndpoint, authKey, connectionPolicy, consistencyLevel);
-            CreateDatabaseIfNotExistsAsync().Wait(MaxInitTime);
-            CreateCollectionIfNotExistsAsync().Wait(MaxInitTime);
-        }
+        public DocumentDbBotDataStore(Uri serviceEndpoint, string authKey, string databaseId = "botdb", string collectionId = "botcollection")
+            : this( new DocumentClient(serviceEndpoint, authKey)) { }
 
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType,
             CancellationToken cancellationToken)
