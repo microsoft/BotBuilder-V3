@@ -113,7 +113,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
         public override string ToString()
         {
-            return $"{this.GetType().Name}({this.method})";
+            return $"{this.GetType().Name}({this.method.Name})";
         }
 
         protected virtual bool TryResolveInstance(IResolver resolver, out object instance)

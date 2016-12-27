@@ -108,13 +108,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 SetField.NotNull(out this.start, nameof(start), start);
             }
 
-            Delegate IThunk.Method
+            public override string ToString()
             {
-                get
-                {
-                    return this.start;
-                }
+                return $"{this.start.Target}.{this.start.Method.Name}";
             }
+
+            Delegate IThunk.Method => this.start;
 
             public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<object> item, CancellationToken token)
             {
@@ -138,13 +137,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 SetField.NotNull(out this.resume, nameof(resume), resume);
             }
 
-            Delegate IThunk.Method
+            public override string ToString()
             {
-                get
-                {
-                    return this.resume;
-                }
+                return $"{this.resume.Target}.{this.resume.Method.Name}";
             }
+
+            Delegate IThunk.Method => this.resume;
 
             public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item, CancellationToken token)
             {

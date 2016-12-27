@@ -215,7 +215,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         public override string ToString()
         {
             IWait wait = this;
-            return $"Wait: {wait.Need} {wait.NeedType?.Name} for {this.rest?.Target.GetType().Name}.{this.rest?.Method.Name} have {wait.ItemType?.Name} {this.item}";
+            return $"Wait: {wait.Need} {wait.NeedType?.Name} for {this.rest?.Target}.{this.rest?.Method.Name} have {wait.ItemType?.Name} {this.item}";
         }
 
         public override int GetHashCode()
