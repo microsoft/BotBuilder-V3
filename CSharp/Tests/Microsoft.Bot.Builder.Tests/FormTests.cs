@@ -355,26 +355,26 @@ namespace Microsoft.Bot.Builder.Tests
             await VerifyFormScript(@"..\..\Scripts\PizzaForm-entities.script",
                 "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(),
                 new Luis.Models.EntityRecommendation[] {
-                                new Luis.Models.EntityRecommendation("DeliveryAddress","Address", "abc"),
-                                new Luis.Models.EntityRecommendation("Kind", "Kind", "byo"),
+                                new Luis.Models.EntityRecommendation("DeliveryAddress", entity:"2"),
+                                new Luis.Models.EntityRecommendation("Kind", entity:"byo"),
                                 // This should be skipped because it is not active
-                                new Luis.Models.EntityRecommendation("Signature", "Signature", "Hawaiian"),
-                                new Luis.Models.EntityRecommendation("BYO.Toppings", "Toppings", "onions"),
-                                new Luis.Models.EntityRecommendation("BYO.Toppings", "Toppings", "peppers"),
-                                new Luis.Models.EntityRecommendation("BYO.Toppings", "Toppings", "ice"),
-                                new Luis.Models.EntityRecommendation("Notfound", "NotFound", "OK")
+                                new Luis.Models.EntityRecommendation("Signature", entity:"Hawaiian"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", entity:"onions"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", entity:"peppers"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", entity:"ice"),
+                                new Luis.Models.EntityRecommendation("NumberOfPizzas", entity:"5"),
+                                new Luis.Models.EntityRecommendation("NotFound", entity:"OK")
                             },
                 "hi",
                 "1", // onions for topping clarification
-                "2",
-                "med",
+                "2", // address choice from validation
+                "med", 
                 // Kind "4",
                 "drink bread",
                 "thin",
                 "1",
-                "?",
                 // "beef, onion, ice cream",
-                "3",
+                // Already have address
                 "y",
                 "1 2",
                 "none",

@@ -263,13 +263,13 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                             () => PizzaOrder.BuildForm(),
                             options: FormOptions.PromptInStart | FormOptions.PromptFieldsWithValues,
                             entities: new Luis.Models.EntityRecommendation[] {
-                                new Luis.Models.EntityRecommendation("Address", "abc", "DeliveryAddress"),
-                                new Luis.Models.EntityRecommendation("Kind", "byo", "Kind"),
-                                new Luis.Models.EntityRecommendation("Signature", "Hawaiian", "Signature"),
-                                new Luis.Models.EntityRecommendation("Toppings", "onions", "BYO.Toppings"),
-                                new Luis.Models.EntityRecommendation("Toppings", "peppers", "BYO.Toppings"),
-                                new Luis.Models.EntityRecommendation("Toppings", "ice", "BYO.Toppings"),
-                                new Luis.Models.EntityRecommendation("NotFound", "OK", "Notfound")
+                                new Luis.Models.EntityRecommendation("DeliveryAddress", entity:"2"),
+                                new Luis.Models.EntityRecommendation("Signature", entity:"Hawaiian"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", entity:"onions"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", entity:"peppers"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", entity:"ice"),
+                                new Luis.Models.EntityRecommendation("NumberOfPizzas", entity:"5"),
+                                new Luis.Models.EntityRecommendation("NotFound", entity:"OK")
                             }
                             );
                         case DebugOptions.Localized:

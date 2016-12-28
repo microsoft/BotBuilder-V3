@@ -224,7 +224,7 @@ namespace Microsoft.Bot.Builder.FormFlow
             if (this._entities.Any())
             {
                 var inputs = new List<Tuple<int, string>>();
-                var entityGroups = (from entity in this._entities group entity by entity.Type);
+                var entityGroups = (from entity in this._entities group entity by entity.Role ?? entity.Type);
                 foreach (var entityGroup in entityGroups)
                 {
                     var step = _form.Step(entityGroup.Key);
@@ -311,9 +311,14 @@ namespace Microsoft.Bot.Builder.FormFlow
                                 await PostAsync(lastPrompt);
                                 waitForMessage = true;
                             }
+                            else if (result.Prompt?.Buttons != null)
+                            {
+                                // We showed buttons so allow them to be pressed
+                                waitForMessage = true;
+                            }
                             else
                             {
-                                // After feedback, reset to ready
+                                // After simple feedback, reset to ready
                                 _formState.SetPhase(StepPhase.Ready);
                             }
                         }
@@ -329,7 +334,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 {
                     IStep<T> step = null;
                     IEnumerable<TermMatch> matches = null;
-                    if (next.Direction == StepDirection.Named && next.Names.Count() > 1)
+                    if (next.Direction == StepDirection.Named && next.Names.Length > 1)
                     {
                         // We need to choose between multiple next steps
                         bool start = (_formState.Next == null);
@@ -554,7 +559,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                 {
                     result = new NextStep();
                 }
-                else if (count != result.Names.Count())
+                else if (count != result.Names.Length)
                 {
                     result = new NextStep(names);
                 }
@@ -576,11 +581,11 @@ namespace Microsoft.Bot.Builder.FormFlow
                     break;
                 case StepDirection.Named:
                     _formState.StepState = null;
-                    if (next.Names.Count() == 0)
+                    if (next.Names.Length == 0)
                     {
                         goto case StepDirection.Next;
                     }
-                    else if (next.Names.Count() == 1)
+                    else if (next.Names.Length == 1)
                     {
                         var name = next.Names.First();
                         var nextStep = -1;
@@ -696,6 +701,12 @@ namespace Microsoft.Bot.Builder.FormFlow
                                             _formState.ProcessInputs = false;
                                             _formState.FieldInputs = null;
                                             _formState.Step = 0;
+                                        }
+                                        // Skip initial messages since we showed them already
+                                        while (_formState.Step < _form.Steps.Count() && _form.Steps[_formState.Step].Type == StepType.Message)
+                                        {
+                                            _formState.SetPhase(StepPhase.Completed);
+                                            ++_formState.Step;
                                         }
                                     }
                                     return foundInput;
