@@ -41,7 +41,7 @@ Create a file named app.js and say hello in a few lines of code.
         console.log('%s listening to %s', server.name, server.url); 
     });
 
-## Test your bot (Windows Only)
+## Test your bot
 Use the [Bot Framework Emulator](http://docs.botframework.com/connector/tools/bot-framework-emulator/) to test your bot on localhost. 
 
 Install the emulator from [here](http://aka.ms/bf-bc-emulator) and then start your bot in a console window.

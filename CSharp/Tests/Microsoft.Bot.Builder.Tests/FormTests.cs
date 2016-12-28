@@ -167,7 +167,9 @@ namespace Microsoft.Bot.Builder.Tests
             [Terms("Two", "More than one")]
             Two,
             [Terms("Three", "More than one")]
-            Three
+            Three,
+            [Terms("word", @"\bpword\(123\)", @"32 jump\b")]
+            Four
         };
 
         [Serializable]
@@ -575,6 +577,41 @@ namespace Microsoft.Bot.Builder.Tests
                     Input.Integer.ToString(),
                     "Please enter a number for float (current choice: 0)",
                     Input.Float.ToString()
+                );
+        }
+
+        [TestMethod]
+        public async Task Form_Term_Matching()
+        {
+            // [Terms("word", @"\bpword\(123\)", @"32 jump\b")]
+            await VerifyFormScript(@"..\..\Scripts\Form_Term_Matching.script",
+                "en-us", () => new FormBuilder<SimpleForm>().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+                "Hi",
+
+                "some choices",
+                "aword",
+                "wordb",
+                "word",
+
+                "back",
+                "3pword(123)",
+                "pword(123)",
+
+                "back",
+                "32 jumped",
+                "32 jump",
+
+                "back",
+                "this word",
+
+                "back",
+                "word that",
+                
+                "back",
+                "-word",
+
+                "back",
+                "word-"
                 );
         }
 
