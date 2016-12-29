@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NET45</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>Content\Microsoft.Bot.Connector.xml</DocumentationFile>
@@ -37,6 +37,18 @@
     <DocumentationFile>Content\Microsoft.Bot.Connector.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Configuration.Abstractions.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.1.0.0\lib\netstandard1.1\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=1.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Primitives.1.0.0\lib\netstandard1.0\Microsoft.Extensions.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.IdentityModel.Protocol.Extensions, Version=1.0.2.33, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.IdentityModel.Protocol.Extensions.1.0.2.206221351\lib\net45\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
       <Private>True</Private>
@@ -50,6 +62,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel" />
@@ -77,92 +90,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionTypes.cs" />
-    <Compile Include="ConnectorAPI\Models\ConversationResourceResponse.cs" />
-    <Compile Include="ConnectorAPI\Models\Error.cs" />
-    <Compile Include="ConnectorAPI\Models\ErrorResponse.cs" />
-    <Compile Include="ClaimsIdentityEx.cs" />
-    <Compile Include="CredentialProvider.cs" />
-    <Compile Include="ErrorResponseEx.cs" />
-    <Compile Include="SigninCardEx.cs" />
-    <Compile Include="ConnectorAPI\Models\AnimationCard.cs" />
-    <Compile Include="ConnectorAPI\Models\AudioCard.cs" />
-    <Compile Include="ConnectorAPI\Models\MediaUrl.cs" />
-    <Compile Include="ConnectorAPI\Models\ThumbnailUrl.cs" />
-    <Compile Include="ConnectorAPI\Models\VideoCard.cs" />
-    <Compile Include="ContactRelationUpdateActionTypes.cs" />
-    <Compile Include="HttpClientEx.cs" />
-    <Compile Include="IEndOfConversationActivity.cs" />
-    <Compile Include="ITriggerActivity.cs" />
-    <Compile Include="ITypingActivity.cs" />
-    <Compile Include="TextFormatTypes.cs" />
-    <Compile Include="AttachmentLayoutTypes.cs" />
-    <Compile Include="AttachmentsEx.cs" />
-    <Compile Include="ActivityTypes.cs" />
-    <Compile Include="ConnectorAPI\Attachments.cs" />
-    <Compile Include="ConnectorAPI\AttachmentsExtensions.cs" />
-    <Compile Include="ConnectorAPI\IAttachments.cs" />
-    <Compile Include="ConnectorAPI\Models\AttachmentData.cs" />
-    <Compile Include="ConnectorAPI\Models\AttachmentInfo.cs" />
-    <Compile Include="ConnectorAPI\Models\AttachmentView.cs" />
-    <Compile Include="ConnectorAPI\Models\CardAction.cs" />
-    <Compile Include="ConnectorAPI\Models\CardImage.cs" />
-    <Compile Include="CardEx.cs" />
-    <Compile Include="ConnectorAPI\Models\ConversationParameters.cs" />
-    <Compile Include="ConnectorAPI\Models\GeoCoordinates.cs" />
-    <Compile Include="ConnectorAPI\Models\Place.cs" />
-    <Compile Include="ConnectorAPI\Models\ResourceResponse.cs" />
-    <Compile Include="ConnectorAPI\Models\ThumbnailCard.cs" />
     <Compile Include="BotAuthentication.cs" />
-    <Compile Include="ConversationsEx.cs" />
-    <Compile Include="JwtConfig.cs" />
-    <Compile Include="JwtTokenExtractor.cs" />
-    <Compile Include="JwtTokenRefresher.cs" />
-    <Compile Include="MicrosoftAppCredentials.cs" />
-    <Compile Include="StateClientEx.cs" />
-    <Compile Include="ConnectorAPI\Models\AdditionalProperties.cs" />
-    <Compile Include="StateAPI\BotState.cs" />
-    <Compile Include="StateAPI\BotStateExtensions.cs" />
-    <Compile Include="StateAPI\IBotState.cs" />
-    <Compile Include="StateAPI\IStateClient.cs" />
-    <Compile Include="StateAPI\Models\BotData.cs" />
-    <Compile Include="ConnectorAPI\ConnectorClient.cs" />
-    <Compile Include="ConnectorAPI\ConnectorClientExtensions.cs" />
-    <Compile Include="ConnectorAPI\Conversations.cs" />
-    <Compile Include="ConnectorAPI\ConversationsExtensions.cs" />
-    <Compile Include="ConnectorAPI\IConnectorClient.cs" />
-    <Compile Include="ConnectorAPI\IConversations.cs" />
-    <Compile Include="ActivityEx.cs" />
-    <Compile Include="ConnectorAPI\Models\Activity.cs" />
-    <Compile Include="ConnectorAPI\Models\Attachment.cs" />
-    <Compile Include="ConnectorAPI\Models\ChannelAccount.cs" />
-    <Compile Include="ConnectorAPI\Models\ConversationAccount.cs" />
-    <Compile Include="ConnectorAPI\Models\Entity.cs" />
-    <Compile Include="ConnectorAPI\Models\Fact.cs" />
-    <Compile Include="ConnectorAPI\Models\HeroCard.cs" />
-    <Compile Include="ConnectorAPI\Models\ReceiptCard.cs" />
-    <Compile Include="ConnectorAPI\Models\ReceiptItem.cs" />
-    <Compile Include="ConnectorAPI\Models\SigninCard.cs" />
-    <Compile Include="ConnectorClientEx.cs" />
-    <Compile Include="Mention.cs" />
-    <Compile Include="EntityEx.cs" />
-    <Compile Include="ErrorHandling.cs" />
-    <Compile Include="BotDataEx.cs" />
-    <Compile Include="IActivity.cs" />
-    <Compile Include="IContactRelationUpdateActivity.cs" />
-    <Compile Include="IConversationUpdate.cs" />
-    <Compile Include="IMessageActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StateAPI\StateClient.cs" />
-    <Compile Include="StateAPI\StateClientExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="createpackage.cmd" />
-    <None Include="generateClient.cmd" />
-    <None Include="Microsoft.Bot.Connector.nuspec" />
-    <None Include="Swagger\StateAPI.json" />
-    <None Include="Swagger\ConnectorAPI.json" />
+    <None Include="Microsoft.Bot.Connector.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -172,7 +110,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <Import Project="..\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

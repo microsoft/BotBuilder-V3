@@ -16,6 +16,8 @@
       <dependency id="Newtonsoft.Json" version="8.0.3" />
       <dependency id="System.IdentityModel.Tokens.Jwt" version="[4.0.2.206221351,5.0)" />
       <dependency id="Microsoft.IdentityModel.Protocol.Extensions" version="1.0.2.206221351" />
+      <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.0" />
+      <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.0" />
     </dependencies>
   </metadata>
   <files>
