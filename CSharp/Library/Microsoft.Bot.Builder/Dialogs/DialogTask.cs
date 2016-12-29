@@ -46,10 +46,6 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public interface IDialogTask : IDialogStack, IPostToBot
-    {
-    }
-
     public sealed class DialogTask : IDialogTask
     {
         private readonly Func<CancellationToken, IDialogContext> makeContext;

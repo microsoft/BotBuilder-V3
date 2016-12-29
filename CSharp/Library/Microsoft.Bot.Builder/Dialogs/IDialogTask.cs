@@ -115,6 +115,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         Task PostAsync(IActivity activity, CancellationToken token);
     }
 
+    public interface IDialogTask : IDialogStack, IPostToBot
+    {
+    }
+
     public static partial class Extensions
     {
         /// <summary>
