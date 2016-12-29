@@ -255,8 +255,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             IDialogStack stack = this;
             stack.Call(child, resume);
             await stack.PollAsync(token);
-            IPostToBot postToBot = this;
-            await postToBot.PostAsync(item, token);
+            this.fiber.Post(item);
+            await stack.PollAsync(token);
         }
 
         void IDialogStack.Done<R>(R value)
@@ -303,9 +303,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.fiber.Reset();
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
-            this.fiber.Post(item);
+            this.fiber.Post(activity);
             IDialogStack stack = this;
             await stack.PollAsync(token);
         }
@@ -330,7 +330,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.makeRoot, nameof(makeRoot), makeRoot);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
             try
             {
@@ -342,7 +342,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     await dialogTask.PollAsync(token);
                 }
 
-                await dialogTask.PostAsync(item, token);
+                await dialogTask.PostAsync(activity, token);
             }
             catch
             {
@@ -361,11 +361,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
             try
             {
-                await this.inner.PostAsync(item, token);
+                await this.inner.PostAsync(activity, token);
             }
             catch (InvalidNeedException error) when (error.Need == Need.Wait && error.Have == Need.None)
             {
@@ -427,11 +427,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
-            using (new LocalizedScope((item as IMessageActivity)?.Locale))
+            using (new LocalizedScope((activity as IMessageActivity)?.Locale))
             {
-                await this.inner.PostAsync<T>(item, token);
+                await this.inner.PostAsync(activity, token);
             }
         }
     }
@@ -448,12 +448,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.inner = new Lazy<IPostToBot>(() => makeInner());
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
             await botData.LoadAsync(token);
             try
             {
-                await this.inner.Value.PostAsync<T>(item, token);
+                await this.inner.Value.PostAsync(activity, token);
             }
             finally
             {
@@ -475,11 +475,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.scopeForCookie, nameof(scopeForCookie), scopeForCookie);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
             using (await this.scopeForCookie.WithScopeAsync(this.address, token))
             {
-                await this.inner.PostAsync(item, token);
+                await this.inner.PostAsync(activity, token);
             }
         }
     }
@@ -499,11 +499,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.trace, nameof(trace), trace);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
             try
             {
-                await this.inner.PostAsync<T>(item, token);
+                await this.inner.PostAsync(activity, token);
             }
             catch (Exception error)
             {

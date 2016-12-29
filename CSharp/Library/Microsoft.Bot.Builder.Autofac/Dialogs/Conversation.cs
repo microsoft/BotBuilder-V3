@@ -85,12 +85,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Resume a conversation and post the data to the dialog waiting.
         /// </summary>
-        /// <typeparam name="T"> Type of the data. </typeparam>
         /// <param name="resumptionCookie"> The id of the bot.</param>
         /// <param name="toBot"> The data sent to bot.</param>
         /// <param name="token"> The cancellation token.</param>
         /// <returns> A task that represent the message to send back to the user after resumption of the conversation.</returns>
-        public static async Task ResumeAsync<T>(ResumptionCookie resumptionCookie, T toBot, CancellationToken token = default(CancellationToken))
+        public static async Task ResumeAsync(ResumptionCookie resumptionCookie, IActivity toBot, CancellationToken token = default(CancellationToken))
         {
             if (resumptionCookie.IsTrustedServiceUrl)
             {
@@ -116,7 +115,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
-        internal static async Task ResumeAsync<T>(ILifetimeScope scope, IMessageActivity continuationMessage, T toBot, CancellationToken token = default(CancellationToken))
+        internal static async Task ResumeAsync(ILifetimeScope scope, IMessageActivity continuationMessage, IActivity toBot, CancellationToken token = default(CancellationToken))
         {
             var client = scope.Resolve<IConnectorClient>();
             var botData = scope.Resolve<IBotData>();

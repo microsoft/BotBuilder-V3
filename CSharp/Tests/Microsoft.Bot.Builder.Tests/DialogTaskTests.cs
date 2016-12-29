@@ -541,7 +541,7 @@ namespace Microsoft.Bot.Builder.Tests
         public static async Task DialogTask_Frame_Scoring_Allows_Value(double score)
         {
             var state = new object();
-            var item = new object();
+            var item = new Activity();
             var token = new CancellationTokenSource().Token;
             var scorable = MockScorable(item, state, score, token);
 
@@ -607,7 +607,7 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task DialogTask_Frame_Scoring_Stops_At_Maximum()
         {
             var state1 = new object();
-            var item = new object();
+            var item = new Activity();
             var token = new CancellationTokenSource().Token;
             var scorable1 = MockScorable(item, state1, 1.0, token);
             var scorable2 = new Mock<IScorable<object, double>>(MockBehavior.Strict);

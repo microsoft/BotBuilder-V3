@@ -55,18 +55,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.scorable, nameof(scorable), scorable);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
-            var activity = item as IActivity;
-            if (activity != null)
+            if (await this.scorable.TryPostAsync(activity, token))
             {
-                if (await this.scorable.TryPostAsync(activity, token))
-                {
-                    return;
-                }
+                return;
             }
 
-            await this.inner.PostAsync<T>(item, token);
+            await this.inner.PostAsync(activity, token);
         }
     }
 }

@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -108,10 +109,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <summary>
         /// Post an item (e.g. message or other external event) to the bot.
         /// </summary>
-        /// <param name="item">The item for the bot.</param>
+        /// <param name="activity">The item for the bot.</param>
         /// <param name="token">The cancellation token.</param>
         /// <returns>A task that represents the post operation.</returns>
-        Task PostAsync<T>(T item, CancellationToken token);
+        Task PostAsync(IActivity activity, CancellationToken token);
     }
 
     public static partial class Extensions
