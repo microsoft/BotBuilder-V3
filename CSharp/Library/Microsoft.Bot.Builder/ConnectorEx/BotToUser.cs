@@ -45,6 +45,26 @@ using Microsoft.Bot.Builder.ConnectorEx;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
+    public sealed class NullBotToUser : IBotToUser
+    {
+        private readonly IMessageActivity toBot;
+        public NullBotToUser(IMessageActivity toBot)
+        {
+            SetField.NotNull(out this.toBot, nameof(toBot), toBot);
+        }
+
+        IMessageActivity IBotToUser.MakeMessage()
+        {
+            var toBotActivity = (Activity)this.toBot;
+            return toBotActivity.CreateReply();
+        }
+
+        Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
+        {
+            return Task.CompletedTask;
+        }
+    }
+
     public sealed class AlwaysSendDirect_BotToUser : IBotToUser
     {
         private readonly IMessageActivity toBot;
