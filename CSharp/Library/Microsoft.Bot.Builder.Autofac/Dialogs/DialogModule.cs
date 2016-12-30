@@ -46,6 +46,7 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Scorables;
+using Microsoft.Bot.Builder.Autofac.Base;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -276,17 +277,38 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .SingleInstance();
 
             builder
-                .RegisterType<AlwaysSendDirect_BotToUser>()
-                .AsSelf()
+                .RegisterType<KeyboardCardMapper>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterKeyedType<NullBotToUser, IBotToUser>()
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c => new LogBotToUser(
-                                new MapToChannelData_BotToUser(c.Resolve<AlwaysSendDirect_BotToUser>(), new [] { new KeyboardCardMapper() }),
-                                c.Resolve<IActivityLogger>()))
-                .As<IBotToUser>()
+                .RegisterKeyedType<AlwaysSendDirect_BotToUser, IBotToUser>()
                 .InstancePerLifetimeScope();
-            
+
+            builder
+                .RegisterKeyedType<MapToChannelData_BotToUser, IBotToUser>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterKeyedType<LogBotToUser, IBotToUser>()
+                .InstancePerLifetimeScope();
+
+            /// <see cref="LogBotToUser"/> is composed around <see cref="MapToChannelData_BotToUser"/> is composed around
+            /// <see cref="AlwaysSendDirect_BotToUser"/>.  The complexity of registering each component is pushed to a separate
+            /// registration method, and each of these components are replaceable without re-registering
+            /// the entire adapter chain by registering a new component with the same component key.
+            builder
+                .RegisterAdapterChain<IBotToUser>
+                (
+                    typeof(AlwaysSendDirect_BotToUser),
+                    typeof(MapToChannelData_BotToUser),
+                    typeof(LogBotToUser)
+                )
+                .InstancePerLifetimeScope();
         }
     }
 
