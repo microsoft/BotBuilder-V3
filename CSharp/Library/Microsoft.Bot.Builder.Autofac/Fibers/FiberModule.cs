@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     /// <summary>
     /// Autofac module for Fiber components.
     /// </summary>
-    public abstract class FiberModule : Autofac.Module
+    public abstract class FiberModule : Module
     {
         public static readonly object Key_DoNotSerialize = new object();
         public static readonly object Key_SurrogateProvider = new object();
@@ -187,7 +187,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         }
     }
 
-    public sealed class ReflectionSurrogateModule : Autofac.Module
+    public sealed class ReflectionSurrogateModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {

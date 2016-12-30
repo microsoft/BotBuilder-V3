@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\Extensions.cs" />
     <Compile Include="Dialogs\Conversation.cs" />
     <Compile Include="Dialogs\DialogModule.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
