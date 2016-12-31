@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             if (options.HasFlag(Options.LastWriteWinsCachingBotDataStore))
             {
-                builder.Register<CachingBotDataStore>(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
+                builder.Register<CachingBotDataStore>(c => new CachingBotDataStore(c.ResolveKeyed<IBotDataStore<BotData>>(typeof(ConnectorStore)), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
                     .As<IBotDataStore<BotData>>()
                     .AsSelf()
                     .InstancePerLifetimeScope();
