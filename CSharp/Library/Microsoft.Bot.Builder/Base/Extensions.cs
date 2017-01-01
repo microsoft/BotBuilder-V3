@@ -136,5 +136,17 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
             return true;
         }
+
+        public static IReadOnlyList<R> ToList<T, R>(this IReadOnlyList<T> source, Func<T, R> selector)
+        {
+            var count = source.Count;
+            var target = new R[count];
+            for (int index = 0; index < count; ++index)
+            {
+                target[index] = selector(source[index]);
+            }
+
+            return target;
+        }
     }
 }
