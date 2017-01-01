@@ -50,47 +50,47 @@ namespace Microsoft.Bot.Builder.Scorables
     /// </summary>
     public static partial class Actions
     {
-        private static IScorable<IResolver, Binding> Bind(Delegate lambda)
+        private static IScorable<IResolver, IBinding> Bind(Delegate lambda)
         {
             return new DelegateScorable(lambda);
         }
 
-        public static IScorable<IResolver, Binding> Bind<R>(Func<R> method)
+        public static IScorable<IResolver, IBinding> Bind<R>(Func<R> method)
         {
             return Bind((Delegate)method);
         }
 
-        public static IScorable<IResolver, Binding> Bind<T1, R>(Func<T1, R> method)
+        public static IScorable<IResolver, IBinding> Bind<T1, R>(Func<T1, R> method)
         {
             return Bind((Delegate)method);
         }
 
-        public static IScorable<IResolver, Binding> Bind<T1, T2, R>(Func<T1, T2, R> method)
+        public static IScorable<IResolver, IBinding> Bind<T1, T2, R>(Func<T1, T2, R> method)
         {
             return Bind((Delegate)method);
         }
 
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, R>(Func<T1, T2, T3, R> method)
+        public static IScorable<IResolver, IBinding> Bind<T1, T2, T3, R>(Func<T1, T2, T3, R> method)
         {
             return Bind((Delegate)method);
         }
 
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, R>(Func<T1, T2, T3, T4, R> method)
+        public static IScorable<IResolver, IBinding> Bind<T1, T2, T3, T4, R>(Func<T1, T2, T3, T4, R> method)
         {
             return Bind((Delegate)method);
         }
 
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, T5, R>(Func<T1, T2, T3, T4, T5, R> method)
+        public static IScorable<IResolver, IBinding> Bind<T1, T2, T3, T4, T5, R>(Func<T1, T2, T3, T4, T5, R> method)
         {
             return Bind((Delegate)method);
         }
 
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, T5, T6, R>(Func<T1, T2, T3, T4, T5, T6, R> method)
+        public static IScorable<IResolver, IBinding> Bind<T1, T2, T3, T4, T5, T6, R>(Func<T1, T2, T3, T4, T5, T6, R> method)
         {
             return Bind((Delegate)method);
         }
 
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, T5, T6, T7, R>(Func<T1, T2, T3, T4, T5, T6, T7, R> method)
+        public static IScorable<IResolver, IBinding> Bind<T1, T2, T3, T4, T5, T6, T7, R>(Func<T1, T2, T3, T4, T5, T6, T7, R> method)
         {
             return Bind((Delegate)method);
         }
@@ -106,7 +106,7 @@ namespace Microsoft.Bot.Builder.Scorables
             return new LuisIntentScorable<object, InnerScore>(service, model, intent, scorable);
         }
 
-        public static IScorable<IResolver, double> Normalize(this IScorable<IResolver, Binding> scorable)
+        public static IScorable<IResolver, double> Normalize(this IScorable<IResolver, IBinding> scorable)
         {
             return scorable.SelectScore((r, b) => 1.0);
         }

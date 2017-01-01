@@ -131,9 +131,9 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             var scorables =
                 from spec in specs
                 group spec by spec.pattern into patterns
-                let method = patterns.Select(m => scorableByMethod[m.method]).ToArray().Fold(Binding.ResolutionComparer.Instance)
+                let method = patterns.Select(m => scorableByMethod[m.method]).ToArray().Fold(BindingComparer.Instance)
                 let regex = this.make(patterns.Key.Pattern)
-                select new RegexMatchScorable<Binding, Binding>(regex, method);
+                select new RegexMatchScorable<IBinding, IBinding>(regex, method);
 
             var all = scorables.ToArray().Fold(MatchComparer.Instance);
 

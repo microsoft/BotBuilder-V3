@@ -36,8 +36,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -46,16 +44,31 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
     /// <summary>
     /// Represents a binding of arguments to a method's parameters.
     /// </summary>
-    public sealed class Binding : IEquatable<Binding>
+    public interface IBinding
     {
-        private readonly MethodInfo method;
-        private readonly IReadOnlyList<ParameterInfo> parameters;
-        private readonly object instance;
-        private readonly object[] arguments;
-        public Binding(MethodInfo method, IReadOnlyList<ParameterInfo> parameters, object instance, object[] arguments)
+        MethodBase Method { get; }
+        Task InvokeAsync(CancellationToken token);
+    }
+
+    /// <summary>
+    /// Represents a binding of arguments to a method's parameter,
+    /// where the method returns a value of type <typeparamref name="R"/>.
+    /// </summary>
+    /// <typeparam name="R">The return value type.</typeparam>
+    public interface IBinding<R> : IBinding
+    {
+        new Task<R> InvokeAsync(CancellationToken token);
+    }
+
+    public class Binding : IBinding, IEquatable<Binding>
+    {
+        protected readonly MethodBase method;
+        protected readonly object instance;
+        protected readonly object[] arguments;
+
+        public Binding(MethodBase method, object instance, object[] arguments)
         {
             SetField.NotNull(out this.method, nameof(method), method);
-            SetField.NotNull(out this.parameters, nameof(parameters), parameters);
             if (this.method.IsStatic)
             {
                 this.instance = instance;
@@ -64,32 +77,19 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             {
                 SetField.NotNull(out this.instance, nameof(instance), instance);
             }
+
             SetField.NotNull(out this.arguments, nameof(arguments), arguments);
         }
 
-        public Task InvokeAsync(CancellationToken token)
+        MethodBase IBinding.Method => this.method;
+
+        Task IBinding.InvokeAsync(CancellationToken token)
         {
             try
             {
-                // late-bound provide the CancellationToken
-                for (int index = 0; index < this.parameters.Count; ++index)
-                {
-                    var type = this.parameters[index].ParameterType;
-                    bool cancel = type.IsAssignableFrom(typeof(CancellationToken));
-                    if (cancel)
-                    {
-                        var resolved = (CancellationToken) this.arguments[index];
-                        if (resolved.CanBeCanceled)
-                        {
-                            // consider CancellationTokenSource.CreateLinkedTokenSource
-                            // but remember to CancellationTokenSource.Dispose
-                            throw new NotSupportedException();
-                        }
-                        this.arguments[index] = token;
-                    }
-                }
+                var arguments = MakeArguments(this.method, this.arguments, token);
 
-                var result = this.method.Invoke(this.instance, this.arguments);
+                var result = this.method.Invoke(this.instance, arguments);
                 // if the result is a task, wait for its completion and propagate any exceptions
                 var task = result as Task;
                 if (task != null)
@@ -107,6 +107,36 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             {
                 return Task.FromException(error);
             }
+        }
+
+        public static object[] MakeArguments(MethodBase method, IReadOnlyList<object> source, CancellationToken token)
+        {
+            // late-bound provide the CancellationToken
+            var parameters = method.CachedParameters();
+            var target = new object[parameters.Count];
+            for (int index = 0; index < parameters.Count; ++index)
+            {
+                var type = parameters[index].ParameterType;
+                bool cancel = type.IsAssignableFrom(typeof(CancellationToken));
+                if (cancel)
+                {
+                    var resolved = (CancellationToken)source[index];
+                    if (resolved.CanBeCanceled)
+                    {
+                        // consider CancellationTokenSource.CreateLinkedTokenSource
+                        // but remember to CancellationTokenSource.Dispose
+                        throw new NotSupportedException();
+                    }
+
+                    target[index] = token;
+                }
+                else
+                {
+                    target[index] = source[index];
+                }
+            }
+
+            return target;
         }
 
         public override string ToString()
@@ -129,104 +159,31 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
         {
             return other != null
                 && object.Equals(this.method, other.method)
-                && this.parameters.Equals(other.parameters)
                 && object.Equals(this.instance, other.instance)
-                && this.arguments.Equals(other.arguments);
+                && Builder.Internals.Fibers.Extensions.Equals(this.arguments, other.arguments, EqualityComparer<object>.Default);
+        }
+    }
+
+    public sealed class Binding<R> : Binding, IBinding<R>, IEquatable<Binding>
+    {
+        public Binding(MethodBase method, object instance, object[] arguments)
+            : base(method, instance, arguments)
+        {
         }
 
-        public sealed class ResolutionComparer : IComparer<Binding>
+        async Task<R> IBinding<R>.InvokeAsync(CancellationToken token)
         {
-            public static readonly IComparer<Binding> Instance = new ResolutionComparer();
+            var arguments = MakeArguments(this.method, this.arguments, token);
 
-            private ResolutionComparer()
+            var result = this.method.Invoke(this.instance, arguments);
+            // if the result is a task, wait for its completion and propagate any exceptions
+            var task = result as Task<R>;
+            if (task != null)
             {
+                return await task;
             }
 
-            private bool TryCompareParameterTypeAssignability(Binding one, Binding two, int index, out int compare)
-            {
-                var l = one.parameters[index].ParameterType;
-                var r = two.parameters[index].ParameterType;
-                if (l.Equals(r))
-                {
-                    compare = 0;
-                    return true;
-                }
-                if (l.IsAssignableFrom(r))
-                {
-                    compare = -1;
-                    return true;
-                }
-                else if (r.IsAssignableFrom(l))
-                {
-                    compare = +1;
-                    return true;
-                }
-
-                compare = 0;
-                return false;
-            }
-
-            public static int UpdateComparisonConsistently(Binding one, Binding two, int compareOld, int compareNew)
-            {
-                if (compareOld == 0)
-                {
-                    return compareNew;
-                }
-                else if (compareNew == 0)
-                {
-                    return compareOld;
-                }
-                else if (compareNew == compareOld)
-                {
-                    return compareOld;
-                }
-                else
-                {
-                    throw new MethodResolutionException("inconsistent parameter overrides", one, two);
-                }
-            }
-
-            int IComparer<Binding>.Compare(Binding one, Binding two)
-            {
-                if (one.method.ReturnType != two.method.ReturnType)
-                {
-                    throw new MethodResolutionException("inconsistent return types", one, two);
-                }
-
-                int compare = 0;
-
-                var count = Math.Min(one.parameters.Count, two.parameters.Count);
-                for (int index = 0; index < count; ++index)
-                {
-                    int parameter;
-                    if (TryCompareParameterTypeAssignability(one, two, index, out parameter))
-                    {
-                        compare = UpdateComparisonConsistently(one, two, compare, parameter);
-                    }
-                    else
-                    {
-                        throw new MethodResolutionException("inconsistent parameter types", one, two);
-                    }
-                }
-
-                int length = one.parameters.Count.CompareTo(two.parameters.Count);
-                compare = UpdateComparisonConsistently(one, two, compare, length);
-                return compare;
-            }
-        }
-
-        [Serializable]
-        public sealed class MethodResolutionException : Exception
-        {
-            public MethodResolutionException(string message, Binding one, Binding two)
-                : base($"{message}: {one.method} and {two.method}")
-            {
-            }
-
-            private MethodResolutionException(SerializationInfo info, StreamingContext context)
-                : base(info, context)
-            {
-            }
+            return (R) result;
         }
     }
 }
