@@ -41,6 +41,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
@@ -279,13 +280,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        private static MethodInfo MethodOf(Expression<Action> action)
-        {
-            var call = (MethodCallExpression)action.Body;
-            return call.Method;
-        }
-
-        private static readonly MethodInfo MethodPost = MethodOf(() => ((IWait)null).Post(0)).GetGenericMethodDefinition();
+        private static readonly MethodInfo MethodPost = Types.MethodOf(() => ((IWait)null).Post(0)).GetGenericMethodDefinition();
 
         void IWait.Post<D>(D item)
         {
