@@ -95,6 +95,90 @@ namespace Microsoft.Bot.Builder.Scorables
             return Bind((Delegate)method);
         }
 
+        [Serializable]
+        public sealed class WhereScorable<Score> : ScorableAggregator<IResolver, WhereScorable<Score>.Token, Score, IResolver, object, Score>
+        {
+            public sealed class Token : Token<IResolver, Score>
+            {
+                public bool HasScore { get; set; }
+            }
+
+            private readonly IScorable<IResolver, Score> scorable;
+            private readonly Delegate lambda;
+            public WhereScorable(IScorable<IResolver, Score> scorable, Delegate lambda)
+            {
+                SetField.NotNull(out this.scorable, nameof(scorable), scorable);
+                SetField.NotNull(out this.lambda, nameof(lambda), lambda);
+            }
+
+            protected override async Task<Token> PrepareAsync(IResolver innerItem, CancellationToken token)
+            {
+                var innerState = await this.scorable.PrepareAsync(innerItem, token);
+                bool hasScore = false;
+                if (this.scorable.HasScore(innerItem, innerState))
+                {
+                    var innerScore = this.scorable.GetScore(innerItem, innerState);
+                    var outerItem = new ArrayResolver(innerItem, innerScore);
+
+                    IBinding<bool> binding;
+                    if (Binder.Instance.TryBind<bool>(lambda, outerItem, out binding))
+                    {
+                        hasScore = await binding.InvokeAsync(token);
+                    }
+                }
+
+                var state = new Token()
+                {
+                    Item = innerItem,
+                    Scorable = this.scorable,
+                    State = innerState,
+                    HasScore = hasScore
+                };
+
+                return state;
+            }
+
+            protected override bool HasScore(IResolver item, Token state)
+            {
+                return state.HasScore;
+            }
+
+            protected override Score GetScore(IResolver item, Token state)
+            {
+                return state.Scorable.GetScore(state.Item, state.State);
+            }
+        }
+
+        public static IScorable<IResolver, Score> Where<Score, T1>(this IScorable<IResolver, Score> scorable, Func<T1, bool> predicate)
+        {
+            return new WhereScorable<Score>(scorable, predicate);
+        }
+
+        public static IScorable<IResolver, Score> Where<Score, T1>(this IScorable<IResolver, Score> scorable, Func<T1, Task<bool>> predicate)
+        {
+            return new WhereScorable<Score>(scorable, predicate);
+        }
+
+        public static IScorable<IResolver, Score> Where<Score, T1, T2>(this IScorable<IResolver, Score> scorable, Func<T1, T2, bool> predicate)
+        {
+            return new WhereScorable<Score>(scorable, predicate);
+        }
+
+        public static IScorable<IResolver, Score> Where<Score, T1, T2>(this IScorable<IResolver, Score> scorable, Func<T1, T2, Task<bool>> predicate)
+        {
+            return new WhereScorable<Score>(scorable, predicate);
+        }
+
+        public static IScorable<IResolver, Score> Where<Score, T1, T2, T3>(this IScorable<IResolver, Score> scorable, Func<T1, T2, T3, bool> predicate)
+        {
+            return new WhereScorable<Score>(scorable, predicate);
+        }
+
+        public static IScorable<IResolver, Score> Where<Score, T1, T2, T3>(this IScorable<IResolver, Score> scorable, Func<T1, T2, T3, Task<bool>> predicate)
+        {
+            return new WhereScorable<Score>(scorable, predicate);
+        }
+
         public static IScorable<IResolver, Match> When<InnerScore>(this IScorable<IResolver, InnerScore> scorable, Regex regex)
         {
             return new RegexMatchScorable<object, InnerScore>(regex, scorable);
