@@ -23,7 +23,7 @@ var EntityRecognizer = (function () {
     };
     EntityRecognizer.parseTime = function (entities) {
         if (typeof entities == 'string') {
-            entities = EntityRecognizer.recognizeTime(entities);
+            entities = [EntityRecognizer.recognizeTime(entities)];
         }
         return EntityRecognizer.resolveTime(entities);
     };
