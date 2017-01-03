@@ -76,8 +76,8 @@ namespace Microsoft.Bot.Builder.Azure
             this.databaseId = databaseId;
             this.collectionId = collectionId;
 
-            CreateDatabaseIfNotExistsAsync().ConfigureAwait(false).GetAwaiter().GetResult();
-            CreateCollectionIfNotExistsAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            CreateDatabaseIfNotExistsAsync().GetAwaiter().GetResult();
+            CreateCollectionIfNotExistsAsync().GetAwaiter().GetResult();
         }
 
         /// <summary>
