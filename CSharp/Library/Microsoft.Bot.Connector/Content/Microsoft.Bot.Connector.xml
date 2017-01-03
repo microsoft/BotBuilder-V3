@@ -3031,11 +3031,6 @@
             Static credential provider which has the appid and password static
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.ConfigurationCredentialProvider">
-            <summary>
-            Credential provider which uses <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> to lookup appId and password
-            </summary>
-        </member>
         <member name="T:Microsoft.Bot.Connector.SettingsCredentialProvider">
             <summary>
             Credential provider which uses config settings to lookup appId and password

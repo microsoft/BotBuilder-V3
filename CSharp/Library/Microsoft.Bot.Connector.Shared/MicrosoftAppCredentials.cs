@@ -6,8 +6,10 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
+#if !NET45
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+#endif
 using Microsoft.Rest;
 using Newtonsoft.Json;
 
@@ -36,14 +38,15 @@ namespace Microsoft.Bot.Connector
 
         protected static readonly ConcurrentDictionary<string, OAuthResponse> cache = new ConcurrentDictionary<string, OAuthResponse>();
 
+#if !NET45
         protected ILogger logger;
+#endif
 
-        public MicrosoftAppCredentials(string appId = null, string password = null, ILogger logger = null)
+#if NET45
+        public MicrosoftAppCredentials(string appId = null, string password = null)
         {
             MicrosoftAppId = appId;
             MicrosoftAppPassword = password;
-
-#if NET45
 
             if(appId == null)
             {
@@ -54,7 +57,14 @@ namespace Microsoft.Bot.Connector
             {
                 MicrosoftAppPassword = ConfigurationManager.AppSettings[MicrosoftAppPasswordKey] ?? Environment.GetEnvironmentVariable(MicrosoftAppPasswordKey, EnvironmentVariableTarget.Process);
             }
-#endif
+
+            TokenCacheKey = $"{MicrosoftAppId}-cache";
+        }
+#else
+        public MicrosoftAppCredentials(string appId = null, string password = null, ILogger logger = null)
+        {
+            MicrosoftAppId = appId;
+            MicrosoftAppPassword = password;
 
             TokenCacheKey = $"{MicrosoftAppId}-cache";
             this.logger = logger;
@@ -64,6 +74,9 @@ namespace Microsoft.Bot.Connector
             : this(configuration.GetSection(MicrosoftAppIdKey)?.Value, configuration.GetSection(MicrosoftAppPasswordKey)?.Value, logger)
         {
         }
+#endif
+
+
 
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppPassword { get; set; }
@@ -154,7 +167,9 @@ namespace Microsoft.Bot.Connector
                 return true;
             }
 
+#if !NET45
             logger?.LogWarning($"Service url {request.RequestUri.Authority} is not trusted and JwtToken cannot be sent to it.");
+#endif
             return false;
         }
 
