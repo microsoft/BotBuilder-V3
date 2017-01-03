@@ -41,11 +41,12 @@ using System.Text.RegularExpressions;
 using System.Threading;
 
 using Autofac;
+using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Builder.History;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Scorables.Internals;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Scorables;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Autofac.Base;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
@@ -181,16 +182,21 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .Register(c => new DialogTaskManager(DialogModule.BlobKey, 
                                                      c.Resolve<JObjectBotData>(), 
                                                      c.Resolve<IStackStoreFactory<DialogTask>>(),
-                                                     c.Resolve<Func<IDialogStack, CancellationToken, IDialogContext>>()))
+                                                     c.Resolve<Func<IDialogStack, CancellationToken, IDialogContext>>(),
+                                                     c.Resolve<IEventProducer<IActivity>>()))
                 .AsSelf()
                 .As<IDialogTaskManager>()
+                .As<IDialogTasks>()
                 .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<DialogSystem>()
+                .As<IDialogSystem>();
 
             builder
                 .RegisterType<DialogContext>()
                 .As<IDialogContext>()
                 .InstancePerDependency();
-
 
             builder
                 .Register(c =>
@@ -214,7 +220,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IDialogTask>()
                 .InstancePerLifetimeScope();
 
-
             // Scorable implementing "/deleteprofile"
             builder
                 .Register(c => new Regex("^(\\s)*/deleteprofile", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace))
@@ -237,11 +242,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                         resolver = new AutofacResolver(cc, resolver);
                         resolver = new ArrayResolver(resolver,
                             activity,
-                            cc.Resolve<IDialogStack>(),
                             cc.Resolve<IBotToUser>(),
                             cc.Resolve<IBotData>(),
-                            cc.Resolve<IDialogTaskManager>());
+                            cc.Resolve<IDialogSystem>());
                         resolver = new ActivityResolver(resolver);
+                        resolver = new TriggerValueResolver(resolver);
                         return resolver;
                     };
                     return make;
@@ -255,22 +260,31 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
+                .RegisterType<EventQueue<IActivity>>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<ReactiveDialogTask>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
+                .Register(c => new ScoringEventLoop<double>(c.Resolve<ReactiveDialogTask>(), c.Resolve<ReactiveDialogTask>(), c.Resolve<IEventConsumer<IActivity>>(), c.ResolveKeyed<IScorable<IActivity, double>>(Key_Dialog_Router)))
+                .As<IEventLoop>()
+                .InstancePerLifetimeScope();
+
+            builder
                 .Register(c =>
                 {
-                    var cc = c.Resolve<IComponentContext>();
-                    Func<IPostToBot> makeInner = () =>
-                    {
-                        IPostToBot post = new ReactiveDialogTask(cc.Resolve<IDialogTask>(), cc.Resolve<Func<IDialog<object>>>());
-                        post = new ScoringDialogTask<double>(post, cc.ResolveKeyed<IScorable<IActivity, double>>(Key_Dialog_Router));
-                        return post;
-                    };
+                    Func<IEventLoop> makeInner = c.Resolve<Func<IEventLoop>>();
 
-                    IPostToBot outer = new PersistentDialogTask(makeInner, cc.Resolve<IBotData>());
-                    outer = new SerializingDialogTask(outer, cc.Resolve<IAddress>(), c.Resolve<IScope<IAddress>>());
+                    IPostToBot outer = new PersistentDialogTask(makeInner, c.Resolve<IEventProducer<IActivity>>(), c.Resolve<IBotData>());
+                    outer = new SerializingDialogTask(outer, c.Resolve<IAddress>(), c.Resolve<IScope<IAddress>>());
                     outer = new ExceptionTranslationDialogTask(outer);
                     outer = new LocalizedDialogTask(outer);
-                    outer = new PostUnhandledExceptionToUserTask(outer, cc.Resolve<IBotToUser>(), cc.Resolve<ResourceManager>(), cc.Resolve<TraceListener>());
-                    outer = new LogPostToBot(outer, cc.Resolve<IActivityLogger>());
+                    outer = new PostUnhandledExceptionToUserTask(outer, c.Resolve<IBotToUser>(), c.Resolve<ResourceManager>(), c.Resolve<TraceListener>());
+                    outer = new LogPostToBot(outer, c.Resolve<IActivityLogger>());
                     return outer;
                 })
                 .As<IPostToBot>()

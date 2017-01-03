@@ -134,7 +134,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
 
                 var task = scope.Resolve<IPostToBot>();
                 await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken));
-                var stack = scope.Resolve<IDialogStack>();
+                var stack = scope.Resolve<IDialogTask>();
 
                 stack.Call(MakeRoot(), null);
                 await stack.PollAsync(CancellationToken.None);

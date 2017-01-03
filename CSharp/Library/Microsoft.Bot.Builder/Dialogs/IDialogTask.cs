@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
@@ -64,6 +65,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         void Call<R>(IDialog<R> child, ResumeAfter<R> resume);
 
         /// <summary>
+        /// Post an internal event to the queue.
+        /// </summary>
+        /// <param name="event">The event to post to the queue.</param>
+        /// <param name="resume">The method to resume when the event has been delivered.</param>
+        void Post<E>(E @event, ResumeAfter<E> resume);
+
+        /// <summary>
         /// Call a child dialog, add it to the top of the stack and post the item to the child dialog.
         /// </summary>
         /// <typeparam name="R">The type of result expected from the child dialog.</typeparam>
@@ -89,16 +97,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         void Fail(Exception error);
 
         /// <summary>
-        /// Poll the dialog task for any work to be done.
-        /// </summary>
-        /// <param name="token">A cancellation token.</param>
-        /// <returns>A task representing the poll operation.</returns>
-        Task PollAsync(CancellationToken token);
-
-        /// <summary>
         /// Resets the stack.
         /// </summary>
         void Reset();
+    }
+
+    public interface IDialogTask : IDialogStack, IEventLoop, IEventProducer<IActivity>
+    {
     }
 
     /// <summary>
@@ -115,10 +120,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         Task PostAsync(IActivity activity, CancellationToken token);
     }
 
-    public interface IDialogTask : IDialogStack, IPostToBot
-    {
-    }
-
     public static partial class Extensions
     {
         /// <summary>
@@ -126,15 +127,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// </summary>
         /// <typeparam name="T">The type of result expected from the dialog.</typeparam>
         /// <typeparam name="R">The type of the item posted to dialog.</typeparam>
-        /// <param name="stack">The dialog stack.</param>
+        /// <param name="task">The dialog task.</param>
         /// <param name="dialog">The new interrupting dialog.</param>
         /// <param name="item">The item to foward to the new interrupting dialog.</param>
         /// <param name="token">The cancellation token.</param>
         /// <returns>A task that represents the interruption operation.</returns>
-        public static async Task InterruptAsync<T, R>(this IDialogStack stack, IDialog<T> dialog, R item, CancellationToken token)
+        public static async Task InterruptAsync<T, R>(this IDialogTask task, IDialog<T> dialog, R item, CancellationToken token)
         {
-            await stack.Forward(dialog.Void<T, R>(), null, item, token);
-            await stack.PollAsync(token);
+            await task.Forward(dialog.Void<T, R>(), null, item, token);
+            await task.PollAsync(token);
         }
     }
 }

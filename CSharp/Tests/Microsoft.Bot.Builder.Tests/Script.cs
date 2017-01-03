@@ -51,7 +51,7 @@ namespace Microsoft.Bot.Builder.Tests
                     var loop = root.Loop();
                     var data = scope.Resolve<IBotData>();
                     await data.LoadAsync(CancellationToken.None);
-                    var stack = scope.Resolve<IDialogStack>();
+                    var stack = scope.Resolve<IDialogTask>();
                     stack.Call(loop, null);
                     await stack.PollAsync(CancellationToken.None);
                     drain();
@@ -141,7 +141,7 @@ namespace Microsoft.Bot.Builder.Tests
                     var loop = root.Loop();
                     var data = scope.Resolve<IBotData>();
                     await data.LoadAsync(CancellationToken.None);
-                    var stack = scope.Resolve<IDialogStack>();
+                    var stack = scope.Resolve<IDialogTask>();
                     stack.Call(loop, null);
                     await stack.PollAsync(CancellationToken.None);
                     check();

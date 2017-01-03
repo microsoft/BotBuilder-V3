@@ -35,6 +35,7 @@ using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Builder.Scorables.Internals;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -113,7 +114,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <typeparam name="T">The type of the dialog.</typeparam>
         /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
         /// <returns>The dialog representing the message sent to the bot.</returns>
-        public static IDialog<Connector.IMessageActivity> WaitToBot<T>(this IDialog<T> antecedent)
+        public static IDialog<IMessageActivity> WaitToBot<T>(this IDialog<T> antecedent)
         {
             return new WaitToBotDialog<T>(antecedent);
         }
@@ -125,9 +126,22 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// The returned <see cref="IDialog{T}"/> can be used as the root dialog for a chain.
         /// </remarks>
         /// <returns> The dialog that dispatches the incoming message from the user to chain.</returns>
-        public static IDialog<Connector.IMessageActivity> PostToChain()
+        public static IDialog<IMessageActivity> PostToChain()
         {
             return Chain.Return(string.Empty).WaitToBot();
+        }
+
+        /// <summary>
+        /// When the antecedent <see cref="IDialog{T}"/> has completed, post the item to the event queue.
+        /// </summary>
+        /// <typeparam name="T">The type of the antecedent dialog.</typeparam>
+        /// <typeparam name="E">The type of the event.</typeparam>
+        /// <param name="antecedent">The antecedent <see cref="IDialog{T}"/>.</param>
+        /// <param name="event">The event.</param>
+        /// <returns>The result from the antecedent <see cref="IDialog{T}"/>.</returns>
+        public static IDialog<T> PostEvent<T, E>(this IDialog<T> antecedent, E @event)
+        {
+            return new PostEventDialog<T, E>(antecedent, @event);
         }
 
         /// <summary>
@@ -498,7 +512,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         [Serializable]
-        private sealed class WaitToBotDialog<T> : IDialog<Connector.IMessageActivity>
+        private sealed class WaitToBotDialog<T> : IDialog<IMessageActivity>
         {
             public readonly IDialog<T> Antecedent;
             public WaitToBotDialog(IDialog<T> antecedent)
@@ -514,9 +528,50 @@ namespace Microsoft.Bot.Builder.Dialogs
                 var item = await result;
                 context.Wait(MessageReceivedAsync);
             }
-            public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<Connector.IMessageActivity> argument)
+            public async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> argument)
             {
                 context.Done(await argument);
+            }
+        }
+
+        [Serializable]
+        private sealed class PostEventDialog<T, E> : IDialog<T>
+        {
+            public readonly IDialog<T> Antecedent;
+            public readonly E Event;
+
+            public PostEventDialog(IDialog<T> antecedent, E @event)
+            {
+                SetField.NotNull(out this.Antecedent, nameof(antecedent), antecedent);
+                this.Event = @event;
+            }
+
+            public override string ToString()
+            {
+                return $"{this.GetType().Name}({this.Event})";
+            }
+
+            async Task IDialog<T>.StartAsync(IDialogContext context)
+            {
+                context.Call<T>(this.Antecedent, AfterAntecedent);
+            }
+
+            private T item;
+            private async Task AfterAntecedent(IDialogContext context, IAwaitable<T> result)
+            {
+                this.item = await result;
+                context.Post(this.Event, AfterEvent);
+            }
+
+            private async Task AfterEvent(IDialogContext context, IAwaitable<E> result)
+            {
+                var @event = await result;
+                if (! object.ReferenceEquals(@event, this.Event))
+                {
+                    throw new InvalidOperationException();
+                }
+
+                context.Done(this.item);
             }
         }
 

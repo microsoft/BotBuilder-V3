@@ -41,21 +41,30 @@ using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
+    /// <summary>
+    /// A dialog task is a
+    /// 1. single <see cref="IDialogStack"/> stack of <see cref="IDialog"/> frames, waiting on the next <see cref="IActivity"/>
+    /// 2. the <see cref="IEventProducer{Activity}"/> queue of activity events necessary to satisfy those waits
+    /// 2. the <see cref="IEventLoop"/> loop to execute that dialog code once the waits are satisfied
+    /// </summary>
     public sealed class DialogTask : IDialogTask
     {
         private readonly Func<CancellationToken, IDialogContext> makeContext;
         private readonly IStore<IFiberLoop<DialogTask>> store;
+        private readonly IEventProducer<IActivity> queue;
         private readonly IFiberLoop<DialogTask> fiber;
         private readonly Frames frames;
-        public DialogTask(Func<CancellationToken, IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store)
+        public DialogTask(Func<CancellationToken, IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store, IEventProducer<IActivity> queue)
         {
             SetField.NotNull(out this.makeContext, nameof(makeContext), makeContext);
             SetField.NotNull(out this.store, nameof(store), store);
+            SetField.NotNull(out this.queue, nameof(queue), queue);
             this.store.TryLoad(out this.fiber);
             this.frames = new Frames(this);
         }
@@ -248,11 +257,16 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IDialogStack.Forward<R, T>(IDialog<R> child, ResumeAfter<R> resume, T item, CancellationToken token)
         {
+            // put the child on the stack
             IDialogStack stack = this;
             stack.Call(child, resume);
-            await stack.PollAsync(token);
+            // run the loop
+            IEventLoop loop = this;
+            await loop.PollAsync(token);
+            // forward the item
             this.fiber.Post(item);
-            await stack.PollAsync(token);
+            // run the loop again
+            await loop.PollAsync(token);
         }
 
         void IDialogStack.Done<R>(R value)
@@ -270,7 +284,32 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.nextWait = this.fiber.Wait<DialogTask, R>(ToRest(resume));
         }
 
-        async Task IDialogStack.PollAsync(CancellationToken token)
+        void IDialogStack.Post<E>(E @event, ResumeAfter<E> resume)
+        {
+            // schedule the wait for event delivery
+            this.nextWait = this.fiber.Wait<DialogTask, E>(ToRest(resume));
+
+            // save the wait for this event, in case the scorable action event handlers manipulate the stack
+            var wait = this.nextWait;
+            Action onPull = () =>
+            {
+                // and satisfy that particular saved wait when the event has been pulled from the queue
+                wait.Post(@event);
+            };
+
+            // post the activity to the queue
+            var activity = new Activity(ActivityTypes.Trigger) { Value = @event };
+            this.queue.Post(activity, onPull);
+        }
+
+        void IDialogStack.Reset()
+        {
+            this.store.Reset();
+            this.store.Flush();
+            this.fiber.Reset();
+        }
+
+        async Task IEventLoop.PollAsync(CancellationToken token)
         {
             try
             {
@@ -292,18 +331,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        void IDialogStack.Reset()
+        void IEventProducer<IActivity>.Post(IActivity item, Action onPull)
         {
-            this.store.Reset();
-            this.store.Flush();
-            this.fiber.Reset();
-        }
-
-        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
-        {
-            this.fiber.Post(activity);
-            IDialogStack stack = this;
-            await stack.PollAsync(token);
+            this.fiber.Post(item);
+            onPull?.Invoke();
         }
 
         internal IStore<IFiberLoop<DialogTask>> Store
@@ -315,7 +346,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
-    public sealed class ReactiveDialogTask : IPostToBot
+    /// <summary>
+    /// A reactive dialog task (in contrast to a proactive dialog task) is a dialog task that
+    /// starts some root dialog when it receives the first <see cref="IActivity"/> activity. 
+    /// </summary>
+    public sealed class ReactiveDialogTask : IEventLoop, IEventProducer<IActivity>
     {
         private readonly IDialogTask dialogTask;
         private readonly Func<IDialog<object>> makeRoot;
@@ -326,28 +361,36 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.makeRoot, nameof(makeRoot), makeRoot);
         }
 
-        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
+        async Task IEventLoop.PollAsync(CancellationToken token)
         {
             try
             {
-                if (dialogTask.Frames.Count == 0)
+                if (this.dialogTask.Frames.Count == 0)
                 {
                     var root = this.makeRoot();
                     var loop = root.Loop();
-                    dialogTask.Call(loop, null);
-                    await dialogTask.PollAsync(token);
+                    this.dialogTask.Call(loop, null);
                 }
 
-                await dialogTask.PostAsync(activity, token);
+                await this.dialogTask.PollAsync(token);
             }
             catch
             {
-                dialogTask.Reset();
+                this.dialogTask.Reset();
                 throw;
             }
         }
+
+        void IEventProducer<IActivity>.Post(IActivity item, Action onPull)
+        {
+            this.dialogTask.Post(item, onPull);
+        }
     }
 
+    /// <summary>
+    /// This dialog task translates from the more orthogonal (opaque) fiber exceptions
+    /// to the more readable dialog programming model exceptions.
+    /// </summary>
     public sealed class ExceptionTranslationDialogTask : IPostToBot
     {
         private readonly IPostToBot inner;
@@ -378,6 +421,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    // TODO: move the majority of these IPostToBot to ConnectorEx
+
+    /// <summary>
+    /// This class sets the ambient thread culture for a scope of code with a using-block.
+    /// </summary>
     public struct LocalizedScope : IDisposable
     {
         private readonly CultureInfo previousCulture;
@@ -414,6 +462,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    /// <summary>
+    /// This dialog stack sets the ambient thread culture based on the <see cref="IMessageActivity.Locale"/>.
+    /// </summary>
     public sealed class LocalizedDialogTask : IPostToBot
     {
         private readonly IPostToBot inner;
@@ -432,16 +483,22 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    /// <summary>
+    /// This dialog task loads the dialog stack from <see cref="IBotData"/> before handling the incoming
+    /// activity and saves the dialog stack to <see cref="IBotData"/> afterwards. 
+    /// </summary>
     public sealed class PersistentDialogTask : IPostToBot
     {
-        private readonly Lazy<IPostToBot> inner;
+        private readonly Lazy<IEventLoop> inner;
+        private readonly IEventProducer<IActivity> queue;
         private readonly IBotData botData;
 
-        public PersistentDialogTask(Func<IPostToBot> makeInner, IBotData botData)
+        public PersistentDialogTask(Func<IEventLoop> makeInner, IEventProducer<IActivity> queue, IBotData botData)
         {
             SetField.NotNull(out this.botData, nameof(botData), botData);
+            SetField.NotNull(out this.queue, nameof(queue), queue);
             SetField.CheckNull(nameof(makeInner), makeInner);
-            this.inner = new Lazy<IPostToBot>(() => makeInner());
+            this.inner = new Lazy<IEventLoop>(() => makeInner());
         }
 
         async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
@@ -449,7 +506,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             await botData.LoadAsync(token);
             try
             {
-                await this.inner.Value.PostAsync(activity, token);
+                this.queue.Post(activity);
+                var loop = this.inner.Value;
+                await loop.PollAsync(token);
             }
             finally
             {
@@ -458,6 +517,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    /// <summary>
+    /// This dialog task serializes the execution of a particular conversations code to avoid
+    /// concurrency issues.
+    /// </summary>
     public sealed class SerializingDialogTask : IPostToBot
     {
         private readonly IPostToBot inner;
@@ -480,6 +543,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    /// <summary>
+    /// This dialog task converts any unhandled exceptions to a message sent to the user.
+    /// </summary>
     public sealed class PostUnhandledExceptionToUserTask : IPostToBot
     {
         private readonly IPostToBot inner;

@@ -38,6 +38,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Scorables;
@@ -272,7 +273,7 @@ namespace Microsoft.Bot.Builder.Tests
                     var botData = scope.Resolve<IBotData>();
                     await botData.LoadAsync(default(CancellationToken));
 
-                    var stack = scope.Resolve<IDialogStack>();
+                    var stack = scope.Resolve<IDialogTask>();
                     Assert.AreEqual(0, stack.Frames.Count);
 
                     // this is modeling a proactive scenario, where we may want to modify the
@@ -455,7 +456,7 @@ namespace Microsoft.Bot.Builder.Tests
 
                     var task = scope.Resolve<IPostToBot>();
                     await scope.Resolve<IBotData>().LoadAsync(default(CancellationToken));
-                    var stack = scope.Resolve<IDialogStack>();
+                    var stack = scope.Resolve<IDialogTask>();
 
                     // set up dialogOne to call dialogNew when triggered
                     dialogOne
@@ -545,14 +546,18 @@ namespace Microsoft.Bot.Builder.Tests
             var token = new CancellationTokenSource().Token;
             var scorable = MockScorable(item, state, score, token);
 
-            var inner = new Mock<IPostToBot>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(NormalizedTraits.Instance, Comparer<double>.Default, new[] { scorable.Object }));
+            var innerLoop = new Mock<IEventLoop>();
+            var innerProducer = new Mock<IEventProducer<IActivity>>();
+            var queue = new EventQueue<IActivity>();
+            IEventLoop loop = new ScoringEventLoop<double>(innerLoop.Object, innerProducer.Object, queue, new TraitsScorable<IActivity, double>(NormalizedTraits.Instance, Comparer<double>.Default, new[] { scorable.Object }));
 
             scorable
                 .Setup(s => s.PostAsync(item, state, token))
                 .Returns(Task.FromResult(0));
 
-            await task.PostAsync(item, token);
+            IEventProducer<IActivity> producer = queue;
+            producer.Post(item);
+            await loop.PollAsync(token);
 
             scorable.Verify();
         }
@@ -576,12 +581,16 @@ namespace Microsoft.Bot.Builder.Tests
             var token = new CancellationTokenSource().Token;
             var scorable = MockScorable(item, state, score, token);
 
-            var inner = new Mock<IPostToBot>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<IActivity, double>(NormalizedTraits.Instance, Comparer<double>.Default, new[] { scorable.Object }));
+            var innerLoop = new Mock<IEventLoop>();
+            var innerProducer = new Mock<IEventProducer<IActivity>>();
+            var queue = new EventQueue<IActivity>();
+            IEventLoop loop = new ScoringEventLoop<double>(innerLoop.Object, innerProducer.Object, queue, new TraitsScorable<IActivity, double>(NormalizedTraits.Instance, Comparer<double>.Default, new[] { scorable.Object }));
 
             try
             {
-                await task.PostAsync(item, token);
+                IEventProducer<IActivity> producer = queue;
+                producer.Post(item);
+                await loop.PollAsync(token);
                 Assert.Fail();
             }
             catch (ArgumentOutOfRangeException)
@@ -612,14 +621,18 @@ namespace Microsoft.Bot.Builder.Tests
             var scorable1 = MockScorable(item, state1, 1.0, token);
             var scorable2 = new Mock<IScorable<object, double>>(MockBehavior.Strict);
 
-            var inner = new Mock<IPostToBot>();
-            IPostToBot task = new ScoringDialogTask<double>(inner.Object, new TraitsScorable<object, double>(NormalizedTraits.Instance, Comparer<double>.Default, new[] { scorable1.Object, scorable2.Object }));
+            var innerLoop = new Mock<IEventLoop>();
+            var innerProducer = new Mock<IEventProducer<IActivity>>();
+            var queue = new EventQueue<IActivity>();
+            IEventLoop loop = new ScoringEventLoop<double>(innerLoop.Object, innerProducer.Object, queue, new TraitsScorable<IActivity, double>(NormalizedTraits.Instance, Comparer<double>.Default, new[] { scorable1.Object, scorable2.Object  }));
 
             scorable1
                 .Setup(s => s.PostAsync(item, state1, token))
                 .Returns(Task.FromResult(0));
 
-            await task.PostAsync(item, token);
+            IEventProducer<IActivity> producer = queue;
+            producer.Post(item);
+            await loop.PollAsync(token);
 
             scorable1.Verify();
             scorable2.Verify();

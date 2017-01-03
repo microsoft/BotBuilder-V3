@@ -89,7 +89,6 @@ namespace Microsoft.Bot.Builder.Tests
         protected override async Task PostAsync(IActivity item, double? state, CancellationToken token)
         {
             this.stack.Fail(new OperationCanceledException());
-            await this.stack.PollAsync(token);
         }
         protected override Task DoneAsync(IActivity item, double? state, CancellationToken token)
         {
@@ -267,7 +266,6 @@ namespace Microsoft.Bot.Builder.Tests
             message.Text = state;
 
             await this.stack.Forward(dialog.Void(this.stack), null, message, token);
-            await this.stack.PollAsync(token);
         }
         protected override Task DoneAsync(IActivity item, string state, CancellationToken token)
         {
@@ -284,7 +282,7 @@ namespace Microsoft.Bot.Builder.Tests
             var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
 
             var scorable = Actions
-                .Bind((string expression, IBotData data, IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
+                .Bind((string expression, IBotData data, IDialogTask stack, IMessageActivity activity, CancellationToken token) =>
                 {
                     var dialog = new CalculatorDialog();
                     activity.Text = expression;

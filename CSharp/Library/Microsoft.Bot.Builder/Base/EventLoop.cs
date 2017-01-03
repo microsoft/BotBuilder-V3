@@ -32,37 +32,65 @@
 //
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Scorables;
-
-namespace Microsoft.Bot.Builder.Dialogs.Internals
+namespace Microsoft.Bot.Builder.Base
 {
-    public sealed class ScoringDialogTask<Score> : IPostToBot
+    public interface IEventLoop
     {
-        private readonly IPostToBot inner;
-        private readonly IScorable<IActivity, Score> scorable;
-        public ScoringDialogTask(IPostToBot inner, IScorable<IActivity, Score> scorable)
+        /// <summary>
+        /// Poll the target for any work to be done.
+        /// </summary>
+        /// <param name="token">A cancellation token.</param>
+        /// <returns>A task representing the poll operation.</returns>
+        Task PollAsync(CancellationToken token);
+    }
+
+    public interface IEventProducer<in Event>
+    {
+        void Post(Event @event, Action onPull = null);
+    }
+
+    public interface IEventConsumer<Event>
+    {
+        bool TryPull(out Event @event);
+    }
+
+    public sealed class EventQueue<Event> : IEventProducer<Event>, IEventConsumer<Event>
+    {
+        private struct Item
         {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.scorable, nameof(scorable), scorable);
+            public Event Event { get; set; }
+            public Action OnPull { get; set; }
         }
 
-        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
+        private readonly Queue<Item> queue = new Queue<Item>();
+        void IEventProducer<Event>.Post(Event @event, Action onPull)
         {
-            if (await this.scorable.TryPostAsync(activity, token))
-            {
-                return;
-            }
+            var item = new Item() { Event = @event, OnPull = onPull };
+            this.queue.Enqueue(item);
+        }
 
-            await this.inner.PostAsync(activity, token);
+        bool IEventConsumer<Event>.TryPull(out Event @event)
+        {
+            if (queue.Count > 0)
+            {
+                var item = this.queue.Dequeue();
+                @event = item.Event;
+                var onPull = item.OnPull;
+                onPull?.Invoke();
+
+                return true;
+            }
+            else
+            {
+                @event = default(Event);
+                return false;
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
+using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
@@ -149,8 +150,12 @@ namespace Microsoft.Bot.Builder.Tests
 
                     //create second dialog task
                     var secondDialogTask = dialogTaskManager.CreateDialogTask();
-                    IPostToBot reactiveDialogTask = new ReactiveDialogTask(secondDialogTask, secondStackMakeRoot);
-                    await reactiveDialogTask.PostAsync(toBot, CancellationToken.None);
+                    var reactiveDialogTask = new ReactiveDialogTask(secondDialogTask, secondStackMakeRoot);
+                    IEventLoop loop = reactiveDialogTask;
+                    await loop.PollAsync(CancellationToken.None);
+                    IEventProducer<IActivity> producer = reactiveDialogTask;
+                    producer.Post(toBot);
+                    await loop.PollAsync(CancellationToken.None);
                     await botData.FlushAsync(CancellationToken.None);
 
                     queue = scope.Resolve<Queue<IMessageActivity>>();
@@ -167,7 +172,9 @@ namespace Microsoft.Bot.Builder.Tests
                     var dialogTaskManager = scope.Resolve<IDialogTaskManager>();
                     Assert.AreEqual(2, dialogTaskManager.DialogTasks.Count);
                     var secondDialogTask = dialogTaskManager.DialogTasks[1];
-                    await secondDialogTask.PostAsync(toBot, CancellationToken.None);
+                    await secondDialogTask.PollAsync(CancellationToken.None);
+                    secondDialogTask.Post(toBot);
+                    await secondDialogTask.PollAsync(CancellationToken.None);
 
                     queue = scope.Resolve<Queue<IMessageActivity>>();
                     Assert.AreEqual(bar, queue.Dequeue().Text);
@@ -175,9 +182,5 @@ namespace Microsoft.Bot.Builder.Tests
                 }
             }
         }
-
-
     }
-
-
 }

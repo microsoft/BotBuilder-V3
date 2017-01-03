@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\EventLoop.cs" />
     <Compile Include="Base\Extensions.cs" />
     <Compile Include="Base\Resolver.cs" />
     <Compile Include="Base\Types.cs" />
@@ -79,12 +80,13 @@
     <Compile Include="Dialogs\DialogContext.cs" />
     <Compile Include="Dialogs\Chain.cs" />
     <Compile Include="Dialogs\DialogRouter.cs" />
+    <Compile Include="Dialogs\DialogSystem.cs" />
     <Compile Include="Dialogs\Exceptions.cs" />
     <Compile Include="ConnectorEx\Address.cs" />
     <Compile Include="ConnectorEx\IActivityLogger.cs" />
     <Compile Include="Dialogs\DispatchDialog.cs" />
     <Compile Include="ConnectorEx\ResumptionCookie.cs" />
-    <Compile Include="Dialogs\ScorableDialogs.cs" />
+    <Compile Include="Dialogs\ScoringEventLoop.cs" />
     <Compile Include="Dialogs\DialogTask.cs" />
     <Compile Include="ConnectorEx\IBotDataBag.cs" />
     <Compile Include="ConnectorEx\IChannelCapability.cs" />
