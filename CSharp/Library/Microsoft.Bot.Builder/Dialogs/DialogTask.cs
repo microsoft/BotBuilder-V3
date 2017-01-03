@@ -94,11 +94,21 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return this.nextWait;
         }
 
+        /// <summary>
+        /// Adjust the calling convention from Dialog's to Fiber's delegates.
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Thunk
+        /// </remarks>
         public interface IThunk
         {
             Delegate Method { get; }
         }
 
+        /// <summary>
+        /// Adjust the calling convention from Dialog's to Fiber's delegates
+        /// for IDialog.StartAsync.
+        /// </summary>
         [Serializable]
         private sealed class ThunkStart : IThunk
         {
@@ -128,6 +138,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
+        /// <summary>
+        /// Adjust the calling convention from Dialog's to Fiber's delegates
+        /// for IDialog's <see cref="ResumeAfter{T}"/>. 
+        /// </summary>
         [Serializable]
         private sealed class ThunkResume<T> : IThunk
         {
