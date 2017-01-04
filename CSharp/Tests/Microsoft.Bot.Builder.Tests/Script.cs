@@ -196,9 +196,24 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
+        public static string NewScriptPathFor(string pathScriptOld)
+        {
+            if (! File.Exists(pathScriptOld))
+            {
+                throw new FileNotFoundException("unable to find script file", pathScriptOld);
+            }
+
+            var pathScriptNew = Path.Combine
+                (
+                Path.GetDirectoryName(pathScriptOld),
+                Path.GetFileNameWithoutExtension(pathScriptOld) + "-new" + Path.GetExtension(pathScriptOld)
+                );
+            return pathScriptNew;
+        }
+
         public static async Task VerifyDialogScript<T>(string filePath, IDialog<T> dialog, bool proactive, params string[] inputs)
         {
-            var newPath = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + "-new" + Path.GetExtension(filePath));
+            var newPath = NewScriptPathFor(filePath);
             File.Delete(newPath);
             try
             {
