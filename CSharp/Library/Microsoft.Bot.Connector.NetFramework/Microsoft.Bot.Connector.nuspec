@@ -1,0 +1,49 @@
+﻿<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Microsoft.Bot.Connector</id>
+    <version>$version$-alpha</version>
+    <authors>Microsoft</authors>
+    <iconUrl>https://bots.botframework.com/Client/Images/bot-framework-default-7.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library implements C# classes for using the Bot Framework Connector REST API</description>
+    <summary>Client REST API library for Microsoft Bot Framework Connector</summary>
+    <language>en-US</language>
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3" />
+        <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
+        <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.2" />
+        <dependency id="Newtonsoft.Json" version="8.0.3" />
+        <dependency id="System.IdentityModel.Tokens.Jwt" version="[4.0.2.206221351,5.0)" />
+        <dependency id="Microsoft.IdentityModel.Protocol.Extensions" version="1.0.2.206221351" />
+      </group>
+      <group targetFramework=".NETStandard1.6">
+        <dependency id="NETStandard.Library" version="1.6.0" />
+        <dependency id="Microsoft.AspNetCore.Authentication.JwtBearer" version="1.0.0" />
+        <dependency id="System.IdentityModel.Tokens.Jwt" version="5.0.0" />
+        <dependency id="Microsoft.AspNetCore.Mvc.Core" version="1.0.1" />
+        <!-- dependencies for NetCore assembly -->
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.0" />
+        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.0" />
+        <dependency id="Microsoft.IdentityModel.Protocols.OpenIdConnect" version="2.0.0" />
+        <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.2" />
+        <dependency id="Newtonsoft.Json" version="9.0.1" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\release\Microsoft.Bot.Connector.dll" target="lib\net45"/>
+    <file src="bin\release\Microsoft.Bot.Connector.xml" target="lib\net45" />
+    <file src="bin\release\Microsoft.Bot.Connector.pdb" target="lib\net45" />
+    <!-- assembly Microsoft.Bot.Connector for AspNetCore -->
+    <file src="..\Microsoft.Bot.Connector.AspNetCore\bin\release\netstandard1.6\Microsoft.Bot.Connector.dll" target="lib\netstandard1.6" />
+    <file src="..\Microsoft.Bot.Connector.AspNetCore\bin\release\netstandard1.6\Microsoft.Bot.Connector.pdb" target="lib\netstandard1.6" />
+    <file src="..\Microsoft.Bot.Connector.AspNetCore\bin\release\netstandard1.6\Microsoft.Bot.Connector.xml" target="lib\netstandard1.6" />
+    <!-- assembly Microsoft.Bot.Connector.NetCore -->
+    <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.NetCore.dll" target="lib\netstandard1.6" />
+    <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.NetCore.pdb" target="lib\netstandard1.6" />
+    <file src="..\Microsoft.Bot.Connector.NetCore\Content\Microsoft.Bot.Connector.NetCore.xml" target="lib\netstandard1.6" />
+    <file src="**\*.cs" exclude="**\obj\**\*.cs" target="src" />
+  </files>
+</package>

@@ -10,7 +10,9 @@
     "Microsoft.AspNetCore.Mvc.Core": "1.0.1"
   },
   "buildOptions": {
-    "outputName": "Microsoft.Bot.Connector"
+    "outputName": "Microsoft.Bot.Connector",
+    "xmlDoc": true,
+    "nowarn": [ "CS1591" ]
   },
   "frameworks": {
     "netstandard1.6": {

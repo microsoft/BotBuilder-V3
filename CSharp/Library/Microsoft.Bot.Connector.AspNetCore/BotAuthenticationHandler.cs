@@ -30,7 +30,7 @@ namespace Microsoft.Bot.Connector
             // and Authentication is not disabled fail
             if (string.IsNullOrEmpty(token))
             {
-                return AuthenticateResult.Fail("No JwtToken is present and BotAuthentication is not disabled!");
+                return AuthenticateResult.Fail("No JwtToken is present and BotAuthentication is enabled!");
             }
 
             var authenticator = new BotAuthenticator(Options.CredentialProvider, Options.OpenIdConfiguration, Options.DisableEmulatorTokens);
@@ -57,11 +57,6 @@ namespace Microsoft.Bot.Connector
             {
                 return AuthenticateResult.Fail($"Failed to authenticate JwtToken {token}");
             }
-        }
-
-        protected override Task<bool> HandleUnauthorizedAsync(ChallengeContext context)
-        {
-            return base.HandleUnauthorizedAsync(context);
         }
     }
 }

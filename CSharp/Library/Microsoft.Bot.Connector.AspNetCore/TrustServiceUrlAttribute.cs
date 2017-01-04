@@ -20,7 +20,7 @@ namespace Microsoft.Bot.Connector
             await next();
         }
 
-        private IList<Activity> GetActivities(ActionExecutingContext actionContext)
+        public static IList<Activity> GetActivities(ActionExecutingContext actionContext)
         {
             var activties = actionContext.ActionArguments.Select(t => t.Value).OfType<Activity>().ToList();
             if (activties.Any())
