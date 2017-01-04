@@ -45,7 +45,11 @@ import * as http from 'http';
 import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
 
+var pjson = require('../../package.json');
+
 var MAX_DATA_LENGTH = 65000;
+
+var USER_AGENT = "Microsoft-BotFramework/3.0 (BotBuilder Node.js/"+ pjson.version +")";
 
 export interface IChatConnectorSettings {
     appId?: string;
@@ -460,6 +464,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         if (address.useAuth) {
             this.authenticatedRequest(options, (err, response, body) => cb(err));
         } else {
+            this.addUserAgent(options);
             request(options, (err, response, body) => {
                 if (!err && response.statusCode >= 400) {
                     var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
@@ -540,7 +545,16 @@ export class ChatConnector implements IConnector, IBotStorage {
         }
     }
 
+    private addUserAgent(options: request.Options) : void {
+        if (options.headers == null)
+        {
+            options.headers = {};
+        }
+        options.headers['User-Agent'] = USER_AGENT;
+    }
+
     private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
+        this.addUserAgent(options);
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken((err, token) => {
                 if (!err && token) {
