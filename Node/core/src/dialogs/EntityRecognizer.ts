@@ -90,7 +90,7 @@ export class EntityRecognizer {
     static parseTime(entities: IEntity[]): Date;
     static parseTime(entities: any): Date {
         if (typeof entities == 'string') {
-            entities = EntityRecognizer.recognizeTime(entities);
+            entities = [EntityRecognizer.recognizeTime(entities)];  
         }
         return EntityRecognizer.resolveTime(entities);
     }

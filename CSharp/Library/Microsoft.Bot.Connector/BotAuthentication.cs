@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -11,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Connector
 {
@@ -115,7 +115,7 @@ namespace Microsoft.Bot.Connector
             {
                 // if we have raw values
                 credentialProvider = new StaticCredentialProvider(MicrosoftAppId, MicrosoftAppPassword);
-             
+
             }
             else
             {
@@ -221,20 +221,26 @@ namespace Microsoft.Bot.Connector
             }
 
             ClaimsIdentity identity = null;
+            string appId = null;
             var tokenExtractor = GetTokenExtractor();
-            identity = await tokenExtractor.GetIdentityAsync(request);
 
-            // No identity? If we're allowed to, fall back to MSA
-            // This code path is used by the emulator
+            // Try to get identity from token as issued by channel
+            identity = await tokenExtractor.GetIdentityAsync(request);
+            if (identity != null)
+                appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
+
+            // No identity? If we're allowed to, fall back to emulator path
             if (identity == null && !this.disableEmulatorTokens)
             {
-                tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
+                tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromEmulatorTokenValidationParameters, JwtConfig.ToBotFromEmulatorOpenIdMetadataUrl);
                 identity = await tokenExtractor.GetIdentityAsync(request);
+
+                if (identity != null)
+                    appId = tokenExtractor.GetAppIdFromEmulatorClaimsIdentity(identity);
             }
 
             if (identity != null)
             {
-                var appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
                 if (await credentialProvider.IsValidAppIdAsync(appId) == false) // keep context
                 {
                     // not valid appid, drop the identity
@@ -267,7 +273,7 @@ namespace Microsoft.Bot.Connector
 
         private JwtTokenExtractor GetTokenExtractor()
         {
-            var parameters = JwtConfig.GetToBotFromChannelTokenValidationParameters((audiences, securityToken, validationParameters) => true);
+            var parameters = JwtConfig.ToBotFromChannelTokenValidationParameters;
             return new JwtTokenExtractor(parameters, this.openIdConfigurationUrl);
         }
 

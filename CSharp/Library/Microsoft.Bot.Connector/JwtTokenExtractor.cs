@@ -32,14 +32,12 @@ namespace Microsoft.Bot.Connector
         {
             // Make our own copy so we can edit it
             _tokenValidationParameters = tokenValidationParameters.Clone();
+            _tokenValidationParameters.RequireSignedTokens = true;
 
             if (!_openIdMetadataCache.ContainsKey(metadataUrl))
                 _openIdMetadataCache[metadataUrl] = new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl);
 
             _openIdMetadata = _openIdMetadataCache[metadataUrl];
-
-            _tokenValidationParameters.ValidateAudience = true;
-            _tokenValidationParameters.RequireSignedTokens = true;
         }
 
         public async Task<ClaimsIdentity> GetIdentityAsync(HttpRequestMessage request)
@@ -94,19 +92,33 @@ namespace Microsoft.Bot.Connector
             return false;
         }
 
+
+
         public string GetAppIdFromClaimsIdentity(ClaimsIdentity identity)
         {
             if (identity == null)
                 return null;
 
-            Claim botClaim = identity.Claims.FirstOrDefault(c => _tokenValidationParameters.ValidIssuers.Contains(c.Issuer) && c.Type == "appid");
-            if (botClaim != null)
-                return botClaim.Value;
+            Claim botClaim = identity.Claims.FirstOrDefault(c => _tokenValidationParameters.ValidIssuers.Contains(c.Issuer) && c.Type == "aud");
+            return botClaim?.Value;
+        }
 
-            // Fallback for BF-issued tokens
-            botClaim = identity.Claims.FirstOrDefault(c => c.Issuer == "https://api.botframework.com" && c.Type == "aud");
-            if (botClaim != null)
-                return botClaim.Value;
+        public string GetAppIdFromEmulatorClaimsIdentity(ClaimsIdentity identity)
+        {
+            if (identity == null)
+                return null;
+
+            Claim appIdClaim = identity.Claims.FirstOrDefault(c => _tokenValidationParameters.ValidIssuers.Contains(c.Issuer) && c.Type == "appid");
+            if (appIdClaim == null)
+                return null;
+
+            // v3.1 emulator token
+            if (identity.Claims.Any(c => c.Type == "aud" && c.Value == appIdClaim.Value))
+                return appIdClaim.Value;
+
+            // v3.0 emulator token -- allow this
+            if (identity.Claims.Any(c => c.Type == "aud" && c.Value == "https://graph.microsoft.com"))
+                return appIdClaim.Value;
 
             return null;
         }

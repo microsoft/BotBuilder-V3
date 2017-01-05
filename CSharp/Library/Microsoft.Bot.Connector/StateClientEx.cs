@@ -85,5 +85,10 @@ namespace Microsoft.Bot.Connector
             handlers.Add(new JwtTokenRefresher(credentials));
             return handlers.ToArray();
         }
+
+        partial void CustomInitialize()
+        {
+            ConnectorClient.AddUserAgent(this);
+        }
     }
 }

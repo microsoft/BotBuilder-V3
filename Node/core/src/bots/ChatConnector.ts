@@ -45,7 +45,11 @@ import * as http from 'http';
 import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
 
+var pjson = require('../../package.json');
+
 var MAX_DATA_LENGTH = 65000;
+
+var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/"+ pjson.version +")";
 
 export interface IChatConnectorSettings {
     appId?: string;
@@ -65,6 +69,9 @@ export interface IChatConnectorEndpoint {
     msaOpenIdMetadata: string;
     msaIssuer: string;
     msaAudience: string;
+    emulatorOpenIdMetadata: string;
+    emulatorIssuer: string;
+    emulatorAudience: string;
     stateEndpoint: string;
 }
 
@@ -80,24 +87,29 @@ export class ChatConnector implements IConnector, IBotStorage {
     private accessTokenExpires: number;
     private botConnectorOpenIdMetadata: OpenIdMetadata;
     private msaOpenIdMetadata: OpenIdMetadata;
+    private emulatorOpenIdMetadata: OpenIdMetadata;
 
     constructor(private settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
-                refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-                refreshScope: 'https://graph.microsoft.com/.default',
-                botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
+                refreshEndpoint: 'https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token',
+                refreshScope: 'https://api.botframework.com/.default',
+                botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://login.botframework.com/v1/.well-known/openidconfiguration',
                 botConnectorIssuer: 'https://api.botframework.com',
                 botConnectorAudience: this.settings.appId,
                 msaOpenIdMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
                 msaIssuer: 'https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/',
                 msaAudience: 'https://graph.microsoft.com',
+                emulatorOpenIdMetadata: 'https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration',
+                emulatorAudience: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
+                emulatorIssuer: this.settings.appId,
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             }
         }
 
         this.botConnectorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.msaOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
+        this.emulatorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
     }
 
     public listen(): IWebMiddleware {
@@ -144,6 +156,14 @@ export class ChatConnector implements IConnector, IBotStorage {
                     audience: this.settings.endpoint.msaAudience,
                     clockTolerance: 300
                 };
+            } else if (isEmulator && decoded.payload.iss == this.settings.endpoint.emulatorIssuer) {
+                // This token came from the emulator, so check it via the emulator path
+                openIdMetadata = this.emulatorOpenIdMetadata;
+                verifyOptions = {
+                    issuer: this.settings.endpoint.emulatorIssuer,
+                    audience: this.settings.endpoint.emulatorAudience,
+                    clockTolerance: 300
+                };
             } else {
                 // This is a normal token, so use our Bot Connector verification
                 openIdMetadata = this.botConnectorOpenIdMetadata;
@@ -152,6 +172,13 @@ export class ChatConnector implements IConnector, IBotStorage {
                     audience: this.settings.endpoint.botConnectorAudience,
                     clockTolerance: 300
                 };
+            }
+
+            if (isEmulator && decoded.payload.appid != this.settings.appId) {
+                logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
+                res.status(403);
+                res.end();
+                return;
             }
 
             openIdMetadata.getKey(decoded.header.kid, key => {
@@ -460,6 +487,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         if (address.useAuth) {
             this.authenticatedRequest(options, (err, response, body) => cb(err));
         } else {
+            this.addUserAgent(options);
             request(options, (err, response, body) => {
                 if (!err && response.statusCode >= 400) {
                     var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
@@ -540,7 +568,16 @@ export class ChatConnector implements IConnector, IBotStorage {
         }
     }
 
+    private addUserAgent(options: request.Options) : void {
+        if (options.headers == null)
+        {
+            options.headers = {};
+        }
+        options.headers['User-Agent'] = USER_AGENT;
+    }
+
     private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
+        this.addUserAgent(options);
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken((err, token) => {
                 if (!err && token) {
