@@ -49,7 +49,7 @@ var pjson = require('../../package.json');
 
 var MAX_DATA_LENGTH = 65000;
 
-var USER_AGENT = "Microsoft-BotFramework/3.0 (BotBuilder Node.js/"+ pjson.version +")";
+var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/"+ pjson.version +")";
 
 export interface IChatConnectorSettings {
     appId?: string;

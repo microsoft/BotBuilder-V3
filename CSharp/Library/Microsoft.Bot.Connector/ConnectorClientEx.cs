@@ -53,7 +53,7 @@ namespace Microsoft.Bot.Connector
 
         internal static void AddUserAgent<T>(T client) where T : ServiceClient<T>
         {
-            client.HttpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Microsoft-BotFramework", "3.0"));
+            client.HttpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Microsoft-BotFramework", "3.1"));
             client.HttpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue($"(BotBuilder .Net/{GetClientVersion(client)})"));
         }
 
