@@ -25,6 +25,45 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+
+### [v3.5](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.5)
+
+#### Changes
+
+- Update to bot framework v3.1 JwtToken. You can read more about v3.1 token changes [here](https://docs.botframework.com/en-us/restapi/authentication/#changes)
+- General bug fixes and code refactoring
+
+***
+
+### [v3.4](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.4)
+
+#### Breaking 
+
+- Rename ScorableOrder attribute to ScorableGroup in DispatchDialog. Only impacts bots that are using ScorableOrder in their DispatchDialog
+
+#### Changes
+
+- General bug fixes
+- Improvements to DispatchDialog
+- Add support for Luis api V2 and Luis action dialog
+- Automatically remember last wait for each frame of stack
+
+***
+
+### [v3.3.3](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.3.3)
+
+#### Breaking 
+
+- [ICredentialProvider](https://github.com/Microsoft/BotBuilder/blob/master/CSharp/Library/Microsoft.Bot.Connector/CredentialProvider.cs#L10) should now implement [IsAuthenticatedAsync](https://github.com/Microsoft/BotBuilder/blob/master/CSharp/Library/Microsoft.Bot.Connector/CredentialProvider.cs#L30). This only impacts bots that are using ICredentialProvider for their BotAuthentication.
+
+#### Changes
+
+- General bug fixes
+- Support for new media card types, e.g. [AnimationCard](https://docs.botframework.com/en-us/core-concepts/reference/#animationcard), [VideoCard](https://docs.botframework.com/en-us/core-concepts/reference/#videocard), and [AudioCard](https://docs.botframework.com/en-us/core-concepts/reference/#audiocard)
+- New BotAuthenticator utility class that can be utilized for bot authentication instead of BotAuthentication attribute.
+
+***
+
 ### [v3.3.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.3.1)
 
 #### Changes
