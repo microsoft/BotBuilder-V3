@@ -83,7 +83,8 @@ export interface IChatConnectorAddress extends IAddress {
 }
 
 export class ChatConnector implements IConnector, IBotStorage {
-    private handler: (events: IEvent[], cb?: (err: Error) => void) => void;
+    private onEventHandler: (events: IEvent[], cb?: (err: Error) => void) => void;
+    private onInvokeHandler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void;
     private accessToken: string;
     private accessTokenExpires: number;
     private botConnectorOpenIdMetadata: OpenIdMetadata;
@@ -215,7 +216,11 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
 
     public onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void {
-        this.handler = handler;
+        this.onEventHandler = handler;
+    }
+
+    public onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void {
+        this.onInvokeHandler = handler;
     }
     
     public send(messages: IMessage[], done: (err: Error) => void): void {
@@ -445,26 +450,42 @@ export class ChatConnector implements IConnector, IBotStorage {
         }
     }
 
-    private dispatch(messages: IMessage|IMessage[], res: IWebResponse) {
-        // Dispatch messages/activities
-        var list: IMessage[] = Array.isArray(messages) ? messages : [messages];
-        list.forEach((msg) => {
-            try {
-                this.prepIncomingMessage(msg);
-                logger.info(msg, 'ChatConnector: message received.');
+    private dispatch(msg: IMessage, res: IWebResponse) {
+        // Dispatch message/activity
+        try {
+            this.prepIncomingMessage(msg);
+            logger.info(msg, 'ChatConnector: message received.');
 
+            if(this.isInvoke(msg)) {
+                this.onInvokeHandler(msg, (err: Error, body: any, status?: number) => {
+                    if(err) {
+                        res.status(500);
+                        res.end();
+                    } else {
+                        res.send(status || 200, body);
+                    }
+                })
+            } else {
                 // Dispatch message
-                this.handler([msg]);
-            } catch (e) {
-                console.error(e instanceof Error ? (<Error>e).stack : e.toString());
-            }
-        });
+                this.onEventHandler([msg]);
 
-        // Acknowledge that we recieved the message(s)
-        res.status(202);
-        res.end();
+                // Acknowledge that we recieved the message(s)
+                res.status(202);
+                res.end();
+            }
+
+        } catch (e) {
+            console.error(e instanceof Error ? (<Error>e).stack : e.toString());
+            res.status(500);
+            res.end();
+        }
     }
 
+    private isInvoke(message: IMessage): boolean {
+        return (message && message.type && message.type.toLowerCase() == consts.invokeType);
+    }
+    
+    
     private postMessage(msg: IMessage, cb: (err: Error) => void): void {
         logger.info(address, 'ChatConnector: sending message.')
         this.prepOutgoingMessage(msg);

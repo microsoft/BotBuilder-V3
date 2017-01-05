@@ -37,7 +37,8 @@ import * as utils from '../utils';
 import * as readline from 'readline';
 
 export class ConsoleConnector implements IConnector {
-    private handler: (events: IEvent[], cb?: (err: Error) => void) => void;
+    private onEventHandler: (events: IEvent[], cb?: (err: Error) => void) => void;
+    private onInvokeHandler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void;
     private rl: readline.ReadLine;
     private replyCnt = 0;
 
@@ -57,7 +58,7 @@ export class ConsoleConnector implements IConnector {
     }
 
     public processMessage(line: string): this {
-        if (this.handler) {
+        if (this.onEventHandler) {
             // TODO: Add some sort of logic to support attachment uploads.
             var msg = new Message()
                 .address({
@@ -68,15 +69,18 @@ export class ConsoleConnector implements IConnector {
                 })
                 .timestamp()
                 .text(line);
-            this.handler([msg.toMessage()]);
+            this.onEventHandler([msg.toMessage()]);
         }
         return this;
     }
 
     public onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void {
-        this.handler = handler;
+        this.onEventHandler = handler;
     }
 
+    public onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void {
+        this.onInvokeHandler = handler;
+    }
     public send(messages: IMessage[], done: (err: Error) => void): void {
         for (var i = 0; i < messages.length; i++ ){
             if (this.replyCnt++ > 0) {

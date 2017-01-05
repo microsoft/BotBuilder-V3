@@ -909,6 +909,10 @@ export interface IUniversalBotSettings {
 
 /** Implemented by connector plugins for the UniversalBot. */
 export interface IConnector {
+
+    /** Used to register a handler for receiving incoming invoke events. */
+    onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
+
     /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
 
@@ -3033,6 +3037,9 @@ export class ChatConnector implements IConnector, IBotStorage {
     /** Registers an Express or Restify style hook to listen for new messages. */
     listen(): (req: any, res: any) => void;
 
+    /** Used to register a handler for receiving incoming invoke events. */
+    onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;onInvoke
+
     /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
     
@@ -3057,6 +3064,9 @@ export class ConsoleConnector implements IConnector {
     /** Sends a message through the connector. */
     processMessage(line: string): ConsoleConnector;
     
+    /** Used to register a handler for receiving incoming invoke events. */
+    onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
+
     /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
     
