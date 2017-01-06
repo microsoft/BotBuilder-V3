@@ -31,11 +31,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.ConnectorEx;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Resource;
-using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -387,7 +387,12 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptString(string prompt, string retry, int attempts)
-                : base(new PromptOptions<string>(prompt, retry, attempts: attempts))
+                : this(new PromptOptions<string>(prompt, retry, attempts: attempts)) { }
+
+            /// <summary>   Constructor for a prompt string dialog. </summary>
+            /// <param name="promptOptions"> THe prompt options.</param>
+            public PromptString(PromptOptions<string> promptOptions)
+                : base(promptOptions)
             {
                 this.promptOptions.DefaultRetry = this.DefaultRetry;
             }
@@ -494,16 +499,19 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>   Prompt for a confirmation. </summary>
         /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{long}, string, string, int)"/>.</remarks>
         [Serializable]
-        public sealed class PromptInt64 : Prompt<Int64, Int64>
+        public sealed class PromptInt64 : Prompt<long, long>
         {
             /// <summary>   Constructor for a prompt int64 dialog. </summary>
             /// <param name="prompt">   The prompt. </param>
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptInt64(string prompt, string retry, int attempts)
-                : base(new PromptOptions<long>(prompt, retry, attempts: attempts))
-            {
-            }
+                : this(new PromptOptions<long>(prompt, retry, attempts: attempts)) { }
+
+            /// <summary>   Constructor for a prompt int64 dialog. </summary>
+            /// <param name="promptOptions"> THe prompt options.</param>
+            public PromptInt64(PromptOptions<long> promptOptions)
+                : base(promptOptions) { }
 
             protected override bool TryParse(IMessageActivity message, out Int64 result)
             {
@@ -521,9 +529,12 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptDouble(string prompt, string retry, int attempts)
-                : base(new PromptOptions<double>(prompt, retry, attempts: attempts))
-            {
-            }
+                : this(new PromptOptions<double>(prompt, retry, attempts: attempts)) { }
+
+            /// <summary>   Constructor for a prompt double dialog. </summary>
+            /// <param name="promptOptions"> THe prompt options.</param>
+            public PromptDouble(PromptOptions<double> promptOptions)
+                : base(promptOptions) { }
 
             protected override bool TryParse(IMessageActivity message, out double result)
             {
