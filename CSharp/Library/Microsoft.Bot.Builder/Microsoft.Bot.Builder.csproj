@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="Base\EventLoop.cs" />
     <Compile Include="Base\Extensions.cs" />
+    <Compile Include="Base\LocalizedScope.cs" />
     <Compile Include="Base\Resolver.cs" />
     <Compile Include="Base\Types.cs" />
     <Compile Include="ConnectorEx\KeyboardCard.cs" />

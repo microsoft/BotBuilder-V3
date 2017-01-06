@@ -32,6 +32,7 @@
 //
 
 using Autofac;
+using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using System;
