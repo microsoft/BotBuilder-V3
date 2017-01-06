@@ -45,6 +45,26 @@ using Microsoft.Bot.Builder.ConnectorEx;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
+    /// <summary>
+    /// Methods to send a message from the bot to the user. 
+    /// </summary>
+    public interface IBotToUser
+    {
+        /// <summary>
+        /// Post a message to be sent to the user.
+        /// </summary>
+        /// <param name="message">The message for the user.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the post operation.</returns>
+        Task PostAsync(IMessageActivity message, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Make a message.
+        /// </summary>
+        /// <returns>The new message.</returns>
+        IMessageActivity MakeMessage();
+    }
+
     public sealed class NullBotToUser : IBotToUser
     {
         private readonly IMessageActivity toBot;
