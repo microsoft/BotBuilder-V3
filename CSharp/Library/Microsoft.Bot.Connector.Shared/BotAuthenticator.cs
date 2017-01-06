@@ -137,8 +137,11 @@ namespace Microsoft.Bot.Connector
             }
 
             ClaimsIdentity identity = null;
+            string appId = null;
             var tokenExtractor = GetTokenExtractor();
             identity = await tokenExtractor.GetIdentityAsync(scheme, token);
+            if (identity != null)
+                appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
 
             // No identity? If we're allowed to, fall back to MSA
             // This code path is used by the emulator
@@ -146,11 +149,13 @@ namespace Microsoft.Bot.Connector
             {
                 tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromEmulatorTokenValidationParameters, JwtConfig.ToBotFromEmulatorOpenIdMetadataUrl);
                 identity = await tokenExtractor.GetIdentityAsync(scheme, token);
+                
+                if (identity != null)
+                    appId = tokenExtractor.GetAppIdFromEmulatorClaimsIdentity(identity);
             }
 
             if (identity != null)
             {
-                var appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
                 if (await credentialProvider.IsValidAppIdAsync(appId) == false) // keep context
                 {
                     // not valid appid, drop the identity
