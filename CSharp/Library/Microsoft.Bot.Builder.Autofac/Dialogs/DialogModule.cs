@@ -274,21 +274,45 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IEventLoop>()
                 .InstancePerLifetimeScope();
 
-            builder
-                .Register(c =>
-                {
-                    Func<IEventLoop> makeInner = c.Resolve<Func<IEventLoop>>();
+            // IPostToBot services
 
-                    IPostToBot outer = new PersistentDialogTask(makeInner, c.Resolve<IEventProducer<IActivity>>(), c.Resolve<IBotData>());
-                    outer = new SerializingDialogTask(outer, c.Resolve<IAddress>(), c.Resolve<IScope<IAddress>>());
-                    outer = new ExceptionTranslationDialogTask(outer);
-                    outer = new LocalizedDialogTask(outer);
-                    outer = new PostUnhandledExceptionToUserTask(outer, c.Resolve<IBotToUser>(), c.Resolve<ResourceManager>(), c.Resolve<TraceListener>());
-                    outer = new LogPostToBot(outer, c.Resolve<IActivityLogger>());
-                    return outer;
-                })
-                .As<IPostToBot>()
+            builder
+                .RegisterKeyedType<PersistentDialogTask, IPostToBot>()
                 .InstancePerLifetimeScope();
+
+            builder
+                .RegisterKeyedType<ExceptionTranslationDialogTask, IPostToBot>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterKeyedType<SerializeByConversation, IPostToBot>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterKeyedType<SetAmbientThreadCulture, IPostToBot>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterKeyedType<PostUnhandledExceptionToUser, IPostToBot>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterKeyedType<LogPostToBot, IPostToBot>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterAdapterChain<IPostToBot>
+                (
+                    typeof(PersistentDialogTask),
+                    typeof(ExceptionTranslationDialogTask),
+                    typeof(SerializeByConversation),
+                    typeof(SetAmbientThreadCulture),
+                    typeof(PostUnhandledExceptionToUser),
+                    typeof(LogPostToBot)
+                )
+                .InstancePerLifetimeScope();
+
+            // other
 
             builder
                 .RegisterType<NullActivityLogger>()
@@ -299,6 +323,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .RegisterType<KeyboardCardMapper>()
                 .AsImplementedInterfaces()
                 .SingleInstance();
+
+            // IBotToUser services
 
             builder
                 .RegisterKeyedType<NullBotToUser, IBotToUser>()

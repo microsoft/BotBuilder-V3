@@ -34,10 +34,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Net.Mime;
-using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -421,29 +417,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
-    // TODO: move the majority of these IPostToBot to ConnectorEx
-
-    /// <summary>
-    /// This dialog stack sets the ambient thread culture based on the <see cref="IMessageActivity.Locale"/>.
-    /// </summary>
-    public sealed class LocalizedDialogTask : IPostToBot
-    {
-        private readonly IPostToBot inner;
-
-        public LocalizedDialogTask(IPostToBot inner)
-        {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-        }
-
-        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
-        {
-            using (new LocalizedScope((activity as IMessageActivity)?.Locale))
-            {
-                await this.inner.PostAsync(activity, token);
-            }
-        }
-    }
-
     /// <summary>
     /// This dialog task loads the dialog stack from <see cref="IBotData"/> before handling the incoming
     /// activity and saves the dialog stack to <see cref="IBotData"/> afterwards. 
@@ -474,86 +447,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             finally
             {
                 await botData.FlushAsync(token);
-            }
-        }
-    }
-
-    /// <summary>
-    /// This dialog task serializes the execution of a particular conversations code to avoid
-    /// concurrency issues.
-    /// </summary>
-    public sealed class SerializingDialogTask : IPostToBot
-    {
-        private readonly IPostToBot inner;
-        private readonly IAddress address;
-        private readonly IScope<IAddress> scopeForCookie;
-
-        public SerializingDialogTask(IPostToBot inner, IAddress address, IScope<IAddress> scopeForCookie)
-        {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.address, nameof(address), address);
-            SetField.NotNull(out this.scopeForCookie, nameof(scopeForCookie), scopeForCookie);
-        }
-
-        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
-        {
-            using (await this.scopeForCookie.WithScopeAsync(this.address, token))
-            {
-                await this.inner.PostAsync(activity, token);
-            }
-        }
-    }
-
-    /// <summary>
-    /// This dialog task converts any unhandled exceptions to a message sent to the user.
-    /// </summary>
-    public sealed class PostUnhandledExceptionToUserTask : IPostToBot
-    {
-        private readonly IPostToBot inner;
-        private readonly IBotToUser botToUser;
-        private readonly ResourceManager resources;
-        private readonly TraceListener trace;
-
-        public PostUnhandledExceptionToUserTask(IPostToBot inner, IBotToUser botToUser, ResourceManager resources, TraceListener trace)
-        {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
-            SetField.NotNull(out this.resources, nameof(resources), resources);
-            SetField.NotNull(out this.trace, nameof(trace), trace);
-        }
-
-        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
-        {
-            try
-            {
-                await this.inner.PostAsync(activity, token);
-            }
-            catch (Exception error)
-            {
-                try
-                {
-                    if (Debugger.IsAttached)
-                    {
-                        var message = this.botToUser.MakeMessage();
-                        message.Text = $"Exception: { error.Message}";
-                        message.Attachments = new[]
-                        {
-                            new Attachment(contentType: MediaTypeNames.Text.Plain, content: error.StackTrace)
-                        };
-
-                        await this.botToUser.PostAsync(message);
-                    }
-                    else
-                    {
-                        await this.botToUser.PostAsync(this.resources.GetString("UnhandledExceptionToUser"));
-                    }
-                }
-                catch (Exception inner)
-                {
-                    this.trace.WriteLine(inner);
-                }
-
-                throw;
             }
         }
     }

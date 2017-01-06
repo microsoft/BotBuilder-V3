@@ -106,20 +106,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     {
     }
 
-    /// <summary>
-    /// Methods to send a message from the user to the bot.
-    /// </summary>
-    public interface IPostToBot
-    {
-        /// <summary>
-        /// Post an item (e.g. message or other external event) to the bot.
-        /// </summary>
-        /// <param name="activity">The item for the bot.</param>
-        /// <param name="token">The cancellation token.</param>
-        /// <returns>A task that represents the post operation.</returns>
-        Task PostAsync(IActivity activity, CancellationToken token);
-    }
-
     public static partial class Extensions
     {
         /// <summary>
