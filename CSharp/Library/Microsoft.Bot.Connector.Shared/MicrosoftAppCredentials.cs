@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 
 #if NET45
 using System.Configuration;
+using System.Diagnostics;
 #endif
 
 namespace Microsoft.Bot.Connector
@@ -108,8 +109,9 @@ namespace Microsoft.Bot.Connector
             }
             catch (Exception)
             {
-                //TODO: add tracing back
-                //Trace.TraceWarning($"Service url {serviceUrl} is not a well formed Uri!");
+#if NET45
+                Trace.TraceWarning($"Service url {serviceUrl} is not a well formed Uri!");
+#endif
             }
         }
 
@@ -167,7 +169,9 @@ namespace Microsoft.Bot.Connector
                 return true;
             }
 
-#if !NET45
+#if NET45
+            Trace.TraceWarning($"Service url {request.RequestUri.Authority} is not trusted and JwtToken cannot be sent to it.");
+#else
             logger?.LogWarning($"Service url {request.RequestUri.Authority} is not trusted and JwtToken cannot be sent to it.");
 #endif
             return false;
