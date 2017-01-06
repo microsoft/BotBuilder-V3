@@ -3294,31 +3294,35 @@
             Configuration for JWT tokens
             </summary>
         </member>
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotLoginUrl">
+            <summary>
+            TO CHANNEL FROM BOT: Login URL
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotOAuthScope">
+            <summary>
+            TO CHANNEL FROM BOT: OAuth scope to request
+            </summary>
+        </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromChannelOpenIdMetadataUrl">
             <summary>
             TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.JwtConfig.GetToBotFromChannelTokenValidationParameters(System.IdentityModel.Tokens.AudienceValidator)">
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromChannelTokenValidationParameters">
             <summary>
             TO BOT FROM CHANNEL: Token validation parameters when connecting to a bot
             </summary>
         </member>
-        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromMSAOpenIdMetadataUrl">
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromEmulatorOpenIdMetadataUrl">
             <summary>
-            TO BOT FROM MSA: OpenID metadata document for tokens coming from MSA
+            TO BOT FROM EMULATOR: OpenID metadata document for tokens coming from MSA
             </summary>
-            <remarks>
-            These settings are used to allow access from the Bot Framework Emulator
-            </remarks>
         </member>
-        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromMSATokenValidationParameters">
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromEmulatorTokenValidationParameters">
             <summary>
-            TO BOT FROM MSA: Token validation parameters when connecting to a channel
+            TO BOT FROM EMULATOR: Token validation parameters when connecting to a channel
             </summary>
-            <remarks>
-            These settings are used to allow access from the Bot Framework Emulator
-            </remarks>
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._openIdMetadataCache">
             <summary>

@@ -144,7 +144,7 @@ namespace Microsoft.Bot.Connector
             // This code path is used by the emulator
             if (identity == null && !this.disableEmulatorTokens)
             {
-                tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromMSATokenValidationParameters, JwtConfig.ToBotFromMSAOpenIdMetadataUrl);
+                tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromEmulatorTokenValidationParameters, JwtConfig.ToBotFromEmulatorOpenIdMetadataUrl);
                 identity = await tokenExtractor.GetIdentityAsync(scheme, token);
             }
 
@@ -185,7 +185,7 @@ namespace Microsoft.Bot.Connector
 
         private JwtTokenExtractor GetTokenExtractor()
         {
-            var parameters = JwtConfig.GetToBotFromChannelTokenValidationParameters((audiences, securityToken, validationParameters) => true);
+            var parameters = JwtConfig.ToBotFromChannelTokenValidationParameters;
             return new JwtTokenExtractor(parameters, this.openIdConfigurationUrl);
         }
 
