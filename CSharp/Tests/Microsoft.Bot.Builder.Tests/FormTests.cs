@@ -135,6 +135,7 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 // There was an error, so record new script and pass on error
                 await RecordFormScript(newPath, locale, buildForm, options, initialState, entities, inputs);
+                TestContext.AddResultFile(newPath);
                 throw;
             }
         }
