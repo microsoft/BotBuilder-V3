@@ -277,6 +277,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // IPostToBot services
 
             builder
+                .RegisterKeyedType<NullPostToBot, IPostToBot>()
+                .InstancePerLifetimeScope();
+
+            builder
                 .RegisterKeyedType<PersistentDialogTask, IPostToBot>()
                 .InstancePerLifetimeScope();
 

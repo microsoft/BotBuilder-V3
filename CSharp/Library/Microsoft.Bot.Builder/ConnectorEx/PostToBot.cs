@@ -60,6 +60,21 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         Task PostAsync(IActivity activity, CancellationToken token);
     }
 
+    public sealed class NullPostToBot : IPostToBot
+    {
+        private readonly IPostToBot inner;
+
+        public NullPostToBot(IPostToBot inner)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+        }
+
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
+        {
+            await this.inner.PostAsync(activity, token);
+        }
+    }
+
     /// <summary>
     /// This IPostToBot service sets the ambient thread culture based on the <see cref="IMessageActivity.Locale"/>.
     /// </summary>
