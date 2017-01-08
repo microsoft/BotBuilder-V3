@@ -78,7 +78,7 @@ namespace Microsoft.Bot.Builder.Luis
     /// <summary>
     /// The LUIS model information.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method, AllowMultiple = true)]
     [Serializable]
     public class LuisModelAttribute : Attribute, ILuisModel, IEquatable<ILuisModel>
     {
