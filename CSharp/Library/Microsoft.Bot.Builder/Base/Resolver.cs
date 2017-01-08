@@ -170,19 +170,24 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
     public sealed class ArrayResolver : DelegatingResolver
     {
-        private readonly object[] services;
+        private readonly IReadOnlyList<object> services;
 
-        public ArrayResolver(IResolver inner, params object[] services)
+        public ArrayResolver(IResolver inner, IReadOnlyList<object> services)
             : base(inner)
         {
             SetField.NotNull(out this.services, nameof(services), services);
+        }
+
+        public ArrayResolver(IResolver inner, params object[] services)
+            : this(inner, (IReadOnlyList<object>)services)
+        {
         }
 
         public override bool TryResolve(Type type, object tag, out object value)
         {
             if (tag == null)
             {
-                for (int index = 0; index < this.services.Length; ++index)
+                for (int index = 0; index < this.services.Count; ++index)
                 {
                     var service = this.services[index];
                     if (service != null)
