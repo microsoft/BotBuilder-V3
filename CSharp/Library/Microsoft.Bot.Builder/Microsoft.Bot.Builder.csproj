@@ -161,6 +161,7 @@
     <Compile Include="Scorables\BindingComparer.cs" />
     <Compile Include="Scorables\InheritedAttributes.cs" />
     <Compile Include="Scorables\Binding.cs" />
+    <Compile Include="Scorables\Dispatcher.cs" />
     <Compile Include="Scorables\ResolverScorable.cs" />
     <Compile Include="Scorables\Scorable.cs" />
     <Compile Include="Scorables\ScorableBase.cs" />
