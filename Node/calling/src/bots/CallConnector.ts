@@ -57,7 +57,6 @@ export interface ICallConnectorSettings {
     endpoint?: ICallConnectorEndpoint;
     serviceUrl?: string;
     stateUrl?: string;
-    clockTolerance?: number;
 }
 
 export interface ICallConnectorEndpoint {
@@ -212,7 +211,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                                 audience: this.settings.appId,
                                 ignoreExpiration: false,
                                 ignoreNotBefore: false,
-                                clockTolerance: this.settings.clockTolerance || 300
+                                clockTolerance: 300
                             };
 
                             decoded = jwt.verify(token, secret, jwtVerifyOptions);

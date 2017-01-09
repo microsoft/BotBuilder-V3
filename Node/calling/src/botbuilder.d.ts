@@ -837,9 +837,6 @@ interface ICallConnectorSettings {
 
     /** The bots App Password assigned in the Bot Framework Portal. */
     appPassword?: string;
-
-    /** Clock tolerance, measured in minutes, to allow for minimal clock differences across servers on claim verification. */
-    clockTolerance?: number;
 }
 
 /** Options used to initialize a UniversalCallBot instance. */
