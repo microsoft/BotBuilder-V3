@@ -260,7 +260,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                     message.Text = $"{prompt} {FormFlow.Advanced.Language.BuildList(descriptions, Resources.DefaultChoiceSeparator, Resources.DefaultChoiceLastSeparator)}";
                     break;
                 case PromptStyle.PerLine:
-                    message.Text = $"{prompt}\n{FormFlow.Advanced.Language.BuildList(descriptions.Select(description => $"* {description}"), "\n", "\n")}";
+                    message.Text = $"{prompt}{Environment.NewLine}{FormFlow.Advanced.Language.BuildList(descriptions.Select(description => $"* {description}"), Environment.NewLine, Environment.NewLine)}";
                     break;
                 case PromptStyle.None:
                 default:
@@ -415,7 +415,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 get
                 {
-                    return Resources.PromptRetry + "\n" + this.promptOptions.Prompt;
+                    return Resources.PromptRetry + Environment.NewLine + this.promptOptions.Prompt;
                 }
             }
         }
@@ -491,7 +491,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 get
                 {
-                    return Resources.PromptRetry + "\n" + this.promptOptions.Prompt;
+                    return Resources.PromptRetry + Environment.NewLine + this.promptOptions.Prompt;
                 }
             }
         }

@@ -24,7 +24,7 @@ ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl"
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat"}}
 FromUser:"1"
 1
-ToUserText:"Please select one or more toppings (current choice: No Preference) \n  1. Everything\n  2. Avocado\n  3. Banana Peppers\n  4. Cucumbers\n  5. Green Bell Peppers\n  6. Jalapenos\n  7. Lettuce\n  8. Olives\n  9. Pickles\n  10. Red Onion\n  11. Spinach\n  12. Tomatoes\n  13. No Preference"
+ToUserText:"Please select one or more toppings (current choice: No Preference) \r\n  1. Everything\r\n  2. Avocado\r\n  3. Banana Peppers\r\n  4. Cucumbers\r\n  5. Green Bell Peppers\r\n  6. Jalapenos\r\n  7. Lettuce\r\n  8. Olives\r\n  9. Pickles\r\n  10. Red Onion\r\n  11. Spinach\r\n  12. Tomatoes\r\n  13. No Preference"
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American"}}
 FromUser:"peppers"
 1
@@ -33,7 +33,7 @@ State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"Ni
 FromUser:"1"
 2
 ToUserText:"For sandwich toppings you have selected Green Bell Peppers."
-ToUserText:"Please select one or more sauces (current choice: No Preference) \n  1. Chipotle Southwest\n  2. Honey Mustard\n  3. Light Mayonnaise\n  4. Regular Mayonnaise\n  5. Mustard\n  6. Oil\n  7. Pepper\n  8. Ranch\n  9. Sweet Onion\n  10. Vinegar\n  11. No Preference"
+ToUserText:"Please select one or more sauces (current choice: No Preference) \r\n  1. Chipotle Southwest\r\n  2. Honey Mustard\r\n  3. Light Mayonnaise\r\n  4. Regular Mayonnaise\r\n  5. Mustard\r\n  6. Oil\r\n  7. Pepper\r\n  8. Ranch\r\n  9. Sweet Onion\r\n  10. Vinegar\r\n  11. No Preference"
 State:{"Sandwich":"BlackForestHam","Length":"SixInch","Ingredients":{"Bread":"NineGrainWheat","Cheese":"American","Toppings":["GreenBellPeppers"]}}
 FromUser:"2"
 1

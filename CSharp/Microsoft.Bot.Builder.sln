@@ -39,6 +39,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.PizzaB
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleSandwichBot", "Samples\SimpleSandwichBot\Microsoft.Bot.Sample.SimpleSandwichBot.csproj", "{D51F252D-4041-4440-A3F5-DA515E50B7D3}"
 	ProjectSection(ProjectDependencies) = postProject
+		{2C145824-38DD-409C-AB52-B3538997726C} = {2C145824-38DD-409C-AB52-B3538997726C}
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
@@ -50,17 +51,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AnnotatedSandwichBot", "Samples\AnnotatedSandwichBot\Microsoft.Bot.Sample.AnnotatedSandwichBot.csproj", "{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75}"
 	ProjectSection(ProjectDependencies) = postProject
+		{2C145824-38DD-409C-AB52-B3538997726C} = {2C145824-38DD-409C-AB52-B3538997726C}
 		{8674F271-4437-4178-B4E2-15F91B322E5D} = {8674F271-4437-4178-B4E2-15F91B322E5D}
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleAlarmBot", "Samples\SimpleAlarmBot\Microsoft.Bot.Sample.SimpleAlarmBot.csproj", "{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4}"
 	ProjectSection(ProjectDependencies) = postProject
+		{2C145824-38DD-409C-AB52-B3538997726C} = {2C145824-38DD-409C-AB52-B3538997726C}
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.EchoBot", "Samples\EchoBot\Microsoft.Bot.Sample.EchoBot.csproj", "{D2253234-1279-486E-8A63-D8C3424E0525}"
 	ProjectSection(ProjectDependencies) = postProject
+		{2C145824-38DD-409C-AB52-B3538997726C} = {2C145824-38DD-409C-AB52-B3538997726C}
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
@@ -98,6 +102,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleIVRBot", "Samples\SimpleIVRBot\Microsoft.Bot.Sample.SimpleIVRBot.csproj", "{C4D4530F-3194-48D5-9A94-A5C068616471}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AlarmBot", "Samples\AlarmBot\Microsoft.Bot.Sample.AlarmBot.csproj", "{D414F82F-C102-45B1-979C-D905D278C34E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{2C145824-38DD-409C-AB52-B3538997726C} = {2C145824-38DD-409C-AB52-B3538997726C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.History", "Library\Microsoft.Bot.Builder.History\Microsoft.Bot.Builder.History.csproj", "{D2834D71-D7A2-451B-9A61-1488AF049526}"
 EndProject
