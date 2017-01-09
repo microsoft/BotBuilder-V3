@@ -212,7 +212,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
                                 audience: this.settings.appId,
                                 ignoreExpiration: false,
                                 ignoreNotBefore: false,
-                                clockTolerance: this.settings.clockTolerance || 0
+                                clockTolerance: this.settings.clockTolerance || 300
                             };
 
                             decoded = jwt.verify(token, secret, jwtVerifyOptions);
