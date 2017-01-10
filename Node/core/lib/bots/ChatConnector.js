@@ -1,16 +1,17 @@
 "use strict";
-var OpenIdMetadata_1 = require('./OpenIdMetadata');
-var utils = require('../utils');
-var logger = require('../logger');
-var consts = require('../consts');
-var request = require('request');
-var async = require('async');
-var url = require('url');
-var jwt = require('jsonwebtoken');
-var zlib = require('zlib');
+var OpenIdMetadata_1 = require("./OpenIdMetadata");
+var utils = require("../utils");
+var logger = require("../logger");
+var consts = require("../consts");
+var request = require("request");
+var async = require("async");
+var url = require("url");
+var jwt = require("jsonwebtoken");
+var zlib = require("zlib");
+var urlJoin = require("url-join");
 var pjson = require('../../package.json');
 var MAX_DATA_LENGTH = 65000;
-var USER_AGENT = "Microsoft-BotFramework/3.0 (BotBuilder Node.js/" + pjson.version + ")";
+var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/" + pjson.version + ")";
 var ChatConnector = (function () {
     function ChatConnector(settings) {
         if (settings === void 0) { settings = {}; }
@@ -155,7 +156,7 @@ var ChatConnector = (function () {
         if (address && address.user && address.bot && address.serviceUrl) {
             var options = {
                 method: 'POST',
-                url: url.resolve(address.serviceUrl, '/v3/conversations'),
+                url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
                     members: [address.user]
@@ -387,7 +388,7 @@ var ChatConnector = (function () {
         }
         var options = {
             method: 'POST',
-            url: url.resolve(address.serviceUrl, path),
+            url: urlJoin(address.serviceUrl, path),
             body: msg,
             json: true
         };

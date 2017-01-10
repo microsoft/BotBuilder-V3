@@ -1,11 +1,11 @@
 "use strict";
-var utils = require('../utils');
-var async = require('async');
+var utils = require("../utils");
+var async = require("async");
+var RecognizeOrder;
 (function (RecognizeOrder) {
     RecognizeOrder[RecognizeOrder["parallel"] = 0] = "parallel";
     RecognizeOrder[RecognizeOrder["series"] = 1] = "series";
-})(exports.RecognizeOrder || (exports.RecognizeOrder = {}));
-var RecognizeOrder = exports.RecognizeOrder;
+})(RecognizeOrder = exports.RecognizeOrder || (exports.RecognizeOrder = {}));
 var IntentRecognizerSet = (function () {
     function IntentRecognizerSet(options) {
         if (options === void 0) { options = {}; }

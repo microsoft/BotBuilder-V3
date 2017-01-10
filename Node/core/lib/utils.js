@@ -1,5 +1,5 @@
 "use strict";
-var sprintf = require('sprintf-js');
+var sprintf = require("sprintf-js");
 function clone(obj) {
     var cpy = {};
     if (obj) {

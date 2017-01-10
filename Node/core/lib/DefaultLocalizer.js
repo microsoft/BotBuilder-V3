@@ -1,10 +1,10 @@
 "use strict";
-var logger = require('./logger');
-var consts = require('./consts');
-var fs = require('fs');
-var async = require('async');
-var Promise = require('promise');
-var path = require('path');
+var logger = require("./logger");
+var consts = require("./consts");
+var fs = require("fs");
+var async = require("async");
+var Promise = require("promise");
+var path = require("path");
 var DefaultLocalizer = (function () {
     function DefaultLocalizer(root, defaultLocale) {
         this.localePaths = [];

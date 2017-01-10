@@ -41,10 +41,10 @@ import * as events from 'events';
 import * as request from 'request';
 import * as async from 'async';
 import * as url from 'url';
-import * as urlJoin from 'url-join';
 import * as http from 'http';
 import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
+import urlJoin = require('url-join');
 
 var pjson = require('../../package.json');
 
