@@ -238,6 +238,9 @@ export class ChatConnector implements IConnector, IBotStorage {
             // Issue request
             var options: request.Options = {
                 method: 'POST',
+                // We use urlJoin to concatenate urls. url.resolve should not be used here, 
+                // since it resolves urls as hrefs are resolved, which could result in losing
+                // the last fragment of the serviceUrl
                 url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
@@ -481,6 +484,9 @@ export class ChatConnector implements IConnector, IBotStorage {
         // Issue request
         var options: request.Options = {
             method: 'POST',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here, 
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
             url: urlJoin(address.serviceUrl, path),
             body: msg,
             json: true
