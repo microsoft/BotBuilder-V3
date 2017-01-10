@@ -41,6 +41,7 @@ import * as events from 'events';
 import * as request from 'request';
 import * as async from 'async';
 import * as url from 'url';
+import * as urlJoin from 'url-join';
 import * as http from 'http';
 import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
@@ -237,7 +238,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             // Issue request
             var options: request.Options = {
                 method: 'POST',
-                url: url.resolve(address.serviceUrl, '/v3/conversations'),
+                url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
                     members: [address.user] 
@@ -480,7 +481,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         // Issue request
         var options: request.Options = {
             method: 'POST',
-            url: url.resolve(address.serviceUrl, path),
+            url: urlJoin(address.serviceUrl, path),
             body: msg,
             json: true
         };
