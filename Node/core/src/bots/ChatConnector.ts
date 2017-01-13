@@ -640,16 +640,6 @@ export class ChatConnector implements IConnector, IBotStorage {
             msg.address = address;
             msg.source = address.channelId;
 
-            // Patch serviceUrl
-            if (address.serviceUrl) {
-                try {
-                    var u = url.parse(address.serviceUrl);
-                    address.serviceUrl = u.protocol + '//' + u.host;
-                } catch (e) {
-                    console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
-                }
-            }
-
             // Check for facebook quick replies
             if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message && msg.sourceEvent.message.quick_reply) {
                 msg.text = msg.sourceEvent.message.quick_reply.payload;
