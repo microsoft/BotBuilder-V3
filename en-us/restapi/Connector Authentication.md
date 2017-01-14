@@ -249,11 +249,11 @@ payload:
 
 ## Changes
 
-The contents of this document are current as of November 2016. At this time, the Bot Framework supports two authentication configurations: v3.0, for bots written before November and not upgraded, and v3.1, for bots that have upgrade to the latest Bot Builder SDK. Eventually support for v3.0 will be discontinued.
+The contents of this document are current as of January 2017. At this time, the Bot Framework supports two authentication configurations: v3.0, for bots written before November and not upgraded, and v3.1, for bots that have upgrade to the latest Bot Builder SDK. Eventually support for v3.0 will be discontinued.
 
 The only differences between v3.0 and v3.1 are the values of the hardcoded constants used in token generation and validation. The table below describes these differences.
 
-||v3.0 (June 2016 - TBD)|v3.1 (starting November 2016)|
+||v3.0 (June 2016 - TBD)|v3.1 (starting December 2016)|
 |-|-|-|
 |**Bot -> Connector**|||
 |OAuth login URL|```https://login.microsoftonline.com/common/oauth2/v2.0/token``` | ```https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token``` |
