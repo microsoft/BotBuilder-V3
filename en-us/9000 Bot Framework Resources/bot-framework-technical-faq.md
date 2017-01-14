@@ -64,6 +64,14 @@ This can be as simple as using the [Serializable] attribute on your IDialog impl
 
 When the user sends a message over a channel, the Bot Framework web service will make an HTTPS post to your Bot's web service endpoint.  During this HTTPS method call, your Bot's code may send zero, one, or many messages back to the user on that channel.  Each one of these messages is a separate HTTPS post back to the Bot Framework.
 
+## My bot is slow to respond to the first message it receives. How can I make it faster?
+
+Bots are web services and some hosting platforms (Azure and others) will automatically put the service to sleep if it does not receive traffic for a period of time. When the next message reaches the bot, the bot's code must be started from scratch, which is typically much slower than if the bot was already running.
+
+Some hosting platforms allow you to configure a service so it does not go to sleep.
+
+In Azure, you can enable a Web App or API App to be "always on" by navigating to your bot's Service in the [Azure Portal](https://portal.azure.com), selecting "**Application settings**," and selecting "**Always on**." This option is available in most service plans.
+
 ## How can I guarantee message delivery order?
 
 The Bot Framework will preserve message ordering to the extent possible, such that if you wait for the completion of the http operation to send message A before initiating another http operation to send message B, we will respect the ordering that A comes before B .  In general, however, you cannot guarantee message delivery order, as delivery is done by the channel, and the channel may reorder messages.  For example, you have likely seen email and text messages being delivered out of order.  You might choose to put a time delay between your messages as a mitigation.
@@ -89,7 +97,7 @@ Other channels give you either scoped or tenanted addresses (e.g. Skype, Faceboo
 
 ## How can I intercept all messages between the user and my bot?
 
-In C#, you can provide implementations of the IPostToBot and IBotToUser interfaces to the Autofac dependency injection container.  In Node, you can use middleware for much the same purpose.
+In C#, you can provide implementations of the IPostToBot and IBotToUser interfaces to the Autofac dependency injection container.  In Node, you can use middleware for much the same purpose. The [BotBuilder-Azure](https://github.com/Microsoft/BotBuilder-Azure) repo contains C# and Node.js libraries that will log this data to an Azure table.
 
 ## Why are my Facebook user names not showing anymore?
 
@@ -111,6 +119,8 @@ The Bot Framework and many Channels interpret text as Markdown.  Check to see if
 
 1. the [AuthBot NuGet](https://www.nuget.org/packages/AuthBot) library is extremely helpful for Azure Active Directory authentication.
 2. the [Builder GitHub samples](https://github.com/Microsoft/BotBuilder/tree/master/CSharp/Samples) has examples for Facebook authentication.
+
+**Note**: when adding authentication and security functionality, make sure the patterns you implement in your code meet security standards appropriate for your application.
 
 ## How can I reference non-serializable services from my C# dialogs?
 
@@ -165,13 +175,13 @@ The "precondition failed" indicates your bot processed multiple messages for the
 If your bot is not connected to external services or if processing messages in parallel from the same conversation is acceptable, you can add this code to ignore any collisions that occur in the Bot State API. This will allow the last reply to set the conversation state.
 
 ~~~~
-            var builder = new ContainerBuilder();
-            builder
-                .Register(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
-                .As<IBotDataStore<BotData>>()
-                .AsSelf()
-                .InstancePerLifetimeScope();
-            builder.Update(Conversation.Container);
+var builder = new ContainerBuilder();
+builder
+    .Register(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
+    .As<IBotDataStore<BotData>>()
+    .AsSelf()
+    .InstancePerLifetimeScope();
+builder.Update(Conversation.Container);
 ~~~~
 
 ## Is there a limit on the amount of data I can store using the State API?
