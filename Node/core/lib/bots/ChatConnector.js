@@ -5,7 +5,6 @@ var logger = require("../logger");
 var consts = require("../consts");
 var request = require("request");
 var async = require("async");
-var url = require("url");
 var jwt = require("jsonwebtoken");
 var zlib = require("zlib");
 var urlJoin = require("url-join");
@@ -535,15 +534,6 @@ var ChatConnector = (function () {
         utils.moveFieldsTo(msg, address, toAddress);
         msg.address = address;
         msg.source = address.channelId;
-        if (address.serviceUrl) {
-            try {
-                var u = url.parse(address.serviceUrl);
-                address.serviceUrl = u.protocol + '//' + u.host;
-            }
-            catch (e) {
-                console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
-            }
-        }
         if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message && msg.sourceEvent.message.quick_reply) {
             msg.text = msg.sourceEvent.message.quick_reply.payload;
         }

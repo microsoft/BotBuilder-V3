@@ -108,7 +108,7 @@ exports.SimplePromptRecognizer = SimplePromptRecognizer;
 var Prompts = (function (_super) {
     __extends(Prompts, _super);
     function Prompts() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Prompts.prototype.begin = function (session, args) {
         args = args || {};

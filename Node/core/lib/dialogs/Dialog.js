@@ -17,7 +17,7 @@ var ResumeReason;
 var Dialog = (function (_super) {
     __extends(Dialog, _super);
     function Dialog() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Dialog.prototype.begin = function (session, args) {
         this.replyReceived(session);
