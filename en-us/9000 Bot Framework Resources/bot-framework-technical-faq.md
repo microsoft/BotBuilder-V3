@@ -131,6 +131,14 @@ There are a few options:
 3. resolve the dependency through Autofac and [FiberModule.Key_DoNotSerialize](https://github.com/Microsoft/BotBuilder/blob/master/CSharp/Library/Fibers/FiberModule.cs#L59) (cleanest solution)
 4. Use [NonSerialized](https://msdn.microsoft.com/en-us/library/system.nonserializedattribute(v=vs.110).aspx) and [OnDeserialized](https://msdn.microsoft.com/en-us/library/system.runtime.serialization.ondeserializedattribute(v=vs.110).aspx) attributes to restore the dependency on deserialization (simplest solution)
 
+## What is IDialog.Stack Forward in the C# Builder SDK?
+
+The primary purpose of IDialog.Forward is to reuse an existing child dialog that is often "reactive", where the child dialog (in IDialog.StartAsync) waits for a T with some ResumeAfter handler. In particular, if you have a child dialog that waits for an IMessageActivity T (e.g. the LuisDialog), you can decide to forward the incoming IMessageActivity (already received by some parent dialog) by using the IDialogStack.Forward method (e.g. which in the example of forwarding to a LuisDialog, IDialogStack.Forward will push the LuisDialog on the dialog stack, run the code in LuisDialog.StartAsync until it schedules a wait for the next message, and then immediately satisfy that wait with the forwarded IMessageActivity).
+
+It's common that T is an IMessageActivity, because almost nobody writes an IDialog.StartAsync that wait for other types.  You might use IDialogStack.Forward to a LuisDialog as a mechanism to intercept messages from the user for some processing before forwarding the message to an existing LuisDialog (separately, you can also use DispatchDialog with ContinueToNextGroup for that purpose). 
+
+You would expect to find the forwarded item in the first ResumeAfter handler (e.g. LuisDialog.MessageReceived) that is scheduled by the StartAsync.
+
 ## What is the difference between "proactive" and "reactive"?
 
 The term "reactive" means the "normal" situation, where the user sends the first message in a conversation to the bot and the bot responds to that message (the conversation is created by the user's initial message).  The term "proactive" means there isn’t an initial message from the user to the bot, so the bot must create the conversation.
