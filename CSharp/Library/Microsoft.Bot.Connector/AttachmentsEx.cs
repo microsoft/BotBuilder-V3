@@ -35,7 +35,7 @@ namespace Microsoft.Bot.Connector
             var _baseUrl = this.Client.BaseUri.AbsoluteUri;
             var url = new Uri(new Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/attachments/{attachmentId}/views/{viewId}").ToString();
             url = url.Replace("{attachmentId}", Uri.EscapeDataString(attachmentId));
-            url = url.Replace("{vieWId}", Uri.EscapeDataString(viewId));
+            url = url.Replace("{viewId}", Uri.EscapeDataString(viewId));
             return url;
         }
 
