@@ -143,6 +143,10 @@ You would expect to find the forwarded item in the first ResumeAfter handler (e.
 
 The term "reactive" means the "normal" situation, where the user sends the first message in a conversation to the bot and the bot responds to that message (the conversation is created by the user's initial message).  The term "proactive" means there isn’t an initial message from the user to the bot, so the bot must create the conversation.
 
+## What causes 429 "too many requests" HTTP errors?
+
+One possible source for HTTP status code 429 is [ngrok](https://ngrok.com/).  Ngrok is used to provide a secure tunnel to localhost.  For example, you might be configuring ngrok with the Bot Framework Emulator to locally debug your Bot in the cloud.
+
 ## Where is conversation state stored?
 
 Bot data (i.e. the user, conversation, and private conversation property bags) are stored using the Connector's IBotState interface.  All of these property bags are scoped by your Bot's id.  The user property bag is keyed by user id, the conversation property bag is keyed by conversation id, and the private conversation property bag is keyed by both user id and conversation id.  Given the same keys, you'll get the same property bags back.
