@@ -274,6 +274,56 @@ namespace Microsoft.Bot.Builder.Tests
     }
 
     [TestClass]
+    public sealed class SelectScoreScorableTests : DialogTestBase
+    {
+        [TestMethod]
+        public async Task SelectScoreScorable_Scaling()
+        {
+            var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
+
+            var scorable = new[]
+            {
+                Actions
+                .Bind(async (IBotToUser botToUser, CancellationToken token) =>
+                {
+                    await botToUser.PostAsync("10");
+                })
+                .When(new Regex("10.*"))
+                .Normalize()
+                .SelectScore((r, s) => s * 0.9),
+
+                Actions
+                .Bind(async (IBotToUser botToUser, CancellationToken token) =>
+                {
+                    await botToUser.PostAsync("1");
+                })
+                .When(new Regex("10.*"))
+                .Normalize()
+                .SelectScore((r, s) => s * 0.1)
+
+            }.Fold();
+
+            echo = echo.WithScorable(scorable);
+
+            using (var container = Build(Options.ResolveDialogFromContainer, scorable))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(echo)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "hello",
+                    "echo: hello",
+                    "10",
+                    "10"
+                    );
+            }
+        }
+    }
+
+    [TestClass]
     public sealed class CalculatorScorableTests : DialogTestBase
     {
         [TestMethod]

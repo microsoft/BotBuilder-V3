@@ -194,8 +194,10 @@ namespace Microsoft.Bot.Builder.Scorables
         /// <summary>
         /// Fold an enumeration of scorables using a score comparer.
         /// </summary>
-        public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer, FoldScorable<Item, Score>.OnStageDelegate onStage = null)
+        public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer = null, FoldScorable<Item, Score>.OnStageDelegate onStage = null)
         {
+            comparer = comparer ?? Comparer<Score>.Default;
+
             IScorable<Item, Score> scorable;
             if (TryReduce(ref scorables, out scorable))
             {
@@ -313,7 +315,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
         TargetScore IScorable<Item, TargetScore>.GetScore(Item item, object state)
         {
-            IScorable<Item, SourceScore> source = this;
+            IScorable<Item, SourceScore> source = this.inner;
             var sourceScore = source.GetScore(item, state);
             var targetScore = this.selector(item, sourceScore);
             return targetScore;
