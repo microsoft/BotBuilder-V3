@@ -121,5 +121,20 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             stack.Wait<IMessageActivity>(resume);
         }
+
+        /// <summary>
+        /// Call a child dialog, add it to the top of the stack and post the message to the child dialog.
+        /// </summary>
+        /// <typeparam name="R">The type of result expected from the child dialog.</typeparam>
+        /// <param name="stack">The dialog stack.</param>
+        /// <param name="child">The child dialog.</param>
+        /// <param name="resume">The method to resume when the child dialog has completed.</param>
+        /// <param name="message">The message that will be posted to child dialog.</param>
+        /// <param name="token">A cancellation token.</param>
+        /// <returns>A task representing the Forward operation.</returns>
+        public static async Task Forward<R>(this IDialogStack stack, IDialog<R> child, ResumeAfter<R> resume, IMessageActivity message, CancellationToken token)
+        {
+            await stack.Forward<R, IMessageActivity>(child, resume, message, token);
+        }
     }
 }
