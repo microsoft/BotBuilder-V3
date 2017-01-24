@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Sample.EchoBot
             var msg = await argument;
             if (msg.Text.ToLower() == "location")
             {
-                await context.Forward(new FacebookLocatinDialog(), ResumeAfter, msg, CancellationToken.None);
+                await context.Forward(new FacebookLocationDialog(), ResumeAfter, msg, CancellationToken.None);
             }
             else
             {
@@ -68,7 +68,7 @@ namespace Microsoft.Bot.Sample.EchoBot
     }
 
     [Serializable]
-    public class FacebookLocatinDialog : IDialog<Place>
+    public class FacebookLocationDialog : IDialog<Place>
     {
         public async Task StartAsync(IDialogContext context)
         {
