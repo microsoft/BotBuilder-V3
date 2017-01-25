@@ -4,12 +4,13 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var MediaCard_1 = require('./MediaCard');
+var MediaCard_1 = require("./MediaCard");
 var AudioCard = (function (_super) {
     __extends(AudioCard, _super);
     function AudioCard(session) {
-        _super.call(this, session);
-        this.data.contentType = 'application/vnd.microsoft.card.audio';
+        var _this = _super.call(this, session) || this;
+        _this.data.contentType = 'application/vnd.microsoft.card.audio';
+        return _this;
     }
     return AudioCard;
 }(MediaCard_1.MediaCard));

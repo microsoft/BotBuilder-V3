@@ -70,7 +70,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// The activity posted to bot.
         /// </summary>
         /// <remarks> This is the incoming activity in reactive cases.
-        /// for proactive case, i.e. <see cref="Conversation.ResumeAsync{T}"/> code path,
+        /// for proactive case, i.e. Conversation.ResumeAsync code path,
         /// it will be the <see cref="IMessageActivity"/> returned by <see cref="ResumptionCookie.GetMessage"/>.
         /// </remarks>
         IActivity Activity { get; }
@@ -121,28 +121,5 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             stack.Wait<IMessageActivity>(resume);
         }
-    }
-}
-
-namespace Microsoft.Bot.Builder.Dialogs.Internals
-{
-    /// <summary>
-    /// Methods to send a message from the bot to the user. 
-    /// </summary>
-    public interface IBotToUser
-    {
-        /// <summary>
-        /// Post a message to be sent to the user.
-        /// </summary>
-        /// <param name="message">The message for the user.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>A task that represents the post operation.</returns>
-        Task PostAsync(IMessageActivity message, CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Make a message.
-        /// </summary>
-        /// <returns>The new message.</returns>
-        IMessageActivity MakeMessage();
     }
 }

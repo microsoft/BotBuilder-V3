@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             if (options.HasFlag(Options.LastWriteWinsCachingBotDataStore))
             {
-                builder.Register<CachingBotDataStore>(c => new CachingBotDataStore(c.Resolve<ConnectorStore>(), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
+                builder.Register<CachingBotDataStore>(c => new CachingBotDataStore(c.ResolveKeyed<IBotDataStore<BotData>>(typeof(ConnectorStore)), CachingBotDataStoreConsistencyPolicy.LastWriteWins))
                     .As<IBotDataStore<BotData>>()
                     .AsSelf()
                     .InstancePerLifetimeScope();
@@ -131,12 +131,15 @@ namespace Microsoft.Bot.Builder.Tests
         {
             return new Activity()
             {
+                Id = Guid.NewGuid().ToString(),
                 Type = ActivityTypes.Message,
                 From = new ChannelAccount { Id = ChannelID.User },
                 Conversation = new ConversationAccount { Id = Guid.NewGuid().ToString() },
                 Recipient = new ChannelAccount { Id = ChannelID.Bot },
                 ServiceUrl = "InvalidServiceUrl",
                 ChannelId = "Test",
+                Attachments = Array.Empty<Attachment>(),
+                Entities = Array.Empty<Entity>(),
             };
         }
 

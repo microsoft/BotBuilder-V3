@@ -34,32 +34,33 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Net.Mime;
-using System.Resources;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public interface IDialogTask : IDialogStack, IPostToBot
-    {
-    }
-
+    /// <summary>
+    /// A dialog task is a
+    /// 1. single <see cref="IDialogStack"/> stack of <see cref="IDialog"/> frames, waiting on the next <see cref="IActivity"/>
+    /// 2. the <see cref="IEventProducer{Activity}"/> queue of activity events necessary to satisfy those waits
+    /// 2. the <see cref="IEventLoop"/> loop to execute that dialog code once the waits are satisfied
+    /// </summary>
     public sealed class DialogTask : IDialogTask
     {
         private readonly Func<CancellationToken, IDialogContext> makeContext;
         private readonly IStore<IFiberLoop<DialogTask>> store;
+        private readonly IEventProducer<IActivity> queue;
         private readonly IFiberLoop<DialogTask> fiber;
         private readonly Frames frames;
-        public DialogTask(Func<CancellationToken, IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store)
+        public DialogTask(Func<CancellationToken, IDialogContext> makeContext, IStore<IFiberLoop<DialogTask>> store, IEventProducer<IActivity> queue)
         {
             SetField.NotNull(out this.makeContext, nameof(makeContext), makeContext);
             SetField.NotNull(out this.store, nameof(store), store);
+            SetField.NotNull(out this.queue, nameof(queue), queue);
             this.store.TryLoad(out this.fiber);
             this.frames = new Frames(this);
         }
@@ -94,11 +95,21 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return this.nextWait;
         }
 
+        /// <summary>
+        /// Adjust the calling convention from Dialog's to Fiber's delegates.
+        /// </summary>
+        /// <remarks>
+        /// https://en.wikipedia.org/wiki/Thunk
+        /// </remarks>
         public interface IThunk
         {
             Delegate Method { get; }
         }
 
+        /// <summary>
+        /// Adjust the calling convention from Dialog's to Fiber's delegates
+        /// for IDialog.StartAsync.
+        /// </summary>
         [Serializable]
         private sealed class ThunkStart : IThunk
         {
@@ -108,13 +119,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 SetField.NotNull(out this.start, nameof(start), start);
             }
 
-            Delegate IThunk.Method
+            public override string ToString()
             {
-                get
-                {
-                    return this.start;
-                }
+                return $"{this.start.Target}.{this.start.Method.Name}";
             }
+
+            Delegate IThunk.Method => this.start;
 
             public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<object> item, CancellationToken token)
             {
@@ -129,6 +139,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
+        /// <summary>
+        /// Adjust the calling convention from Dialog's to Fiber's delegates
+        /// for IDialog's <see cref="ResumeAfter{T}"/>. 
+        /// </summary>
         [Serializable]
         private sealed class ThunkResume<T> : IThunk
         {
@@ -138,13 +152,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 SetField.NotNull(out this.resume, nameof(resume), resume);
             }
 
-            Delegate IThunk.Method
+            public override string ToString()
             {
-                get
-                {
-                    return this.resume;
-                }
+                return $"{this.resume.Target}.{this.resume.Method.Name}";
             }
+
+            Delegate IThunk.Method => this.resume;
 
             public async Task<IWait<DialogTask>> Rest(IFiber<DialogTask> fiber, DialogTask task, IItem<T> item, CancellationToken token)
             {
@@ -240,11 +253,16 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IDialogStack.Forward<R, T>(IDialog<R> child, ResumeAfter<R> resume, T item, CancellationToken token)
         {
+            // put the child on the stack
             IDialogStack stack = this;
             stack.Call(child, resume);
-            await stack.PollAsync(token);
-            IPostToBot postToBot = this;
-            await postToBot.PostAsync(item, token);
+            // run the loop
+            IEventLoop loop = this;
+            await loop.PollAsync(token);
+            // forward the item
+            this.fiber.Post(item);
+            // run the loop again
+            await loop.PollAsync(token);
         }
 
         void IDialogStack.Done<R>(R value)
@@ -262,7 +280,32 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.nextWait = this.fiber.Wait<DialogTask, R>(ToRest(resume));
         }
 
-        async Task IDialogStack.PollAsync(CancellationToken token)
+        void IDialogStack.Post<E>(E @event, ResumeAfter<E> resume)
+        {
+            // schedule the wait for event delivery
+            this.nextWait = this.fiber.Wait<DialogTask, E>(ToRest(resume));
+
+            // save the wait for this event, in case the scorable action event handlers manipulate the stack
+            var wait = this.nextWait;
+            Action onPull = () =>
+            {
+                // and satisfy that particular saved wait when the event has been pulled from the queue
+                wait.Post(@event);
+            };
+
+            // post the activity to the queue
+            var activity = new Activity(ActivityTypes.Trigger) { Value = @event };
+            this.queue.Post(activity, onPull);
+        }
+
+        void IDialogStack.Reset()
+        {
+            this.store.Reset();
+            this.store.Flush();
+            this.fiber.Reset();
+        }
+
+        async Task IEventLoop.PollAsync(CancellationToken token)
         {
             try
             {
@@ -284,18 +327,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        void IDialogStack.Reset()
-        {
-            this.store.Reset();
-            this.store.Flush();
-            this.fiber.Reset();
-        }
-
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        void IEventProducer<IActivity>.Post(IActivity item, Action onPull)
         {
             this.fiber.Post(item);
-            IDialogStack stack = this;
-            await stack.PollAsync(token);
+            onPull?.Invoke();
         }
 
         internal IStore<IFiberLoop<DialogTask>> Store
@@ -307,7 +342,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
-    public sealed class ReactiveDialogTask : IPostToBot
+    /// <summary>
+    /// A reactive dialog task (in contrast to a proactive dialog task) is a dialog task that
+    /// starts some root dialog when it receives the first <see cref="IActivity"/> activity. 
+    /// </summary>
+    public sealed class ReactiveDialogTask : IEventLoop, IEventProducer<IActivity>
     {
         private readonly IDialogTask dialogTask;
         private readonly Func<IDialog<object>> makeRoot;
@@ -318,28 +357,36 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.makeRoot, nameof(makeRoot), makeRoot);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IEventLoop.PollAsync(CancellationToken token)
         {
             try
             {
-                if (dialogTask.Frames.Count == 0)
+                if (this.dialogTask.Frames.Count == 0)
                 {
                     var root = this.makeRoot();
                     var loop = root.Loop();
-                    dialogTask.Call(loop, null);
-                    await dialogTask.PollAsync(token);
+                    this.dialogTask.Call(loop, null);
                 }
 
-                await dialogTask.PostAsync(item, token);
+                await this.dialogTask.PollAsync(token);
             }
             catch
             {
-                dialogTask.Reset();
+                this.dialogTask.Reset();
                 throw;
             }
         }
+
+        void IEventProducer<IActivity>.Post(IActivity item, Action onPull)
+        {
+            this.dialogTask.Post(item, onPull);
+        }
     }
 
+    /// <summary>
+    /// This dialog task translates from the more orthogonal (opaque) fiber exceptions
+    /// to the more readable dialog programming model exceptions.
+    /// </summary>
     public sealed class ExceptionTranslationDialogTask : IPostToBot
     {
         private readonly IPostToBot inner;
@@ -349,11 +396,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
             try
             {
-                await this.inner.PostAsync(item, token);
+                await this.inner.PostAsync(activity, token);
             }
             catch (InvalidNeedException error) when (error.Need == Need.Wait && error.Have == Need.None)
             {
@@ -370,155 +417,36 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
-    public struct LocalizedScope : IDisposable
-    {
-        private readonly CultureInfo previousCulture;
-        private readonly CultureInfo previousUICulture;
-
-        public LocalizedScope(string locale)
-        {
-            this.previousCulture = Thread.CurrentThread.CurrentCulture;
-            this.previousUICulture = Thread.CurrentThread.CurrentUICulture;
-
-            if (!string.IsNullOrWhiteSpace(locale))
-            {
-                CultureInfo found = null;
-                try
-                {
-                    found = CultureInfo.GetCultureInfo(locale);
-                }
-                catch (CultureNotFoundException)
-                {
-                }
-
-                if (found != null)
-                {
-                    Thread.CurrentThread.CurrentCulture = found;
-                    Thread.CurrentThread.CurrentUICulture = found;
-                }
-            }
-        }
-
-        public void Dispose()
-        {
-            Thread.CurrentThread.CurrentCulture = previousCulture;
-            Thread.CurrentThread.CurrentUICulture = previousUICulture;
-        }
-    }
-
-    public sealed class LocalizedDialogTask : IPostToBot
-    {
-        private readonly IPostToBot inner;
-
-        public LocalizedDialogTask(IPostToBot inner)
-        {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-        }
-
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
-        {
-            using (new LocalizedScope((item as IMessageActivity)?.Locale))
-            {
-                await this.inner.PostAsync<T>(item, token);
-            }
-        }
-    }
-
+    /// <summary>
+    /// This dialog task loads the dialog stack from <see cref="IBotData"/> before handling the incoming
+    /// activity and saves the dialog stack to <see cref="IBotData"/> afterwards. 
+    /// </summary>
     public sealed class PersistentDialogTask : IPostToBot
     {
-        private readonly Lazy<IPostToBot> inner;
+        private readonly Lazy<IEventLoop> inner;
+        private readonly IEventProducer<IActivity> queue;
         private readonly IBotData botData;
 
-        public PersistentDialogTask(Func<IPostToBot> makeInner, IBotData botData)
+        public PersistentDialogTask(Func<IEventLoop> makeInner, IEventProducer<IActivity> queue, IBotData botData)
         {
             SetField.NotNull(out this.botData, nameof(botData), botData);
+            SetField.NotNull(out this.queue, nameof(queue), queue);
             SetField.CheckNull(nameof(makeInner), makeInner);
-            this.inner = new Lazy<IPostToBot>(() => makeInner());
+            this.inner = new Lazy<IEventLoop>(() => makeInner());
         }
 
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
             await botData.LoadAsync(token);
             try
             {
-                await this.inner.Value.PostAsync<T>(item, token);
+                this.queue.Post(activity);
+                var loop = this.inner.Value;
+                await loop.PollAsync(token);
             }
             finally
             {
                 await botData.FlushAsync(token);
-            }
-        }
-    }
-
-    public sealed class SerializingDialogTask : IPostToBot
-    {
-        private readonly IPostToBot inner;
-        private readonly IAddress address;
-        private readonly IScope<IAddress> scopeForCookie;
-
-        public SerializingDialogTask(IPostToBot inner, IAddress address, IScope<IAddress> scopeForCookie)
-        {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.address, nameof(address), address);
-            SetField.NotNull(out this.scopeForCookie, nameof(scopeForCookie), scopeForCookie);
-        }
-
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
-        {
-            using (await this.scopeForCookie.WithScopeAsync(this.address, token))
-            {
-                await this.inner.PostAsync(item, token);
-            }
-        }
-    }
-
-    public sealed class PostUnhandledExceptionToUserTask : IPostToBot
-    {
-        private readonly IPostToBot inner;
-        private readonly IBotToUser botToUser;
-        private readonly ResourceManager resources;
-        private readonly TraceListener trace;
-
-        public PostUnhandledExceptionToUserTask(IPostToBot inner, IBotToUser botToUser, ResourceManager resources, TraceListener trace)
-        {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
-            SetField.NotNull(out this.resources, nameof(resources), resources);
-            SetField.NotNull(out this.trace, nameof(trace), trace);
-        }
-
-        async Task IPostToBot.PostAsync<T>(T item, CancellationToken token)
-        {
-            try
-            {
-                await this.inner.PostAsync<T>(item, token);
-            }
-            catch (Exception error)
-            {
-                try
-                {
-                    if (Debugger.IsAttached)
-                    {
-                        var message = this.botToUser.MakeMessage();
-                        message.Text = $"Exception: { error.Message}";
-                        message.Attachments = new[]
-                        {
-                            new Attachment(contentType: MediaTypeNames.Text.Plain, content: error.StackTrace)
-                        };
-
-                        await this.botToUser.PostAsync(message);
-                    }
-                    else
-                    {
-                        await this.botToUser.PostAsync(this.resources.GetString("UnhandledExceptionToUser"));
-                    }
-                }
-                catch (Exception inner)
-                {
-                    this.trace.WriteLine(inner);
-                }
-
-                throw;
             }
         }
     }

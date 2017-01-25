@@ -41,10 +41,6 @@
     <MultilingualFallbackLanguage>en</MultilingualFallbackLanguage>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.3.5.2\lib\net40\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Chronic, Version=0.3.2.0, Culture=neutral, PublicKeyToken=3bd1f1ef638b0d3c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Chronic.Signed.0.3.2\lib\net40\Chronic.dll</HintPath>
       <Private>True</Private>
@@ -72,44 +68,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\EventLoop.cs" />
+    <Compile Include="Base\Extensions.cs" />
+    <Compile Include="Base\LocalizedScope.cs" />
+    <Compile Include="Base\Resolver.cs" />
+    <Compile Include="Base\Types.cs" />
+    <Compile Include="ConnectorEx\PostToBot.cs" />
     <Compile Include="ConnectorEx\KeyboardCard.cs" />
     <Compile Include="Dialogs\DeleteProfileScorable.cs" />
-    <Compile Include="Dialogs\DialogModule.cs" />
-    <Compile Include="Dialogs\BotData.cs" />
-    <Compile Include="Dialogs\BotToUser.cs" />
+    <Compile Include="ConnectorEx\BotData.cs" />
+    <Compile Include="ConnectorEx\BotToUser.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
-    <Compile Include="Dialogs\Conversation.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
     <Compile Include="Dialogs\Chain.cs" />
     <Compile Include="Dialogs\DialogRouter.cs" />
+    <Compile Include="Dialogs\DialogSystem.cs" />
     <Compile Include="Dialogs\Exceptions.cs" />
-    <Compile Include="Dialogs\Address.cs" />
-    <Compile Include="Dialogs\IActivityLogger.cs" />
+    <Compile Include="ConnectorEx\Address.cs" />
+    <Compile Include="ConnectorEx\IActivityLogger.cs" />
     <Compile Include="Dialogs\DispatchDialog.cs" />
-    <Compile Include="Dialogs\ResumptionCookie.cs" />
-    <Compile Include="Dialogs\ScorableDialogs.cs" />
+    <Compile Include="ConnectorEx\ResumptionCookie.cs" />
+    <Compile Include="Dialogs\ScoringEventLoop.cs" />
     <Compile Include="Dialogs\DialogTask.cs" />
-    <Compile Include="Dialogs\IBotDataBag.cs" />
-    <Compile Include="Dialogs\IChannelCapability.cs" />
-    <Compile Include="Dialogs\IConnectorClientFactory.cs" />
+    <Compile Include="ConnectorEx\IBotDataBag.cs" />
+    <Compile Include="ConnectorEx\IChannelCapability.cs" />
+    <Compile Include="ConnectorEx\IConnectorClientFactory.cs" />
     <Compile Include="Dialogs\IDialogTask.cs" />
     <Compile Include="Dialogs\LuisDialog.cs" />
-    <Compile Include="Dialogs\UrlToken.cs" />
+    <Compile Include="ConnectorEx\UrlToken.cs" />
     <Compile Include="Dialogs\DialogTaskManager.cs" />
-    <Compile Include="Fibers\FiberModule.cs" />
-    <Compile Include="Fibers\Pair.cs" />
-    <Compile Include="Fibers\Range.cs" />
-    <Compile Include="Fibers\Scope.cs" />
+    <Compile Include="Base\Pair.cs" />
+    <Compile Include="Base\Range.cs" />
+    <Compile Include="Base\Scope.cs" />
     <Compile Include="Fibers\StackStoreFactory.cs" />
     <Compile Include="Fibers\Store.cs" />
     <Compile Include="Fibers\IStore.cs" />
-    <Compile Include="Fibers\SetField.cs" />
-    <Compile Include="Dialogs\IBotData.cs" />
+    <Compile Include="Base\SetField.cs" />
+    <Compile Include="ConnectorEx\IBotData.cs" />
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
-    <Compile Include="Fibers\Tasks.cs" />
+    <Compile Include="Base\Tasks.cs" />
     <Compile Include="FormFlow\FieldReflector.cs" />
-    <Compile Include="Fibers\Traits.cs" />
+    <Compile Include="Base\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
     <Compile Include="Luis\CalendarPlus.cs" />
     <Compile Include="Luis\EntityToType.cs" />
@@ -122,7 +122,6 @@
     <Compile Include="Luis\Resolution.cs" />
     <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />
-    <Compile Include="Dialogs\Extensions.cs" />
     <Compile Include="Fibers\Awaitable.cs" />
     <Compile Include="Fibers\Exceptions.cs" />
     <Compile Include="Fibers\Extensions.cs" />
@@ -161,8 +160,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Scorables\Actions.cs" />
+    <Compile Include="Scorables\Binder.cs" />
+    <Compile Include="Scorables\BindingComparer.cs" />
     <Compile Include="Scorables\InheritedAttributes.cs" />
     <Compile Include="Scorables\Binding.cs" />
+    <Compile Include="Scorables\Dispatcher.cs" />
     <Compile Include="Scorables\ResolverScorable.cs" />
     <Compile Include="Scorables\Scorable.cs" />
     <Compile Include="Scorables\ScorableBase.cs" />
@@ -171,7 +174,7 @@
     <Compile Include="Scorables\MethodScorable.cs" />
     <Compile Include="Scorables\FoldScorable.cs" />
     <Compile Include="Scorables\RegexMatchScorable.cs" />
-    <Compile Include="Scorables\Resolver.cs" />
+    <Compile Include="ConnectorEx\Resolver.cs" />
     <Compile Include="Scorables\Scorables.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -199,7 +202,7 @@
     <EmbeddedResource Include="Resource\Resources.it.resx" />
     <EmbeddedResource Include="Resource\Resources.ja.resx" />
     <EmbeddedResource Include="Resource\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -224,14 +227,14 @@
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.zh-Hans.xlf" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj">
+    <ProjectReference Include="..\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.csproj">
       <Project>{df397efc-91db-4911-9971-c509926fc288}</Project>
       <Name>Microsoft.Bot.Connector</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" />
-  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets') And Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
+  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets') And !Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
     <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

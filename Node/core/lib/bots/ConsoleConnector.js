@@ -1,7 +1,7 @@
 "use strict";
-var Message_1 = require('../Message');
-var utils = require('../utils');
-var readline = require('readline');
+var Message_1 = require("../Message");
+var utils = require("../utils");
+var readline = require("readline");
 var ConsoleConnector = (function () {
     function ConsoleConnector() {
         this.replyCnt = 0;

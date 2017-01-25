@@ -125,6 +125,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.Autofac\Microsoft.Bot.Builder.Autofac.csproj">
+      <Project>{2c145824-38dd-409c-ab52-b3538997726c}</Project>
+      <Name>Microsoft.Bot.Builder.Autofac</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.Calling\Microsoft.Bot.Builder.Calling.csproj">
       <Project>{cebd91e9-cdbd-4cc2-adc1-8a5b626ce0ce}</Project>
       <Name>Microsoft.Bot.Builder.Calling</Name>
@@ -133,7 +137,7 @@
       <Project>{cdfec7d6-847e-4c13-956b-0a960ae3eb60}</Project>
       <Name>Microsoft.Bot.Builder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Library\Microsoft.Bot.Connector\Microsoft.Bot.Connector.csproj">
+    <ProjectReference Include="..\..\Library\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.csproj">
       <Project>{df397efc-91db-4911-9971-c509926fc288}</Project>
       <Name>Microsoft.Bot.Connector</Name>
     </ProjectReference>

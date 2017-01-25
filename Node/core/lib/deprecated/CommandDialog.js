@@ -4,14 +4,15 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Dialog_1 = require('../dialogs/Dialog');
-var IntentDialog_1 = require('../dialogs/IntentDialog');
+var Dialog_1 = require("../dialogs/Dialog");
+var IntentDialog_1 = require("../dialogs/IntentDialog");
 var CommandDialog = (function (_super) {
     __extends(CommandDialog, _super);
     function CommandDialog(serviceUri) {
-        _super.call(this);
+        var _this = _super.call(this) || this;
         console.warn('CommandDialog class is deprecated. Use IntentDialog class instead.');
-        this.dialog = new IntentDialog_1.IntentDialog();
+        _this.dialog = new IntentDialog_1.IntentDialog();
+        return _this;
     }
     CommandDialog.prototype.begin = function (session, args) {
         this.dialog.begin(session, args);

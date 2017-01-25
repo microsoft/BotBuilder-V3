@@ -1,6 +1,6 @@
 "use strict";
-var UniversalBot_1 = require('../bots/UniversalBot');
-var ConsoleConnector_1 = require('../bots/ConsoleConnector');
+var UniversalBot_1 = require("../bots/UniversalBot");
+var ConsoleConnector_1 = require("../bots/ConsoleConnector");
 var TextBot = (function () {
     function TextBot(options) {
         if (options === void 0) { options = {}; }

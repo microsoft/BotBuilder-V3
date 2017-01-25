@@ -1,10 +1,10 @@
 "use strict";
-var HeroCard_1 = require('./cards/HeroCard');
-var CardImage_1 = require('./cards/CardImage');
-var CardAction_1 = require('./cards/CardAction');
-var utils = require('./utils');
-var consts = require('./consts');
-var sprintf = require('sprintf-js');
+var HeroCard_1 = require("./cards/HeroCard");
+var CardImage_1 = require("./cards/CardImage");
+var CardAction_1 = require("./cards/CardAction");
+var utils = require("./utils");
+var consts = require("./consts");
+var sprintf = require("sprintf-js");
 exports.TextFormat = {
     plain: 'plain',
     markdown: 'markdown',

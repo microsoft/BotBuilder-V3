@@ -156,7 +156,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     var group1 = match.Groups[1];
                     var group2 = match.Groups[2];
-                    var group3 = match.Groups[3];
                     object newValue;
                     if (group1.Success)
                     {
@@ -172,13 +171,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                         if (ConvertSpecial(expression.Value, defaultValue, out newValue))
                         {
                             yield return new TermMatch(group2.Index, group2.Length, confidence, newValue);
-                        }
-                    }
-                    else if (group3.Success)
-                    {
-                        if (ConvertSpecial(expression.Value, defaultValue, out newValue))
-                        {
-                            yield return new TermMatch(group3.Index, group3.Length, 1.0, newValue);
                         }
                     }
                 }
@@ -203,8 +195,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         // Word character, any word character, any digit, any positive group over word characters
         private const string WORD = @"(\w|\\w|\\d|(\[(?>(\w|-)+|\[(?<number>)|\](?<-number>))*(?(number)(?!))\]))";
-        private static Regex _wordStart = new Regex(string.Format(@"^{0}|\(", WORD), RegexOptions.Compiled);
-        private static Regex _wordEnd = new Regex(string.Format(@"({0}|\))(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", WORD), RegexOptions.Compiled);
+        // Starts with matching word character
+        private static Regex _wordStart = new Regex($@"^{WORD}", RegexOptions.Compiled);
+        // Ends with matching word character with optional repetitions
+        private static Regex _wordEnd = new Regex($@"{WORD}(\?|\*|\+|\{{\d+\}}|\{{,\d+\}}|\{{\d+,\d+\}})?$", RegexOptions.Compiled);
 
         private void BuildPerValueMatcher(IEnumerable<string> currentChoice)
         {
@@ -238,17 +232,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         // Generate a regex with 3 parts:
         // Group 1: startWord <number> endWord
-        // Group 2: startWord (all word terms) endWord
-        // Group 3: all nonWord terms
+        // Group 2: (all word terms) with optional start/end words
         // If a group is empty, match on NOMATCH constant.
         private const string NOMATCH = "__qqqq__";
         private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
             var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
             var words = new StringBuilder();
-            var nonWords = new StringBuilder();
             var first = true;
-            var firstNonWord = true;
             int maxWords = 0;
             if (orderedTerms.Length > 0)
             {
@@ -258,53 +249,35 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var nterm = term.Trim().Replace(" ", @"\s+");
                     if (nterm != "")
                     {
-                        if (_wordStart.Match(nterm).Success && _wordEnd.Match(nterm).Success)
+                        if (first)
                         {
-                            if (first)
-                            {
-                                first = false;
-                                words.Append(@"(\b(?:");
-                            }
-                            else
-                            {
-                                words.Append('|');
-                            }
-                            words.Append(@"(?:");
-                            words.Append(nterm);
-                            words.Append(')');
+                            first = false;
+                            words.Append('(');
                         }
                         else
                         {
-                            if (firstNonWord)
-                            {
-                                firstNonWord = false;
-                                nonWords.Append('(');
-                            }
-                            else
-                            {
-                                nonWords.Append('|');
-                            }
-                            nonWords.Append(@"(?:");
-                            nonWords.Append(nterm);
-                            nonWords.Append(')');
+                            words.Append('|');
                         }
+                        words.Append("(?:");
+                        if (_wordStart.Match(nterm).Success && _wordEnd.Match(nterm).Success)
+                        {
+                            words.Append($@"\b{nterm}\b");
+                        }
+                        else
+                        {
+                            words.Append(nterm);
+                        }
+                        words.Append(')');
                     }
                 }
             }
             if (first)
             {
-                words.Append(@"(\b(?:");
-                words.Append(NOMATCH);
+                words.Append($@"(\b(?:{NOMATCH})");
             }
-            words.Append(@")\b)");
-            if (firstNonWord)
-            {
-                nonWords.Append('(');
-                nonWords.Append(NOMATCH);
-            }
-            nonWords.Append(')');
+            words.Append(')');
             var numbers = allowNumbers ? $"(\\b{n}\\b)" : NOMATCH;
-            var expr = $"{numbers}|{words.ToString()}|{nonWords.ToString()}";
+            var expr = $"{numbers}|{words}";
             _expressions.Add(new ValueAndExpression(value, new Regex(expr.ToString(), RegexOptions.IgnoreCase), maxWords));
             ++n;
             return n;

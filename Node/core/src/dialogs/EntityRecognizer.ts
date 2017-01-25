@@ -1,15 +1,15 @@
-﻿// 
+﻿//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
-// 
+//
 // Microsoft Bot Framework: http://botframework.com
-// 
+//
 // Bot Builder SDK Github:
 // https://github.com/Microsoft/BotBuilder
-// 
+//
 // Copyright (c) Microsoft Corporation
 // All rights reserved.
-// 
+//
 // MIT License:
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -18,10 +18,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -62,8 +62,8 @@ export interface IFindMatchResult {
 
 export class EntityRecognizer {
     static dateExp = /^\d{4}-\d{2}-\d{2}/i;
-    static yesExp = /^(1|y|yes|yep|sure|ok|true)/i;
-    static noExp = /^(2|n|no|nope|not|false)/i;
+    static yesExp = /^(1|y|yes|yep|sure|ok|true)(\W|$)/i;
+    static noExp = /^(2|n|no|nope|not|false)(\W|$)/i;
     static numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
     static ordinalWords = 'first|second|third|fourth|fifth|sixth|seventh|eigth|ninth|tenth';
 
@@ -90,7 +90,7 @@ export class EntityRecognizer {
     static parseTime(entities: IEntity[]): Date;
     static parseTime(entities: any): Date {
         if (typeof entities == 'string') {
-            entities = EntityRecognizer.recognizeTime(entities);  
+            entities = [EntityRecognizer.recognizeTime(entities)];  
         }
         return EntityRecognizer.resolveTime(entities);
     }
@@ -215,7 +215,7 @@ export class EntityRecognizer {
         });
         return best;
     }
-    
+
     static findAllMatches(choices: string | Object | string[], utterance: string, threshold = 0.6): IFindMatchResult[] {
         var matches: IFindMatchResult[] = [];
         utterance = utterance.trim().toLowerCase();
@@ -242,7 +242,7 @@ export class EntityRecognizer {
         });
         return matches;
     }
-    
+
     static expandChoices(choices: string | Object | string[]): string[] {
         if (!choices) {
             return [];

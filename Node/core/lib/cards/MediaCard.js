@@ -4,12 +4,12 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Message_1 = require('../Message');
-var Keyboard_1 = require('./Keyboard');
+var Message_1 = require("../Message");
+var Keyboard_1 = require("./Keyboard");
 var MediaCard = (function (_super) {
     __extends(MediaCard, _super);
     function MediaCard(session) {
-        _super.call(this, session);
+        return _super.call(this, session) || this;
     }
     MediaCard.prototype.title = function (text) {
         var args = [];

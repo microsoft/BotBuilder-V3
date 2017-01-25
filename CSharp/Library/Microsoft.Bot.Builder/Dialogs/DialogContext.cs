@@ -105,6 +105,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.stack.Call<R>(child, resume);
         }
 
+        void IDialogStack.Post<E>(E @event, ResumeAfter<E> resume)
+        {
+            this.stack.Post<E>(@event, resume);
+        }
+
         async Task IDialogStack.Forward<R, T>(IDialog<R> child, ResumeAfter<R> resume, T item, CancellationToken token)
         {
             await this.stack.Forward<R, T>(child, resume, item, token);
@@ -123,11 +128,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         void IDialogStack.Wait<R>(ResumeAfter<R> resume)
         {
             this.stack.Wait(resume);
-        }
-
-        async Task IDialogStack.PollAsync(CancellationToken token)
-        {
-            throw new InvalidOperationException();
         }
 
         void IDialogStack.Reset()

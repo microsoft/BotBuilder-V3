@@ -143,6 +143,11 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }
 
+        public override string ToString()
+        {
+            return this.inner.ToString();
+        }
+
         public virtual Task<object> PrepareAsync(Item item, CancellationToken token)
         {
             try

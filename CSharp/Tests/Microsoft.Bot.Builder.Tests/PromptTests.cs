@@ -199,20 +199,26 @@ namespace Microsoft.Bot.Builder.Tests
             await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "9", "9");
         }
 
+        public TestContext TestContext { get; set; }
+
         [TestMethod]
+        [DeploymentItem(@"Scripts\ChoiceDescriptions.script")]
         public async Task PromptSuccess_Choice_Descriptions()
         {
             var choices = new[] { "19", "9", "else" };
-            await Script.VerifyDialogScript(@"..\..\Scripts\ChoiceDescriptions.script", 
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await Script.VerifyDialogScript(pathScript, 
                 new PromptChoice<string>(choices, PromptText, null, 0, promptStyle: PromptStyle.Auto, descriptions: new List<string>() { "choice19", "choice9", "choiceelse" }), true, "9");
         }
 
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\ChoiceDescriptionsRetry.script")]
         public async Task PromptRetry_Choice_Descriptions()
         {
             var choices = new[] { "19", "9", "else" };
-            await Script.VerifyDialogScript(@"..\..\Scripts\ChoiceDescriptionsRetry.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await Script.VerifyDialogScript(pathScript,
                 new PromptChoice<string>(choices, PromptText, null, 1, promptStyle: PromptStyle.Auto, descriptions: new List<string>() { "choice19", "choice9", "choiceelse" }), true, "10", "9");
         }
     }

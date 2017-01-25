@@ -37,23 +37,13 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Base;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
-    public interface IDialogTaskManager
+    public interface IDialogTasks
     {
-        /// <summary>
-        /// Loads the <see cref="DialogTasks"/> from <see cref="IBotDataBag"/>.
-        /// </summary>
-        /// <param name="token"> The cancellation token.</param>
-        Task LoadDialogTasks(CancellationToken token);
-
-        /// <summary>
-        /// Flushes the <see cref="IDialogTask"/> in <see cref="DialogTasks"/>
-        /// </summary>
-        /// <param name="token"> The cancellation token.</param>
-        Task FlushDialogTasks(CancellationToken token);
-
         /// <summary>
         /// The list of <see cref="IDialogTask"/>
         /// </summary>
@@ -65,23 +55,47 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         IDialogTask CreateDialogTask();
     }
 
+    public interface IDialogTaskManager : IDialogTasks
+    {
+        // TODO: move these to separate interface, remove IDialogTaskManager (interface segregation principle)
+        // TODO: possibly share with IBotData LoadAsync and FlushAsync, 
+
+        /// <summary>
+        /// Loads the <see cref="IDialogTasks.DialogTasks"/> from <see cref="IBotDataBag"/>.
+        /// </summary>
+        /// <param name="token"> The cancellation token.</param>
+        Task LoadDialogTasks(CancellationToken token);
+
+        /// <summary>
+        /// Flushes the <see cref="IDialogTask"/> in <see cref="IDialogTasks.DialogTasks"/>
+        /// </summary>
+        /// <param name="token"> The cancellation token.</param>
+        Task FlushDialogTasks(CancellationToken token);
+    }
+
+    /// <summary>
+    /// This class is responsible for managing the set of dialog tasks.
+    /// </summary>
     public sealed class DialogTaskManager : IDialogTaskManager
     {
         private readonly string blobKeyPrefix;
         private readonly IBotData botData;
         private readonly IStackStoreFactory<DialogTask> stackStoreFactory;
         private readonly Func<IDialogStack, CancellationToken, IDialogContext> contextFactory;
+        private readonly IEventProducer<IActivity> queue;
 
         private List<DialogTask> dialogTasks;
 
         public DialogTaskManager(string blobKeyPrefix, IBotData botData,
             IStackStoreFactory<DialogTask> stackStoreFactory,
-            Func<IDialogStack, CancellationToken, IDialogContext> contextFactory)
+            Func<IDialogStack, CancellationToken, IDialogContext> contextFactory,
+            IEventProducer<IActivity> queue)
         {
             SetField.NotNull(out this.blobKeyPrefix, nameof(blobKeyPrefix), blobKeyPrefix);
             SetField.NotNull(out this.botData, nameof(botData), botData);
             SetField.NotNull(out this.contextFactory, nameof(contextFactory), contextFactory);
             SetField.NotNull(out this.stackStoreFactory, nameof(stackStoreFactory), stackStoreFactory);
+            SetField.NotNull(out this.queue, nameof(queue), queue);
         }
 
         async Task IDialogTaskManager.LoadDialogTasks(CancellationToken token)
@@ -109,16 +123,16 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
 
 
-        public IReadOnlyList<IDialogTask> DialogTasks
+        IReadOnlyList<IDialogTask> IDialogTasks.DialogTasks
         {
             get { return this.dialogTasks; }
         }
 
-        IDialogTask IDialogTaskManager.CreateDialogTask()
+        IDialogTask IDialogTasks.CreateDialogTask()
         {
             IDialogStack stack = default(IDialogStack);
             Func<CancellationToken, IDialogContext> makeContext = token => contextFactory(stack, token);
-            var task = new DialogTask(makeContext, stackStoreFactory.StoreFrom(this.GetCurrentTaskBlobKey(this.dialogTasks.Count), botData.PrivateConversationData));
+            var task = new DialogTask(makeContext, stackStoreFactory.StoreFrom(this.GetCurrentTaskBlobKey(this.dialogTasks.Count), botData.PrivateConversationData), this.queue);
             stack = task;
             dialogTasks.Add(task);
             return task;

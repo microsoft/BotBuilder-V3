@@ -38,19 +38,19 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
                 await botData.LoadAsync(token);
 
                 // resolve the dialog stack
-                var stack = scope.Resolve<IDialogStack>();
+                var task = scope.Resolve<IDialogTask>();
                 // make a dialog to push on the top of the stack
                 var child = scope.Resolve<AlarmRingDialog>(TypedParameter.From(alarm.Title));
                 // wrap it with an additional dialog that will restart the wait for
                 // messages from the user once the child dialog has finished
-                var interruption = child.Void(stack);
+                var interruption = child.Void(task);
 
                 try
                 {
                     // put the interrupting dialog on the stack
-                    stack.Call(interruption, null);
+                    task.Call(interruption, null);
                     // start running the interrupting dialog
-                    await stack.PollAsync(token);
+                    await task.PollAsync(token);
                 }
                 finally
                 {

@@ -194,8 +194,10 @@ namespace Microsoft.Bot.Builder.Scorables
         /// <summary>
         /// Fold an enumeration of scorables using a score comparer.
         /// </summary>
-        public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer, FoldScorable<Item, Score>.OnStageDelegate onStage = null)
+        public static IScorable<Item, Score> Fold<Item, Score>(this IEnumerable<IScorable<Item, Score>> scorables, IComparer<Score> comparer = null, FoldScorable<Item, Score>.OnStageDelegate onStage = null)
         {
+            comparer = comparer ?? Comparer<Score>.Default;
+
             IScorable<Item, Score> scorable;
             if (TryReduce(ref scorables, out scorable))
             {
@@ -203,77 +205,6 @@ namespace Microsoft.Bot.Builder.Scorables
             }
 
             return new DelegatingFoldScorable<Item, Score>(onStage, comparer, scorables);
-        }
-
-        private static IScorable<IResolver, Binding> Bind(Delegate lambda)
-        {
-            return new DelegateScorable(lambda);
-        }
-
-        public static IScorable<IResolver, Binding> Bind<R>(Func<R> method)
-        {
-            return Bind((Delegate)method);
-        }
-
-        public static IScorable<IResolver, Binding> Bind<T1, R>(Func<T1, R> method)
-        {
-            return Bind((Delegate)method);
-        }
-
-        public static IScorable<IResolver, Binding> Bind<T1, T2, R>(Func<T1, T2, R> method)
-        {
-            return Bind((Delegate)method);
-        }
-
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, R>(Func<T1, T2, T3, R> method)
-        {
-            return Bind((Delegate)method);
-        }
-
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, R>(Func<T1, T2, T3, T4, R> method)
-        {
-            return Bind((Delegate)method);
-        }
-
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, T5, R>(Func<T1, T2, T3, T4, T5, R> method)
-        {
-            return Bind((Delegate)method);
-        }
-
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, T5, T6, R>(Func<T1, T2, T3, T4, T5, T6, R> method)
-        {
-            return Bind((Delegate)method);
-        }
-
-        public static IScorable<IResolver, Binding> Bind<T1, T2, T3, T4, T5, T6, T7, R>(Func<T1, T2, T3, T4, T5, T6, T7, R> method)
-        {
-            return Bind((Delegate)method);
-        }
-
-        public static IScorable<IResolver, Match> When(this IScorable<IResolver, Binding> scorable, Regex regex)
-        {
-            return new RegexMatchScorable<Binding, Binding>(regex, scorable);
-        }
-
-        public static IScorable<IResolver, IntentRecommendation> When(this IScorable<IResolver, Binding> scorable, ILuisModel model, LuisIntentAttribute intent, ILuisService service = null)
-        {
-            service = service ?? new LuisService(model);
-            return new LuisIntentScorable<Binding, Binding>(service, model, intent, scorable);
-        }
-
-        public static IScorable<IResolver, double> Normalize(this IScorable<IResolver, Binding> scorable)
-        {
-            return scorable.SelectScore((r, b) => 1.0);
-        }
-
-        public static IScorable<IResolver, double> Normalize(this IScorable<IResolver, Match> scorable)
-        {
-            return scorable.SelectScore((r, m) => RegexMatchScorable.ScoreFor(m));
-        }
-
-        public static IScorable<IResolver, double> Normalize(this IScorable<IResolver, IntentRecommendation> scorable)
-        {
-            return scorable.SelectScore((r, i) => i.Score ?? 0);
         }
     }
 }
@@ -384,7 +315,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
         TargetScore IScorable<Item, TargetScore>.GetScore(Item item, object state)
         {
-            IScorable<Item, SourceScore> source = this;
+            IScorable<Item, SourceScore> source = this.inner;
             var sourceScore = source.GetScore(item, state);
             var targetScore = this.selector(item, sourceScore);
             return targetScore;

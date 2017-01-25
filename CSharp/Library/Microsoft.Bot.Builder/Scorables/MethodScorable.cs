@@ -79,9 +79,9 @@ namespace Microsoft.Bot.Builder.Scorables
 
 namespace Microsoft.Bot.Builder.Scorables.Internals
 {
-    public sealed class MethodScorableFactory : IScorableFactory<IResolver, Binding>
+    public sealed class MethodScorableFactory : IScorableFactory<IResolver, IBinding>
     {
-        IScorable<IResolver, Binding> IScorableFactory<IResolver, Binding>.ScorableFor(IEnumerable<MethodInfo> methods)
+        IScorable<IResolver, IBinding> IScorableFactory<IResolver, IBinding>.ScorableFor(IEnumerable<MethodInfo> methods)
         {
             var specs =
                 from method in methods
@@ -91,135 +91,32 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             var scorables = from spec in specs
                             select new MethodScorable(spec.method);
 
-            var all = scorables.ToArray().Fold(Binding.ResolutionComparer.Instance);
+            var all = scorables.ToArray().Fold(BindingComparer.Instance);
             return all;
         }
     }
 
-    /// <summary>
-    /// Scorable to represent binding arguments to a method's parameters.
-    /// </summary>
     [Serializable]
-    public class MethodScorable : ScorableBase<IResolver, Binding, Binding>
+    public abstract class MethodScorableBase : ScorableBase<IResolver, IBinding, IBinding>
     {
-        protected readonly MethodInfo method;
-        protected readonly ParameterInfo[] parameters;
-
-        public MethodScorable(MethodInfo method)
-        {
-            SetField.NotNull(out this.method, nameof(method), method);
-            this.parameters = this.method.GetParameters();
-        }
+        public abstract MethodBase Method { get; }
 
         public override string ToString()
         {
-            return $"{this.GetType().Name}({this.method})";
+            return $"{this.GetType().Name}({this.Method.Name})";
         }
 
-        protected virtual bool TryResolveInstance(IResolver resolver, out object instance)
-        {
-            if (this.method.IsStatic)
-            {
-                instance = null;
-                return true;
-            }
-
-            return resolver.TryResolve(this.method.DeclaringType, null, out instance);
-        }
-
-        protected virtual bool TryResolveArgument(IResolver resolver, ParameterInfo parameter, out object argument)
-        {
-            var type = parameter.ParameterType;
-
-            var entity = parameter.GetCustomAttribute<EntityAttribute>();
-            if (entity != null)
-            {
-                if (resolver.TryResolve(type, entity.Name, out argument))
-                {
-                    return true;
-                }
-            }
-
-            if (resolver.TryResolve(type, parameter.Name, out argument))
-            {
-                return true;
-            }
-
-            return resolver.TryResolve(type, null, out argument);
-        }
-
-        protected virtual bool TryResolveArguments(IResolver resolver, out object[] arguments)
-        {
-            if (this.parameters.Length == 0)
-            {
-                arguments = Array.Empty<object>();
-                return true;
-            }
-
-            arguments = null;
-            for (int index = 0; index < this.parameters.Length; ++index)
-            {
-                var parameter = this.parameters[index];
-
-                object argument;
-
-                if (!TryResolveArgument(resolver, parameter, out argument))
-                {
-                    arguments = null;
-                    return false;
-                }
-
-                if (arguments == null)
-                {
-                    arguments = new object[this.parameters.Length];
-                }
-
-                arguments[index] = argument;
-            }
-
-            return arguments != null;
-        }
-
-        protected override Task<Binding> PrepareAsync(IResolver item, CancellationToken token)
-        {
-            try
-            {
-                object instance;
-                if (!TryResolveInstance(item, out instance))
-                {
-                    return Tasks<Binding>.Null;
-                }
-
-                object[] arguments;
-                if (!TryResolveArguments(item, out arguments))
-                {
-                    return Tasks<Binding>.Null;
-                }
-
-                var binding = new Binding(this.method, this.parameters, instance, arguments);
-                return Task.FromResult(binding);
-            }
-            catch (OperationCanceledException error)
-            {
-                return Task.FromCanceled<Binding>(error.CancellationToken);
-            }
-            catch (Exception error)
-            {
-                return Task.FromException<Binding>(error);
-            }
-        }
-
-        protected override bool HasScore(IResolver resolver, Binding state)
+        protected override bool HasScore(IResolver resolver, IBinding state)
         {
             return state != null;
         }
 
-        protected override Binding GetScore(IResolver resolver, Binding state)
+        protected override IBinding GetScore(IResolver resolver, IBinding state)
         {
             return state;
         }
 
-        protected override Task PostAsync(IResolver item, Binding state, CancellationToken token)
+        protected override Task PostAsync(IResolver item, IBinding state, CancellationToken token)
         {
             try
             {
@@ -235,36 +132,84 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             }
         }
 
-        protected override Task DoneAsync(IResolver item, Binding state, CancellationToken token)
+        protected override Task DoneAsync(IResolver item, IBinding state, CancellationToken token)
         {
             return Task.CompletedTask;
         }
     }
 
+    /// <summary>
+    /// Scorable to represent binding arguments to a method's parameters.
+    /// </summary>
     [Serializable]
-    public class DelegateScorable : MethodScorable
+    public sealed class MethodScorable : MethodScorableBase
     {
-        private readonly object target;
-
-        public DelegateScorable(Delegate lambda)
-            : base(lambda.Method)
+        private readonly MethodBase method;
+        public MethodScorable(MethodInfo method)
         {
-            this.target = lambda.Target;
+            SetField.NotNull(out this.method, nameof(method), method);
         }
 
-        protected override bool TryResolveInstance(IResolver resolver, out object instance)
+        public override MethodBase Method => this.method;
+
+        protected override Task<IBinding> PrepareAsync(IResolver item, CancellationToken token)
         {
-            if (this.target != null)
+            try
             {
-                var type = this.target.GetType();
-                if (this.method.DeclaringType.IsAssignableFrom(type))
+                IBinding binding;
+                if (Binder.Instance.TryBind(this.method, item, out binding))
                 {
-                    instance = this.target;
-                    return true;
+                    return Task.FromResult(binding);
+                }
+                else
+                {
+                    return Tasks<IBinding>.Null;
                 }
             }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled<IBinding>(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException<IBinding>(error);
+            }
+        }
+    }
 
-            return base.TryResolveInstance(resolver, out instance);
+    [Serializable]
+    public sealed class DelegateScorable : MethodScorableBase
+    {
+        private readonly Delegate lambda;
+        public DelegateScorable(Delegate lambda)
+        {
+            SetField.NotNull(out this.lambda, nameof(lambda), lambda);
+        }
+
+        public override MethodBase Method => this.lambda.Method;
+
+        protected override Task<IBinding> PrepareAsync(IResolver item, CancellationToken token)
+        {
+            try
+            {
+                IBinding binding;
+                if (Binder.Instance.TryBind(this.lambda, item, out binding))
+                {
+                    return Task.FromResult(binding);
+                }
+                else
+                {
+                    return Tasks<IBinding>.Null;
+                }
+            }
+            catch (OperationCanceledException error)
+            {
+                return Task.FromCanceled<IBinding>(error.CancellationToken);
+            }
+            catch (Exception error)
+            {
+                return Task.FromException<IBinding>(error);
+            }
         }
     }
 }

@@ -74,14 +74,6 @@ namespace Microsoft.Bot.Builder.Tests
             mock.Verify(s => s.PostAsync(item, It.IsAny<object>(), token), post);
             mock.Verify(s => s.DoneAsync(item, It.IsAny<object>(), token), done.Value);
         }
-    }
-
-    [TestClass]
-    public sealed class ScorableTests : ScorableTestBase
-    {
-        public static readonly string Item = "hello";
-        public static readonly double Score = 1.0;
-        public static readonly CancellationToken Token = new CancellationTokenSource().Token;
 
         public static Times Once(bool proposition)
         {
@@ -92,6 +84,14 @@ namespace Microsoft.Bot.Builder.Tests
         {
             return proposition ? Times.AtLeastOnce() : Times.Never();
         }
+    }
+
+    [TestClass]
+    public sealed class ScorableTests : ScorableTestBase
+    {
+        public static readonly string Item = "hello";
+        public static readonly double Score = 1.0;
+        public static readonly CancellationToken Token = new CancellationTokenSource().Token;
 
         [TestMethod]
         public async Task Scorable_Where()

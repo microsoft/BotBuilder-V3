@@ -110,7 +110,7 @@ namespace Microsoft.Bot.Builder.Tests
             params string[] inputs)
             where T : class
         {
-            var newPath = Path.Combine(Path.GetDirectoryName(filePath), Path.GetFileNameWithoutExtension(filePath) + "-new" + Path.GetExtension(filePath));
+            var newPath = Script.NewScriptPathFor(filePath);
             File.Delete(newPath);
             var currentState = JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(initialState));
             try
@@ -135,6 +135,7 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 // There was an error, so record new script and pass on error
                 await RecordFormScript(newPath, locale, buildForm, options, initialState, entities, inputs);
+                TestContext.AddResultFile(newPath);
                 throw;
             }
         }
@@ -167,7 +168,9 @@ namespace Microsoft.Bot.Builder.Tests
             [Terms("Two", "More than one")]
             Two,
             [Terms("Three", "More than one")]
-            Three
+            Three,
+            [Terms("word", @"\bpword\(123\)", @"32 jump\b")]
+            Four
         };
 
         [Serializable]
@@ -205,10 +208,14 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
+        public TestContext TestContext { get; set; }
+
         [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm.script")]
         public async Task Simple_Form_Script()
         {
-            await VerifyFormScript(@"..\..\Scripts\SimpleForm.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us", () => new FormBuilder<SimpleForm>().AddRemainingFields().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
                 "Hi",
 
@@ -233,9 +240,11 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-next.script")]
         public async Task SimpleForm_Next_Script()
         {
-            await VerifyFormScript(@"..\..\Scripts\SimpleForm-next.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us", () => new FormBuilder<SimpleForm>()
                     .Field(new FieldReflector<SimpleForm>("Text")
                         .SetNext((value, state) => new NextStep(new string[] { "Float" })))
@@ -252,9 +261,11 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-dependency.script")]
         public async Task SimpleForm_Dependency_Script()
         {
-            await VerifyFormScript(@"..\..\Scripts\SimpleForm-dependency.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us",
                 () => new FormBuilder<SimpleForm>()
                     .Field("Float")
@@ -287,9 +298,11 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-NotUnderstood.script")]
         public async Task SimpleForm_NotUnderstood_Script()
         {
-            await VerifyFormScript(@"..\..\Scripts\SimpleForm-NotUnderstood.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us", () => new FormBuilder<SimpleForm>().AddRemainingFields().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
                 "Hi",
                 "some text here",
@@ -303,9 +316,11 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\PizzaForm.script")]
         public async Task Pizza_Script()
         {
-            await VerifyFormScript(@"..\..\Scripts\PizzaForm.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), Array.Empty<EntityRecommendation>(),
                 "hi",
                 "garbage",
@@ -348,31 +363,33 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\PizzaForm-entities.script")]
         public async Task Pizza_Entities_Script()
         {
-            await VerifyFormScript(@"..\..\Scripts\PizzaForm-entities.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(),
                 new Luis.Models.EntityRecommendation[] {
-                                new Luis.Models.EntityRecommendation("DeliveryAddress","Address", "abc"),
-                                new Luis.Models.EntityRecommendation("Kind", "Kind", "byo"),
+                                new Luis.Models.EntityRecommendation("DeliveryAddress", entity:"2"),
+                                new Luis.Models.EntityRecommendation("Kind", entity:"byo"),
                                 // This should be skipped because it is not active
-                                new Luis.Models.EntityRecommendation("Signature", "Signature", "Hawaiian"),
-                                new Luis.Models.EntityRecommendation("BYO.Toppings", "Toppings", "onions"),
-                                new Luis.Models.EntityRecommendation("BYO.Toppings", "Toppings", "peppers"),
-                                new Luis.Models.EntityRecommendation("BYO.Toppings", "Toppings", "ice"),
-                                new Luis.Models.EntityRecommendation("Notfound", "NotFound", "OK")
+                                new Luis.Models.EntityRecommendation("Signature", entity:"Hawaiian"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", entity:"onions"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", entity:"peppers"),
+                                new Luis.Models.EntityRecommendation("BYO.Toppings", entity:"ice"),
+                                new Luis.Models.EntityRecommendation("NumberOfPizzas", entity:"5"),
+                                new Luis.Models.EntityRecommendation("NotFound", entity:"OK")
                             },
                 "hi",
                 "1", // onions for topping clarification
-                "2",
-                "med",
+                "2", // address choice from validation
+                "med", 
                 // Kind "4",
                 "drink bread",
                 "thin",
                 "1",
-                "?",
                 // "beef, onion, ice cream",
-                "3",
+                // Already have address
                 "y",
                 "1 2",
                 "none",
@@ -385,9 +402,11 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\PizzaFormButton.script")]
         public async Task Pizza_Button_Script()
         {
-            await VerifyFormScript(@"..\..\Scripts\PizzaFormButton.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us", () => PizzaOrder.BuildForm(style: ChoiceStyleOptions.Auto), FormOptions.None, new PizzaOrder(), Array.Empty<EntityRecommendation>(),
                 "hi",
                 "garbage",
@@ -430,9 +449,11 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\PizzaForm-fr.script")]
         public async Task Pizza_fr_Script()
         {
-            await VerifyFormScript(@"..\..\Scripts\PizzaForm-fr.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "fr", () => PizzaOrder.BuildForm(), FormOptions.None, new PizzaOrder(), Array.Empty<EntityRecommendation>(),
                 "bonjour",
                 "2",
@@ -467,9 +488,11 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\JSON.script")]
         public async Task JSON_Script()
         {
-            await VerifyFormScript(@"..\..\Scripts\JSON.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us", () => SandwichOrder.BuildJsonForm(), FormOptions.None, new JObject(), Array.Empty<EntityRecommendation>(),
                 "hi",
                 "ham",
@@ -514,9 +537,11 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\Optional.script")]
         public async Task Optional()
         {
-            await VerifyFormScript(@"..\..\Scripts\Optional.script",
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us", () => MyClass.Build(), FormOptions.None, new MyClass(), Array.Empty<EntityRecommendation>(),
                 "ok",
                 "This is something",
@@ -575,6 +600,43 @@ namespace Microsoft.Bot.Builder.Tests
                     Input.Integer.ToString(),
                     "Please enter a number for float (current choice: 0)",
                     Input.Float.ToString()
+                );
+        }
+
+        [TestMethod]
+        [DeploymentItem(@"Scripts\Form_Term_Matching.script")]
+        public async Task Form_Term_Matching()
+        {
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            // [Terms("word", @"\bpword\(123\)", @"32 jump\b")]
+            await VerifyFormScript(pathScript,
+                "en-us", () => new FormBuilder<SimpleForm>().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+                "Hi",
+
+                "some choices",
+                "aword",
+                "wordb",
+                "word",
+
+                "back",
+                "3pword(123)",
+                "pword(123)",
+
+                "back",
+                "32 jumped",
+                "32 jump",
+
+                "back",
+                "this word",
+
+                "back",
+                "word that",
+                
+                "back",
+                "-word",
+
+                "back",
+                "word-"
                 );
         }
 

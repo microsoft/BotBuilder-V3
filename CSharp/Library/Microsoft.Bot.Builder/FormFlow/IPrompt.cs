@@ -455,7 +455,8 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                                 var i = 1;
                                 foreach (var value in values)
                                 {
-                                    builder.Append("\n  ");
+                                    builder.AppendLine();
+                                    builder.Append("  ");
                                     if (!_annotation.AllowNumbers)
                                     {
                                         builder.Append("* ");
@@ -480,7 +481,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     var builder = new StringBuilder();
                     if (match.Index > 0)
                     {
-                        builder.Append("\n");
+                        builder.AppendLine();
                     }
                     foreach (var entry in (from step in _fields where (!filled || !step.IsUnknown(state)) && step.Role == FieldRole.Value && step.Active(state) select step))
                     {

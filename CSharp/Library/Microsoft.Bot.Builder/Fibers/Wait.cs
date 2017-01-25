@@ -41,6 +41,7 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
@@ -215,7 +216,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
         public override string ToString()
         {
             IWait wait = this;
-            return $"Wait: {wait.Need} {wait.NeedType?.Name} for {this.rest?.Target.GetType().Name}.{this.rest?.Method.Name} have {wait.ItemType?.Name} {this.item}";
+            return $"Wait: {wait.Need} {wait.NeedType?.Name} for {this.rest?.Target}.{this.rest?.Method.Name} have {wait.ItemType?.Name} {this.item}";
         }
 
         public override int GetHashCode()
@@ -279,13 +280,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             }
         }
 
-        private static MethodInfo MethodOf(Expression<Action> action)
-        {
-            var call = (MethodCallExpression)action.Body;
-            return call.Method;
-        }
-
-        private static readonly MethodInfo MethodPost = MethodOf(() => ((IWait)null).Post(0)).GetGenericMethodDefinition();
+        private static readonly MethodInfo MethodPost = Types.MethodOf(() => ((IWait)null).Post(0)).GetGenericMethodDefinition();
 
         void IWait.Post<D>(D item)
         {

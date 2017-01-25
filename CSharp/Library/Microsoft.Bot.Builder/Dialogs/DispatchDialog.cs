@@ -34,14 +34,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Scorables.Internals;
-using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Scorables;
 
 namespace Microsoft.Bot.Builder.Dialogs
@@ -51,113 +47,32 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// </summary>
     /// <typeparam name="TResult">The result type.</typeparam>
     [Serializable]
-    public class DispatchDialog<TResult> : IDialog<TResult>
+    public class DispatchDialog<TResult> : Dispatcher, IDialog<TResult>
     {
         public virtual async Task StartAsync(IDialogContext context)
         {
             context.Wait(ActivityReceivedAsync);
         }
 
-        protected virtual IResolver MakeResolver(IDialogContext context, IActivity activity)
+        [NonSerialized]
+        private IReadOnlyList<object> services;
+        protected override IReadOnlyList<object> MakeServices()
         {
-            var resolver = NoneResolver.Instance;
-            resolver = new ArrayResolver(resolver, context, activity, this);
-            resolver = new ActivityResolver(resolver);
-
-            return resolver;
-        }
-
-        protected virtual ILuisService MakeService(ILuisModel model)
-        {
-            return new LuisService(model);
-        }
-
-        protected virtual Regex MakeRegex(string pattern)
-        {
-            return new Regex(pattern);
-        }
-
-        protected virtual BindingFlags MakeBindingFlags()
-        {
-            return BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public;
-        }
-
-        protected virtual IEnumerable<MethodInfo> MakeMethods(IDialogContext context, IActivity activity)
-        {
-            var type = this.GetType();
-            var flags = this.MakeBindingFlags();
-            var methods = type.GetMethods(flags);
-            return methods;
-        }
-
-        private bool continueAfterPost;
-
-        protected void ContinueWithNextGroup()
-        {
-            continueAfterPost = true;
-        }
-
-        protected virtual bool OnStage(FoldStage stage, IScorable<IResolver, object> scorable, IResolver item, object state, object score)
-        {
-            switch (stage)
-            {
-                case FoldStage.AfterFold: return true;
-                case FoldStage.StartPost: continueAfterPost = false; return true;
-                case FoldStage.AfterPost: return continueAfterPost;
-                default: throw new NotImplementedException();
-            }
-        }
-
-        protected virtual IComparer<object> MakeComparer(IDialogContext context, IActivity activity)
-        {
-            return NullComparer<object>.Instance;
-        }
-
-        protected virtual IScorableFactory<IResolver, object> MakeFactory(IDialogContext context, IActivity activity)
-        {
-            var comparer = MakeComparer(context, activity);
-
-            IScorableFactory<IResolver, object> factory = new OrderScorableFactory<IResolver, object>
-                (
-                    this.OnStage,
-                    comparer,
-                    new LuisIntentScorableFactory(MakeService),
-                    new RegexMatchScorableFactory(MakeRegex),
-                    new MethodScorableFactory()
-                );
-
-            return factory;
-        }
-
-        protected virtual IScorable<IResolver, object> MakeScorable(IDialogContext context, IActivity activity)
-        {
-            var factory = MakeFactory(context, activity);
-            var methods = MakeMethods(context, activity);
-            var scorable = factory.ScorableFor(methods);
-            return scorable;
-        }
-
-        protected virtual async Task OnPostAsync(IDialogContext context, IActivity activity)
-        {
-        }
-
-        protected virtual async Task OnFailAsync(IDialogContext context, IActivity activity)
-        {
+            return this.services;
         }
 
         protected virtual async Task ActivityReceivedAsync(IDialogContext context, IAwaitable<IActivity> item)
         {
             var activity = await item;
-            var scorable = MakeScorable(context, activity);
-            var resolver = MakeResolver(context, activity);
-
-            if (await scorable.TryPostAsync(resolver, context.CancellationToken))
+            this.services = new object[] { this, context, activity };
+            try
             {
-                await OnPostAsync(context, activity);
+                IDispatcher dispatcher = this;
+                await dispatcher.TryPostAsync(context.CancellationToken);
             }
-            else
+            finally
             {
-                await OnFailAsync(context, activity);
+                this.services = null;
             }
         }
     }

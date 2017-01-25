@@ -89,7 +89,6 @@ namespace Microsoft.Bot.Builder.Tests
         protected override async Task PostAsync(IActivity item, double? state, CancellationToken token)
         {
             this.stack.Fail(new OperationCanceledException());
-            await this.stack.PollAsync(token);
         }
         protected override Task DoneAsync(IActivity item, double? state, CancellationToken token)
         {
@@ -267,11 +266,60 @@ namespace Microsoft.Bot.Builder.Tests
             message.Text = state;
 
             await this.stack.Forward(dialog.Void(this.stack), null, message, token);
-            await this.stack.PollAsync(token);
         }
         protected override Task DoneAsync(IActivity item, string state, CancellationToken token)
         {
             return Task.CompletedTask;
+        }
+    }
+
+    [TestClass]
+    public sealed class SelectScoreScorableTests : DialogTestBase
+    {
+        [TestMethod]
+        public async Task SelectScoreScorable_Scaling()
+        {
+            var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
+
+            var scorable = new[]
+            {
+                Actions
+                .Bind(async (IBotToUser botToUser, CancellationToken token) =>
+                {
+                    await botToUser.PostAsync("10");
+                })
+                .When(new Regex("10.*"))
+                .Normalize()
+                .SelectScore((r, s) => s * 0.9),
+
+                Actions
+                .Bind(async (IBotToUser botToUser, CancellationToken token) =>
+                {
+                    await botToUser.PostAsync("1");
+                })
+                .When(new Regex("10.*"))
+                .Normalize()
+                .SelectScore((r, s) => s * 0.1)
+
+            }.Fold();
+
+            echo = echo.WithScorable(scorable);
+
+            using (var container = Build(Options.ResolveDialogFromContainer, scorable))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(echo)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "hello",
+                    "echo: hello",
+                    "10",
+                    "10"
+                    );
+            }
         }
     }
 
@@ -283,13 +331,15 @@ namespace Microsoft.Bot.Builder.Tests
         {
             var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
 
-            var scorable = Scorable
-                .Bind((string expression, IBotData data, IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
+            var scorable = Actions
+                .Bind((string expression, IBotData data, IDialogTask stack, IMessageActivity activity, CancellationToken token) =>
                 {
                     var dialog = new CalculatorDialog();
                     activity.Text = expression;
                     return stack.InterruptAsync(dialog, activity, token);
-                }).When(new Regex(@".*calculate\s*(?<expression>.*)")).Normalize();
+                })
+                .When(new Regex(@".*calculate\s*(?<expression>.*)"))
+                .Normalize();
 
             echo = echo.WithScorable(scorable);
 

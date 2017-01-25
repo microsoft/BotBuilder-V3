@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -62,20 +63,15 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
         public sealed class StoreInstanceByTypeSurrogate : ISurrogateProvider
         {
-            public interface IResolver
-            {
-                bool Handles(Type type);
-                object Resolve(Type type);
-            }
-
             [Serializable]
             public sealed class ObjectReference : IObjectReference
             {
                 public readonly Type Type = null;
                 object IObjectReference.GetRealObject(StreamingContext context)
                 {
-                    var provider = (IResolver)context.Context;
-                    return provider.Resolve(this.Type);
+                    var resolver = (IResolver)context.Context;
+                    var real = resolver.Resolve(this.Type, tag: null);
+                    return real;
                 }
             }
 
@@ -88,8 +84,8 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
             bool ISurrogateProvider.Handles(Type type, StreamingContext context, out int priority)
             {
-                var provider = (IResolver)context.Context;
-                var handles = provider.Handles(type);
+                var resolver = (IResolver)context.Context;
+                var handles = resolver.CanResolve(type, tag: null);
                 priority = handles ? this.priority : 0;
                 return handles;
             }

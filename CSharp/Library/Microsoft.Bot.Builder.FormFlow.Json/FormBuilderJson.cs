@@ -138,14 +138,17 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
                     if (entry.Value.Script == null)
                     {
                         entry.Value.Choice = choice++;
-                        builder.Append($"\ncase {entry.Value.Choice}: {{{entry.Key}}}; break;");
+                        builder.AppendLine();
+                        builder.Append($"case {entry.Value.Choice}: {{{entry.Key}}}; break;");
                         entries.Add(entry.Value);
                     }
                 }
                 if (entries.Any())
                 {
                     // Define does not need to return a result.
-                    builder.Append("\n}\nreturn null;");
+                    builder.AppendLine();
+                    builder.AppendLine("}");
+                    builder.Append("return null;");
                     var fun = Compile<ScriptGlobals, object>(builder.ToString());
                     foreach (var entry in entries)
                     {

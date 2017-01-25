@@ -1,7 +1,7 @@
 "use strict";
-var consts = require('../consts');
-var utils = require('../utils');
-var async = require('async');
+var consts = require("../consts");
+var utils = require("../utils");
+var async = require("async");
 var ActionSet = (function () {
     function ActionSet() {
         this.actions = {};

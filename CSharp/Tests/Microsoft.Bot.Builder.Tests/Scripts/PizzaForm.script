@@ -13,11 +13,11 @@ ToUserText:"\"garbage\" is not a number of pizzas option."
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":null,"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":0,"NumberOfPizzas":1,"Phone":null,"Rating":null,"Signature":0,"Size":null,"Specials":null,"Stuffed":0}
 FromUser:"2"
 1
-ToUserText:"Please select a size (current choice: No Preference) \n  1. Medium\n  2. Large\n  3. Family\n  4. No Preference"
+ToUserText:"Please select a size (current choice: No Preference) \r\n  1. Medium\r\n  2. Large\r\n  3. Family\r\n  4. No Preference"
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":null,"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":0,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":null,"Specials":null,"Stuffed":0}
 FromUser:"med"
 1
-ToUserText:"What kind of pizza do you want? \n  1. Signature Pizza\n  2. Gourmet Delite Pizza\n  3. Stuffed Pizza\n  4. Build your own"
+ToUserText:"What kind of pizza do you want? \r\n  1. Signature Pizza\r\n  2. Gourmet Delite Pizza\r\n  3. Stuffed Pizza\r\n  4. Build your own"
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":null,"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":0,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":null,"Stuffed":0}
 FromUser:"4"
 1
@@ -46,7 +46,7 @@ ToUserText:"\"garbage\" is not a half and half option."
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":null,"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"no"
 1
-ToUserText:"Please select a crust \n  1. Original\n  2. Thin\n  3. Stuffed\n  4. Fresh Pan\n  5. Gluten Free"
+ToUserText:"Please select a crust \r\n  1. Original\r\n  2. Thin\r\n  3. Stuffed\r\n  4. Fresh Pan\r\n  5. Gluten Free"
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":{"Crust":0,"HalfAndHalf":false,"HalfToppings":null,"Sauce":0,"Toppings":null},"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"thin"
 1
@@ -54,12 +54,12 @@ ToUserText:"Please select a sauce (1. Traditional, 2. Creamy Garlic, or 3. Olive
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":0,"Toppings":null},"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"1"
 1
-ToUserText:"Please select one or more toppings \n  1. All except\n  2. Beef\n  3. Black Olives\n  4. Canadian Bacon\n  5. Crispy Bacon\n  6. Garlic\n  7. Green Peppers\n  8. Grilled Chicken\n  9. Herb And Cheese Blend\n  10. Italian Sausage\n  11. Artichoke Hearts\n  12. Mixed Onions\n  13. Mozzarella Cheese\n  14. Mushroom\n  15. Onions\n  16. Parmesan Cheese\n  17. Pepperoni\n  18. Pineapple\n  19. Roma Tomatoes\n  20. Salami\n  21. Spinach\n  22. Sun Dried Tomatoes\n  23. Zucchini\n  24. Extra Cheese"
+ToUserText:"Please select one or more toppings \r\n  1. All except\r\n  2. Beef\r\n  3. Black Olives\r\n  4. Canadian Bacon\r\n  5. Crispy Bacon\r\n  6. Garlic\r\n  7. Green Peppers\r\n  8. Grilled Chicken\r\n  9. Herb And Cheese Blend\r\n  10. Italian Sausage\r\n  11. Artichoke Hearts\r\n  12. Mixed Onions\r\n  13. Mozzarella Cheese\r\n  14. Mushroom\r\n  15. Onions\r\n  16. Parmesan Cheese\r\n  17. Pepperoni\r\n  18. Pineapple\r\n  19. Roma Tomatoes\r\n  20. Salami\r\n  21. Spinach\r\n  22. Sun Dried Tomatoes\r\n  23. Zucchini\r\n  24. Extra Cheese"
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":null},"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"?"
 2
 ToUserText:"* You are filling in the toppings field. Possible responses:\r\n* You can enter one or more numbers 1-24 or words from the descriptions. (All except, Beef, Black Olives, Canadian Bacon, Crispy Bacon, Garlic, Green Peppers, Grilled Chicken, Herb And Cheese Blend, Italian Sausage, Artichoke Hearts, Mixed Onions, Mozzarella Cheese, Mushroom, Onions, Parmesan Cheese, Pepperoni, Pineapple, Roma Tomatoes, Salami, Spinach, Sun Dried Tomatoes, Zucchini, or Extra Cheese)\r\n* Back: Go back to the previous question.\r\n* Help: Show the kinds of responses you can enter.\r\n* Quit: Quit the form without completing it.\r\n* Reset: Start over filling in the form. (With defaults from your previous entries.)\r\n* Status: Show your progress in filling in the form so far.\r\n* You can switch to another field by entering its name. (Number Of Pizzas, Size, Kind of pizza, Specials, Half And Half, Crust, Sauce, Toppings, Delivery Address, Coupons, Coupon, Rating, Available, Bottles, or Phone). "
-ToUserText:"Please select one or more toppings \n  1. All except\n  2. Beef\n  3. Black Olives\n  4. Canadian Bacon\n  5. Crispy Bacon\n  6. Garlic\n  7. Green Peppers\n  8. Grilled Chicken\n  9. Herb And Cheese Blend\n  10. Italian Sausage\n  11. Artichoke Hearts\n  12. Mixed Onions\n  13. Mozzarella Cheese\n  14. Mushroom\n  15. Onions\n  16. Parmesan Cheese\n  17. Pepperoni\n  18. Pineapple\n  19. Roma Tomatoes\n  20. Salami\n  21. Spinach\n  22. Sun Dried Tomatoes\n  23. Zucchini\n  24. Extra Cheese"
+ToUserText:"Please select one or more toppings \r\n  1. All except\r\n  2. Beef\r\n  3. Black Olives\r\n  4. Canadian Bacon\r\n  5. Crispy Bacon\r\n  6. Garlic\r\n  7. Green Peppers\r\n  8. Grilled Chicken\r\n  9. Herb And Cheese Blend\r\n  10. Italian Sausage\r\n  11. Artichoke Hearts\r\n  12. Mixed Onions\r\n  13. Mozzarella Cheese\r\n  14. Mushroom\r\n  15. Onions\r\n  16. Parmesan Cheese\r\n  17. Pepperoni\r\n  18. Pineapple\r\n  19. Roma Tomatoes\r\n  20. Salami\r\n  21. Spinach\r\n  22. Sun Dried Tomatoes\r\n  23. Zucchini\r\n  24. Extra Cheese"
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":null},"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"garbage"
 1
@@ -76,7 +76,7 @@ State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAn
 FromUser:"onions"
 4
 ToUserText:"For toppings I understood Beef, and Onions. \"ice cream\" is not an option."
-ToUserText:"Almost there!!! \n* Number Of Pizzas: 2\r\n* Size: Medium\r\n* Kind of pizza: Build your own\r\n* Specials: Free Drink, and Free Garlic Bread\r\n* Half And Half: No\r\n* Crust: Thin\r\n* Sauce: Traditional\r\n* Toppings: Beef, and Onions\r\n"
+ToUserText:"Almost there!!! \r\n* Number Of Pizzas: 2\r\n* Size: Medium\r\n* Kind of pizza: Build your own\r\n* Specials: Free Drink, and Free Garlic Bread\r\n* Half And Half: No\r\n* Crust: Thin\r\n* Sauce: Traditional\r\n* Toppings: Beef, and Onions\r\n"
 ToUserText:"What we have is a Thin crust Traditional sauce Beef, and Onions pizza"
 ToUserText:"Please enter delivery address "
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":[2,15]},"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
@@ -150,11 +150,11 @@ ToUserText:"Would you like a Medium, Thin, Traditional, Beef, and Onions pizza d
 State:{"Available":"1962-02-25T15:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":[2,15]},"Coupon":0,"Coupons":[1,2],"DeliveryAddress":"2 Iowa St","GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":"123-4567","Rating":2.5,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"no"
 1
-ToUserText:"What do you want to change? (current choice: No Preference) \n  1. Number Of Pizzas(2)\n  2. Size(Medium)\n  3. Kind of pizza(Build your own)\n  4. Specials(Free Drink, and Free Garlic Bread)\n  5. Half And Half(No)\n  6. Crust(Thin)\n  7. Sauce(Traditional)\n  8. Toppings(Beef, and Onions)\n  9. Delivery Address(2 Iowa St)\n  10. Coupons(Large 20 Percent, and Pepperoni 20 Percent)\n  11. Coupon(No Preference)\n  12. Rating(2.5)\n  13. Available(2/25/1962 3:00:00 PM)\n  14. Bottles(No Preference)\n  15. Phone(123-4567)\n  16. No Preference"
+ToUserText:"What do you want to change? (current choice: No Preference) \r\n  1. Number Of Pizzas(2)\r\n  2. Size(Medium)\r\n  3. Kind of pizza(Build your own)\r\n  4. Specials(Free Drink, and Free Garlic Bread)\r\n  5. Half And Half(No)\r\n  6. Crust(Thin)\r\n  7. Sauce(Traditional)\r\n  8. Toppings(Beef, and Onions)\r\n  9. Delivery Address(2 Iowa St)\r\n  10. Coupons(Large 20 Percent, and Pepperoni 20 Percent)\r\n  11. Coupon(No Preference)\r\n  12. Rating(2.5)\r\n  13. Available(2/25/1962 3:00:00 PM)\r\n  14. Bottles(No Preference)\r\n  15. Phone(123-4567)\r\n  16. No Preference"
 State:{"Available":"1962-02-25T15:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":[2,15]},"Coupon":0,"Coupons":[1,2],"DeliveryAddress":"2 Iowa St","GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":"123-4567","Rating":2.5,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"toppings"
 1
-ToUserText:"Please select one or more toppings (current choice: Beef, and Onions) \n  1. All except\n  2. Beef\n  3. Black Olives\n  4. Canadian Bacon\n  5. Crispy Bacon\n  6. Garlic\n  7. Green Peppers\n  8. Grilled Chicken\n  9. Herb And Cheese Blend\n  10. Italian Sausage\n  11. Artichoke Hearts\n  12. Mixed Onions\n  13. Mozzarella Cheese\n  14. Mushroom\n  15. Onions\n  16. Parmesan Cheese\n  17. Pepperoni\n  18. Pineapple\n  19. Roma Tomatoes\n  20. Salami\n  21. Spinach\n  22. Sun Dried Tomatoes\n  23. Zucchini\n  24. Extra Cheese"
+ToUserText:"Please select one or more toppings (current choice: Beef, and Onions) \r\n  1. All except\r\n  2. Beef\r\n  3. Black Olives\r\n  4. Canadian Bacon\r\n  5. Crispy Bacon\r\n  6. Garlic\r\n  7. Green Peppers\r\n  8. Grilled Chicken\r\n  9. Herb And Cheese Blend\r\n  10. Italian Sausage\r\n  11. Artichoke Hearts\r\n  12. Mixed Onions\r\n  13. Mozzarella Cheese\r\n  14. Mushroom\r\n  15. Onions\r\n  16. Parmesan Cheese\r\n  17. Pepperoni\r\n  18. Pineapple\r\n  19. Roma Tomatoes\r\n  20. Salami\r\n  21. Spinach\r\n  22. Sun Dried Tomatoes\r\n  23. Zucchini\r\n  24. Extra Cheese"
 State:{"Available":"1962-02-25T15:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":[2,15]},"Coupon":0,"Coupons":[1,2],"DeliveryAddress":"2 Iowa St","GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":"123-4567","Rating":2.5,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"everything but spinach"
 1

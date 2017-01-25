@@ -44,8 +44,13 @@ import * as url from 'url';
 import * as http from 'http';
 import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
+import urlJoin = require('url-join');
+
+var pjson = require('../../package.json');
 
 var MAX_DATA_LENGTH = 65000;
+
+var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/"+ pjson.version +")";
 
 export interface IChatConnectorSettings {
     appId?: string;
@@ -233,7 +238,10 @@ export class ChatConnector implements IConnector, IBotStorage {
             // Issue request
             var options: request.Options = {
                 method: 'POST',
-                url: url.resolve(address.serviceUrl, '/v3/conversations'),
+                // We use urlJoin to concatenate urls. url.resolve should not be used here, 
+                // since it resolves urls as hrefs are resolved, which could result in losing
+                // the last fragment of the serviceUrl
+                url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
                     members: [address.user] 
@@ -476,13 +484,17 @@ export class ChatConnector implements IConnector, IBotStorage {
         // Issue request
         var options: request.Options = {
             method: 'POST',
-            url: url.resolve(address.serviceUrl, path),
+            // We use urlJoin to concatenate urls. url.resolve should not be used here, 
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(address.serviceUrl, path),
             body: msg,
             json: true
         };
         if (address.useAuth) {
             this.authenticatedRequest(options, (err, response, body) => cb(err));
         } else {
+            this.addUserAgent(options);
             request(options, (err, response, body) => {
                 if (!err && response.statusCode >= 400) {
                     var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
@@ -563,7 +575,16 @@ export class ChatConnector implements IConnector, IBotStorage {
         }
     }
 
+    private addUserAgent(options: request.Options) : void {
+        if (options.headers == null)
+        {
+            options.headers = {};
+        }
+        options.headers['User-Agent'] = USER_AGENT;
+    }
+
     private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
+        this.addUserAgent(options);
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken((err, token) => {
                 if (!err && token) {
@@ -618,16 +639,6 @@ export class ChatConnector implements IConnector, IBotStorage {
             utils.moveFieldsTo(msg, address, <any>toAddress);
             msg.address = address;
             msg.source = address.channelId;
-
-            // Patch serviceUrl
-            if (address.serviceUrl) {
-                try {
-                    var u = url.parse(address.serviceUrl);
-                    address.serviceUrl = u.protocol + '//' + u.host;
-                } catch (e) {
-                    console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
-                }
-            }
 
             // Check for facebook quick replies
             if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message && msg.sourceEvent.message.quick_reply) {
