@@ -4,26 +4,27 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var SimpleDialog_1 = require('../dialogs/SimpleDialog');
-var ActionSet_1 = require('../dialogs/ActionSet');
-var IntentRecognizerSet_1 = require('../dialogs/IntentRecognizerSet');
-var Session_1 = require('../Session');
-var consts = require('../consts');
-var utils = require('../utils');
-var logger = require('../logger');
-var events_1 = require('events');
-var path = require('path');
-var async = require('async');
+var SimpleDialog_1 = require("../dialogs/SimpleDialog");
+var ActionSet_1 = require("../dialogs/ActionSet");
+var IntentRecognizerSet_1 = require("../dialogs/IntentRecognizerSet");
+var Session_1 = require("../Session");
+var consts = require("../consts");
+var utils = require("../utils");
+var logger = require("../logger");
+var events_1 = require("events");
+var path = require("path");
+var async = require("async");
 var Library = (function (_super) {
     __extends(Library, _super);
     function Library(name) {
-        _super.call(this);
-        this.name = name;
-        this.dialogs = {};
-        this.libraries = {};
-        this.actions = new ActionSet_1.ActionSet();
-        this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet();
-        this.triggersAdded = false;
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        _this.dialogs = {};
+        _this.libraries = {};
+        _this.actions = new ActionSet_1.ActionSet();
+        _this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet();
+        _this.triggersAdded = false;
+        return _this;
     }
     Library.prototype.clone = function (copyTo, newName) {
         var obj = copyTo || new Library(newName || this.name);
@@ -436,13 +437,13 @@ var Library = (function (_super) {
         this.actions.endConversationAction(name, msg, options);
         return this;
     };
-    Library.RouteTypes = {
-        GlobalAction: 'GlobalAction',
-        StackAction: 'StackAction',
-        ActiveDialog: 'ActiveDialog'
-    };
     return Library;
 }(events_1.EventEmitter));
+Library.RouteTypes = {
+    GlobalAction: 'GlobalAction',
+    StackAction: 'StackAction',
+    ActiveDialog: 'ActiveDialog'
+};
 exports.Library = Library;
 exports.systemLib = new Library(consts.Library.system);
 exports.systemLib.localePath(path.join(__dirname, '../locale/'));

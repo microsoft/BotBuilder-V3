@@ -4,16 +4,17 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Dialog_1 = require('./Dialog');
-var Session_1 = require('../Session');
-var EntityRecognizer_1 = require('./EntityRecognizer');
-var Message_1 = require('../Message');
-var Library_1 = require('../bots/Library');
-var Keyboard_1 = require('../cards/Keyboard');
-var CardAction_1 = require('../cards/CardAction');
-var Channel = require('../Channel');
-var consts = require('../consts');
-var logger = require('../logger');
+var Dialog_1 = require("./Dialog");
+var Session_1 = require("../Session");
+var EntityRecognizer_1 = require("./EntityRecognizer");
+var Message_1 = require("../Message");
+var Library_1 = require("../bots/Library");
+var Keyboard_1 = require("../cards/Keyboard");
+var CardAction_1 = require("../cards/CardAction");
+var Channel = require("../Channel");
+var consts = require("../consts");
+var logger = require("../logger");
+var PromptType;
 (function (PromptType) {
     PromptType[PromptType["text"] = 0] = "text";
     PromptType[PromptType["number"] = 1] = "number";
@@ -21,16 +22,15 @@ var logger = require('../logger');
     PromptType[PromptType["choice"] = 3] = "choice";
     PromptType[PromptType["time"] = 4] = "time";
     PromptType[PromptType["attachment"] = 5] = "attachment";
-})(exports.PromptType || (exports.PromptType = {}));
-var PromptType = exports.PromptType;
+})(PromptType = exports.PromptType || (exports.PromptType = {}));
+var ListStyle;
 (function (ListStyle) {
     ListStyle[ListStyle["none"] = 0] = "none";
     ListStyle[ListStyle["inline"] = 1] = "inline";
     ListStyle[ListStyle["list"] = 2] = "list";
     ListStyle[ListStyle["button"] = 3] = "button";
     ListStyle[ListStyle["auto"] = 4] = "auto";
-})(exports.ListStyle || (exports.ListStyle = {}));
-var ListStyle = exports.ListStyle;
+})(ListStyle = exports.ListStyle || (exports.ListStyle = {}));
 var SimplePromptRecognizer = (function () {
     function SimplePromptRecognizer() {
     }
@@ -108,7 +108,7 @@ exports.SimplePromptRecognizer = SimplePromptRecognizer;
 var Prompts = (function (_super) {
     __extends(Prompts, _super);
     function Prompts() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     Prompts.prototype.begin = function (session, args) {
         args = args || {};
@@ -318,20 +318,20 @@ var Prompts = (function (_super) {
             options: options
         });
     };
-    Prompts.options = {
-        recognizer: new SimplePromptRecognizer(),
-        promptAfterAction: true
-    };
-    Prompts.defaultRetryPrompt = {
-        text: "default_text",
-        number: "default_number",
-        confirm: "default_confirm",
-        choice: "default_choice",
-        time: "default_time",
-        attachment: "default_file"
-    };
     return Prompts;
 }(Dialog_1.Dialog));
+Prompts.options = {
+    recognizer: new SimplePromptRecognizer(),
+    promptAfterAction: true
+};
+Prompts.defaultRetryPrompt = {
+    text: "default_text",
+    number: "default_number",
+    confirm: "default_confirm",
+    choice: "default_choice",
+    time: "default_time",
+    attachment: "default_file"
+};
 exports.Prompts = Prompts;
 Library_1.systemLib.dialog(consts.DialogId.Prompts, new Prompts());
 function beginPrompt(session, args) {

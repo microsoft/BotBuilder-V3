@@ -1,9 +1,9 @@
 "use strict";
-var Session_1 = require('../Session');
-var Dialog_1 = require('./Dialog');
-var SimpleDialog_1 = require('./SimpleDialog');
-var consts = require('../consts');
-var utils = require('../utils');
+var Session_1 = require("../Session");
+var Dialog_1 = require("./Dialog");
+var SimpleDialog_1 = require("./SimpleDialog");
+var consts = require("../consts");
+var utils = require("../utils");
 var DialogAction = (function () {
     function DialogAction() {
     }

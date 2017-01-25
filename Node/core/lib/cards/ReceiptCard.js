@@ -1,5 +1,5 @@
 "use strict";
-var Message_1 = require('../Message');
+var Message_1 = require("../Message");
 var ReceiptCard = (function () {
     function ReceiptCard(session) {
         this.session = session;

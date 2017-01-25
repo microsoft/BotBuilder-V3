@@ -2,7 +2,7 @@
   "name": "botbuilder",
   "author": "Microsoft Corp.",
   "description": "Bot Builder is a dialog system for building rich bots on virtually any platform.",
-  "version": "3.5.0-rc9",
+  "version": "3.5.4",
   "license": "MIT",
   "keywords": [
     "botbuilder",
@@ -27,9 +27,11 @@
     "promise": "^7.1.1",
     "request": "^2.69.0",
     "rsa-pem-from-mod-exp": "^0.8.4",
-    "sprintf-js": "^1.0.3"
+    "sprintf-js": "^1.0.3",
+    "url-join": "^1.1.0"
   },
   "devDependencies": {
+    "@types/url-join": "^0.8.1",
     "mocha": "^2.4.5"
   },
   "scripts": {

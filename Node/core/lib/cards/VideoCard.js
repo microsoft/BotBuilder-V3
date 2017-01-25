@@ -4,13 +4,14 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Message_1 = require('../Message');
-var MediaCard_1 = require('./MediaCard');
+var Message_1 = require("../Message");
+var MediaCard_1 = require("./MediaCard");
 var VideoCard = (function (_super) {
     __extends(VideoCard, _super);
     function VideoCard(session) {
-        _super.call(this, session);
-        this.data.contentType = 'application/vnd.microsoft.card.video';
+        var _this = _super.call(this, session) || this;
+        _this.data.contentType = 'application/vnd.microsoft.card.video';
+        return _this;
     }
     VideoCard.prototype.aspect = function (text) {
         var args = [];

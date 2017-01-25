@@ -1,33 +1,39 @@
 "use strict";
-var OpenIdMetadata_1 = require('./OpenIdMetadata');
-var utils = require('../utils');
-var logger = require('../logger');
-var consts = require('../consts');
-var request = require('request');
-var async = require('async');
-var url = require('url');
-var jwt = require('jsonwebtoken');
-var zlib = require('zlib');
+var OpenIdMetadata_1 = require("./OpenIdMetadata");
+var utils = require("../utils");
+var logger = require("../logger");
+var consts = require("../consts");
+var request = require("request");
+var async = require("async");
+var jwt = require("jsonwebtoken");
+var zlib = require("zlib");
+var urlJoin = require("url-join");
+var pjson = require('../../package.json');
 var MAX_DATA_LENGTH = 65000;
+var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/" + pjson.version + ")";
 var ChatConnector = (function () {
     function ChatConnector(settings) {
         if (settings === void 0) { settings = {}; }
         this.settings = settings;
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
-                refreshEndpoint: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-                refreshScope: 'https://graph.microsoft.com/.default',
-                botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://api.aps.skype.com/v1/.well-known/openidconfiguration',
+                refreshEndpoint: 'https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token',
+                refreshScope: 'https://api.botframework.com/.default',
+                botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://login.botframework.com/v1/.well-known/openidconfiguration',
                 botConnectorIssuer: 'https://api.botframework.com',
                 botConnectorAudience: this.settings.appId,
                 msaOpenIdMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
                 msaIssuer: 'https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/',
                 msaAudience: 'https://graph.microsoft.com',
+                emulatorOpenIdMetadata: 'https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration',
+                emulatorAudience: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
+                emulatorIssuer: this.settings.appId,
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             };
         }
         this.botConnectorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.msaOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
+        this.emulatorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
     }
     ChatConnector.prototype.listen = function () {
         var _this = this;
@@ -71,6 +77,14 @@ var ChatConnector = (function () {
                     clockTolerance: 300
                 };
             }
+            else if (isEmulator && decoded.payload.iss == this.settings.endpoint.emulatorIssuer) {
+                openIdMetadata = this.emulatorOpenIdMetadata;
+                verifyOptions = {
+                    issuer: this.settings.endpoint.emulatorIssuer,
+                    audience: this.settings.endpoint.emulatorAudience,
+                    clockTolerance: 300
+                };
+            }
             else {
                 openIdMetadata = this.botConnectorOpenIdMetadata;
                 verifyOptions = {
@@ -78,6 +92,12 @@ var ChatConnector = (function () {
                     audience: this.settings.endpoint.botConnectorAudience,
                     clockTolerance: 300
                 };
+            }
+            if (isEmulator && decoded.payload.appid != this.settings.appId) {
+                logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
+                res.status(403);
+                res.end();
+                return;
             }
             openIdMetadata.getKey(decoded.header.kid, function (key) {
                 if (key) {
@@ -135,7 +155,7 @@ var ChatConnector = (function () {
         if (address && address.user && address.bot && address.serviceUrl) {
             var options = {
                 method: 'POST',
-                url: url.resolve(address.serviceUrl, '/v3/conversations'),
+                url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
                     members: [address.user]
@@ -367,7 +387,7 @@ var ChatConnector = (function () {
         }
         var options = {
             method: 'POST',
-            url: url.resolve(address.serviceUrl, path),
+            url: urlJoin(address.serviceUrl, path),
             body: msg,
             json: true
         };
@@ -375,6 +395,7 @@ var ChatConnector = (function () {
             this.authenticatedRequest(options, function (err, response, body) { return cb(err); });
         }
         else {
+            this.addUserAgent(options);
             request(options, function (err, response, body) {
                 if (!err && response.statusCode >= 400) {
                     var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
@@ -459,7 +480,14 @@ var ChatConnector = (function () {
             cb(null, this.accessToken);
         }
     };
+    ChatConnector.prototype.addUserAgent = function (options) {
+        if (options.headers == null) {
+            options.headers = {};
+        }
+        options.headers['User-Agent'] = USER_AGENT;
+    };
     ChatConnector.prototype.addAccessToken = function (options, cb) {
+        this.addUserAgent(options);
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken(function (err, token) {
                 if (!err && token) {
@@ -506,15 +534,6 @@ var ChatConnector = (function () {
         utils.moveFieldsTo(msg, address, toAddress);
         msg.address = address;
         msg.source = address.channelId;
-        if (address.serviceUrl) {
-            try {
-                var u = url.parse(address.serviceUrl);
-                address.serviceUrl = u.protocol + '//' + u.host;
-            }
-            catch (e) {
-                console.error("ChatConnector error parsing '" + address.serviceUrl + "': " + e.toString());
-            }
-        }
         if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message && msg.sourceEvent.message.quick_reply) {
             msg.text = msg.sourceEvent.message.quick_reply.payload;
         }

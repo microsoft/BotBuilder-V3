@@ -4,16 +4,17 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Dialog_1 = require('../dialogs/Dialog');
-var IntentDialog_1 = require('../dialogs/IntentDialog');
-var LuisRecognizer_1 = require('../dialogs/LuisRecognizer');
+var Dialog_1 = require("../dialogs/Dialog");
+var IntentDialog_1 = require("../dialogs/IntentDialog");
+var LuisRecognizer_1 = require("../dialogs/LuisRecognizer");
 var LuisDialog = (function (_super) {
     __extends(LuisDialog, _super);
     function LuisDialog(serviceUri) {
-        _super.call(this);
+        var _this = _super.call(this) || this;
         console.warn('LuisDialog class is deprecated. Use IntentDialog with a LuisRecognizer instead.');
         var recognizer = new LuisRecognizer_1.LuisRecognizer(serviceUri);
-        this.dialog = new IntentDialog_1.IntentDialog({ recognizers: [recognizer] });
+        _this.dialog = new IntentDialog_1.IntentDialog({ recognizers: [recognizer] });
+        return _this;
     }
     LuisDialog.prototype.begin = function (session, args) {
         this.dialog.begin(session, args);

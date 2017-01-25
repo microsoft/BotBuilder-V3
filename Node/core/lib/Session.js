@@ -4,31 +4,32 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Dialog_1 = require('./dialogs/Dialog');
-var Message_1 = require('./Message');
-var consts = require('./consts');
-var logger = require('./logger');
-var sprintf = require('sprintf-js');
-var events = require('events');
+var Dialog_1 = require("./dialogs/Dialog");
+var Message_1 = require("./Message");
+var consts = require("./consts");
+var logger = require("./logger");
+var sprintf = require("sprintf-js");
+var events = require("events");
 var Session = (function (_super) {
     __extends(Session, _super);
     function Session(options) {
-        _super.call(this);
-        this.options = options;
-        this.msgSent = false;
-        this._isReset = false;
-        this.lastSendTime = new Date().getTime();
-        this.batch = [];
-        this.batchStarted = false;
-        this.sendingBatch = false;
-        this.inMiddleware = false;
-        this._locale = null;
-        this.localizer = null;
-        this.library = options.library;
-        this.localizer = options.localizer;
-        if (typeof this.options.autoBatchDelay !== 'number') {
-            this.options.autoBatchDelay = 250;
+        var _this = _super.call(this) || this;
+        _this.options = options;
+        _this.msgSent = false;
+        _this._isReset = false;
+        _this.lastSendTime = new Date().getTime();
+        _this.batch = [];
+        _this.batchStarted = false;
+        _this.sendingBatch = false;
+        _this.inMiddleware = false;
+        _this._locale = null;
+        _this.localizer = null;
+        _this.library = options.library;
+        _this.localizer = options.localizer;
+        if (typeof _this.options.autoBatchDelay !== 'number') {
+            _this.options.autoBatchDelay = 250;
         }
+        return _this;
     }
     Session.prototype.toRecognizeContext = function () {
         var _this = this;
@@ -43,14 +44,14 @@ var Session = (function (_super) {
             gettext: function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+                    args[_i] = arguments[_i];
                 }
                 return Session.prototype.gettext.call(_this, args);
             },
             ngettext: function () {
                 var args = [];
                 for (var _i = 0; _i < arguments.length; _i++) {
-                    args[_i - 0] = arguments[_i];
+                    args[_i] = arguments[_i];
                 }
                 return Session.prototype.ngettext.call(_this, args);
             },

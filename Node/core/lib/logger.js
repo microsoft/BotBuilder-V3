@@ -1,8 +1,8 @@
 "use strict";
-var Prompts_1 = require('./dialogs/Prompts');
-var Channel = require('./Channel');
-var consts = require('./consts');
-var sprintf = require('sprintf-js');
+var Prompts_1 = require("./dialogs/Prompts");
+var Channel = require("./Channel");
+var consts = require("./consts");
+var sprintf = require("sprintf-js");
 var debugLoggingEnabled = new RegExp('\\bbotbuilder\\b', 'i').test(process.env.NODE_DEBUG || '');
 function error(fmt) {
     var args = [];

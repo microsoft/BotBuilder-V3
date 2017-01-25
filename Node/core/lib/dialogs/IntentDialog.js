@@ -4,32 +4,33 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var SimpleDialog_1 = require('./SimpleDialog');
-var DialogAction_1 = require('./DialogAction');
-var Dialog_1 = require('./Dialog');
-var IntentRecognizerSet_1 = require('./IntentRecognizerSet');
-var RegExpRecognizer_1 = require('./RegExpRecognizer');
-var consts = require('../consts');
-var logger = require('../logger');
+var SimpleDialog_1 = require("./SimpleDialog");
+var DialogAction_1 = require("./DialogAction");
+var Dialog_1 = require("./Dialog");
+var IntentRecognizerSet_1 = require("./IntentRecognizerSet");
+var RegExpRecognizer_1 = require("./RegExpRecognizer");
+var consts = require("../consts");
+var logger = require("../logger");
+var RecognizeMode;
 (function (RecognizeMode) {
     RecognizeMode[RecognizeMode["onBegin"] = 0] = "onBegin";
     RecognizeMode[RecognizeMode["onBeginIfRoot"] = 1] = "onBeginIfRoot";
     RecognizeMode[RecognizeMode["onReply"] = 2] = "onReply";
-})(exports.RecognizeMode || (exports.RecognizeMode = {}));
-var RecognizeMode = exports.RecognizeMode;
+})(RecognizeMode = exports.RecognizeMode || (exports.RecognizeMode = {}));
 var IntentDialog = (function (_super) {
     __extends(IntentDialog, _super);
     function IntentDialog(options) {
         if (options === void 0) { options = {}; }
-        _super.call(this);
-        this.handlers = {};
-        this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet(options);
+        var _this = _super.call(this) || this;
+        _this.handlers = {};
+        _this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet(options);
         if (typeof options.recognizeMode !== "undefined") {
-            this.recognizeMode = options.recognizeMode;
+            _this.recognizeMode = options.recognizeMode;
         }
         else {
-            this.recognizeMode = RecognizeMode.onBeginIfRoot;
+            _this.recognizeMode = RecognizeMode.onBeginIfRoot;
         }
+        return _this;
     }
     IntentDialog.prototype.begin = function (session, args) {
         var _this = this;

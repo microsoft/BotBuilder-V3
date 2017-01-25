@@ -1,5 +1,5 @@
 "use strict";
-var request = require('request');
+var request = require("request");
 var LuisRecognizer = (function () {
     function LuisRecognizer(models) {
         if (typeof models == 'string') {
