@@ -103,7 +103,7 @@ namespace Microsoft.Bot.Builder.Tests
         /// </summary>
         public static Activity MakeTrigger(this IActivity activity, object value)
         {
-            var trigger = new Activity(ActivityTypes.Trigger)
+            var trigger = new Activity(ActivityTypes.Event)
             {
                 ChannelId = activity.ChannelId,
                 Conversation = activity.Conversation,
@@ -233,9 +233,9 @@ namespace Microsoft.Bot.Builder.Tests
             return dialog.WithScorable(scorable);
         }
 
-        public static ITriggerActivity MakeEvent(object @event)
+        public static IEventActivity MakeEvent(object @event)
         {
-            return (ITriggerActivity)new Activity(ActivityTypes.Trigger) { Value = @event };
+            return new Activity(ActivityTypes.Event) { Value = @event };
         }
 
         /// <summary>
@@ -636,7 +636,7 @@ namespace Microsoft.Bot.Builder.Tests
                 // received the proactive "poke the bot" trigger activity
 
                 Actions
-                .Bind(async (IBotToUser toUser, ITriggerActivity trigger, TimerTriggerEvent evt, CancellationToken token) =>
+                .Bind(async (IBotToUser toUser, IEventActivity trigger, TimerTriggerEvent evt, CancellationToken token) =>
                 {
                     await toUser.PostAsync($"Received a {trigger.Type} activity initiated after timer from text '{evt.Text}'.");
                 })

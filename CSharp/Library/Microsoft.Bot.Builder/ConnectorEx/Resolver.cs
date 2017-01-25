@@ -58,7 +58,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             { ActivityTypes.DeleteUserData, typeof(IActivity) },
             { ActivityTypes.Message, typeof(IMessageActivity) },
             { ActivityTypes.Ping, typeof(IActivity) },
-            { ActivityTypes.Trigger, typeof(ITriggerActivity) },
+            { ActivityTypes.Event, typeof(IEventActivity) },
             { ActivityTypes.Typing, typeof(ITypingActivity) },
         };
 
@@ -111,7 +111,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
 
         public override bool TryResolve(Type type, object tag, out object value)
         {
-            ITriggerActivity trigger;
+            IEventActivity trigger;
             if (this.inner.TryResolve(tag, out trigger))
             {
                 var triggerValue = trigger.Value;

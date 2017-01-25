@@ -294,7 +294,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             };
 
             // post the activity to the queue
-            var activity = new Activity(ActivityTypes.Trigger) { Value = @event };
+            var activity = new Activity(ActivityTypes.Event) { Value = @event };
             this.queue.Post(activity, onPull);
         }
 

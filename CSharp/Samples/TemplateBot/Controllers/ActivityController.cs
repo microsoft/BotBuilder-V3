@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Sample.TemplateBot
         // TODO: replace by invoke activity, dispatch on IInvokeActivity.Name
         [MethodBind]
         [ScorableGroup(1)]
-        private async Task OnTrigger(ITriggerActivity trigger, HttpResponseMessage response, CancellationToken token)
+        private async Task OnTrigger(IEventActivity trigger, HttpResponseMessage response, CancellationToken token)
         {
             response.StatusCode = HttpStatusCode.NotImplemented;
         }

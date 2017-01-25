@@ -156,7 +156,7 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public void Resolver_Trigger()
         {
-            var expected = new Activity() { Type = ActivityTypes.Trigger };
+            var expected = new Activity() { Type = ActivityTypes.Event };
             var resolver = new TriggerValueResolver(new ActivityResolver(new ArrayResolver(NullResolver.Instance, expected)));
 
             {
