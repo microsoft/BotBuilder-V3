@@ -21,6 +21,6 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Reference to another conversation or activity
         /// </summary>
-        Models.Address RelatesTo { get; set; }
+        ConversationReference RelatesTo { get; set; }
     }
 }

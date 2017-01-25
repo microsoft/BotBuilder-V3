@@ -811,7 +811,7 @@
           "type": "string"
         },
         "relatesTo": {
-          "$ref": "#/definitions/Address",
+          "$ref": "#/definitions/ConversationReference",
           "description": "Reference to another conversation or activity"
         }
       }
@@ -896,7 +896,7 @@
         }
       }
     },
-    "Address": {
+    "ConversationReference": {
       "description": "An object relating to a particular point in a conversation",
       "type": "object",
       "properties": {
@@ -922,10 +922,6 @@
         },
         "serviceUrl": {
           "description": "Service endpoint where operations concerning the referenced conversation may be performed",
-          "type": "string"
-        },
-        "locale": {
-          "description": "The language code for the conversation",
           "type": "string"
         }
       }
@@ -1292,10 +1288,6 @@
       "description": "A video card",
       "type": "object",
       "properties": {
-        "aspect": {
-          "description": "Aspect ratio (16:9)(4:3)",
-          "type": "string"
-        },
         "title": {
           "description": "Title of the card",
           "type": "string"
@@ -1333,6 +1325,10 @@
         "autostart": {
           "description": "Should the client automatically start playback of video in this card (default:true)",
           "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio (16:9)(4:3)",
+          "type": "string"
         }
       }
     },
