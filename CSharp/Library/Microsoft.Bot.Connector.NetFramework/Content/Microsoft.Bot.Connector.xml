@@ -263,7 +263,7 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.Models.Address)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
@@ -2316,15 +2316,9 @@
             Initializes a new instance of the AudioCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
+        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String)">
             <summary>
             Initializes a new instance of the AudioCard class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.AudioCard.Aspect">
-            <summary>
-            Aspect ratio of thumbnail/media placeholder, allowed values are
-            "16x9" and "9x16"
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Title">
@@ -2372,6 +2366,12 @@
             <summary>
             Should the client automatically start playback of video in this
             card (default:true)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Aspect">
+            <summary>
+            Aspect ratio of thumbnail/media placeholder, allowed values are
+            "16x9" and "9x16"
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.VideoCard">
@@ -2439,57 +2439,6 @@
             <summary>
             Should the client automatically start playback of video in this
             card (default:true)
-            </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.Models.Address">
-            <summary>
-            An object relating to a particular point in a conversation
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Models.Address.#ctor">
-            <summary>
-            Initializes a new instance of the Address class.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Models.Address.#ctor(System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,System.String,System.String,System.String)">
-            <summary>
-            Initializes a new instance of the Address class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Models.Address.ActivityId">
-            <summary>
-            (Optional) ID of the activity to refer to
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Models.Address.User">
-            <summary>
-            (Optional) User participating in this conversation
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Models.Address.Bot">
-            <summary>
-            Bot participating in this conversation
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Models.Address.Conversation">
-            <summary>
-            Conversation reference
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Models.Address.ChannelId">
-            <summary>
-            Channel ID
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Models.Address.ServiceUrl">
-            <summary>
-            Service endpoint where operations concerning the referenced
-            conversation may be performed
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Models.Address.Locale">
-            <summary>
-            The language code for the conversation
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Attachment">
@@ -2790,6 +2739,52 @@
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.ChannelData">
             <summary>
             Channel specific payload for creating the conversation
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationReference">
+            <summary>
+            An object relating to a particular point in a conversation
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationReference.#ctor">
+            <summary>
+            Initializes a new instance of the ConversationReference class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationReference.#ctor(System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the ConversationReference class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationReference.ActivityId">
+            <summary>
+            (Optional) ID of the activity to refer to
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationReference.User">
+            <summary>
+            (Optional) User participating in this conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationReference.Bot">
+            <summary>
+            Bot participating in this conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationReference.Conversation">
+            <summary>
+            Conversation reference
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationReference.ChannelId">
+            <summary>
+            Channel ID
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationReference.ServiceUrl">
+            <summary>
+            Service endpoint where operations concerning the referenced
+            conversation may be performed
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConversationResourceResponse">
