@@ -57,29 +57,11 @@ namespace Microsoft.Bot.Builder.Luis
     /// </summary>
     public sealed class WesternCalendarPlus : ICalendarPlus
     {
-        Calendar ICalendarPlus.Calendar
-        {
-            get
-            {
-                return CultureInfo.InvariantCulture.Calendar;
-            }
-        }
+        Calendar ICalendarPlus.Calendar => CultureInfo.InvariantCulture.Calendar;
 
-        DayOfWeek ICalendarPlus.FirstDayOfWeek
-        {
-            get
-            {
-                return DayOfWeek.Sunday;
-            }
-        }
+        DayOfWeek ICalendarPlus.FirstDayOfWeek => DayOfWeek.Sunday;
 
-        CalendarWeekRule ICalendarPlus.WeekRule
-        {
-            get
-            {
-                return CalendarWeekRule.FirstDay;
-            }
-        }
+        CalendarWeekRule ICalendarPlus.WeekRule => CalendarWeekRule.FirstDay;
 
         int ICalendarPlus.HourFor(DayPart dayPart)
         {
@@ -94,5 +76,4 @@ namespace Microsoft.Bot.Builder.Luis
             }
         }
     }
-
 }
