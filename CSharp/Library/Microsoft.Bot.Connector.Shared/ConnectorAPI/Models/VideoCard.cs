@@ -24,9 +24,8 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the VideoCard class.
         /// </summary>
-        public VideoCard(string aspect = default(string), string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?))
+        public VideoCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?), string aspect = default(string))
         {
-            Aspect = aspect;
             Title = title;
             Subtitle = subtitle;
             Text = text;
@@ -36,6 +35,7 @@ namespace Microsoft.Bot.Connector
             Shareable = shareable;
             Autoloop = autoloop;
             Autostart = autostart;
+            Aspect = aspect;
         }
 
         /// <summary>

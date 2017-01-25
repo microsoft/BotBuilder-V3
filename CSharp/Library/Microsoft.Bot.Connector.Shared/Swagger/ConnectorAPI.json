@@ -1172,10 +1172,6 @@
       "description": "A audio card",
       "type": "object",
       "properties": {
-        "aspect": {
-          "description": "Aspect ratio of thumbnail/media placeholder, allowed values are \"16x9\" and \"9x16\"",
-          "type": "string"
-        },
         "title": {
           "description": "Title of the card",
           "type": "string"
@@ -1213,6 +1209,10 @@
         "autostart": {
           "description": "Should the client automatically start playback of video in this card (default:true)",
           "type": "boolean"
+        },
+        "aspect": {
+          "description": "Aspect ratio of thumbnail/media placeholder, allowed values are \"16x9\" and \"9x16\"",
+          "type": "string"
         }
       }
     },
