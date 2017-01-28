@@ -6,7 +6,7 @@ weight: 1050
 parent1: Core Concepts
 ---
 
-The Bot Framework offers three stores that you can use to store user state: [User Data store](#savinguserdata), [Conversation store](#savingconversationdata), and [Private Conversation store](#savingprivateconversationdata). If you want to save state data for a user on a channel that is NOT specific to a conversation, use the User Data store. If you want to save state data for a user on a channel that IS specific to a conversation, use the Private User Data store. If you want to save general data about a conversation on a channel, use the Conversation store. 
+The Bot Framework offers three stores that you can use to store user state: [User Data store](#savinguserdata), [Conversation store](#savingconversationdata), and [Private Conversation store](#savingprivateconversationdata). If you want to save state data for a user on a channel that is NOT specific to a conversation, use the User Data store. If you want to save state data for a user on a channel that IS specific to a conversation, use the Private Conversation data store. If you want to save general data about a conversation on a channel, use the Conversation store. 
 
 You may store personally identifiable information (PII) in the User Data store and the Private Conversation store but not in the Conversation store. To delete PII from the stores, see [Deleting User Data](#deletinguserdata).
 
