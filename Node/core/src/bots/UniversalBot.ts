@@ -335,6 +335,37 @@ export class UniversalBot extends Library {
     }
 
     //-------------------------------------------------------------------------
+    // Session
+    //-------------------------------------------------------------------------
+    
+    /** Loads a session object for an arbitrary address. */
+    public loadSession(address: IAddress, done: (err: Error, session: Session) => void): void {
+        this.lookupUser(address, (user) => {
+            var msg = <IMessage>{
+                type: consts.messageType,
+                agent: consts.agent,
+                source: address.channelId,
+                sourceEvent: {},
+                address: utils.clone(address),
+                text: '',
+                user: user
+            };
+            this.ensureConversation(msg.address, (adr) => {
+                msg.address = adr;
+                var conversationId = msg.address.conversation ? msg.address.conversation.id : null;
+                var storageCtx: IBotStorageContext = { 
+                    userId: msg.user.id, 
+                    conversationId: conversationId,
+                    address: msg.address,
+                    persistUserData: this.settings.persistUserData,
+                    persistConversationData: this.settings.persistConversationData 
+                };
+                this.createSession(storageCtx, msg, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, done);
+            }, this.errorLogger(<any>done));
+        }, this.errorLogger(<any>done));
+    }
+
+    //-------------------------------------------------------------------------
     // Helpers
     //-------------------------------------------------------------------------
     
@@ -370,6 +401,18 @@ export class UniversalBot extends Library {
         //   saving the userData & conversationData to storage.
         // * After the first call to onSend() for the conversation everything 
         //   follows the same flow as for reactive messages.
+        this.createSession(storageCtx, message, dialogId, dialogArgs, (err, session) => {
+            // Dispatch message
+            if (!err) {
+                this.emit('routing', session);
+                this.routeMessage(session, done);
+            } else {
+                done(err);
+            }
+        }, newStack);
+    }
+
+    private createSession(storageCtx: IBotStorageContext, message: IMessage, dialogId: string, dialogArgs: any, done: (err: Error, session: Session) => void, newStack = false): void {
         var loadedData: IBotStorageData;
         this.getStorageData(storageCtx, (data) => {
             // Create localizer on first access
@@ -413,9 +456,8 @@ export class UniversalBot extends Library {
             loadedData = data;  // We'll clone it when saving data later
             
             // Dispatch message
-            this.emit('routing', session);
-            session.dispatch(sessionState, message, () => this.routeMessage(session, done));
-        }, done);
+            session.dispatch(sessionState, message, () => done(null, session));
+        }, <any>done);
     }
 
     private routeMessage(session: Session, done: (err: Error) => void): void {
