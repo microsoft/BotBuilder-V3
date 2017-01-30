@@ -8,7 +8,7 @@ parent1: Bot Framework Resources
 
 At Build 2016 Microsoft announced the Microsoft Bot Framework and its initial iteration of the Bot Connector API, along with Bot Builder and Bot Connector SDK's.  Since Build we've been collecting your feedback and actively working to improve the REST API and SDK's to be ready for the future, better support for attachments, and improved performance.
 
-We're now introducing a new iteration of our API (V3).  In this API, there are a number of small changes designed to make the API more adaptable to future requirements.
+In July 2016, we released the newest version of our API, v3, and deprecated our initial v1 API.  V1 bots ceased to function on Skype by December 2016, and will stop working on remaining channels on February 15, 2017. If you operate a v1 bot and want it to function for much longer, you must migrate it to v3.
 
 The good news is our overall model is the same, though the syntax of interacting with the Bot Connector has been updated.  Below are some highlights that are detailed in the Bot Framework documentation.
 
@@ -54,9 +54,9 @@ Find the Configuration info panel and look at the App ID field. Follow these ins
 The changes below will require at least some code change to your bot.  In order to not disrupt your existing users, we suggest the following:
 
 1. Create a new branch of your Bot's source code
-2. Update to the new SDK for your bot's language
+2. Update to the latest version of the [Bot Builder SDK](https://github.com/Microsoft/BotBuilder) for your bot's language
 3. Make appropriate syntax changes
-4. Test with the Bot Framework Channel Emulator on your desktop and then in the cloud
+4. Test with the [Bot Framework Channel Emulator](/en-us/tools/bot-framework-emulator/) on your desktop and then in the cloud
 5. [Upgrade your bot registration in the Bot Framework Developer Portal](#step-3-update-your-bot-registration-in-the-bot-framework-developer-portal)
 
 The goal of these steps are to ensure continued support for your current users.  If that's not an issue, you can just update your current deployment in place.

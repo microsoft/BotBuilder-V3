@@ -135,18 +135,19 @@ No, publishing your bot is an optional process. Certain channels do limit the nu
 
 ## What channels does the Bot Framework currently support?
 
-Supported channels as of July, 2016 are:
+Supported channels as of January 2017 are:
 
-1. Text/sms
-2. [Office 365 mail](http://www.office.com/)
-3. [Skype](http://www.skype.com/) (auto-configured)
-4. [Slack](http://slack.com/)
-5. [GroupMe](http://groupme.com/)
-6. [Telegram](http://telegram.org/)
-7. [Facebook Messenger](http://www.messenger.com/)
+1. [Skype](https://www.skype.com/) (auto-configured)
+2. [Microsoft Teams](https://teams.microsoft.com/)
+3. Web Chat (auto-configured, embeddable)
+4. Direct Line (API to host your bot in your app)
+5. [Office 365 mail](https://www.office.com/)
+6. [Facebook Messenger](https://www.messenger.com/)
+7. [GroupMe](https://groupme.com/)
 8. [Kik](https://www.kik.com/)
-9. Web (auto-configured, embeddable)
-10. Direct Line (API to host your bot in your app)
+9. [Slack](https://slack.com/)
+10. SMS via [Twilio](https://twilio.com/)
+11. [Telegram](https://telegram.org/)
 
 ## When will you add more conversation experiences to the Bot Framework?
 
@@ -184,7 +185,7 @@ Yes. The Bot Framework was released in preview on March 30th of 2016 in conjunct
 
 ## How long will the Bot Framework be in preview? Can I start building/shipping products based on a preview framework?
 
-The Bot Framework is currently in preview. As indicated at Build 2016, Microsoft is making significant investments in Conversation as a Platform - among those investments is the Bot Framework. Building upon a preview offering is of course, at your discretion.
+The Bot Framework is currently in preview. As indicated at Build 2016, Microsoft is making significant investments in Conversation as a Platform - among those investments is the Bot Framework. Building upon a preview offering is, of course, at your discretion.
 
 ## What is the roadmap for Bot Framework?
 
@@ -201,9 +202,15 @@ The July 2016 update is largely in response to feedback received from the active
 * Improvements to the Emulator and Direct Line API
 * Skype channel auto-configured for any bot using Bot Framework
 
-## Do I need to upgrade my bot with this service update?
+## Do I need to upgrade my "v1" bot?
 
-Yes. You will need to [upgrade your bot](https://aka.ms/bf-migrate) with this release of the service. All bots written prior to the July release will need to upgrade to the latest SDK (v3) in order to continue to function. Bots written to versions of the SDK prior to V3 will cease functioning in roughly 90 days post the July 7th release. 
+Yes. You will need to [upgrade your bot](https://aka.ms/bf-migrate) to the latest version (v3) of the Bot Framework platform. The v1 API for Skype has already been shut down and the remaining channels will stop working on February 15, 2017. All bots written prior to July 2016 must be upgraded to continue functioning.
+
+When upgrading your bot, be sure to target the latest version of the Bot Builder SDK.
+
+## Do I need to upgrade my "v3" bot?
+
+In December 2016 we made a change to our security configuration that will become mandatory for all v3 bots by May 31, 2017. All bots must upgrade to a minimum of version 3.5 of the [Bot Builder SDK](https://github.com/Microsoft/BotBuilder) or, if you're not using the Bot Builder SDK, the [latest version of the Bot Framework protocol](https://docs.botframework.com/en-us/restapi/authentication/#changes).
 
 ## Do the bots registered with the Bot Framework collect personal information? If yes, how can I be sure the data is safe and secure? What about privacy?
 
