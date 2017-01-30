@@ -911,7 +911,7 @@ export interface IUniversalBotSettings {
 export interface IConnector {
 
     /** Used to register a handler for receiving incoming invoke events. */
-    onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
+    onInvoke?(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
 
     /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
@@ -3038,7 +3038,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     listen(): (req: any, res: any) => void;
 
     /** Used to register a handler for receiving incoming invoke events. */
-    onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;onInvoke
+    onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
 
     /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;

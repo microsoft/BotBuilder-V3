@@ -461,10 +461,11 @@ export class ChatConnector implements IConnector, IBotStorage {
                     if(err) {
                         res.status(500);
                         res.end();
+                        logger.error('Received error from invoke handler: ', err.message || '');
                     } else {
                         res.send(status || 200, body);
                     }
-                })
+                });
             } else {
                 // Dispatch message
                 this.onEventHandler([msg]);

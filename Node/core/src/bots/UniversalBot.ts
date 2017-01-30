@@ -56,7 +56,7 @@ export interface IUniversalBotSettings {
 
 export interface IConnector {
     onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
-    onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
+    onInvoke?(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
     send(messages: IMessage[], cb: (err: Error) => void): void;
     startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void;
 }
