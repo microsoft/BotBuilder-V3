@@ -3014,6 +3014,13 @@ export class UniversalBot extends Library  {
      */
     isInConversation(address: IAddress, callback: (err: Error, lastAccess: Date) => void): void;
 
+    /** 
+     * Loads a session object for an arbitrary address. 
+     * @param address Address of the user/session to load. This should be saved during a previous conversation with the user.
+     * @param callback Function to invoke with the loaded session.
+     */
+    loadSession(address: IAddress, callback: (err: Error, session: Session) => void): void;
+
     /**
      * Replaces the bots default route disambiguation logic with a custom implementation.
      * @param handler Function that will be invoked with the candidate routes to dispatch an incoming message to. 

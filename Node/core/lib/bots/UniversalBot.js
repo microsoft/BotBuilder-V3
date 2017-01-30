@@ -241,7 +241,46 @@ var UniversalBot = (function (_super) {
     UniversalBot.prototype.onDisambiguateRoute = function (handler) {
         this._onDisambiguateRoute = handler;
     };
+    UniversalBot.prototype.loadSession = function (address, done) {
+        var _this = this;
+        this.lookupUser(address, function (user) {
+            var msg = {
+                type: consts.messageType,
+                agent: consts.agent,
+                source: address.channelId,
+                sourceEvent: {},
+                address: utils.clone(address),
+                text: '',
+                user: user
+            };
+            _this.ensureConversation(msg.address, function (adr) {
+                msg.address = adr;
+                var conversationId = msg.address.conversation ? msg.address.conversation.id : null;
+                var storageCtx = {
+                    userId: msg.user.id,
+                    conversationId: conversationId,
+                    address: msg.address,
+                    persistUserData: _this.settings.persistUserData,
+                    persistConversationData: _this.settings.persistConversationData
+                };
+                _this.createSession(storageCtx, msg, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, done);
+            }, _this.errorLogger(done));
+        }, this.errorLogger(done));
+    };
     UniversalBot.prototype.dispatch = function (storageCtx, message, dialogId, dialogArgs, done, newStack) {
+        var _this = this;
+        if (newStack === void 0) { newStack = false; }
+        this.createSession(storageCtx, message, dialogId, dialogArgs, function (err, session) {
+            if (!err) {
+                _this.emit('routing', session);
+                _this.routeMessage(session, done);
+            }
+            else {
+                done(err);
+            }
+        }, newStack);
+    };
+    UniversalBot.prototype.createSession = function (storageCtx, message, dialogId, dialogArgs, done, newStack) {
         var _this = this;
         if (newStack === void 0) { newStack = false; }
         var loadedData;
@@ -280,8 +319,7 @@ var UniversalBot = (function (_super) {
                 delete session.privateConversationData[consts.Data.SessionState];
             }
             loadedData = data;
-            _this.emit('routing', session);
-            session.dispatch(sessionState, message, function () { return _this.routeMessage(session, done); });
+            session.dispatch(sessionState, message, function () { return done(null, session); });
         }, done);
     };
     UniversalBot.prototype.routeMessage = function (session, done) {
