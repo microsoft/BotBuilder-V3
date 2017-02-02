@@ -127,12 +127,10 @@ export class Library extends EventEmitter {
         //   top intent is passed along as part of routing. The root libraries recognize()
         //   method will be called a second time so we want to avoid the second recognize
         //   pass.
-        var skipRecognize = (context.intent && context.libraryName === this.name);
-        if (this.recognizers.length > 0 && !skipRecognize) {
+        if (this.recognizers.length > 0 && context.libraryName !== this.name) {
             this.recognizers.recognize(context, callback);
         } else {
-            // Pass through the top intent recognized by the root libraries recognizers.
-            callback(null, context.intent);
+            callback(null, context.intent || { intent: 'None', score: 0.0 });
         }
     }
 

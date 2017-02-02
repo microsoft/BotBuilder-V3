@@ -464,12 +464,12 @@ export class UniversalBot extends Library {
         // Run the root libraries recognizers
         var context = session.toRecognizeContext();
         this.recognize(context, (err, topIntent) => {
-            if (topIntent && topIntent.score > 0) {
-                // This intent will be automatically inherited by child libraries
-                // that don't implement their own recognizers.
-                context.intent = topIntent;
-                context.libraryName = this.name;
-            }
+            // This intent will be automatically inherited by child libraries
+            // that don't implement their own recognizers.
+            // - We're passing along the library name to avoid running our own
+            //   recognizer twice.
+            context.intent = topIntent;
+            context.libraryName = this.name;
 
             // Federate across all libraries to find the best route to trigger. 
             var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
