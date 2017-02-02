@@ -32,13 +32,13 @@
                         <div class="inspector-image">
                                 <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_inspector-image-url" class="inspector-image-url">
                                     {% if example.title != "noexample" %}
-                                    <img class="example-image" name="{{extitle}}" id="{{extitle}}" src="../../../images/inspector/{{include.channel_selected}}/{{feature.feature_name}}/{{extitle}}.png" />
+                                    <img class="example-image" name="{{extitle}}" id="{{extitle}}" src="/en-us/images/inspector/{{include.channel_selected}}/{{feature.feature_name}}/{{extitle}}.png" />
                                     {% else %}
-                                    <img class="example-image" name="no_image" id="no_image" src="../../../images/inspector/NoImage/no-preview.png" />
+                                    <img class="example-image" name="no_image" id="no_image" src="/en-us/images/inspector/NoImage/no-preview.png" />
                                     {% endif %}
                                     {% if feature.examples.size > 1 %}
-                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_backward" class="img-button button-backward"><img src="../../../images/inspector/buttons/flipper-left.svg"/></div>
-                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_forward" class="img-button button-forward"><img src="../../../images/inspector/buttons/flipper-right.svg"/></div>
+                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_backward" class="img-button button-backward"><img src="/en-us/images/inspector/buttons/flipper-left.svg"/></div>
+                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_forward" class="img-button button-forward"><img src="/en-us/images/inspector/buttons/flipper-right.svg"/></div>
                                     {% endif %}
                                 </div>
                                 <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_buttons" class="buttons">
@@ -64,8 +64,8 @@
                                     <a class="external-link-name" href="{{feature.external_url}}" target="_blank">
                                         {{channel.name}}
                                         <div class="external-link" href="{{feature.external_url}}">
-                                            <img class="inspector-pop-out normal" src="../../../images/inspector/icons/pop-out-normal.svg" />
-                                            <img class="inspector-pop-out hover" src="../../../images/inspector/icons/pop-out-hover.svg" />
+                                            <img class="inspector-pop-out normal" src="/en-us/images/inspector/icons/pop-out-normal.svg" />
+                                            <img class="inspector-pop-out hover" src="/en-us/images/inspector/icons/pop-out-hover.svg" />
                                         </div>
                                     </a>
                                 </div>
