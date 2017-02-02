@@ -1,0 +1,620 @@
+{
+    "channel_name": "facebook",
+    "features": [
+        {
+            "feature_name": "Carousel",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as Facebook Generic Template carousel.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Max 1 image per card",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Buttons",
+                    "value": "Min 1 Button, Max 10 Buttons, Max 20 Character Limit",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Carousel in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ChannelData",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Yes.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "ChannelData example.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Codesample",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Rendered as plain text.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Code in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "DirectMessage",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Messages can be sent to a single user.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Direct Message in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Document",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/file-attachment",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Facebook can send and receive files of any content type.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Size Limit",
+                    "value": "Max 10 MB",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a document in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Emoji",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Facebook can render emoji.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of emojis in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "GroupChat",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Bot can send to all users.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "HeroCard",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Message displayed using a Facebook Generic Template.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Title",
+                    "value": "Max 80 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Subtitle",
+                    "value": "Max 80 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 80 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Buttons",
+                    "value": "Max 3 per card, Max 20 Character Limit. More than 3 result in Carousel layout.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Hero Card in Facebook Full Chat.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Images",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/image-attachment",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Facebook can display images.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Max Image Size",
+                    "value": "10 MB",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of images in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Keyboards",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/buttons",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Facebook can display inline buttons and quick replies.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }                
+            ]
+        },
+        {
+            "feature_name": "List",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/list-template",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Yes.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a List in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Location",
+            "external_url": "",
+            "feature_description": "Feature that sends a specific location.",
+            "last_update": "12/06/2016",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Mobile clients are able to share location.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Location in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs"
+                }
+            ]
+        },
+        {
+            "feature_name": "Markdown",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Facebook cannot render Markdown-formatted text.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Markdown Code in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "General view of a Markdown Code in Facebook. (Part 2)",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "General view of a Markdown Code in Facebook. (Part 3)",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "General view of a Markdown Code in Facebook. (Part 4)",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Members",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Bots can query for conversation member list.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a bot conversation in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ReceiptCard",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/receipt-template",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Rendered as Facebook Receipt Template.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Items",
+                    "value": "Total Need more than $0",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Min 1 image per card",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Receipt Card in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "SigninCard",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Rendered as Facebook Generic Template.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Buttons",
+                    "value": "Text 20 Character Limit",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Signin Card in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ThumbnailCard",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/generic-template",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Rendered as Facebook Generic Template.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 80 character limit",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Buttons",
+                    "value": "Max 3 buttons per card, Max 20 characters in text",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Thumbnail card in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Typing",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/sender-actions",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Facebook can render a typing indicator.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Bot typing in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Video",
+            "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference/video-attachment",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Facebook can play video.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Max Image Size",
+                    "value": "20 MB",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Videos in Facebook.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        }
+    ]
+}

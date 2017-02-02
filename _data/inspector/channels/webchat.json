@@ -1,0 +1,518 @@
+{
+    "channel_name": "webchat",
+    "features": [
+        {
+            "feature_name": "Carousel",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a WebChat Carousel Control.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Carousel in Web Chat.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ChannelData",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Not supported.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Codesample",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as pre-formatted text.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Code in Web Chat.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "DirectMessage",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat does not support group conversations.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Document",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat can send any file type to the Bot, but only download images.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Emoji",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat can display emoji.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of emojis in Web Chat.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "GroupChat",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat does not support group conversations.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "HeroCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a WebChat Hero Card.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Hero Card in WebChat.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "General view of a Hero Card in WebChat. (Part 2)",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Images",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat can show images.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Max Image Size",
+                    "value": "5 MB",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of images in WebChat.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json"
+                }
+            ]
+        },
+        {
+            "feature_name": "Keyboards",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat can display inline buttons.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in WebChat",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "List",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of cards.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a List in Web Chat.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Location",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat cannot send the user's location.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Markdown",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat can render Markdown.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Markdown Code in Web Chat.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example5",
+                    "resource": "example5",
+                    "example_description": "",
+                    "image_url": "example5.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example6",
+                    "resource": "example6",
+                    "example_description": "",
+                    "image_url": "example6.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example7",
+                    "resource": "example7",
+                    "example_description": "",
+                    "image_url": "example7.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Members",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat does not support group conversations.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of Members in Web Chat.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ReceiptCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a WebChat Receipt Card.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Receipt Card in Web Chat",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "SigninCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a WebChat Signin Card.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Receipt Card in Web Chat",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ThumbnailCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a WebChat Thumbnail Card.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Thumbnail in Web Chat",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Typing",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat can display a typing indicator.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Video",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "WebChat can play video.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Videos in Web Chat",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        }
+    ]
+}

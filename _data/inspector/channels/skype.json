@@ -1,0 +1,547 @@
+{
+    "channel_name": "skype",
+    "features": [
+        {
+            "feature_name": "Carousel",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a Skype Carousel control.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Max 1 image per card",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Carousel in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ChannelData",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Not supported.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Codesample",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as plain text.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Code in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "DirectMessage",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Bots can messages to single members of a group conversation.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Document",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Skype can send and receive files of any content type.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Document in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Emoji",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Skype can render emoji.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of emojis in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "GroupChat",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Yes. Bot must be enabled for groups.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "HeroCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a Skype Hero Card.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Min 1 image per card",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Hero Card in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Images",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Skype can show images.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Max Image Size",
+                    "value": "20 MB",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of images in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Keyboards",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Skype supports inline buttons.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in WebChat",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "List",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of cards.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a List in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Location",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Skype cannot share the user's location.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Markdown",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Skype can display Markdown text.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Markdown Code in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "Images markdown processing in Skype.",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "Images markdown processing in Skype.",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "Images markdown processing in Skype.",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Members",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Bots can get members from group conversation.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Members in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ReceiptCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a Skype Receipt Card",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Min 1 image per card",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Max Image Size",
+                    "value": "1 MB, 1024x1024",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Receipt Card in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "SigninCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a Skype Signin Card",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Receipt Card in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ThumbnailCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a Skype Thumbnail Card",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Min 1 image per card",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Max Image Size",
+                    "value": "1 MB, 1024x1024",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Thumbnail Card in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Typing",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Skype can display a typing indicator.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Video",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Skype can play video.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Max Video Size",
+                    "value": "100 MB",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Thumbnail Image",
+                    "value": "Should be set in thumbnailUrl",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a List in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        }
+    ]
+}

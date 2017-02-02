@@ -1,0 +1,621 @@
+{
+    "channel_name": "slack",
+    "features": [
+        {
+            "feature_name": "Carousel",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of cards.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Title",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Buttons",
+                    "value": "Max 5 buttons per card",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Display",
+                    "value": "Max 20 attachments",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Carousel in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "General view of a Carousel in Slack. (Part 2)",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "General view of a Carousel in Slack. (Part 3)",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "General view of a Carousel in Slack. (Part 4)",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ChannelData",
+            "external_url": "https://api.slack.com/docs/messages/builder",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Yes.",
+                    "detail": "",
+                    "url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html"
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a ChannelData in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Codesample",
+            "external_url": "https://api.slack.com/docs/messages#formatting_messages",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Rendered as pre-formatted text block.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Code in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "DirectMessage",
+            "external_url": "https://api.slack.com/methods/rtm.start",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Bot can send directed messages in a group conversation.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Direct Message in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Document",
+            "external_url": "https://api.slack.com/docs/message-attachments",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Bot can send and receive files of any content type.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Name",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a document in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Emoji",
+            "external_url": "https://api.slack.com/docs/message-formatting#emoji",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Slack can render emoji.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of emojis in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "GroupChat",
+            "external_url": "https://api.slack.com/methods/groups.info",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Bots can participate in group conversations.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "HeroCard",
+            "external_url": "https://api.slack.com/docs/messages#formatting_messages",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Rendered as multiple messages.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Title",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Subtitle",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Attachments",
+                    "value": "Max 20 per card",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Buttons",
+                    "value": "5 buttons per attachment",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Hero Card in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Images",
+            "external_url": "https://api.slack.com/docs/message-attachments",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Slack can display images.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of images in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "Animated GIF in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Keyboards",
+            "external_url": "https://api.slack.com/docs/message-buttons",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Slack can display inline buttons.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in Slack",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "List",
+            "external_url": "https://api.slack.com/docs/message-formatting#message_formatting",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of cards.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a List in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Location",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Slack cannot share the user's location.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Markdown",
+            "external_url": "https://api.slack.com/docs/message-formatting#message_formatting",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Slack can render Markdown.",
+                    "url": "https://api.slack.com/docs/message-formatting#message_formatting"
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Markdown Code in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Members",
+            "external_url": "https://api.slack.com/methods/groups.info",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Slack can share member information with the bot.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a bot conversation in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ReceiptCard",
+            "external_url": "https://api.slack.com/docs/messages#formatting_messages",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of messages.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Receipt Card in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "SigninCard",
+            "external_url": "https://api.slack.com/docs/messages#formatting_messages",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a message and Signin button.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Buttons",
+                    "value": "Max 5 buttons per attachment",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Receipt Card in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ThumbnailCard",
+            "external_url": "https://api.slack.com/docs/messages#formatting_messages",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as multiple messages.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Title",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Subtitle",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Max 20 attachments per card",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Buttons",
+                    "value": "5 buttons per attachment",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Thumbnail in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Typing",
+            "external_url": "https://api.slack.com/events/user_typing",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Slack can display a typing indicator.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Typing in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Video",
+            "external_url": "https://api.slack.com/docs/message-attachments",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Slack can play video.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Name",
+                    "value": "Max 4000 Characters",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Videos in Slack.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,102 @@
+<!-- Initial Form for Channel and Feature Inspector -->
+<hr>
+<!-- Feature Description -->
+{% for channel in site.data.inspector.channellist %}
+    {% if channel.name == include.channel_selected %}
+        <div id="channel_{{channel.name}}" class="inspector-channel">
+            <div id="channel_name" class="inspector-hidden_control">{{channel.name}}</div>
+
+            {% assign channel_json = site.data.inspector.channels.[{{channel.id}}] %}
+            {% for feature in channel_json.features %}
+                <!-- Validating feature from channel JSON file and featurelist -->
+                {% if site.data.inspector.featurelist[{{feature.feature_name}}].name != "" %}
+                <!-- Feature Data -->
+                <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}" class="inspector-feature">
+                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_examples_num" name="examples_num" class="inspector-hidden_control">{{feature.examples.size}}</div>
+                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_current_example" name="current_example" class="inspector-hidden_control"></div>
+
+                    {% for example in feature.examples %}
+                    <!-- Examples Data -->
+
+                    {% if example.title != "noexample" %}
+                    {% assign extitle = example.title %}
+                    {% else %}
+                    {% assign extitle = "example1" %}
+                    {% endif %}
+
+                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_container" class="inspector-container">
+
+                    {% include inspector_form.html selected_channel=channel.name selected_feature=feature.feature_name selected_example=extitle %}
+
+                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}" class="inspector-info">
+                        <div class="inspector-image">
+                                <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_inspector-image-url" class="inspector-image-url">
+                                    {% if example.title != "noexample" %}
+                                    <img class="example-image" name="{{extitle}}" id="{{extitle}}" src="../../../images/inspector/{{include.channel_selected}}/{{feature.feature_name}}/{{extitle}}.png" />
+                                    {% else %}
+                                    <img class="example-image" name="no_image" id="no_image" src="../../../images/inspector/NoImage/no-preview.png" />
+                                    {% endif %}
+                                    {% if feature.examples.size > 1 %}
+                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_backward" class="img-button button-backward"><img src="../../../images/inspector/buttons/flipper-left.svg"/></div>
+                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_forward" class="img-button button-forward"><img src="../../../images/inspector/buttons/flipper-right.svg"/></div>
+                                    {% endif %}
+                                </div>
+                                <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_buttons" class="buttons">
+                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_dots" class="dots"></div>
+                                </div>
+                        </div>
+                    </div>
+                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_inspector-description" class="inspector-description">
+                        <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_inspector-description-info" class="inspector-description-info">
+                            <hr>
+                            {% assign feat_json = site.data.inspector.featurelist.[{{feature.feature_name}}] %}
+                            <div id="feature_name" class="inspector-feature-name" name="feature_name"><h3 class="inspector-title">{{feat_json.name}}</h3></div>
+                            <div id="feature_description" class="inspector-feature-description" name="feature_description">
+                                {{feat_json.description}}
+                                {% if feat_json.internal_url != "" or feature.external_url != "" %}
+                                <div class="inspector-space-doc"></div>
+                                {% endif %}
+                                {% if feat_json.internal_url != "" %}
+                                <div class="inspector-internal-doc"><a class="link" href="{{feat_json.internal_url}}" target="_blank">Bot Framework Documentation</a></div>
+                                {% endif %}
+                                {% if feature.external_url != "" %}
+                                <div class="inspector-external-doc">
+                                    <a class="external-link-name" href="{{feature.external_url}}" target="_blank">
+                                        {{channel.name}}
+                                        <div class="external-link" href="{{feature.external_url}}">
+                                            <img class="inspector-pop-out normal" src="../../../images/inspector/icons/pop-out-normal.svg" />
+                                            <img class="inspector-pop-out hover" src="../../../images/inspector/icons/pop-out-hover.svg" />
+                                        </div>
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr>
+                            <div class="inspector-specifications">
+                                <div class="inspector-specifications-text"><h3 class="inspector-title">Notes</h3></div>
+                                <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_facts" class="inspector-facts">
+                                    <table class="inspector-table">
+                                        {% for fact in feature.facts %}
+                                        <tr>
+                                            <td class="fact-name">{{fact.name}}</td>
+                                            <td class="fact-description">{{fact.value}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                                {% include inspector_feedback_button.html %}
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    {% endfor %}       <!-- examples -->
+                </div>
+            {% endif %}
+            {% endfor %}               <!-- features -->
+        </div>
+    {% endif %}
+{% endfor %}
+
+<script>
+    $(inspector);
+</script>

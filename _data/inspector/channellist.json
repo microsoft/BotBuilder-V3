@@ -1,0 +1,42 @@
+[
+    {
+        "id": "email",
+        "name": "Email"
+    },
+    {
+        "id": "facebook",
+        "name": "Facebook"
+    },
+    {
+        "id": "groupme",
+        "name": "GroupMe"
+    },
+    {
+        "id": "kik",
+        "name": "Kik"
+    },
+    {
+        "id": "skype",
+        "name": "Skype"
+    },
+    {
+        "id": "slack",
+        "name": "Slack"
+    },
+    {
+        "id": "sms",
+        "name": "SMS"
+    },
+    {
+        "id": "teams",
+        "name": "Teams"
+    },
+    {
+        "id": "telegram",
+        "name": "Telegram"
+    },
+    {
+        "id": "webchat",
+        "name": "WebChat"
+    }
+]

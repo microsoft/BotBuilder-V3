@@ -351,7 +351,7 @@ Use the Bot Connector REST API [animation card](/en-us/core-concepts/reference/#
 |:----------------------------:|---------------------------------|---------------------------------
 title|Rich text|Title text
 subtitle|Rich text|Subtitle text
-image.url|URL|Optional thumbnail image 360x202, 202x360 (JPEG).
+image.url|URL|**Mandatory** thumbnail image 360x202, 202x360 (JPEG).
 image.alt|String|Image text used by screenreaders
 media[]|Array|List of media objects each with a single profile.
 media.url|URL (must be HTTPS)|URL to media source.

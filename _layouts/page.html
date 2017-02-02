@@ -8,7 +8,12 @@ layout: default
 	<div id="doc-content">
 	  <div class="post-content">
 		  <header class="post-header">
+	{% if page.permalink contains "channel-inspector" %}
+			<h1 class="post-title">Channel Inspector</h1>
+	{% else %}			
 			<h1 class="post-title">{{ page.title }}</h1>
+ 	{% endif %}
+
 		  </header>
 		{{ content }}
 	  </div>

@@ -1,0 +1,655 @@
+{
+    "channel_name": "sms",
+    "features": [
+        {
+            "feature_name": "Carousel",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of messages.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Title",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Max 10 images per message",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Display",
+                    "value": "Messages over 1600 characters will be split in multiple messages",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Carousel in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ChannelData",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Not supported.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Codesample",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Rendered as plain text.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Code in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "DirectMessage",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "SMS does not support group chat. All messages are one-to-one.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Document",
+            "external_url": "https://www.twilio.com/docs/api/rest/accepted-mime-types",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "SMS can send and receive a range of content types. Subject to client capabilities.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Name",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a document in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Emoji",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Subject to client display capabilities.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of emojis in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "GroupChat",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "SMS does not support group conversations.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "HeroCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of messages.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Title",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Subtitle",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Max 5MB Size",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Hero Card in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "Hero Card in SMS. (Part 2)",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "Hero Card in SMS. (Part 3)",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Images",
+            "external_url": "https://www.twilio.com/docs/api/rest/accepted-mime-types",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Subject to client display capabilities.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Max Image Size",
+                    "value": "5 MB",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of images in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Keyboards",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Renders button actions as clickable links.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a buttons in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "List",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of messages.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a List in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "General view of a List in SMS. (Part 2)",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Location",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "SMS cannot share the user's location.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Markdown",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Rendered as plain text",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Markdown Code in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example5",
+                    "resource": "example5",
+                    "example_description": "",
+                    "image_url": "example5.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example6",
+                    "resource": "example6",
+                    "example_description": "",
+                    "image_url": "example6.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Members",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Group conversation not supported.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "ReceiptCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of messages.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Max 5MB",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Receipt Card in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "SigninCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of messages.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Receipt Card in Skype.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "ThumbnailCard",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Displayed as a list of messages.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Text",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Title",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Subtitle",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Images",
+                    "value": "Max 5 MB",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Thumbnail Card in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "Typing",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "SMS cannot display a typing indicator.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "Video",
+            "external_url": "https://www.twilio.com/docs/api/rest/accepted-mime-types",
+            "facts": [
+                {
+                    "name": "Supported",
+                    "value": "Subject to client display capabilities.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Name",
+                    "value": "Max 4800 Characters",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Max Video Size",
+                    "value": "5 MB",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Videos in SMS.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        }
+    ]
+}

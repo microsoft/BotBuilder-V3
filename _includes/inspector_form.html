@@ -1,0 +1,67 @@
+<div class="no-js">
+<div class="web-form inspector-form">
+    <div class="inspector-form-div-channel inspector-form-div">
+        <div class="inspector-form-span">Channel:</div>
+        <div class="c-select-menu f-border inspector-dropdown" onclick='openDD("{{include.selected_channel}}", "{{include.selected_feature}}", "{{include.selected_example}}", "channel");'>
+            <a href="#" role="button" aria-expanded="false" id="channel_{{include.selected_channel}}_feature_{{include.selected_feature}}_example_{{include.selected_example}}_select_channel">Select</a>
+            <ul id="channel_{{include.selected_channel}}_feature_{{include.selected_feature}}_example_{{include.selected_example}}_channels_ul" role="menu" class="c-menu f-scroll inspector-dropdown" aria-label="channels_ul" aria-hidden="true">
+                {% for chan in site.data.inspector.channellist %}
+                <li class="c-menu-item" role="menuitem" id="channel_{{chan.name}}_feature_{{feature.feature_name}}_{{chan.name}}">
+                    <a aria-checked="false" role="menuitemradio" href="/en-us/channel-inspector/channels/{{chan.name}}?f={{include.selected_feature}}&e=example1" onclick="setFocused('channels');">{{chan.name}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>        
+    </div>
+    <div class="inspector-form-div-feature inspector-form-div">
+        <div class="inspector-form-span">Feature:</div>
+        <div class="c-select-menu f-border inspector-dropdown" onclick='openDD("{{include.selected_channel}}", "{{include.selected_feature}}", "{{include.selected_example}}", "feature");'>
+            <a href="#" role="button" aria-expanded="false" id="channel_{{include.selected_channel}}_feature_{{include.selected_feature}}_example_{{include.selected_example}}_select_feature" width="260px" height="40px">Select</a>
+            <ul id="channel_{{include.selected_channel}}_feature_{{include.selected_feature}}_example_{{include.selected_example}}_features_ul" role="menu" class="c-menu f-scroll inspector-dropdown" aria-label="features_ul" aria-hidden="true">
+                {% for chan in site.data.inspector.channellist %} 
+                {% if chan.name == include.selected_channel %}
+                {% assign chan_json = site.data.inspector.channels.[{{chan.id}}] %} 
+                {% for feat in chan_json.features %}
+                <!-- Validating feature from channel JSON file and featurelist -->
+                {% if site.data.inspector.featurelist[{{feat.feature_name}}].name != "" %}
+                    <li class="c-menu-item" role="menuitem" id="channel_{{chan.name}}_feature_{{feat.feature_name}}_{{feat.feature_name}}">
+                        <a role="menuitemradio" href="/en-us/channel-inspector/channels/{{chan.name}}?f={{feat.feature_name}}&e=example1" onclick="setFocused('features');">{{feat.feature_name}}</a>
+                    </li>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>        
+    </div>
+</div>
+</div>
+
+<div class="mobile-form inspector-form">
+    <div class="inspector-form-div-channe inspector-form-div">
+        <div class="inspector-form-span">Channel:</div>
+        <select id="channel_{{include.selected_channel}}_feature_{{include.selected_feature}}_example_{{include.selected_example}}_channelslt" class="inspector-select">
+            {% for chan in site.data.inspector.channellist %}
+                <option value="{{chan.name}}">{{chan.name}}</option>
+            {% endfor %}            
+        </select>
+    </div>
+    <div class="inspector-form-div-feature inspector-form-div">
+        <div class="inspector-form-span">Feature:</div>
+        <select id="channel_{{include.selected_channel}}_feature_{{include.selected_feature}}_example_{{include.selected_example}}_featureslt" class="inspector-select">
+                {% for chan in site.data.inspector.channellist %} 
+                {% if chan.name == include.selected_channel %}
+                {% assign chan_json = site.data.inspector.channels.[{{chan.id}}] %} 
+                {% for feat in chan_json.features %}
+                <!-- Validating feature from channel JSON file and featurelist -->
+                {% if site.data.inspector.featurelist[{{feat.feature_name}}].name != "" %}                
+                        <option value="{{feat.feature_name}}">{{feat.feature_name}}</option>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+        </select>
+    </div>    
+</div>
+
+
