@@ -132,7 +132,10 @@ var ChatConnector = (function () {
         }
     };
     ChatConnector.prototype.onEvent = function (handler) {
-        this.handler = handler;
+        this.onEventHandler = handler;
+    };
+    ChatConnector.prototype.onInvoke = function (handler) {
+        this.onInvokeHandler = handler;
     };
     ChatConnector.prototype.send = function (messages, done) {
         var _this = this;
@@ -358,21 +361,36 @@ var ChatConnector = (function () {
             }
         }
     };
-    ChatConnector.prototype.dispatch = function (messages, res) {
-        var _this = this;
-        var list = Array.isArray(messages) ? messages : [messages];
-        list.forEach(function (msg) {
-            try {
-                _this.prepIncomingMessage(msg);
-                logger.info(msg, 'ChatConnector: message received.');
-                _this.handler([msg]);
+    ChatConnector.prototype.dispatch = function (msg, res) {
+        try {
+            this.prepIncomingMessage(msg);
+            logger.info(msg, 'ChatConnector: message received.');
+            if (this.isInvoke(msg)) {
+                this.onInvokeHandler(msg, function (err, body, status) {
+                    if (err) {
+                        res.status(500);
+                        res.end();
+                        logger.error('Received error from invoke handler: ', err.message || '');
+                    }
+                    else {
+                        res.send(status || 200, body);
+                    }
+                });
             }
-            catch (e) {
-                console.error(e instanceof Error ? e.stack : e.toString());
+            else {
+                this.onEventHandler([msg]);
+                res.status(202);
+                res.end();
             }
-        });
-        res.status(202);
-        res.end();
+        }
+        catch (e) {
+            console.error(e instanceof Error ? e.stack : e.toString());
+            res.status(500);
+            res.end();
+        }
+    };
+    ChatConnector.prototype.isInvoke = function (message) {
+        return (message && message.type && message.type.toLowerCase() == consts.invokeType);
     };
     ChatConnector.prototype.postMessage = function (msg, cb) {
         logger.info(address, 'ChatConnector: sending message.');

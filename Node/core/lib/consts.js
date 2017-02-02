@@ -1,6 +1,7 @@
 "use strict";
 exports.agent = 'botbuilder';
 exports.messageType = 'message';
+exports.invokeType = 'invoke';
 exports.defaultConnector = '*';
 exports.emulatorChannel = 'emulator';
 exports.Errors = {

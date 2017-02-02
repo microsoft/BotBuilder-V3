@@ -23,7 +23,7 @@ var ConsoleConnector = (function () {
         return this;
     };
     ConsoleConnector.prototype.processMessage = function (line) {
-        if (this.handler) {
+        if (this.onEventHandler) {
             var msg = new Message_1.Message()
                 .address({
                 channelId: 'console',
@@ -33,12 +33,15 @@ var ConsoleConnector = (function () {
             })
                 .timestamp()
                 .text(line);
-            this.handler([msg.toMessage()]);
+            this.onEventHandler([msg.toMessage()]);
         }
         return this;
     };
     ConsoleConnector.prototype.onEvent = function (handler) {
-        this.handler = handler;
+        this.onEventHandler = handler;
+    };
+    ConsoleConnector.prototype.onInvoke = function (handler) {
+        this.onInvokeHandler = handler;
     };
     ConsoleConnector.prototype.send = function (messages, done) {
         for (var i = 0; i < messages.length; i++) {

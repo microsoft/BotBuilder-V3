@@ -49,12 +49,11 @@ var Library = (function (_super) {
         return this._localePath;
     };
     Library.prototype.recognize = function (context, callback) {
-        var skipRecognize = (context.intent && context.libraryName === this.name);
-        if (this.recognizers.length > 0 && !skipRecognize) {
+        if (this.recognizers.length > 0 && context.libraryName !== this.name) {
             this.recognizers.recognize(context, callback);
         }
         else {
-            callback(null, context.intent);
+            callback(null, context.intent || { intent: 'None', score: 0.0 });
         }
     };
     Library.prototype.recognizer = function (plugin) {

@@ -326,10 +326,8 @@ var UniversalBot = (function (_super) {
         var _this = this;
         var context = session.toRecognizeContext();
         this.recognize(context, function (err, topIntent) {
-            if (topIntent && topIntent.score > 0) {
-                context.intent = topIntent;
-                context.libraryName = _this.name;
-            }
+            context.intent = topIntent;
+            context.libraryName = _this.name;
             var results = Library_1.Library.addRouteResult({ score: 0.0, libraryName: _this.name });
             async.each(_this.libraryList(), function (lib, cb) {
                 lib.findRoutes(context, function (err, routes) {
