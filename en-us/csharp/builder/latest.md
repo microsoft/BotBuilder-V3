@@ -25,6 +25,16 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### [v3.5.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.5.1)
+
+#### Changes
+
+- Deprecating ITriggerActivity. __Note:__ IEventAcitivty replaces ITriggerActivity
+- Adding new event and invoke activity types to connector 
+- Preparing the release of .net core support for Microsoft Bot Connector
+- General bug fixes and code refactoring
+
+***
 
 ### [v3.5](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.5)
 
