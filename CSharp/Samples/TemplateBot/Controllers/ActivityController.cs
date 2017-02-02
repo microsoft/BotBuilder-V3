@@ -84,10 +84,9 @@ namespace Microsoft.Bot.Sample.TemplateBot
             await connector.Conversations.ReplyToActivityAsync(reply, token);
         }
 
-        // TODO: replace by invoke activity, dispatch on IInvokeActivity.Name
         [MethodBind]
         [ScorableGroup(1)]
-        private async Task OnTrigger(IEventActivity trigger, HttpResponseMessage response, CancellationToken token)
+        private async Task OnInvoke(IInvokeActivity trigger, HttpResponseMessage response, CancellationToken token)
         {
             response.StatusCode = HttpStatusCode.NotImplemented;
         }
