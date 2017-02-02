@@ -59,6 +59,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             { ActivityTypes.Message, typeof(IMessageActivity) },
             { ActivityTypes.Ping, typeof(IActivity) },
             { ActivityTypes.Event, typeof(IEventActivity) },
+            { ActivityTypes.Invoke, typeof(IInvokeActivity) },
             { ActivityTypes.Typing, typeof(ITypingActivity) },
         };
 
