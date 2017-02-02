@@ -1,0 +1,24 @@
+{
+  "type": "conversationUpdate",
+  "membersAdded": [
+    {
+      "id": "1234",
+      "name": "Bot"
+    },
+    {
+      "id": "5678",
+      "name": "User"
+    }
+  ],
+  "id": "8765",
+  "recipient": {
+    "id": "4321"
+  },
+  "conversation": {
+    "id": "2468"
+  },
+  "from": {
+    "id": "1357",
+    "name": "User"
+  }
+}

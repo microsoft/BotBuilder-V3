@@ -1,0 +1,25 @@
+{
+  "type": "message",
+  "timestamp": "2016-12-05T19:10:17.6094779Z",
+  "serviceUrl": "/",
+  "channelId": "",
+  "from": {
+    "id": "1234",
+    "name": "Bot1"
+  },
+  "conversation": {
+    "isGroup": false,
+    "id": "1234"
+  },
+  "recipient": {
+    "id": "4321",
+    "name": "User1"
+  },
+  "text": "",
+  "attachments": [],
+  "entities": [],
+  "ChannelData": {
+    "HtmlBody": "property: value"
+  },
+  "replyToId": "id"
+}

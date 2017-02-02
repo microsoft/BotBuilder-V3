@@ -1,0 +1,16 @@
+{
+  "type": "message",
+  "from": {
+    "id": "1234",
+    "name": "Bot1"
+  },
+  "conversation": {
+    "id": "1234",
+    "name": "Conv1"
+  },
+  "recipient": {
+    "id": "4321",
+    "name": "User1"
+  },
+  "text": "* **carousel** - carousel\n* **ChannelData** - ChannelData\n* **codesample** - codesample\n* **dm** - dm\n* **document** - document\n* **emojii** - emojii\n* **help** - help\n* **hero** - hero\n* **images** - images\n* **list** - list\n* **markdown** - markdown\n* **members** - members\n* **paragraph** - paragraph\n* **plain** - plain\n* **receipt** - receipt\n* **runall** - runall\n* **signin** - signin\n* **thumbnail** - thumbnail\n* **typing** - typing\n* **upload** - upload\n* **video** - video\n* **xml** - xml\n"
+}

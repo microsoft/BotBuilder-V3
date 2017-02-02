@@ -1,0 +1,16 @@
+{
+  "type": "message",
+  "from": {
+    "id": "1234",
+    "name": "Bot1"
+  },
+  "conversation": {
+    "id": "1234",
+    "name": "Conv1"
+  },
+  "recipient": {
+    "id": "4321",
+    "name": "User1"
+  },
+  "text": "```javascript\nfunction fancyAlert(arg) {\n  if(arg) {\n    $.facebox({div:'#foo'})\n  }\n}\n```"
+}

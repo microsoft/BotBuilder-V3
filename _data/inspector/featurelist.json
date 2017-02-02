@@ -4,8 +4,8 @@
         "description": "A compact, scrollable, horizontal list of cards.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
-    "ChannelData": {
-        "name": "ChannelData",
+    "Channeldata": {
+        "name": "Channeldata",
         "description": "A way to access channel-specific features.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html"
     },

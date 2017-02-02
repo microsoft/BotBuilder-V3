@@ -52,7 +52,7 @@
             ]
         },
         {
-            "feature_name": "ChannelData",
+            "feature_name": "Channeldata",
             "external_url": "https://core.telegram.org/bots/api#available-methods",
             "facts": [
                 {

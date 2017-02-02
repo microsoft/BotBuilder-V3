@@ -1,0 +1,22 @@
+{
+  "type": "message",
+  "from": {
+    "id": "1234",
+    "name": "Bot1"
+  },
+  "conversation": {
+    "id": "1234",
+    "name": "Conv1"
+  },
+  "recipient": {
+    "id": "4321",
+    "name": "User1"
+  },
+  "attachments": [
+    {
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "contentUrl": "https://kodu.blob.core.windows.net/kodu/KODU%20Help.docx",
+      "name": "Kodu Help.docx"
+    }
+  ]
+}

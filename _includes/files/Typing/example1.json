@@ -1,0 +1,18 @@
+{
+  "type": "typing",
+  "from": {
+    "id": "1234",
+    "name": "Bot"
+  },
+  "conversation": {
+    "id": "1234"
+  },
+  "recipient": {
+    "id": "4321",
+    "name": "User"
+  },
+  "text": "",
+  "attachments": [],
+  "entities": [],
+  "replyToId": "2468"
+}

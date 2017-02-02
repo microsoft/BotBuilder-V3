@@ -1,0 +1,30 @@
+{
+  "type": "message",
+  "from": {
+    "id": "1234",
+    "name": "Bot1"
+  },
+  "conversation": {
+    "id": "1234",
+    "name": "Conv1"
+  },
+  "recipient": {
+    "id": "4321",
+    "name": "User1"
+  },
+  "text": "Here it is a location: ",
+  "attachments": [],
+  "entities": [
+    {
+      "type": "Place",
+      "geo": {
+        "elevation": 113.531,
+        "latitude": 47.64451613,
+        "longitude": -122.13681221,
+        "type": "GeoCoordinates",
+        "name": "Microsoft - The Commons"
+      },
+      "name": "Microsoft - The Commons"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "message",
+  "from": {
+    "id": "1234",
+    "name": "Bot1"
+  },
+  "conversation": {
+    "id": "1234",
+    "name": "Conv1"
+  },
+  "recipient": {
+    "id": "4321",
+    "name": "User1"
+  },
+  "text": "",
+  "attachments": [
+    {
+      "contentType": "video/mp4",
+      "contentUrl": "https://www.youtube.com/embed/nSDmCPH3OWc",
+      "name": "The New Microsoft Surface Pro 4"
+    }
+  ]
+}

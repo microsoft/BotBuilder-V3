@@ -1,0 +1,21 @@
+{
+  "type": "message",
+  "from": {
+    "id": "1234",
+    "name": "Bot1"
+  },
+  "conversation": {
+    "id": "1234"
+  },
+  "recipient": {
+    "id": "4321",
+    "name": "User1"
+  },
+  "text": "",
+  "attachments": [],
+  "entities": [],
+  "channelData": {
+    "HtmlBody": "<html><body style=\"background: green; font - family:'Comic Sans MS'; \"><h1>HtmlBody for the win!</h1>Address:50 Conversation:2 UserInConversation:2 ChannelData</body></html>"
+  },
+  "replyToId": "id"
+}
