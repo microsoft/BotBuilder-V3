@@ -67,7 +67,7 @@ function inspector(){
     //Validating Global Variables
     if(feature === undefined || feature === null || feature == ""){
         //Getting last_feature from localStorage 
-		if(localStorage.getItem("last_feature") === null || localStorage.getItem("last_feature") === ""){
+		if(localStorage.getItem("last_feature") === null || localStorage.getItem("last_feature") === "" || localStorage.getItem("last_feature") === "ChannelData"){
             feature = "Keyboards";
 		}
         else{
