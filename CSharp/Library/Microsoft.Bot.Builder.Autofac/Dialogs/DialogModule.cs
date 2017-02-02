@@ -246,7 +246,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                             cc.Resolve<IBotData>(),
                             cc.Resolve<IDialogSystem>());
                         resolver = new ActivityResolver(resolver);
-                        resolver = new TriggerValueResolver(resolver);
+                        resolver = new EventActivityValueResolver(resolver);
+                        resolver = new InvokeActivityValueResolver(resolver);
                         return resolver;
                     };
                     return make;

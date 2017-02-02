@@ -64,8 +64,8 @@ namespace Microsoft.Bot.Builder.Scorables
             resolver = new EnumResolver(resolver);
             resolver = new ArrayResolver(resolver, services);
             resolver = new ActivityResolver(resolver);
-            resolver = new TriggerValueResolver(resolver);
-            // TODO: add InvokeValueResolver
+            resolver = new EventActivityValueResolver(resolver);
+            resolver = new InvokeActivityValueResolver(resolver);
 
             return resolver;
         }

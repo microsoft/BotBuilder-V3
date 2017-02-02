@@ -154,10 +154,31 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public void Resolver_Trigger()
+        public void Resolver_EventActivityValue()
         {
             var expected = new Activity() { Type = ActivityTypes.Event };
-            var resolver = new TriggerValueResolver(new ActivityResolver(new ArrayResolver(NullResolver.Instance, expected)));
+            var resolver = new EventActivityValueResolver(new ActivityResolver(new ArrayResolver(NullResolver.Instance, expected)));
+
+            {
+                IService actual;
+                Assert.IsFalse(resolver.TryResolve(null, out actual));
+                Assert.IsFalse(resolver.TryResolve(Some, out actual));
+            }
+
+            expected.Value = new Service();
+
+            {
+                IService actual;
+                Assert.IsTrue(resolver.TryResolve(null, out actual));
+                Assert.IsFalse(resolver.TryResolve(Some, out actual));
+            }
+        }
+
+        [TestMethod]
+        public void Resolver_InvokeActivityValue()
+        {
+            var expected = new Activity() { Type = ActivityTypes.Invoke };
+            var resolver = new InvokeActivityValueResolver(new ActivityResolver(new ArrayResolver(NullResolver.Instance, expected)));
 
             {
                 IService actual;
