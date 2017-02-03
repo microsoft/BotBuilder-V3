@@ -186,7 +186,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
     public static partial class Extensions
     {
-        internal static IList<Attachment> GenerateHeroCard(this FormPrompt prompt)
+        /// <summary>
+        /// Generate a hero card from a FormPrompt.
+        /// </summary>
+        /// <param name="prompt">Prompt definition.</param>
+        /// <returns>Either an empty list if no buttons or a list with one hero card.</returns>
+        public static IList<Attachment> GenerateHeroCard(this FormPrompt prompt)
         {
             var actions = new List<CardAction>();
             foreach (var button in prompt.Buttons)
@@ -207,7 +212,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             return attachments;
         }
 
-        internal static IList<Attachment> GenerateHeroCards(this FormPrompt prompt)
+        /// <summary>
+        /// Generate a list of hero cards from a prompt definition.
+        /// </summary>
+        /// <param name="prompt">Prompt definition.</param>
+        /// <returns>List of hero cards.</returns>
+        public static IList<Attachment> GenerateHeroCards(this FormPrompt prompt)
         {
             var attachments = new List<Attachment>();
             var description = prompt.Description;
@@ -223,6 +233,77 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     .ToAttachment());
             }
             return attachments;
+        }
+
+        /// <summary>
+        /// Given a prompt definition generate messages to send back.
+        /// </summary>
+        /// <param name="prompt">Prompt definition.</param>
+        /// <param name="preamble">Simple text message with all except last line of prompt to allow markdown in prompts.</param>
+        /// <param name="promptMessage">Message with prompt definition including cards.</param>
+        /// <returns>True if preamble should be sent.</returns>
+        public static bool GenerateMessages(this FormPrompt prompt, IMessageActivity preamble, IMessageActivity promptMessage)
+        {
+            var promptCopy = (FormPrompt) prompt.Clone();
+            bool hasPreamble = false;
+            if (promptCopy.Buttons?.Count > 0 || promptCopy.Description?.Image != null)
+            {
+                // If we are generating cards we do not support markdown so create a separate message
+                // for all lines except the last one.  
+                var lines = promptCopy.Prompt.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                if (lines.Length > 1)
+                {
+                    var builder = new StringBuilder();
+                    for (var i = 0; i < lines.Length - 1; ++i)
+                    {
+                        if (i > 0)
+                        {
+                            builder.AppendLine();
+                        }
+                        builder.Append(lines[i]);
+                    }
+                    preamble.Text = builder.ToString();
+                    promptCopy.Prompt = lines.Last();
+                    hasPreamble = true;
+                }
+                if (promptCopy.Buttons?.Count > 0)
+                {
+                    var style = promptCopy.Style;
+                    if (style == ChoiceStyleOptions.Auto)
+                    {
+                        foreach (var button in promptCopy.Buttons)
+                        {
+                            // Images require carousel
+                            if (button.Image != null)
+                            {
+                                style = ChoiceStyleOptions.Carousel;
+                                break;
+                            }
+                        }
+                    }
+                    if (style == ChoiceStyleOptions.Carousel)
+                    {
+                        promptMessage.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+                        promptMessage.Attachments = promptCopy.GenerateHeroCards();
+                    }
+                    else
+                    {
+                        promptMessage.AttachmentLayout = AttachmentLayoutTypes.List;
+                        promptMessage.Attachments = promptCopy.GenerateHeroCard();
+                    }
+                }
+                else if (promptCopy.Description?.Image != null)
+                {
+                    promptMessage.AttachmentLayout = AttachmentLayoutTypes.List;
+                    var card = new HeroCard() { Title = promptCopy.Prompt, Images = new List<CardImage> { new CardImage(promptCopy.Description.Image) } };
+                    promptMessage.Attachments = new List<Attachment> { card.ToAttachment() };
+                }
+            }
+            else
+            {
+                promptMessage.Text = promptCopy.Prompt;
+            }
+            return hasPreamble;
         }
 
         internal static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)

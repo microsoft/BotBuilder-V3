@@ -57,7 +57,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         void Add(string key, string translation);
 
         /// <summary>
-        /// Add a key and a list of translations seperated by semi-colon.
+        /// Add a key and a list of translations separated by semi-colon.
         /// </summary>
         /// <param name="key">Key for indexing translation list.</param>
         /// <param name="list">List of translated terms.</param>
@@ -71,21 +71,21 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         void Add(string prefix, IReadOnlyDictionary<object, DescribeAttribute> dictionary);
 
         #region Documentation
-        /// <summary>   Adds values from dictionary seperated by semi-colons under object if enumeration and prefix;object otherwise.</summary>
+        /// <summary>   Adds values from dictionary separated by semi-colons under object if enumeration and prefix;object otherwise.</summary>
         /// <param name="prefix">       The resource prefix. </param>
         /// <param name="dictionary">   The dictionary to add. </param>
         #endregion
         void Add(string prefix, IReadOnlyDictionary<object, TermsAttribute> dictionary);
 
         #region Documentation
-        /// <summary>   Adds patterns from template seperated by semi-colons under prefix;usage. </summary>
+        /// <summary>   Adds patterns from template separated by semi-colons under prefix;usage. </summary>
         /// <param name="prefix">       The resource prefix. </param>
         /// <param name="templates">    The template dictionary to add. </param>
         #endregion
         void Add(string prefix, IReadOnlyDictionary<TemplateUsage, TemplateAttribute> templates);
 
         #region Documentation
-        /// <summary>   Adds patterns from template seperated by semi-colons under prefix;usage.</summary>
+        /// <summary>   Adds patterns from template separated by semi-colons under prefix;usage.</summary>
         /// <param name="prefix">       The resource prefix. </param>
         /// <param name="template">     The template to add. </param>
         #endregion
@@ -139,7 +139,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// </summary>
         /// <param name="writer">Where to write resources.</param>
         /// <remarks>
-        /// Resource values are all strings.  The key and value can have different parts seperated by semi-colons.
+        /// Resource values are all strings.  The key and value can have different parts separated by semi-colons.
         /// Key | Value | Description
         /// ----|-------|------------
         /// key;VALUE | string | Simple value.

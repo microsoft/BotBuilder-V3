@@ -32,10 +32,7 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Resources;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -347,10 +344,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .RegisterKeyedType<LogBotToUser, IBotToUser>()
                 .InstancePerLifetimeScope();
 
+            #pragma warning disable CS1587
             /// <see cref="LogBotToUser"/> is composed around <see cref="MapToChannelData_BotToUser"/> is composed around
             /// <see cref="AlwaysSendDirect_BotToUser"/>.  The complexity of registering each component is pushed to a separate
             /// registration method, and each of these components are replaceable without re-registering
             /// the entire adapter chain by registering a new component with the same component key.
+            #pragma warning restore CS1587
             builder
                 .RegisterAdapterChain<IBotToUser>
                 (

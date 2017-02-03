@@ -44,6 +44,7 @@ using System.Resources;
 using System.Threading;
 using Microsoft.Bot.Builder.Dialogs;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -68,44 +69,13 @@ namespace Microsoft.Bot.Builder.FormFlow
             {
                 this._form._prompter = async (context, prompt) =>
                 {
-                    var msg = context.MakeMessage();
-                    if (prompt.Buttons?.Count > 0)
+                    var preamble = context.MakeMessage();
+                    var promptMessage = context.MakeMessage();
+                    if (prompt.GenerateMessages(preamble, promptMessage))
                     {
-                        var style = prompt.Style;
-                        if (style == ChoiceStyleOptions.Auto)
-                        {
-                            foreach (var button in prompt.Buttons)
-                            {
-                                // Images require carousel
-                                if (button.Image != null)
-                                {
-                                    style = ChoiceStyleOptions.Carousel;
-                                    break;
-                                }
-                            }
-                        }
-                        if (style == ChoiceStyleOptions.Carousel)
-                        {
-                            msg.AttachmentLayout = AttachmentLayoutTypes.Carousel;
-                            msg.Attachments = prompt.GenerateHeroCards();
-                        }
-                        else
-                        {
-                            msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                            msg.Attachments = prompt.GenerateHeroCard();
-                        }
+                        await context.PostAsync(preamble);
                     }
-                    else if (prompt.Description?.Image != null)
-                    {
-                        msg.AttachmentLayout = AttachmentLayoutTypes.List;
-                        var card = new HeroCard() { Title = prompt.Prompt, Images = new List<CardImage> { new CardImage(prompt.Description.Image) } };
-                        msg.Attachments = new List<Attachment> { card.ToAttachment() };
-                    }
-                    else
-                    {
-                        msg.Text = prompt.Prompt;
-                    }
-                    await context.PostAsync(msg);
+                    await context.PostAsync(promptMessage);
                     return prompt;
                 };
             }

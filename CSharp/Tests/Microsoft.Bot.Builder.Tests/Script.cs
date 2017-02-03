@@ -198,11 +198,6 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static string NewScriptPathFor(string pathScriptOld)
         {
-            if (! File.Exists(pathScriptOld))
-            {
-                throw new FileNotFoundException("unable to find script file", pathScriptOld);
-            }
-
             var pathScriptNew = Path.Combine
                 (
                 Path.GetDirectoryName(pathScriptOld),

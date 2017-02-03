@@ -943,8 +943,8 @@
     /// 
     /// \section patterns Pattern Language
     /// One of the keys to creating a bot is being able to generate text that is clear and
-    /// meaningful to the bot user. This framework supports a pattern language with  
-    /// elements that can be filled in at runtime. Everything in a pattern that is not surrounded by curly braces
+    /// meaningful to the bot user. This framework supports a pattern language that allows the
+    /// use of markdown together with elements that can be filled in at runtime. Everything in a pattern that is not surrounded by curly braces
     /// is just passed straight through. Anything in curly braces is substitued with values to make a string that can be
     /// shown to the user. Once substitution is done, some additional processing to remove double spaces and
     /// use the proper form of a/an is also done.

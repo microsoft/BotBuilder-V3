@@ -282,10 +282,12 @@ namespace Microsoft.Bot.Builder.FormFlow
     };
 
     /// <summary>
-    /// Define the prompt template used when asking about a field.
+    /// Define the prompt used when asking about a field.
     /// </summary>
     /// <remarks>
-    /// Prompts use \ref Templates to provide control over what goes into a prompt.
+    /// Prompts by default will come from \ref Templates.  
+    /// This attribute allows you to override this with one more \ref patterns strings. 
+    /// The actual prompt will be randomly selected from the alternatives you provide.
     /// </remarks>
     [Serializable]
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]

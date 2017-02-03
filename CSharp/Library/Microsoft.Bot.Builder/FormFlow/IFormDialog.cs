@@ -107,7 +107,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <typeparam name="T">Form state type.</typeparam>
     /// <param name="state">Form state to test.</param>
     /// <param name="value">Response value to validate.</param>
-    /// <returns>Null if value is valid otherwise feedback on what is wrong.</returns>
+    /// <returns><see cref="ValidateResult"/> describing validity, transformed value, feedback or choices for clarification.</returns>
     public delegate Task<ValidateResult> ValidateAsyncDelegate<T>(T state, object value);
 
     /// <summary>

@@ -316,6 +316,39 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-Prompter.script")]
+        public async Task SimpleForm_Prompter_Script()
+        {
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
+                "en-us", 
+                () => new FormBuilder<SimpleForm>()
+                .AddRemainingFields()
+                .Confirm(@"**Results**
+* Text: {Text}
+* Integer: {Integer}
+* Float: {Float}
+* SomeChoices: {SomeChoices}
+* Date: {Date}
+Is this what you wanted? {||}")
+                .Build(), 
+                FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+                "Hi",
+                "some text here",
+                "99",
+                "1.5",
+                "more than one",
+                "foo",
+                "two",
+                "1/1/2016",
+                "no",
+                "text",
+                "abc",
+                "yes"
+                );
+        }
+
+        [TestMethod]
         [DeploymentItem(@"Scripts\PizzaForm.script")]
         public async Task Pizza_Script()
         {
