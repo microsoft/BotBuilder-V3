@@ -164,13 +164,18 @@
                }
             },
             "compositeEntities":{
-               "type":"array",
+              "type": "array",
+              "description":"The compsite entities found in the utterance.",
                "items":{
                   "$ref":"#/definitions/CompositeEntity"
                }
             },
             "dialog":{
                "$ref":"#/definitions/DialogResponse"
+            },
+            "alteredQuery":{
+              "type":"string",
+              "description":"The altered query used by LUIS to extract intent and entities. For example, when Bing spell check is enabled for a model, this field will contain the spell checked utterance."
             }
          }
       },

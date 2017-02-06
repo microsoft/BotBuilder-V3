@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
         /// <summary>
         /// Initializes a new instance of the LuisResult class.
         /// </summary>
-        public LuisResult(string query, IList<EntityRecommendation> entities, IntentRecommendation topScoringIntent = default(IntentRecommendation), IList<IntentRecommendation> intents = default(IList<IntentRecommendation>), IList<CompositeEntity> compositeEntities = default(IList<CompositeEntity>), DialogResponse dialog = default(DialogResponse))
+        public LuisResult(string query, IList<EntityRecommendation> entities, IntentRecommendation topScoringIntent = default(IntentRecommendation), IList<IntentRecommendation> intents = default(IList<IntentRecommendation>), IList<CompositeEntity> compositeEntities = default(IList<CompositeEntity>), DialogResponse dialog = default(DialogResponse), string alteredQuery = default(string))
         {
             Query = query;
             TopScoringIntent = topScoringIntent;
@@ -33,6 +33,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
             Entities = entities;
             CompositeEntities = compositeEntities;
             Dialog = dialog;
+            AlteredQuery = alteredQuery;
         }
 
         /// <summary>
@@ -59,6 +60,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
         public IList<EntityRecommendation> Entities { get; set; }
 
         /// <summary>
+        /// The compsite entities found in the utterance.
         /// </summary>
         [JsonProperty(PropertyName = "compositeEntities")]
         public IList<CompositeEntity> CompositeEntities { get; set; }
@@ -67,6 +69,14 @@ namespace Microsoft.Bot.Builder.Luis.Models
         /// </summary>
         [JsonProperty(PropertyName = "dialog")]
         public DialogResponse Dialog { get; set; }
+
+        /// <summary>
+        /// The altered query used by LUIS to extract intent and entities. For
+        /// example, when Bing spell check is enabled for a model, this field
+        /// will contain the spell checked utterance.
+        /// </summary>
+        [JsonProperty(PropertyName = "alteredQuery")]
+        public string AlteredQuery { get; set; }
 
         /// <summary>
         /// Validate the object. Throws ValidationException if validation fails.
