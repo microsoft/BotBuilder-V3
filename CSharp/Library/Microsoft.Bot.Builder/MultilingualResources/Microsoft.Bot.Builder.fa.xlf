@@ -312,7 +312,7 @@
         </trans-unit>
         <trans-unit id="UserProfileDeleted" translate="yes" xml:space="preserve">
           <source>User profile deleted!</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">مشخصات کاربر حذف شده!</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">مشخصات کاربر حذف شد!</target>
         </trans-unit>
         <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
           <source>Confirmation</source>
