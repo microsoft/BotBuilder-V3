@@ -5,7 +5,7 @@ permalink: /en-us/faq/
 weight: 150
 parent1: none
 ---
-
+16
 
 * TOC
 {:toc}
@@ -184,7 +184,7 @@ Yes. The Bot Framework was released in preview on March 30th of 2016 in conjunct
 
 ## How long will the Bot Framework be in preview? Can I start building/shipping products based on a preview framework?
 
-The Bot Framework is currently in preview; expect to see it become generally available by the end of CY 16. As indicated at Build 2016, Microsoft is making significant investments in Conversation as a Platform - among those investments is the Bot Framework. Building upon a preview offering is of course, at your discretion.
+The Bot Framework is currently in preview. As indicated at Build 2016, Microsoft is making significant investments in Conversation as a Platform - among those investments is the Bot Framework. Building upon a preview offering is of course, at your discretion.
 
 ## What is the roadmap for Bot Framework?
 
