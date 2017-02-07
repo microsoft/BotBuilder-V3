@@ -1,5 +1,110 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
   <resheader name="resmimetype">
     <value>text/microsoft-resx</value>
   </resheader>
@@ -25,7 +130,7 @@
     <value>راهنما</value>
   </data>
   <data name="CommandHelpHelp" xml:space="preserve">
-    <value>کمک: انواع پاسخ می توانید وارد کنید را نشان می دهد.</value>
+    <value>کمک: نمایش انواع پاسخی که می توانید وارد کنید.</value>
   </data>
   <data name="CommandHelpTerms" xml:space="preserve">
     <value>کمک; انتخاب; \?</value>
@@ -49,7 +154,7 @@
     <value>بیش از شروع; تنظیم مجدد; روشن</value>
   </data>
   <data name="CommandStatus" xml:space="preserve">
-    <value>Status</value>
+    <value>وضعیت</value>
   </data>
   <data name="CommandStatusHelp" xml:space="preserve">
     <value>وضعیت: پیشرفت شما را در پر کردن فرم تا کنون نشان می دهد.</value>
@@ -78,10 +183,10 @@
     <value>، </value>
   </data>
   <data name="LanguageArticles" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="LanguageStopWords" xml:space="preserve">
-    <value></value>
+    <value />
   </data>
   <data name="MatchCurrentChoice" xml:space="preserve">
     <value>انتخاب فعلی ('c'); جریان ج; انتخاب فعلی; بدون تغییر</value>
@@ -96,13 +201,13 @@
     <value>بله؛ y; مطمئن خوب; بله</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
-    <value>من درک نمی کنند. چیزی در پاسخ می گویند.</value>
+    <value>من متوجه نشدم، لطفا پاسخی دهید</value>
   </data>
   <data name="TemplateBool" xml:space="preserve">
     <value>{&amp;} داری؟ {||}</value>
   </data>
   <data name="TemplateBoolHelp" xml:space="preserve">
-    <value>لطفا را وارد کنید "بله" یا "هیچ" {?، {0}}.</value>
+    <value>لطفا "بله" یا "خیر" را وارد کنید {?، {0}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
@@ -158,25 +263,25 @@
     <comment>0-not understood term</comment>
   </data>
   <data name="TemplateHelp" xml:space="preserve">
-    <value>شما پر در زمینه {&amp;}.  پاسخ احتمالی:
+    <value>شما فیلد {&amp;} را پر کردید. پاسخ های احتمالی:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpClarify" xml:space="preserve">
-    <value>قادر به روشن ارزش {&amp;} است.  پاسخ احتمالی:
+    <value>شما مقدار {&amp;} را وارد کردید است. پاسخ های احتمالی:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpConfirm" xml:space="preserve">
-    <value>لطفا جواب این سوال.  پاسخ احتمالی:
+    <value>لطفا جواب این سوال را بدهید.  پاسخ های احتمالی:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpNavigation" xml:space="preserve">
-    <value>انتخاب کنید چه زمینه را تغییر دهید.  پاسخ احتمالی:
+    <value>انتخاب کنید کدام فیلد را تغییر میدهید.  پاسخ های احتمالی:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
@@ -194,7 +299,7 @@
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateNavigation" xml:space="preserve">
-    <value>چه تغییر دارید؟ {||}</value>
+    <value>چه تغییری دارید؟ {||}</value>
   </data>
   <data name="TemplateNavigationCommandHelp" xml:space="preserve">
     <value>شما با وارد کردن نام آن به میدان دیگری تعویض کنید. ({0}).</value>
@@ -243,12 +348,12 @@
     <value>تلاش های زیادی</value>
   </data>
   <data name="UserProfileDeleted" xml:space="preserve">
-    <value>مشخصات کاربر حذف شده!</value>
+    <value>مشخصات کاربر حذف شد!</value>
   </data>
   <data name="Confirmation" xml:space="preserve">
     <value>تأیید</value>
   </data>
   <data name="UnhandledExceptionToUser" xml:space="preserve">
-    <value>با عرض پوزش، من کد ربات است که با داشتن یک مسئله.</value>
+    <value>با عرض پوزش، کد ربات من با مشکل روبرو شده است.</value>
   </data>
 </root>
