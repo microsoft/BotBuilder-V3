@@ -65,7 +65,13 @@ Microsoft will review your bot submission to make sure it meets certain minimum 
 <li>use Microsoft logos, trademarks or service marks unless you have permission from Microsoft;</li>
 <li>be too long or verbose. The description should be 8-10 words.</li>
 </ol>
-<li>Microsoft Bot Framework does not currently support payments within bots. Your bot may not transmit financial instrument details through the user to bot interface. However, your bot may transmit links to secure payment services to users but you must disclose this in your bot's terms of use and privacy policy (and any profile page or website for the bot) before a user agrees to use your bot.</li>
+<li>Microsoft Bot Framework does not currently support payments within bots. </li>
+<ol>
+<li>Your bot may not transmit financial instrument details through the user to bot interface; </li>
+<li>However, your bot may transmit links to secure payment services to users but you must disclose this in your bot's terms of use and privacy policy (and any profile page or website for the bot) before a user agrees to use your bot;</li>
+<li>You may not publish bots on Skype that include links or otherwise direct users to payment services for the purchase of digital goods.</li>
+</ol>
+
 <li>Your Terms of Service link is required for submission and publication to the Bot Directory. If your bot handles users' personal data and in accordance with all applicable laws, regulations and policy requirements, you must also provide a link to an applicable privacy policy for submission and publication to the Bot Directory. In addition, you will need to ensure that you follow the privacy notice requirements as communicated in the Developer Code of Conduct for the Microsoft Bot Framework referenced here: <a href="https://aka.ms/bf-conduct" class="uri">https://aka.ms/bf-conduct</a></li>
 <li>The bot must operate as described in its bot description, profile, terms of use and privacy policy. You must notify Microsoft in advance if you make any material changes to your bot. Microsoft has the right, in its sole discretion, to intermittently review bots on the Bot Directory and remove bots from the Bot Directory without notice.</li>
 <li>Your bot must operate in accordance with the requirements set forth in the Microsoft Bot Framework <a href="http://aka.ms/bf-terms">Online Services Agreement</a> and Developer Code of Conduct for the Microsoft Bot Framework.</li>
