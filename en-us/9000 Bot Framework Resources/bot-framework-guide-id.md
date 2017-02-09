@@ -5,7 +5,6 @@ permalink: /en-us/bot-framework-guide-id/
 weight: 9350
 parent1: Bot Framework Resources
 ---
-﻿# Bot Framework IDs
 
 This guide describes the characteristics of ID fields present in the Bot Framework v3 protocol.
 
