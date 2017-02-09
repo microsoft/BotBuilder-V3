@@ -34,9 +34,19 @@ namespace Microsoft.Bot.Connector
 
             if (this.Unauthorized(response.StatusCode))
             {
-                var statusCode = response.StatusCode;
-                response.Dispose();
-                throw new UnauthorizedAccessException($"Authorization for Microsoft App ID {credentials.MicrosoftAppId} failed with status code {statusCode}");
+                using (response)
+                {
+                    try
+                    {
+                        response.EnsureSuccessStatusCode();
+                    }
+                    catch (Exception error)
+                    {
+                        var statusCode = response.StatusCode;
+                        var reasonPhrase = response.ReasonPhrase;
+                        throw new UnauthorizedAccessException($"Authorization for Microsoft App ID {credentials.MicrosoftAppId} failed with status code {statusCode} and reason phrase '{reasonPhrase}'", error);
+                    }
+                }
             }
 
             return response;
