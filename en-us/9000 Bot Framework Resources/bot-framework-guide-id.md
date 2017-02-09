@@ -9,7 +9,6 @@ parent1: Bot Framework Resources
 This guide describes the characteristics of ID fields present in the Bot Framework v3 protocol.
 
 ## Channel ID
-
 Every Bot Framework channel is identified by a unique ID.
 
 Example: `"channelId": "skype"`
@@ -22,7 +21,7 @@ By convention all channel IDs are lowercase. Channels guarantee that the channel
 casing, and thus bots may use ordinal comparisons to establish equivalence.
 
 ### Rules for channel IDs
-* Channel IDs are case-sensitive
+- Channel IDs are case-sensitive
 
 ## Bot Handle
 
@@ -44,9 +43,9 @@ a characteristic of the dev portal, and not necessarily the bot handle itself.
 
 Every bot has a corresponding App registration.
 
-*Apps are sometimes referred to as "MSA Apps" or "MSA/AAD Apps" although we are beginning to drop the MSA and
+NOTE: Apps are sometimes referred to as "MSA Apps" or "MSA/AAD Apps" although we are beginning to drop the MSA and
 AAD names as the Identity team is simply calling them "apps." However, some protocol elements will likely
-refer to them as "MSA Apps" in perpetuity.*
+refer to them as "MSA Apps" in perpetuity.
 
 Example: `"msaAppId": "353826a6-4557-45f8-8d88-6aa0526b8f77"`
 
@@ -60,7 +59,7 @@ cases.
 
 Bots and channels may use app IDs to uniquely identify a registered bot.
 
-App IDs are guaranteed to be GUIDs. (**TODO: loop back based on response from Identity team**) App IDs should
+App IDs are guaranteed to be GUIDs. App IDs should
 be compared without case sensitivity.
 
 ### Rules for app IDs
