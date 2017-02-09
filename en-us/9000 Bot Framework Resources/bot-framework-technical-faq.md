@@ -95,6 +95,10 @@ Some channels provide unscoped addresses. SMS and email are examples. The ID app
 
 Other channels give you either scoped or tenanted addresses (e.g. Skype, Facebook, Slack), and they typically do so in a way that prevents the bot from predicting the user’s ID ahead of time.  For these channels, you need to authenticate the user on your own (via a login link or shared secret) before you know whether or not they are authorized to use the bot.
 
+## How do identifiers work in the Bot Framework?
+
+Take a look at the [Bot Framework IDs Guide](https://docs.botframework.com/en-us/bot-framework-guide-id/).
+
 ## How can I intercept all messages between the user and my bot?
 
 In C#, you can provide implementations of the IPostToBot and IBotToUser interfaces to the Autofac dependency injection container.  In Node, you can use middleware for much the same purpose. The [BotBuilder-Azure](https://github.com/Microsoft/BotBuilder-Azure) repo contains C# and Node.js libraries that will log this data to an Azure table.
