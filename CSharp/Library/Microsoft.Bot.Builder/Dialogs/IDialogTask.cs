@@ -115,7 +115,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <typeparam name="R">The type of the item posted to dialog.</typeparam>
         /// <param name="task">The dialog task.</param>
         /// <param name="dialog">The new interrupting dialog.</param>
-        /// <param name="item">The item to foward to the new interrupting dialog.</param>
+        /// <param name="item">The item to forward to the new interrupting dialog.</param>
         /// <param name="token">The cancellation token.</param>
         /// <returns>A task that represents the interruption operation.</returns>
         public static async Task InterruptAsync<T, R>(this IDialogTask task, IDialog<T> dialog, R item, CancellationToken token)

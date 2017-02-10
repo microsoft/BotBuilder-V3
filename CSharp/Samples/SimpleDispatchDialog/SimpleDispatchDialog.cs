@@ -91,7 +91,7 @@ namespace Microsoft.Bot.Sample.SimpleDispatchDialog
             "Didn't get that!");
         }
         
-        // When you say "echo: <text to echo>", it will increament the counter and echo the <text to echo>.
+        // When you say "echo: <text to echo>", it will increment the counter and echo the <text to echo>.
         [RegexPattern("^echo: (?<echo>.*)")]
         [ScorableGroup(2)]
         public async Task Echo(IDialogContext context, IActivity activity, [Entity("echo")] string echoString)

@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
     #region Documentation
     /// <summary>   Fill in field information through reflection.</summary>
-    /// <remarks>   The resulting information can be overriden through the fluent interface.</remarks>
+    /// <remarks>   The resulting information can be overridden through the fluent interface.</remarks>
     /// <typeparam name="T">    The form state. </typeparam>
     #endregion
     public class FieldReflector<T> : Field<T>

@@ -149,7 +149,7 @@ namespace Microsoft.Bot.Builder.FormFlow
 
         #region Documentation
         /// <summary>   Constructor for creating a FormFlow dialog. </summary>
-        /// <param name="state">        The intial state. </param>
+        /// <param name="state">        The initial state. </param>
         /// <param name="buildForm">    A delegate for building the form. </param>
         /// <param name="options">      Options for controlling the form. </param>
         /// <param name="entities">     Optional entities to process into the form. </param>

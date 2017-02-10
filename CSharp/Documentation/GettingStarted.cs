@@ -202,7 +202,7 @@ it somewhere as you won't be able to see it again.
 
 Now that the %Bot is registered, you need to update the keys in the web.config file in your Visual Studio project. 
 Change the following keys in the web.config file to match the ones generated when you saved your registration, and 
-you're ready to build. Clicking the "show" link will show the value, along wtih exposing the 
+you're ready to build. Clicking the "show" link will show the value, along with exposing the 
 regenerate link if you ever need to change your AppPassword. Update your web.config, and re-publish your 
 %bot to Azure.
 

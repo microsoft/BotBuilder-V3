@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
         public IList<EntityRecommendation> Entities { get; set; }
 
         /// <summary>
-        /// The compsite entities found in the utterance.
+        /// The composite entities found in the utterance.
         /// </summary>
         [JsonProperty(PropertyName = "compositeEntities")]
         public IList<CompositeEntity> CompositeEntities { get; set; }

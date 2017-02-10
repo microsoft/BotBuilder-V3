@@ -163,7 +163,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         FieldRole Role { get; }
 
         /// <summary>
-        /// Decription of the field itself.
+        /// Description of the field itself.
         /// </summary>
         /// <returns>Field description.</returns>
         /// <remarks>
@@ -349,7 +349,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         #region Documentation
         /// <summary>   Returns the prompt description. </summary>
         /// <returns>   An <see cref="IPrompt{T}"/> describing prompt and recognizer. </returns>
-        /// <remarks>If a prompt is dyhamically computed this should be null until <see cref="DefineAsync(T)"/> is called.</remarks>
+        /// <remarks>If a prompt is dynamically computed this should be null until <see cref="DefineAsync(T)"/> is called.</remarks>
         #endregion
         IPrompt<T> Prompt { get; }
 

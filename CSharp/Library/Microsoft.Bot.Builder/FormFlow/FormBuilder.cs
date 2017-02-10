@@ -381,7 +381,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// <see cref="PromptAttribute"/>, 
     /// <see cref="TermsAttribute"/> and 
     /// <see cref="TemplateAttribute"/>.   
-    /// For all of the attributes, resonable defaults will be generated.
+    /// For all of the attributes, reasonable defaults will be generated.
     /// </remarks>
     #endregion
     public sealed class FormBuilder<T> : FormBuilderBase<T>

@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Builder.Luis
         public readonly string AllowSampling;
 
         /// <summary>
-        /// Contructs an instance of the LuisReqeuest.
+        /// Constructs an instance of the LuisReqeuest.
         /// </summary>
         /// <param name="query"> The text query.</param>
         /// <param name="timezoneOffset"> The time zone offset.</param>

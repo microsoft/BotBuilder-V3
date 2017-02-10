@@ -240,7 +240,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// Default values for the form.
     /// </summary>
     /// <remarks>
-    /// These defaults can all be overriden when you create a form and before you add steps.
+    /// These defaults can all be overridden when you create a form and before you add steps.
     /// </remarks>
     public class FormConfiguration
     {

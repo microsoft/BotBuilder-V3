@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Connector
         /// * Bot being the bot creating the conversation
         /// * IsGroup set to true if this is not a direct message (default is
         /// false)
-        /// * Members array contining the members you want to have be in the
+        /// * Members array containing the members you want to have be in the
         /// conversation.
         /// 
         /// The return value is a ResourceResponse which contains a
