@@ -204,7 +204,7 @@ The July 2016 update is largely in response to feedback received from the active
 
 ## Do I need to upgrade my "v1" bot?
 
-Yes. You will need to [upgrade your bot](https://aka.ms/bf-migrate) to the latest version (v3) of the Bot Framework platform. The v1 API for Skype has already been shut down and the remaining channels will stop working on February 15, 2017. All bots written prior to July 2016 must be upgraded to continue functioning.
+Yes. You will need to [upgrade your bot](https://aka.ms/bf-migrate) to the latest version (v3) of the Bot Framework platform. The v1 API for Skype has already been shut down and the remaining channels will stop working on February 22, 2017. All bots written prior to July 2016 must be upgraded to continue functioning.
 
 When upgrading your bot, be sure to target the latest version of the Bot Builder SDK.
 
