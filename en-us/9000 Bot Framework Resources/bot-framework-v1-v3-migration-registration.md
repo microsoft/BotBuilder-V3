@@ -8,7 +8,7 @@ parent1: Bot Framework Resources
 
 At Build 2016 Microsoft announced the Microsoft Bot Framework and its initial iteration of the Bot Connector API, along with Bot Builder and Bot Connector SDK's.  Since Build we've been collecting your feedback and actively working to improve the REST API and SDK's to be ready for the future, better support for attachments, and improved performance.
 
-In July 2016, we released the newest version of our API, v3, and deprecated our initial v1 API.  V1 bots ceased to function on Skype by December 2016, and will stop working on remaining channels on February 15, 2017. If you operate a v1 bot and want it to function for much longer, you must migrate it to v3.
+In July 2016, we released the newest version of our API, v3, and deprecated our initial v1 API.  V1 bots ceased to function on Skype by December 2016, and will stop working on remaining channels on February 22, 2017. If you operate a v1 bot and want it to function for much longer, you must migrate it to v3.
 
 The good news is our overall model is the same, though the syntax of interacting with the Bot Connector has been updated.  Below are some highlights that are detailed in the Bot Framework documentation.
 
