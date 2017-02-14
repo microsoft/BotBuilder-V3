@@ -201,12 +201,12 @@ This verification path is structurally similar to the Connector -> Bot verificat
 
 ### (Emulator -> Bot) Steps 1 and 2: Download the MSA OpenId metadata document
 
-Follow the steps above to issue an HTTPS GET call to https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration. Find the "jwks_uri" property and issue an HTTPS GET call to retrieve and parse the list of valid signing keys.
+Follow the steps above to issue an HTTPS GET call to https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration. Find the "jwks_uri" property and issue an HTTPS GET call to retrieve and parse the list of valid signing keys.
 
 Example request:
 
     -- connect to login.microsoftonline.com --
-    GET /common/v2.0/.well-known/openid-configuration HTTP/1.1
+    GET /botframework.com/v2.0/.well-known/openid-configuration HTTP/1.1
 
 Key retrieval process follows earlier example for verifying the Connector from a Bot.
 
@@ -266,6 +266,7 @@ The only differences between v3.0 and v3.1 are the values of the hardcoded const
 |**Emulator -> Bot**|||
 |JWT Audience|```https://graph.microsoft.com``` |Your bot's Microsoft App ID|
 |JWT Issuer|```https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/``` |```https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/``` |
+|OpenID Metadata document|```https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration``` |```https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration``` |
 
 <a name="references"/>
 
