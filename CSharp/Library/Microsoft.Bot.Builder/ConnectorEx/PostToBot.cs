@@ -32,6 +32,7 @@
 //
 
 using Microsoft.Bot.Builder.Base;
+using Microsoft.Bot.Builder.ConnectorEx;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 using System;
@@ -81,17 +82,43 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class SetAmbientThreadCulture : IPostToBot
     {
         private readonly IPostToBot inner;
+        private readonly ConversationReference conversationReference;
+        private readonly ResumptionContext resumptionContext;
 
-        public SetAmbientThreadCulture(IPostToBot inner)
+        public SetAmbientThreadCulture(IPostToBot inner, ConversationReference conversationReference, ResumptionContext resumptionContext)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.conversationReference, nameof(conversationReference), conversationReference);
+            SetField.NotNull(out this.resumptionContext, nameof(resumptionContext), resumptionContext);
         }
 
         async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
-            using (new LocalizedScope((activity as IMessageActivity)?.Locale))
+            var resumptionData = await this.resumptionContext.LoadDataAsnyc();
+            if(resumptionData != null && resumptionData.IsTrustedServiceUrl)
+            {
+                MicrosoftAppCredentials.TrustServiceUrl(this.conversationReference.ServiceUrl);
+            }
+
+            var locale = (activity as IMessageActivity)?.Locale;
+
+            // if locale is null or whitespace in the incoming request,
+            // try to set it from the ResumptionContext
+            if (string.IsNullOrWhiteSpace(locale))
+            {
+                locale = resumptionData?.Locale;
+            }
+             
+            using (var localeScope = new LocalizedScope(locale))
             {
                 await this.inner.PostAsync(activity, token);
+                
+                var data = new ResumptionData
+                {
+                    Locale = locale,
+                    IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(this.conversationReference.ServiceUrl)
+                };
+                await this.resumptionContext.SaveDataAsync(data);
             }
         }
     }

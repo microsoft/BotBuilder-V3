@@ -45,6 +45,7 @@ using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Autofac.Base;
+using Microsoft.Bot.Builder.ConnectorEx;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -96,6 +97,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder
                 .RegisterType<ResumptionCookie>()
+                .AsSelf()
+                .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
+
+            builder
+                .Register(c => c.Resolve<IActivity>().CreateConversationReference())
                 .AsSelf()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
@@ -272,10 +278,33 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IEventLoop>()
                 .InstancePerLifetimeScope();
 
+            // register IDataBag that is used for to load/save ResumptionData
+            builder
+                .Register(c =>
+                {
+                    var cc = c.Resolve<IComponentContext>();
+                    Func<IBotDataBag> make = () =>
+                    {
+                        return cc.Resolve<IBotData>().PrivateConversationData;
+                    };
+                    return make;
+                })
+                .As<Func<IBotDataBag>>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<ResumptionContext>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
             // IPostToBot services
 
             builder
                 .RegisterKeyedType<NullPostToBot, IPostToBot>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterKeyedType<EventLoopDialogTask, IPostToBot>()
                 .InstancePerLifetimeScope();
 
             builder
@@ -305,10 +334,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .RegisterAdapterChain<IPostToBot>
                 (
+                    typeof(EventLoopDialogTask),
+                    typeof(SetAmbientThreadCulture),
                     typeof(PersistentDialogTask),
                     typeof(ExceptionTranslationDialogTask),
                     typeof(SerializeByConversation),
-                    typeof(SetAmbientThreadCulture),
                     typeof(PostUnhandledExceptionToUser),
                     typeof(LogPostToBot)
                 )
