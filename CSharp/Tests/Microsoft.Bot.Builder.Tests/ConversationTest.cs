@@ -48,6 +48,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using System.Text.RegularExpressions;
 using System.Collections.Concurrent;
 using System.Web;
+using Microsoft.Bot.Builder.ConnectorEx;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -314,16 +315,23 @@ namespace Microsoft.Bot.Builder.Tests
 
                     await Conversation.SendAsync(scope, msg);
                     var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
+
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync(default(CancellationToken));
+                    var dataBag = scope.Resolve<Func<IBotDataBag>>()();
+                    Assert.IsTrue(dataBag.ContainsKey(ResumptionContext.RESUMPTION_CONTEXT_KEY));
+                    Assert.IsNotNull(scope.Resolve<ConversationReference>());
                 }
 
-                var resumptionCookie = new ResumptionCookie(msg);
+                var resumptionCookie = msg.CreateConversationReference();
                 var continuationMessage = resumptionCookie.GetMessage();
                 using (var scope = DialogModule.BeginLifetimeScope(container, continuationMessage))
                 {
                     Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };
                     scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
 
-                    await Conversation.ResumeAsync(scope, continuationMessage, new Activity { Text = "resume" });
+                    await scope.Resolve<IPostToBot>().PostAsync(new Activity { Text = "resume" }, CancellationToken.None);
+
                     var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                     Assert.AreEqual("resumed!", reply.Text);
 
