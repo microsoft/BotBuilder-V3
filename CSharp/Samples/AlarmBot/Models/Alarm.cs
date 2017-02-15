@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.AlarmBot.Models
 {
@@ -21,7 +22,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
         // these are the properties necessary to handle a external event and proactively post a message to the user
         public delegate Task NextDelegate(Alarm alarm, DateTime now, CancellationToken token);
         public NextDelegate Next { get; set; }
-        public ResumptionCookie Cookie { get; set; }
+        public ConversationReference Cookie { get; set; }
         public override string ToString()
         {
             var state = this.State ? "enabled" : "disabled";
