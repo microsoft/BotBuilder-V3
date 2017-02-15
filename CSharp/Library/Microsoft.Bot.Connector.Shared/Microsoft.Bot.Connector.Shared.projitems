@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)BotAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BotDataEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ChannelAccountEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClaimsIdentityEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Attachments.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\AttachmentsExtensions.cs" />
@@ -59,6 +60,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\VideoCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorClientEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ContactRelationUpdateActionTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConversationAccountEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConversationReferenceEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConversationsEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CredentialProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityEx.cs" />
