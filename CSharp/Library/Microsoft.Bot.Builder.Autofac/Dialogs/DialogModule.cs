@@ -36,16 +36,15 @@ using System.IO;
 using System.Resources;
 using System.Text.RegularExpressions;
 using System.Threading;
-
 using Autofac;
+using Microsoft.Bot.Builder.Autofac.Base;
 using Microsoft.Bot.Builder.Base;
+using Microsoft.Bot.Builder.ConnectorEx;
 using Microsoft.Bot.Builder.History;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Builder.Scorables;
+using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Autofac.Base;
-using Microsoft.Bot.Builder.ConnectorEx;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -95,10 +94,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsImplementedInterfaces()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
+#pragma warning disable CS0618
             builder
                 .RegisterType<ResumptionCookie>()
                 .AsSelf()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
+#pragma warning restore CS0618
 
             builder
                 .Register(c => c.Resolve<IActivity>().CreateConversationReference())
@@ -182,8 +183,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerDependency();
 
             builder
-                .Register(c => new DialogTaskManager(DialogModule.BlobKey, 
-                                                     c.Resolve<JObjectBotData>(), 
+                .Register(c => new DialogTaskManager(DialogModule.BlobKey,
+                                                     c.Resolve<JObjectBotData>(),
                                                      c.Resolve<IStackStoreFactory<DialogTask>>(),
                                                      c.Resolve<Func<IDialogStack, CancellationToken, IDialogContext>>(),
                                                      c.Resolve<IEventProducer<IActivity>>()))
@@ -374,12 +375,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .RegisterKeyedType<LogBotToUser, IBotToUser>()
                 .InstancePerLifetimeScope();
 
-            #pragma warning disable CS1587
+#pragma warning disable CS1587
             /// <see cref="LogBotToUser"/> is composed around <see cref="MapToChannelData_BotToUser"/> is composed around
             /// <see cref="AlwaysSendDirect_BotToUser"/>.  The complexity of registering each component is pushed to a separate
             /// registration method, and each of these components are replaceable without re-registering
             /// the entire adapter chain by registering a new component with the same component key.
-            #pragma warning restore CS1587
+#pragma warning restore CS1587
             builder
                 .RegisterAdapterChain<IBotToUser>
                 (

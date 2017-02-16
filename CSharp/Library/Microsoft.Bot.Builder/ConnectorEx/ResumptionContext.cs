@@ -116,6 +116,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
             };
         }
 
+#pragma warning disable CS0618 //disable obsolete warning for this helper.
         /// <summary>
         /// Creates a <see cref="ConversationReference"/> from <see cref="ResumptionCookie"/>.
         /// </summary>
@@ -132,6 +133,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
                 ServiceUrl = resumptionCookie.Address.ServiceUrl
             };
         }
+#pragma warning restore CS0618
 
         /// <summary>
         /// Creates a <see cref="ConversationReference"/> from <see cref="IActivity"/>.

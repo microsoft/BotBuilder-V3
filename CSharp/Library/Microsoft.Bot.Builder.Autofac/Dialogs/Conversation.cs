@@ -31,15 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
-using Microsoft.Bot.Builder.Base;
 using Microsoft.Bot.Builder.ConnectorEx;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
-using System;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -101,13 +99,13 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Resume a conversation and post the data to the dialog waiting.
         /// </summary>
-        /// <param name="resumptionCookie"> The resumption cookie.</param>
+        /// <param name="conversationReference"> The resumption cookie.</param>
         /// <param name="toBot"> The data sent to bot.</param>
         /// <param name="token"> The cancellation token.</param>
         /// <returns> A task that represent the message to send back to the user after resumption of the conversation.</returns>
-        public static async Task ResumeAsync(ConversationReference resumptionCookie, IActivity toBot, CancellationToken token = default(CancellationToken))
+        public static async Task ResumeAsync(ConversationReference conversationReference, IActivity toBot, CancellationToken token = default(CancellationToken))
         {
-            var continuationMessage = resumptionCookie.GetMessage();
+            var continuationMessage = conversationReference.GetMessage();
             using (var scope = DialogModule.BeginLifetimeScope(Container, continuationMessage))
             {
                 Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };

@@ -32,23 +32,22 @@
 //
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Bot.Connector;
-using Moq;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.Rest;
-using System.Net.Http;
-using System.Net;
+using System.Web;
 using Autofac;
+using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Dialogs;
-using System.Text.RegularExpressions;
-using System.Collections.Concurrent;
-using System.Web;
-using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Connector;
+using Microsoft.Rest;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -323,8 +322,8 @@ namespace Microsoft.Bot.Builder.Tests
                     Assert.IsNotNull(scope.Resolve<ConversationReference>());
                 }
 
-                var resumptionCookie = msg.CreateConversationReference();
-                var continuationMessage = resumptionCookie.GetMessage();
+                var conversationReference = msg.CreateConversationReference();
+                var continuationMessage = conversationReference.GetMessage();
                 using (var scope = DialogModule.BeginLifetimeScope(container, continuationMessage))
                 {
                     Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };
