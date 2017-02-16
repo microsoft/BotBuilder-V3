@@ -192,6 +192,9 @@
     <None Include="Scripts\SimpleForm-NotUnderstood.script">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\SimpleForm-Preamble.script">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\SimpleForm-Prompter.script">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -214,7 +214,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <param name="prompter">Delegate.</param>
         /// <returns>Modified IFormBuilder.</returns>
-        IFormBuilder<T> Prompter(PromptAsyncDelegate prompter);
+        IFormBuilder<T> Prompter(PromptAsyncDelegate<T> prompter);
 
         /// <summary>
         /// Delegate to call when form is completed.

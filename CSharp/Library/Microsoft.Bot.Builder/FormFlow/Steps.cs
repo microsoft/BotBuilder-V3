@@ -843,7 +843,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             get
             {
-                throw new NotImplementedException();
+                return null;
             }
         }
 
