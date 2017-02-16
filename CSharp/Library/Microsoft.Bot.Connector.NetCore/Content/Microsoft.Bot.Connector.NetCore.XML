@@ -2702,9 +2702,6 @@
             <summary>
             An object relating to a particular point in a conversation
             </summary>
-            <summary>
-            The extension methods for conversation reference.
-            </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationReference.#ctor">
             <summary>
@@ -2749,7 +2746,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationReference.GetMessage">
             <summary>
-            Creates an <see cref="T:Microsoft.Bot.Connector.Activity"/>  from conversation reference.
+            Creates <see cref="T:Microsoft.Bot.Connector.Activity"/> from conversation reference.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConversationResourceResponse">
