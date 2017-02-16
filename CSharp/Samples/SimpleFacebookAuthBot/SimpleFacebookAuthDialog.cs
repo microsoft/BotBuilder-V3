@@ -30,14 +30,6 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         public static readonly string AuthTokenKey = "AuthToken";
 
         /// <summary>
-        /// Constructs an instance of the SimpleFacebookAuthDialog
-        /// </summary>
-        /// <param name="msg"></param>
-        public SimpleFacebookAuthDialog(IMessageActivity msg)
-        {
-        }
-
-        /// <summary>
         /// The chain of dialogs that implements the login/logout process for the bot
         /// </summary>
         public static readonly IDialog<string> dialog = Chain
@@ -50,7 +42,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
                 }, (ctx, msg) =>
                 {
                     // User wants to login, send the message to Facebook Auth Dialog
-                    return Chain.ContinueWith(new SimpleFacebookAuthDialog(msg),
+                    return Chain.ContinueWith(new SimpleFacebookAuthDialog(),
                                 async (context, res) =>
                        {
                            // The Facebook Auth Dialog completed successfully and returend the access token in its results
