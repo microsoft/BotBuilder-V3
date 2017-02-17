@@ -322,8 +322,8 @@ namespace Microsoft.Bot.Builder.Tests
                     Assert.IsNotNull(scope.Resolve<ConversationReference>());
                 }
 
-                var conversationReference = msg.CreateConversationReference();
-                var continuationMessage = conversationReference.GetMessage();
+                var conversationReference = msg.ToConversationReference();
+                var continuationMessage = conversationReference.GetPostToBotMessage();
                 using (var scope = DialogModule.BeginLifetimeScope(container, continuationMessage))
                 {
                     Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };

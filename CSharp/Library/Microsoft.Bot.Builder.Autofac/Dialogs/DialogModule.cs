@@ -102,7 +102,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 #pragma warning restore CS0618
 
             builder
-                .Register(c => c.Resolve<IActivity>().CreateConversationReference())
+                .Register(c => c.Resolve<IActivity>().ToConversationReference())
                 .AsSelf()
                 .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 
@@ -296,6 +296,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .RegisterType<ResumptionContext>()
                 .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<LocaleFinder>()
+                .AsSelf()
+                .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
 
             // IPostToBot services

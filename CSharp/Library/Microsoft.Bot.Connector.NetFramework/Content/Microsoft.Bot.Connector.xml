@@ -2781,9 +2781,14 @@
             conversation may be performed
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationReference.GetMessage">
+        <member name="M:Microsoft.Bot.Connector.ConversationReference.GetPostToBotMessage">
             <summary>
-            Creates <see cref="T:Microsoft.Bot.Connector.Activity"/> from conversation reference.
+            Creates <see cref="T:Microsoft.Bot.Connector.Activity"/> from conversation reference as it is posted to bot.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationReference.GetPostToUserMessage">
+            <summary>
+            Creates <see cref="T:Microsoft.Bot.Connector.Activity"/> from conversation reference that can be posted to user as reply.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConversationResourceResponse">

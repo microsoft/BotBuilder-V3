@@ -121,7 +121,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             string token;
             if (!context.PrivateConversationData.TryGetValue(AuthTokenKey, out token))
             {
-                var conversationReference = context.Activity.CreateConversationReference();
+                var conversationReference = context.Activity.ToConversationReference();
 
                 context.PrivateConversationData.SetValue("persistedCookie", conversationReference);
 

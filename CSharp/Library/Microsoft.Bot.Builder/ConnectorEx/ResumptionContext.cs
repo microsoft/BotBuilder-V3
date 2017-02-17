@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
@@ -51,7 +52,8 @@ namespace Microsoft.Bot.Builder.ConnectorEx
         /// <summary>
         /// Load <see cref="ResumptionData"/> from <see cref="botDataBag"/>.
         /// </summary>
-        public async Task<ResumptionData> LoadDataAsnyc()
+        /// <param name="token"> The cancellation token.</param>
+        public async Task<ResumptionData> LoadDataAsync(CancellationToken token)
         {
             ResumptionData data;
             botDataBag.Value.TryGetValue(ResumptionContext.RESUMPTION_CONTEXT_KEY, out data);
@@ -62,7 +64,8 @@ namespace Microsoft.Bot.Builder.ConnectorEx
         /// Save the <paramref name="data"/> in <see cref="botDataBag"/>.
         /// </summary>
         /// <param name="data"> The <see cref="ResumptionData"/>.</param>
-        public async Task SaveDataAsync(ResumptionData data)
+        /// <param name="token"> The cancellation token.</param>
+        public async Task SaveDataAsync(ResumptionData data, CancellationToken token)
         {
             var clonedData = new ResumptionData
             {
@@ -77,7 +80,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
     /// <summary>
     /// Helpers for <see cref="ConversationReference"/> 
     /// </summary>
-    public sealed class ConversationReferenceHelpres
+    public sealed class ConversationReferenceHelpers
     {
 
         /// <summary>
@@ -104,7 +107,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
         /// </summary>
         /// <param name="address"> The address.</param>
         /// <returns> The <see cref="ConversationReference"/>.</returns>
-        public static ConversationReference CreateConversationReference(this IAddress address)
+        public static ConversationReference ToConversationReference(this IAddress address)
         {
             return new ConversationReference
             {
@@ -122,7 +125,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
         /// </summary>
         /// <param name="resumptionCookie"> The resumption cookie.</param>
         /// <returns> The <see cref="ConversationReference"/>.</returns>
-        public static ConversationReference CreateConversationReference(this ResumptionCookie resumptionCookie)
+        public static ConversationReference ToConversationReference(this ResumptionCookie resumptionCookie)
         {
             return new ConversationReference
             {
@@ -140,7 +143,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
         /// </summary>
         /// <param name="activity"> The <see cref="IActivity"/>  posted to bot.</param>
         /// <returns> The <see cref="ConversationReference"/>.</returns>
-        public static ConversationReference CreateConversationReference(this IActivity activity)
+        public static ConversationReference ToConversationReference(this IActivity activity)
         {
             return new ConversationReference
             {

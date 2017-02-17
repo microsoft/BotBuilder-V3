@@ -37,13 +37,13 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
                     conversationId: FacebookHelpers.TokenDecoder(conversationId),
                     serviceUrl: FacebookHelpers.TokenDecoder(serviceUrl)
                 );
-            var conversationReference = address.CreateConversationReference();
+            var conversationReference = address.ToConversationReference();
 
             // Exchange the Facebook Auth code with Access token
             var accessToken = await FacebookHelpers.ExchangeCodeForAccessToken(conversationReference, code, SimpleFacebookAuthDialog.FacebookOauthCallback.ToString());
 
             // Create the message that is send to conversation to resume the login flow
-            var msg = conversationReference.GetMessage();
+            var msg = conversationReference.GetPostToBotMessage();
             msg.Text = $"token:{accessToken.AccessToken}";
 
             // Resume the conversation to SimpleFacebookAuthDialog

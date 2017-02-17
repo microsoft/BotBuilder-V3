@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static ConversationReference MakeCookie()
         {
-            return MakeAddress().CreateConversationReference();
+            return MakeAddress().ToConversationReference();
         }
 
         [TestMethod]

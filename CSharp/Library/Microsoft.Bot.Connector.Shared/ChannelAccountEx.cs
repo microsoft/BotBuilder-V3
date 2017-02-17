@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Microsoft.Bot.Connector
 {
-    public partial class ChannelAccount
+    public partial class ChannelAccount : IEquatable<ChannelAccount>
     {
         public bool Equals(ChannelAccount other)
         {

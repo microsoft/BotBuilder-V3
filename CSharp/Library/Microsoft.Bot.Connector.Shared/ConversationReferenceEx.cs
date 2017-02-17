@@ -2,12 +2,12 @@
 
 namespace Microsoft.Bot.Connector
 {
-    public partial class ConversationReference
+    public partial class ConversationReference : IEquatable<ConversationReference>
     {
         /// <summary>
-        /// Creates <see cref="Activity"/> from conversation reference.
+        /// Creates <see cref="Activity"/> from conversation reference as it is posted to bot.
         /// </summary>
-        public Activity GetMessage()
+        public Activity GetPostToBotMessage()
         {
             return new Activity
             {
@@ -32,6 +32,22 @@ namespace Microsoft.Bot.Connector
                     Name = this.User.Id
                 }
             };
+        }
+
+        /// <summary>
+        /// Creates <see cref="Activity"/> from conversation reference that can be posted to user as reply.
+        /// </summary>
+        public Activity GetPostToUserMessage()
+        {
+            var msg = this.GetPostToBotMessage();
+
+            // swap from and recipient
+            var bot = msg.Recipient;
+            var user = msg.From;
+            msg.From = bot;
+            msg.Recipient = user;
+
+            return msg;
         }
 
         public bool Equals(ConversationReference other)

@@ -92,7 +92,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         [Obsolete("Use the overload that uses ConversationReference instead of ResumptionCookie")]
         public static async Task ResumeAsync(ResumptionCookie resumptionCookie, IActivity toBot, CancellationToken token = default(CancellationToken))
         {
-            var conversationRef = resumptionCookie.CreateConversationReference();
+            var conversationRef = resumptionCookie.ToConversationReference();
             await ResumeAsync(conversationRef, toBot, token);
         }
 
@@ -105,7 +105,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns> A task that represent the message to send back to the user after resumption of the conversation.</returns>
         public static async Task ResumeAsync(ConversationReference conversationReference, IActivity toBot, CancellationToken token = default(CancellationToken))
         {
-            var continuationMessage = conversationReference.GetMessage();
+            var continuationMessage = conversationReference.GetPostToBotMessage();
             using (var scope = DialogModule.BeginLifetimeScope(Container, continuationMessage))
             {
                 Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };

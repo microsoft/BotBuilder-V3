@@ -29,7 +29,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
         public static async Task HandleAlarm(ILifetimeScope container, Alarm alarm, DateTime now, CancellationToken token)
         {
             // the ConversationReference has the "key" necessary to resume the conversation
-            var message = alarm.Cookie.GetMessage();
+            var message = alarm.Cookie.GetPostToBotMessage();
             // we instantiate our dependencies based on an IMessageActivity implementation
             using (var scope = DialogModule.BeginLifetimeScope(container, message))
             {

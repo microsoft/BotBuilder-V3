@@ -70,7 +70,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <remarks> This is the incoming activity in reactive cases.
         /// for proactive case, i.e. Conversation.ResumeAsync code path,
-        /// it will be the <see cref="IMessageActivity"/> returned by <see cref="ConversationReference.GetMessage"/>.
+        /// it will be the <see cref="IMessageActivity"/> returned by <see cref="ConversationReference.GetPostToBotMessage"/>.
         /// </remarks>
         IActivity Activity { get; }
     }
