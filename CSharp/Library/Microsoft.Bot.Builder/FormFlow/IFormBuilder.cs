@@ -4,7 +4,7 @@
 // 
 // Microsoft Bot Framework: http://botframework.com
 // 
-// Bot Builder SDK Github:
+// Bot Builder SDK GitHub:
 // https://github.com/Microsoft/BotBuilder
 // 
 // Copyright (c) Microsoft Corporation
@@ -214,7 +214,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         /// </summary>
         /// <param name="prompter">Delegate.</param>
         /// <returns>Modified IFormBuilder.</returns>
-        IFormBuilder<T> Prompter(PromptAsyncDelegate prompter);
+        IFormBuilder<T> Prompter(PromptAsyncDelegate<T> prompter);
 
         /// <summary>
         /// Delegate to call when form is completed.
@@ -240,7 +240,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     /// Default values for the form.
     /// </summary>
     /// <remarks>
-    /// These defaults can all be overriden when you create a form and before you add steps.
+    /// These defaults can all be overridden when you create a form and before you add steps.
     /// </remarks>
     public class FormConfiguration
     {

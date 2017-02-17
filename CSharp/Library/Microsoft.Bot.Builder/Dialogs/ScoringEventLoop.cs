@@ -4,7 +4,7 @@
 // 
 // Microsoft Bot Framework: http://botframework.com
 // 
-// Bot Builder SDK Github:
+// Bot Builder SDK GitHub:
 // https://github.com/Microsoft/BotBuilder
 // 
 // Copyright (c) Microsoft Corporation
@@ -47,7 +47,7 @@ using Microsoft.Bot.Builder.Scorables;
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
     /// <summary>
-    /// This event loop dispatches incoming activites to a scorable action, and then if the
+    /// This event loop dispatches incoming activities to a scorable action, and then if the
     /// scorable action does not match, some inner consumer of activities (usually the dialog system).
     /// </summary>
     public sealed class ScoringEventLoop<Score> : IEventLoop

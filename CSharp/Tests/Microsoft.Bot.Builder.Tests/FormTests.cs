@@ -4,7 +4,7 @@
 // 
 // Microsoft Bot Framework: http://botframework.com
 // 
-// Bot Builder SDK Github:
+// Bot Builder SDK GitHub:
 // https://github.com/Microsoft/BotBuilder
 // 
 // Copyright (c) Microsoft Corporation
@@ -318,6 +318,54 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         [DeploymentItem(@"Scripts\SimpleForm-Prompter.script")]
         public async Task SimpleForm_Prompter_Script()
+        {
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
+                "en-us",
+                () => new FormBuilder<SimpleForm>()
+                .Prompter(async (context, prompt, state, field) =>
+                {
+                    if (field != null)
+                    {
+                        prompt.Prompt = field.Name + ": " + prompt.Prompt;
+                    }
+                    var preamble = context.MakeMessage();
+                    var promptMessage = context.MakeMessage();
+                    if (prompt.GenerateMessages(preamble, promptMessage))
+                    {
+                        await context.PostAsync(preamble);
+                    }
+                    await context.PostAsync(promptMessage);
+                    return prompt;
+                })
+                .AddRemainingFields()
+                .Confirm(@"**Results**
+* Text: {Text}
+* Integer: {Integer}
+* Float: {Float}
+* SomeChoices: {SomeChoices}
+* Date: {Date}
+Is this what you wanted? {||}")
+                .Build(),
+                FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+                "Hi",
+                "some text here",
+                "99",
+                "1.5",
+                "more than one",
+                "foo",
+                "two",
+                "1/1/2016",
+                "no",
+                "text",
+                "abc",
+                "yes"
+                );
+        }
+
+        [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-Preamble.script")]
+        public async Task SimpleForm_Preamble_Script()
         {
             var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
             await VerifyFormScript(pathScript,
