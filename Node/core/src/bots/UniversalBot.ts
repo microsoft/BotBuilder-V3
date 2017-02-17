@@ -36,6 +36,7 @@ import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
 import { Session, ISessionMiddleware } from '../Session';
 import { DefaultLocalizer } from '../DefaultLocalizer';
 import { IBotStorage, IBotStorageContext, IBotStorageData, MemoryBotStorage } from '../storage/BotStorage';
+import { IIntentRecognizerResult } from '../dialogs/IntentRecognizerSet';
 import * as consts from '../consts';
 import * as utils from '../utils';
 import * as logger from '../logger';
@@ -464,6 +465,16 @@ export class UniversalBot extends Library {
         // Run the root libraries recognizers
         var context = session.toRecognizeContext();
         this.recognize(context, (err, topIntent) => {
+            // Check for forwarded intent
+            if (session.message.entities) {
+                session.message.entities.forEach((entity) => {
+                    if (entity.type === consts.intentEntityType && 
+                        (<IIntentRecognizerResult>entity).score > topIntent.score) {
+                        topIntent = entity;
+                    } 
+                });
+            }
+
             // This intent will be automatically inherited by child libraries
             // that don't implement their own recognizers.
             // - We're passing along the library name to avoid running our own

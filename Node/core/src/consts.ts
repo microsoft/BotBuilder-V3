@@ -31,23 +31,24 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-export var agent = 'botbuilder';
-export var messageType = 'message';
-export var invokeType = 'invoke';
-export var defaultConnector = '*';
-export var emulatorChannel = 'emulator';
+export const agent = 'botbuilder';
+export const messageType = 'message';
+export const invokeType = 'invoke';
+export const defaultConnector = '*';
+export const emulatorChannel = 'emulator';
+export const intentEntityType = 'intent';
 
-export var Errors = {
+export const Errors = {
     EMSGSIZE: 'EMSGSIZE',
     EBADMSG: 'EBADMSG'
 };
 
-export var Library =  {
+export const Library =  {
     system: 'BotBuilder',
     default: '*'
 };
 
-export var Data = {
+export const Data = {
     SessionState: 'BotBuilder.Data.SessionState',
     SessionId: 'BotBuilder.Data.SessionId',
     Handler: 'BotBuilder.Data.Handler',
@@ -60,7 +61,7 @@ export var Data = {
     PreferredLocale: 'BotBuilder.Data.PreferredLocale'
 };
 
-export var DialogId = {
+export const DialogId = {
     Prompts: 'BotBuilder:Prompts',
     FirstRun: 'BotBuilder:FirstRun',
     ConfirmCancel: 'BotBuilder:ConfirmCancel',
@@ -69,10 +70,10 @@ export var DialogId = {
     Disambiguate: 'BotBuilder:Disambiguate'
 };
 
-export var Id = {
+export const Id = {
     DefaultGroup: 'BotBuilder.Id.DefaultGroup'
 };
 
-export var Intents = {
+export const Intents = {
     Default: 'BotBuilder.Intents.Default'
 };

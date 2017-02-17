@@ -4,6 +4,7 @@ exports.messageType = 'message';
 exports.invokeType = 'invoke';
 exports.defaultConnector = '*';
 exports.emulatorChannel = 'emulator';
+exports.intentEntityType = 'intent';
 exports.Errors = {
     EMSGSIZE: 'EMSGSIZE',
     EBADMSG: 'EBADMSG'
