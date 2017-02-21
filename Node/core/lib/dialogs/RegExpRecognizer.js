@@ -2,7 +2,7 @@
 var RegExpRecognizer = (function () {
     function RegExpRecognizer(intent, expressions) {
         this.intent = intent;
-        if (expressions instanceof RegExp) {
+        if (expressions instanceof RegExp || typeof expressions.exec === 'function') {
             this.expressions = { '*': expressions };
         }
         else {
