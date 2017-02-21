@@ -263,21 +263,21 @@ var Prompts = (function (_super) {
         }
     };
     Prompts.text = function (session, prompt, options) {
-        if (!session || typeof session != 'object') {
-            throw 'Session should be provided to Prompts.Text as first parameter.';
-        }
+        Prompts.validateSession(session);
         var args = options || {};
         args.promptType = PromptType.text;
         args.prompt = prompt;
         beginPrompt(session, args);
     };
     Prompts.number = function (session, prompt, options) {
+        Prompts.validateSession(session);
         var args = options || {};
         args.promptType = PromptType.number;
         args.prompt = prompt;
         beginPrompt(session, args);
     };
     Prompts.confirm = function (session, prompt, options) {
+        Prompts.validateSession(session);
         var locale = session.preferredLocale();
         var args = options || {};
         args.promptType = PromptType.confirm;
@@ -290,6 +290,7 @@ var Prompts = (function (_super) {
         beginPrompt(session, args);
     };
     Prompts.choice = function (session, prompt, choices, options) {
+        Prompts.validateSession(session);
         var args = options || {};
         args.promptType = PromptType.choice;
         args.prompt = prompt;
@@ -303,23 +304,31 @@ var Prompts = (function (_super) {
         beginPrompt(session, args);
     };
     Prompts.time = function (session, prompt, options) {
+        Prompts.validateSession(session);
         var args = options || {};
         args.promptType = PromptType.time;
         args.prompt = prompt;
         beginPrompt(session, args);
     };
     Prompts.attachment = function (session, prompt, options) {
+        Prompts.validateSession(session);
         var args = options || {};
         args.promptType = PromptType.attachment;
         args.prompt = prompt;
         beginPrompt(session, args);
     };
     Prompts.disambiguate = function (session, prompt, choices, options) {
+        Prompts.validateSession(session);
         session.beginDialog(consts.DialogId.Disambiguate, {
             prompt: prompt,
             choices: choices,
             options: options
         });
+    };
+    Prompts.validateSession = function (session) {
+        if (!session || typeof session != 'object') {
+            throw 'Session should be provided as first parameter.';
+        }
     };
     return Prompts;
 }(Dialog_1.Dialog));

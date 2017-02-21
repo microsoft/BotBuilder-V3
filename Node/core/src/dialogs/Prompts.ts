@@ -354,11 +354,7 @@ export class Prompts extends Dialog {
 
     static text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
         
-        // Make sure that the session is passed, otherwise throw a clear error 
-        if (!session || typeof session != 'object') {
-            throw 'Session should be provided to Prompts.Text as first parameter.';
-        }
-        
+        Prompts.validateSession(session);
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.text;
         args.prompt = prompt;
@@ -366,6 +362,7 @@ export class Prompts extends Dialog {
     }
 
     static number(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        Prompts.validateSession(session);
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.number;
         args.prompt = prompt;
@@ -373,6 +370,7 @@ export class Prompts extends Dialog {
     }
 
     static confirm(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        Prompts.validateSession(session);
         var locale:string = session.preferredLocale();
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.confirm;
@@ -386,6 +384,7 @@ export class Prompts extends Dialog {
     }
 
     static choice(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: string|Object|string[], options?: IPromptOptions): void {
+        Prompts.validateSession(session);
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.choice;
         args.prompt = prompt;
@@ -400,6 +399,7 @@ export class Prompts extends Dialog {
     }
 
     static time(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        Prompts.validateSession(session);
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.time;
         args.prompt = prompt;
@@ -407,6 +407,7 @@ export class Prompts extends Dialog {
     }
     
     static attachment(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        Prompts.validateSession(session);
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.attachment;
         args.prompt = prompt;
@@ -414,11 +415,19 @@ export class Prompts extends Dialog {
     }
 
     static disambiguate(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: IDisambiguateChoices, options?: IPromptOptions): void {
+        Prompts.validateSession(session);
         session.beginDialog(consts.DialogId.Disambiguate, {
             prompt: prompt,
             choices: choices,
             options: options
         });
+    }
+
+    private static validateSession(session: Session): void {
+        // Make sure that the session is passed, otherwise throw a clear error 
+        if (!session || typeof session != 'object') {
+            throw 'Session should be provided as first parameter.';
+        }
     }
 }
 systemLib.dialog(consts.DialogId.Prompts, new Prompts());
