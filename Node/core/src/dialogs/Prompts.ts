@@ -353,6 +353,12 @@ export class Prompts extends Dialog {
     }
 
     static text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void {
+        
+        // Make sure that the session is passed, otherwise throw a clear error 
+        if (!session || typeof session != 'object') {
+            throw 'Session should be provided to Prompts.Text as first parameter.';
+        }
+        
         var args: IPromptArgs = <any>options || {};
         args.promptType = PromptType.text;
         args.prompt = prompt;
