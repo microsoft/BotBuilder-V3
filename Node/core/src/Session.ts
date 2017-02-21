@@ -586,13 +586,14 @@ export class Session extends events.EventEmitter {
 
     /** Ensures that all of the entries on a dialog stack reference valid dialogs within a library hierarchy. */
     static validateDialogStack(stack: IDialogState[], root: Library): boolean {
+        let valid = true;
         Session.forEachDialogStackEntry(stack, false, (entry) => {
             var pair = entry.id.split(':');
             if (!root.findDialog(pair[0], pair[1])) {
-                return false;
+                valid = false;
             }
         });
-        return true;
+        return valid;
     }
 
     //-------------------------------------------------------------------------

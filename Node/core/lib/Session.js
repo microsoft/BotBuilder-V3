@@ -479,13 +479,14 @@ var Session = (function (_super) {
         return Session.activeDialogStackEntry(stack);
     };
     Session.validateDialogStack = function (stack, root) {
+        var valid = true;
         Session.forEachDialogStackEntry(stack, false, function (entry) {
             var pair = entry.id.split(':');
             if (!root.findDialog(pair[0], pair[1])) {
-                return false;
+                valid = false;
             }
         });
-        return true;
+        return valid;
     };
     Session.prototype.routeToActiveDialog = function (recognizeResult) {
         var dialogStack = this.dialogStack();
