@@ -29,21 +29,34 @@
                     {% include inspector_form.html selected_channel=channel.name selected_feature=feature.feature_name selected_example=extitle %}
 
                     <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}" class="inspector-info">
-                        <div class="inspector-image">
-                                <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_inspector-image-url" class="inspector-image-url">
-                                    {% if example.title != "noexample" %}
-                                    <img class="example-image" name="{{extitle}}" id="{{extitle}}" src="/en-us/images/inspector/{{include.channel_selected}}/{{feature.feature_name}}/{{extitle}}.png" />
+                        <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_inspector-image-url" class="inspector-image-url">
+                            <div class="inspector-web-image">
+                                {% if example.title != "noexample" %}
+                                <img class="example-image" name="{{extitle}}" id="{{extitle}}" src="/en-us/images/inspector/{{include.channel_selected}}/{{feature.feature_name}}/{{extitle}}.png" />
+                                {% else %}
+                                <img class="example-image" name="no_image" id="no_image" src="/en-us/images/inspector/NoImage/no-preview.png" />
+                                {% endif %}
+                                {% if feature.examples.size > 1 %}
+                                <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_backward" class="img-button button-backward"><img src="/en-us/images/inspector/buttons/flipper-left.svg"/></div>
+                                <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_forward" class="img-button button-forward"><img src="/en-us/images/inspector/buttons/flipper-right.svg"/></div>
+                                {% endif %}                                
+                            </div>
+                            <div class="inspector-mobile-image">
+                                <ul class="inspector-carousel">
+                                {% for ex in feature.examples %}
+                                    <li>
+                                    {% if ex.title != "noexample" %}
+                                    <img class="example-image" name="{{ex.title}}" id="{{ex.title}}" src="/en-us/images/inspector/{{include.channel_selected}}/{{feature.feature_name}}/{{ex.title}}.png" />
                                     {% else %}
                                     <img class="example-image" name="no_image" id="no_image" src="/en-us/images/inspector/NoImage/no-preview.png" />
                                     {% endif %}
-                                    {% if feature.examples.size > 1 %}
-                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_backward" class="img-button button-backward"><img src="/en-us/images/inspector/buttons/flipper-left.svg"/></div>
-                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_forward" class="img-button button-forward"><img src="/en-us/images/inspector/buttons/flipper-right.svg"/></div>
-                                    {% endif %}
-                                </div>
-                                <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_buttons" class="buttons">
-                                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_dots" class="dots"></div>
-                                </div>
+                                    </li>                                    
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_buttons" class="buttons">
+                            <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_dots" class="dots"></div>
                         </div>
                     </div>
                     <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_inspector-description" class="inspector-description">
@@ -71,21 +84,29 @@
                                 </div>
                                 {% endif %}
                             </div>
-                            <hr>
+                            <hr>                            
                             <div class="inspector-specifications">
+                                {% if feature.facts.size >= 1 %}
                                 <div class="inspector-specifications-text"><h3 class="inspector-title">Notes</h3></div>
                                 <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_facts" class="inspector-facts">
                                     <table class="inspector-table">
                                         {% for fact in feature.facts %}
+                                        {% if fact.name == "" and fact.value != "" %}
+                                        <tr>
+                                            <td class="fact-description">{{fact.value}}</td>
+                                        </tr>                                        
+                                        {% else %}
                                         <tr>
                                             <td class="fact-name">{{fact.name}}</td>
                                             <td class="fact-description">{{fact.value}}</td>
                                         </tr>
+                                        {% endif %}
                                         {% endfor %}
                                     </table>
                                 </div>
+                                {% endif %}
                                 {% include inspector_feedback_button.html %}
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                     </div>

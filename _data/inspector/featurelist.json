@@ -1,4 +1,9 @@
 {
+    "Buttons": {
+        "name": "Buttons",
+        "description": "Buttons appear on the conversation canvas, with the message they belong to.",
+        "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
+    },
     "Carousel": {
         "name": "Carousel",
         "description": "A compact, scrollable, horizontal list of cards.",
@@ -44,13 +49,10 @@
         "description": "Display of image attachments.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
-    "Keyboards": {
-        "name": "Buttons",
-        "description": "Display of buttons and keyboards.",
+    "List": {
+        "name": "List Layout",
+        "description": "The List Layout is a vertical list of cards.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
-    },
-    "List":{
-        "name": ""
     },
     "Location": {
         "name": "Location",
@@ -76,6 +78,9 @@
         "name": "SigninCard",
         "description": "A request for the user to authenticate.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
+    },
+   "SuggestedActions": {
+        "name": ""
     },
     "ThumbnailCard": {
         "name": "ThumbnailCard",

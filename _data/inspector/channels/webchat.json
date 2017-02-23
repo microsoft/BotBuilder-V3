@@ -2,12 +2,35 @@
     "channel_name": "webchat",
     "features": [
         {
+            "feature_name": "Buttons",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Native Control.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in WebChat",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },        
+        {
             "feature_name": "Carousel",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a WebChat Carousel Control.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -56,8 +79,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Not supported.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -73,8 +96,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as pre-formatted text.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -96,7 +119,7 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "WebChat does not support group conversations.",
                     "detail": "",
                     "url": ""
@@ -113,8 +136,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "WebChat can send any file type to the Bot, but only download images.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -130,8 +153,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "WebChat can display emoji.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -153,7 +176,7 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "WebChat does not support group conversations.",
                     "detail": "",
                     "url": ""
@@ -170,8 +193,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a WebChat Hero Card.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -202,8 +225,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "WebChat can show images.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -234,35 +257,12 @@
             ]
         },
         {
-            "feature_name": "Keyboards",
-            "external_url": "",
-            "facts": [
-                {
-                    "name": "Supported",
-                    "value": "WebChat can display inline buttons.",
-                    "detail": "",
-                    "url": ""
-                }
-            ],
-            "examples": [
-                {
-                    "title": "example1",
-                    "resource": "example1",
-                    "example_description": "General view of buttons in WebChat",
-                    "image_url": "example1.png",
-                    "json_url": "example1.json",
-                    "cs_url": "example1.cs",
-                    "js_url": "example1.js"
-                }
-            ]
-        },
-        {
             "feature_name": "List",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of cards.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -271,7 +271,7 @@
                 {
                     "title": "example1",
                     "resource": "example1",
-                    "example_description": "General view of a List in Web Chat.",
+                    "example_description": "General view of a List Layout in WebChat.",
                     "image_url": "example1.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
@@ -285,6 +285,24 @@
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
                 }
             ]
         },
@@ -293,8 +311,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "WebChat cannot send the user's location.",
+                    "name": "",
+                    "value": "WebChat cannot share location.",
                     "detail": "",
                     "url": ""
                 }
@@ -310,8 +328,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "WebChat can render Markdown.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -387,8 +405,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "WebChat does not support group conversations.",
+                    "name": "",
+                    "value": "WebChat cannot provide conversation members.",
                     "detail": "",
                     "url": ""
                 }
@@ -410,8 +428,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a WebChat Receipt Card.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -433,8 +451,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a WebChat Signin Card.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -456,8 +474,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a WebChat Thumbnail Card.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -479,8 +497,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "WebChat can display a typing indicator.",
+                    "name": "",
+                    "value": "WebChat clients can display typing indicator.",
                     "detail": "",
                     "url": ""
                 }
@@ -496,8 +514,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "WebChat can play video.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }

@@ -1,0 +1,36 @@
+<!-- Initial Form for Channel and Feature Inspector -->
+<hr>
+<!-- Feature Grid -->
+<div id="inspector-grid" class="inspector-grid">
+{% for channel in site.data.inspector.channellist %}
+    {% assign channel_json = site.data.inspector.channels.[{{channel.id}}] %}
+    {% for feature in channel_json.features %} 
+        {% if feature.feature_name == include.feature_selected %}
+            <div id="{{channel.name}}_feature_{{feature.feature_name}}_channel_grid" class="inspector-image-url inspector-image-grid-container">
+                <div id="{{channel.name}}" class="inspector-image-grid-name">{{channel.name}}</div>
+                <div id="{{channel.name}}_{{feature.feature_name}}_{{feature.examples.size}}_image_grid" class="inspector-image-grid">
+                    <ul class="inspector-carousel">
+                        {% for ex in feature.examples %}
+                            <li>
+                            {% if ex.title != "noexample" %}
+                            <img class="example-image" name="{{ex.title}}" id="{{ex.title}}" src="/en-us/images/inspector/{{channel.name}}/{{feature.feature_name}}/{{ex.title}}.png" />
+                            {% else %}
+                            <img class="example-image" name="no_image" id="no_image" src="/en-us/images/inspector/NoImage/no-preview.png" />
+                            {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_example1_buttons" class="buttons">
+                    <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_{{feature.examples.size}}_example_example1_dots" class="dots">
+                        {% for ex in feature.examples %}{% if ex.title == "example1" or ex.title == "noexample" %}<div class='inspector-oval inspector-fill' id='{{channel.name}}_{{feature.feature_name}}_{{feature.examples.size}}_example1'> </div>{% else %}<div class='inspector-oval' id='{{channel.name}}_{{feature.feature_name}}_{{feature.examples.size}}_{{ex.title}}'> </div>{% endif %}{% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}    <!-- features --> 
+{% endfor %}  <!-- channels -->  
+</div> 
+<script>
+    $(inspector);
+</script>

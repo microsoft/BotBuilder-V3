@@ -2,12 +2,35 @@
     "channel_name": "groupme",
     "features": [
         {
+            "feature_name": "Buttons",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in GroupMe.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },        
+        {
             "feature_name": "Carousel",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as vertical list of cards.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -56,8 +79,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Not supported.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -73,8 +96,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a plain text message.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -96,7 +119,7 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "Bots can only send messages to the group.",
                     "detail": "",
                     "url": ""
@@ -113,8 +136,8 @@
             "external_url": "https://dev.groupme.com/docs/v3#messages_index",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Document sent as link in a message to the group.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -136,8 +159,8 @@
             "external_url": "https://dev.groupme.com/docs/v3#messages_index",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "GroupMe clients can render emoji.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -159,7 +182,7 @@
             "external_url": "https://dev.groupme.com/docs/v3#groups_create",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "Bots can respond to messages inside a group.",
                     "detail": "",
                     "url": ""
@@ -176,8 +199,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as images and text.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -214,8 +237,8 @@
             "external_url": "https://dev.groupme.com/docs/image_service",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "GroupMe can display images.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -248,35 +271,12 @@
             ]
         },
         {
-            "feature_name": "Keyboards",
-            "external_url": "",
-            "facts": [
-                {
-                    "name": "Supported",
-                    "value": "Renders button actions as clickable links.",
-                    "detail": "",
-                    "url": ""
-                }
-            ],
-            "examples": [
-                {
-                    "title": "example1",
-                    "resource": "example1",
-                    "example_description": "General view of buttons in GroupMe.",
-                    "image_url": "example1.png",
-                    "json_url": "example1.json",
-                    "cs_url": "example1.cs",
-                    "js_url": "example1.js"
-                }
-            ]
-        },
-        {
             "feature_name": "List",
             "external_url": "https://dev.groupme.com/docs/v3#messages_index",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displays multiple attachments as individual GroupMe messages.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -285,8 +285,35 @@
                 {
                     "title": "example1",
                     "resource": "example1",
-                    "example_description": "General view of a List in GroupMe.",
+                    "example_description": "General view of a List Layout in GroupMe.",
                     "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
@@ -298,8 +325,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "GroupMe mobile clients can share the user's location.",
+                    "name": "",
+                    "value": "GroupMe clients can share location. (mobile-only)",
                     "detail": "",
                     "url": ""
                 }
@@ -315,8 +342,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "GroupMe does not support markdown formatting.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -366,8 +393,8 @@
             "external_url": "https://dev.groupme.com/docs/v3#members",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Bot can query for list of group members.",
+                    "name": "",
+                    "value": "GroupMe can provide conversation members.",
                     "detail": "",
                     "url": ""
                 }
@@ -389,8 +416,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as plain text.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -412,8 +439,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as plain text with clickable link.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -435,8 +462,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as images and text.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -464,8 +491,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "GroupMe is not able to display a typing indicator.",
+                    "name": "",
+                    "value": "GroupMe clients cannot display typing indicator.",
                     "detail": "",
                     "url": ""
                 }
@@ -481,8 +508,8 @@
             "external_url": "https://dev.groupme.com/docs/v3#messages_index",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as clickable links.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }

@@ -2,12 +2,44 @@
     "channel_name": "email",
     "features": [
         {
+            "feature_name": "Buttons",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in Email.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },        
+        {
             "feature_name": "Carousel",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as vertical list of cards.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -56,26 +88,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Yes.",
-                    "detail": "",
-                    "url": ""
-                },
-                {
-                    "name": "Importance",
-                    "value": "Low | Normal | High",
-                    "detail": "",
-                    "url": ""
-                },
-                {
-                    "name": "HtmlBody",
-                    "value": "Supported, No Limit",
-                    "detail": "",
-                    "url": ""
-                },
-                {
-                    "name": "Subject",
-                    "value": "Supported, No Limit",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -97,8 +111,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as pre-formatted text. Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -120,8 +134,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Messages can be sent to individuals.",
+                    "name": "",
+                    "value": "Bot can send messages to individuals.",
                     "detail": "",
                     "url": ""
                 }
@@ -143,8 +157,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Email channel can send and receive attachments of any content type.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -166,8 +180,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Yes. Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -189,7 +203,7 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "Bots can participate in group emails.",
                     "detail": "",
                     "url": ""
@@ -206,8 +220,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Rendered as images and text. Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -229,8 +243,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Yes. Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -257,12 +271,12 @@
             ]
         },
         {
-            "feature_name": "Keyboards",
+            "feature_name": "List",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Rendered as links. Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -271,7 +285,7 @@
                 {
                     "title": "example1",
                     "resource": "example1",
-                    "example_description": "General view of buttons in Email.",
+                    "example_description": "General view of a List Layout in Email.",
                     "image_url": "example1.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
@@ -285,26 +299,21 @@
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
-                }
-            ]
-        },
-        {
-            "feature_name": "List",
-            "external_url": "",
-            "facts": [
+                },
                 {
-                    "name": "Supported",
-                    "value": "Rendered as images and text. Subject to client display capabilities.",
-                    "detail": "",
-                    "url": ""
-                }
-            ],
-            "examples": [
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
                 {
-                    "title": "example1",
-                    "resource": "example1",
-                    "example_description": "General view of a List in Email.",
-                    "image_url": "example1.png",
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
@@ -316,8 +325,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Subject to client capabilities.",
+                    "name": "",
+                    "value": "Email clients cannot share location.",
                     "detail": "",
                     "url": ""
                 }
@@ -333,8 +342,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -392,8 +401,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Bots can query conversation membership.",
+                    "name": "",
+                    "value": "Email can provide conversation members.",
                     "detail": "",
                     "url": ""
                 }
@@ -415,8 +424,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Rendered as images and text. Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -447,8 +456,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Rendered as images and text. Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -484,12 +493,29 @@
             ]
         },
         {
+            "feature_name": "SuggestedActions",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "",
+                    "value": "Email clients display suggested actions as buttons.",
+                    "detail": "",
+                    "url": ""
+                }                
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]            
+        },
+        {
             "feature_name": "ThumbnailCard",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Rendered as images and text. Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -511,8 +537,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Email clients cannot display a typing indicator.",
+                    "name": "",
+                    "value": "Email clients cannot display typing indicator.",
                     "detail": "",
                     "url": ""
                 }
@@ -528,8 +554,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Rendered as links. Subject to client display capabilities.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }

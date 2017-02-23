@@ -67,8 +67,9 @@ function inspector(){
     //Validating Global Variables
     if(feature === undefined || feature === null || feature == ""){
         //Getting last_feature from localStorage 
-		if(localStorage.getItem("last_feature") === null || localStorage.getItem("last_feature") === "" || localStorage.getItem("last_feature") === "ChannelData"){
-            feature = "Keyboards";
+		if(localStorage.getItem("last_feature") === null || localStorage.getItem("last_feature") === "" || 
+		   localStorage.getItem("last_feature") === "ChannelData" || localStorage.getItem("last_feature") === "Keyboards"){
+            feature = "Buttons";
 		}
         else{
             feature = localStorage.getItem("last_feature");
@@ -125,10 +126,113 @@ function inspector(){
 
 	//Validating mobile device
 	if(isMobile){
-		$('.web-form').css("display", "none");
-		$('.mobile-form').css("display", "inline-block"); 
-		$('.mobile-form').css("float", "none"); 
+		$('.web-form').hide();
+		$('.mobile-form').css(
+		{
+			"display": "inline-block",
+			"float": "none"
+		}); 
+
+		$('.inspector-web-image').hide();	
+		$('.inspector-mobile-image').css(
+		{
+			"display": "inline-block",
+			"float": "none"
+		}); 
+
+		if(max > 1){
+			$(buttons).show();
+			fillDot(1);
+		}
+
+		clickMobileDot();
+
+		$('.inspector-mobile-image').scroll(function(){
+			var totalwidth = $(this).width() * max + (8 * (max-1));
+			var scrollPercentage = 100 * $(this).scrollLeft() / totalwidth;
+			var range_size = 100/max;
+
+			for(var i=1; i<=max; i++){
+				var min_value = (range_size * (i-1));
+				var max_value = (range_size * i);
+				if(scrollPercentage >= min_value && scrollPercentage < max_value){
+					fillDot(i);
+					clickMobileDot();					
+				}
+			}
+		});
 	}
+
+	else{
+		//Showing buttons if more than one image
+		if(max > 1){
+			$(buttons).show();
+
+			$(inspector_image_url).mouseenter(function(){
+				index = parseInt($(current_example).text().substring(7));
+				$(channel_feature_no_example + index + "_backward").show(); 
+				$(channel_feature_no_example + index + "_forward").show();
+			}).mouseleave(function(){
+				index = parseInt($(current_example).text().substring(7));
+				$(channel_feature_no_example + index + "_backward").hide(); 
+				$(channel_feature_no_example + index + "_forward").hide();
+			});			
+			
+			//Setting paging dots 		
+			for(ex = 1; ex <= max; ex++){
+				var div_dots = "";
+				
+				for(i = 1; i <= max; i++){			
+					if(ex == i){
+						div_dots += "<div class='inspector-oval inspector-fill' id='example" + i + "'> </div>";
+					}
+					else{
+						div_dots += "<div class='inspector-oval' id='example" + i + "'> </div>";
+					}
+				}
+				$(channel_feature_no_example + ex +'_dots').html(div_dots);
+			}
+
+			$('.inspector-oval').click(function() {			
+				var last_ix = parseInt($(current_example).text().substring(7));
+				hideLastDivs(last_ix);
+				var my_index = parseInt($(this).attr("id").substring(7));
+				showNextDivs(my_index);
+				setDivsWithIndex(my_index);
+				setMouseOver(my_index);		
+			});	
+		}
+		else{
+			$(buttons).hide();
+		}		
+	}
+
+	//Defining Grid Channel scroll behavior
+	clicGridDot();
+	var array = $(".inspector-image-grid");
+	for(i=0; i<array.length; i++){
+		$(array[i]).scrollLeft(0);
+	}
+
+	$(".inspector-image-grid").scroll(function(){
+		var id = $(this).attr('id');
+		var channel_grid = id.split("_")[0];
+		var feature_grid = id.split("_")[1];
+		var max = parseInt(id.split("_")[2]);
+	
+		var totalwidth = ($(this).width() * max) + (8*(max-1));
+		var scrollPercentage = Math.ceil(100 * $(this).scrollLeft() / totalwidth) + 1;
+		var range_size = 100/max;
+
+		for(var i=1; i<=max; i++){
+			var min_value = (range_size * (i-1));
+			var max_value = (range_size * i);
+			if(scrollPercentage >= min_value && scrollPercentage < max_value){
+				fillGridDot(channel_grid, feature_grid, i, max);
+				clicGridDot();					
+			}
+		}
+	});
 
 	//Defining behavior for mobile-form selects.
 	$(channelslt + ' option[value=' + channel + ']').prop('selected', true);
@@ -154,7 +258,7 @@ function inspector(){
 	$('.img-button').hide();
 	$('.inspector-description').hide();
     $('.inspector-samples').hide();
-    $('.buttons').hide();
+    //$('.buttons').hide();
     $('.button').css("display", "inline-block");
 
     //Showing div with feature
@@ -168,47 +272,6 @@ function inspector(){
     $(facts).show();
     $(samples).show();
 
-    //Showing buttons if more than one image
-    if(max > 1){
-        $(buttons).show();
-
-		$(inspector_image_url).mouseenter(function(){
-			index = parseInt($(current_example).text().substring(7));
-			$(channel_feature_no_example + index + "_backward").show(); 
-			$(channel_feature_no_example + index + "_forward").show();
-		}).mouseleave(function(){
-			index = parseInt($(current_example).text().substring(7));
-			$(channel_feature_no_example + index + "_backward").hide(); 
-			$(channel_feature_no_example + index + "_forward").hide();
-		});			
-		
-		//Setting paging dots 		
-		for(ex = 1; ex <= max; ex++){
-			var div_dots = "";
-			
-			for(i = 1; i <= max; i++){			
-				if(ex == i){
-					div_dots += "<div class='inspector-oval inspector-fill' id='example" + i + "'> </div>";
-				}
-				else{
-					div_dots += "<div class='inspector-oval' id='example" + i + "'> </div>";
-				}
-			}
-			$(channel_feature_no_example + ex +'_dots').html(div_dots);
-		}
-
-		$('.inspector-oval').click(function() {			
-			var last_ix = parseInt($(current_example).text().substring(7));
-       		hideLastDivs(last_ix);
-			var my_index = parseInt($(this).attr("id").substring(7));
-			showNextDivs(my_index);
-			setDivsWithIndex(my_index);
-			setMouseOver(my_index);		
- 		});	
-    }
-    else{
-        $(buttons).hide();
-    }
 
 	//Activating Control Buttons
 	$('.img-button').click(function(){
@@ -356,10 +419,69 @@ function inspector(){
 		});			
 	}
 
+	//Filling a specific dot
+	function fillDot(index){
+		var div_dots = "";
+		for(i = 1; i <= max; i++){			
+			if(i == index){
+				div_dots += "<div class='inspector-oval inspector-fill' id='example" + i + "'> </div>";
+			}
+			else{
+				div_dots += "<div class='inspector-oval' id='example" + i + "'> </div>";
+			}
+		}
+		$(channel_feature_no_example + '1_dots').html(div_dots);
+	}
+
+	function clickMobileDot(){
+		$('.inspector-oval').click(function() {
+			var exa = $(this).attr('id');
+			var index = parseInt(exa.substring(7));			
+			var range_size = 100/max;
+			var move = ((index-1) * range_size);
+			var totalwidth = ($(".inspector-mobile-image").width() * max) + (8*(max-1));
+			$('.inspector-mobile-image').scrollLeft((move*totalwidth/100));
+		});					
+	}
+
+	//Grid function helpers
+	function fillGridDot(channel_grid, feature_grid, index, max){
+		var div_dots = "";
+		var dot_name = channel_grid + "_" + feature_grid + "_" + max + "_example";
+		for(i = 1; i <= max; i++){
+			if(i == index){
+				div_dots += "<div class='inspector-oval inspector-fill' id='" + dot_name + i + "'> </div>";
+			}
+			else{
+				div_dots += "<div class='inspector-oval' id='" + dot_name + i + "'> </div>";
+			}
+		}
+		var div_grid_dots = "#channel_" + channel_grid + "_feature_" + feature_grid + "_" + max  + "_example_example1_dots";
+		$(div_grid_dots).html(div_dots);		
+	}
+
+	function clicGridDot(){
+		$('.inspector-oval').click(function() {
+			var id = $(this).attr('id');
+			var channel_grid = id.split("_")[0];
+			var feature_grid = id.split("_")[1];
+			var max = parseInt(id.split("_")[2]);
+			var exa = id.split("_")[3];
+
+			var index = parseInt(exa.substring(7));	
+			var range_size = 100/max;
+			var move = ((index-1) * range_size);
+
+			var div_width = $('.inspector-image-grid').width();
+			var totalwidth = (div_width * max) + (8*(max-1));
+			var div_image_grid = "#" + channel_grid + "_" + feature_grid + "_" + max + "_image_grid";						
+			$(div_image_grid).scrollLeft(Math.ceil(move*totalwidth/100));
+		});
+	}	
+	
+	//Hiding Menu helper
 	function hideDDMenu(index){
-
 		$(document).off("click");
-
 		$(document).on("click", function(e) {
 			var target = "#" + e.target.id;
 			var sc =  channel_feature_no_example + index + "_select_channel";

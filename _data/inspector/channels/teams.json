@@ -2,12 +2,44 @@
     "channel_name": "teams",
     "features": [
         {
+            "feature_name": "Buttons",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Native Control.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in Teams",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }                
+            ]
+        },        
+        {
             "feature_name": "Carousel",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams can render the carousel control.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -68,8 +100,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams does not offer ChannelData functionality.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -85,8 +117,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams can display pre-formatted text blocks.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -108,8 +140,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Bots can only reply messages to a single user.",
+                    "name": "",
+                    "value": "Bots can only send messages to a single user.",
                     "detail": "",
                     "url": ""
                 }
@@ -125,8 +157,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams can send and receive files of any content type.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -148,8 +180,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams can display emoji characters.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -171,8 +203,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Yes. Bot must be enabled for groups.",
+                    "name": "",
+                    "value": "Bot must be enabled for groups.",
                     "detail": "",
                     "url": ""
                 }
@@ -188,8 +220,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a Skype Hero Card.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -241,8 +273,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams can display images.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -273,12 +305,12 @@
             ]
         },
         {
-            "feature_name": "Keyboards",
+            "feature_name": "List",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams supports Skype Hero Card buttons.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -287,7 +319,7 @@
                 {
                     "title": "example1",
                     "resource": "example1",
-                    "example_description": "General view of buttons in Teams",
+                    "example_description": "General view of a List Layout in Teams.",
                     "image_url": "example1.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
@@ -301,26 +333,21 @@
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
-                }                
-            ]
-        },
-        {
-            "feature_name": "List",
-            "external_url": "",
-            "facts": [
+                },
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of cards.",
-                    "detail": "",
-                    "url": ""
-                }
-            ],
-            "examples": [
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
                 {
-                    "title": "example1",
-                    "resource": "example1",
-                    "example_description": "General view of List in Teams.",
-                    "image_url": "example1.png",
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
@@ -332,8 +359,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams cannot send the user's location.",
+                    "name": "",
+                    "value": "Teams clients cannot share location.",
                     "detail": "",
                     "url": ""
                 }
@@ -349,8 +376,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams can render Markdown.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "url": "https://msdn.microsoft.com/en-us/microsoft-teams/bots#message-format"
                 }
             ],
@@ -398,8 +425,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams can share group member list with Bots.",
+                    "name": "",
+                    "value": "Teams can provide conversation members.",
                     "detail": "",
                     "url": ""
                 }
@@ -415,8 +442,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams cannot display receipt cards.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -432,8 +459,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a Skype Signin Card.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -449,8 +476,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as Skype Thumbnail Card.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -502,8 +529,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams can display a typing indicator.",
+                    "name": "",
+                    "value": "Teams clients can display typing indicator.",
                     "detail": "",
                     "url": ""
                 }
@@ -519,8 +546,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Teams can play video.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }

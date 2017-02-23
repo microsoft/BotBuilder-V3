@@ -2,12 +2,35 @@
     "channel_name": "slack",
     "features": [
         {
+            "feature_name": "Buttons",
+            "external_url": "https://api.slack.com/docs/message-buttons",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Native Control.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in Slack",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },        
+        {
             "feature_name": "Carousel",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of cards.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -80,8 +103,8 @@
             "external_url": "https://api.slack.com/docs/messages/builder",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Yes.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html"
                 }
@@ -103,8 +126,8 @@
             "external_url": "https://api.slack.com/docs/messages#formatting_messages",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Rendered as pre-formatted text block.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -132,7 +155,7 @@
             "external_url": "https://api.slack.com/methods/rtm.start",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "Bot can send directed messages in a group conversation.",
                     "detail": "",
                     "url": ""
@@ -155,8 +178,8 @@
             "external_url": "https://api.slack.com/docs/message-attachments",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Bot can send and receive files of any content type.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -184,8 +207,8 @@
             "external_url": "https://api.slack.com/docs/message-formatting#emoji",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Slack can render emoji.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -207,7 +230,7 @@
             "external_url": "https://api.slack.com/methods/groups.info",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "Bots can participate in group conversations.",
                     "detail": "",
                     "url": ""
@@ -224,8 +247,8 @@
             "external_url": "https://api.slack.com/docs/messages#formatting_messages",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Rendered as multiple messages.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -286,8 +309,8 @@
             "external_url": "https://api.slack.com/docs/message-attachments",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Slack can display images.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -314,35 +337,12 @@
             ]
         },
         {
-            "feature_name": "Keyboards",
-            "external_url": "https://api.slack.com/docs/message-buttons",
-            "facts": [
-                {
-                    "name": "Supported",
-                    "value": "Slack can display inline buttons.",
-                    "detail": "",
-                    "url": ""
-                }
-            ],
-            "examples": [
-                {
-                    "title": "example1",
-                    "resource": "example1",
-                    "example_description": "General view of buttons in Slack",
-                    "image_url": "example1.png",
-                    "json_url": "example1.json",
-                    "cs_url": "example1.cs",
-                    "js_url": "example1.js"
-                }
-            ]
-        },
-        {
             "feature_name": "List",
             "external_url": "https://api.slack.com/docs/message-formatting#message_formatting",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of cards.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -357,8 +357,35 @@
                 {
                     "title": "example1",
                     "resource": "example1",
-                    "example_description": "General view of a List in Slack.",
+                    "example_description": "General view of a List Layout in Slack.",
                     "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
@@ -370,8 +397,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Slack cannot share the user's location.",
+                    "name": "",
+                    "value": "Slack cannot share location.",
                     "detail": "",
                     "url": ""
                 }
@@ -387,8 +414,8 @@
             "external_url": "https://api.slack.com/docs/message-formatting#message_formatting",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Slack can render Markdown.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "url": "https://api.slack.com/docs/message-formatting#message_formatting"
                 }
             ],
@@ -436,8 +463,8 @@
             "external_url": "https://api.slack.com/methods/groups.info",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Slack can share member information with the bot.",
+                    "name": "",
+                    "value": "Slack can provide conversation members.",
                     "detail": "",
                     "url": ""
                 }
@@ -459,8 +486,8 @@
             "external_url": "https://api.slack.com/docs/messages#formatting_messages",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of messages.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -482,8 +509,8 @@
             "external_url": "https://api.slack.com/docs/messages#formatting_messages",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a message and Signin button.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -517,8 +544,8 @@
             "external_url": "https://api.slack.com/docs/messages#formatting_messages",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as multiple messages.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -570,8 +597,8 @@
             "external_url": "https://api.slack.com/events/user_typing",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Slack can display a typing indicator.",
+                    "name": "",
+                    "value": "Slack clients can display typing indicator.",
                     "detail": "",
                     "url": ""
                 }
@@ -593,8 +620,8 @@
             "external_url": "https://api.slack.com/docs/message-attachments",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Slack can play video.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },

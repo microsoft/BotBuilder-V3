@@ -235,11 +235,12 @@ img.inspector-pop-out{
 .post-content table.inspector-table tr td.fact-name{
     width: 30%;
     font-family: "Segoe UI semibold", sans-serif​​​;
-    letter-spacing: 0.2px; 
+    letter-spacing: 0.2px;
+    padding-right: 8px; 
 }
 
 .post-content table.inspector-table tr td.fact-description{
-    padding-left: 8px;
+    /*padding-left: 8px;*/
 }
 
 img.example-image{
@@ -260,6 +261,21 @@ img.example-image{
     color: white;
     text-align: center;
     vertical-align: center;
+}
+
+.inspector-mobile-image{
+    display: none;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.inspector-carousel{
+    white-space: nowrap;
+}
+
+.inspector-carousel li{
+    display: inline-block;
+    width: 100%;
 }
 
 a.link:focus, a.link:link, a.link:visited, a.link{
@@ -436,4 +452,24 @@ pre{
     .post-title{
         font-size: 28px;
     }
+}
+
+.inspector-image-grid-container{
+    display: inline-block;
+    margin-right: 24px;
+    margin-bottom: 24px;   
+}
+
+.inspector-image-grid{
+    display: inline-block;
+    max-width: 305px;
+    max-height: 540px;
+    overflow-x: scroll;
+    overflow-y: hidden;    
+}
+
+.inspector-image-grid-name{
+    font-family: "Segoe UI semibold", sans-serif​​​;
+    margin-top: 16px; 
+    margin-bottom: 8px;    
 }

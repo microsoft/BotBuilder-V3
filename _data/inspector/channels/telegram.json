@@ -2,12 +2,35 @@
     "channel_name": "telegram",
     "features": [
         {
+            "feature_name": "Buttons",
+            "external_url": "https://core.telegram.org/bots#keyboards",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Native Control.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of buttons in Telegram",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },        
+        {
             "feature_name": "Carousel",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of messages.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -56,8 +79,8 @@
             "external_url": "https://core.telegram.org/bots/api#available-methods",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Bots can send and receive Telegram-specific commands through ChannelData.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -79,8 +102,8 @@
             "external_url": "https://core.telegram.org/bots/api#formatting-options",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed a pre-formatted text block.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -102,7 +125,7 @@
             "external_url": "https://core.telegram.org/bots/api#sendmessage",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "Telegram can send a direct message to a group member.",
                     "detail": "",
                     "url": ""
@@ -125,8 +148,8 @@
             "external_url": "https://core.telegram.org/bots/api#senddocument",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Telegram can send and recieve files of any content type.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -154,8 +177,8 @@
             "external_url": "https://core.telegram.org/bots/api#sendmessage",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Telegram can display emoji.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -183,7 +206,7 @@
             "external_url": "https://core.telegram.org/bots#privacy-mode",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "Bots can listen and respond to messages inside a group. Bot must be configured to allow it.",
                     "detail": "",
                     "url": ""
@@ -200,8 +223,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of messages.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -223,8 +246,8 @@
             "external_url": "https://core.telegram.org/bots/api#sendphoto",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Telegram can display images.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -257,35 +280,12 @@
             ]
         },
         {
-            "feature_name": "Keyboards",
-            "external_url": "https://core.telegram.org/bots#keyboards",
-            "facts": [
-                {
-                    "name": "Supported",
-                    "value": "Telegram can display inline buttons.",
-                    "detail": "",
-                    "url": ""
-                }
-            ],
-            "examples": [
-                {
-                    "title": "example1",
-                    "resource": "example1",
-                    "example_description": "General view of buttons in Telegram",
-                    "image_url": "example1.png",
-                    "json_url": "example1.json",
-                    "cs_url": "example1.cs",
-                    "js_url": "example1.js"
-                }
-            ]
-        },
-        {
             "feature_name": "List",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of messages.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -300,8 +300,35 @@
                 {
                     "title": "example1",
                     "resource": "example1",
-                    "example_description": "General view of a List in Telegram.",
+                    "example_description": "General view of a List Layout in Telegram.",
                     "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
@@ -313,8 +340,8 @@
             "external_url": "https://core.telegram.org/bots/api#sendlocation",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Mobile Telegram clients send user's location.",
+                    "name": "",
+                    "value": "Telegram can share location. (mobile-only)",
                     "detail": "",
                     "url": ""
                 }
@@ -335,8 +362,8 @@
             "external_url": "https://core.telegram.org/bots/api#markdown-style",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Telegram can render Markdown."
+                    "name": "Appearance",
+                    "value": "Native Control."
                 }
             ],
             "examples": [
@@ -392,8 +419,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Telegram does not support querying for group members.",
+                    "name": "",
+                    "value": "Telegram cannot provide conversation members.",
                     "detail": "",
                     "url": ""
                 }
@@ -409,8 +436,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of messages.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -432,8 +459,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a message and Signin button.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -455,8 +482,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of messages.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -490,8 +517,8 @@
             "external_url": "https://core.telegram.org/bots/api#sendchataction",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Telegram can display a typing indicator.",
+                    "name": "",
+                    "value": "Telegram clients can display typing indicator.",
                     "detail": "",
                     "url": ""
                 }
@@ -531,8 +558,8 @@
             "external_url": "https://core.telegram.org/bots/api#sendvideo",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Telegram can play video.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }

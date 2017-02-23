@@ -2,12 +2,40 @@
     "channel_name": "kik",
     "features": [
         {
+            "feature_name": "Buttons",
+            "external_url": "https://dev.kik.com/#/docs/messaging#keyboards",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Native Control.",
+                    "detail": "",
+                    "url": ""
+                },
+                {
+                    "name": "Buttons",
+                    "value": "Max 20 buttons, Appearance: imback and postback",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General View of Keyboard in Kik",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "js_url": "example1.js"
+                }
+            ]
+        },        
+        {
             "feature_name": "Carousel",
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of cards.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -59,8 +87,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Not supported.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -76,8 +104,8 @@
             "external_url": "https://dev.kik.com/#/docs/messaging#message-formats",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as plain text.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -99,7 +127,7 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "Kik does not support group conversations. All messages are one-to-one.",
                     "detail": "",
                     "url": ""
@@ -116,8 +144,8 @@
             "external_url": "https://dev.kik.com/#/docs/messaging#message-formats",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Kik is able to send and receive files of any content type.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -139,8 +167,8 @@
             "external_url": "https://dev.kik.com/#/docs/messaging#message-formats",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Kik can display emoji.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
@@ -162,7 +190,7 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
+                    "name": "",
                     "value": "Kik does not support group conversations.",
                     "detail": "",
                     "url": ""
@@ -179,8 +207,8 @@
             "external_url": "https://dev.kik.com/#/docs/messaging#link",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Message displayed as Kik Link Card.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -214,8 +242,8 @@
             "external_url": "https://dev.kik.com/#/docs/messaging#picture",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Kik can display images.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 },
@@ -248,40 +276,12 @@
             ]
         },
         {
-            "feature_name": "Keyboards",
-            "external_url": "https://dev.kik.com/#/docs/messaging#keyboards",
-            "facts": [
-                {
-                    "name": "Supported",
-                    "value": "Kik supports a popup keyboard. Does not support inline buttons.",
-                    "detail": "",
-                    "url": ""
-                },
-                {
-                    "name": "Buttons",
-                    "value": "Max 20 buttons, Supported: imback and postback",
-                    "detail": "",
-                    "url": ""
-                }
-            ],
-            "examples": [
-                {
-                    "title": "example1",
-                    "resource": "example1",
-                    "example_description": "General View of Keyboard in Kik",
-                    "image_url": "example1.png",
-                    "json_url": "example1.json",
-                    "js_url": "example1.js"
-                }
-            ]
-        },
-        {
             "feature_name": "List",
             "external_url": "https://dev.kik.com/#/docs/messaging#text",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of cards.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -290,8 +290,35 @@
                 {
                     "title": "example1",
                     "resource": "example1",
-                    "example_description": "General view of a List in Kik.",
+                    "example_description": "General view of a List Layout in Kik.",
                     "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
@@ -303,8 +330,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Kik cannot share the user's location.",
+                    "name": "",
+                    "value": "Kik clients cannot share location.",
                     "detail": "",
                     "url": ""
                 }
@@ -320,8 +347,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Kik does not support markdown formatting.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -343,8 +370,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "All chats are one-to-one.",
+                    "name": "",
+                    "value": "Kik can provide conversation members.",
                     "detail": "",
                     "url": ""
                 }
@@ -360,8 +387,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a list of cards.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -407,8 +434,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a card with keyboard.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 }
@@ -430,8 +457,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Displayed as a Kik Link Card.",
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
                     "detail": "",
                     "url": ""
                 },
@@ -471,8 +498,8 @@
             "external_url": "https://dev.kik.com/#/docs/messaging#is-typing",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Kik can display a typing indicator.",
+                    "name": "",
+                    "value": "Kik clients can display typing indicator.",
                     "detail": "",
                     "url": ""
                 }
@@ -494,8 +521,8 @@
             "external_url": "https://dev.kik.com/#/docs/messaging#video",
             "facts": [
                 {
-                    "name": "Supported",
-                    "value": "Kik can play video.",
+                    "name": "Appearance",
+                    "value": "Native Control.",
                     "detail": "",
                     "url": ""
                 }
