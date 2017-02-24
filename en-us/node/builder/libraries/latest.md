@@ -22,6 +22,66 @@ Get the latest version of Bot Builder using npm.
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+### v3.7.0
+
+#### Changes
+* Added prompt locale files for PT (Portuguese) language.
+* Added new Intent Forwarding feature that lets middleware forward intents to the message router.
+* Simplified the build process.
+* Fixed a bug in Session.validateDialogStack() that was causing it to always succeed.
+* Added a ducktyping check to the RegExpRecognizer to fix an issue on Node-RED.
+* Removed the deprecated node-uuid module that we weren't even using anymore.
+* Added logic to Prompts to validate that the session object is passed in and throw a more meaningful error message when it's not. 
+* Updated package.json version.
+
+### v3.6.0
+
+#### Changes
+* Fixed a bug causing global recognizers to be run twice..
+* Added a new UniversalBot.loadSession() method to let you load a session object for an address.
+* Added a new ChatConnector.onInvoke() callback for use with the protocols new invoke activity type..
+* Updated LKG build and package.json version.
+
+### v3.5.4
+
+#### Bug Fixes
+* Fix bug where service url is modified in Teams, breaking even basic bots in Teams
+
+### v3.5.3
+
+#### New Features
+* All new customizable routing system.
+* UniversalBot now derives from Library so you can easily aggregate child libraries and bots under a single parent bot.
+* Added support for registering recognizers globally.
+* Added new `Dialog.triggerAction()` for specifying rules that auto launch dialogs based on a users utterance.
+* All actions are now customizable.
+* Added `confirmPrompt` to `Dialog.cancelAction()`.
+* New `Session` methods for saving and replacing dialog stacks.
+* Expanded IRecognizeContext object to be just a read-only version of the session.
+* Simplified creation of basic send/receive bot: Added ability to pass default dialog to `UniversalBot` constructor and deprecated passing of additional settings.
+* Added new `UnoversalBot.onDisambiguateRoute` hook. 
+* Added new `MediaCard` classes for building media card attachments.
+* Added support for French to the built-in prompts.
+* Added support for cloning a library or bot.
+
+#### Bug Fixes
+* Updated `LuisRecognizer` to support v2 URL's.
+* Fixed issue with localization namespace not being found on macs. 
+* Fixed an issue with the session always assuming '*' as the root namespace.
+* Chat connector fix for case sensitive Authorization header. 
+* Several localization related fixes uncovered by new unit tests.
+* Fix `EntityRecognizer` is very relaxed when parsing affirmative/negative.
+* Fix bug in url joining where the last part of the service uri gets lost due to `url.resolve` behavior.
+* Fixes related to the move to TypeScript 2.1.
+
+#### Other Changes
+* Upgrade Node.js Bot Builder to v3.1 auth.
+* Added passing of `user-agent` header in `ChatConnector` calls.
+* Added several new feature specific examples.
+* Updated all examples to use new 3.5 features.
+* Added several new unit tests.
+* Updated `Channel.ts` to reflect latest capabilities. 
+
 ### v3.4.2
 * Fixed an exception being raised for bots without a default locale.
 * Fixed an inadvertent rename of `Library.name` to `Library.namespace` in the libraries typescript definition file.
