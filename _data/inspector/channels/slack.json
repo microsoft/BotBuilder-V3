@@ -103,8 +103,8 @@
             "external_url": "https://api.slack.com/docs/messages/builder",
             "facts": [
                 {
-                    "name": "Appearance",
-                    "value": "Native Control.",
+                    "name": "",
+                    "value": "Additional Slack channel functionality is accessible from ChannelData.",
                     "detail": "",
                     "url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html"
                 }
@@ -179,7 +179,7 @@
             "facts": [
                 {
                     "name": "Appearance",
-                    "value": "Native Control.",
+                    "value": "Links in text are clickable.",
                     "detail": "",
                     "url": ""
                 },
@@ -208,7 +208,7 @@
             "facts": [
                 {
                     "name": "Appearance",
-                    "value": "Native Control.",
+                    "value": "Slack clients can display emojis.",
                     "detail": "",
                     "url": ""
                 }

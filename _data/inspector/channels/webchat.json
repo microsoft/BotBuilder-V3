@@ -79,8 +79,8 @@
             "external_url": "",
             "facts": [
                 {
-                    "name": "Appearance",
-                    "value": "Down-rendered.",
+                    "name": "",
+                    "value": "No more channel functionality is accessible from ChannelData.",
                     "detail": "",
                     "url": ""
                 }
@@ -154,7 +154,7 @@
             "facts": [
                 {
                     "name": "Appearance",
-                    "value": "Native Control.",
+                    "value": "Web Chat can display emojis.",
                     "detail": "",
                     "url": ""
                 }

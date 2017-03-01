@@ -133,8 +133,8 @@ function inspector(){
 			"float": "none"
 		}); 
 
-		$('.inspector-web-image').hide();	
-		$('.inspector-mobile-image').css(
+		$('.inspector-web-image').hide();
+		$('.inspector-mobile-snap-container').css(
 		{
 			"display": "inline-block",
 			"float": "none"
@@ -146,18 +146,17 @@ function inspector(){
 		}
 
 		clickMobileDot();
-
-		$('.inspector-mobile-image').scroll(function(){
-			var totalwidth = $(this).width() * max + (8 * (max-1));
+		$('.inspector-mobile-snap-container').scroll(function(){
+			var totalwidth = $(this).width() * max;
 			var scrollPercentage = 100 * $(this).scrollLeft() / totalwidth;
 			var range_size = 100/max;
 
 			for(var i=1; i<=max; i++){
-				var min_value = (range_size * (i-1));
-				var max_value = (range_size * i);
+				var min_value = range_size * (i-1);
+				var max_value = range_size * i;
 				if(scrollPercentage >= min_value && scrollPercentage < max_value){
 					fillDot(i);
-					clickMobileDot();					
+					clickMobileDot();
 				}
 			}
 		});
@@ -438,9 +437,9 @@ function inspector(){
 			var exa = $(this).attr('id');
 			var index = parseInt(exa.substring(7));			
 			var range_size = 100/max;
-			var move = ((index-1) * range_size);
-			var totalwidth = ($(".inspector-mobile-image").width() * max) + (8*(max-1));
-			$('.inspector-mobile-image').scrollLeft((move*totalwidth/100));
+			var move = Math.ceil((index-1) * range_size);
+			var totalwidth = $(inspector_image_url + " .inspector-mobile-snap-container").width() * max;
+			$(".inspector-mobile-snap-container").scrollLeft(move*totalwidth/100);
 		});					
 	}
 

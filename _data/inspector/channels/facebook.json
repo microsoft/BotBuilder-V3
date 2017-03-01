@@ -109,8 +109,8 @@
             "external_url": "https://developers.facebook.com/docs/messenger-platform/send-api-reference",
             "facts": [
                 {
-                    "name": "Appearance",
-                    "value": "Native Control.",
+                    "name": "",
+                    "value": "Additional Facebook channel functionality is accessible from ChannelData.",
                     "detail": "",
                     "url": ""
                 }
@@ -188,7 +188,7 @@
             "facts": [
                 {
                     "name": "Appearance",
-                    "value": "Native Control.",
+                    "value": "Links in text are clickable.",
                     "detail": "",
                     "url": ""
                 },
@@ -217,7 +217,7 @@
             "facts": [
                 {
                     "name": "Appearance",
-                    "value": "Facebook can render emoji.",
+                    "value": "Facebook clients can display emojis.",
                     "detail": "",
                     "url": ""
                 }

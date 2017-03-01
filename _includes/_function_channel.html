@@ -41,18 +41,16 @@
                                 <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_forward" class="img-button button-forward"><img src="/en-us/images/inspector/buttons/flipper-right.svg"/></div>
                                 {% endif %}                                
                             </div>
-                            <div class="inspector-mobile-image">
-                                <ul class="inspector-carousel">
+                            <div class="inspector-mobile-snap-container">
                                 {% for ex in feature.examples %}
-                                    <li>
+                                    <div class="inspector-child">
                                     {% if ex.title != "noexample" %}
                                     <img class="example-image" name="{{ex.title}}" id="{{ex.title}}" src="/en-us/images/inspector/{{include.channel_selected}}/{{feature.feature_name}}/{{ex.title}}.png" />
                                     {% else %}
                                     <img class="example-image" name="no_image" id="no_image" src="/en-us/images/inspector/NoImage/no-preview.png" />
                                     {% endif %}
-                                    </li>                                    
-                                {% endfor %}
-                                </ul>
+                                    </div>
+                                {% endfor %} 
                             </div>
                         </div>
                         <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_buttons" class="buttons">

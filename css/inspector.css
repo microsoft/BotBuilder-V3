@@ -263,19 +263,28 @@ img.example-image{
     vertical-align: center;
 }
 
-.inspector-mobile-image{
+.inspector-mobile-snap-container{
     display: none;
+    position: relative;
     overflow-x: scroll;
     overflow-y: hidden;
-}
-
-.inspector-carousel{
     white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    -webkit-scroll-snap-type: mandatory;
+    scroll-snap-type: x mandatory;
+    -webkit-scroll-snap-destination: 50% 50%;
+    scroll-snap-destination: 50% 50%;
 }
 
-.inspector-carousel li{
-    display: inline-block;
+.inspector-child{
+    position: relative;
     width: 100%;
+    white-space: nowrap;
+    display: inline-block;
+    margin-right: -4px;
+    -webkit-scroll-snap-coordinate: 50% 50%;
+    scroll-snap-coordinate: 50% 50%;
+    scroll-snap-align: center;
 }
 
 a.link:focus, a.link:link, a.link:visited, a.link{

@@ -79,8 +79,8 @@
             "external_url": "https://core.telegram.org/bots/api#available-methods",
             "facts": [
                 {
-                    "name": "Appearance",
-                    "value": "Native Control.",
+                    "name": "",
+                    "value": "Additional Telegram channel functionality is accessible from ChannelData.",
                     "detail": "",
                     "url": ""
                 }
@@ -149,7 +149,7 @@
             "facts": [
                 {
                     "name": "Appearance",
-                    "value": "Native Control.",
+                    "value": "Links in text are clickable.",
                     "detail": "",
                     "url": ""
                 },
@@ -178,7 +178,7 @@
             "facts": [
                 {
                     "name": "Appearance",
-                    "value": "Native Control.",
+                    "value": "Telegram clients can display emojis.",
                     "detail": "",
                     "url": ""
                 },
