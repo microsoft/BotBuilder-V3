@@ -64,6 +64,10 @@ This can be as simple as using the [Serializable] attribute on your IDialog impl
 
 When the user sends a message over a channel, the Bot Framework web service will make an HTTPS post to your Bot's web service endpoint.  During this HTTPS method call, your Bot's code may send zero, one, or many messages back to the user on that channel.  Each one of these messages is a separate HTTPS post back to the Bot Framework.
 
+## How can I support multiple bots at the same bot service endpoint?
+
+Take a look at this [comment](https://github.com/Microsoft/BotBuilder/issues/2258#issuecomment-280506334).
+
 ## My bot is slow to respond to the first message it receives. How can I make it faster?
 
 Bots are web services and some hosting platforms (Azure and others) will automatically put the service to sleep if it does not receive traffic for a period of time. When the next message reaches the bot, the bot's code must be started from scratch, which is typically much slower than if the bot was already running.
@@ -79,7 +83,6 @@ The Bot Framework will preserve message ordering to the extent possible, such th
 ## What is the difference between the "Bot Url" and "Emulator Url" in the emulator?
 
 The "Bot Url" is the web service url that executes your Bot's code.  The "Emulator Url" is a *different* web service url that emulates the Bot Framework Connector service.  They should not be the same.  Generally, you will want to leave the "Emulator Url" as the default value, and update the "Bot Url" to the url for your Bot web service.
-
 
 ## What is the difference between the Connector and Builder library in the SDK?
 
