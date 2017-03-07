@@ -417,19 +417,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
-    /// <summary>
-    /// This dialog task loads the dialog stack from <see cref="IBotData"/> before handling the incoming
-    /// activity and saves the dialog stack to <see cref="IBotData"/> afterwards. 
-    /// </summary>
-    public sealed class PersistentDialogTask : IPostToBot
+    public sealed class EventLoopDialogTask : IPostToBot
     {
         private readonly Lazy<IEventLoop> inner;
         private readonly IEventProducer<IActivity> queue;
-        private readonly IBotData botData;
-
-        public PersistentDialogTask(Func<IEventLoop> makeInner, IEventProducer<IActivity> queue, IBotData botData)
+        public EventLoopDialogTask(Func<IEventLoop> makeInner, IEventProducer<IActivity> queue, IBotData botData)
         {
-            SetField.NotNull(out this.botData, nameof(botData), botData);
             SetField.NotNull(out this.queue, nameof(queue), queue);
             SetField.CheckNull(nameof(makeInner), makeInner);
             this.inner = new Lazy<IEventLoop>(() => makeInner());
@@ -437,12 +430,33 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
+            this.queue.Post(activity);
+            var loop = this.inner.Value;
+            await loop.PollAsync(token);
+        }
+    }
+
+    /// <summary>
+    /// This dialog task loads the dialog stack from <see cref="IBotData"/> before handling the incoming
+    /// activity and saves the dialog stack to <see cref="IBotData"/> afterwards. 
+    /// </summary>
+    public sealed class PersistentDialogTask : IPostToBot
+    {
+        private readonly IPostToBot inner;
+        private readonly IBotData botData;
+
+        public PersistentDialogTask(IPostToBot inner, IBotData botData)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.botData, nameof(botData), botData);
+        }
+
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
+        {
             await botData.LoadAsync(token);
             try
             {
-                this.queue.Post(activity);
-                var loop = this.inner.Value;
-                await loop.PollAsync(token);
+                await this.inner.PostAsync(activity, token);
             }
             finally
             {

@@ -32,22 +32,22 @@
 //
 
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Bot.Connector;
-using Moq;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.Rest;
-using System.Net.Http;
-using System.Net;
+using System.Web;
 using Autofac;
+using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Dialogs;
-using System.Text.RegularExpressions;
-using System.Collections.Concurrent;
-using System.Web;
+using Microsoft.Bot.Connector;
+using Microsoft.Rest;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -314,16 +314,23 @@ namespace Microsoft.Bot.Builder.Tests
 
                     await Conversation.SendAsync(scope, msg);
                     var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
+
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync(default(CancellationToken));
+                    var dataBag = scope.Resolve<Func<IBotDataBag>>()();
+                    Assert.IsTrue(dataBag.ContainsKey(ResumptionContext.RESUMPTION_CONTEXT_KEY));
+                    Assert.IsNotNull(scope.Resolve<ConversationReference>());
                 }
 
-                var resumptionCookie = new ResumptionCookie(msg);
-                var continuationMessage = resumptionCookie.GetMessage();
+                var conversationReference = msg.ToConversationReference();
+                var continuationMessage = conversationReference.GetPostToBotMessage();
                 using (var scope = DialogModule.BeginLifetimeScope(container, continuationMessage))
                 {
                     Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };
                     scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
 
-                    await Conversation.ResumeAsync(scope, continuationMessage, new Activity { Text = "resume" });
+                    await scope.Resolve<IPostToBot>().PostAsync(new Activity { Text = "resume" }, CancellationToken.None);
+
                     var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                     Assert.AreEqual("resumed!", reply.Text);
 

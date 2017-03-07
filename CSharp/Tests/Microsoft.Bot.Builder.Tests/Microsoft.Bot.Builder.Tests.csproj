@@ -186,6 +186,9 @@
     <None Include="Scripts\SimpleForm-dependency.script">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\SimpleForm-Limits.script">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\SimpleForm-next.script">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

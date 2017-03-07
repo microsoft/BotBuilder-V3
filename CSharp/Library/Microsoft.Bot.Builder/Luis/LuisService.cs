@@ -36,12 +36,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-
-using Newtonsoft.Json;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Rest;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Luis
 {
@@ -125,10 +123,12 @@ namespace Microsoft.Bot.Builder.Luis
             var id = Uri.EscapeDataString(model.ModelID);
             switch (model.ApiVersion)
             {
+#pragma warning disable CS0612
                 case LuisApiVersion.V1:
                     builder = new UriBuilder(model.UriBase);
                     queryParameters.Add($"id={id}");
                     break;
+#pragma warning restore CS0612
                 case LuisApiVersion.V2:
                     //v2.0 have the model as path parameter
                     builder = new UriBuilder(new Uri(model.UriBase, id));
@@ -253,7 +253,7 @@ namespace Microsoft.Bot.Builder.Luis
             var uri = service.BuildUri(new LuisRequest(query: text));
             return await service.QueryAsync(uri, token);
         }
-        
+
         /// <summary>
         /// Builds luis uri with text query.
         /// </summary>

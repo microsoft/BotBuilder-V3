@@ -397,6 +397,45 @@ Is this what you wanted? {||}")
         }
 
         [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-Limits.script")]
+        public async Task SimpleForm_Limits_Script()
+        {
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
+                "en-us",
+                () => new FormBuilder<SimpleForm>().Build(),
+                FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+                "hi",
+                "integer",
+                // Test the limits of int vs long
+                ((long)int.MaxValue + 1).ToString(),
+                ((long)int.MinValue - 1).ToString(),
+
+                // Test the limits beyond long
+                long.MaxValue.ToString() + "1",
+                long.MinValue.ToString() + "1",
+
+                // Min and max accepted values
+                int.MaxValue.ToString(),
+                "back",
+                int.MinValue.ToString(),
+
+                // Test the limits of float vs. double
+                ((double)float.MaxValue + 1.0).ToString(),
+                ((double)float.MinValue * 2.0).ToString(),
+
+                // Test limits beyond double
+                (double.MaxValue).ToString().Replace("308", "309"),
+                (double.MinValue).ToString().Replace("308", "309"),
+                
+                // Min and max accepted values
+                float.MaxValue.ToString(),
+                "back",
+                float.MinValue.ToString(),
+                "quit");
+          }
+
+        [TestMethod]
         [DeploymentItem(@"Scripts\PizzaForm.script")]
         public async Task Pizza_Script()
         {

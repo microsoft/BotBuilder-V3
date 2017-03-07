@@ -1,15 +1,15 @@
-﻿using Autofac;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Connector;
-using System;
-using System.Configuration;
+﻿using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
+
+using Autofac;
+using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
 {
@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/OAuthCallback")]
-        public async Task<HttpResponseMessage> OAuthCallback([FromUri] string userId, [FromUri] string botId, [FromUri] string conversationId, [FromUri] string channelId, [FromUri] string serviceUrl, [FromUri] string locale, [FromUri] string code, [FromUri] string state, CancellationToken token)
+        public async Task<HttpResponseMessage> OAuthCallback([FromUri] string userId, [FromUri] string botId, [FromUri] string conversationId, [FromUri] string channelId, [FromUri] string serviceUrl, [FromUri] string code, [FromUri] string state, CancellationToken token)
         {
             // Get the resumption cookie
             var address = new Address
@@ -37,23 +37,23 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot.Controllers
                     conversationId: FacebookHelpers.TokenDecoder(conversationId),
                     serviceUrl: FacebookHelpers.TokenDecoder(serviceUrl)
                 );
-            var resumptionCookie = new ResumptionCookie(address, userName: null, isGroup: false, locale: locale);
+            var conversationReference = address.ToConversationReference();
 
             // Exchange the Facebook Auth code with Access token
-            var accessToken = await FacebookHelpers.ExchangeCodeForAccessToken(resumptionCookie, code, SimpleFacebookAuthDialog.FacebookOauthCallback.ToString());
+            var accessToken = await FacebookHelpers.ExchangeCodeForAccessToken(conversationReference, code, SimpleFacebookAuthDialog.FacebookOauthCallback.ToString());
 
             // Create the message that is send to conversation to resume the login flow
-            var msg = resumptionCookie.GetMessage();
+            var msg = conversationReference.GetPostToBotMessage();
             msg.Text = $"token:{accessToken.AccessToken}";
 
             // Resume the conversation to SimpleFacebookAuthDialog
-            await Conversation.ResumeAsync(resumptionCookie, msg);
+            await Conversation.ResumeAsync(conversationReference, msg);
 
             using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, msg))
             {
                 var dataBag = scope.Resolve<IBotData>();
                 await dataBag.LoadAsync(token);
-                ResumptionCookie pending;
+                ConversationReference pending;
                 if (dataBag.PrivateConversationData.TryGetValue("persistedCookie", out pending))
                 {
                     // remove persisted cookie

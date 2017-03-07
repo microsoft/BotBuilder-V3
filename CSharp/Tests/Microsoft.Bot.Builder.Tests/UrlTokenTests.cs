@@ -31,7 +31,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.ConnectorEx;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -56,15 +58,9 @@ namespace Microsoft.Bot.Builder.Tests
 
         }
 
-        public static ResumptionCookie MakeCookie()
+        public static ConversationReference MakeCookie()
         {
-            return new ResumptionCookie
-                (
-                address: MakeAddress(),
-                userName: "test user name",
-                isGroup: true,
-                locale: "test locale"
-                );
+            return MakeAddress().ToConversationReference();
         }
 
         [TestMethod]
@@ -77,12 +73,12 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        public void UrlToken_Can_Serialize_ResumptionCookie()
+        public void UrlToken_Can_Serialize_ConversationReference()
         {
             // https://github.com/Microsoft/BotBuilder/pull/1279
             var expected = MakeCookie();
             var encoded = UrlToken.Encode(expected);
-            var actual = UrlToken.Decode<ResumptionCookie>(encoded);
+            var actual = UrlToken.Decode<ConversationReference>(encoded);
             Assert.AreEqual(expected, actual);
         }
     }

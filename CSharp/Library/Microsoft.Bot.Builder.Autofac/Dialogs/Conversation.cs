@@ -31,14 +31,13 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Autofac;
-using Microsoft.Bot.Builder.Base;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Connector;
 using System;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
+using Autofac;
+using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -86,47 +85,40 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// Resume a conversation and post the data to the dialog waiting.
         /// </summary>
-        /// <param name="resumptionCookie"> The id of the bot.</param>
+        /// <param name="resumptionCookie"> The resumption cookie.</param>
         /// <param name="toBot"> The data sent to bot.</param>
         /// <param name="token"> The cancellation token.</param>
         /// <returns> A task that represent the message to send back to the user after resumption of the conversation.</returns>
+        [Obsolete("Use the overload that uses ConversationReference instead of ResumptionCookie")]
         public static async Task ResumeAsync(ResumptionCookie resumptionCookie, IActivity toBot, CancellationToken token = default(CancellationToken))
         {
-            if (resumptionCookie.IsTrustedServiceUrl)
-            {
-                MicrosoftAppCredentials.TrustServiceUrl(resumptionCookie.Address.ServiceUrl);
-            }
+            var conversationRef = resumptionCookie.ToConversationReference();
+            await ResumeAsync(conversationRef, toBot, token);
+        }
 
-            var continuationMessage = resumptionCookie.GetMessage();
+        /// <summary>
+        /// Resume a conversation and post the data to the dialog waiting.
+        /// </summary>
+        /// <param name="conversationReference"> The resumption cookie.</param>
+        /// <param name="toBot"> The data sent to bot.</param>
+        /// <param name="token"> The cancellation token.</param>
+        /// <returns> A task that represent the message to send back to the user after resumption of the conversation.</returns>
+        public static async Task ResumeAsync(ConversationReference conversationReference, IActivity toBot, CancellationToken token = default(CancellationToken))
+        {
+            var continuationMessage = conversationReference.GetPostToBotMessage();
             using (var scope = DialogModule.BeginLifetimeScope(Container, continuationMessage))
             {
                 Func<IDialog<object>> MakeRoot = () => { throw new InvalidOperationException(); };
                 DialogModule_MakeRoot.Register(scope, MakeRoot);
 
-                await ResumeAsync(scope, continuationMessage, toBot, token);
+                await SendAsync(scope, toBot, token);
             }
         }
 
-        internal static async Task SendAsync(ILifetimeScope scope, IMessageActivity toBot, CancellationToken token = default(CancellationToken))
+        internal static async Task SendAsync(ILifetimeScope scope, IActivity toBot, CancellationToken token = default(CancellationToken))
         {
-            using (new LocalizedScope(toBot.Locale))
-            {
-                var task = scope.Resolve<IPostToBot>();
-                await task.PostAsync(toBot, token);
-            }
-        }
-
-        internal static async Task ResumeAsync(ILifetimeScope scope, IMessageActivity continuationMessage, IActivity toBot, CancellationToken token = default(CancellationToken))
-        {
-            var client = scope.Resolve<IConnectorClient>();
-            var botData = scope.Resolve<IBotData>();
-            await botData.LoadAsync(token);
-
-            using (new LocalizedScope(continuationMessage.Locale))
-            {
-                var task = scope.Resolve<IPostToBot>();
-                await task.PostAsync(toBot, token);
-            }
+            var task = scope.Resolve<IPostToBot>();
+            await task.PostAsync(toBot, token);
         }
     }
 }

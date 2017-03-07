@@ -604,7 +604,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             long number;
             if (long.TryParse(input, NumberStyles.Integer, Thread.CurrentThread.CurrentUICulture.NumberFormat, out number))
             {
-                if (!_showLimits || (number >= _min && number <= _max))
+                if (number >= _min && number <= _max)
                 {
                     result = new TermMatch(0, input.Length, 1.0, number);
                 }
@@ -668,7 +668,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             double number;
             if (double.TryParse(input, NumberStyles.Float, Thread.CurrentThread.CurrentUICulture.NumberFormat, out number))
             {
-                if (!_showLimits || (number >= _min && number <= _max))
+                if (number >= _min && number <= _max)
                 {
                     result = new TermMatch(0, input.Length, 1.0, number);
                 }

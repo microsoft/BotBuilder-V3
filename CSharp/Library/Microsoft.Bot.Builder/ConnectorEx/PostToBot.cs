@@ -31,18 +31,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Builder.Base;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Connector;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Mime;
 using System.Resources;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Base;
+using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -81,15 +79,18 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public sealed class SetAmbientThreadCulture : IPostToBot
     {
         private readonly IPostToBot inner;
+        private readonly ILocaleFinder localeFinder;
 
-        public SetAmbientThreadCulture(IPostToBot inner)
+        public SetAmbientThreadCulture(IPostToBot inner, ILocaleFinder localeFinder)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.localeFinder, nameof(localeFinder), localeFinder);
         }
 
         async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
         {
-            using (new LocalizedScope((activity as IMessageActivity)?.Locale))
+            var locale = await this.localeFinder.FindLocale(activity, token);
+            using (var localeScope = new LocalizedScope(locale))
             {
                 await this.inner.PostAsync(activity, token);
             }

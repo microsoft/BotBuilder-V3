@@ -1,13 +1,10 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net.Http;
-using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
 {
@@ -50,9 +47,9 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
         // The Facebook App Secret
         public static readonly string FacebookAppSecret = "YOUR_FACEBOOK_APP_SECRET";
 
-        public async static Task<FacebookAcessToken> ExchangeCodeForAccessToken(ResumptionCookie resumptionCookie, string code, string facebookOauthCallback)
+        public async static Task<FacebookAcessToken> ExchangeCodeForAccessToken(ConversationReference conversationReference, string code, string facebookOauthCallback)
         {
-            var redirectUri = GetOAuthCallBack(resumptionCookie, facebookOauthCallback);
+            var redirectUri = GetOAuthCallBack(conversationReference, facebookOauthCallback);
             var uri = GetUri("https://graph.facebook.com/v2.3/oauth/access_token",
                 Tuple.Create("client_id", FacebookAppId),
                 Tuple.Create("redirect_uri", redirectUri),
@@ -83,15 +80,14 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             return res.Name;
         }
 
-        private static string GetOAuthCallBack(ResumptionCookie resumptionCookie, string facebookOauthCallback)
+        private static string GetOAuthCallBack(ConversationReference conversationReference, string facebookOauthCallback)
         {
             var uri = GetUri(facebookOauthCallback,
-                Tuple.Create("userId", TokenEncoder(resumptionCookie.Address.UserId)),
-                Tuple.Create("botId", TokenEncoder(resumptionCookie.Address.BotId)),
-                Tuple.Create("conversationId", TokenEncoder(resumptionCookie.Address.ConversationId)),
-                Tuple.Create("serviceUrl", TokenEncoder(resumptionCookie.Address.ServiceUrl)),
-                Tuple.Create("channelId", resumptionCookie.Address.ChannelId),
-                Tuple.Create("locale", resumptionCookie.Locale ?? "en")
+                Tuple.Create("userId", TokenEncoder(conversationReference.User.Id)),
+                Tuple.Create("botId", TokenEncoder(conversationReference.Bot.Id)),
+                Tuple.Create("conversationId", TokenEncoder(conversationReference.Conversation.Id)),
+                Tuple.Create("serviceUrl", TokenEncoder(conversationReference.ServiceUrl)),
+                Tuple.Create("channelId", conversationReference.ChannelId)
                 );
             return uri.ToString();
         }
@@ -108,9 +104,9 @@ namespace Microsoft.Bot.Sample.SimpleFacebookAuthBot
             return Encoding.UTF8.GetString(HttpServerUtility.UrlTokenDecode(token));
         }
 
-        public static string GetFacebookLoginURL(ResumptionCookie resumptionCookie, string facebookOauthCallback)
+        public static string GetFacebookLoginURL(ConversationReference conversationReference, string facebookOauthCallback)
         {
-            var redirectUri = GetOAuthCallBack(resumptionCookie, facebookOauthCallback);
+            var redirectUri = GetOAuthCallBack(conversationReference, facebookOauthCallback);
             var uri = GetUri("https://www.facebook.com/dialog/oauth",
                 Tuple.Create("client_id", FacebookAppId),
                 Tuple.Create("redirect_uri", redirectUri),
