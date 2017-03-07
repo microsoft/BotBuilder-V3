@@ -33,9 +33,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Luis
@@ -45,6 +42,7 @@ namespace Microsoft.Bot.Builder.Luis
     /// </summary>
     public enum LuisApiVersion
     {
+        [Obsolete]
         V1,
         V2
     }
@@ -88,7 +86,7 @@ namespace Microsoft.Bot.Builder.Luis
         private readonly string subscriptionKey;
         public string SubscriptionKey => subscriptionKey;
 
-        private readonly Uri uriBase; 
+        private readonly Uri uriBase;
         public Uri UriBase => uriBase;
 
         private readonly LuisApiVersion apiVersion;
@@ -96,10 +94,12 @@ namespace Microsoft.Bot.Builder.Luis
 
         public static readonly IReadOnlyDictionary<LuisApiVersion, Uri> LuisEndpoints = new Dictionary<LuisApiVersion, Uri>()
         {
+            #pragma warning disable CS0612
             {LuisApiVersion.V1, new Uri("https://api.projectoxford.ai/luis/v1/application")},
-            {LuisApiVersion.V2, new Uri("https://api.projectoxford.ai/luis/v2.0/apps/")}
+            #pragma warning restore CS0612
+            {LuisApiVersion.V2, new Uri("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/")}
         };
-        
+
         /// <summary>
         /// Construct the LUIS model information.
         /// </summary>
@@ -131,9 +131,9 @@ namespace Microsoft.Bot.Builder.Luis
 
         public override int GetHashCode()
         {
-            return ModelID.GetHashCode() 
-                ^ SubscriptionKey.GetHashCode() 
-                ^ UriBase.GetHashCode() 
+            return ModelID.GetHashCode()
+                ^ SubscriptionKey.GetHashCode()
+                ^ UriBase.GetHashCode()
                 ^ ApiVersion.GetHashCode();
         }
     }
