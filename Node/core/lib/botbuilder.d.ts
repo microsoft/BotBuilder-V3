@@ -407,8 +407,14 @@ export interface IRecognizeContext {
     /** Private conversation data that's only visible to the user. */
     privateConversationData: any;
 
+    /** Data for the active dialog. */
+    dialogData: any;
+
     /** The localizer for the session. */
-    localizer: ILocalizer ;    
+    localizer: ILocalizer;
+
+    /** The current session logger. */
+    logger: SessionLogger;
 
     /** Returns the users preferred locale. */
     preferredLocale(): string;
@@ -1071,6 +1077,11 @@ export interface IRouteResult {
     routeData?: any;
 }
 
+/** Function for retrieving the value of a watched variable. Passed to [Session.watchable()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#watchable). */
+export interface IWatchableHandler {
+    (context: IRecognizeContext, callback: (err: Error, value: any) => void): void;
+}
+
 /** Custom route searching logic passed to [Library.onFindRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onfindroutes). */
 export interface IFindRoutesHandler {
     (context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void;
@@ -1528,8 +1539,92 @@ export class Session {
      * @param root The root of the library hierarchy, typically the bot.
      */
     static validateDialogStack(stack: IDialogState[], root: Library): boolean;
+
+    /**
+     * Enables/disables a watch for the current session.
+     * @param variable Name of the variable to watch/unwatch.
+     * @param enable (Optional) If true the variable will be watched, otherwise it will be unwatched. The default value is true.
+     */
+    watch(variable: string, enable?: boolean): Session;
+
+    /**
+     * Returns the current list of watched variables for the session.
+     */
+    watchList(): string[];
+
+    /**
+     * Adds or retrieves a variable that can be watched.
+     * @param variable Name of the variable that can be watched. Case is used for display only.
+     * @param handler (Optional) Function used to retrieve the variables current value. If specified a new handler will be registered, otherwise the existing handler will be retrieved. 
+     */
+    static watchable(variable: string, handler?: IWatchableHandler): IWatchableHandler;
+
+    /**
+     * Returns a list of watchable variables.
+     */
+    static watchableList(): string[];
 }
-    
+
+/**
+ * Default session logger used to log session activity to the console.
+ */
+export class SessionLogger {
+    /** If true the logger is enabled and will log the sessions activity. */
+    isEnabled: boolean;
+
+    /**
+     * Logs the state of a variable to the output.
+     * @param name Name of the variable being logged.
+     * @param value Variables current state.
+     */
+    dump(name: string, value: any): void;
+
+    /**
+     * Logs an informational level message to the output.
+     * @param dialogStack (Optional) dialog stack for the session. This is used to provide context for where the event occured.
+     * @param msg Message to log.
+     * @param args (Optional) arguments to log with the message.
+     */
+    log(dialogStack: IDialogState[], msg: string, ...args: any[]): void;
+
+    /**
+     * Logs a warning to the output.
+     * @param dialogStack (Optional) dialog stack for the session. This is used to provide context for where the event occured.
+     * @param msg Message to log.
+     * @param args (Optional) arguments to log with the message.
+     */
+    warn(dialogStack: IDialogState[], msg: string, ...args: any[]): void;
+
+    /**
+     * Logs an error to the output.
+     * @param dialogStack (Optional) dialog stack for the session. This is used to provide context for where the event occured.
+     * @param err Error object to log. The errors message plus stack trace will be logged.
+     */
+    error(dialogStack: IDialogState[], err: Error): void;
+
+    /**
+     * Flushes any buffered entries to the output.
+     * @param callback Function to call when the operation is completed.
+     */
+    flush(callback: (err: Error) => void): void;
+}
+
+/**
+ * Logs session activity to a remote endpoint using debug events. The remote debugger
+ * is automatically used when the emulator connects to your bot. Non-emulator channels
+ * can stream their activity to the emulator by saving the address of the emulator 
+ * session to `session.privateConversationData["BotBuilder.Data.DebugSession"]`.
+ */
+export class RemoteSessionLogger extends SessionLogger {
+    /**
+     * Creates an instance of the remote session logger.
+     * @param connector Connector used to communicate with the remote endpoint. 
+     * @param address Address to deliver debug events to.
+     * @param relatesTo Address of the conversation the debug events are for.
+     */
+    constructor(connector: IConnector, address: IAddress, relatesTo: IAddress);
+}
+
 /**
  * Message builder class that simplifies building complex messages with attachments.
  */
