@@ -46,6 +46,7 @@ export interface IRecognizeContext {
     userData: any;
     conversationData: any;
     privateConversationData: any;
+    dialogData: any;
     localizer: ILocalizer;
     logger: SessionLogger;
     preferredLocale(): string;

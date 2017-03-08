@@ -9,6 +9,7 @@ var Message_1 = require("./Message");
 var consts = require("./consts");
 var sprintf = require("sprintf-js");
 var events = require("events");
+var async = require("async");
 var Session = (function (_super) {
     __extends(Session, _super);
     function Session(options) {
@@ -39,6 +40,7 @@ var Session = (function (_super) {
             userData: this.userData,
             conversationData: this.conversationData,
             privateConversationData: this.privateConversationData,
+            dialogData: this.dialogData,
             localizer: this.localizer,
             logger: this.logger,
             dialogStack: function () { return _this.dialogStack(); },
@@ -489,6 +491,53 @@ var Session = (function (_super) {
             this.error(new Error('Invalid Dialog Stack.'));
         }
     };
+    Session.prototype.watch = function (variable, enable) {
+        if (enable === void 0) { enable = true; }
+        var name = variable.toLowerCase();
+        if (!this.userData.hasOwnProperty(consts.Data.DebugWatches)) {
+            this.userData[consts.Data.DebugWatches] = {};
+        }
+        if (watchableHandlers.hasOwnProperty(name)) {
+            var entry = watchableHandlers[name];
+            this.userData[consts.Data.DebugWatches][entry.name] = enable;
+        }
+        else {
+            throw new Error("Invalid watch statement. '" + variable + " isn't watchable");
+        }
+        return this;
+    };
+    Session.prototype.watchList = function () {
+        var watches = [];
+        if (this.userData.hasOwnProperty(consts.Data.DebugWatches)) {
+            for (var name_1 in this.userData[consts.Data.DebugWatches]) {
+                if (this.userData[consts.Data.DebugWatches][name_1]) {
+                    watches.push(name_1);
+                }
+            }
+        }
+        return watches;
+    };
+    Session.watchable = function (variable, handler) {
+        if (handler) {
+            watchableHandlers[variable.toLowerCase()] = { name: variable, handler: handler };
+        }
+        else {
+            var entry = watchableHandlers[variable.toLowerCase()];
+            if (entry) {
+                handler = entry.handler;
+            }
+        }
+        return handler;
+    };
+    Session.watchableList = function () {
+        var variables = [];
+        for (var name_2 in watchableHandlers) {
+            if (watchableHandlers.hasOwnProperty(name_2)) {
+                variables.push(watchableHandlers[name_2].name);
+            }
+        }
+        return variables;
+    };
     Session.prototype.onSave = function (cb) {
         var _this = this;
         this.options.onSave(function (err) {
@@ -519,12 +568,36 @@ var Session = (function (_super) {
     };
     Session.prototype.onFinishBatch = function (cb) {
         var _this = this;
-        this.logger.flush(function (err) {
-            _this.sendingBatch = false;
-            if (err) {
-                console.error(err);
+        var ctx = this.toRecognizeContext();
+        async.each(this.watchList(), function (variable, cb) {
+            var entry = watchableHandlers[variable];
+            if (entry && entry.handler) {
+                try {
+                    entry.handler(ctx, function (err, value) {
+                        if (!err) {
+                            _this.logger.dump(variable, value);
+                        }
+                        cb(err);
+                    });
+                }
+                catch (e) {
+                    cb(e);
+                }
             }
-            cb();
+            else {
+                cb(new Error("'" + variable + "' isn't watchable."));
+            }
+        }, function (err) {
+            if (err) {
+                _this.logger.error(_this.dialogStack(), err);
+            }
+            _this.logger.flush(function (err) {
+                _this.sendingBatch = false;
+                if (err) {
+                    console.error(err);
+                }
+                cb();
+            });
         });
     };
     Session.prototype.startBatch = function () {
@@ -642,3 +715,12 @@ var Session = (function (_super) {
     return Session;
 }(events.EventEmitter));
 exports.Session = Session;
+var watchableHandlers = {
+    'userdata': { name: 'userData', handler: function (ctx, cb) { return cb(null, ctx.userData); } },
+    'conversationdata': { name: 'conversationData', handler: function (ctx, cb) { return cb(null, ctx.conversationData); } },
+    'privateconversationdata': { name: 'privateConversationData', handler: function (ctx, cb) { return cb(null, ctx.privateConversationData); } },
+    'dialogdata': { name: 'dialogData', handler: function (ctx, cb) { return cb(null, ctx.dialogData); } },
+    'dialogstack': { name: 'dialogStack', handler: function (ctx, cb) { return cb(null, ctx.dialogStack()); } },
+    'preferredlocale': { name: 'preferredLocale', handler: function (ctx, cb) { return cb(null, ctx.preferredLocale()); } },
+    'libraryname': { name: 'libraryName', handler: function (ctx, cb) { return cb(null, ctx.libraryName); } }
+};

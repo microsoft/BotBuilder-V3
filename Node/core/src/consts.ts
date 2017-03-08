@@ -59,7 +59,8 @@ export const Data = {
     Field: 'BotBuilder.Data.Field',
     FirstRunVersion: 'BotBuilder.Data.FirstRunVersion',
     PreferredLocale: 'BotBuilder.Data.PreferredLocale',
-    DebugAddress: 'BotBuilder.Data.DebugAddress'
+    DebugAddress: 'BotBuilder.Data.DebugAddress',
+    DebugWatches: 'BotBuilder.Data.DebugWatches'
 };
 
 export const DialogId = {

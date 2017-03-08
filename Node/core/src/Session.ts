@@ -62,6 +62,10 @@ export interface ISessionMiddleware {
     (session: Session, next: Function): void;
 }
 
+export interface IWatchableHandler {
+    (context: IRecognizeContext, callback: (err: Error, value: any) => void): void;
+}
+
 export class Session extends events.EventEmitter {
     private msgSent = false;
     private _isReset = false;
@@ -89,6 +93,7 @@ export class Session extends events.EventEmitter {
             userData: this.userData,
             conversationData: this.conversationData,
             privateConversationData: this.privateConversationData,
+            dialogData: this.dialogData,
             localizer: this.localizer,
             logger: this.logger,
             dialogStack: () => { return this.dialogStack(); },
@@ -604,6 +609,62 @@ export class Session extends events.EventEmitter {
     }
 
     //-----------------------------------------------------
+    // Watch Statements
+    //-----------------------------------------------------
+
+    /** Enables/disables the watch statment for a given variable. */
+    public watch(variable: string, enable = true): this {
+        let name = variable.toLowerCase();
+        if (!this.userData.hasOwnProperty(consts.Data.DebugWatches)) {
+            this.userData[consts.Data.DebugWatches] = {};
+        }
+        if (watchableHandlers.hasOwnProperty(name)) {
+            var entry = watchableHandlers[name];
+            this.userData[consts.Data.DebugWatches][entry.name] = enable;
+        } else {
+            throw new Error("Invalid watch statement. '" + variable + " isn't watchable");
+        }
+        return this;
+    }
+
+    /** Returns the list of enabled watch statements for the session. */
+    public watchList(): string[] {
+        var watches: string[] = []; 
+        if (this.userData.hasOwnProperty(consts.Data.DebugWatches)) {
+            for (let name in this.userData[consts.Data.DebugWatches]) {
+                if (this.userData[consts.Data.DebugWatches][name]) {
+                    watches.push(name);
+                }
+            }
+        }
+        return watches;
+    }
+
+    /** Adds or retrieves a watchable variable from the session. */
+    static watchable(variable: string, handler?: IWatchableHandler): IWatchableHandler {
+        if (handler) {
+            watchableHandlers[variable.toLowerCase()] = { name: variable, handler: handler };
+        } else {
+            let entry = watchableHandlers[variable.toLowerCase()];
+            if (entry) {
+                handler = entry.handler;
+            }
+        }
+        return handler;
+    }
+
+    /** Returns the list of watchable variables. */
+    static watchableList(): string[] {
+        let variables: string[] = [];
+        for (let name in watchableHandlers) {
+            if (watchableHandlers.hasOwnProperty(name)) {
+                variables.push(watchableHandlers[name].name);
+            }
+        }
+        return variables;
+    }
+
+    //-----------------------------------------------------
     // PRIVATE HELPERS
     //-----------------------------------------------------
 
@@ -637,12 +698,36 @@ export class Session extends events.EventEmitter {
     }
 
     private onFinishBatch(cb: Function): void {
-        this.logger.flush((err) => {
-            this.sendingBatch = false;
-            if (err) {
-                console.error(err);
+        // Dump watchList
+        var ctx = this.toRecognizeContext();
+        async.each(this.watchList(), (variable, cb) => {
+            let entry = watchableHandlers[variable];
+            if (entry && entry.handler) {
+                try {
+                    entry.handler(ctx, (err, value) => {
+                        if (!err) {
+                            this.logger.dump(variable, value);
+                        } 
+                        cb(err);
+                    });
+                } catch (e) {
+                    cb(e);
+                }
+            } else {
+                cb(new Error("'" + variable + "' isn't watchable."));
             }
-            cb();
+        }, (err) => {
+            // Flush logs
+            if (err) {
+                this.logger.error(this.dialogStack(), err);
+            }
+            this.logger.flush((err) => {
+                this.sendingBatch = false;
+                if (err) {
+                    console.error(err);
+                }
+                cb();
+            });
         });
     }
 
@@ -774,3 +859,15 @@ export class Session extends events.EventEmitter {
         return this.message.sourceEvent;
     }
 }
+
+// Initialize default list of watchable variables.
+let watchableHandlers: { [name: string]: { name: string; handler: IWatchableHandler; }; } = {
+    'userdata': { name: 'userData', handler: (ctx, cb) => cb(null, ctx.userData) },
+    'conversationdata': { name: 'conversationData', handler: (ctx, cb) => cb(null, ctx.conversationData) },
+    'privateconversationdata': { name: 'privateConversationData', handler: (ctx, cb) => cb(null, ctx.privateConversationData) },
+    'dialogdata': { name: 'dialogData', handler: (ctx, cb) => cb(null, ctx.dialogData) },
+    'dialogstack': { name: 'dialogStack', handler: (ctx, cb) => cb(null, ctx.dialogStack()) },
+    'preferredlocale': { name: 'preferredLocale', handler: (ctx, cb) => cb(null, ctx.preferredLocale()) },
+    'libraryname': { name: 'libraryName', handler: (ctx, cb) => cb(null, ctx.libraryName) }
+};
+
