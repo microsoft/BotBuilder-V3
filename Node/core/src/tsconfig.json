@@ -6,7 +6,8 @@
         "noImplicitAny": true,
         "outDir": "../lib",
         "noEmitOnError": true,
-        "removeComments": true
+        "removeComments": true,
+        "forceConsistentCasingInFileNames": true
     },
     "exclude": [
         "botbuilder.d.ts"

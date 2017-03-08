@@ -33,11 +33,11 @@
 
 interface IEvent {
     type: string;
-    agent: string;
-    source: string;
-    sourceEvent: any;
     address: IAddress;
-    user: IIdentity;
+    agent?: string;
+    source?: string;
+    sourceEvent?: any;
+    user?: IIdentity;
 }
 
 interface IMessage extends IEvent {

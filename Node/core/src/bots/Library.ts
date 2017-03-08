@@ -38,7 +38,6 @@ import { IRecognizeContext, IntentRecognizerSet, IIntentRecognizer, IIntentRecog
 import { Session } from '../Session'; 
 import * as consts from '../consts';
 import * as utils from '../utils';
-import * as logger from '../logger';
 import { EventEmitter } from 'events';
 import * as path from 'path';
 import * as async from 'async';
@@ -128,7 +127,13 @@ export class Library extends EventEmitter {
         //   method will be called a second time so we want to avoid the second recognize
         //   pass.
         if (this.recognizers.length > 0 && context.libraryName !== this.name) {
-            this.recognizers.recognize(context, callback);
+            this.recognizers.recognize(context, (err, result) => {
+                if (result && result.score > 0) {
+                    context.logger.log(null, this.logPrefix() + 'recognize() recognized: ' + 
+                        result.intent + '(' + result.score + ')');
+                }
+                callback(err, result);
+            });
         } else {
             callback(null, context.intent || { intent: 'None', score: 0.0 });
         }
@@ -218,7 +223,7 @@ export class Library extends EventEmitter {
                     }
                 });
             } else {
-                logger.warn(ctx, "Active dialog '%s' not found in library.", entry.id);
+                ctx.logger.warn(ctx.dialogStack(), "Active dialog '" + entry.id + "' not found in library.");
                 callback(null, results);
             }
         } else {
@@ -274,7 +279,7 @@ export class Library extends EventEmitter {
                         next(err);
                     });
                 } else {
-                    logger.warn(ctx, "Dialog '%s' not found in library.", entry.id);
+                    ctx.logger.warn(ctx.dialogStack(), "Dialog '" + entry.id + "' not found in library.");
                     next(null);
                 }
             } else {
@@ -337,6 +342,7 @@ export class Library extends EventEmitter {
 
     /** Libraries default logic for finding candidate routes. */
     private defaultFindRoutes(context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void {
+        var explain = ''; 
         var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
         this.recognize(context, (err, topIntent) => {
             if (!err) {
@@ -348,7 +354,12 @@ export class Library extends EventEmitter {
                         // Check the active dialogs score
                         this.findActiveDialogRoutes(ctx, (err, routes) => {
                             if (!err && routes) {
-                                routes.forEach((r) => results = Library.addRouteResult(r, results));
+                                routes.forEach((r) => {
+                                    results = Library.addRouteResult(r, results);
+                                    if (r.score > 0) {
+                                        explain += '\n\tActiveDialog(' + r.score + ')';
+                                    }
+                                });
                             }
                             cb(err);
                         });
@@ -357,7 +368,12 @@ export class Library extends EventEmitter {
                         // Search for triggered stack actions.
                         this.findStackActionRoutes(ctx, (err, routes) => {
                             if (!err && routes) {
-                                routes.forEach((r) => results = Library.addRouteResult(r, results));
+                                routes.forEach((r) => {
+                                    results = Library.addRouteResult(r, results);
+                                    if (r.score > 0) {
+                                        explain += '\n\tStackAction(' + r.score + ')';
+                                    }
+                                });
                             }
                             cb(err);
                         });
@@ -366,13 +382,21 @@ export class Library extends EventEmitter {
                         // Search for global actions.
                         this.findGlobalActionRoutes(ctx, (err, routes) => {
                             if (!err && routes) {
-                                routes.forEach((r) => results = Library.addRouteResult(r, results));
+                                routes.forEach((r) => {
+                                    results = Library.addRouteResult(r, results);
+                                    if (r.score > 0) {
+                                        explain += '\n\tGlobalAction(' + r.score + ')';
+                                    }
+                                });
                             }
                             cb(err);
                         });
                     }
                 ], (err) => {
                     if (!err) {
+                        if (explain.length > 0) {
+                            context.logger.log(null, this.logPrefix() + '.findRoutes() explanation:' + explain);
+                        }
                         callback(null, results);
                     } else {
                         callback(err, null);
@@ -592,6 +616,14 @@ export class Library extends EventEmitter {
     public endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IDialogActionOptions): this {
         this.actions.endConversationAction(name, msg, options);
         return this;
+    }
+
+    //-------------------------------------------------------------------------
+    // Helpers
+    //-------------------------------------------------------------------------
+
+    private logPrefix(): string {
+        return 'Library("' + this.name + '")';
     }
     
 }

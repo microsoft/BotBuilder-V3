@@ -41,7 +41,6 @@ import { Keyboard } from '../cards/Keyboard';
 import { CardAction } from '../cards/CardAction';
 import * as Channel from '../Channel';
 import * as consts from '../consts';
-import * as logger from '../logger';
 
 export enum PromptType { text, number, confirm, choice, time, attachment }
 
@@ -244,8 +243,6 @@ export class Prompts extends Dialog {
     }
 
     private sendPrompt(session: Session, args: IPromptArgs, retry = false): void {
-        logger.debug("prompts::sendPrompt called");
-
         // Find message to deliver
         var msg: IMessage|IIsMessage;
         if (retry && typeof args.retryPrompt === 'object' && !Array.isArray(args.retryPrompt)) {

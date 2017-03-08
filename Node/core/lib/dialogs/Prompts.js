@@ -13,7 +13,6 @@ var Keyboard_1 = require("../cards/Keyboard");
 var CardAction_1 = require("../cards/CardAction");
 var Channel = require("../Channel");
 var consts = require("../consts");
-var logger = require("../logger");
 var PromptType;
 (function (PromptType) {
     PromptType[PromptType["text"] = 0] = "text";
@@ -108,7 +107,7 @@ exports.SimplePromptRecognizer = SimplePromptRecognizer;
 var Prompts = (function (_super) {
     __extends(Prompts, _super);
     function Prompts() {
-        return _super !== null && _super.apply(this, arguments) || this;
+        return _super.apply(this, arguments) || this;
     }
     Prompts.prototype.begin = function (session, args) {
         args = args || {};
@@ -163,7 +162,6 @@ var Prompts = (function (_super) {
     };
     Prompts.prototype.sendPrompt = function (session, args, retry) {
         if (retry === void 0) { retry = false; }
-        logger.debug("prompts::sendPrompt called");
         var msg;
         if (retry && typeof args.retryPrompt === 'object' && !Array.isArray(args.retryPrompt)) {
             msg = args.retryPrompt;

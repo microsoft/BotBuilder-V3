@@ -37,9 +37,9 @@ import { IRecognizeResult, IRecognizeContext } from './dialogs/IntentRecognizerS
 import { ActionSet, IFindActionRouteContext, IActionRouteData } from './dialogs/ActionSet';
 import { Message } from './Message';
 import { DefaultLocalizer } from './DefaultLocalizer';
+import { SessionLogger } from './SessionLogger';
 import * as consts from './consts';
 import * as utils from './utils';
-import * as logger from './logger';
 import * as sprintf from 'sprintf-js';
 import * as events from 'events';
 import * as async from 'async';
@@ -49,6 +49,7 @@ export interface ISessionOptions {
     onSend: (messages: IMessage[], done: (err: Error) => void) => void;
     library: Library;
     localizer: ILocalizer;
+    logger: SessionLogger;
     middleware: ISessionMiddleware[];
     dialogId: string;
     dialogArgs?: any;
@@ -76,6 +77,7 @@ export class Session extends events.EventEmitter {
         super();
         this.library = options.library;
         this.localizer = options.localizer;
+        this.logger = options.logger;
         if (typeof this.options.autoBatchDelay !== 'number') {
             this.options.autoBatchDelay = 250;  // 250ms delay
         }
@@ -88,6 +90,7 @@ export class Session extends events.EventEmitter {
             conversationData: this.conversationData,
             privateConversationData: this.privateConversationData,
             localizer: this.localizer,
+            logger: this.logger,
             dialogStack: () => { return this.dialogStack(); },
             preferredLocale: () => { return this.preferredLocale(); },
             gettext: (...args: any[]) => { return Session.prototype.gettext.call(this, args); }, 
@@ -145,11 +148,16 @@ export class Session extends events.EventEmitter {
     public conversationData: any;
     public privateConversationData: any;
     public dialogData: any;
-    public localizer:ILocalizer = null;
+    public localizer: ILocalizer = null;
+    public logger: SessionLogger = null;
 
     /** An error has occured. */
     public error(err: Error): this {
-        logger.info(this, 'session.error()');
+        // Log error
+        var m = err.toString();
+        err = err instanceof Error ? err : new Error(m);
+        this.emit('error', err);
+        this.logger.error(this.dialogStack(), err);
 
         // End conversation with a message
         if (this.options.dialogErrorMessage) {
@@ -158,11 +166,6 @@ export class Session extends events.EventEmitter {
             var locale = this.preferredLocale();
             this.endConversation(this.localizer.gettext(locale, 'default_error', consts.Library.system));
         }
-
-        // Log error
-        var m = err.toString();
-        err = err instanceof Error ? err : new Error(m);
-        this.emit('error', err);
         return this;
     }
 
@@ -208,7 +211,7 @@ export class Session extends events.EventEmitter {
     
     /** Used to manually save the current session state. */
     public save(): this {
-        logger.info(this, 'session.save()');            
+        this.logger.log(this.dialogStack(), 'Session.save()');            
         this.startBatch();
         return this;
     }
@@ -233,7 +236,7 @@ export class Session extends events.EventEmitter {
             }
             this.prepareMessage(m);
             this.batch.push(m);
-            logger.info(this, 'session.send()');            
+            this.logger.log(this.dialogStack(), 'Session.send()');            
         }
         this.startBatch();
         return this;
@@ -245,7 +248,7 @@ export class Session extends events.EventEmitter {
         var m = <IMessage>{ type: 'typing' };
         this.prepareMessage(m);
         this.batch.push(m);
-        logger.info(this, 'session.sendTyping()');            
+        this.logger.log(this.dialogStack(), 'Session.sendTyping()');            
         this.sendBatch();
         return this;        
     }
@@ -258,7 +261,7 @@ export class Session extends events.EventEmitter {
     /** Begins a new dialog. */
     public beginDialog(id: string, args?: any): this {
         // Find dialog
-        logger.info(this, 'session.beginDialog(%s)', id);            
+        this.logger.log(this.dialogStack(), 'Session.beginDialog(' + id + ')');            
         var id = this.resolveDialogId(id);
         var dialog = this.findDialog(id);
         if (!dialog) {
@@ -281,7 +284,7 @@ export class Session extends events.EventEmitter {
     /** Replaces the existing dialog with a new one.  */
     public replaceDialog(id: string, args?: any): this {
         // Find dialog
-        logger.info(this, 'session.replaceDialog(%s)', id);            
+        this.logger.log(this.dialogStack(), 'Session.replaceDialog(' + id + ')');            
         var id = this.resolveDialogId(id);
         var dialog = this.findDialog(id);
         if (!dialog) {
@@ -317,7 +320,7 @@ export class Session extends events.EventEmitter {
         this.privateConversationData = {};
                 
         // Clear stack and save.
-        logger.info(this, 'session.endConversation()');            
+        this.logger.log(this.dialogStack(), 'Session.endConversation()');            
         var ss = this.sessionState;
         ss.callstack = [];
         this.sendBatch();
@@ -351,7 +354,7 @@ export class Session extends events.EventEmitter {
             }
                     
             // Pop dialog off the stack and then resume parent.
-            logger.info(this, 'session.endDialog()');            
+            this.logger.log(this.dialogStack(), 'Session.endDialog()');            
             var childId = cur.id;
             cur = this.popDialog();
             this.startBatch();
@@ -382,7 +385,7 @@ export class Session extends events.EventEmitter {
             result.childId = cur.id;
                     
             // Pop dialog off the stack and resume parent dlg.
-            logger.info(this, 'session.endDialogWithResult()');            
+            this.logger.log(this.dialogStack(), 'Session.endDialogWithResult()');            
             cur = this.popDialog();
             this.startBatch();
             if (cur) {
@@ -405,14 +408,14 @@ export class Session extends events.EventEmitter {
         var childId = typeof dialogId === 'number' ? this.sessionState.callstack[<number>dialogId].id : <string>dialogId;
         var cur = this.deleteDialogs(dialogId);
         if (replaceWithId) {
-            logger.info(this, 'session.cancelDialog(%s)', replaceWithId);            
+            this.logger.log(this.dialogStack(), 'Session.cancelDialog(' + replaceWithId + ')');            
             var id = this.resolveDialogId(replaceWithId);
             var dialog = this.findDialog(id);
             this.pushDialog({ id: id, state: {} });
             this.startBatch();
             dialog.begin(this, replaceWithArgs);
         } else {
-            logger.info(this, 'session.cancelDialog()');            
+            this.logger.log(this.dialogStack(), 'Session.cancelDialog()');            
             this.startBatch();
             if (cur) {
                 var dialog = this.findDialog(cur.id);
@@ -430,7 +433,7 @@ export class Session extends events.EventEmitter {
 
     /** Resets the dialog stack and starts a new dialog. */
     public reset(dialogId?: string, dialogArgs?: any): this {
-        logger.info(this, 'session.reset()');            
+        this.logger.log(this.dialogStack(), 'Session.reset()');            
         this._isReset = true;
         this.sessionState.callstack = [];
         if (!dialogId) {
@@ -448,7 +451,7 @@ export class Session extends events.EventEmitter {
 
     /** Manually triggers sending of the current auto-batch. */
     public sendBatch(callback?: (err: Error) => void): void {
-        logger.info(this, 'session.sendBatch() sending %d messages', this.batch.length);            
+        this.logger.log(this.dialogStack(), 'Session.sendBatch() sending ' + this.batch.length + ' message(s)');            
         if (this.sendingBatch) {
             return;
         }
@@ -465,11 +468,10 @@ export class Session extends events.EventEmitter {
         if (cur) {
             cur.state = this.dialogData;
         }
-        this.options.onSave((err) => {
+        this.onSave((err) => {
             if (!err) {
-                if (batch.length) {
-                    this.options.onSend(batch, (err) => {
-                        this.sendingBatch = false;
+                this.onSend(batch, (err) => {
+                    this.onFinishBatch(() => {
                         if (this.batchStarted) {
                             this.startBatch();
                         }
@@ -477,32 +479,17 @@ export class Session extends events.EventEmitter {
                             callback(err);
                         }
                     });
-                } else {
-                    this.sendingBatch = false;
-                    if (this.batchStarted) {
-                        this.startBatch();
-                    }
+                });
+            } else {
+                this.onFinishBatch(() => {
                     if (callback) {
                         callback(err);
                     }
-                }
-            } else {
-                this.sendingBatch = false;
-                switch ((<any>err).code || '') {
-                    case consts.Errors.EBADMSG:
-                    case consts.Errors.EMSGSIZE:
-                        // Something wrong with state so reset everything 
-                        this.userData = {};
-                        this.batch = [];
-                        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
-                        break;
-                } 
-                if (callback) {
-                    callback(err);
-                }
+                });
             }
         });
     }
+
 
     //-------------------------------------------------------------------------
     // DialogStack Management
@@ -619,6 +606,45 @@ export class Session extends events.EventEmitter {
     //-----------------------------------------------------
     // PRIVATE HELPERS
     //-----------------------------------------------------
+
+    private onSave(cb: (err: Error) => void): void {
+        this.options.onSave((err) => {
+            if (err) {
+                this.logger.error(this.dialogStack(), err);
+                switch ((<any>err).code || '') {
+                    case consts.Errors.EBADMSG:
+                    case consts.Errors.EMSGSIZE:
+                        // Something wrong with state so reset everything 
+                        this.userData = {};
+                        this.batch = [];
+                        this.endConversation(this.options.dialogErrorMessage || 'Oops. Something went wrong and we need to start over.');
+                        break;
+                } 
+            }
+            cb(err);
+        });
+    }
+
+    private onSend(batch: IMessage[], cb: (err: Error) => void): void {
+        if (batch) {
+            this.options.onSend(batch, (err) => {
+                if (err) {
+                    this.logger.error(this.dialogStack(), err);
+                }
+                cb(err);
+            })
+        }
+    }
+
+    private onFinishBatch(cb: Function): void {
+        this.logger.flush((err) => {
+            this.sendingBatch = false;
+            if (err) {
+                console.error(err);
+            }
+            cb();
+        });
+    }
 
     private startBatch(): void {
         this.batchStarted = true;
