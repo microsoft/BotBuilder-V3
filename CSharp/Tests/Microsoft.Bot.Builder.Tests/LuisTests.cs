@@ -437,8 +437,8 @@ namespace Microsoft.Bot.Builder.Tests
 
             // https://github.com/Microsoft/BotBuilder/issues/247
             // https://github.com/Microsoft/BotBuilder/pull/76
-            Assert.AreNotEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%25u00e7ais&allowSampling=True", uri.AbsoluteUri);
-            Assert.AreEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%C3%A7ais&allowSampling=True", uri.AbsoluteUri);
+            Assert.AreNotEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%25u00e7ais&log=True", uri.AbsoluteUri);
+            Assert.AreEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%C3%A7ais&log=True", uri.AbsoluteUri);
         }
     }
 }

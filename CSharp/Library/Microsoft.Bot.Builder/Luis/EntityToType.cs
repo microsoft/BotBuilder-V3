@@ -31,14 +31,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Luis.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Luis.Models;
 using static Microsoft.Bot.Builder.Luis.BuiltIn.DateTime;
 
 namespace Microsoft.Bot.Builder.Luis
@@ -153,61 +151,99 @@ namespace Microsoft.Bot.Builder.Luis
                     //      round down to the component's granularity
                     //      calculate the "after" based on the size of that component
 
-                    if (resolution.Year >= 0 && start.Year != resolution.Year)
+                    if (resolution.Year >= 0)
                     {
-                        if (start.Year < resolution.Year)
+                        bool need = start.Year != resolution.Year;
+                        if (need)
                         {
                             start = start.AddYears(1);
                             start = new DateTime(start.Year, 1, 1, 0, 0, 0, 0, start.Kind);
-                            after = start.AddYears(1);
-                            continue;
                         }
-                        else
+
+                        if (start.Year > resolution.Year)
                         {
                             yield break;
                         }
+
+                        after = start.AddYears(1);
+
+                        if (need)
+                        {
+                            continue;
+                        }
                     }
 
-                    if (resolution.Month >= 0 && start.Month != resolution.Month)
+                    if (resolution.Month >= 0)
                     {
-                        start = start.AddMonths(1);
-                        start = new DateTime(start.Year, start.Month, 1, 0, 0, 0, 0, start.Kind);
+                        bool need = start.Month != resolution.Month;
+                        if (need)
+                        {
+                            start = start.AddMonths(1);
+                            start = new DateTime(start.Year, start.Month, 1, 0, 0, 0, 0, start.Kind);
+                        }
+
                         after = start.AddMonths(1);
-                        continue;
+                        if (need)
+                        {
+                            continue;
+                        }
                     }
 
                     var week = calendar.GetWeekOfYear(start, rule, firstDayOfWeek);
-                    if (resolution.Week >= 0 && week != resolution.Week)
+                    if (resolution.Week >= 0)
                     {
-                        start = start.AddDays(7);
-                        start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, 0, start.Kind);
-
-                        while (start.DayOfWeek != firstDayOfWeek)
+                        bool need = week != resolution.Week;
+                        if (need)
                         {
-                            start = start.AddDays(-1);
+                            start = start.AddDays(7);
+                            start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, 0, start.Kind);
+
+                            while (start.DayOfWeek != firstDayOfWeek)
+                            {
+                                start = start.AddDays(-1);
+                            }
                         }
 
                         after = start.AddDays(7);
-                        continue;
+                        if (need)
+                        {
+                            continue;
+                        }
                     }
 
-                    if (resolution.DayOfWeek != null && start.DayOfWeek != resolution.DayOfWeek)
+                    if (resolution.DayOfWeek != null)
                     {
-                        start = start.AddDays(1);
-                        start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, 0, start.Kind);
+                        bool need = start.DayOfWeek != resolution.DayOfWeek;
+                        if (need)
+                        {
+                            start = start.AddDays(1);
+                            start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, 0, start.Kind);
+                        }
+
                         after = start.AddDays(1);
-                        continue;
+                        if (need)
+                        {
+                            continue;
+                        }
                     }
 
-                    if (resolution.Day >= 0 && start.Day != resolution.Day)
+                    if (resolution.Day >= 0)
                     {
-                        start = start.AddDays(1);
-                        start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, 0, start.Kind);
+                        bool need = start.Day != resolution.Day;
+                        if (need)
+                        {
+                            start = start.AddDays(1);
+                            start = new DateTime(start.Year, start.Month, start.Day, 0, 0, 0, 0, start.Kind);
+                        }
+
                         after = start.AddDays(1);
-                        continue;
+                        if (need)
+                        {
+                            continue;
+                        }
                     }
 
-                    if (resolution.DayPart != null && start.Hour != HourFor(resolution.DayPart.Value))
+                    if (resolution.DayPart != null)
                     {
                         var hourStart = HourFor(resolution.DayPart.Value);
                         var hourAfter = HourFor(resolution.DayPart.Value.Next());
@@ -217,34 +253,66 @@ namespace Microsoft.Bot.Builder.Luis
                             hourDelta += 24;
                         }
 
-                        start = start.AddHours(1);
-                        start = new DateTime(start.Year, start.Month, start.Day, start.Hour, 0, 0, 0, start.Kind);
+                        bool need = start.Hour != hourStart;
+                        if (need)
+                        {
+                            start = start.AddHours(1);
+                            start = new DateTime(start.Year, start.Month, start.Day, start.Hour, 0, 0, 0, start.Kind);
+                        }
+
                         after = start.AddHours(hourDelta);
-                        continue;
+                        if (need)
+                        {
+                            continue;
+                        }
                     }
 
-                    if (resolution.Hour >= 0 && start.Hour != resolution.Hour)
+                    if (resolution.Hour >= 0)
                     {
-                        start = start.AddHours(1);
-                        start = new DateTime(start.Year, start.Month, start.Day, start.Hour, 0, 0, 0, start.Kind);
+                        bool need = start.Hour != resolution.Hour;
+                        if (need)
+                        {
+                            start = start.AddHours(1);
+                            start = new DateTime(start.Year, start.Month, start.Day, start.Hour, 0, 0, 0, start.Kind);
+                        }
+
                         after = start.AddHours(1);
-                        continue;
+                        if (need)
+                        {
+                            continue;
+                        }
                     }
 
-                    if (resolution.Minute >= 0 && start.Minute != resolution.Minute)
+                    if (resolution.Minute >= 0)
                     {
-                        start = start.AddMinutes(1);
-                        start = new DateTime(start.Year, start.Month, start.Day, start.Hour, start.Minute, 0, 0, start.Kind);
+                        bool need = start.Minute != resolution.Minute;
+                        if (need)
+                        {
+                            start = start.AddMinutes(1);
+                            start = new DateTime(start.Year, start.Month, start.Day, start.Hour, start.Minute, 0, 0, start.Kind);
+                        }
+
                         after = start.AddMinutes(1);
-                        continue;
+                        if (need)
+                        {
+                            continue;
+                        }
                     }
 
-                    if (resolution.Second >= 0 && start.Second != resolution.Second)
+                    if (resolution.Second >= 0)
                     {
-                        start = start.AddSeconds(1);
-                        start = new DateTime(start.Year, start.Month, start.Day, start.Hour, start.Minute, start.Second, 0, start.Kind);
+                        bool need = start.Second != resolution.Second;
+                        if (need)
+                        {
+                            start = start.AddSeconds(1);
+                            start = new DateTime(start.Year, start.Month, start.Day, start.Hour, start.Minute, start.Second, 0, start.Kind);
+                        }
+
                         after = start.AddSeconds(1);
-                        continue;
+                        if (need)
+                        {
+                            continue;
+                        }
                     }
 
                     // if all of the components were variable or missing,

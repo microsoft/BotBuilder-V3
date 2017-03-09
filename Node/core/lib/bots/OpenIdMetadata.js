@@ -71,7 +71,7 @@ var OpenIdMetadata = (function () {
                 }
                 var modulus = base64url.toBase64(key.n);
                 var exponent = key.e;
-                return getPem(modulus, exponent);
+                return { key: getPem(modulus, exponent), endorsements: key.endorsements };
             }
         }
         return null;

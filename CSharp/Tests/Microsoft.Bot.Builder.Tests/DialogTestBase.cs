@@ -164,13 +164,29 @@ namespace Microsoft.Bot.Builder.Tests
 
                 var queue = container.Resolve<Queue<IMessageActivity>>();
 
+                // if user has more to say, bot should have said something
+                if (index + 1 < pairs.Length)
+                {
+                    Assert.AreNotEqual(0, queue.Count);
+                }
+
                 while (queue.Count > 0)
                 {
                     ++index;
 
                     var toUser = queue.Dequeue();
-
-                    var actual = toUser.Text;
+                    string actual;
+                    switch (toUser.Type)
+                    {
+                        case ActivityTypes.Message:
+                            actual = toUser.Text;
+                            break;
+                        case ActivityTypes.EndOfConversation:
+                            actual = toUser.AsEndOfConversationActivity().Code;
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
                     var expected = pairs[index];
 
                     Assert.AreEqual(expected, actual);

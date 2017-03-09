@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -274,7 +273,6 @@ namespace Microsoft.Bot.Connector
                 return false;
             }
         }
-
 
         /// <summary>
         /// Check if the message has content

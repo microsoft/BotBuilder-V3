@@ -110,6 +110,22 @@ namespace Microsoft.Bot.Connector
             return identityToken.Authenticated;
         }
 
+        /// <summary>
+        /// Authenticates the request and returns the IdentityToken.
+        /// </summary>
+        /// <param name="request"> The request that should be authenticated.</param>
+        /// <param name="activities"> The activities extracted from request.</param>
+        /// <param name="token"> The cancellation token.</param>
+        /// <returns> The <see cref="IdentityToken"/>.</returns>
+        public async Task<IdentityToken> AuthenticateAsync(HttpRequestMessage request, IEnumerable<IActivity> activities,
+           CancellationToken token)
+        {
+            var identityToken = await this.TryAuthenticateAsyncWithActivity(request, activities, token);
+            identityToken.ValidateServiceUrlClaim(activities);
+            TrustServiceUrls(identityToken, activities);
+            return identityToken;
+        }
+
         public async Task<IdentityToken> TryAuthenticateAsync(string scheme, string token,
             CancellationToken cancellationToken)
         {
@@ -267,7 +283,7 @@ namespace Microsoft.Bot.Connector
             if (token.Authenticated)
             {
                 var serviceUrlClaim = token.Identity?.Claims.FirstOrDefault(claim => claim.Type == "serviceurl");
-                
+
                 // if there is a service url claim in the identity claims, check if it matches the service url in the activities
                 if (serviceUrlClaim != null && !string.IsNullOrEmpty(serviceUrlClaim.Value))
                 {

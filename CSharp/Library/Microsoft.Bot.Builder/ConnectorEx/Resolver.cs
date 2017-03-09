@@ -31,13 +31,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Scorables.Internals
 {
@@ -74,19 +70,22 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
                     IActivity activity;
                     if (this.inner.TryResolve<IActivity>(tag, out activity))
                     {
-                        // then make sure the IActivity.Type allows the desired type
-                        Type allowedType;
-                        if (TypeByName.TryGetValue(activity.Type, out allowedType))
+                        if (activity.Type != null)
                         {
-                            if (type.IsAssignableFrom(allowedType))
+                            // then make sure the IActivity.Type allows the desired type
+                            Type allowedType;
+                            if (TypeByName.TryGetValue(activity.Type, out allowedType))
                             {
-                                // and make sure the actual CLR type also allows the desired type
-                                // (this is true most of the time since Activity implements all of the interfaces)
-                                Type clrType = activity.GetType();
-                                if (allowedType.IsAssignableFrom(clrType))
+                                if (type.IsAssignableFrom(allowedType))
                                 {
-                                    value = activity;
-                                    return true;
+                                    // and make sure the actual CLR type also allows the desired type
+                                    // (this is true most of the time since Activity implements all of the interfaces)
+                                    Type clrType = activity.GetType();
+                                    if (allowedType.IsAssignableFrom(clrType))
+                                    {
+                                        value = activity;
+                                        return true;
+                                    }
                                 }
                             }
                         }

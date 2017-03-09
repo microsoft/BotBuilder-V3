@@ -61,13 +61,14 @@ namespace Microsoft.Bot.Connector
             var botAuthenticator = new BotAuthenticator(provider, OpenIdConfigurationUrl, DisableEmulatorTokens);
             try
             {
-                var authenticated = await botAuthenticator.TryAuthenticateAsync(actionContext.Request, GetActivities(actionContext), cancellationToken);
+                var identityToken = await botAuthenticator.AuthenticateAsync(actionContext.Request, GetActivities(actionContext), cancellationToken);
                 // the request is not authenticated, fail with 401.
-                if (!authenticated)
+                if (!identityToken.Authenticated)
                 {
                     actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request, "BotAuthenticator failed to authenticate incoming request!");
                     return;
                 }
+
             }
             catch (Exception e)
             {

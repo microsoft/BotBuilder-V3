@@ -81,6 +81,7 @@
     <Compile Include="ConnectorEx\BotData.cs" />
     <Compile Include="ConnectorEx\BotToUser.cs" />
     <Compile Include="Dialogs\CommandDialog.cs" />
+    <Compile Include="Dialogs\EndConversation.cs" />
     <Compile Include="Dialogs\DialogContext.cs" />
     <Compile Include="Dialogs\Chain.cs" />
     <Compile Include="Dialogs\DialogRouter.cs" />

@@ -46,13 +46,40 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// </summary>
     public static partial class Conversation
     {
-        public static readonly IContainer Container;
+        private static readonly object gate = new object();
+        private static IContainer container;
 
         static Conversation()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterModule(new DialogModule_MakeRoot());
-            Container = builder.Build();
+            UpdateContainer(builder =>
+            {
+            });
+        }
+
+        public static IContainer Container
+        {
+            get
+            {
+                lock (gate)
+                {
+                    return container;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update the Autofac container.
+        /// </summary>
+        /// <param name="update">The delegate that represents the update to apply.</param>
+        public static void UpdateContainer(Action<ContainerBuilder> update)
+        {
+            lock (gate)
+            {
+                var builder = new ContainerBuilder();
+                builder.RegisterModule(new DialogModule_MakeRoot());
+                update(builder);
+                container = builder.Build();
+            }
         }
 
         /// <summary>

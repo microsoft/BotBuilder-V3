@@ -237,6 +237,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IScorable<IActivity, double>>()
                 .InstancePerLifetimeScope();
 
+            // scorable implementing "end conversation"
+            builder
+                .RegisterInstance(EndConversationEvent.MakeScorable())
+                .As<IScorable<IResolver, double>>()
+                .SingleInstance();
+
             builder
                 .Register(c =>
                 {
@@ -367,6 +373,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder
                 .RegisterType<KeyboardCardMapper>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
+            builder
+                .RegisterType<SetLocalTimestampMapper>()
                 .AsImplementedInterfaces()
                 .SingleInstance();
 

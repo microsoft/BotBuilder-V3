@@ -1,25 +1,30 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Sample.AlarmBot.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Bot.Builder.Scorables;
 
 namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
 {
+    public sealed class MyLuisModelAttribute : LuisModelAttribute
+    {
+        public MyLuisModelAttribute()
+            : base(modelID: "unitTestMockReturnedFromMakeService", subscriptionKey: "unitTestMockReturnedFromMakeService")
+        {
+        }
+    }
+
     /// <summary>
     /// The top-level natural language dialog for the alarm sample.
     /// </summary>
     [Serializable]
-    [LuisModel("unitTestMockReturnedFromMakeService", "unitTestMockReturnedFromMakeService")]
+    [MyLuisModel]
     public sealed class AlarmDispatchDialog : DispatchDialog
     {
         private readonly IAlarmService service;

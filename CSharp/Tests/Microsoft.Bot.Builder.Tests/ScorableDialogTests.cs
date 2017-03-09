@@ -324,6 +324,72 @@ namespace Microsoft.Bot.Builder.Tests
     }
 
     [TestClass]
+    public sealed class ScorableTriggerTests : DialogTestBase
+    {
+        public static IScorable<IResolver, double> TriggerAction(Regex regex, Func<IDialog<object>> makeRoot)
+        {
+            var scorable =
+                Actions
+                .Bind(async (IDialogStack stack, IMessageActivity activity, CancellationToken token) =>
+                {
+                    var triggered = makeRoot();
+                    stack.Reset();
+                    await stack.Forward(triggered.Loop(), null, activity, token);
+                })
+                .When(regex)
+                .Normalize();
+
+            return scorable;
+        }
+
+        [TestMethod]
+        public async Task TriggerAction()
+        {
+            var echo = Chain.PostToChain().Select(msg => $"echo: {msg.Text}").PostToUser().Loop();
+
+            Func<IDialog<object>> MakeRootA = () => Chain.PostToChain().Select(msg => $"dialogA: {msg.Text}").PostToUser();
+            Func<IDialog<object>> MakeRootB = () => Chain.PostToChain().Select(msg => $"dialogB: {msg.Text}").PostToUser();
+            Func<IDialog<object>> MakeRootC = () => Chain.PostToChain().Select(msg => $"dialogC: {msg.Text}").PostToUser();
+
+            var scorable = new[]
+            {
+                TriggerAction(new Regex(@".*triggerA.*"), MakeRootA),
+                TriggerAction(new Regex(@".*triggerB.*"), MakeRootB),
+                TriggerAction(new Regex(@".*triggerC.*"), MakeRootC),
+            }.Fold();
+
+            using (var container = Build(Options.ResolveDialogFromContainer))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(echo)
+                    .As<IDialog<object>>();
+                builder
+                    .RegisterInstance(scorable)
+                    .As<IScorable<IResolver, double>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container,
+                    "hello",
+                    "echo: hello",
+                    "triggerA",
+                    "dialogA: triggerA",
+                    "stillA",
+                    "dialogA: stillA",
+                    "triggerB",
+                    "dialogB: triggerB",
+                    "stillB",
+                    "dialogB: stillB",
+                    "triggerC",
+                    "dialogC: triggerC",
+                    "stillC",
+                    "dialogC: stillC"
+                    );
+            }
+        }
+    }
+
+    [TestClass]
     public sealed class CalculatorScorableTests : DialogTestBase
     {
         [TestMethod]

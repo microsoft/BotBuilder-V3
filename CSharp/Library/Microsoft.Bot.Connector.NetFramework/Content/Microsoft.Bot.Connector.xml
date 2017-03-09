@@ -633,6 +633,15 @@
             <param name="token"> The cancellation token.</param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.AuthenticateAsync(System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{Microsoft.Bot.Connector.IActivity},System.Threading.CancellationToken)">
+            <summary>
+            Authenticates the request and returns the IdentityToken.
+            </summary>
+            <param name="request"> The request that should be authenticated.</param>
+            <param name="activities"> The activities extracted from request.</param>
+            <param name="token"> The cancellation token.</param>
+            <returns> The <see cref="T:Microsoft.Bot.Connector.IdentityToken"/>.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Connector.BotData.GetProperty``1(System.String)">
             <summary>
             Get a property from a BotData recorded retrieved using the REST API
