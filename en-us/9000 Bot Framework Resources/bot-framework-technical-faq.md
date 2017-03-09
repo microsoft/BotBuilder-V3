@@ -154,6 +154,10 @@ The term "reactive" means the "normal" situation, where the user sends the first
 
 Take a look at these [Proactive Messages Samples](https://github.com/MicrosoftDX/botFramework-proactiveMessages).
 
+## How can run background tasks in ASP.NET?
+
+If you want initiate an asynchronous task that waits for a few seconds then executes some code (for example to clear the user profile or reset conversation/dialog state), there are some important details you can read more about at [How to run Background Tasks in ASP.NET](https://www.hanselman.com/blog/HowToRunBackgroundTasksInASPNET.aspx).  In particular you might consider [HostingEnvironment.QueueBackgroundWorkItem](https://msdn.microsoft.com/en-us/library/dn636893(v=vs.110).aspx).
+
 ## What causes 429 "too many requests" HTTP errors?
 
 One possible source for HTTP status code 429 is [ngrok](https://ngrok.com/).  Ngrok is used to provide a secure tunnel to localhost.  For example, you might be configuring ngrok with the Bot Framework Emulator to locally debug your Bot in the cloud.
