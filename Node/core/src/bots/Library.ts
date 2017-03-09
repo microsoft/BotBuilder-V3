@@ -618,6 +618,11 @@ export class Library extends EventEmitter {
         return this;
     }
 
+    public customAction(options: IDialogActionOptions): this {
+        this.actions.customAction(options);
+        return this;
+    }
+
     //-------------------------------------------------------------------------
     // Helpers
     //-------------------------------------------------------------------------

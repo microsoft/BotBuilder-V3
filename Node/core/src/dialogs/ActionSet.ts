@@ -92,7 +92,7 @@ export class ActionSet {
     public addDialogTrigger(actions: ActionSet, dialogId: string): void {
         if (this.trigger) {
             this.trigger.localizationNamespace = dialogId.split(':')[0];
-            actions.beginDialogAction(dialogId, dialogId, this.trigger);
+            actions.beginDialogAction('trigger(' + dialogId + ')', dialogId, this.trigger);
         }
     }
 
@@ -331,13 +331,30 @@ export class ActionSet {
         return this;
     }
 
-    private action(name: string, handler: IActionHandler, options: IDialogActionOptions = {}): this {
-        // Ensure unique
-        if (this.actions.hasOwnProperty(name)) {
-            throw new Error("DialogAction[" + name + "] already exists.")
+    public customAction(options: IDialogActionOptions): this {
+        if (!options || !options.onSelectAction) {
+            throw "An onSelectAction handler is required."
         }
+        var name = options.matches ? 'custom(' + options.matches.toString() + ')' : 'custom(onFindAction())';
+        return this.action(name, (session, args) => {
+            session.logger.warn(session.dialogStack(), "Shouldn't call next() in onSelectAction() for " + name);
+            session.save().sendBatch();
+        }, options);
+    }
+
+    private action(name: string, handler: IActionHandler, options: IDialogActionOptions = {}): this {
+        var key = this.uniqueActionName(name);
         this.actions[name] = { handler: handler, options: options };
         return this;
+    }
+
+    private uniqueActionName(name: string, cnt = 1): string {
+        var key = cnt > 1 ? name + cnt : name;
+        if (this.actions.hasOwnProperty(key)) {
+            return this.uniqueActionName(name, cnt + 1);
+        } else {
+            return key;
+        }
     }
 }
 

@@ -17,7 +17,7 @@ var ActionSet = (function () {
     ActionSet.prototype.addDialogTrigger = function (actions, dialogId) {
         if (this.trigger) {
             this.trigger.localizationNamespace = dialogId.split(':')[0];
-            actions.beginDialogAction(dialogId, dialogId, this.trigger);
+            actions.beginDialogAction('trigger(' + dialogId + ')', dialogId, this.trigger);
         }
     };
     ActionSet.prototype.findActionRoutes = function (context, callback) {
@@ -251,13 +251,31 @@ var ActionSet = (function () {
         ;
         return this;
     };
+    ActionSet.prototype.customAction = function (options) {
+        if (!options || !options.onSelectAction) {
+            throw "An onSelectAction handler is required.";
+        }
+        var name = options.matches ? 'custom(' + options.matches.toString() + ')' : 'custom(onFindAction())';
+        return this.action(name, function (session, args) {
+            session.logger.warn(session.dialogStack(), "Shouldn't call next() in onSelectAction() for " + name);
+            session.save().sendBatch();
+        }, options);
+    };
     ActionSet.prototype.action = function (name, handler, options) {
         if (options === void 0) { options = {}; }
-        if (this.actions.hasOwnProperty(name)) {
-            throw new Error("DialogAction[" + name + "] already exists.");
-        }
+        var key = this.uniqueActionName(name);
         this.actions[name] = { handler: handler, options: options };
         return this;
+    };
+    ActionSet.prototype.uniqueActionName = function (name, cnt) {
+        if (cnt === void 0) { cnt = 1; }
+        var key = cnt > 1 ? name + cnt : name;
+        if (this.actions.hasOwnProperty(key)) {
+            return this.uniqueActionName(name, cnt + 1);
+        }
+        else {
+            return key;
+        }
     };
     return ActionSet;
 }());

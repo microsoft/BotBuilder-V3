@@ -2259,6 +2259,14 @@ export abstract class Dialog extends ActionSet {
      * to trigger the action.
      */
     endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
+
+    /**
+     * Binds a custom action to the dialog that will call the passed in [onSelectAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onselectaction) 
+     * handler when triggered.
+     * @param options The options used to configure the action. If [matches](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#matches) is specified the action will listen 
+     * for the user to say a word or phrase that triggers the action. Custom matching logic can be provided using [onFindAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onfindaction).
+     */
+    customAction(options: IDialogActionOptions): Library;
 }
 
 /** 
@@ -2562,6 +2570,14 @@ export class Library {
      * to trigger the action.
      */
     endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
+
+    /**
+     * Registers a custom global action that will call the passed in [onSelectAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onselectaction) 
+     * handler when triggered.
+     * @param options The options used to configure the action. If [matches](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#matches) is specified the action will listen 
+     * for the user to say a word or phrase that triggers the action. Custom matching logic can be provided using [onFindAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onfindaction).
+     */
+    customAction(options: IDialogActionOptions): Library;
 
     /**
      * Helper method called from the various route finding methods to manage adding a candidate

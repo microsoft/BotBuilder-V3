@@ -461,6 +461,10 @@ var Library = (function (_super) {
         this.actions.endConversationAction(name, msg, options);
         return this;
     };
+    Library.prototype.customAction = function (options) {
+        this.actions.customAction(options);
+        return this;
+    };
     Library.prototype.logPrefix = function () {
         return 'Library("' + this.name + '")';
     };
