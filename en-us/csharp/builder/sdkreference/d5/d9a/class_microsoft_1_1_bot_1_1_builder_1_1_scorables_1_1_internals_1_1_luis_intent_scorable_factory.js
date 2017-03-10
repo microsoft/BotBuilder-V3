@@ -1,0 +1,4 @@
+var class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_luis_intent_scorable_factory =
+[
+    [ "LuisIntentScorableFactory", "d5/d9a/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_luis_intent_scorable_factory.html#a38cd73585b1fe6527aad60a95b61ea71", null ]
+];

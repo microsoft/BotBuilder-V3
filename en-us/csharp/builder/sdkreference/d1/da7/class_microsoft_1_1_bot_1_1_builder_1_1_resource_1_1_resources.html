@@ -1,0 +1,2058 @@
+<!-- HTML header for doxygen 1.8.11-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>Microsoft.Bot.Builder.Resource.Resources Class Reference | Bot Builder SDK C# Reference Library | Bot Framework</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../botframework.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/css/documentation.css?1" />
+    <script src="/js/documents.js"></script>
+    <script src="/js/leftnav.js"></script>
+    <script src="/js/codetabs.js"></script>
+    <script src="/js/docssearch.js"></script>
+    <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
+    <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
+    <script type="text/javascript" src="/js/webtrends.load.js"></script>
+    <!--
+      appInsights
+    -->
+    <script type="text/javascript">
+    var appInsights=window.appInsights||function(config){
+      function r(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s=u.createElement(o),i,f;for(s.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",u.getElementsByTagName(o)[0].parentNode.appendChild(s),t.cookie=u.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)r("track"+i.pop());return r("setAuthenticatedUserContext"),r("clearAuthenticatedUserContext"),config.disableExceptionTracking||(i="onerror",r("_"+i),f=e[i],e[i]=function(config,r,u,e,o){var s=f&&f(config,r,u,e,o);return s!==!0&&t["_"+i](config,r,u,e,o),s}),t
+      }({
+          instrumentationKey:"ecf7f29d-de8c-4169-a492-bdce0a32c300"
+      });
+      window.appInsights=appInsights;
+      appInsights.trackPageView();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var sidenav = $('#side-nav');
+            sidenav.before('<div id="content-container" class="outline"></div>');
+            var doccontent = $('#doc-content');
+			var contentcontainer = $('#content-container');
+            contentcontainer.append(sidenav);
+            contentcontainer.append(doccontent);
+            doccontent.prepend($('#referenceSearch'));
+			var top = $('#top');
+			top.before('<div class="fullWidth"></div>');
+			var fullwidth = $('div.fullWidth');
+			fullwidth.before('<div id="app-body"></div>');
+			fullwidth.append(top);
+			fullwidth.append(contentcontainer);
+			fullwidth.append($('.footer'));
+			var appbody = $('#app-body');
+			appbody.append(fullwidth);
+			var navtreecontents = $('#nav-tree-contents');
+			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
+			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            setProgrammingLanguage();
+			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
+        });
+    </script>
+</head>
+<body>
+    <div id="referenceSearch"></div>
+    <div id="top">
+        <!-- do not remove this div, it is closed by doxygen! -->
+        <div>
+            <header>
+                <div class="outline">
+                    <div class="header">
+                        <a class="logo" href="//www.microsoft.com">
+                            <svg class="svgicon svgicon-microsoft-color-logo">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo"></use>
+                            </svg>
+                        </a>
+                        <div class="loading-animation"></div>
+                        <span class="environment"></span>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="brand-primary">
+                <div class="jumbo">
+                    <div class="jumbo-header"><a href="https://www.botframework.com/">Bot Framework</a></div>
+                    <ul class="header-nav">
+                        <li><a href="https://dev.botframework.com/#/bots">My bots</a></li>
+                        <li><a href="https://dev.botframework.com/#/bots/new">Register a bot</a></li>
+                        <li class="active"><a href="/">Documentation</a></li>
+                        <li><a href="https://bots.botframework.com/">Bot Directory</a></li>
+                        <li><a href="https://blog.botframework.com/">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header part -->
+</body>
+</html><!-- Generated by Doxygen 1.8.11 -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html','../../');});
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#properties">Properties</a> &#124;
+<a href="../../df/d38/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">Microsoft.Bot.Builder.Resource.Resources Class Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>A strongly-typed resource class, for looking up localized strings, etc.  
+ <a href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
+Properties</h2></td></tr>
+<tr class="memitem:adfcc7f2205090263f1f9d11f49c04cc3"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#adfcc7f2205090263f1f9d11f49c04cc3">CommandBack</a><code> [get]</code></td></tr>
+<tr class="memdesc:adfcc7f2205090263f1f9d11f49c04cc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Back.  <a href="#adfcc7f2205090263f1f9d11f49c04cc3">More...</a><br /></td></tr>
+<tr class="separator:adfcc7f2205090263f1f9d11f49c04cc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ca7f7373d0cd143994f49e33e43a88b"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a3ca7f7373d0cd143994f49e33e43a88b">CommandBackHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a3ca7f7373d0cd143994f49e33e43a88b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Back: Go back to the previous question..  <a href="#a3ca7f7373d0cd143994f49e33e43a88b">More...</a><br /></td></tr>
+<tr class="separator:a3ca7f7373d0cd143994f49e33e43a88b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6f46720ef4559f339a049ff4cb54bd3"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#aa6f46720ef4559f339a049ff4cb54bd3">CommandBackTerms</a><code> [get]</code></td></tr>
+<tr class="memdesc:aa6f46720ef4559f339a049ff4cb54bd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to backup;go back;back.  <a href="#aa6f46720ef4559f339a049ff4cb54bd3">More...</a><br /></td></tr>
+<tr class="separator:aa6f46720ef4559f339a049ff4cb54bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4951f4aac8800e7984b8855ba441c269"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a4951f4aac8800e7984b8855ba441c269">CommandHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a4951f4aac8800e7984b8855ba441c269"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Help.  <a href="#a4951f4aac8800e7984b8855ba441c269">More...</a><br /></td></tr>
+<tr class="separator:a4951f4aac8800e7984b8855ba441c269"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc38784aa645a6a54b7ae5b2bfa7293f"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#adc38784aa645a6a54b7ae5b2bfa7293f">CommandHelpHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:adc38784aa645a6a54b7ae5b2bfa7293f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Help: Show the kinds of responses you can enter..  <a href="#adc38784aa645a6a54b7ae5b2bfa7293f">More...</a><br /></td></tr>
+<tr class="separator:adc38784aa645a6a54b7ae5b2bfa7293f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d020019c649794590a6037bb6c912c1"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a3d020019c649794590a6037bb6c912c1">CommandHelpTerms</a><code> [get]</code></td></tr>
+<tr class="memdesc:a3d020019c649794590a6037bb6c912c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to help;choices;\?.  <a href="#a3d020019c649794590a6037bb6c912c1">More...</a><br /></td></tr>
+<tr class="separator:a3d020019c649794590a6037bb6c912c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbec2b1e0dc2906057d67bad031bd6e2"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#acbec2b1e0dc2906057d67bad031bd6e2">CommandQuit</a><code> [get]</code></td></tr>
+<tr class="memdesc:acbec2b1e0dc2906057d67bad031bd6e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Quit.  <a href="#acbec2b1e0dc2906057d67bad031bd6e2">More...</a><br /></td></tr>
+<tr class="separator:acbec2b1e0dc2906057d67bad031bd6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6aaec3d73c945b9a1be1c78a836d9114"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a6aaec3d73c945b9a1be1c78a836d9114">CommandQuitHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a6aaec3d73c945b9a1be1c78a836d9114"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Quit: Quit the form without completing it..  <a href="#a6aaec3d73c945b9a1be1c78a836d9114">More...</a><br /></td></tr>
+<tr class="separator:a6aaec3d73c945b9a1be1c78a836d9114"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7714eabb0c84dea4ca9601cb46de1896"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a7714eabb0c84dea4ca9601cb46de1896">CommandQuitTerms</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7714eabb0c84dea4ca9601cb46de1896"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to quit;stop;finish;goodby?;good bye?;bye;ciao;adios;bye-bye;so long;cheers.  <a href="#a7714eabb0c84dea4ca9601cb46de1896">More...</a><br /></td></tr>
+<tr class="separator:a7714eabb0c84dea4ca9601cb46de1896"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74bc08c8838e1f2906ddb02fdfa723ef"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a74bc08c8838e1f2906ddb02fdfa723ef">CommandReset</a><code> [get]</code></td></tr>
+<tr class="memdesc:a74bc08c8838e1f2906ddb02fdfa723ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Start over.  <a href="#a74bc08c8838e1f2906ddb02fdfa723ef">More...</a><br /></td></tr>
+<tr class="separator:a74bc08c8838e1f2906ddb02fdfa723ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22a4b11741fd9fae7d26615f3054a0df"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a22a4b11741fd9fae7d26615f3054a0df">CommandResetHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a22a4b11741fd9fae7d26615f3054a0df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Reset: Start over filling in the form. (With defaults from your previous entries.).  <a href="#a22a4b11741fd9fae7d26615f3054a0df">More...</a><br /></td></tr>
+<tr class="separator:a22a4b11741fd9fae7d26615f3054a0df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dcffc68cf1b063bf68885e4f454ef9e"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a5dcffc68cf1b063bf68885e4f454ef9e">CommandResetTerms</a><code> [get]</code></td></tr>
+<tr class="memdesc:a5dcffc68cf1b063bf68885e4f454ef9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to start over;reset;clear.  <a href="#a5dcffc68cf1b063bf68885e4f454ef9e">More...</a><br /></td></tr>
+<tr class="separator:a5dcffc68cf1b063bf68885e4f454ef9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7117f62850903a8f798a415d6f26e2ec"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a7117f62850903a8f798a415d6f26e2ec">CommandStatus</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7117f62850903a8f798a415d6f26e2ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Status.  <a href="#a7117f62850903a8f798a415d6f26e2ec">More...</a><br /></td></tr>
+<tr class="separator:a7117f62850903a8f798a415d6f26e2ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62c381fc88e2077e2a24d798aa0770c8"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a62c381fc88e2077e2a24d798aa0770c8">CommandStatusHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a62c381fc88e2077e2a24d798aa0770c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Status: Show your progress in filling in the form so far..  <a href="#a62c381fc88e2077e2a24d798aa0770c8">More...</a><br /></td></tr>
+<tr class="separator:a62c381fc88e2077e2a24d798aa0770c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67001e28b26b5c68ad652d391da8bcbf"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a67001e28b26b5c68ad652d391da8bcbf">CommandStatusTerms</a><code> [get]</code></td></tr>
+<tr class="memdesc:a67001e28b26b5c68ad652d391da8bcbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to status;progress;so far;results.  <a href="#a67001e28b26b5c68ad652d391da8bcbf">More...</a><br /></td></tr>
+<tr class="separator:a67001e28b26b5c68ad652d391da8bcbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14c461491529d32c59e09d2779cde370"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a14c461491529d32c59e09d2779cde370">Confirmation</a><code> [get]</code></td></tr>
+<tr class="memdesc:a14c461491529d32c59e09d2779cde370"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Confirmation.  <a href="#a14c461491529d32c59e09d2779cde370">More...</a><br /></td></tr>
+<tr class="separator:a14c461491529d32c59e09d2779cde370"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83154ddfe2c876cc9d69be1b69367f02"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a83154ddfe2c876cc9d69be1b69367f02">ConfirmChoiceFormat</a><code> [get]</code></td></tr>
+<tr class="memdesc:a83154ddfe2c876cc9d69be1b69367f02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to {1}.  <a href="#a83154ddfe2c876cc9d69be1b69367f02">More...</a><br /></td></tr>
+<tr class="separator:a83154ddfe2c876cc9d69be1b69367f02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1916bf87dd784c5c98ec8c5e321e804"><td class="memItemLeft" align="right" valign="top">static global::System.Globalization.CultureInfo&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#aa1916bf87dd784c5c98ec8c5e321e804">Culture</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:aa1916bf87dd784c5c98ec8c5e321e804"><td class="mdescLeft">&#160;</td><td class="mdescRight">Overrides the current thread's CurrentUICulture property for all resource lookups using this strongly typed resource class.  <a href="#aa1916bf87dd784c5c98ec8c5e321e804">More...</a><br /></td></tr>
+<tr class="separator:aa1916bf87dd784c5c98ec8c5e321e804"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81c9ef82da89af768b4c19495b56d8d7"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a81c9ef82da89af768b4c19495b56d8d7">DefaultChoiceFormat</a><code> [get]</code></td></tr>
+<tr class="memdesc:a81c9ef82da89af768b4c19495b56d8d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to {0}. {1}.  <a href="#a81c9ef82da89af768b4c19495b56d8d7">More...</a><br /></td></tr>
+<tr class="separator:a81c9ef82da89af768b4c19495b56d8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d7b5f2120b1e369c2faaf91b213f14f"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a7d7b5f2120b1e369c2faaf91b213f14f">DefaultChoiceLastSeparator</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7d7b5f2120b1e369c2faaf91b213f14f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to , or .  <a href="#a7d7b5f2120b1e369c2faaf91b213f14f">More...</a><br /></td></tr>
+<tr class="separator:a7d7b5f2120b1e369c2faaf91b213f14f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73e49d1075c1d894d8bfc944dca71147"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a73e49d1075c1d894d8bfc944dca71147">DefaultChoiceSeparator</a><code> [get]</code></td></tr>
+<tr class="memdesc:a73e49d1075c1d894d8bfc944dca71147"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to , .  <a href="#a73e49d1075c1d894d8bfc944dca71147">More...</a><br /></td></tr>
+<tr class="separator:a73e49d1075c1d894d8bfc944dca71147"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68c422e7124c93d823c928c6c3c9532c"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a68c422e7124c93d823c928c6c3c9532c">DefaultLastSeparator</a><code> [get]</code></td></tr>
+<tr class="memdesc:a68c422e7124c93d823c928c6c3c9532c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to , and .  <a href="#a68c422e7124c93d823c928c6c3c9532c">More...</a><br /></td></tr>
+<tr class="separator:a68c422e7124c93d823c928c6c3c9532c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ad60744e7639f3377ccb140c43a931b"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a7ad60744e7639f3377ccb140c43a931b">DefaultSeparator</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7ad60744e7639f3377ccb140c43a931b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to , .  <a href="#a7ad60744e7639f3377ccb140c43a931b">More...</a><br /></td></tr>
+<tr class="separator:a7ad60744e7639f3377ccb140c43a931b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a640310f35ab4dd51ab8e3916f8675db3"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a640310f35ab4dd51ab8e3916f8675db3">LanguageArticles</a><code> [get]</code></td></tr>
+<tr class="memdesc:a640310f35ab4dd51ab8e3916f8675db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to a;an;the.  <a href="#a640310f35ab4dd51ab8e3916f8675db3">More...</a><br /></td></tr>
+<tr class="separator:a640310f35ab4dd51ab8e3916f8675db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a362edefc5d3752c58b50ef5620b97daa"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a362edefc5d3752c58b50ef5620b97daa">LanguageStopWords</a><code> [get]</code></td></tr>
+<tr class="memdesc:a362edefc5d3752c58b50ef5620b97daa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to a;about;above;above;across;after;afterwards;again;against;all;almost;alone;along;already;also;although;always;am;among;amongst;amoungst;amount;an;and;another;any;anyhow;anyone;anything;anyway;anywhere;are;around;as;at;back;be;became;because;become;becomes;becoming;been;before;beforehand;behind;being;below;beside;besides;between;beyond;bill;both;bottom;but;by;call;can;cannot;cant;co;con;could;couldnt;cry;de;describe;detail;do;done;down;due;during;each;eg;eight;either;eleven;else;elsewhere;empty;enough;etc;ev [rest of string was truncated]&quot;;.  <a href="#a362edefc5d3752c58b50ef5620b97daa">More...</a><br /></td></tr>
+<tr class="separator:a362edefc5d3752c58b50ef5620b97daa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40d76fa399db7dbc4bc9b57b681b9c3a"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a40d76fa399db7dbc4bc9b57b681b9c3a">MatchCurrentChoice</a><code> [get]</code></td></tr>
+<tr class="memdesc:a40d76fa399db7dbc4bc9b57b681b9c3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Current Choice('c');current;c;current choice;no change.  <a href="#a40d76fa399db7dbc4bc9b57b681b9c3a">More...</a><br /></td></tr>
+<tr class="separator:a40d76fa399db7dbc4bc9b57b681b9c3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb6986966596fed3d6f3015176a4d709"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#afb6986966596fed3d6f3015176a4d709">MatchNo</a><code> [get]</code></td></tr>
+<tr class="memdesc:afb6986966596fed3d6f3015176a4d709"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to No;n;nope;2.  <a href="#afb6986966596fed3d6f3015176a4d709">More...</a><br /></td></tr>
+<tr class="separator:afb6986966596fed3d6f3015176a4d709"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f956ab469a2a54d85dfceaf52b01267"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a0f956ab469a2a54d85dfceaf52b01267">MatchNoPreference</a><code> [get]</code></td></tr>
+<tr class="memdesc:a0f956ab469a2a54d85dfceaf52b01267"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to No Preference;no;none;I don'?t care.  <a href="#a0f956ab469a2a54d85dfceaf52b01267">More...</a><br /></td></tr>
+<tr class="separator:a0f956ab469a2a54d85dfceaf52b01267"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c1621b4730a39fcf8b9d715b72ff03c"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a5c1621b4730a39fcf8b9d715b72ff03c">MatchYes</a><code> [get]</code></td></tr>
+<tr class="memdesc:a5c1621b4730a39fcf8b9d715b72ff03c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Yes;y;sure;ok;yep;1.  <a href="#a5c1621b4730a39fcf8b9d715b72ff03c">More...</a><br /></td></tr>
+<tr class="separator:a5c1621b4730a39fcf8b9d715b72ff03c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2eb4b65feae92beb821c51a6370cf885"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a2eb4b65feae92beb821c51a6370cf885">Navigation</a><code> [get]</code></td></tr>
+<tr class="memdesc:a2eb4b65feae92beb821c51a6370cf885"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Field Name.  <a href="#a2eb4b65feae92beb821c51a6370cf885">More...</a><br /></td></tr>
+<tr class="separator:a2eb4b65feae92beb821c51a6370cf885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86f7ec9069610af3b98d665c83410df7"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a86f7ec9069610af3b98d665c83410df7">PromptRetry</a><code> [get]</code></td></tr>
+<tr class="memdesc:a86f7ec9069610af3b98d665c83410df7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to I didn't understand. Say something in reply..  <a href="#a86f7ec9069610af3b98d665c83410df7">More...</a><br /></td></tr>
+<tr class="separator:a86f7ec9069610af3b98d665c83410df7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a671b6b7f0376d05528a840afbc53304d"><td class="memItemLeft" align="right" valign="top">static global::System.Resources.ResourceManager&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a671b6b7f0376d05528a840afbc53304d">ResourceManager</a><code> [get]</code></td></tr>
+<tr class="memdesc:a671b6b7f0376d05528a840afbc53304d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the cached ResourceManager instance used by this class.  <a href="#a671b6b7f0376d05528a840afbc53304d">More...</a><br /></td></tr>
+<tr class="separator:a671b6b7f0376d05528a840afbc53304d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36e29df2e71c3730890dddef2443617c"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a36e29df2e71c3730890dddef2443617c">TemplateBool</a><code> [get]</code></td></tr>
+<tr class="memdesc:a36e29df2e71c3730890dddef2443617c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Would you like a {&amp;}? {||}.  <a href="#a36e29df2e71c3730890dddef2443617c">More...</a><br /></td></tr>
+<tr class="separator:a36e29df2e71c3730890dddef2443617c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d29dc709d733b70aa820789a297350f"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a4d29dc709d733b70aa820789a297350f">TemplateBoolHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a4d29dc709d733b70aa820789a297350f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please enter 'yes' or 'no'{?, {0}}..  <a href="#a4d29dc709d733b70aa820789a297350f">More...</a><br /></td></tr>
+<tr class="separator:a4d29dc709d733b70aa820789a297350f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf3a49b0046cbb15d7455f2f19f70b88"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#adf3a49b0046cbb15d7455f2f19f70b88">TemplateClarify</a><code> [get]</code></td></tr>
+<tr class="memdesc:adf3a49b0046cbb15d7455f2f19f70b88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to By &quot;{0}&quot; {&amp;} did you mean {||}.  <a href="#adf3a49b0046cbb15d7455f2f19f70b88">More...</a><br /></td></tr>
+<tr class="separator:adf3a49b0046cbb15d7455f2f19f70b88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4be1d32a0c13d94d0aefe35f01d65242"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a4be1d32a0c13d94d0aefe35f01d65242">TemplateConfirmation</a><code> [get]</code></td></tr>
+<tr class="memdesc:a4be1d32a0c13d94d0aefe35f01d65242"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Is this your selection? {*}.  <a href="#a4be1d32a0c13d94d0aefe35f01d65242">More...</a><br /></td></tr>
+<tr class="separator:a4be1d32a0c13d94d0aefe35f01d65242"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4331a1048aeef02214c783e54c23d93a"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a4331a1048aeef02214c783e54c23d93a">TemplateCurrentChoice</a><code> [get]</code></td></tr>
+<tr class="memdesc:a4331a1048aeef02214c783e54c23d93a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to (current choice: {}).  <a href="#a4331a1048aeef02214c783e54c23d93a">More...</a><br /></td></tr>
+<tr class="separator:a4331a1048aeef02214c783e54c23d93a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdcd27135c9c6d7bb6f65473e05b9597"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#afdcd27135c9c6d7bb6f65473e05b9597">TemplateDateTime</a><code> [get]</code></td></tr>
+<tr class="memdesc:afdcd27135c9c6d7bb6f65473e05b9597"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please enter a date and time for {&amp;} {||}.  <a href="#afdcd27135c9c6d7bb6f65473e05b9597">More...</a><br /></td></tr>
+<tr class="separator:afdcd27135c9c6d7bb6f65473e05b9597"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76d807206326cdd72f4345edc274676b"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a76d807206326cdd72f4345edc274676b">TemplateDateTimeHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a76d807206326cdd72f4345edc274676b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please enter a date or time expression {?, {0}}{?, {1}}..  <a href="#a76d807206326cdd72f4345edc274676b">More...</a><br /></td></tr>
+<tr class="separator:a76d807206326cdd72f4345edc274676b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a353112c6198d2fb046b1ed6cf0889690"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a353112c6198d2fb046b1ed6cf0889690">TemplateDouble</a><code> [get]</code></td></tr>
+<tr class="memdesc:a353112c6198d2fb046b1ed6cf0889690"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}.  <a href="#a353112c6198d2fb046b1ed6cf0889690">More...</a><br /></td></tr>
+<tr class="separator:a353112c6198d2fb046b1ed6cf0889690"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a113da3db532f83c859602da22e280355"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a113da3db532f83c859602da22e280355">TemplateDoubleChoiceFormat</a><code> [get]</code></td></tr>
+<tr class="memdesc:a113da3db532f83c859602da22e280355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to {1}.  <a href="#a113da3db532f83c859602da22e280355">More...</a><br /></td></tr>
+<tr class="separator:a113da3db532f83c859602da22e280355"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a8a6b1639dd694ebeaf177bc3c902ef"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a7a8a6b1639dd694ebeaf177bc3c902ef">TemplateDoubleHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7a8a6b1639dd694ebeaf177bc3c902ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}..  <a href="#a7a8a6b1639dd694ebeaf177bc3c902ef">More...</a><br /></td></tr>
+<tr class="separator:a7a8a6b1639dd694ebeaf177bc3c902ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd6c535250d1d0256caf2a28b6ec5040"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#abd6c535250d1d0256caf2a28b6ec5040">TemplateEnumManyNumberHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:abd6c535250d1d0256caf2a28b6ec5040"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to You can enter one or more numbers {0}-{1} or words from the descriptions. ({2}).  <a href="#abd6c535250d1d0256caf2a28b6ec5040">More...</a><br /></td></tr>
+<tr class="separator:abd6c535250d1d0256caf2a28b6ec5040"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c9b20376c9480dcd076e1b886701f83"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a2c9b20376c9480dcd076e1b886701f83">TemplateEnumManyWordHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a2c9b20376c9480dcd076e1b886701f83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to You can enter in one or more selections from the descriptions. ({2}).  <a href="#a2c9b20376c9480dcd076e1b886701f83">More...</a><br /></td></tr>
+<tr class="separator:a2c9b20376c9480dcd076e1b886701f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade2cb5eaad226a984109bcffc3dad76f"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#ade2cb5eaad226a984109bcffc3dad76f">TemplateEnumOneNumberHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:ade2cb5eaad226a984109bcffc3dad76f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to You can enter a number {0}-{1} or words from the descriptions. ({2}).  <a href="#ade2cb5eaad226a984109bcffc3dad76f">More...</a><br /></td></tr>
+<tr class="separator:ade2cb5eaad226a984109bcffc3dad76f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38d14be0c6512e049bb7e2332065f8d3"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a38d14be0c6512e049bb7e2332065f8d3">TemplateEnumOneWordHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a38d14be0c6512e049bb7e2332065f8d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to You can enter in any words from the descriptions. ({2}).  <a href="#a38d14be0c6512e049bb7e2332065f8d3">More...</a><br /></td></tr>
+<tr class="separator:a38d14be0c6512e049bb7e2332065f8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf677a9ff60a7a685935e6e96afba815"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#adf677a9ff60a7a685935e6e96afba815">TemplateEnumSelectMany</a><code> [get]</code></td></tr>
+<tr class="memdesc:adf677a9ff60a7a685935e6e96afba815"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please select one or more {&amp;} {||}.  <a href="#adf677a9ff60a7a685935e6e96afba815">More...</a><br /></td></tr>
+<tr class="separator:adf677a9ff60a7a685935e6e96afba815"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ca8ca3d69826861dea137937e1cfe1a"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a7ca8ca3d69826861dea137937e1cfe1a">TemplateEnumSelectOne</a><code> [get]</code></td></tr>
+<tr class="memdesc:a7ca8ca3d69826861dea137937e1cfe1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please select a {&amp;} {||}.  <a href="#a7ca8ca3d69826861dea137937e1cfe1a">More...</a><br /></td></tr>
+<tr class="separator:a7ca8ca3d69826861dea137937e1cfe1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8872ebe1d82b96f13b0d27dfb589deaf"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a8872ebe1d82b96f13b0d27dfb589deaf">TemplateFeedback</a><code> [get]</code></td></tr>
+<tr class="memdesc:a8872ebe1d82b96f13b0d27dfb589deaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to For {&amp;} I understood {}. {?&quot;{0}&quot; is not an option.}.  <a href="#a8872ebe1d82b96f13b0d27dfb589deaf">More...</a><br /></td></tr>
+<tr class="separator:a8872ebe1d82b96f13b0d27dfb589deaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52f4b2a020c3981ad8a947dbd7b6e165"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a52f4b2a020c3981ad8a947dbd7b6e165">TemplateHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a52f4b2a020c3981ad8a947dbd7b6e165"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to You are filling in the {&amp;} field. Possible responses: {0} {1}.  <a href="#a52f4b2a020c3981ad8a947dbd7b6e165">More...</a><br /></td></tr>
+<tr class="separator:a52f4b2a020c3981ad8a947dbd7b6e165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c10e885bd1fcd86d107e945079f1a8b"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a6c10e885bd1fcd86d107e945079f1a8b">TemplateHelpClarify</a><code> [get]</code></td></tr>
+<tr class="memdesc:a6c10e885bd1fcd86d107e945079f1a8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to You are clarifying a {&amp;} value. Possible responses: {0} {1}.  <a href="#a6c10e885bd1fcd86d107e945079f1a8b">More...</a><br /></td></tr>
+<tr class="separator:a6c10e885bd1fcd86d107e945079f1a8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09c6fb49f03ab94db7d590843dbe754c"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a09c6fb49f03ab94db7d590843dbe754c">TemplateHelpConfirm</a><code> [get]</code></td></tr>
+<tr class="memdesc:a09c6fb49f03ab94db7d590843dbe754c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please answer the question. Possible responses: {0} {1}.  <a href="#a09c6fb49f03ab94db7d590843dbe754c">More...</a><br /></td></tr>
+<tr class="separator:a09c6fb49f03ab94db7d590843dbe754c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5249f3b240aba4054844cd4074118d53"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a5249f3b240aba4054844cd4074118d53">TemplateHelpNavigation</a><code> [get]</code></td></tr>
+<tr class="memdesc:a5249f3b240aba4054844cd4074118d53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Choose what field to change. Possible responses: {0} {1}.  <a href="#a5249f3b240aba4054844cd4074118d53">More...</a><br /></td></tr>
+<tr class="separator:a5249f3b240aba4054844cd4074118d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab231f5c9fa21a6d67cd871782a1c9861"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#ab231f5c9fa21a6d67cd871782a1c9861">TemplateInteger</a><code> [get]</code></td></tr>
+<tr class="memdesc:ab231f5c9fa21a6d67cd871782a1c9861"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please enter a number{? between {0} and {1}} for {&amp;} {||}.  <a href="#ab231f5c9fa21a6d67cd871782a1c9861">More...</a><br /></td></tr>
+<tr class="separator:ab231f5c9fa21a6d67cd871782a1c9861"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a089b2df091635340324948b45da96651"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a089b2df091635340324948b45da96651">TemplateIntegerChoiceFormat</a><code> [get]</code></td></tr>
+<tr class="memdesc:a089b2df091635340324948b45da96651"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to {1}.  <a href="#a089b2df091635340324948b45da96651">More...</a><br /></td></tr>
+<tr class="separator:a089b2df091635340324948b45da96651"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfef8112d8d7e141c71cbde6a095f7b7"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#acfef8112d8d7e141c71cbde6a095f7b7">TemplateIntegerHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:acfef8112d8d7e141c71cbde6a095f7b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}..  <a href="#acfef8112d8d7e141c71cbde6a095f7b7">More...</a><br /></td></tr>
+<tr class="separator:acfef8112d8d7e141c71cbde6a095f7b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12f4c469fc1157d15ac2aa9f496990d4"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a12f4c469fc1157d15ac2aa9f496990d4">TemplateNavigation</a><code> [get]</code></td></tr>
+<tr class="memdesc:a12f4c469fc1157d15ac2aa9f496990d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to What do you want to change? {||}.  <a href="#a12f4c469fc1157d15ac2aa9f496990d4">More...</a><br /></td></tr>
+<tr class="separator:a12f4c469fc1157d15ac2aa9f496990d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40fc54d28d570a09a4fb5109e6a04f12"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a40fc54d28d570a09a4fb5109e6a04f12">TemplateNavigationCommandHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a40fc54d28d570a09a4fb5109e6a04f12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to You can switch to another field by entering its name. ({0})..  <a href="#a40fc54d28d570a09a4fb5109e6a04f12">More...</a><br /></td></tr>
+<tr class="separator:a40fc54d28d570a09a4fb5109e6a04f12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63db451beefd2434214b760e04cf2b71"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a63db451beefd2434214b760e04cf2b71">TemplateNavigationFormat</a><code> [get]</code></td></tr>
+<tr class="memdesc:a63db451beefd2434214b760e04cf2b71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to {&amp;}({}).  <a href="#a63db451beefd2434214b760e04cf2b71">More...</a><br /></td></tr>
+<tr class="separator:a63db451beefd2434214b760e04cf2b71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95e96233701be43ead9c41421302601d"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a95e96233701be43ead9c41421302601d">TemplateNavigationHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a95e96233701be43ead9c41421302601d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Choose {?a number from {0}-{1}, or} a field name..  <a href="#a95e96233701be43ead9c41421302601d">More...</a><br /></td></tr>
+<tr class="separator:a95e96233701be43ead9c41421302601d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cfc35a273a877f0a9ce417436f6c589"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a2cfc35a273a877f0a9ce417436f6c589">TemplateNoPreference</a><code> [get]</code></td></tr>
+<tr class="memdesc:a2cfc35a273a877f0a9ce417436f6c589"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to No Preference.  <a href="#a2cfc35a273a877f0a9ce417436f6c589">More...</a><br /></td></tr>
+<tr class="separator:a2cfc35a273a877f0a9ce417436f6c589"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee9ef9f98feef8ce0b6b9cdfb291b5b7"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#aee9ef9f98feef8ce0b6b9cdfb291b5b7">TemplateNotUnderstood</a><code> [get]</code></td></tr>
+<tr class="memdesc:aee9ef9f98feef8ce0b6b9cdfb291b5b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to &quot;{0}&quot; is not a {&amp;} option..  <a href="#aee9ef9f98feef8ce0b6b9cdfb291b5b7">More...</a><br /></td></tr>
+<tr class="separator:aee9ef9f98feef8ce0b6b9cdfb291b5b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad37ac150aef96c3199d461a99fda3908"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#ad37ac150aef96c3199d461a99fda3908">TemplateStatusFormat</a><code> [get]</code></td></tr>
+<tr class="memdesc:ad37ac150aef96c3199d461a99fda3908"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to {&amp;}: {}.  <a href="#ad37ac150aef96c3199d461a99fda3908">More...</a><br /></td></tr>
+<tr class="separator:ad37ac150aef96c3199d461a99fda3908"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acefd5a303713a664236791a0313ee163"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#acefd5a303713a664236791a0313ee163">TemplateString</a><code> [get]</code></td></tr>
+<tr class="memdesc:acefd5a303713a664236791a0313ee163"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Please enter {&amp;} {||}.  <a href="#acefd5a303713a664236791a0313ee163">More...</a><br /></td></tr>
+<tr class="separator:acefd5a303713a664236791a0313ee163"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad894433f6027fb2a1cc678352e37bdd3"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#ad894433f6027fb2a1cc678352e37bdd3">TemplateStringChoiceFormat</a><code> [get]</code></td></tr>
+<tr class="memdesc:ad894433f6027fb2a1cc678352e37bdd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to {1}.  <a href="#ad894433f6027fb2a1cc678352e37bdd3">More...</a><br /></td></tr>
+<tr class="separator:ad894433f6027fb2a1cc678352e37bdd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6506bb5884f757c9f4cb032d13419299"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a6506bb5884f757c9f4cb032d13419299">TemplateStringHelp</a><code> [get]</code></td></tr>
+<tr class="memdesc:a6506bb5884f757c9f4cb032d13419299"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to You can enter anything (use &quot;'s to force string){?, {0}}{?, {1}}..  <a href="#a6506bb5884f757c9f4cb032d13419299">More...</a><br /></td></tr>
+<tr class="separator:a6506bb5884f757c9f4cb032d13419299"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1f61bbc61f191cb686f24b8325d500b"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#ab1f61bbc61f191cb686f24b8325d500b">TemplateUnspecified</a><code> [get]</code></td></tr>
+<tr class="memdesc:ab1f61bbc61f191cb686f24b8325d500b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Unspecified.  <a href="#ab1f61bbc61f191cb686f24b8325d500b">More...</a><br /></td></tr>
+<tr class="separator:ab1f61bbc61f191cb686f24b8325d500b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3509b5f84d0c5308e7fa727a496e5ed0"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a3509b5f84d0c5308e7fa727a496e5ed0">TooManyAttempts</a><code> [get]</code></td></tr>
+<tr class="memdesc:a3509b5f84d0c5308e7fa727a496e5ed0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to too many attempts.  <a href="#a3509b5f84d0c5308e7fa727a496e5ed0">More...</a><br /></td></tr>
+<tr class="separator:a3509b5f84d0c5308e7fa727a496e5ed0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96dc785e931134715296bb19308a9998"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a96dc785e931134715296bb19308a9998">UnhandledExceptionToUser</a><code> [get]</code></td></tr>
+<tr class="memdesc:a96dc785e931134715296bb19308a9998"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to Sorry, my bot code is having an issue..  <a href="#a96dc785e931134715296bb19308a9998">More...</a><br /></td></tr>
+<tr class="separator:a96dc785e931134715296bb19308a9998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ec525a1918826c79ebf64dda1d984d6"><td class="memItemLeft" align="right" valign="top">static string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da7/class_microsoft_1_1_bot_1_1_builder_1_1_resource_1_1_resources.html#a2ec525a1918826c79ebf64dda1d984d6">UserProfileDeleted</a><code> [get]</code></td></tr>
+<tr class="memdesc:a2ec525a1918826c79ebf64dda1d984d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up a localized string similar to User profile deleted!.  <a href="#a2ec525a1918826c79ebf64dda1d984d6">More...</a><br /></td></tr>
+<tr class="separator:a2ec525a1918826c79ebf64dda1d984d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A strongly-typed resource class, for looking up localized strings, etc. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00025">25</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+</div><h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="adfcc7f2205090263f1f9d11f49c04cc3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandBack</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Back. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00066">66</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3ca7f7373d0cd143994f49e33e43a88b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandBackHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Back: Go back to the previous question.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00075">75</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa6f46720ef4559f339a049ff4cb54bd3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandBackTerms</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to backup;go back;back. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00084">84</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4951f4aac8800e7984b8855ba441c269"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Help. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00093">93</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adc38784aa645a6a54b7ae5b2bfa7293f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandHelpHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Help: Show the kinds of responses you can enter.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00102">102</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d020019c649794590a6037bb6c912c1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandHelpTerms</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to help;choices;\?. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00111">111</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acbec2b1e0dc2906057d67bad031bd6e2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandQuit</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Quit. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00120">120</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6aaec3d73c945b9a1be1c78a836d9114"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandQuitHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Quit: Quit the form without completing it.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00129">129</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7714eabb0c84dea4ca9601cb46de1896"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandQuitTerms</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to quit;stop;finish;goodby?;good bye?;bye;ciao;adios;bye-bye;so long;cheers. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00138">138</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a74bc08c8838e1f2906ddb02fdfa723ef"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandReset</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Start over. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00147">147</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a22a4b11741fd9fae7d26615f3054a0df"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandResetHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Reset: Start over filling in the form. (With defaults from your previous entries.). </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00156">156</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5dcffc68cf1b063bf68885e4f454ef9e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandResetTerms</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to start over;reset;clear. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00165">165</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7117f62850903a8f798a415d6f26e2ec"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandStatus</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Status. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00174">174</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a62c381fc88e2077e2a24d798aa0770c8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandStatusHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Status: Show your progress in filling in the form so far.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00183">183</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a67001e28b26b5c68ad652d391da8bcbf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.CommandStatusTerms</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to status;progress;so far;results. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00192">192</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a14c461491529d32c59e09d2779cde370"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.Confirmation</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Confirmation. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00201">201</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a83154ddfe2c876cc9d69be1b69367f02"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.ConfirmChoiceFormat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to {1}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00210">210</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aa1916bf87dd784c5c98ec8c5e321e804"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">global.System.Globalization.CultureInfo Microsoft.Bot.Builder.Resource.Resources.Culture</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span><span class="mlabel">set</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Overrides the current thread's CurrentUICulture property for all resource lookups using this strongly typed resource class. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00054">54</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a81c9ef82da89af768b4c19495b56d8d7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.DefaultChoiceFormat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to {0}. {1}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00219">219</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7d7b5f2120b1e369c2faaf91b213f14f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.DefaultChoiceLastSeparator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to , or . </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00228">228</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a73e49d1075c1d894d8bfc944dca71147"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.DefaultChoiceSeparator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to , . </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00237">237</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a68c422e7124c93d823c928c6c3c9532c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.DefaultLastSeparator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to , and . </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00246">246</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7ad60744e7639f3377ccb140c43a931b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.DefaultSeparator</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to , . </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00255">255</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a640310f35ab4dd51ab8e3916f8675db3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.LanguageArticles</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to a;an;the. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00264">264</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a362edefc5d3752c58b50ef5620b97daa"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.LanguageStopWords</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to a;about;above;above;across;after;afterwards;again;against;all;almost;alone;along;already;also;although;always;am;among;amongst;amoungst;amount;an;and;another;any;anyhow;anyone;anything;anyway;anywhere;are;around;as;at;back;be;became;because;become;becomes;becoming;been;before;beforehand;behind;being;below;beside;besides;between;beyond;bill;both;bottom;but;by;call;can;cannot;cant;co;con;could;couldnt;cry;de;describe;detail;do;done;down;due;during;each;eg;eight;either;eleven;else;elsewhere;empty;enough;etc;ev [rest of string was truncated]&quot;;. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00273">273</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a40d76fa399db7dbc4bc9b57b681b9c3a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.MatchCurrentChoice</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Current Choice('c');current;c;current choice;no change. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00282">282</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afb6986966596fed3d6f3015176a4d709"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.MatchNo</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to No;n;nope;2. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00291">291</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0f956ab469a2a54d85dfceaf52b01267"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.MatchNoPreference</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to No Preference;no;none;I don'?t care. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00300">300</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5c1621b4730a39fcf8b9d715b72ff03c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.MatchYes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Yes;y;sure;ok;yep;1. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00309">309</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2eb4b65feae92beb821c51a6370cf885"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.Navigation</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Field Name. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00318">318</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a86f7ec9069610af3b98d665c83410df7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.PromptRetry</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to I didn't understand. Say something in reply.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00327">327</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a671b6b7f0376d05528a840afbc53304d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">global.System.Resources.ResourceManager Microsoft.Bot.Builder.Resource.Resources.ResourceManager</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the cached ResourceManager instance used by this class. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00039">39</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a36e29df2e71c3730890dddef2443617c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateBool</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Would you like a {&amp;}? {||}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00336">336</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4d29dc709d733b70aa820789a297350f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateBoolHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please enter 'yes' or 'no'{?, {0}}.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00345">345</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adf3a49b0046cbb15d7455f2f19f70b88"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateClarify</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to By &quot;{0}&quot; {&amp;} did you mean {||}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00354">354</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4be1d32a0c13d94d0aefe35f01d65242"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateConfirmation</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Is this your selection? {*}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00364">364</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4331a1048aeef02214c783e54c23d93a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateCurrentChoice</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to (current choice: {}). </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00373">373</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="afdcd27135c9c6d7bb6f65473e05b9597"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateDateTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please enter a date and time for {&amp;} {||}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00382">382</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a76d807206326cdd72f4345edc274676b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateDateTimeHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please enter a date or time expression {?, {0}}{?, {1}}.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00391">391</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a353112c6198d2fb046b1ed6cf0889690"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateDouble</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please enter a number {?between {0:F1} and {1:F1}} for {&amp;} {||}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00400">400</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a113da3db532f83c859602da22e280355"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateDoubleChoiceFormat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to {1}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00409">409</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7a8a6b1639dd694ebeaf177bc3c902ef"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateDoubleHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00418">418</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abd6c535250d1d0256caf2a28b6ec5040"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateEnumManyNumberHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to You can enter one or more numbers {0}-{1} or words from the descriptions. ({2}). </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00427">427</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2c9b20376c9480dcd076e1b886701f83"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateEnumManyWordHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to You can enter in one or more selections from the descriptions. ({2}). </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00436">436</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ade2cb5eaad226a984109bcffc3dad76f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateEnumOneNumberHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to You can enter a number {0}-{1} or words from the descriptions. ({2}). </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00445">445</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a38d14be0c6512e049bb7e2332065f8d3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateEnumOneWordHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to You can enter in any words from the descriptions. ({2}). </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00454">454</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="adf677a9ff60a7a685935e6e96afba815"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateEnumSelectMany</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please select one or more {&amp;} {||}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00463">463</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7ca8ca3d69826861dea137937e1cfe1a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateEnumSelectOne</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please select a {&amp;} {||}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00472">472</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8872ebe1d82b96f13b0d27dfb589deaf"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateFeedback</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to For {&amp;} I understood {}. {?&quot;{0}&quot; is not an option.}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00481">481</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a52f4b2a020c3981ad8a947dbd7b6e165"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to You are filling in the {&amp;} field. Possible responses: {0} {1}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00492">492</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6c10e885bd1fcd86d107e945079f1a8b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateHelpClarify</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to You are clarifying a {&amp;} value. Possible responses: {0} {1}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00503">503</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a09c6fb49f03ab94db7d590843dbe754c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateHelpConfirm</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please answer the question. Possible responses: {0} {1}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00514">514</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5249f3b240aba4054844cd4074118d53"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateHelpNavigation</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Choose what field to change. Possible responses: {0} {1}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00525">525</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab231f5c9fa21a6d67cd871782a1c9861"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateInteger</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please enter a number{? between {0} and {1}} for {&amp;} {||}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00534">534</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a089b2df091635340324948b45da96651"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateIntegerChoiceFormat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to {1}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00543">543</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acfef8112d8d7e141c71cbde6a095f7b7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateIntegerHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00552">552</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a12f4c469fc1157d15ac2aa9f496990d4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateNavigation</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to What do you want to change? {||}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00561">561</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a40fc54d28d570a09a4fb5109e6a04f12"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateNavigationCommandHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to You can switch to another field by entering its name. ({0}).. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00570">570</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a63db451beefd2434214b760e04cf2b71"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateNavigationFormat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to {&amp;}({}). </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00579">579</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a95e96233701be43ead9c41421302601d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateNavigationHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Choose {?a number from {0}-{1}, or} a field name.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00588">588</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2cfc35a273a877f0a9ce417436f6c589"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateNoPreference</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to No Preference. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00597">597</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aee9ef9f98feef8ce0b6b9cdfb291b5b7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateNotUnderstood</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to &quot;{0}&quot; is not a {&amp;} option.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00606">606</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad37ac150aef96c3199d461a99fda3908"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateStatusFormat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to {&amp;}: {}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00615">615</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acefd5a303713a664236791a0313ee163"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateString</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Please enter {&amp;} {||}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00624">624</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad894433f6027fb2a1cc678352e37bdd3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateStringChoiceFormat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to {1}. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00633">633</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a6506bb5884f757c9f4cb032d13419299"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateStringHelp</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to You can enter anything (use &quot;'s to force string){?, {0}}{?, {1}}.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00642">642</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab1f61bbc61f191cb686f24b8325d500b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TemplateUnspecified</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Unspecified. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00651">651</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3509b5f84d0c5308e7fa727a496e5ed0"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.TooManyAttempts</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to too many attempts. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00660">660</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a96dc785e931134715296bb19308a9998"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.UnhandledExceptionToUser</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to Sorry, my bot code is having an issue.. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00669">669</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2ec525a1918826c79ebf64dda1d984d6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">string Microsoft.Bot.Builder.Resource.Resources.UserProfileDeleted</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">get</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up a localized string similar to User profile deleted!. </p>
+
+<p>Definition at line <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html#l00678">678</a> of file <a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="../../d6/d0e/_resources_8_designer_8cs_source.html">Resources.Designer.cs</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.11-->
+<!-- start footer part -->
+<!-- id is needed for treeview function! -->
+<div class="outline footer">
+    <ul>
+        <li><a href="//aka.ms/bf-contactus">Contact us</a></li>
+        <li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
+        <li><a href="//aka.ms/bf-terms">Terms of use</a></li>
+        <li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
+        <li>&copy; 2016 Microsoft</li>
+    </ul>
+</div>
+<script src="//bot-framework.azureedge.net/libs/svgxuse.js"></script>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100954936); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100954936ns.gif" /></p></noscript>
+</body>
+</html>

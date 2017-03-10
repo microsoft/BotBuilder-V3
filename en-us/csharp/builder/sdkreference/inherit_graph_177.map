@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$dd/dc9/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_built_in.html" title="Microsoft.Bot.Builder.Luis.\lBuiltIn" alt="" coords="5,5,180,47"/>
+<area shape="rect" id="node2" href="$d0/df2/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_binding_comparer.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.BindingComparer" alt="" coords="135,5,344,47"/>
+<area shape="rect" id="node3" href="$d7/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_intent_comparer.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.IntentComparer" alt="" coords="135,71,344,112"/>
+<area shape="rect" id="node4" href="$d2/d5f/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_match_comparer.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.MatchComparer" alt="" coords="135,136,344,177"/>
+<area shape="rect" id="node5" href="$d3/d8c/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_null_comparer.html" title="A null comparer that pretends every item is equal. This is particularly useful with stable sorts..." alt="" coords="135,201,344,243"/>
 </map>

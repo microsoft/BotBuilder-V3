@@ -1,0 +1,5 @@
+<map id="Microsoft.Bot.Builder.Scorables.Internals.MethodScorableBase" name="Microsoft.Bot.Builder.Scorables.Internals.MethodScorableBase">
+<area shape="rect" id="node3" href="$d2/d16/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_delegate_scorable.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.DelegateScorable" alt="" coords="481,5,691,47"/>
+<area shape="rect" id="node4" href="$dd/d36/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_method_scorable.html" title="Scorable to represent binding arguments to a method&#39;s parameters. " alt="" coords="481,71,691,112"/>
+<area shape="rect" id="node2" href="$de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_scorable_base.html" title="ScorableBase\&lt; IResolver,\l IBinding, IBinding \&gt;" alt="" coords="5,39,176,80"/>
+</map>

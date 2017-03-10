@@ -131,6 +131,9 @@ $(document).ready(function(){initNavTree('de/d6a/class_microsoft_1_1_bot_1_1_bui
 <div class="title">Microsoft.Bot.Builder.Dialogs.Internals.PersistentDialogTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This dialog task loads the dialog stack from <a class="el" href="../../db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html" title="Private bot data. ">IBotData</a> before handling the incoming activity and saves the dialog stack to <a class="el" href="../../db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html" title="Private bot data. ">IBotData</a> afterwards.  
+ <a href="../../de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html#details">More...</a></p>
 <div class="dynheader">
 Inheritance diagram for Microsoft.Bot.Builder.Dialogs.Internals.PersistentDialogTask:</div>
 <div class="dyncontent">
@@ -142,14 +145,15 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.Internals.PersistentDialog
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a520e8add1e8153eb78e9918347f08ab2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html#a520e8add1e8153eb78e9918347f08ab2">PersistentDialogTask</a> (Func&lt; <a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a> &gt; makeInner, <a class="el" href="../../db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html">IBotData</a> botData)</td></tr>
-<tr class="separator:a520e8add1e8153eb78e9918347f08ab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f01ea72c0e7267c81e066d27e80c3b9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_persistent_dialog_task.html#a7f01ea72c0e7267c81e066d27e80c3b9">PersistentDialogTask</a> (<a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a> inner, <a class="el" href="../../db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html">IBotData</a> botData)</td></tr>
+<tr class="separator:a7f01ea72c0e7267c81e066d27e80c3b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html#l00394">394</a> of file <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html">DialogTask.cs</a>.</p>
+<div class="textblock"><p>This dialog task loads the dialog stack from <a class="el" href="../../db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html" title="Private bot data. ">IBotData</a> before handling the incoming activity and saves the dialog stack to <a class="el" href="../../db/d9b/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_bot_data.html" title="Private bot data. ">IBotData</a> afterwards. </p>
+
+<p>Definition at line <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html#l00443">443</a> of file <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html">DialogTask.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a520e8add1e8153eb78e9918347f08ab2"></a>
+<a class="anchor" id="a7f01ea72c0e7267c81e066d27e80c3b9"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -159,8 +163,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">Microsoft.Bot.Builder.Dialogs.Internals.PersistentDialogTask.PersistentDialogTask </td>
           <td>(</td>
-          <td class="paramtype">Func&lt; <a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a> &gt;&#160;</td>
-          <td class="paramname"><em>makeInner</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html">IPostToBot</a>&#160;</td>
+          <td class="paramname"><em>inner</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -181,7 +185,7 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html#l00399">399</a> of file <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html">DialogTask.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html#l00448">448</a> of file <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html">DialogTask.cs</a>.</p>
 
 </div>
 </div>

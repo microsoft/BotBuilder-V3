@@ -138,11 +138,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7fc1fdb18f998b132b60a797626a6e30"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dfd/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authenticator.html#a7fc1fdb18f998b132b60a797626a6e30">BotAuthenticator</a> (string microsoftAppId, string microsoftAppPassword)</td></tr>
 <tr class="memdesc:a7fc1fdb18f998b132b60a797626a6e30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an instance of bot authenticator.  <a href="#a7fc1fdb18f998b132b60a797626a6e30">More...</a><br /></td></tr>
 <tr class="separator:a7fc1fdb18f998b132b60a797626a6e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31e2a415d1616d5363a243347a79562d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dfd/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authenticator.html#a31e2a415d1616d5363a243347a79562d">BotAuthenticator</a> (<a class="el" href="../../d3/d4a/interface_microsoft_1_1_bot_1_1_connector_1_1_i_credential_provider.html">ICredentialProvider</a> credentialProvider)</td></tr>
+<tr class="separator:a31e2a415d1616d5363a243347a79562d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b45a76fc807d3d1560e0e28099d2d47"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dfd/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authenticator.html#a0b45a76fc807d3d1560e0e28099d2d47">BotAuthenticator</a> (<a class="el" href="../../d3/d4a/interface_microsoft_1_1_bot_1_1_connector_1_1_i_credential_provider.html">ICredentialProvider</a> credentialProvider, string openIdConfigurationUrl, bool disableEmulatorTokens)</td></tr>
 <tr class="separator:a0b45a76fc807d3d1560e0e28099d2d47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2c80adf9767d2d740516b0f8c631f1e"><td class="memItemLeft" align="right" valign="top">async Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dfd/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authenticator.html#ac2c80adf9767d2d740516b0f8c631f1e">TryAuthenticateAsync</a> (HttpRequestMessage request, IEnumerable&lt; <a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html">IActivity</a> &gt; activities, CancellationToken token)</td></tr>
 <tr class="memdesc:ac2c80adf9767d2d740516b0f8c631f1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Authenticates the incoming request and add the <a class="el" href="../../de/d19/interface_microsoft_1_1_bot_1_1_connector_1_1_i_activity.html#a64ea61e741a3a1740c64b7e547979b16" title="ServiceUrl ">IActivity.ServiceUrl</a> for each activities to <a class="el" href="../../db/d61/class_microsoft_1_1_bot_1_1_connector_1_1_microsoft_app_credentials.html#ae70c4abef461cda85bfd2a41d36b7871">MicrosoftAppCredentials.TrustedHostNames</a> if the request is authenticated.  <a href="#ac2c80adf9767d2d740516b0f8c631f1e">More...</a><br /></td></tr>
 <tr class="separator:ac2c80adf9767d2d740516b0f8c631f1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31a3469f0dce4d26ed7a83dbe08449f5"><td class="memItemLeft" align="right" valign="top">async Task&lt; <a class="el" href="../../d5/d65/class_microsoft_1_1_bot_1_1_connector_1_1_identity_token.html">IdentityToken</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/dfd/class_microsoft_1_1_bot_1_1_connector_1_1_bot_authenticator.html#a31a3469f0dce4d26ed7a83dbe08449f5">TryAuthenticateAsync</a> (string scheme, string token, CancellationToken cancellationToken)</td></tr>
+<tr class="separator:a31a3469f0dce4d26ed7a83dbe08449f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -152,7 +156,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html#l00129">129</a> of file <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html">BotAuthentication.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html#l00018">18</a> of file <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html">BotAuthenticator.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a7fc1fdb18f998b132b60a797626a6e30"></a>
 <div class="memitem">
@@ -196,7 +200,33 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <p>This constructor sets the openIdConfigurationUrl to <a class="el" href="../../da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#a3f7d4f9b23fa902d4ea7adfeef72fa37" title="TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA ">JwtConfig.ToBotFromChannelOpenIdMetadataUrl</a> and doesn't disable the self issued tokens used by emulator. </p>
 
-<p>Definition at line <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html#l00144">144</a> of file <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html">BotAuthentication.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html#l00033">33</a> of file <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html">BotAuthenticator.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a31e2a415d1616d5363a243347a79562d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">Microsoft.Bot.Connector.BotAuthenticator.BotAuthenticator </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d4a/interface_microsoft_1_1_bot_1_1_connector_1_1_i_credential_provider.html">ICredentialProvider</a>&#160;</td>
+          <td class="paramname"><em>credentialProvider</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html#l00041">41</a> of file <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html">BotAuthenticator.cs</a>.</p>
 
 </div>
 </div>
@@ -238,7 +268,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html#l00152">152</a> of file <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html">BotAuthentication.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html#l00046">46</a> of file <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html">BotAuthenticator.cs</a>.</p>
 
 </div>
 </div>
@@ -274,7 +304,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A response with status code unauthorized.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html#l00186">186</a> of file <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html">BotAuthentication.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html#l00080">80</a> of file <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html">BotAuthenticator.cs</a>.</p>
 
 </div>
 </div>
@@ -327,12 +357,54 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p>Definition at line <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html#l00173">173</a> of file <a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html">BotAuthentication.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html#l00067">67</a> of file <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html">BotAuthenticator.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a31a3469f0dce4d26ed7a83dbe08449f5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">async Task&lt;<a class="el" href="../../d5/d65/class_microsoft_1_1_bot_1_1_connector_1_1_identity_token.html">IdentityToken</a>&gt; Microsoft.Bot.Connector.BotAuthenticator.TryAuthenticateAsync </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>scheme</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>token</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>cancellationToken</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html#l00130">130</a> of file <a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html">BotAuthenticator.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li><a class="el" href="../../d0/d3b/_bot_authentication_8cs_source.html">BotAuthentication.cs</a></li>
+<li><a class="el" href="../../df/d77/_bot_authenticator_8cs_source.html">BotAuthenticator.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

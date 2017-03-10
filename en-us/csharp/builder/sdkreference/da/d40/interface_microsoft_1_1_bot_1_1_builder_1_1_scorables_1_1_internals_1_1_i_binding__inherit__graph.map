@@ -1,0 +1,4 @@
+<map id="Microsoft.Bot.Builder.Scorables.Internals.IBinding" name="Microsoft.Bot.Builder.Scorables.Internals.IBinding">
+<area shape="rect" id="node2" href="$d1/d94/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_binding.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.Binding\&lt; R \&gt;" alt="" coords="263,5,472,47"/>
+<area shape="rect" id="node3" href="$d7/d70/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_i_binding.html" title="Represents a binding of arguments to a method&#39;s parameter, where the method returns a value of type R..." alt="" coords="263,71,472,112"/>
+</map>

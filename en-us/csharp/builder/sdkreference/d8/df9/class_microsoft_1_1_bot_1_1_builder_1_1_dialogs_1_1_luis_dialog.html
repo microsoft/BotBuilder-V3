@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <title>Microsoft.Bot.Builder.Dialogs.LuisDialog&lt; R &gt; Class Template Reference | Bot Builder SDK C# Reference Library | Bot Framework</title>
+    <title>Microsoft.Bot.Builder.Dialogs.LuisDialog&lt; TResult &gt; Class Template Reference | Bot Builder SDK C# Reference Library | Bot Framework</title>
     <link href="../../tabs.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="../../jquery.js"></script>
     <script type="text/javascript" src="../../dynsections.js"></script>
@@ -131,66 +131,78 @@ $(document).ready(function(){initNavTree('d8/df9/class_microsoft_1_1_bot_1_1_bui
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../d5/da6/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Microsoft.Bot.Builder.Dialogs.LuisDialog&lt; R &gt; Class Template Reference</div>  </div>
+<div class="title">Microsoft.Bot.Builder.Dialogs.LuisDialog&lt; TResult &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>A dialog specialized to handle intents and entities from LUIS.  
  <a href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#details">More...</a></p>
 <div class="dynheader">
-Inheritance diagram for Microsoft.Bot.Builder.Dialogs.LuisDialog&lt; R &gt;:</div>
+Inheritance diagram for Microsoft.Bot.Builder.Dialogs.LuisDialog&lt; TResult &gt;:</div>
 <div class="dyncontent">
-<div class="center"><img src="../../da/dfc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_dialogs_8_luis_dialog_3_01_r_01_4_inherit__map" alt="Inheritance graph"/></div>
-<map name="_microsoft_8_bot_8_builder_8_dialogs_8_luis_dialog_3_01_r_01_4_inherit__map" id="_microsoft_8_bot_8_builder_8_dialogs_8_luis_dialog_3_01_r_01_4_inherit__map">
-<area shape="rect" id="node2" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html" title="IDialog\&lt; R \&gt;" alt="" coords="55,5,150,32"/>
+<div class="center"><img src="../../da/dfc/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_dialogs_8_luis_dialog_3_01_t_result_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="_microsoft_8_bot_8_builder_8_dialogs_8_luis_dialog_3_01_t_result_01_4_inherit__map" id="_microsoft_8_bot_8_builder_8_dialogs_8_luis_dialog_3_01_t_result_01_4_inherit__map">
+<area shape="rect" id="node2" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html" title="IDialog\&lt; TResult \&gt;" alt="" coords="38,5,167,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae415e51897a5e059c31a58adf0bf3bcf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ae415e51897a5e059c31a58adf0bf3bcf">LuisDialog</a> (params <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>[] <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ab206f1866cc18f6b5aeefa3042819481">services</a>)</td></tr>
-<tr class="memdesc:ae415e51897a5e059c31a58adf0bf3bcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the LUIS dialog.  <a href="#ae415e51897a5e059c31a58adf0bf3bcf">More...</a><br /></td></tr>
-<tr class="separator:ae415e51897a5e059c31a58adf0bf3bcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1147bdb85a43390ccff4f28099fd8424"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a1147bdb85a43390ccff4f28099fd8424">MakeServicesFromAttributes</a> ()</td></tr>
-<tr class="separator:a1147bdb85a43390ccff4f28099fd8424"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a124c0feef93de82eeb0b609a844fce6c"><td class="memItemLeft" align="right" valign="top">virtual async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a124c0feef93de82eeb0b609a844fce6c">StartAsync</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context)</td></tr>
-<tr class="separator:a124c0feef93de82eeb0b609a844fce6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe64b5f489c0b73c1d9e3e8ff969e600"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#abe64b5f489c0b73c1d9e3e8ff969e600">LuisDialog</a> (params <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>[] <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a68a932334df4c6c39d96a0103e4f9bf9">services</a>)</td></tr>
+<tr class="memdesc:abe64b5f489c0b73c1d9e3e8ff969e600"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct the LUIS dialog.  <a href="#abe64b5f489c0b73c1d9e3e8ff969e600">More...</a><br /></td></tr>
+<tr class="separator:abe64b5f489c0b73c1d9e3e8ff969e600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a350c3555147b7e7cde4c39667cca99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a5a350c3555147b7e7cde4c39667cca99">MakeServicesFromAttributes</a> ()</td></tr>
+<tr class="separator:a5a350c3555147b7e7cde4c39667cca99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f13443f7d917d953cac676dbe800917"><td class="memItemLeft" align="right" valign="top">virtual async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a6f13443f7d917d953cac676dbe800917">StartAsync</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context)</td></tr>
+<tr class="separator:a6f13443f7d917d953cac676dbe800917"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ac4f5bac5d4412c9fc7a23d7a41489819"><td class="memItemLeft" align="right" valign="top">static IEnumerable&lt; KeyValuePair&lt; string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ac4f5bac5d4412c9fc7a23d7a41489819">EnumerateHandlers</a> (object dialog)</td></tr>
-<tr class="memdesc:ac4f5bac5d4412c9fc7a23d7a41489819"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate the handlers based on the attributes on the dialog instance.  <a href="#ac4f5bac5d4412c9fc7a23d7a41489819">More...</a><br /></td></tr>
-<tr class="separator:ac4f5bac5d4412c9fc7a23d7a41489819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b01cb2117ddf829a82954ec394e5412"><td class="memItemLeft" align="right" valign="top">static IEnumerable&lt; KeyValuePair&lt; string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a0b01cb2117ddf829a82954ec394e5412">EnumerateHandlers</a> (object dialog)</td></tr>
+<tr class="memdesc:a0b01cb2117ddf829a82954ec394e5412"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumerate the handlers based on the attributes on the dialog instance.  <a href="#a0b01cb2117ddf829a82954ec394e5412">More...</a><br /></td></tr>
+<tr class="separator:a0b01cb2117ddf829a82954ec394e5412"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a011fd0c1d2f2a3c17804b5738a1b3617"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html">IntentRecommendation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a011fd0c1d2f2a3c17804b5738a1b3617">BestIntentFrom</a> (<a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a> result)</td></tr>
-<tr class="memdesc:a011fd0c1d2f2a3c17804b5738a1b3617"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the best scored IntentRecommendation from a LuisResult.  <a href="#a011fd0c1d2f2a3c17804b5738a1b3617">More...</a><br /></td></tr>
-<tr class="separator:a011fd0c1d2f2a3c17804b5738a1b3617"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1193172f40ded307105589e1e96784d1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html">LuisServiceResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a1193172f40ded307105589e1e96784d1">BestResultFrom</a> (IEnumerable&lt; <a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a> &gt; results)</td></tr>
-<tr class="memdesc:a1193172f40ded307105589e1e96784d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the best scored IntentRecommendation across some LuisResult objects.  <a href="#a1193172f40ded307105589e1e96784d1">More...</a><br /></td></tr>
-<tr class="separator:a1193172f40ded307105589e1e96784d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeef73fb56a24a341d60ebe92f21db1ea"><td class="memItemLeft" align="right" valign="top">virtual IDictionary&lt; string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#aeef73fb56a24a341d60ebe92f21db1ea">GetHandlersByIntent</a> ()</td></tr>
-<tr class="separator:aeef73fb56a24a341d60ebe92f21db1ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad1e49e3d12c1b3225ed17b1bae27c692"><td class="memItemLeft" align="right" valign="top">virtual Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ad1e49e3d12c1b3225ed17b1bae27c692">GetLuisQueryTextAsync</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context, <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> message)</td></tr>
-<tr class="separator:ad1e49e3d12c1b3225ed17b1bae27c692"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad66bae9ecfb46e7212feeff64b078a38"><td class="memItemLeft" align="right" valign="top">virtual async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ad66bae9ecfb46e7212feeff64b078a38">MessageReceived</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context, <a class="el" href="../../d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html">IAwaitable</a>&lt; <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> &gt; item)</td></tr>
-<tr class="separator:ad66bae9ecfb46e7212feeff64b078a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4cf46852fb3910a16ce3955bd272077"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html">IntentRecommendation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ac4cf46852fb3910a16ce3955bd272077">BestIntentFrom</a> (<a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a> result)</td></tr>
+<tr class="memdesc:ac4cf46852fb3910a16ce3955bd272077"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the best scored IntentRecommendation from a LuisResult.  <a href="#ac4cf46852fb3910a16ce3955bd272077">More...</a><br /></td></tr>
+<tr class="separator:ac4cf46852fb3910a16ce3955bd272077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad21e964975be05e9fe6bc10b0c35578f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html">LuisServiceResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ad21e964975be05e9fe6bc10b0c35578f">BestResultFrom</a> (IEnumerable&lt; <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html">LuisServiceResult</a> &gt; results)</td></tr>
+<tr class="memdesc:ad21e964975be05e9fe6bc10b0c35578f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the best scored <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html" title="Matches a LuisResult object with the best scored IntentRecommendation of the LuisResult and correspon...">LuisServiceResult</a> across multiple <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html" title="Matches a LuisResult object with the best scored IntentRecommendation of the LuisResult and correspon...">LuisServiceResult</a> returned by different ILuisService.  <a href="#ad21e964975be05e9fe6bc10b0c35578f">More...</a><br /></td></tr>
+<tr class="separator:ad21e964975be05e9fe6bc10b0c35578f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a271596095ae0d0dee39269750837a0a0"><td class="memItemLeft" align="right" valign="top">virtual async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a271596095ae0d0dee39269750837a0a0">DispatchToIntentHandler</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context, <a class="el" href="../../d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html">IAwaitable</a>&lt; <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> &gt; item, <a class="el" href="../../dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html">IntentRecommendation</a> bestInent, <a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a> result)</td></tr>
+<tr class="separator:a271596095ae0d0dee39269750837a0a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7782a3b88808b838aca73c916cc7e96b"><td class="memItemLeft" align="right" valign="top">virtual IDictionary&lt; string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a7782a3b88808b838aca73c916cc7e96b">GetHandlersByIntent</a> ()</td></tr>
+<tr class="separator:a7782a3b88808b838aca73c916cc7e96b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d1a8e398f49b36d90e28c2da5ae19f1"><td class="memItemLeft" align="right" valign="top">virtual Task&lt; string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a4d1a8e398f49b36d90e28c2da5ae19f1">GetLuisQueryTextAsync</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context, <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> message)</td></tr>
+<tr class="separator:a4d1a8e398f49b36d90e28c2da5ae19f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21c324721862a22d320372581290d140"><td class="memItemLeft" align="right" valign="top">virtual async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a21c324721862a22d320372581290d140">LuisActionDialogFinished</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context, <a class="el" href="../../d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html">IAwaitable</a>&lt; <a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a> &gt; item)</td></tr>
+<tr class="separator:a21c324721862a22d320372581290d140"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9025086215bf9f24152a7c5ef79e43f7"><td class="memItemLeft" align="right" valign="top">virtual async Task&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; <a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a9025086215bf9f24152a7c5ef79e43f7">MakeLuisActionDialog</a> (<a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a> luisService, string contextId, string prompt)</td></tr>
+<tr class="separator:a9025086215bf9f24152a7c5ef79e43f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ed46beec19daecc50e9ff81ce1bae2e"><td class="memItemLeft" align="right" valign="top">virtual async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a8ed46beec19daecc50e9ff81ce1bae2e">MessageReceived</a> (<a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a> context, <a class="el" href="../../d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html">IAwaitable</a>&lt; <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> &gt; item)</td></tr>
+<tr class="separator:a8ed46beec19daecc50e9ff81ce1bae2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a98b0de95640c2b67b463737aaa7707ad"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a98b0de95640c2b67b463737aaa7707ad">handlerByIntent</a></td></tr>
-<tr class="memdesc:a98b0de95640c2b67b463737aaa7707ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapping from intent string to the appropriate handler.  <a href="#a98b0de95640c2b67b463737aaa7707ad">More...</a><br /></td></tr>
-<tr class="separator:a98b0de95640c2b67b463737aaa7707ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab206f1866cc18f6b5aeefa3042819481"><td class="memItemLeft" align="right" valign="top">readonly IReadOnlyList&lt; <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#ab206f1866cc18f6b5aeefa3042819481">services</a></td></tr>
-<tr class="separator:ab206f1866cc18f6b5aeefa3042819481"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8272f052c9470d9b5587329a0f170bc7"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a8272f052c9470d9b5587329a0f170bc7">handlerByIntent</a></td></tr>
+<tr class="memdesc:a8272f052c9470d9b5587329a0f170bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mapping from intent string to the appropriate handler.  <a href="#a8272f052c9470d9b5587329a0f170bc7">More...</a><br /></td></tr>
+<tr class="separator:a8272f052c9470d9b5587329a0f170bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a932334df4c6c39d96a0103e4f9bf9"><td class="memItemLeft" align="right" valign="top">readonly IReadOnlyList&lt; <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html#a68a932334df4c6c39d96a0103e4f9bf9">services</a></td></tr>
+<tr class="separator:a68a932334df4c6c39d96a0103e4f9bf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A dialog specialized to handle intents and entities from LUIS. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">TResult</td><td>The result type.</td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00138">138</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00143">143</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ae415e51897a5e059c31a58adf0bf3bcf"></a>
+<a class="anchor" id="abe64b5f489c0b73c1d9e3e8ff969e600"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -198,7 +210,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.<a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">LuisDialog</a> </td>
+          <td class="memname"><a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.<a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">LuisDialog</a> </td>
           <td>(</td>
           <td class="paramtype">params <a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>[]&#160;</td>
           <td class="paramname"><em>services</em></td><td>)</td>
@@ -220,12 +232,12 @@ Protected Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00157">157</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00162">162</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a011fd0c1d2f2a3c17804b5738a1b3617"></a>
+<a class="anchor" id="ac4cf46852fb3910a16ce3955bd272077"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -233,7 +245,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="../../dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html">IntentRecommendation</a> <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.BestIntentFrom </td>
+          <td class="memname">virtual <a class="el" href="../../dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html">IntentRecommendation</a> <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.BestIntentFrom </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a>&#160;</td>
           <td class="paramname"><em>result</em></td><td>)</td>
@@ -256,11 +268,11 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The best scored IntentRecommendation, or null if <em>result</em>  doesn't contain any intents.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00177">177</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00182">182</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1193172f40ded307105589e1e96784d1"></a>
+<a class="anchor" id="ad21e964975be05e9fe6bc10b0c35578f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -268,9 +280,9 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html">LuisServiceResult</a> <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.BestResultFrom </td>
+          <td class="memname">virtual <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html">LuisServiceResult</a> <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.BestResultFrom </td>
           <td>(</td>
-          <td class="paramtype">IEnumerable&lt; <a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a> &gt;&#160;</td>
+          <td class="paramtype">IEnumerable&lt; <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html">LuisServiceResult</a> &gt;&#160;</td>
           <td class="paramname"><em>results</em></td><td>)</td>
           <td></td>
         </tr>
@@ -282,20 +294,20 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Calculates the best scored IntentRecommendation across some LuisResult objects. </p>
+<p>Calculates the best scored <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html" title="Matches a LuisResult object with the best scored IntentRecommendation of the LuisResult and correspon...">LuisServiceResult</a> across multiple <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html" title="Matches a LuisResult object with the best scored IntentRecommendation of the LuisResult and correspon...">LuisServiceResult</a> returned by different ILuisService. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">results</td><td>Results of multiple LUIS services calls.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html" title="Matches a LuisResult object with the best scored IntentRecommendation of the LuisResult. ">LuisServiceResult</a> with the best scored IntentRecommendation and related LuisResult, or null if no one of <em>results</em>  contains any intents.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="../../d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html" title="Matches a LuisResult object with the best scored IntentRecommendation of the LuisResult and correspon...">LuisServiceResult</a> with the best scored IntentRecommendation and related LuisResult, or null if no one of <em>results</em>  contains any intents.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00188">188</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00194">194</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac4f5bac5d4412c9fc7a23d7a41489819"></a>
+<a class="anchor" id="a271596095ae0d0dee39269750837a0a0"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -303,7 +315,55 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static IEnumerable&lt;KeyValuePair&lt;string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a>&gt; &gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.EnumerateHandlers </td>
+          <td class="memname">virtual async Task <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.DispatchToIntentHandler </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a>&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html">IAwaitable</a>&lt; <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> &gt;&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_intent_recommendation.html">IntentRecommendation</a>&#160;</td>
+          <td class="paramname"><em>bestInent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a>&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00232">232</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0b01cb2117ddf829a82954ec394e5412"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static IEnumerable&lt;KeyValuePair&lt;string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a>&gt; &gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.EnumerateHandlers </td>
           <td>(</td>
           <td class="paramtype">object&#160;</td>
           <td class="paramname"><em>dialog</em></td><td>)</td>
@@ -326,11 +386,11 @@ Protected Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An enumeration of handlers.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00244">244</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00338">338</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aeef73fb56a24a341d60ebe92f21db1ea"></a>
+<a class="anchor" id="a7782a3b88808b838aca73c916cc7e96b"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -338,7 +398,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual IDictionary&lt;string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a>&gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.GetHandlersByIntent </td>
+          <td class="memname">virtual IDictionary&lt;string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a>&gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.GetHandlersByIntent </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -351,11 +411,11 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00231">231</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00264">264</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad1e49e3d12c1b3225ed17b1bae27c692"></a>
+<a class="anchor" id="a4d1a8e398f49b36d90e28c2da5ae19f1"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -363,7 +423,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual Task&lt;string&gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.GetLuisQueryTextAsync </td>
+          <td class="memname">virtual Task&lt;string&gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.GetLuisQueryTextAsync </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a>&#160;</td>
           <td class="paramname"><em>context</em>, </td>
@@ -387,11 +447,11 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00226">226</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00259">259</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a1147bdb85a43390ccff4f28099fd8424"></a>
+<a class="anchor" id="a21c324721862a22d320372581290d140"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -399,7 +459,85 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a> [] <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.MakeServicesFromAttributes </td>
+          <td class="memname">virtual async Task <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.LuisActionDialogFinished </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a>&#160;</td>
+          <td class="paramname"><em>context</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d9/d4e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_awaitable.html">IAwaitable</a>&lt; <a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a> &gt;&#160;</td>
+          <td class="paramname"><em>item</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00274">274</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9025086215bf9f24152a7c5ef79e43f7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual async Task&lt;<a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;<a class="el" href="../../dc/dbe/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_luis_result.html">LuisResult</a>&gt; &gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.MakeLuisActionDialog </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>&#160;</td>
+          <td class="paramname"><em>luisService</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>contextId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>prompt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00269">269</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5a350c3555147b7e7cde4c39667cca99"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a> [] <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.MakeServicesFromAttributes </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -412,11 +550,11 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00146">146</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00151">151</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ad66bae9ecfb46e7212feeff64b078a38"></a>
+<a class="anchor" id="a8ed46beec19daecc50e9ff81ce1bae2e"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -424,7 +562,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual async Task <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.MessageReceived </td>
+          <td class="memname">virtual async Task <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.MessageReceived </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a>&#160;</td>
           <td class="paramname"><em>context</em>, </td>
@@ -448,11 +586,11 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00197">197</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00199">199</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a124c0feef93de82eeb0b609a844fce6c"></a>
+<a class="anchor" id="a6f13443f7d917d953cac676dbe800917"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -460,7 +598,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual async Task <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.StartAsync </td>
+          <td class="memname">virtual async Task <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.StartAsync </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html">IDialogContext</a>&#160;</td>
           <td class="paramname"><em>context</em></td><td>)</td>
@@ -474,12 +612,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00167">167</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00172">172</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a98b0de95640c2b67b463737aaa7707ad"></a>
+<a class="anchor" id="a8272f052c9470d9b5587329a0f170bc7"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -487,7 +625,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Dictionary&lt;string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a>&gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.handlerByIntent</td>
+          <td class="memname">Dictionary&lt;string, <a class="el" href="../../d1/d6a/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs.html#a63e4c40aea6f27ce7e9b1e028a9414b3">IntentActivityHandler</a>&gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.handlerByIntent</td>
         </tr>
       </table>
   </td>
@@ -499,11 +637,11 @@ Protected Attributes</h2></td></tr>
 
 <p>Mapping from intent string to the appropriate handler. </p>
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00144">144</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00149">149</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ab206f1866cc18f6b5aeefa3042819481"></a>
+<a class="anchor" id="a68a932334df4c6c39d96a0103e4f9bf9"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -511,7 +649,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">readonly IReadOnlyList&lt;<a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>&gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; R &gt;.services</td>
+          <td class="memname">readonly IReadOnlyList&lt;<a class="el" href="../../d7/dd1/interface_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_i_luis_service.html">ILuisService</a>&gt; <a class="el" href="../../d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html">Microsoft.Bot.Builder.Dialogs.LuisDialog</a>&lt; TResult &gt;.services</td>
         </tr>
       </table>
   </td>
@@ -521,7 +659,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00140">140</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html#l00145">145</a> of file <a class="el" href="../../dd/d15/_luis_dialog_8cs_source.html">LuisDialog.cs</a>.</p>
 
 </div>
 </div>

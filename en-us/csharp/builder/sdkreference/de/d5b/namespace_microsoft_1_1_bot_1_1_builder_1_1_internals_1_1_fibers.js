@@ -1,7 +1,6 @@
 var namespace_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers =
 [
     [ "ClosureCaptureException", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception.html", "dd/d72/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_closure_capture_exception" ],
-    [ "DictionaryCache", "dd/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_dictionary_cache.html", "dd/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_dictionary_cache" ],
     [ "ErrorResilientStore", "dd/d14/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_error_resilient_store.html", "dd/d14/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_error_resilient_store" ],
     [ "Extensions", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions.html", "de/d93/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_extensions" ],
     [ "FactoryStore", "de/dcd/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_factory_store.html", "de/dcd/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_factory_store" ],
@@ -9,9 +8,8 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers =
     [ "FiberModule", "d1/d20/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_fiber_module.html", null ],
     [ "FormatterStore", "da/dd0/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_formatter_store.html", "da/dd0/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_formatter_store" ],
     [ "Frame", "da/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame.html", "da/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame" ],
-    [ "FrameFactory", "da/d34/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame_factory.html", "da/d34/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame_factory" ],
+    [ "FrameFactory", "da/d34/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame_factory.html", null ],
     [ "IAwaiter", "d3/d87/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_awaiter.html", "d3/d87/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_awaiter" ],
-    [ "ICache", "d6/d98/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_cache.html", "d6/d98/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_cache" ],
     [ "IFiber", "d3/d48/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber.html", "d3/d48/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber" ],
     [ "IFiberLoop", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop.html", "d3/d08/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber_loop" ],
     [ "IFrame", "db/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame.html", "db/d9a/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame" ],
@@ -33,7 +31,6 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers =
     [ "LocalMutualExclusion", "db/d04/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_local_mutual_exclusion.html", "db/d04/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_local_mutual_exclusion" ],
     [ "Methods", "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods.html", "da/d36/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_methods" ],
     [ "NormalizedTraits", "d0/d39/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_normalized_traits.html", "d0/d39/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_normalized_traits" ],
-    [ "NullCache", "d0/d48/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_cache.html", null ],
     [ "NullWait", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait.html", "df/d5c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_null_wait" ],
     [ "Pair", "d8/d8c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_pair.html", null ],
     [ "PostStruct", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct.html", "db/d2c/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_post_struct" ],

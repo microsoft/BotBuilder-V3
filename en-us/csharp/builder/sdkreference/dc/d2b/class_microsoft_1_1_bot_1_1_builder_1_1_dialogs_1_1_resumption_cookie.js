@@ -5,7 +5,7 @@ var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie =
     [ "Equals", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#ac50fc4795389da581417bff72d1332bc", null ],
     [ "Equals", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#add9bf1e9eb5a926e691115d5a2f62027", null ],
     [ "GetHashCode", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a308887d4d84fcee1bbcbe3bcab6b1c14", null ],
-    [ "GetMessage", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a66bb60a984db9b35f29fb74d986cc27e", null ],
+    [ "GetMessage", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#ad9484a6a5d6be2cbf17f45e9cf77fe57", null ],
     [ "GZipDeserialize", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a02039d5650160bcdfc84a28d1a0cdb02", null ],
     [ "Address", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a14b721fdcfa15a93d08c266d0d2b97e3", null ],
     [ "IsGroup", "dc/d2b/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_resumption_cookie.html#a2f11f629b08622552d95cf3978aae280", null ],

@@ -4,6 +4,8 @@ var class_microsoft_1_1_bot_1_1_connector_1_1_activity_types =
     [ "ConversationUpdate", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html#a14bd43cfc0413c432bfa0c592eb90a44", null ],
     [ "DeleteUserData", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html#a1bcb8b08cd403aaf7410e49125b775d6", null ],
     [ "EndOfConversation", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html#a34a4b66f398f3aab582ed54389c642e0", null ],
+    [ "Event", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html#ad0fd4d8dc3d040dfb4e98c3ab04bd47e", null ],
+    [ "Invoke", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html#ad49d9ea8b86d21bfb6d1ccabd60f94f6", null ],
     [ "Message", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html#a56fb3c4b57581d40c37b86ca3724b301", null ],
     [ "Ping", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html#af3dc5e21fbc8dc8ed96090208521b728", null ],
     [ "Trigger", "d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html#a448b9a23b88884085c3061ff528fe89f", null ],

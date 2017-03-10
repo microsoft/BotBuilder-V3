@@ -1,0 +1,8 @@
+<map id="Microsoft.Bot.Builder.Scorables.Internals.DelegatingResolver" name="Microsoft.Bot.Builder.Scorables.Internals.DelegatingResolver">
+<area shape="rect" id="node3" href="$d9/d34/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_activity_resolver.html" title="A resolver to recover C# type information from Activity schema types. " alt="" coords="385,5,595,47"/>
+<area shape="rect" id="node4" href="$de/d07/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_array_resolver.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.ArrayResolver" alt="" coords="385,71,595,112"/>
+<area shape="rect" id="node5" href="$da/dae/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_autofac_resolver.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.AutofacResolver" alt="" coords="385,136,595,177"/>
+<area shape="rect" id="node6" href="$d2/d3e/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_enum_resolver.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.EnumResolver" alt="" coords="385,201,595,243"/>
+<area shape="rect" id="node7" href="$dc/db2/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_property_resolver.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.PropertyResolver\&lt; T \&gt;" alt="" coords="385,267,595,308"/>
+<area shape="rect" id="node2" href="$d1/d15/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_i_resolver.html" title="Allow the resolution of values based on type and optionally tag. " alt="" coords="5,143,80,170"/>
+</map>

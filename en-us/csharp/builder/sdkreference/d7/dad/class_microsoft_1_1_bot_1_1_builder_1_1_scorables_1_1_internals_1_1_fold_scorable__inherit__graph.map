@@ -1,0 +1,6 @@
+<map id="Microsoft.Bot.Builder.Scorables.Internals.FoldScorable&lt; Item, Score &gt;" name="Microsoft.Bot.Builder.Scorables.Internals.FoldScorable&lt; Item, Score &gt;">
+<area shape="rect" id="node3" href="$d7/dc9/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_delegating_fold_scorable.html" title="This scorable delegates the stage event handler to an external delegate or an overridable virtual met..." alt="" coords="505,53,672,124"/>
+<area shape="rect" id="node2" href="$de/d7b/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_scorable_base.html" title="ScorableBase\&lt; Item,\l IReadOnlyList\&lt; FoldScorable\l\&lt; Item, Score \&gt;.State \&gt;,\l Score \&gt;" alt="" coords="5,53,200,124"/>
+<area shape="rect" id="node4" href="$d6/dd3/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_first_scorable.html" title="Microsoft::Bot::Builder\l::Scorables::Internals\l::FirstScorable\&lt; Item,\l Score \&gt;" alt="" coords="722,5,873,76"/>
+<area shape="rect" id="node5" href="$d8/dcb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_traits_scorable.html" title="Microsoft::Bot::Builder\l::Scorables::Internals\l::TraitsScorable\&lt; Item,\l Score \&gt;" alt="" coords="720,100,875,171"/>
+</map>

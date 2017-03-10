@@ -1,5 +1,8 @@
 var class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions =
 [
+    [ "GenerateHeroCard", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html#a834bc1131627e35b4b3611172bc9cdec", null ],
+    [ "GenerateHeroCards", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html#ae927d87a2d2be890c74ca59f00e2824f", null ],
+    [ "GenerateMessages", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html#abff216af1ae24937c78767e621477935", null ],
     [ "GetGenericElementType", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html#a1422bcbe86024db56789835af8d7852a", null ],
     [ "IsDouble", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html#aae7dd107370296ca1fda76a5d544fca7", null ],
     [ "IsGenericCollectionType", "d7/d6d/class_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_advanced_1_1_extensions.html#a9ed5bedf1870e45a0fd74c639a61f266", null ],

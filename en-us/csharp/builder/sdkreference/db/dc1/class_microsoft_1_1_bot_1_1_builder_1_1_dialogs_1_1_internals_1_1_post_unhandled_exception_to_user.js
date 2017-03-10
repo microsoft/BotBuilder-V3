@@ -1,0 +1,4 @@
+var class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_post_unhandled_exception_to_user =
+[
+    [ "PostUnhandledExceptionToUser", "db/dc1/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_post_unhandled_exception_to_user.html#a27dc9165d73fbcc575585dc77cda7be4", null ]
+];

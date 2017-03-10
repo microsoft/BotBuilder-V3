@@ -137,9 +137,10 @@ Inheritance diagram for Microsoft.Bot.Builder.Dialogs.Internals.IDialogTask:</di
 <div class="dyncontent">
 <div class="center"><img src="../../da/de0/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_dialog_task_inherit__map" alt="Inheritance graph"/></div>
 <map name="_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_dialog_task_inherit__map" id="_microsoft_8_bot_8_builder_8_dialogs_8_internals_8_i_dialog_task_inherit__map">
-<area shape="rect" id="node4" href="../../db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html" title="Microsoft.Bot.Builder.Dialogs.\lInternals.DialogTask" alt="" coords="13,169,207,211"/>
+<area shape="rect" id="node5" href="../../db/d87/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_dialog_task.html" title="A dialog task is a " alt="" coords="70,169,265,211"/>
 <area shape="rect" id="node2" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html" title="The stack of dialogs in the conversational process. " alt="" coords="5,5,100,32"/>
-<area shape="rect" id="node3" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html" title="Methods to send a message from the user to the bot. " alt="" coords="124,5,211,32"/>
+<area shape="rect" id="node3" href="../../dd/d33/interface_microsoft_1_1_bot_1_1_builder_1_1_base_1_1_i_event_loop.html" title="IEventLoop" alt="" coords="125,5,210,32"/>
+<area shape="rect" id="node4" href="../../d4/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_base_1_1_i_event_producer.html" title="IEventProducer\&lt; IActivity \&gt;" alt="" coords="234,5,413,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -157,12 +158,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ac4a3046691345fd43e183a99ff7372f5"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#ac4a3046691345fd43e183a99ff7372f5">Forward&lt; R, T &gt;</a> (<a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt; child, ResumeAfter&lt; R &gt; resume, T item, CancellationToken token)</td></tr>
 <tr class="memdesc:ac4a3046691345fd43e183a99ff7372f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call a child dialog, add it to the top of the stack and post the item to the child dialog.  <a href="#ac4a3046691345fd43e183a99ff7372f5">More...</a><br /></td></tr>
 <tr class="separator:ac4a3046691345fd43e183a99ff7372f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae301ed595f4ddd017391db2dece89a0f"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#ae301ed595f4ddd017391db2dece89a0f">PollAsync</a> (CancellationToken token)</td></tr>
-<tr class="memdesc:ae301ed595f4ddd017391db2dece89a0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll the dialog task for any work to be done.  <a href="#ae301ed595f4ddd017391db2dece89a0f">More...</a><br /></td></tr>
-<tr class="separator:ae301ed595f4ddd017391db2dece89a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a807f338a5ebb989bf23733749b0af04d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d38/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_post_to_bot.html#a807f338a5ebb989bf23733749b0af04d">PostAsync&lt; T &gt;</a> (T item, CancellationToken token)</td></tr>
-<tr class="memdesc:a807f338a5ebb989bf23733749b0af04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post an item (e.g. message or other external event) to the bot.  <a href="#a807f338a5ebb989bf23733749b0af04d">More...</a><br /></td></tr>
-<tr class="separator:a807f338a5ebb989bf23733749b0af04d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad336de2c4b5c5328cd1858c53ff9762d"><td class="memItemLeft" align="right" valign="top">Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d33/interface_microsoft_1_1_bot_1_1_builder_1_1_base_1_1_i_event_loop.html#ad336de2c4b5c5328cd1858c53ff9762d">PollAsync</a> (CancellationToken token)</td></tr>
+<tr class="memdesc:ad336de2c4b5c5328cd1858c53ff9762d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Poll the target for any work to be done.  <a href="#ad336de2c4b5c5328cd1858c53ff9762d">More...</a><br /></td></tr>
+<tr class="separator:ad336de2c4b5c5328cd1858c53ff9762d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e43d71453ca9f4e2409845b261bc46c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_base_1_1_i_event_producer.html#a8e43d71453ca9f4e2409845b261bc46c">Post</a> (Event @event, Action onPull=null)</td></tr>
+<tr class="separator:a8e43d71453ca9f4e2409845b261bc46c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d59eb11c908a51498fe7bbaadc93267"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#a6d59eb11c908a51498fe7bbaadc93267">Post&lt; E &gt;</a> (E @event, ResumeAfter&lt; E &gt; resume)</td></tr>
+<tr class="memdesc:a6d59eb11c908a51498fe7bbaadc93267"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post an internal event to the queue.  <a href="#a6d59eb11c908a51498fe7bbaadc93267">More...</a><br /></td></tr>
+<tr class="separator:a6d59eb11c908a51498fe7bbaadc93267"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab199b3ba7daea5c8f0e2c76da54ea04f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html#ab199b3ba7daea5c8f0e2c76da54ea04f">Reset</a> ()</td></tr>
 <tr class="memdesc:ab199b3ba7daea5c8f0e2c76da54ea04f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the stack.  <a href="#ab199b3ba7daea5c8f0e2c76da54ea04f">More...</a><br /></td></tr>
 <tr class="separator:ab199b3ba7daea5c8f0e2c76da54ea04f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,7 +181,7 @@ Properties</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html#l00048">48</a> of file <a class="el" href="../../d3/db4/_dialog_task_8cs_source.html">DialogTask.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00105">105</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a49c6523645f574c7712e5155fb3b4973"></a>
 <div class="memitem">
@@ -364,7 +367,7 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ae301ed595f4ddd017391db2dece89a0f"></a>
+<a class="anchor" id="ad336de2c4b5c5328cd1858c53ff9762d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -372,7 +375,7 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Task Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack.PollAsync </td>
+          <td class="memname">Task Microsoft.Bot.Builder.Base.IEventLoop.PollAsync </td>
           <td>(</td>
           <td class="paramtype">CancellationToken&#160;</td>
           <td class="paramname"><em>token</em></td><td>)</td>
@@ -386,7 +389,7 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Poll the dialog task for any work to be done. </p>
+<p>Poll the target for any work to be done. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">token</td><td>A cancellation token.</td></tr>
@@ -397,7 +400,7 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a807f338a5ebb989bf23733749b0af04d"></a>
+<a class="anchor" id="a8e43d71453ca9f4e2409845b261bc46c"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -405,16 +408,16 @@ Properties</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Task Microsoft.Bot.Builder.Dialogs.Internals.IPostToBot.PostAsync&lt; T &gt; </td>
+          <td class="memname">void <a class="el" href="../../d4/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_base_1_1_i_event_producer.html">Microsoft.Bot.Builder.Base.IEventProducer</a>&lt; in in Event &gt;.Post </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>item</em>, </td>
+          <td class="paramtype">Event @&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">CancellationToken&#160;</td>
-          <td class="paramname"><em>token</em>&#160;</td>
+          <td class="paramtype">Action&#160;</td>
+          <td class="paramname"><em>onPull</em> = <code>null</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -429,15 +432,48 @@ Properties</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Post an item (e.g. message or other external event) to the bot. </p>
+</div>
+</div>
+<a class="anchor" id="a6d59eb11c908a51498fe7bbaadc93267"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Microsoft.Bot.Builder.Dialogs.Internals.IDialogStack.Post&lt; E &gt; </td>
+          <td>(</td>
+          <td class="paramtype">E @&#160;</td>
+          <td class="paramname"><em>event</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ResumeAfter&lt; E &gt;&#160;</td>
+          <td class="paramname"><em>resume</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Post an internal event to the queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">item</td><td>The item for the bot.</td></tr>
-    <tr><td class="paramname">token</td><td>The cancellation token.</td></tr>
+    <tr><td class="paramname">event</td><td>The event to post to the queue.</td></tr>
+    <tr><td class="paramname">resume</td><td>The method to resume when the event has been delivered.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A task that represents the post operation.</dd></dl>
 
 </div>
 </div>
@@ -519,12 +555,12 @@ Properties</h2></td></tr>
 
 <p>The dialog frames active on the stack. </p>
 
-<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00049">49</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00051">51</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="../../d3/db4/_dialog_task_8cs_source.html">DialogTask.cs</a></li>
+<li><a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

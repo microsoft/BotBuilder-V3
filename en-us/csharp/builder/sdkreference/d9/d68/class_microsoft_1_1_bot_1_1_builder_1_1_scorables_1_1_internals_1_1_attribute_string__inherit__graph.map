@@ -1,0 +1,4 @@
+<map id="Microsoft.Bot.Builder.Scorables.Internals.AttributeString" name="Microsoft.Bot.Builder.Scorables.Internals.AttributeString">
+<area shape="rect" id="node4" href="$d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute.html" title="Associate a LUIS intent with a dialog method. " alt="" coords="509,5,703,47"/>
+<area shape="rect" id="node5" href="$dd/d0d/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_regex_pattern_attribute.html" title="This attribute is used to specify the regular expression pattern to be used when applying the regular..." alt="" coords="501,71,711,112"/>
+</map>

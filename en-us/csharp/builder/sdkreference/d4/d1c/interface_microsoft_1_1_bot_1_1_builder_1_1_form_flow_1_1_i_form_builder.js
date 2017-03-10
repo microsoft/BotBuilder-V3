@@ -14,6 +14,6 @@ var interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder =
     [ "Message", "d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#addcf9c888d510de1cfa8d5ba813d1b49", null ],
     [ "Message", "d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#af468d73a153e4ad86b63cc6c2732d263", null ],
     [ "OnCompletion", "d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a4960cbb309dff126d4abd1713f7b778f", null ],
-    [ "Prompter", "d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a99f28191bd9d99e92d2bfb7c0a3802a1", null ],
+    [ "Prompter", "d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a82b3ce531f30fc6b69cf2b2c3e6d06c3", null ],
     [ "Configuration", "d4/d1c/interface_microsoft_1_1_bot_1_1_builder_1_1_form_flow_1_1_i_form_builder.html#a647bcee55004aa8bd0fe45061caf3901", null ]
 ];

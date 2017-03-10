@@ -1,0 +1,4 @@
+var class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_regex_match_scorable_factory =
+[
+    [ "RegexMatchScorableFactory", "d5/db3/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_regex_match_scorable_factory.html#ac678f87f86ae8c9b69dca2c7c94a0f31", null ]
+];

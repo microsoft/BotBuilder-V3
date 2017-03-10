@@ -157,6 +157,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a0247d6b2ae5e39be5dfed523c2be9011"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d8/d03/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_case.html">ICase</a>&lt; T, R &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a0247d6b2ae5e39be5dfed523c2be9011">Case&lt; T, R &gt;</a> (Func&lt; T, bool &gt; condition, ContextualSelector&lt; T, R &gt; selector)</td></tr>
 <tr class="memdesc:a0247d6b2ae5e39be5dfed523c2be9011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a case.  <a href="#a0247d6b2ae5e39be5dfed523c2be9011">More...</a><br /></td></tr>
 <tr class="separator:a0247d6b2ae5e39be5dfed523c2be9011"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abba97537845e5b8fbffb6e94ebe26769"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#abba97537845e5b8fbffb6e94ebe26769">Catch&lt; T &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent, Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;, Exception, <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&gt; block)</td></tr>
+<tr class="memdesc:abba97537845e5b8fbffb6e94ebe26769"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> has completed, catch and handle any exceptions.  <a href="#abba97537845e5b8fbffb6e94ebe26769">More...</a><br /></td></tr>
+<tr class="separator:abba97537845e5b8fbffb6e94ebe26769"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5006bef2470e0a42ad9090089e66b06"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#af5006bef2470e0a42ad9090089e66b06">Catch&lt; T, E &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent, Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;, E, <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&gt; block)</td></tr>
+<tr class="memdesc:af5006bef2470e0a42ad9090089e66b06"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> has completed, catch and handle any exceptions of type <em>E</em> .  <a href="#af5006bef2470e0a42ad9090089e66b06">More...</a><br /></td></tr>
+<tr class="separator:af5006bef2470e0a42ad9090089e66b06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a053d45bc16699d2978cf577750d1db11"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a053d45bc16699d2978cf577750d1db11">ContinueWith&lt; T, R &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent, Continuation&lt; T, R &gt; continuation)</td></tr>
 <tr class="memdesc:a053d45bc16699d2978cf577750d1db11"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> has completed, execute the continuation to produce the next <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;R&gt;</a>.  <a href="#a053d45bc16699d2978cf577750d1db11">More...</a><br /></td></tr>
 <tr class="separator:a053d45bc16699d2978cf577750d1db11"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,9 +187,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:af1213116d6b46a88b675b691bb357d7a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#af1213116d6b46a88b675b691bb357d7a">Loop&lt; T &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent)</td></tr>
 <tr class="memdesc:af1213116d6b46a88b675b691bb357d7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loop the <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> forever.  <a href="#af1213116d6b46a88b675b691bb357d7a">More...</a><br /></td></tr>
 <tr class="separator:af1213116d6b46a88b675b691bb357d7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57b2b7c266fa9e07f908619b4521e5dc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">Connector.IMessageActivity</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a57b2b7c266fa9e07f908619b4521e5dc">PostToChain</a> ()</td></tr>
-<tr class="memdesc:a57b2b7c266fa9e07f908619b4521e5dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post the message from the user to <a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html" title="A fluent, chainable interface for IDialogs. ">Chain</a>.  <a href="#a57b2b7c266fa9e07f908619b4521e5dc">More...</a><br /></td></tr>
-<tr class="separator:a57b2b7c266fa9e07f908619b4521e5dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dbd426ce8e9ad450a76e3317b0d4304"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a5dbd426ce8e9ad450a76e3317b0d4304">PostEvent&lt; T, E &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent, E @event)</td></tr>
+<tr class="memdesc:a5dbd426ce8e9ad450a76e3317b0d4304"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> has completed, post the item to the event queue.  <a href="#a5dbd426ce8e9ad450a76e3317b0d4304">More...</a><br /></td></tr>
+<tr class="separator:a5dbd426ce8e9ad450a76e3317b0d4304"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad902547746bcf9dfdf8a5725b1457013"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#ad902547746bcf9dfdf8a5725b1457013">PostToChain</a> ()</td></tr>
+<tr class="memdesc:ad902547746bcf9dfdf8a5725b1457013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post the message from the user to <a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html" title="A fluent, chainable interface for IDialogs. ">Chain</a>.  <a href="#ad902547746bcf9dfdf8a5725b1457013">More...</a><br /></td></tr>
+<tr class="separator:ad902547746bcf9dfdf8a5725b1457013"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab91eacd6492a4cab99b1eb9822716f1a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#ab91eacd6492a4cab99b1eb9822716f1a">PostToUser&lt; T &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent)</td></tr>
 <tr class="memdesc:ab91eacd6492a4cab99b1eb9822716f1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post to the user the result of a <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>.  <a href="#ab91eacd6492a4cab99b1eb9822716f1a">More...</a><br /></td></tr>
 <tr class="separator:ab91eacd6492a4cab99b1eb9822716f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,23 +214,29 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:aaf8d9d3e7c407f91044625a3e4e6c9f5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#aaf8d9d3e7c407f91044625a3e4e6c9f5">Unwrap&lt; T &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&gt; antecedent)</td></tr>
 <tr class="memdesc:aaf8d9d3e7c407f91044625a3e4e6c9f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> where T is <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> completes, unwrap the result into a new <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>.  <a href="#aaf8d9d3e7c407f91044625a3e4e6c9f5">More...</a><br /></td></tr>
 <tr class="separator:aaf8d9d3e7c407f91044625a3e4e6c9f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83a8372c4d16ac3d9c9b0f363ee5cc2f"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; object &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a83a8372c4d16ac3d9c9b0f363ee5cc2f">Void&lt; T &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent, <a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html">IDialogStack</a> stack)</td></tr>
+<tr class="memdesc:a83a8372c4d16ac3d9c9b0f363ee5cc2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call the voided <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>, ignore the result, then restart the original dialog wait.  <a href="#a83a8372c4d16ac3d9c9b0f363ee5cc2f">More...</a><br /></td></tr>
+<tr class="separator:a83a8372c4d16ac3d9c9b0f363ee5cc2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec5105f97b69f2f71923796781a58f4b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#aec5105f97b69f2f71923796781a58f4b">Void&lt; T, R &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent)</td></tr>
 <tr class="memdesc:aec5105f97b69f2f71923796781a58f4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call the voided <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>, ignore the result, then restart the original dialog wait.  <a href="#aec5105f97b69f2f71923796781a58f4b">More...</a><br /></td></tr>
 <tr class="separator:aec5105f97b69f2f71923796781a58f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf6629303333a5395337c7571a65f590"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">Connector.IMessageActivity</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#aaf6629303333a5395337c7571a65f590">WaitToBot&lt; T &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent)</td></tr>
-<tr class="memdesc:aaf6629303333a5395337c7571a65f590"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post to the chain the message to the bot after the antecedent completes.  <a href="#aaf6629303333a5395337c7571a65f590">More...</a><br /></td></tr>
-<tr class="separator:aaf6629303333a5395337c7571a65f590"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8da71ace1d7309b23b486965c6bd9f57"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a8da71ace1d7309b23b486965c6bd9f57">WaitToBot&lt; T &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent)</td></tr>
+<tr class="memdesc:a8da71ace1d7309b23b486965c6bd9f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Post to the chain the message to the bot after the antecedent completes.  <a href="#a8da71ace1d7309b23b486965c6bd9f57">More...</a><br /></td></tr>
+<tr class="separator:a8da71ace1d7309b23b486965c6bd9f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5dde1f48f907314b6f346e8786aced6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#ac5dde1f48f907314b6f346e8786aced6">Where&lt; T &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent, Func&lt; T, bool &gt; predicate)</td></tr>
 <tr class="memdesc:ac5dde1f48f907314b6f346e8786aced6"><td class="mdescLeft">&#160;</td><td class="mdescRight">When the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> has completed, evaluate the predicate and decide whether to continue.  <a href="#ac5dde1f48f907314b6f346e8786aced6">More...</a><br /></td></tr>
 <tr class="separator:ac5dde1f48f907314b6f346e8786aced6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3cdd6daa7ff6c381e6b4e9ce65d7d1d0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a3cdd6daa7ff6c381e6b4e9ce65d7d1d0">While&lt; T &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; initial, Func&lt; T, <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; bool &gt;&gt; test, Func&lt; T, <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&gt; body)</td></tr>
 <tr class="memdesc:a3cdd6daa7ff6c381e6b4e9ce65d7d1d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> that represents a while loop.  <a href="#a3cdd6daa7ff6c381e6b4e9ce65d7d1d0">More...</a><br /></td></tr>
 <tr class="separator:a3cdd6daa7ff6c381e6b4e9ce65d7d1d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04d29cb0bdb232f08bc74b9db43f8874"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html#a04d29cb0bdb232f08bc74b9db43f8874">WithScorable&lt; T, Item, Score &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent, <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt; scorable)</td></tr>
+<tr class="memdesc:a04d29cb0bdb232f08bc74b9db43f8874"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decorate a dialog with a scorable, so that a scorable can participate on the dialog stack.  <a href="#a04d29cb0bdb232f08bc74b9db43f8874">More...</a><br /></td></tr>
+<tr class="separator:a04d29cb0bdb232f08bc74b9db43f8874"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A fluent, chainable interface for IDialogs. </p>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00048">48</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00052">52</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="acdeef7903aa3b17f56ca8147e014cc46"></a>
 <div class="memitem">
@@ -271,7 +286,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The case.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00313">313</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00416">416</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -324,7 +339,120 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00301">301</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00404">404</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="abba97537845e5b8fbffb6e94ebe26769"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;T&gt; Microsoft.Bot.Builder.Dialogs.Chain.Catch&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>antecedent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;, Exception, <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&gt;&#160;</td>
+          <td class="paramname"><em>block</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>When the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> has completed, catch and handle any exceptions. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type returned by the antecedent dialog.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">antecedent</td><td>The antecedent dialog <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>.</td></tr>
+    <tr><td class="paramname">block</td><td>The lambda expression representing the catch block handler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result of the catch block handler if there is an exception.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00300">300</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af5006bef2470e0a42ad9090089e66b06"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;T&gt; Microsoft.Bot.Builder.Dialogs.Chain.Catch&lt; T, E &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>antecedent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;, E, <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&gt;&#160;</td>
+          <td class="paramname"><em>block</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>When the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> has completed, catch and handle any exceptions of type <em>E</em> . </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type returned by the antecedent dialog.</td></tr>
+    <tr><td class="paramname">E</td><td>The type of exception to catch and handle.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">antecedent</td><td>The antecedent dialog <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>.</td></tr>
+    <tr><td class="paramname">block</td><td>The lambda expression representing the catch block handler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result of the catch block handler if there is an exception of type <em>E</em> .</dd></dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b></dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>E</em></td><td>&#160;:</td><td valign="top"><em>Exception</em></td><td>&#160;</td></tr>
+</table>
+</dd>
+</dl>
+</div>
+
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00288">288</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -420,7 +548,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The next <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;R&gt;</a>.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00138">138</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00155">155</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -462,7 +590,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The case.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00325">325</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00428">428</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -503,7 +631,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The default value of <em>T</em>  if there is an Exception.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00234">234</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00323">323</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -553,7 +681,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 </div>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00223">223</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00312">312</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -605,7 +733,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The antecedent dialog.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00078">78</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00082">82</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -657,7 +785,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The accumulated result.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00288">288</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00377">377</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -698,7 +826,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The new dialog.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00066">66</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00070">70</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -733,11 +861,11 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The looping dialog.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00199">199</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00216">216</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a57b2b7c266fa9e07f908619b4521e5dc"></a>
+<a class="anchor" id="a5dbd426ce8e9ad450a76e3317b0d4304"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -745,7 +873,60 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;<a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">Connector.IMessageActivity</a>&gt; Microsoft.Bot.Builder.Dialogs.Chain.PostToChain </td>
+          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;T&gt; Microsoft.Bot.Builder.Dialogs.Chain.PostEvent&lt; T, E &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>antecedent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">E @&#160;</td>
+          <td class="paramname"><em>event</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>When the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> has completed, post the item to the event queue. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the antecedent dialog.</td></tr>
+    <tr><td class="paramname">E</td><td>The type of the event.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">antecedent</td><td>The antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>.</td></tr>
+    <tr><td class="paramname">event</td><td>The event.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The result from the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00142">142</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad902547746bcf9dfdf8a5725b1457013"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;<a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a>&gt; Microsoft.Bot.Builder.Dialogs.Chain.PostToChain </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -762,7 +943,7 @@ Static Public Member Functions</h2></td></tr>
 <p>The returned <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> can be used as the root dialog for a chain. </p>
 <dl class="section return"><dt>Returns</dt><dd>The dialog that dispatches the incoming message from the user to chain.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00125">125</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00129">129</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -803,7 +984,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The antecedent dialog.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00102">102</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00106">106</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -845,7 +1026,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> that wraps the value.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00263">263</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00352">352</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -898,7 +1079,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;R&gt;</a>.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00151">151</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00168">168</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -959,7 +1140,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;R&gt;</a>.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00189">189</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00206">206</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -1012,7 +1193,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;R&gt;</a>.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00249">249</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00338">338</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -1065,7 +1246,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The antecedent dialog.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00091">91</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00095">95</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -1106,7 +1287,60 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00174">174</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00191">191</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a83a8372c4d16ac3d9c9b0f363ee5cc2f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;object&gt; Microsoft.Bot.Builder.Dialogs.Chain.Void&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>antecedent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html">IDialogStack</a>&#160;</td>
+          <td class="paramname"><em>stack</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Call the voided <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>, ignore the result, then restart the original dialog wait. </p>
+<p>(value types don't support generic parameter variance - so this reflection-based method may not work) It's okay to loose type information (i.e. <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html" title="A IDialog&lt;TResult&gt; is a suspendable conversational process that produces a result of type TResult ...">IDialog</a>{object}) because voided dialogs are called with a null ResumeAfter&lt;T&gt; because they are hacking the stack to satisfy the wait of the interrupted dialog. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the voided dialog.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">antecedent</td><td>The voided dialog.</td></tr>
+    <tr><td class="paramname">stack</td><td>The dialog stack.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The dialog that produces the item to satisfy the original wait.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00255">255</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -1133,6 +1367,13 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Call the voided <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>, ignore the result, then restart the original dialog wait. </p>
+<p>The purpose of this method is to wrap an antecedent dialog A with a new dialog D to push on the stack on top of the existing stack top dialog L.</p><ol type="1">
+<li>D will call A.</li>
+<li>D will receive the value of A when A is done.</li>
+<li>D will re-initiate the typed wait (often for a message) for which a method of L was waiting</li>
+<li>D will receive that value of the re-initiated typed wait.</li>
+<li>D will return that value of the typed wait to L. This depends on the symmetry of IDialogStack.Done and IDialogStack.Wait in how they satisfy typed waits. </li>
+</ol>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The type of the voided dialog.</td></tr>
@@ -1148,11 +1389,11 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The dialog that produces the item to satisfy the original wait.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00211">211</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00238">238</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="aaf6629303333a5395337c7571a65f590"></a>
+<a class="anchor" id="a8da71ace1d7309b23b486965c6bd9f57"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -1160,7 +1401,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;<a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">Connector.IMessageActivity</a>&gt; Microsoft.Bot.Builder.Dialogs.Chain.WaitToBot&lt; T &gt; </td>
+          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;<a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a>&gt; Microsoft.Bot.Builder.Dialogs.Chain.WaitToBot&lt; T &gt; </td>
           <td>(</td>
           <td class="paramtype">this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td>
           <td class="paramname"><em>antecedent</em></td><td>)</td>
@@ -1189,7 +1430,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The dialog representing the message sent to the bot.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00113">113</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00117">117</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -1241,7 +1482,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result from the antecedent <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a> or its cancellation, wrapped in a <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog&lt;T&gt;</a>.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00163">163</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00180">180</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>
@@ -1300,7 +1541,61 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Zero or the last value returned by the <em>body</em>  of the while loop.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00276">276</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00365">365</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a04d29cb0bdb232f08bc74b9db43f8874"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;T&gt; Microsoft.Bot.Builder.Dialogs.Chain.WithScorable&lt; T, Item, Score &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>antecedent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&#160;</td>
+          <td class="paramname"><em>scorable</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Decorate a dialog with a scorable, so that a scorable can participate on the dialog stack. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of the dialog.</td></tr>
+    <tr><td class="paramname">Item</td><td>The type of the item scored by the scorable.</td></tr>
+    <tr><td class="paramname">Score</td><td>The type of the scope produced by the scorable.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">antecedent</td><td>The antecedent dialog.</td></tr>
+    <tr><td class="paramname">scorable</td><td>The scorable.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The dialog augmented with the scorables.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../dd/d4f/_chain_8cs_source.html#l00391">391</a> of file <a class="el" href="../../dd/d4f/_chain_8cs_source.html">Chain.cs</a>.</p>
 
 </div>
 </div>

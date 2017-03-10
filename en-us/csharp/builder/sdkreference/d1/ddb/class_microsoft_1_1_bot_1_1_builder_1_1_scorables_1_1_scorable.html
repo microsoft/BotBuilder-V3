@@ -1,0 +1,489 @@
+<!-- HTML header for doxygen 1.8.11-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>Microsoft.Bot.Builder.Scorables.Scorable Class Reference | Bot Builder SDK C# Reference Library | Bot Framework</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
+    <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../botframework.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/css/documentation.css?1" />
+    <script src="/js/documents.js"></script>
+    <script src="/js/leftnav.js"></script>
+    <script src="/js/codetabs.js"></script>
+    <script src="/js/docssearch.js"></script>
+    <!-- START OF SmartSource Data Collector TAG v10.4.23 -->
+    <!-- Copyright (c) 2016 Webtrends Inc.  All rights reserved. -->
+    <script type="text/javascript" src="/js/webtrends.load.js"></script>
+    <!--
+      appInsights
+    -->
+    <script type="text/javascript">
+    var appInsights=window.appInsights||function(config){
+      function r(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s=u.createElement(o),i,f;for(s.src=config.url||"//az416426.vo.msecnd.net/scripts/a/ai.0.js",u.getElementsByTagName(o)[0].parentNode.appendChild(s),t.cookie=u.cookie,t.queue=[],i=["Event","Exception","Metric","PageView","Trace"];i.length;)r("track"+i.pop());return r("setAuthenticatedUserContext"),r("clearAuthenticatedUserContext"),config.disableExceptionTracking||(i="onerror",r("_"+i),f=e[i],e[i]=function(config,r,u,e,o){var s=f&&f(config,r,u,e,o);return s!==!0&&t["_"+i](config,r,u,e,o),s}),t
+      }({
+          instrumentationKey:"ecf7f29d-de8c-4169-a492-bdce0a32c300"
+      });
+      window.appInsights=appInsights;
+      appInsights.trackPageView();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var sidenav = $('#side-nav');
+            sidenav.before('<div id="content-container" class="outline"></div>');
+            var doccontent = $('#doc-content');
+			var contentcontainer = $('#content-container');
+            contentcontainer.append(sidenav);
+            contentcontainer.append(doccontent);
+            doccontent.prepend($('#referenceSearch'));
+			var top = $('#top');
+			top.before('<div class="fullWidth"></div>');
+			var fullwidth = $('div.fullWidth');
+			fullwidth.before('<div id="app-body"></div>');
+			fullwidth.append(top);
+			fullwidth.append(contentcontainer);
+			fullwidth.append($('.footer'));
+			var appbody = $('#app-body');
+			appbody.append(fullwidth);
+			var navtreecontents = $('#nav-tree-contents');
+			navtreecontents.prepend('<ul><li><div class="label"><a href="/">&lt; Documentation Home</a></div></li></ul>');
+			//sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            sidenav.prepend('<div id="wrapper"><form id="docs-search-form" action="/en-us/search/"><select id="lang-select" name="lang" ><option value="">All</option><option value="node">Node.js</option><option value="csharp">.NET</option></select><input id="q" name="q" type="text" placeholder=""><input type="hidden" id="v" name="v" value="v3"><input type="hidden" id="mkt" name="mkt" value="en-us"><button id="bt_search" name="bt_search" class="icon-search" type="submit"></button></form></div>');
+            setProgrammingLanguage();
+			$('#MSearchField').removeAttr('value').attr('placeholder', 'Search the Bot Builder SDK C# reference');
+        });
+    </script>
+</head>
+<body>
+    <div id="referenceSearch"></div>
+    <div id="top">
+        <!-- do not remove this div, it is closed by doxygen! -->
+        <div>
+            <header>
+                <div class="outline">
+                    <div class="header">
+                        <a class="logo" href="//www.microsoft.com">
+                            <svg class="svgicon svgicon-microsoft-color-logo">
+                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo"></use>
+                            </svg>
+                        </a>
+                        <div class="loading-animation"></div>
+                        <span class="environment"></span>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="brand-primary">
+                <div class="jumbo">
+                    <div class="jumbo-header"><a href="https://www.botframework.com/">Bot Framework</a></div>
+                    <ul class="header-nav">
+                        <li><a href="https://dev.botframework.com/#/bots">My bots</a></li>
+                        <li><a href="https://dev.botframework.com/#/bots/new">Register a bot</a></li>
+                        <li class="active"><a href="/">Documentation</a></li>
+                        <li><a href="https://bots.botframework.com/">Bot Directory</a></li>
+                        <li><a href="https://blog.botframework.com/">Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end header part -->
+</body>
+</html><!-- Generated by Doxygen 1.8.11 -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('d1/ddb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable.html','../../');});
+</script>
+<div id="doc-content">
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="../../d4/d4b/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">Microsoft.Bot.Builder.Scorables.Scorable Class Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a5ed50bdfc6c7c4c9b662c8918ec6d0a9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/ddb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable.html#a5ed50bdfc6c7c4c9b662c8918ec6d0a9">First&lt; Item, Score &gt;</a> (this IEnumerable&lt; <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&gt; scorables)</td></tr>
+<tr class="memdesc:a5ed50bdfc6c7c4c9b662c8918ec6d0a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select the first scorable that produces a score.  <a href="#a5ed50bdfc6c7c4c9b662c8918ec6d0a9">More...</a><br /></td></tr>
+<tr class="separator:a5ed50bdfc6c7c4c9b662c8918ec6d0a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a771942ac58120091d0b54d29ebecdb70"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/ddb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable.html#a771942ac58120091d0b54d29ebecdb70">Fold&lt; Item, Score &gt;</a> (this IEnumerable&lt; <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&gt; scorables, IComparer&lt; Score &gt; comparer=null, <a class="el" href="../../d7/d3d/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_fold_scorable.html">FoldScorable</a>&lt; Item, Score &gt;.OnStageDelegate onStage=null)</td></tr>
+<tr class="memdesc:a771942ac58120091d0b54d29ebecdb70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fold an enumeration of scorables using a score comparer.  <a href="#a771942ac58120091d0b54d29ebecdb70">More...</a><br /></td></tr>
+<tr class="separator:a771942ac58120091d0b54d29ebecdb70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad0fa6b61aaf473471b81084095e1646"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/ddb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable.html#aad0fa6b61aaf473471b81084095e1646">Keep&lt; Item, Score &gt;</a> (<a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt; scorable)</td></tr>
+<tr class="memdesc:aad0fa6b61aaf473471b81084095e1646"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the scorable is non-null, false otherwise.  <a href="#aad0fa6b61aaf473471b81084095e1646">More...</a><br /></td></tr>
+<tr class="separator:aad0fa6b61aaf473471b81084095e1646"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ee1d7e8c852f68f6f5a672bd47a74eb"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; SourceItem, Score &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/ddb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable.html#a9ee1d7e8c852f68f6f5a672bd47a74eb">SelectItem&lt; SourceItem, TargetItem, Score &gt;</a> (this <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; TargetItem, Score &gt; scorable, Func&lt; SourceItem, TargetItem &gt; selector)</td></tr>
+<tr class="memdesc:a9ee1d7e8c852f68f6f5a672bd47a74eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Project the item of a scorable using a lambda expression.  <a href="#a9ee1d7e8c852f68f6f5a672bd47a74eb">More...</a><br /></td></tr>
+<tr class="separator:a9ee1d7e8c852f68f6f5a672bd47a74eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c1b7bd55a191b2111c8c4cd21381a97"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, TargetScore &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/ddb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable.html#a3c1b7bd55a191b2111c8c4cd21381a97">SelectScore&lt; Item, SourceScore, TargetScore &gt;</a> (this <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, SourceScore &gt; scorable, Func&lt; Item, SourceScore, TargetScore &gt; selector)</td></tr>
+<tr class="memdesc:a3c1b7bd55a191b2111c8c4cd21381a97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Project the score of a scorable using a lambda expression.  <a href="#a3c1b7bd55a191b2111c8c4cd21381a97">More...</a><br /></td></tr>
+<tr class="separator:a3c1b7bd55a191b2111c8c4cd21381a97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b2aebec451240fcc95c42f381f30e6d"><td class="memItemLeft" align="right" valign="top">static async Task&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/ddb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable.html#a1b2aebec451240fcc95c42f381f30e6d">TryPostAsync&lt; Item, Score &gt;</a> (this <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt; scorable, Item item, CancellationToken token)</td></tr>
+<tr class="memdesc:a1b2aebec451240fcc95c42f381f30e6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invoke the scorable calling protocol against a single scorable.  <a href="#a1b2aebec451240fcc95c42f381f30e6d">More...</a><br /></td></tr>
+<tr class="separator:a1b2aebec451240fcc95c42f381f30e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace1f13d4e643edd0ee0bfee2b755f866"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/ddb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable.html#ace1f13d4e643edd0ee0bfee2b755f866">TryReduce&lt; Item, Score &gt;</a> (ref IEnumerable&lt; <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&gt; scorables, out <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt; scorable)</td></tr>
+<tr class="memdesc:ace1f13d4e643edd0ee0bfee2b755f866"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to simplify a list of scorables.  <a href="#ace1f13d4e643edd0ee0bfee2b755f866">More...</a><br /></td></tr>
+<tr class="separator:ace1f13d4e643edd0ee0bfee2b755f866"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81335ee1740cc9cb402f09d0d77bbbc2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/ddb/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_scorable.html#a81335ee1740cc9cb402f09d0d77bbbc2">WhereScore&lt; Item, Score &gt;</a> (this <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt; scorable, Func&lt; Item, Score, bool &gt; predicate)</td></tr>
+<tr class="separator:a81335ee1740cc9cb402f09d0d77bbbc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p>Definition at line <a class="el" href="../../d3/d36/_scorables_8cs_source.html#l00048">48</a> of file <a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a5ed50bdfc6c7c4c9b662c8918ec6d0a9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt;Item, Score&gt; Microsoft.Bot.Builder.Scorables.Scorable.First&lt; Item, Score &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this IEnumerable&lt; <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&gt;&#160;</td>
+          <td class="paramname"><em>scorables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Select the first scorable that produces a score. </p>
+
+<p>Definition at line <a class="el" href="../../d3/d36/_scorables_8cs_source.html#l00183">183</a> of file <a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a771942ac58120091d0b54d29ebecdb70"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt;Item, Score&gt; Microsoft.Bot.Builder.Scorables.Scorable.Fold&lt; Item, Score &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this IEnumerable&lt; <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&gt;&#160;</td>
+          <td class="paramname"><em>scorables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IComparer&lt; Score &gt;&#160;</td>
+          <td class="paramname"><em>comparer</em> = <code>null</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/d3d/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_fold_scorable.html">FoldScorable</a>&lt; Item, Score &gt;.OnStageDelegate&#160;</td>
+          <td class="paramname"><em>onStage</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Fold an enumeration of scorables using a score comparer. </p>
+
+<p>Definition at line <a class="el" href="../../d3/d36/_scorables_8cs_source.html#l00197">197</a> of file <a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aad0fa6b61aaf473471b81084095e1646"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool Microsoft.Bot.Builder.Scorables.Scorable.Keep&lt; Item, Score &gt; </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&#160;</td>
+          <td class="paramname"><em>scorable</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>True if the scorable is non-null, false otherwise. </p>
+
+<p>Definition at line <a class="el" href="../../d3/d36/_scorables_8cs_source.html#l00097">97</a> of file <a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9ee1d7e8c852f68f6f5a672bd47a74eb"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt;SourceItem, Score&gt; Microsoft.Bot.Builder.Scorables.Scorable.SelectItem&lt; SourceItem, TargetItem, Score &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; TargetItem, Score &gt;&#160;</td>
+          <td class="paramname"><em>scorable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; SourceItem, TargetItem &gt;&#160;</td>
+          <td class="paramname"><em>selector</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Project the item of a scorable using a lambda expression. </p>
+
+<p>Definition at line <a class="el" href="../../d3/d36/_scorables_8cs_source.html#l00089">89</a> of file <a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3c1b7bd55a191b2111c8c4cd21381a97"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt;Item, TargetScore&gt; Microsoft.Bot.Builder.Scorables.Scorable.SelectScore&lt; Item, SourceScore, TargetScore &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, SourceScore &gt;&#160;</td>
+          <td class="paramname"><em>scorable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; Item, SourceScore, TargetScore &gt;&#160;</td>
+          <td class="paramname"><em>selector</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Project the score of a scorable using a lambda expression. </p>
+
+<p>Definition at line <a class="el" href="../../d3/d36/_scorables_8cs_source.html#l00081">81</a> of file <a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1b2aebec451240fcc95c42f381f30e6d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static async Task&lt;bool&gt; Microsoft.Bot.Builder.Scorables.Scorable.TryPostAsync&lt; Item, Score &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&#160;</td>
+          <td class="paramname"><em>scorable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Item&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Invoke the scorable calling protocol against a single scorable. </p>
+
+<p>Definition at line <a class="el" href="../../d3/d36/_scorables_8cs_source.html#l00053">53</a> of file <a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ace1f13d4e643edd0ee0bfee2b755f866"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool Microsoft.Bot.Builder.Scorables.Scorable.TryReduce&lt; Item, Score &gt; </td>
+          <td>(</td>
+          <td class="paramtype">ref IEnumerable&lt; <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&gt;&#160;</td>
+          <td class="paramname"><em>scorables</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&#160;</td>
+          <td class="paramname"><em>scorable</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Try to simplify a list of scorables. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">scorables</td><td>The simplified list of scorables.</td></tr>
+    <tr><td class="paramname">scorable</td><td>The single scorable representing the list, if possible.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it were possible to reduce the list of scorables to a single scorable, false otherwise.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../d3/d36/_scorables_8cs_source.html#l00121">121</a> of file <a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a81335ee1740cc9cb402f09d0d77bbbc2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt;Item, Score&gt; Microsoft.Bot.Builder.Scorables.Scorable.WhereScore&lt; Item, Score &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../d0/d27/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&#160;</td>
+          <td class="paramname"><em>scorable</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Func&lt; Item, Score, bool &gt;&#160;</td>
+          <td class="paramname"><em>predicate</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="../../d3/d36/_scorables_8cs_source.html#l00073">73</a> of file <a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="../../d3/d36/_scorables_8cs_source.html">Scorables.cs</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- HTML footer for doxygen 1.8.11-->
+<!-- start footer part -->
+<!-- id is needed for treeview function! -->
+<div class="outline footer">
+    <ul>
+        <li><a href="//aka.ms/bf-contactus">Contact us</a></li>
+        <li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
+        <li><a href="//aka.ms/bf-terms">Terms of use</a></li>
+        <li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
+        <li>&copy; 2016 Microsoft</li>
+    </ul>
+</div>
+<script src="//bot-framework.azureedge.net/libs/svgxuse.js"></script>
+<script src="//static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">try{ clicky.init(100954936); }catch(e){}</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/100954936ns.gif" /></p></noscript>
+</body>
+</html>

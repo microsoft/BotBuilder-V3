@@ -1,7 +1,8 @@
 var class_microsoft_1_1_bot_1_1_connector_1_1_audio_card =
 [
     [ "AudioCard", "db/d71/class_microsoft_1_1_bot_1_1_connector_1_1_audio_card.html#a08a291ea906ded901e156917577af12c", null ],
-    [ "AudioCard", "db/d71/class_microsoft_1_1_bot_1_1_connector_1_1_audio_card.html#a1af453a366e55ca2b6f83ef594c5fa07", null ],
+    [ "AudioCard", "db/d71/class_microsoft_1_1_bot_1_1_connector_1_1_audio_card.html#aea37cadf64cee5065a470151780d749f", null ],
+    [ "ContentType", "db/d71/class_microsoft_1_1_bot_1_1_connector_1_1_audio_card.html#aad64e5a82a1b9a179b623272e6f8b115", null ],
     [ "Aspect", "db/d71/class_microsoft_1_1_bot_1_1_connector_1_1_audio_card.html#a82c24ecae06b5b2ecf920dc4504c5cb8", null ],
     [ "Autoloop", "db/d71/class_microsoft_1_1_bot_1_1_connector_1_1_audio_card.html#ab23d330224978841b59191553a72f0fc", null ],
     [ "Autostart", "db/d71/class_microsoft_1_1_bot_1_1_connector_1_1_audio_card.html#a6c07a2286463e99dcbfe2e5f05437b4a", null ],

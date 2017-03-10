@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d2/d7d/class_microsoft_1_1_bot_1_1_connector_1_1_activity_types.html" title="Types of Activities " alt="" coords="5,5,172,47"/>
+<area shape="rect" id="node1" href="$db/d04/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_scorable_aggregator.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.ScorableAggregator\l\&lt; IResolver, OuterState, OuterScore,\l IResolver, InnerState, InnerScore \&gt;" alt="" coords="5,5,240,76"/>
+<area shape="rect" id="node2" href="$d7/d6a/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_resolver_scorable.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.ResolverScorable\l\&lt; OuterState, OuterScore, InnerState,\l InnerScore \&gt;" alt="" coords="288,5,531,76"/>
 </map>

@@ -2,6 +2,8 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs =
 [
     [ "Internals", "d7/dfc/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals.html", "d7/dfc/namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals" ],
     [ "Address", "d8/d71/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_address.html", "d8/d71/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_address" ],
+    [ "Awaitable", "d4/d74/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_awaitable.html", "d4/d74/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_awaitable" ],
+    [ "AwaitableFromItem", "d1/de7/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_awaitable_from_item.html", "d1/de7/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_awaitable_from_item" ],
     [ "Case", "dc/d29/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_case.html", "dc/d29/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_case" ],
     [ "Chain", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain.html", "de/dab/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_chain" ],
     [ "ChannelCapability", "d0/d50/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_channel_capability.html", "d0/d50/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_channel_capability" ],
@@ -24,6 +26,7 @@ var namespace_microsoft_1_1_bot_1_1_builder_1_1_dialogs =
     [ "IDialog", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html", "dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog" ],
     [ "IDialogContext", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context.html", "d1/dc6/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog_context" ],
     [ "InvalidIntentHandlerException", "dd/d61/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_invalid_intent_handler_exception.html", "dd/d61/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_invalid_intent_handler_exception" ],
+    [ "LuisActionDialog", "d9/d36/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_action_dialog.html", "d9/d36/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_action_dialog" ],
     [ "LuisDialog", "d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog.html", "d8/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_dialog" ],
     [ "LuisIntentAttribute", "d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute.html", "d7/df9/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_intent_attribute" ],
     [ "LuisServiceResult", "d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result.html", "d4/d02/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_luis_service_result" ],

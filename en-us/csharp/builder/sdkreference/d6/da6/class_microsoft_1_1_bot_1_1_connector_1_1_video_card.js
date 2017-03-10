@@ -1,7 +1,9 @@
 var class_microsoft_1_1_bot_1_1_connector_1_1_video_card =
 [
     [ "VideoCard", "d6/da6/class_microsoft_1_1_bot_1_1_connector_1_1_video_card.html#afb628bd1891784dc0c3474759e52eb99", null ],
-    [ "VideoCard", "d6/da6/class_microsoft_1_1_bot_1_1_connector_1_1_video_card.html#a7db2159bd4c6099b1b41142f145ba7ce", null ],
+    [ "VideoCard", "d6/da6/class_microsoft_1_1_bot_1_1_connector_1_1_video_card.html#a2975963a06e6b94ed6c8d38ec1244c65", null ],
+    [ "ContentType", "d6/da6/class_microsoft_1_1_bot_1_1_connector_1_1_video_card.html#af9ccd232eebd589a36e53b2e1a0dfee1", null ],
+    [ "Aspect", "d6/da6/class_microsoft_1_1_bot_1_1_connector_1_1_video_card.html#a0fb8b2407e2529e39632af78eaff6193", null ],
     [ "Autoloop", "d6/da6/class_microsoft_1_1_bot_1_1_connector_1_1_video_card.html#aad672b9f0762cedf0fcefb697318df29", null ],
     [ "Autostart", "d6/da6/class_microsoft_1_1_bot_1_1_connector_1_1_video_card.html#a2f2a1be9e9d129e3d6d651cbe4db2829", null ],
     [ "Buttons", "d6/da6/class_microsoft_1_1_bot_1_1_connector_1_1_video_card.html#a7031b4343f4c5e5de3cb9dd9bcef462b", null ],

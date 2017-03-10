@@ -1,7 +1,9 @@
 var class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config =
 [
-    [ "GetToBotFromChannelTokenValidationParameters", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#ab5bbb501c578370f59d7a0e5fed80ad3", null ],
     [ "ToBotFromChannelOpenIdMetadataUrl", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#a3f7d4f9b23fa902d4ea7adfeef72fa37", null ],
-    [ "ToBotFromMSAOpenIdMetadataUrl", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#a566692a54410587530bbe2a120402d92", null ],
-    [ "ToBotFromMSATokenValidationParameters", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#a99870d70e51d385265a3cca42d633017", null ]
+    [ "ToBotFromChannelTokenValidationParameters", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#a01a33757cd46f5823b93e0a2f48100d0", null ],
+    [ "ToBotFromEmulatorOpenIdMetadataUrl", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#aa468f53a70c543c8b9651c87509a72d0", null ],
+    [ "ToBotFromEmulatorTokenValidationParameters", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#a4064ac87ec5b017e5aab702383ff85f6", null ],
+    [ "ToChannelFromBotLoginUrl", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#a84e2838782a86c53e19e90110ea9226d", null ],
+    [ "ToChannelFromBotOAuthScope", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html#ad1b6849d1c7fdf1367c23ab11ea931f0", null ]
 ];

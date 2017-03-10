@@ -143,6 +143,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a4733639f7e0e4a52e3ff101064986316"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html#a4733639f7e0e4a52e3ff101064986316">AddKeyboardCard&lt; T &gt;</a> (this <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> message, string text, IEnumerable&lt; T &gt; options, IEnumerable&lt; string &gt; descriptions=null)</td></tr>
 <tr class="memdesc:a4733639f7e0e4a52e3ff101064986316"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates buttons from options and add them to the message.  <a href="#a4733639f7e0e4a52e3ff101064986316">More...</a><br /></td></tr>
 <tr class="separator:a4733639f7e0e4a52e3ff101064986316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f66eea64ff1700666267b2194b87842"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html#a5f66eea64ff1700666267b2194b87842">Forward&lt; R &gt;</a> (this <a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html">IDialogStack</a> stack, <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt; child, ResumeAfter&lt; R &gt; resume, <a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a> message, CancellationToken token)</td></tr>
+<tr class="memdesc:a5f66eea64ff1700666267b2194b87842"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call a child dialog, add it to the top of the stack and post the message to the child dialog.  <a href="#a5f66eea64ff1700666267b2194b87842">More...</a><br /></td></tr>
+<tr class="separator:a5f66eea64ff1700666267b2194b87842"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec72e9871ecddc54f3a63c1d4f5f1798"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/de5/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_extensions.html#aec72e9871ecddc54f3a63c1d4f5f1798">Get&lt; T &gt;</a> (this <a class="el" href="../../d7/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_bot_data_bag.html">IBotDataBag</a> bag, string key)</td></tr>
 <tr class="memdesc:aec72e9871ecddc54f3a63c1d4f5f1798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the value associated with the specified key.  <a href="#aec72e9871ecddc54f3a63c1d4f5f1798">More...</a><br /></td></tr>
 <tr class="separator:aec72e9871ecddc54f3a63c1d4f5f1798"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,7 +226,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00647">647</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00658">658</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
 
 </div>
 </div>
@@ -289,7 +292,80 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00664">664</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html#l00675">675</a> of file <a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a5f66eea64ff1700666267b2194b87842"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static async Task Microsoft.Bot.Builder.Dialogs.Extensions.Forward&lt; R &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../de/db4/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_stack.html">IDialogStack</a>&#160;</td>
+          <td class="paramname"><em>stack</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; R &gt;&#160;</td>
+          <td class="paramname"><em>child</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ResumeAfter&lt; R &gt;&#160;</td>
+          <td class="paramname"><em>resume</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html">IMessageActivity</a>&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Call a child dialog, add it to the top of the stack and post the message to the child dialog. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">R</td><td>The type of result expected from the child dialog.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stack</td><td>The dialog stack.</td></tr>
+    <tr><td class="paramname">child</td><td>The child dialog.</td></tr>
+    <tr><td class="paramname">resume</td><td>The method to resume when the child dialog has completed.</td></tr>
+    <tr><td class="paramname">message</td><td>The message that will be posted to child dialog.</td></tr>
+    <tr><td class="paramname">token</td><td>A cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A task representing the Forward operation.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00134">134</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
 
 </div>
 </div>
@@ -376,7 +452,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Base64 encoded string.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/d14/_resumption_cookie_8cs_source.html#l00187">187</a> of file <a class="el" href="../../da/d14/_resumption_cookie_8cs_source.html">ResumptionCookie.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../da/d14/_resumption_cookie_8cs_source.html#l00184">184</a> of file <a class="el" href="../../da/d14/_resumption_cookie_8cs_source.html">ResumptionCookie.cs</a>.</p>
 
 </div>
 </div>
@@ -437,7 +513,7 @@ Static Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A task that represents the post operation.</dd></dl>
 
-<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00093">93</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00101">101</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
 
 </div>
 </div>
@@ -482,15 +558,15 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00111">111</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html#l00119">119</a> of file <a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="../../db/d5d/_i_bot_data_bag_8cs_source.html">IBotDataBag.cs</a></li>
+<li><a class="el" href="../../da/d14/_resumption_cookie_8cs_source.html">ResumptionCookie.cs</a></li>
 <li><a class="el" href="../../da/d92/_i_dialog_context_8cs_source.html">IDialogContext.cs</a></li>
 <li><a class="el" href="../../d2/d2b/_prompt_dialog_8cs_source.html">PromptDialog.cs</a></li>
-<li><a class="el" href="../../da/d14/_resumption_cookie_8cs_source.html">ResumptionCookie.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

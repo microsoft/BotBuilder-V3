@@ -125,7 +125,6 @@ $(document).ready(function(){initNavTree('d8/d2d/class_microsoft_1_1_bot_1_1_bui
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="../../dc/d92/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -135,15 +134,83 @@ $(document).ready(function(){initNavTree('d8/d2d/class_microsoft_1_1_bot_1_1_bui
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
+<tr class="memitem:af2d133bd9e4fdae6c34ef436f509095b"><td class="memItemLeft" align="right" valign="top">static async Task&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#af2d133bd9e4fdae6c34ef436f509095b">InterruptAsync&lt; T, R &gt;</a> (this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a> task, <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; dialog, R item, CancellationToken token)</td></tr>
+<tr class="memdesc:af2d133bd9e4fdae6c34ef436f509095b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt the waiting dialog with a new dialog  <a href="#af2d133bd9e4fdae6c34ef436f509095b">More...</a><br /></td></tr>
+<tr class="separator:af2d133bd9e4fdae6c34ef436f509095b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57fb4a558e4abcb702f1208352ef5e92"><td class="memItemLeft" align="right" valign="top">static T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a57fb4a558e4abcb702f1208352ef5e92">MaxBy&lt; T, R &gt;</a> (this IEnumerable&lt; T &gt; items, Func&lt; T, R &gt; selectRank, IComparer&lt; R &gt; comparer=null)</td></tr>
 <tr class="separator:a57fb4a558e4abcb702f1208352ef5e92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b75e2b96e28fa63a682da20928f0a83"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d2d/class_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_extensions.html#a1b75e2b96e28fa63a682da20928f0a83">WithScorable&lt; T, Item, Score &gt;</a> (this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt; antecedent, <a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt; scorable)</td></tr>
-<tr class="separator:a1b75e2b96e28fa63a682da20928f0a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00041">41</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/d89/_base_2_extensions_8cs_source.html#l00041">41</a> of file <a class="el" href="../../d6/d89/_base_2_extensions_8cs_source.html">Base/Extensions.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="af2d133bd9e4fdae6c34ef436f509095b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static async Task Microsoft.Bot.Builder.Dialogs.Internals.Extensions.InterruptAsync&lt; T, R &gt; </td>
+          <td>(</td>
+          <td class="paramtype">this <a class="el" href="../../d8/da9/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_internals_1_1_i_dialog_task.html">IDialogTask</a>&#160;</td>
+          <td class="paramname"><em>task</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td>
+          <td class="paramname"><em>dialog</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">R&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">CancellationToken&#160;</td>
+          <td class="paramname"><em>token</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Interrupt the waiting dialog with a new dialog </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of result expected from the dialog.</td></tr>
+    <tr><td class="paramname">R</td><td>The type of the item posted to dialog.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">task</td><td>The dialog task.</td></tr>
+    <tr><td class="paramname">dialog</td><td>The new interrupting dialog.</td></tr>
+    <tr><td class="paramname">item</td><td>The item to forward to the new interrupting dialog.</td></tr>
+    <tr><td class="paramname">token</td><td>The cancellation token.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A task that represents the interruption operation.</dd></dl>
+
+<p>Definition at line <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html#l00121">121</a> of file <a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a57fb4a558e4abcb702f1208352ef5e92"></a>
 <div class="memitem">
 <div class="memproto">
@@ -182,49 +249,13 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html#l00043">43</a> of file <a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a1b75e2b96e28fa63a682da20928f0a83"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt;T&gt; Microsoft.Bot.Builder.Dialogs.Internals.Extensions.WithScorable&lt; T, Item, Score &gt; </td>
-          <td>(</td>
-          <td class="paramtype">this <a class="el" href="../../dd/d5e/interface_microsoft_1_1_bot_1_1_builder_1_1_dialogs_1_1_i_dialog.html">IDialog</a>&lt; T &gt;&#160;</td>
-          <td class="paramname"><em>antecedent</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d2/dd9/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_scorables_1_1_i_scorable.html">IScorable</a>&lt; Item, Score &gt;&#160;</td>
-          <td class="paramname"><em>scorable</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="../../d1/d7b/_scorable_dialogs_8cs_source.html#l00077">77</a> of file <a class="el" href="../../d1/d7b/_scorable_dialogs_8cs_source.html">ScorableDialogs.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../d6/d89/_base_2_extensions_8cs_source.html#l00043">43</a> of file <a class="el" href="../../d6/d89/_base_2_extensions_8cs_source.html">Base/Extensions.cs</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="../../dc/d9c/_dialogs_2_extensions_8cs_source.html">Dialogs/Extensions.cs</a></li>
-<li><a class="el" href="../../d1/d7b/_scorable_dialogs_8cs_source.html">ScorableDialogs.cs</a></li>
+<li><a class="el" href="../../d6/d89/_base_2_extensions_8cs_source.html">Base/Extensions.cs</a></li>
+<li><a class="el" href="../../d3/d92/_i_dialog_task_8cs_source.html">IDialogTask.cs</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

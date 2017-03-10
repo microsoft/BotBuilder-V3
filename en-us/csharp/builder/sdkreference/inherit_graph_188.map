@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d7/d66/class_microsoft_1_1_bot_1_1_builder_1_1_luis_1_1_models_1_1_entity_recommendation.html" title="Luis entity recommendation. Look at https://www.luis.ai/Help for more information. " alt="" coords="5,5,208,47"/>
+<area shape="rect" id="node1" href="$d0/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_i_scorable_factory.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.IScorableFactory\l\&lt; Item, Score \&gt;" alt="" coords="5,5,215,61"/>
+<area shape="rect" id="node2" href="$d9/dd3/class_microsoft_1_1_bot_1_1_builder_1_1_scorables_1_1_internals_1_1_order_scorable_factory.html" title="Microsoft.Bot.Builder.Scorables.\lInternals.OrderScorableFactory\l\&lt; Item, Score \&gt;" alt="" coords="263,5,472,61"/>
 </map>

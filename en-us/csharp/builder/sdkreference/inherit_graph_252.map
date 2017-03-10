@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$d3/d4a/interface_microsoft_1_1_bot_1_1_connector_1_1_i_credential_provider.html" title="Microsoft.Bot.Connector.\lICredentialProvider" alt="" coords="5,39,172,80"/>
+<area shape="rect" id="node2" href="$d1/d70/class_microsoft_1_1_bot_1_1_connector_1_1_simple_credential_provider.html" title="Microsoft.Bot.Connector.\lSimpleCredentialProvider" alt="" coords="220,39,387,80"/>
+<area shape="rect" id="node3" href="$d8/da6/class_microsoft_1_1_bot_1_1_connector_1_1_configuration_credential_provider.html" title="Credential provider which uses Microsoft.Extensions.Configuration.IConfiguration to lookup appId and ..." alt="" coords="435,5,636,47"/>
+<area shape="rect" id="node4" href="$de/dc6/class_microsoft_1_1_bot_1_1_connector_1_1_static_credential_provider.html" title="Static credential provider which has the appid and password static " alt="" coords="452,71,619,112"/>
+</map>

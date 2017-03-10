@@ -138,50 +138,29 @@ Inheritance diagram for Microsoft.Bot.Builder.Internals.Fibers.IFrame&lt; C &gt;
 <div class="center"><img src="../../d4/db3/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame__inherit__graph.png" border="0" usemap="#_microsoft_8_bot_8_builder_8_internals_8_fibers_8_i_frame_3_01_c_01_4_inherit__map" alt="Inheritance graph"/></div>
 <map name="_microsoft_8_bot_8_builder_8_internals_8_fibers_8_i_frame_3_01_c_01_4_inherit__map" id="_microsoft_8_bot_8_builder_8_internals_8_fibers_8_i_frame_3_01_c_01_4_inherit__map">
 <area shape="rect" id="node4" href="../../da/d03/class_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_frame.html" title="Microsoft::Bot::Builder\l::Internals::Fibers::Frame\&lt; C \&gt;" alt="" coords="19,169,221,211"/>
-<area shape="rect" id="node2" href="../../d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html" title="IWaiter\&lt; C \&gt;" alt="" coords="5,5,101,32"/>
+<area shape="rect" id="node2" href="../../d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html" title="Waiters wait for an item to be posted. " alt="" coords="5,5,101,32"/>
 <area shape="rect" id="node3" href="../../dc/db7/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame_loop.html" title="IFrameLoop\&lt; C \&gt;" alt="" coords="125,5,248,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a781a0c89d3b3baaa0c2eb49915880512"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html">IWait</a>&lt; C, T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html#a781a0c89d3b3baaa0c2eb49915880512">NextWait&lt; T &gt;</a> ()</td></tr>
-<tr class="separator:a781a0c89d3b3baaa0c2eb49915880512"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a343767ae3c53f5591ff32e45ddae98b3"><td class="memItemLeft" align="right" valign="top">Task&lt; <a class="el" href="../../de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html">IWait</a>&lt; C &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/db7/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_frame_loop.html#a343767ae3c53f5591ff32e45ddae98b3">PollAsync</a> (<a class="el" href="../../d3/d48/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_fiber.html">IFiber</a>&lt; C &gt; fiber, C context, CancellationToken token)</td></tr>
 <tr class="separator:a343767ae3c53f5591ff32e45ddae98b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
-<tr class="memitem:a31716120c39d4e39418c18f2fdd094e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html">IWait</a>&lt; C &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html#a31716120c39d4e39418c18f2fdd094e8">Wait</a><code> [get]</code></td></tr>
+<tr class="memitem:abd6a5cb1f6288367ae9b4042a1eb519e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html">IWait</a>&lt; C &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html#abd6a5cb1f6288367ae9b4042a1eb519e">Mark</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:abd6a5cb1f6288367ae9b4042a1eb519e"><td class="mdescLeft">&#160;</td><td class="mdescRight">A "mailbox" for storing a wait associated with this frame.  <a href="#abd6a5cb1f6288367ae9b4042a1eb519e">More...</a><br /></td></tr>
+<tr class="separator:abd6a5cb1f6288367ae9b4042a1eb519e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31716120c39d4e39418c18f2fdd094e8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html">IWait</a>&lt; C &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html#a31716120c39d4e39418c18f2fdd094e8">Wait</a><code> [get, set]</code></td></tr>
+<tr class="memdesc:a31716120c39d4e39418c18f2fdd094e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The active wait for this waiter.  <a href="#a31716120c39d4e39418c18f2fdd094e8">More...</a><br /></td></tr>
 <tr class="separator:a31716120c39d4e39418c18f2fdd094e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="../../da/d4c/_fiber_8cs_source.html#l00065">65</a> of file <a class="el" href="../../da/d4c/_fiber_8cs_source.html">Fiber.cs</a>.</p>
+<p>Definition at line <a class="el" href="../../da/d4c/_fiber_8cs_source.html#l00079">79</a> of file <a class="el" href="../../da/d4c/_fiber_8cs_source.html">Fiber.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a781a0c89d3b3baaa0c2eb49915880512"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html">IWait</a>&lt;C, T&gt; <a class="el" href="../../d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html">Microsoft.Bot.Builder.Internals.Fibers.IWaiter</a>&lt; C &gt;.NextWait&lt; T &gt; </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a class="anchor" id="a343767ae3c53f5591ff32e45ddae98b3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -223,6 +202,30 @@ Properties</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Property Documentation</h2>
+<a class="anchor" id="abd6a5cb1f6288367ae9b4042a1eb519e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../de/dea/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_wait.html">IWait</a>&lt;C&gt; <a class="el" href="../../d3/d42/interface_microsoft_1_1_bot_1_1_builder_1_1_internals_1_1_fibers_1_1_i_waiter.html">Microsoft.Bot.Builder.Internals.Fibers.IWaiter</a>&lt; C &gt;.Mark</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A "mailbox" for storing a wait associated with this frame. </p>
+
+<p>Definition at line <a class="el" href="../../da/d4c/_fiber_8cs_source.html#l00052">52</a> of file <a class="el" href="../../da/d4c/_fiber_8cs_source.html">Fiber.cs</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a31716120c39d4e39418c18f2fdd094e8"></a>
 <div class="memitem">
 <div class="memproto">
@@ -236,12 +239,14 @@ Properties</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">get</span><span class="mlabel">set</span><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="../../da/d4c/_fiber_8cs_source.html#l00043">43</a> of file <a class="el" href="../../da/d4c/_fiber_8cs_source.html">Fiber.cs</a>.</p>
+<p>The active wait for this waiter. </p>
+
+<p>Definition at line <a class="el" href="../../da/d4c/_fiber_8cs_source.html#l00057">57</a> of file <a class="el" href="../../da/d4c/_fiber_8cs_source.html">Fiber.cs</a>.</p>
 
 </div>
 </div>

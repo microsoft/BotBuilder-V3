@@ -1,0 +1,4 @@
+<map id="Microsoft.Bot.Builder.Base.EventQueue&lt; Event &gt;" name="Microsoft.Bot.Builder.Base.EventQueue&lt; Event &gt;">
+<area shape="rect" id="node2" href="$d4/dab/interface_microsoft_1_1_bot_1_1_builder_1_1_base_1_1_i_event_producer.html" title="IEventProducer\&lt; Event \&gt;" alt="" coords="5,5,171,32"/>
+<area shape="rect" id="node3" href="$df/dfd/interface_microsoft_1_1_bot_1_1_builder_1_1_base_1_1_i_event_consumer.html" title="IEventConsumer\&lt; Event \&gt;" alt="" coords="195,5,367,32"/>
+</map>

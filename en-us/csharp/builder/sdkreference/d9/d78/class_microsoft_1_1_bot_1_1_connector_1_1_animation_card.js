@@ -2,6 +2,7 @@ var class_microsoft_1_1_bot_1_1_connector_1_1_animation_card =
 [
     [ "AnimationCard", "d9/d78/class_microsoft_1_1_bot_1_1_connector_1_1_animation_card.html#ae53a34bac35e80e0d523b873f4576e98", null ],
     [ "AnimationCard", "d9/d78/class_microsoft_1_1_bot_1_1_connector_1_1_animation_card.html#a7b8f3e2ba616c21f393a160fab4f8c4f", null ],
+    [ "ContentType", "d9/d78/class_microsoft_1_1_bot_1_1_connector_1_1_animation_card.html#afcaa89f98a64ced8836583e21da394cd", null ],
     [ "Autoloop", "d9/d78/class_microsoft_1_1_bot_1_1_connector_1_1_animation_card.html#a6f45d62ce6a9db6c15d65b32697f656e", null ],
     [ "Autostart", "d9/d78/class_microsoft_1_1_bot_1_1_connector_1_1_animation_card.html#aac9cf625e30066177ca25a2d0ea5bb4e", null ],
     [ "Buttons", "d9/d78/class_microsoft_1_1_bot_1_1_connector_1_1_animation_card.html#a25fcb87cf4a23f36c2d3254705449733", null ],
