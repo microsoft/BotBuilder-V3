@@ -369,7 +369,7 @@ Is this what you wanted? {||}")
         {
             var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
             await VerifyFormScript(pathScript,
-                "en-us", 
+                "en-us",
                 () => new FormBuilder<SimpleForm>()
                 .AddRemainingFields()
                 .Confirm(@"**Results**
@@ -379,7 +379,7 @@ Is this what you wanted? {||}")
 * SomeChoices: {SomeChoices}
 * Date: {Date}
 Is this what you wanted? {||}")
-                .Build(), 
+                .Build(),
                 FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
                 "Hi",
                 "some text here",
@@ -427,13 +427,30 @@ Is this what you wanted? {||}")
                 // Test limits beyond double
                 (double.MaxValue).ToString().Replace("308", "309"),
                 (double.MinValue).ToString().Replace("308", "309"),
-                
+
                 // Min and max accepted values
                 float.MaxValue.ToString(),
                 "back",
                 float.MinValue.ToString(),
                 "quit");
-          }
+        }
+
+        [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-Skip.script")]
+        public async Task SimpleForm_Skip_Script()
+        {
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
+                "en-us",
+                () => new FormBuilder<SimpleForm>().Build(),
+                FormOptions.None, new SimpleForm() { Float = 4.3f }, Array.Empty<EntityRecommendation>(),
+                "hi",
+                "some text",
+                "99",
+                // Float should be skipped
+                "word",
+                "quit");
+        }
 
         [TestMethod]
         [DeploymentItem(@"Scripts\PizzaForm.script")]
@@ -503,7 +520,7 @@ Is this what you wanted? {||}")
                 "hi",
                 "1", // onions for topping clarification
                 "2", // address choice from validation
-                "med", 
+                "med",
                 // Kind "4",
                 "drink bread",
                 "thin",
@@ -751,7 +768,7 @@ Is this what you wanted? {||}")
 
                 "back",
                 "word that",
-                
+
                 "back",
                 "-word",
 

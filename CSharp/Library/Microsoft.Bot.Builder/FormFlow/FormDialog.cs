@@ -404,7 +404,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                                    where (command.Value is FormCommand
                                           || (!_formState.ProcessInputs && _form.Fields.Field((string)command.Value).Active(_state)))
                                    select command).ToArray();
-                            if (MatchAnalyzer.IsFullMatch(toBotText, commands))
+                            if (commands.Length == 1 && MatchAnalyzer.IsFullMatch(toBotText, commands))
                             {
                                 FormPrompt feedback;
                                 next = DoCommand(context, _state, _formState, step, commands, out feedback);

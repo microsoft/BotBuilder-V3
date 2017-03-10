@@ -201,6 +201,9 @@
     <None Include="Scripts\SimpleForm-Prompter.script">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Scripts\SimpleForm-Skip.script">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\SimpleForm.script">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
