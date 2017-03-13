@@ -2846,6 +2846,30 @@ export class RegExpRecognizer implements IIntentRecognizer {
     public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
+/** 
+ * Version of the [RegExpRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.regexprecognizer) 
+ * that uses the frameworks localization system to retrieve a localized regular expression.
+ * The lookup key in the index.json file should be provided and upon receiving a message for
+ * a new locale, the recognizer will retrieve the localized expression and a new case insensitive 
+ * `RegExp` will be created and used to recognize the intent. 
+ * 
+ * Libraries can use this feature to let a bot override their default matching expressions. just
+ * create instances of the recognizer using the namespace of your library and bot developers can 
+ * customize your matching expressions by using a `<namespace>.json` file in their locale directory.
+ */
+export class LocalizedRegExpRecognizer implements IIntentRecognizer {
+    /**
+     * Constructs a new instance of the recognizer.
+     * @param intent The name of the intent to return when the expression is matched.
+     * @param key Key for the expression in the `index.json` or `<namespace>.json` file.
+     * @param namespace (Optional) library namespace to lookup `key` from. The expression should be a string in the `<namespace>.json` locale file. 
+     */
+    constructor(intent: string, key: string, namespace?: string);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+}
+
 /**
  * Intent recognizer plugin that detects a users intent using Microsofts [Language Understanding Intelligent Service (LUIS)](https://luis.ai)
  * The service URLs for multiple LUIS models (apps) can be passed in to support recognition 
