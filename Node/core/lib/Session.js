@@ -502,7 +502,7 @@ var Session = (function (_super) {
             this.userData[consts.Data.DebugWatches][entry.name] = enable;
         }
         else {
-            throw new Error("Invalid watch statement. '" + variable + " isn't watchable");
+            throw new Error("Invalid watch statement. '" + variable + "' isn't watchable");
         }
         return this;
     };
@@ -570,7 +570,7 @@ var Session = (function (_super) {
         var _this = this;
         var ctx = this.toRecognizeContext();
         async.each(this.watchList(), function (variable, cb) {
-            var entry = watchableHandlers[variable];
+            var entry = watchableHandlers[variable.toLowerCase()];
             if (entry && entry.handler) {
                 try {
                     entry.handler(ctx, function (err, value) {

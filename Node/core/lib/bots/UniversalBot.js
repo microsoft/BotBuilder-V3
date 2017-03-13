@@ -295,7 +295,7 @@ var UniversalBot = (function (_super) {
             if (message.source == consts.emulatorChannel) {
                 logger = new RemoteSessionLogger_1.RemoteSessionLogger(_this.connector(consts.emulatorChannel), message.address, message.address);
             }
-            else if (data.privateConversationData.hasOwnProperty(consts.Data.DebugAddress)) {
+            else if (data.privateConversationData && data.privateConversationData.hasOwnProperty(consts.Data.DebugAddress)) {
                 var debugAddress = data.privateConversationData[consts.Data.DebugAddress];
                 logger = new RemoteSessionLogger_1.RemoteSessionLogger(_this.connector(consts.emulatorChannel), debugAddress, message.address);
             }
@@ -348,6 +348,7 @@ var UniversalBot = (function (_super) {
         else {
             entry += '<null>';
         }
+        entry += ' from "' + session.message.source + '"';
         session.logger.log(null, entry);
         var context = session.toRecognizeContext();
         this.recognize(context, function (err, topIntent) {

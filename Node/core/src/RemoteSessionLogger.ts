@@ -38,6 +38,7 @@ export interface IDebugEvent extends IEvent {
     name: string;
     value: IDebugItem[];
     relatesTo?: IAddress;
+    text?: string;  // <-- Fixes a display bug in the emulator.
 }
 
 export interface IDebugItem {
@@ -125,7 +126,8 @@ export class RemoteSessionLogger extends SessionLogger {
             address: this.address,
             name: 'debug',
             value: [],
-            relatesTo: this.relatesTo
+            relatesTo: this.relatesTo,
+            text: "Debug Event"
         };
     }
 }

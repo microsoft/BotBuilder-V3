@@ -622,7 +622,7 @@ export class Session extends events.EventEmitter {
             var entry = watchableHandlers[name];
             this.userData[consts.Data.DebugWatches][entry.name] = enable;
         } else {
-            throw new Error("Invalid watch statement. '" + variable + " isn't watchable");
+            throw new Error("Invalid watch statement. '" + variable + "' isn't watchable");
         }
         return this;
     }
@@ -701,7 +701,7 @@ export class Session extends events.EventEmitter {
         // Dump watchList
         var ctx = this.toRecognizeContext();
         async.each(this.watchList(), (variable, cb) => {
-            let entry = watchableHandlers[variable];
+            let entry = watchableHandlers[variable.toLowerCase()];
             if (entry && entry.handler) {
                 try {
                     entry.handler(ctx, (err, value) => {

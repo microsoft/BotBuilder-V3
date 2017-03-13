@@ -427,7 +427,7 @@ export class UniversalBot extends Library {
             let logger: SessionLogger;
             if (message.source == consts.emulatorChannel) {
                 logger = new RemoteSessionLogger(this.connector(consts.emulatorChannel), message.address, message.address);
-            } else if (data.privateConversationData.hasOwnProperty(consts.Data.DebugAddress)) {
+            } else if (data.privateConversationData && data.privateConversationData.hasOwnProperty(consts.Data.DebugAddress)) {
                 var debugAddress = data.privateConversationData[consts.Data.DebugAddress];
                 logger = new RemoteSessionLogger(this.connector(consts.emulatorChannel), debugAddress, message.address);
             } else {
@@ -485,6 +485,7 @@ export class UniversalBot extends Library {
         } else {
             entry += '<null>';
         }
+        entry += ' from "' + session.message.source + '"';
         session.logger.log(null, entry);
         
         // Run the root libraries recognizers

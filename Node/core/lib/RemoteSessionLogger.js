@@ -73,7 +73,8 @@ var RemoteSessionLogger = (function (_super) {
             address: this.address,
             name: 'debug',
             value: [],
-            relatesTo: this.relatesTo
+            relatesTo: this.relatesTo,
+            text: "Debug Event"
         };
     };
     return RemoteSessionLogger;
