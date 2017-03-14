@@ -2871,6 +2871,34 @@ export class LocalizedRegExpRecognizer implements IIntentRecognizer {
 }
 
 /**
+ * Wraps a recognizer with a filter that lets you conditionally enable/disable the recognizer or filter the intents
+ * returned from the recognizer. This can be composed with an [IntentRecognizerSet](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentrecognizerset)
+ * to conditionally enable or filter the output of an entire set of recognizers.
+ */
+export class RecognizerFilter implements IIntentRecognizer {
+    /**
+     * Constructs a new instance of the recognizer.
+     * @param recognizer The recognizer that should be either Conditionally enabled or have its output filtered.
+     */
+    constructor(recognizer: IIntentRecognizer);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /**
+     * Registers a function to conditionally enable/disable the wrapped recognizer.
+     * @param handler Function called for every message. You should call `callback(null, true)` for every message that should be passed to the wrapped recognizer. 
+     */
+    public onEnabled(handler: (context: IRecognizeContext, callback: (err: Error, enabled: boolean) => void) => void): RecognizerFilter;
+
+    /**
+     * Registers a function to filter the output from the wrapped recognizer.
+     * @param handler Function called for every message that results in an intent with a score greater then 0.0. You should call `callback(null, { score: 0.0, intent: null })` to block an intent from being returned.
+     */
+    public onRecognized(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
+}
+
+/**
  * Intent recognizer plugin that detects a users intent using Microsofts [Language Understanding Intelligent Service (LUIS)](https://luis.ai)
  * The service URLs for multiple LUIS models (apps) can be passed in to support recognition 
  * across multiple languages. 
