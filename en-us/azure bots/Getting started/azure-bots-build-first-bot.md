@@ -54,8 +54,8 @@ To create a bot using Azure Bot Service:
   
     (Note that there may be a slight delay before the splash screen displays indicating that the Bot Service is generating your bot; don’t click **Create bot** again.)
 
-What’s left to do? Besides adding functionality to your bot, you’ll need to configure your bot to work on the channels that your users use, and you’ll need to publish the bot to the Bot Framework’s Bot Directory. For information about configuring channels, see [Connecting to channels](/en-us/azure-bots/manage/channels/). For information about publishing your bot to the Bot directory, see [Publishing your bot](/en-us/azure-bot-service/manage/publish/).
+What’s left to do? Besides adding functionality to your bot, you’ll need to configure your bot to work on the channels that your users use, and you’ll need to publish the bot to the Bot Framework’s Bot Directory. For information about publishing your bot to the Bot directory, see [Publishing your bot](/en-us/azure-bot-service/manage/publish/).
 
-For information about setting up continuous integration, see [Setting up continuous integration](/en-us/azure-bots/manage/setting-up-continuous-integration/).
+For information about setting up continuous integration, see [Setting up continuous integration](/en-us/azure-bot-service/manage/setting-up-continuous-integration/).
 
 
