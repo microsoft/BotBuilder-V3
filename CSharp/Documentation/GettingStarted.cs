@@ -25,7 +25,9 @@ This is a step-by-step guide to writing an %Bot in C\# using the %Bot Framework 
         - Important: Please update all VS extensions to their latest versions Tools->Extensions and Updates->Updates
 2. Download and install the %Bot Application template
         - Download the file from the direct download link <a href="http://aka.ms/bf-bc-vstemplate" target="_blank">here</a>:
-        - Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\"
+        - Save the zip file to your Visual Studio 2015 project templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\"
+        - Additionally, you can download <a href="https://botframework.blob.core.windows.net/bf-v3/builder/vstemplate/Bot%20Dialog.zip" target="_blank">Dialog</a> and <a href="https://botframework.blob.core.windows.net/bf-v3/builder/vstemplate/Bot%20Controller.zip" target="_blank">Controller</a> Item templates. 
+        - Save these to your Visual Studio 2015 item templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ItemTemplates\Visual C#\"
 3. Open Visual Studio
 4. Create a new C\# project using the new %Bot Application template.
         ![Create a new C\# project using the new %Bot Application template.](/en-us/images/connector/connector-getstarted-create-project.png)
