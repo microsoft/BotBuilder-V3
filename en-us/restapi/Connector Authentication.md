@@ -17,7 +17,7 @@ This guide documents the security technologies and requirements for a bot to sen
 
 **NOTE**: If you are using the **Bot Builder SDK for C#** or the **Bot Builder SDK for Node.js**, all steps within this document are handled automatically by the SDK. All you have to do is configure it with your bot's ID and password.
 
-**NOTE**: The parameters for valid tokens have changed in November 2016. Token validation procedures remain the same, but the characteristics of those tokens -- notably the audience and issuer claims -- have changed. A [table of valid values](#changes) is included at the end of this document.
+**NOTE**: The parameters for valid tokens have changed in December 2016. Token validation procedures remain the same, but the characteristics of those tokens -- notably the audience and issuer claims -- have changed. A [table of valid values](#changes) is included at the end of this document.
 
 Your bot communicates to the Bot Connector service using HTTP over a secured channel (SSL/TLS). Within this channel, the bot and the Bot Connector service must prove to each other that they are the service they claim to be. Once the bot and the service are authenticated, they may exchange messages. This page describes authentication that takes place at the service level; it does not describe user-level authentication (such as a user logging in to your bot).
 
@@ -249,11 +249,11 @@ payload:
 
 ## Changes
 
-The contents of this document are current as of January 2017. At this time, the Bot Framework supports two authentication configurations: v3.0, for bots written before November and not upgraded, and v3.1, for bots that have upgrade to the latest Bot Builder SDK. Eventually support for v3.0 will be discontinued.
+The contents of this document are current as of March 2017. At this time, the Bot Framework supports two authentication configurations: v3.0, for bots written before November and not upgraded, and v3.1, for bots that have upgrade to the latest Bot Builder SDK. **Support for v3.0 will be discontinued on May 31, 2017.**
 
 The only differences between v3.0 and v3.1 are the values of the hardcoded constants used in token generation and validation. The table below describes these differences.
 
-||v3.0 (June 2016 - TBD)|v3.1 (starting December 2016)|
+||v3.0 (June 2016 - May 31, 2017)|v3.1 (starting December 2016)|
 |-|-|-|
 |**Bot -> Connector**|||
 |OAuth login URL|```https://login.microsoftonline.com/common/oauth2/v2.0/token``` | ```https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token``` |
