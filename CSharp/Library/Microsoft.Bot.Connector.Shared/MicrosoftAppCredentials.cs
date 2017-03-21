@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 #if NET45
 using System.Configuration;
 using System.Diagnostics;
+using System.Runtime.Serialization;
 #endif
 
 namespace Microsoft.Bot.Connector
@@ -191,25 +192,53 @@ namespace Microsoft.Bot.Connector
             return false;
         }
 
+#if NET45
+        [Serializable]
+#endif
+        public sealed class OAuthException : Exception
+        {
+            public OAuthException(string body, Exception inner)
+                : base(body, inner)
+            {
+            }
+
+#if NET45
+            private OAuthException(SerializationInfo info, StreamingContext context)
+                : base(info, context)
+            {
+            }
+#endif
+        }
+
         private async Task<OAuthResponse> RefreshTokenAsync()
         {
-            OAuthResponse oauthResponse;
-
             using (HttpClient httpClient = new HttpClient())
             {
-                HttpResponseMessage response = await httpClient.PostAsync(OAuthEndpoint, new FormUrlEncodedContent(new Dictionary<string, string>()
+                var content = new FormUrlEncodedContent(new Dictionary<string, string>()
                 {
                     { "grant_type", "client_credentials" },
                     { "client_id", MicrosoftAppId },
                     { "client_secret", MicrosoftAppPassword },
                     { "scope", OAuthScope }
-                })).ConfigureAwait(false);
+                });
 
-                string body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                using (var response = await httpClient.PostAsync(OAuthEndpoint, content).ConfigureAwait(false))
+                {
+                    string body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                oauthResponse = JsonConvert.DeserializeObject<OAuthResponse>(body);
-                oauthResponse.expiration_time = DateTime.UtcNow.AddSeconds(oauthResponse.expires_in).Subtract(TimeSpan.FromSeconds(60));
-                return oauthResponse;
+                    try
+                    {
+                        response.EnsureSuccessStatusCode();
+
+                        var oauthResponse = JsonConvert.DeserializeObject<OAuthResponse>(body);
+                        oauthResponse.expiration_time = DateTime.UtcNow.AddSeconds(oauthResponse.expires_in).Subtract(TimeSpan.FromSeconds(60));
+                        return oauthResponse;
+                    }
+                    catch (Exception error)
+                    {
+                        throw new OAuthException(body, error);
+                    }
+                }
             }
         }
 

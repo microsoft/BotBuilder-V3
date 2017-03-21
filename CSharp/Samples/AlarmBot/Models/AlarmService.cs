@@ -1,6 +1,7 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,8 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
     public sealed class AlarmService : IAlarmService
     {
         private readonly IAlarmScheduler scheduler;
-        private readonly ResumptionCookie cookie;
-        public AlarmService(IAlarmScheduler scheduler, ResumptionCookie cookie)
+        private readonly ConversationReference cookie;
+        public AlarmService(IAlarmScheduler scheduler, ConversationReference cookie)
         {
             SetField.NotNull(out this.scheduler, nameof(scheduler), scheduler);
             SetField.NotNull(out this.cookie, nameof(cookie), cookie);

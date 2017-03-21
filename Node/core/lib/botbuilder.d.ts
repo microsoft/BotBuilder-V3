@@ -407,8 +407,14 @@ export interface IRecognizeContext {
     /** Private conversation data that's only visible to the user. */
     privateConversationData: any;
 
+    /** Data for the active dialog. */
+    dialogData: any;
+
     /** The localizer for the session. */
-    localizer: ILocalizer ;    
+    localizer: ILocalizer;
+
+    /** The current session logger. */
+    logger: SessionLogger;
 
     /** Returns the users preferred locale. */
     preferredLocale(): string;
@@ -1071,6 +1077,11 @@ export interface IRouteResult {
     routeData?: any;
 }
 
+/** Function for retrieving the value of a watched variable. Passed to [Session.watchable()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#watchable). */
+export interface IWatchableHandler {
+    (context: IRecognizeContext, callback: (err: Error, value: any) => void): void;
+}
+
 /** Custom route searching logic passed to [Library.onFindRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onfindroutes). */
 export interface IFindRoutesHandler {
     (context: IRecognizeContext, callback: (err: Error, routes: IRouteResult[]) => void): void;
@@ -1528,8 +1539,92 @@ export class Session {
      * @param root The root of the library hierarchy, typically the bot.
      */
     static validateDialogStack(stack: IDialogState[], root: Library): boolean;
+
+    /**
+     * Enables/disables a watch for the current session.
+     * @param variable Name of the variable to watch/unwatch.
+     * @param enable (Optional) If true the variable will be watched, otherwise it will be unwatched. The default value is true.
+     */
+    watch(variable: string, enable?: boolean): Session;
+
+    /**
+     * Returns the current list of watched variables for the session.
+     */
+    watchList(): string[];
+
+    /**
+     * Adds or retrieves a variable that can be watched.
+     * @param variable Name of the variable that can be watched. Case is used for display only.
+     * @param handler (Optional) Function used to retrieve the variables current value. If specified a new handler will be registered, otherwise the existing handler will be retrieved. 
+     */
+    static watchable(variable: string, handler?: IWatchableHandler): IWatchableHandler;
+
+    /**
+     * Returns a list of watchable variables.
+     */
+    static watchableList(): string[];
 }
-    
+
+/**
+ * Default session logger used to log session activity to the console.
+ */
+export class SessionLogger {
+    /** If true the logger is enabled and will log the sessions activity. */
+    isEnabled: boolean;
+
+    /**
+     * Logs the state of a variable to the output.
+     * @param name Name of the variable being logged.
+     * @param value Variables current state.
+     */
+    dump(name: string, value: any): void;
+
+    /**
+     * Logs an informational level message to the output.
+     * @param dialogStack (Optional) dialog stack for the session. This is used to provide context for where the event occured.
+     * @param msg Message to log.
+     * @param args (Optional) arguments to log with the message.
+     */
+    log(dialogStack: IDialogState[], msg: string, ...args: any[]): void;
+
+    /**
+     * Logs a warning to the output.
+     * @param dialogStack (Optional) dialog stack for the session. This is used to provide context for where the event occured.
+     * @param msg Message to log.
+     * @param args (Optional) arguments to log with the message.
+     */
+    warn(dialogStack: IDialogState[], msg: string, ...args: any[]): void;
+
+    /**
+     * Logs an error to the output.
+     * @param dialogStack (Optional) dialog stack for the session. This is used to provide context for where the event occured.
+     * @param err Error object to log. The errors message plus stack trace will be logged.
+     */
+    error(dialogStack: IDialogState[], err: Error): void;
+
+    /**
+     * Flushes any buffered entries to the output.
+     * @param callback Function to call when the operation is completed.
+     */
+    flush(callback: (err: Error) => void): void;
+}
+
+/**
+ * Logs session activity to a remote endpoint using debug events. The remote debugger
+ * is automatically used when the emulator connects to your bot. Non-emulator channels
+ * can stream their activity to the emulator by saving the address of the emulator 
+ * session to `session.privateConversationData["BotBuilder.Data.DebugSession"]`.
+ */
+export class RemoteSessionLogger extends SessionLogger {
+    /**
+     * Creates an instance of the remote session logger.
+     * @param connector Connector used to communicate with the remote endpoint. 
+     * @param address Address to deliver debug events to.
+     * @param relatesTo Address of the conversation the debug events are for.
+     */
+    constructor(connector: IConnector, address: IAddress, relatesTo: IAddress);
+}
+
 /**
  * Message builder class that simplifies building complex messages with attachments.
  */
@@ -2164,6 +2259,14 @@ export abstract class Dialog extends ActionSet {
      * to trigger the action.
      */
     endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
+
+    /**
+     * Binds a custom action to the dialog that will call the passed in [onSelectAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onselectaction) 
+     * handler when triggered.
+     * @param options The options used to configure the action. If [matches](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#matches) is specified the action will listen 
+     * for the user to say a word or phrase that triggers the action. Custom matching logic can be provided using [onFindAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onfindaction).
+     */
+    customAction(options: IDialogActionOptions): Library;
 }
 
 /** 
@@ -2469,6 +2572,14 @@ export class Library {
     endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
 
     /**
+     * Registers a custom global action that will call the passed in [onSelectAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onselectaction) 
+     * handler when triggered.
+     * @param options The options used to configure the action. If [matches](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#matches) is specified the action will listen 
+     * for the user to say a word or phrase that triggers the action. Custom matching logic can be provided using [onFindAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onfindaction).
+     */
+    customAction(options: IDialogActionOptions): Library;
+
+    /**
      * Helper method called from the various route finding methods to manage adding a candidate
      * route to the result set. 
      * 
@@ -2733,6 +2844,58 @@ export class RegExpRecognizer implements IIntentRecognizer {
 
     /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
     public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+}
+
+/** 
+ * Version of the [RegExpRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.regexprecognizer) 
+ * that uses the frameworks localization system to retrieve a localized regular expression.
+ * The lookup key in the index.json file should be provided and upon receiving a message for
+ * a new locale, the recognizer will retrieve the localized expression and a new case insensitive 
+ * `RegExp` will be created and used to recognize the intent. 
+ * 
+ * Libraries can use this feature to let a bot override their default matching expressions. just
+ * create instances of the recognizer using the namespace of your library and bot developers can 
+ * customize your matching expressions by using a `<namespace>.json` file in their locale directory.
+ */
+export class LocalizedRegExpRecognizer implements IIntentRecognizer {
+    /**
+     * Constructs a new instance of the recognizer.
+     * @param intent The name of the intent to return when the expression is matched.
+     * @param key Key for the expression in the `index.json` or `<namespace>.json` file.
+     * @param namespace (Optional) library namespace to lookup `key` from. The expression should be a string in the `<namespace>.json` locale file. 
+     */
+    constructor(intent: string, key: string, namespace?: string);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+}
+
+/**
+ * Wraps a recognizer with a filter that lets you conditionally enable/disable the recognizer or filter the intents
+ * returned from the recognizer. This can be composed with an [IntentRecognizerSet](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentrecognizerset)
+ * to conditionally enable or filter the output of an entire set of recognizers.
+ */
+export class RecognizerFilter implements IIntentRecognizer {
+    /**
+     * Constructs a new instance of the recognizer.
+     * @param recognizer The recognizer that should be either Conditionally enabled or have its output filtered.
+     */
+    constructor(recognizer: IIntentRecognizer);
+
+    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /**
+     * Registers a function to conditionally enable/disable the wrapped recognizer.
+     * @param handler Function called for every message. You should call `callback(null, true)` for every message that should be passed to the wrapped recognizer. 
+     */
+    public onEnabled(handler: (context: IRecognizeContext, callback: (err: Error, enabled: boolean) => void) => void): RecognizerFilter;
+
+    /**
+     * Registers a function to filter the output from the wrapped recognizer.
+     * @param handler Function called for every message that results in an intent with a score greater then 0.0. You should call `callback(null, { score: 0.0, intent: null })` to block an intent from being returned.
+     */
+    public onRecognized(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
 }
 
 /**

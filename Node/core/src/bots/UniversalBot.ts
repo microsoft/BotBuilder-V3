@@ -36,9 +36,11 @@ import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
 import { Session, ISessionMiddleware } from '../Session';
 import { DefaultLocalizer } from '../DefaultLocalizer';
 import { IBotStorage, IBotStorageContext, IBotStorageData, MemoryBotStorage } from '../storage/BotStorage';
+import { IIntentRecognizerResult } from '../dialogs/IntentRecognizerSet';
+import { SessionLogger } from '../SessionLogger';
+import { RemoteSessionLogger } from '../RemoteSessionLogger';
 import * as consts from '../consts';
 import * as utils from '../utils';
-import * as logger from '../logger';
 import * as async from 'async';
 
 export interface IUniversalBotSettings {
@@ -290,7 +292,7 @@ export class UniversalBot extends Library {
                 }, cb);
             }, cb);
         }, this.errorLogger((err) => {
-            if (!err) {
+            if (!err && list.length > 0) {
                 this.tryCatch(() => {
                     // All messages should be targeted at the same channel.
                     var channelId = list[0].address.channelId;
@@ -301,7 +303,7 @@ export class UniversalBot extends Library {
                     connector.send(list, this.errorLogger(done));
                 }, this.errorLogger(done));
             } else if (done) {
-                done(null);
+                done(err);
             }
         }));
     }
@@ -420,9 +422,22 @@ export class UniversalBot extends Library {
                 var defaultLocale = this.settings.localizerSettings ? this.settings.localizerSettings.defaultLocale : null;
                 this.localizer = new DefaultLocalizer(this, defaultLocale);
             }
+
+            // Create logger
+            let logger: SessionLogger;
+            if (message.source == consts.emulatorChannel) {
+                logger = new RemoteSessionLogger(this.connector(consts.emulatorChannel), message.address, message.address);
+            } else if (data.privateConversationData && data.privateConversationData.hasOwnProperty(consts.Data.DebugAddress)) {
+                var debugAddress = data.privateConversationData[consts.Data.DebugAddress];
+                logger = new RemoteSessionLogger(this.connector(consts.emulatorChannel), debugAddress, message.address);
+            } else {
+                logger = new SessionLogger();
+            }
+
             // Initialize session
             var session = new Session({
                 localizer: this.localizer,
+                logger: logger,
                 autoBatchDelay: this.settings.autoBatchDelay,
                 library: this,
                 //actions: this.actions,
@@ -461,9 +476,31 @@ export class UniversalBot extends Library {
     }
 
     private routeMessage(session: Session, done: (err: Error) => void): void {
+        // Log start of routing
+        var entry = 'UniversalBot("' + this.name + '") routing ';
+        if (session.message.text) {
+            entry += '"' + session.message.text + '"';
+        } else if (session.message.attachments && session.message.attachments.length > 0) {
+            entry += session.message.attachments.length + ' attachment(s)';
+        } else {
+            entry += '<null>';
+        }
+        entry += ' from "' + session.message.source + '"';
+        session.logger.log(null, entry);
+        
         // Run the root libraries recognizers
         var context = session.toRecognizeContext();
         this.recognize(context, (err, topIntent) => {
+            // Check for forwarded intent
+            if (session.message.entities) {
+                session.message.entities.forEach((entity) => {
+                    if (entity.type === consts.intentEntityType && 
+                        (<IIntentRecognizerResult>entity).score > topIntent.score) {
+                        topIntent = entity;
+                    } 
+                });
+            }
+
             // This intent will be automatically inherited by child libraries
             // that don't implement their own recognizers.
             // - We're passing along the library name to avoid running our own

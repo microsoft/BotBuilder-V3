@@ -87,7 +87,7 @@
     <value>Le choix actuel ("c"); courant; c; choix actuel</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>non;pas;rien;2</value>
+    <value>Non;pas;rien;2</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>Pas de préférence;non; pas; aucun; aucune;tout de même;ça m'est égal</value>

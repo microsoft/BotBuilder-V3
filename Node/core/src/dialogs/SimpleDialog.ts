@@ -34,7 +34,6 @@
 import { Dialog, ResumeReason, IDialogResult } from './Dialog';
 import { Session } from '../Session';
 import * as consts from '../consts';
-import * as logger from '../logger';
 
 export interface IDialogWaterfallStep {
     (session: Session, result?: any, skip?: (results?: IDialogResult<any>) => void): void;
@@ -86,7 +85,7 @@ export function createWaterfall(steps: IDialogWaterfallStep[]): (session: Sessio
                 if (step >= 0 && step < steps.length) {
                     // Execute next step of the waterfall
                     try {
-                        logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
+                        s.logger.log(s.dialogStack(), 'waterfall() step ' + step + 1 + ' of ' + steps.length);
                         s.dialogData[consts.Data.WaterfallStep] = step;
                         steps[step](s, r, skip);
                     } catch (e) {
@@ -100,7 +99,7 @@ export function createWaterfall(steps: IDialogWaterfallStep[]): (session: Sessio
         } else if (steps && steps.length > 0) {
             // Start waterfall
             try {
-                logger.info(s, 'waterfall() step %d of %d', 1, steps.length);
+                s.logger.log(s.dialogStack(), 'waterfall() step 1 of ' + steps.length);
                 s.dialogData[consts.Data.WaterfallStep] = 0;
                 steps[0](s, r, skip);
             } catch (e) {
@@ -108,7 +107,7 @@ export function createWaterfall(steps: IDialogWaterfallStep[]): (session: Sessio
             }
         } else {
             // Empty waterfall so end dialog with not completed
-            logger.warn(s, 'waterfall() empty waterfall detected');
+            s.logger.warn(s.dialogStack(), 'waterfall() empty waterfall detected');
             s.endDialogWithResult({ resumed: ResumeReason.notCompleted });
         }
     }; 

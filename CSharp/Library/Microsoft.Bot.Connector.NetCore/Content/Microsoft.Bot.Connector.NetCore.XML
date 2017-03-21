@@ -615,6 +615,32 @@
             <param name="card"> The instance of <see cref="T:Microsoft.Bot.Connector.AnimationCard"/>.</param>
             <returns> The generated attachment.</returns>
         </member>
+        <member name="T:Microsoft.Bot.Connector.ChannelAccount">
+            <summary>
+            Channel account information needed to route a message
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor">
+            <summary>
+            Initializes a new instance of the ChannelAccount class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the ChannelAccount class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Id">
+            <summary>
+            Channel id for the user or bot on this channel (Example:
+            joe@smith.com, or @joesmith or 123456)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Name">
+            <summary>
+            Display friendly name
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ClaimsIdentityEx.GetAppIdFromClaims(System.Security.Claims.ClaimsIdentity)">
             <summary>
             Get the AppId from the Claims Identity
@@ -1817,7 +1843,7 @@
             * Bot being the bot creating the conversation
             * IsGroup set to true if this is not a direct message (default is
             false)
-            * Members array contining the members you want to have be in the
+            * Members array containing the members you want to have be in the
             conversation.
             
             The return value is a ResourceResponse which contains a
@@ -2601,32 +2627,6 @@
             URL or play/open media content
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.ChannelAccount">
-            <summary>
-            Channel account information needed to route a message
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor">
-            <summary>
-            Initializes a new instance of the ChannelAccount class.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the ChannelAccount class.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Id">
-            <summary>
-            Channel id for the user or bot on this channel (Example:
-            joe@smith.com, or @joesmith or 123456)
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Name">
-            <summary>
-            Display friendly name
-            </summary>
-        </member>
         <member name="T:Microsoft.Bot.Connector.ConversationAccount">
             <summary>
             Channel account information for a conversation
@@ -2748,6 +2748,16 @@
             <summary>
             Service endpoint where operations concerning the referenced
             conversation may be performed
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationReference.GetPostToBotMessage">
+            <summary>
+            Creates <see cref="T:Microsoft.Bot.Connector.Activity"/> from conversation reference as it is posted to bot.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationReference.GetPostToUserMessage">
+            <summary>
+            Creates <see cref="T:Microsoft.Bot.Connector.Activity"/> from conversation reference that can be posted to user as reply.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConversationResourceResponse">

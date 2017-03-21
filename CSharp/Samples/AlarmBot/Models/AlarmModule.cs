@@ -3,6 +3,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Sample.AlarmBot.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
             builder.RegisterType<NaiveAlarmScheduler>().Keyed<IAlarmScheduler>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().SingleInstance();
 
             // register some objects dependent on the incoming message
-            builder.Register(c => new RenderingAlarmService(new AlarmService(c.Resolve<IAlarmScheduler>(), c.Resolve<ResumptionCookie>()), c.Resolve<Func<IAlarmRenderer>>(), c.Resolve<IBotToUser>(), c.Resolve<IClock>())).Keyed<IAlarmService>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
+            builder.Register(c => new RenderingAlarmService(new AlarmService(c.Resolve<IAlarmScheduler>(), c.Resolve<ConversationReference>()), c.Resolve<Func<IAlarmRenderer>>(), c.Resolve<IBotToUser>(), c.Resolve<IClock>())).Keyed<IAlarmService>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
             builder.RegisterType<AlarmScorable>().Keyed<AlarmScorable>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
             builder.RegisterType<AlarmRenderer>().Keyed<IAlarmRenderer>(FiberModule.Key_DoNotSerialize).AsImplementedInterfaces().InstancePerMatchingLifetimeScope(DialogModule.LifetimeScopeTag);
         }

@@ -4,7 +4,7 @@
 // 
 // Microsoft Bot Framework: http://botframework.com
 // 
-// Bot Builder SDK Github:
+// Bot Builder SDK GitHub:
 // https://github.com/Microsoft/BotBuilder
 // 
 // Copyright (c) Microsoft Corporation
@@ -238,7 +238,7 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
     }
 
     /// <summary>
-    /// A null comparer that pretends every item is equal.  This is particulary useful with stable sorts.
+    /// A null comparer that pretends every item is equal.  This is particularly useful with stable sorts.
     /// </summary>
     public sealed class NullComparer<T> : IComparer<T>
     {

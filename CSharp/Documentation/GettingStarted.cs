@@ -25,7 +25,9 @@ This is a step-by-step guide to writing an %Bot in C\# using the %Bot Framework 
         - Important: Please update all VS extensions to their latest versions Tools->Extensions and Updates->Updates
 2. Download and install the %Bot Application template
         - Download the file from the direct download link <a href="http://aka.ms/bf-bc-vstemplate" target="_blank">here</a>:
-        - Save the zip file to your Visual Studio 2015 templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\"
+        - Save the zip file to your Visual Studio 2015 project templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ProjectTemplates\Visual C#\"
+        - Additionally, you can download <a href="https://aka.ms/bf-bc-vsdialogtemplate" target="_blank">Dialog</a> and <a href="https://aka.ms/bf-bc-vscontrollertemplate" target="_blank">Controller</a> Item templates. 
+        - Save these to your Visual Studio 2015 item templates directory which is traditionally in "%USERPROFILE%\Documents\Visual Studio 2015\Templates\ItemTemplates\Visual C#\"
 3. Open Visual Studio
 4. Create a new C\# project using the new %Bot Application template.
         ![Create a new C\# project using the new %Bot Application template.](/en-us/images/connector/connector-getstarted-create-project.png)
@@ -202,7 +204,7 @@ it somewhere as you won't be able to see it again.
 
 Now that the %Bot is registered, you need to update the keys in the web.config file in your Visual Studio project. 
 Change the following keys in the web.config file to match the ones generated when you saved your registration, and 
-you're ready to build. Clicking the "show" link will show the value, along wtih exposing the 
+you're ready to build. Clicking the "show" link will show the value, along with exposing the 
 regenerate link if you ever need to change your AppPassword. Update your web.config, and re-publish your 
 %bot to Azure.
 

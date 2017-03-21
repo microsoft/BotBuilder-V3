@@ -4,7 +4,7 @@
 // 
 // Microsoft Bot Framework: http://botframework.com
 // 
-// Bot Builder SDK Github:
+// Bot Builder SDK GitHub:
 // https://github.com/Microsoft/BotBuilder
 // 
 // Copyright (c) Microsoft Corporation
@@ -321,6 +321,54 @@ namespace Microsoft.Bot.Builder.Tests
         {
             var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
             await VerifyFormScript(pathScript,
+                "en-us",
+                () => new FormBuilder<SimpleForm>()
+                .Prompter(async (context, prompt, state, field) =>
+                {
+                    if (field != null)
+                    {
+                        prompt.Prompt = field.Name + ": " + prompt.Prompt;
+                    }
+                    var preamble = context.MakeMessage();
+                    var promptMessage = context.MakeMessage();
+                    if (prompt.GenerateMessages(preamble, promptMessage))
+                    {
+                        await context.PostAsync(preamble);
+                    }
+                    await context.PostAsync(promptMessage);
+                    return prompt;
+                })
+                .AddRemainingFields()
+                .Confirm(@"**Results**
+* Text: {Text}
+* Integer: {Integer}
+* Float: {Float}
+* SomeChoices: {SomeChoices}
+* Date: {Date}
+Is this what you wanted? {||}")
+                .Build(),
+                FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+                "Hi",
+                "some text here",
+                "99",
+                "1.5",
+                "more than one",
+                "foo",
+                "two",
+                "1/1/2016",
+                "no",
+                "text",
+                "abc",
+                "yes"
+                );
+        }
+
+        [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-Preamble.script")]
+        public async Task SimpleForm_Preamble_Script()
+        {
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
                 "en-us", 
                 () => new FormBuilder<SimpleForm>()
                 .AddRemainingFields()
@@ -347,6 +395,45 @@ Is this what you wanted? {||}")
                 "yes"
                 );
         }
+
+        [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-Limits.script")]
+        public async Task SimpleForm_Limits_Script()
+        {
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
+                "en-us",
+                () => new FormBuilder<SimpleForm>().Build(),
+                FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+                "hi",
+                "integer",
+                // Test the limits of int vs long
+                ((long)int.MaxValue + 1).ToString(),
+                ((long)int.MinValue - 1).ToString(),
+
+                // Test the limits beyond long
+                long.MaxValue.ToString() + "1",
+                long.MinValue.ToString() + "1",
+
+                // Min and max accepted values
+                int.MaxValue.ToString(),
+                "back",
+                int.MinValue.ToString(),
+
+                // Test the limits of float vs. double
+                ((double)float.MaxValue + 1.0).ToString(),
+                ((double)float.MinValue * 2.0).ToString(),
+
+                // Test limits beyond double
+                (double.MaxValue).ToString().Replace("308", "309"),
+                (double.MinValue).ToString().Replace("308", "309"),
+                
+                // Min and max accepted values
+                float.MaxValue.ToString(),
+                "back",
+                float.MinValue.ToString(),
+                "quit");
+          }
 
         [TestMethod]
         [DeploymentItem(@"Scripts\PizzaForm.script")]

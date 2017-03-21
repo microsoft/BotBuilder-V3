@@ -82,32 +82,35 @@ function debugLog(trace:boolean, fmt: string, args: any[]): void {
 }
 
 
-function getPrefix(addressable: Session): string {
+export function getPrefix(addressable: Session|IDialogState[]): string {
     var prefix = '';
-    if (addressable && addressable.sessionState && addressable.sessionState.callstack) {
-        var callstack = addressable.sessionState.callstack;
-        for (var i = 0; i < callstack.length; i++) {
-            if (i == callstack.length - 1) {
-                var cur = callstack[i];
-                switch (cur.id) {
-                    case consts.DialogId.Prompts:
-                        var promptType = PromptType[(<IPromptArgs>cur.state).promptType];
-                        prefix += 'Prompts.' + promptType + ' - ';
-                        break;
-                    case consts.DialogId.FirstRun:
-                        prefix += 'Middleware.firstRun - '; 
-                        break;
-                    default:
-                        if (cur.id.indexOf('*:') == 0) {
-                            prefix += cur.id.substr(2) + ' - ';
-                        } else {
-                            prefix += cur.id + ' - ';
-                        }
-                        break;
-                }
-            } else {
-                prefix += '.';
+    var callstack: IDialogState[];
+    if (Array.isArray(addressable)) {
+        callstack = addressable;
+    } else {
+        callstack = addressable && addressable.sessionState && addressable.sessionState.callstack ? addressable.sessionState.callstack : [];
+    }
+    for (var i = 0; i < callstack.length; i++) {
+        if (i == callstack.length - 1) {
+            var cur = callstack[i];
+            switch (cur.id) {
+                case consts.DialogId.Prompts:
+                    var promptType = PromptType[(<IPromptArgs>cur.state).promptType];
+                    prefix += 'Prompts.' + promptType + ' - ';
+                    break;
+                case consts.DialogId.FirstRun:
+                    prefix += 'Middleware.firstRun - '; 
+                    break;
+                default:
+                    if (cur.id.indexOf('*:') == 0) {
+                        prefix += cur.id.substr(2) + ' - ';
+                    } else {
+                        prefix += cur.id + ' - ';
+                    }
+                    break;
             }
+        } else {
+            prefix += '.';
         }
     }
     return prefix;

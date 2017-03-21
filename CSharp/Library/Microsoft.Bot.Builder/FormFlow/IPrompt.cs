@@ -4,7 +4,7 @@
 // 
 // Microsoft Bot Framework: http://botframework.com
 // 
-// Bot Builder SDK Github:
+// Bot Builder SDK GitHub:
 // https://github.com/Microsoft/BotBuilder
 // 
 // Copyright (c) Microsoft Corporation
@@ -181,8 +181,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// </summary>
     /// <param name="context">Message context.</param>
     /// <param name="prompt">Prompt to be posted.</param>
+    /// <param name="state">State of the form.</param>
+    /// <param name="field">Field being prompted or null if not a field.</param>
     /// <returns>Prompt that was posted.</returns>
-    public delegate Task<FormPrompt> PromptAsyncDelegate(IDialogContext context, FormPrompt prompt);
+    public delegate Task<FormPrompt> PromptAsyncDelegate<T>(IDialogContext context, FormPrompt prompt, T state, IField<T> field)
+        where T : class;
 
     public static partial class Extensions
     {

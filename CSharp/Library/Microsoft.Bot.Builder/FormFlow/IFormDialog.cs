@@ -4,7 +4,7 @@
 // 
 // Microsoft Bot Framework: http://botframework.com
 // 
-// Bot Builder SDK Github:
+// Bot Builder SDK GitHub:
 // https://github.com/Microsoft/BotBuilder
 // 
 // Copyright (c) Microsoft Corporation
@@ -48,7 +48,7 @@ namespace Microsoft.Bot.Builder.FormFlow
     public delegate bool ActiveDelegate<T>(T state);
 
     /// <summary>
-    /// Choice for clarifying an amiguous value in <see cref="ValidateResult"/>.
+    /// Choice for clarifying an ambiguous value in <see cref="ValidateResult"/>.
     /// </summary>
     [Serializable]
     public class Choice

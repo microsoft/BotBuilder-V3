@@ -43,7 +43,7 @@ export class RegExpRecognizer implements IIntentRecognizer {
     private expressions: IRegExpMap;
 
     constructor(public intent: string, expressions: RegExp|IRegExpMap) {
-        if (expressions instanceof RegExp) {
+        if (expressions instanceof RegExp || typeof (<any>expressions).exec === 'function') {
             this.expressions = { '*': <RegExp>expressions };
         } else {
             this.expressions = <IRegExpMap>(expressions || {});

@@ -4,6 +4,7 @@ exports.messageType = 'message';
 exports.invokeType = 'invoke';
 exports.defaultConnector = '*';
 exports.emulatorChannel = 'emulator';
+exports.intentEntityType = 'intent';
 exports.Errors = {
     EMSGSIZE: 'EMSGSIZE',
     EBADMSG: 'EBADMSG'
@@ -22,7 +23,9 @@ exports.Data = {
     Form: 'BotBuilder.Data.Form',
     Field: 'BotBuilder.Data.Field',
     FirstRunVersion: 'BotBuilder.Data.FirstRunVersion',
-    PreferredLocale: 'BotBuilder.Data.PreferredLocale'
+    PreferredLocale: 'BotBuilder.Data.PreferredLocale',
+    DebugAddress: 'BotBuilder.Data.DebugAddress',
+    DebugWatches: 'BotBuilder.Data.DebugWatches'
 };
 exports.DialogId = {
     Prompts: 'BotBuilder:Prompts',

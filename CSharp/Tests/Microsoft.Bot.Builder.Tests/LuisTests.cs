@@ -4,7 +4,7 @@
 // 
 // Microsoft Bot Framework: http://botframework.com
 // 
-// Bot Builder SDK Github:
+// Bot Builder SDK GitHub:
 // https://github.com/Microsoft/BotBuilder
 // 
 // Copyright (c) Microsoft Corporation
@@ -39,16 +39,14 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using Autofac;
-using Moq;
-using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Action = Microsoft.Bot.Builder.Luis.Models.Action;
 
 namespace Microsoft.Bot.Builder.Tests
@@ -72,7 +70,7 @@ namespace Microsoft.Bot.Builder.Tests
 
         public static EntityRecommendation EntityForDate(string type, DateTime date)
         {
-            return EntityFor(type, 
+            return EntityFor(type,
                 date.ToString("d", DateTimeFormatInfo.InvariantInfo),
                 new Dictionary<string, string>()
                 {
@@ -299,7 +297,7 @@ namespace Microsoft.Bot.Builder.Tests
                 await AssertScriptAsync(container, "hello", EntityTwo);
             }
         }
-        
+
 
         [TestMethod]
         public async Task Service_With_LuisActionDialog()
@@ -325,7 +323,7 @@ namespace Microsoft.Bot.Builder.Tests
                         new IntentRecommendation()
                         {
                             Intent = intent,
-                            Score =  1.0, 
+                            Score =  1.0,
                             Actions =  new List<Action>
                             {
                                 new Action
@@ -384,7 +382,7 @@ namespace Microsoft.Bot.Builder.Tests
                         Prompt = prompt
                     }
                 });
-            
+
 
             var dialog = new MultiServiceLuisDialog(service.Object);
             using (new FiberTestBase.ResolveMoqAssembly(service.Object))
@@ -426,14 +424,14 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public void UrlEncoding_UTF8_Then_Hex()
         {
-            ILuisService service = new LuisService(new LuisModelAttribute("modelID", "subscriptionID", LuisApiVersion.V1));
+            ILuisService service = new LuisService(new LuisModelAttribute("modelID", "subscriptionID"));
 
             var uri = service.BuildUri("Français");
 
             // https://github.com/Microsoft/BotBuilder/issues/247
             // https://github.com/Microsoft/BotBuilder/pull/76
-            Assert.AreNotEqual("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscriptionID&q=Fran%25u00e7ais&id=modelID", uri.AbsoluteUri);
-            Assert.AreEqual("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscriptionID&q=Fran%C3%A7ais&id=modelID", uri.AbsoluteUri);
+            Assert.AreNotEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%25u00e7ais", uri.AbsoluteUri);
+            Assert.AreEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%C3%A7ais", uri.AbsoluteUri);
         }
     }
 }
