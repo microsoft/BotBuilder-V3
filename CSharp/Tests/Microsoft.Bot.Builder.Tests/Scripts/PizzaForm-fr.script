@@ -26,7 +26,7 @@ ToUserText:"Veuillez choisir un ou plusieurs sous-ensemble de caractères spéci
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":null,"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":null,"Stuffed":0}
 FromUser:"1 2"
 1
-ToUserText:"Voudriez-vous un moitié-moitié? (1. Oui, ou 2. non)"
+ToUserText:"Voudriez-vous un moitié-moitié? (1. Oui, ou 2. Non)"
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":null,"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"retourner"
 1
@@ -34,7 +34,7 @@ ToUserText:"Veuillez choisir un ou plusieurs sous-ensemble de caractères spéci
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":null,"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"c"
 1
-ToUserText:"Voudriez-vous un moitié-moitié? (1. Oui, ou 2. non)"
+ToUserText:"Voudriez-vous un moitié-moitié? (1. Oui, ou 2. Non)"
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":null,"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"non"
 1
@@ -60,13 +60,13 @@ State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAn
 FromUser:"oignons"
 4
 ToUserText:"Pour nappages, j'ai compris Viande Bovine, et Oignons. \" ice cream \"n'est pas un choix valide."
-ToUserText:"Près de là!!! \r\n* Nombre de Pizzas: 2\r\n* Taille: Moyen\r\n* Type de pizza: Créer la vôtre\r\n* Sous-ensemble de caractères spéciaux: Boisson Gratuite, et Pain À L Ail Gratuit\r\n* Moitié-moitié: non\r\n* Croûte: fine\r\n* Sauce: Traditionnel\r\n* Nappages: Viande Bovine, et Oignons\r\n"
+ToUserText:"Près de là!!! \r\n* Nombre de Pizzas: 2\r\n* Taille: Moyen\r\n* Type de pizza: Créer la vôtre\r\n* Sous-ensemble de caractères spéciaux: Boisson Gratuite, et Pain À L Ail Gratuit\r\n* Moitié-moitié: Non\r\n* Croûte: fine\r\n* Sauce: Traditionnel\r\n* Nappages: Viande Bovine, et Oignons\r\n"
 ToUserText:"Ce que nous avons est un fine croûte Traditionnel sauce Viande Bovine, et Oignons pizza}}}"
 ToUserText:"S'il vous plaît tapez adresse de remise "
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":[2,15]},"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"statut"
 2
-ToUserText:"* Nombre de Pizzas: 2\r\n* Taille: Moyen\r\n* Type de pizza: Créer la vôtre\r\n* Sous-ensemble de caractères spéciaux: Boisson Gratuite, et Pain À L Ail Gratuit\r\n* Moitié-moitié: non\r\n* Croûte: fine\r\n* Sauce: Traditionnel\r\n* Nappages: Viande Bovine, et Oignons\r\n* Adresse de remise: Pas spécifié\r\n* Coupons: Pas de préférence\r\n* Coupon: Pas de préférence\r\n* Notation: Pas de préférence\r\n* Disponibles: Pas spécifié\r\n* Bouteilles: Pas de préférence\r\n* Téléphone: Pas spécifié\r\n"
+ToUserText:"* Nombre de Pizzas: 2\r\n* Taille: Moyen\r\n* Type de pizza: Créer la vôtre\r\n* Sous-ensemble de caractères spéciaux: Boisson Gratuite, et Pain À L Ail Gratuit\r\n* Moitié-moitié: Non\r\n* Croûte: fine\r\n* Sauce: Traditionnel\r\n* Nappages: Viande Bovine, et Oignons\r\n* Adresse de remise: Pas spécifié\r\n* Coupons: Pas de préférence\r\n* Coupon: Pas de préférence\r\n* Notation: Pas de préférence\r\n* Disponibles: Pas spécifié\r\n* Bouteilles: Pas de préférence\r\n* Téléphone: Pas spécifié\r\n"
 ToUserText:"S'il vous plaît tapez adresse de remise "
 State:{"Available":"0001-01-01T00:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":[2,15]},"Coupon":0,"Coupons":null,"DeliveryAddress":null,"GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":null,"Rating":null,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"abc"
@@ -116,7 +116,7 @@ ToUserText:"Vous souhaitez une Moyen, Fine, Traditionnel, Viande Bovine, et Oign
 State:{"Available":"1962-02-25T15:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":[2,15]},"Coupon":0,"Coupons":[1,2],"DeliveryAddress":"1 state street","GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":"123-4567","Rating":2.5,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"non"
 1
-ToUserText:"Que voulez-vous changer? (choix actuel: Pas de préférence) \r\n  1. Nombre de Pizzas(2)\r\n  2. Taille(Moyen)\r\n  3. Type de pizza(Créer la vôtre)\r\n  4. Sous-ensemble de caractères spéciaux(Boisson Gratuite, et Pain À L Ail Gratuit)\r\n  5. Moitié-moitié(non)\r\n  6. Croûte(fine)\r\n  7. Sauce(Traditionnel)\r\n  8. Nappages(Viande Bovine, et Oignons)\r\n  9. Adresse de remise(1 state street)\r\n  10. Coupons(Grande 20 Pour Cent, et Pepperoni 20 Pour Cent)\r\n  11. Coupon(Pas de préférence)\r\n  12. Notation(2,5)\r\n  13. Disponibles(25/02/1962 15:00:00)\r\n  14. Bouteilles(Pas de préférence)\r\n  15. Téléphone(123-4567)\r\n  16. Pas de préférence"
+ToUserText:"Que voulez-vous changer? (choix actuel: Pas de préférence) \r\n  1. Nombre de Pizzas(2)\r\n  2. Taille(Moyen)\r\n  3. Type de pizza(Créer la vôtre)\r\n  4. Sous-ensemble de caractères spéciaux(Boisson Gratuite, et Pain À L Ail Gratuit)\r\n  5. Moitié-moitié(Non)\r\n  6. Croûte(fine)\r\n  7. Sauce(Traditionnel)\r\n  8. Nappages(Viande Bovine, et Oignons)\r\n  9. Adresse de remise(1 state street)\r\n  10. Coupons(Grande 20 Pour Cent, et Pepperoni 20 Pour Cent)\r\n  11. Coupon(Pas de préférence)\r\n  12. Notation(2,5)\r\n  13. Disponibles(25/02/1962 15:00:00)\r\n  14. Bouteilles(Pas de préférence)\r\n  15. Téléphone(123-4567)\r\n  16. Pas de préférence"
 State:{"Available":"1962-02-25T15:00:00","Bottles":null,"BYO":{"Crust":2,"HalfAndHalf":false,"HalfToppings":null,"Sauce":1,"Toppings":[2,15]},"Coupon":0,"Coupons":[1,2],"DeliveryAddress":"1 state street","GourmetDelite":0,"Kind":4,"NumberOfPizzas":2,"Phone":"123-4567","Rating":2.5,"Signature":0,"Size":0,"Specials":["special1","special2"],"Stuffed":0}
 FromUser:"nappages"
 1

@@ -23,8 +23,7 @@ namespace Microsoft.Bot.Sample.AspNetCore.Echo.Controllers
         [HttpPost]
         public virtual async Task<OkResult> Post([FromBody]Activity activity)
         {
-            var appCredentials = new MicrosoftAppCredentials(this.configuration);
-            var client = new ConnectorClient(new Uri(activity.ServiceUrl), appCredentials);
+            var client = new ConnectorClient(new Uri(activity.ServiceUrl));
             var reply = activity.CreateReply();
             if (activity.Type == ActivityTypes.Message)
             {

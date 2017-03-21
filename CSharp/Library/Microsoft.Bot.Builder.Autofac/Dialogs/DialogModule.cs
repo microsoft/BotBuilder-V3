@@ -1,15 +1,15 @@
-﻿// 
+﻿//
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
-// 
+//
 // Microsoft Bot Framework: http://botframework.com
-// 
+//
 // Bot Builder SDK GitHub:
 // https://github.com/Microsoft/BotBuilder
-// 
+//
 // Copyright (c) Microsoft Corporation
 // All rights reserved.
-// 
+//
 // MIT License:
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -18,10 +18,10 @@
 // distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to
 // the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED ""AS IS"", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 // MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -45,6 +45,11 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Autofac.Base;
+using System.Configuration;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -71,6 +76,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             base.Load(builder);
 
             builder.RegisterModule(new FiberModule<DialogTask>());
+
+            RegisterBotConnectorImplementation(builder);
 
             // singleton components
 
@@ -108,7 +115,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             // components not marked as [Serializable]
             builder
-                .RegisterType<MicrosoftAppCredentials>()
+                .Register(c => new MicrosoftAppCredentials(c.Resolve<ServiceProvider>(), null, null, null))
                 .AsSelf()
                 .SingleInstance();
 
@@ -395,6 +402,43 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     typeof(LogBotToUser)
                 )
                 .InstancePerLifetimeScope();
+        }
+
+        /// <summary>
+        /// Registers (platform specific) bot connector implementations.
+        /// </summary>
+        /// <param name="builder">The builder used to register dependencies.</param>
+        private void RegisterBotConnectorImplementation(ContainerBuilder builder)
+        {
+            if (ServiceProvider.IsRegistered)
+            {
+                builder.Register<ServiceProvider>(c => ServiceProvider.Instance)
+                    .AsSelf()
+                    .SingleInstance();
+            }
+            else
+            {
+                // Finds the bot connector being used in this application domain
+                // that is not the common connector assembly
+                System.Reflection.Assembly connectorAssembly = AppDomain.CurrentDomain.
+                    GetAssemblies()
+                    .Where(a => a.FullName.StartsWith("Microsoft.Bot.Connector"))
+                    .Where(a => a != typeof(BotData).Assembly)
+                    .FirstOrDefault();
+
+                if (connectorAssembly != null)
+                {
+                    // register the IServiceProvider instance provided in the connector with the Common connector
+                    builder.RegisterAssemblyTypes(connectorAssembly)
+                        .Where(t => t.IsAssignableTo<IServiceProvider>())
+                        .AsImplementedInterfaces()
+                        .SingleInstance();
+
+                    builder.Register<ServiceProvider>(c => { if (!ServiceProvider.IsRegistered) { ServiceProvider.RegisterServiceProvider(c.Resolve<IServiceProvider>()); } return ServiceProvider.Instance; })
+                        .AsSelf()
+                        .SingleInstance();
+                }
+            }
         }
     }
 

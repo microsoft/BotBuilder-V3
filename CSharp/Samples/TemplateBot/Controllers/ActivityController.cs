@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Sample.TemplateBot
         /// <remarks>
         /// <see cref="MethodBindAttribute"/> is a marker attribute to indicate that this method
         /// will participate in the dispatching logic of <see cref="Dispatcher"/> if
-        /// 1. all of the method's parameters can be resolved from the incoming <see cref="Activity"/>. 
+        /// 1. all of the method's parameters can be resolved from the incoming <see cref="Activity"/>.
         /// </remarks>
         [MethodBind]
         [ScorableGroup(1)]
@@ -73,8 +73,8 @@ namespace Microsoft.Bot.Sample.TemplateBot
         /// <remarks>
         /// <see cref="RegexPatternAttribute"/> is a marker attribute to indicate that this method
         /// will participate in the dispatching logic of <see cref="Dispatcher"/> if
-        /// 1. the regular expression matches the incoming <see cref="IMessageActivity"/>'s text, and 
-        /// 2. all of the method's parameters can be resolved from the incoming <see cref="Activity"/>. 
+        /// 1. the regular expression matches the incoming <see cref="IMessageActivity"/>'s text, and
+        /// 2. all of the method's parameters can be resolved from the incoming <see cref="Activity"/>.
         /// </remarks>
         [RegexPattern(@"echo\s*(?<text>(?:.*)?)")]
         [ScorableGroup(1)]
@@ -94,8 +94,8 @@ namespace Microsoft.Bot.Sample.TemplateBot
         /// <remarks>
         /// <see cref="LuisModelAttribute"/> and <see cref="LuisIntentAttribute"/> are marker attributes to indicate that this method
         /// will participate in the dispatching logic of <see cref="Dispatcher"/> if
-        /// 1. the LUIS model matches the incoming <see cref="IMessageActivity"/>'s text, and 
-        /// 2. all of the method's parameters can be resolved from the incoming <see cref="Activity"/>. 
+        /// 1. the LUIS model matches the incoming <see cref="IMessageActivity"/>'s text, and
+        /// 2. all of the method's parameters can be resolved from the incoming <see cref="Activity"/>.
         /// </remarks>
         [LuisModel("c413b2ef-382c-45bd-8ff0-f76d60e2a821", "6d0966209c6e4f6b835ce34492f3e6d9")]
         [LuisIntent("builtin.intent.alarm.set_alarm")]

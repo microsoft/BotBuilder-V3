@@ -10,7 +10,6 @@ var IntentRecognizerSet_1 = require("../dialogs/IntentRecognizerSet");
 var Session_1 = require("../Session");
 var consts = require("../consts");
 var utils = require("../utils");
-var logger = require("../logger");
 var events_1 = require("events");
 var path = require("path");
 var async = require("async");
@@ -49,8 +48,15 @@ var Library = (function (_super) {
         return this._localePath;
     };
     Library.prototype.recognize = function (context, callback) {
+        var _this = this;
         if (this.recognizers.length > 0 && context.libraryName !== this.name) {
-            this.recognizers.recognize(context, callback);
+            this.recognizers.recognize(context, function (err, result) {
+                if (result && result.score > 0) {
+                    context.logger.log(null, _this.logPrefix() + 'recognize() recognized: ' +
+                        result.intent + '(' + result.score + ')');
+                }
+                callback(err, result);
+            });
         }
         else {
             callback(null, context.intent || { intent: 'None', score: 0.0 });
@@ -120,7 +126,7 @@ var Library = (function (_super) {
                 });
             }
             else {
-                logger.warn(ctx, "Active dialog '%s' not found in library.", entry.id);
+                ctx.logger.warn(ctx.dialogStack(), "Active dialog '" + entry.id + "' not found in library.");
                 callback(null, results);
             }
         }
@@ -166,7 +172,7 @@ var Library = (function (_super) {
                     });
                 }
                 else {
-                    logger.warn(ctx, "Dialog '%s' not found in library.", entry.id);
+                    ctx.logger.warn(ctx.dialogStack(), "Dialog '" + entry.id + "' not found in library.");
                     next(null);
                 }
             }
@@ -219,6 +225,7 @@ var Library = (function (_super) {
     };
     Library.prototype.defaultFindRoutes = function (context, callback) {
         var _this = this;
+        var explain = '';
         var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
         this.recognize(context, function (err, topIntent) {
             if (!err) {
@@ -229,7 +236,12 @@ var Library = (function (_super) {
                     function (cb) {
                         _this.findActiveDialogRoutes(ctx, function (err, routes) {
                             if (!err && routes) {
-                                routes.forEach(function (r) { return results = Library.addRouteResult(r, results); });
+                                routes.forEach(function (r) {
+                                    results = Library.addRouteResult(r, results);
+                                    if (r.score > 0) {
+                                        explain += '\n\tActiveDialog(' + r.score + ')';
+                                    }
+                                });
                             }
                             cb(err);
                         });
@@ -237,7 +249,12 @@ var Library = (function (_super) {
                     function (cb) {
                         _this.findStackActionRoutes(ctx, function (err, routes) {
                             if (!err && routes) {
-                                routes.forEach(function (r) { return results = Library.addRouteResult(r, results); });
+                                routes.forEach(function (r) {
+                                    results = Library.addRouteResult(r, results);
+                                    if (r.score > 0) {
+                                        explain += '\n\tStackAction(' + r.score + ')';
+                                    }
+                                });
                             }
                             cb(err);
                         });
@@ -245,13 +262,21 @@ var Library = (function (_super) {
                     function (cb) {
                         _this.findGlobalActionRoutes(ctx, function (err, routes) {
                             if (!err && routes) {
-                                routes.forEach(function (r) { return results = Library.addRouteResult(r, results); });
+                                routes.forEach(function (r) {
+                                    results = Library.addRouteResult(r, results);
+                                    if (r.score > 0) {
+                                        explain += '\n\tGlobalAction(' + r.score + ')';
+                                    }
+                                });
                             }
                             cb(err);
                         });
                     }
                 ], function (err) {
                     if (!err) {
+                        if (explain.length > 0) {
+                            context.logger.log(null, _this.logPrefix() + '.findRoutes() explanation:' + explain);
+                        }
                         callback(null, results);
                     }
                     else {
@@ -435,6 +460,13 @@ var Library = (function (_super) {
     Library.prototype.endConversationAction = function (name, msg, options) {
         this.actions.endConversationAction(name, msg, options);
         return this;
+    };
+    Library.prototype.customAction = function (options) {
+        this.actions.customAction(options);
+        return this;
+    };
+    Library.prototype.logPrefix = function () {
+        return 'Library("' + this.name + '")';
     };
     return Library;
 }(events_1.EventEmitter));

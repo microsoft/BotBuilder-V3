@@ -17,6 +17,13 @@ namespace Microsoft.Bot.Connector
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class BotAuthentication : ActionFilterAttribute
     {
+        static BotAuthentication()
+        {
+            // This is a hack to trigger service provider auto-registration with the common bot connector assembly
+            // This is only to support a non-breaking change for consumers of ASPNET BotConnector that do not use BotBuilder
+            BotServiceProvider.Instance.GetHashCode();
+        }
+
         /// <summary>
         /// Microsoft AppId for the bot 
         /// </summary>
@@ -64,6 +71,7 @@ namespace Microsoft.Bot.Connector
         {
             var provider = this.GetCredentialProvider();
             var botAuthenticator = new BotAuthenticator(provider, OpenIdConfigurationUrl, DisableEmulatorTokens);
+
             var identityToken = await botAuthenticator.TryAuthenticateAsync(actionContext.Request, cancellationToken);
 
             // the request is not authenticated, fail with 401.
@@ -71,6 +79,15 @@ namespace Microsoft.Bot.Connector
             {
                 actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request);
                 return;
+            }
+
+            if (identityToken.Identity != null)
+            {
+                Thread.CurrentPrincipal = new ClaimsPrincipal(identityToken.Identity);
+
+                // Inside of ASP.NET this is required
+                if (HttpContext.Current != null)
+                    HttpContext.Current.User = Thread.CurrentPrincipal;
             }
 
             botAuthenticator.TrustServiceUrls(identityToken, GetActivities(actionContext));
@@ -115,10 +132,11 @@ namespace Microsoft.Bot.Connector
             {
                 // if we have raw values
                 credentialProvider = new StaticCredentialProvider(MicrosoftAppId, MicrosoftAppPassword);
-             
+
             }
             else
             {
+
                 // if we have setting name, or there is no parameters at all default to default setting name
                 credentialProvider = new SettingsCredentialProvider(MicrosoftAppIdSettingName, MicrosoftAppPasswordSettingName);
             }

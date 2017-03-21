@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-
-#if NET45
 using System.Security.Claims;
-using System.Threading;
-using System.Web;
-#endif
 
 namespace Microsoft.Bot.Connector
 {
@@ -37,7 +32,6 @@ namespace Microsoft.Bot.Connector
             this.Credentials = credentials;
         }
 
-#if NET45
         /// <summary>
         /// Create a new instance of the StateClient class using Credential source
         /// </summary>
@@ -48,13 +42,26 @@ namespace Microsoft.Bot.Connector
         public StateClient(Uri baseUri, ICredentialProvider credentialProvider, ClaimsIdentity claimsIdentity = null, params DelegatingHandler[] handlers)
             : this(baseUri, handlers: handlers)
         {
-            if (claimsIdentity == null)
-                claimsIdentity = HttpContext.Current.User.Identity as ClaimsIdentity ?? Thread.CurrentPrincipal.Identity as ClaimsIdentity;
+            string appId = null;
 
             if (claimsIdentity == null)
-                throw new ArgumentNullException("ClaimsIdentity not passed in and not available via Thread.CurrentPrincipal.Identity");
+            {
+                var section = ServiceProvider.Instance.ConfigurationRoot.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey);
 
-            var appId = claimsIdentity.GetAppIdFromClaims();
+                if (section != null)
+                {
+                    appId = section.Value;
+                }
+                else
+                {
+                    throw new ArgumentNullException($"{nameof(claimsIdentity)} was not provided and it was not possible to resolve AppId from configuration service. Please provide a value for parameter {nameof(claimsIdentity)}.");
+                }
+            }
+            else
+            {
+                appId = claimsIdentity.GetAppIdFromClaims();
+            }
+
             var password = credentialProvider.GetAppPasswordAsync(appId).Result;
             this.Credentials = new MicrosoftAppCredentials(appId, password);
         }
@@ -69,7 +76,6 @@ namespace Microsoft.Bot.Connector
             : this(null, credentialProvider, claimsIdentity, handlers: handlers)
         {
         }
-#endif
 
         /// <summary>
         /// Create a new instance of the StateClient class

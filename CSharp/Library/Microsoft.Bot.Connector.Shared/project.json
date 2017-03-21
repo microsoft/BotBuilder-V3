@@ -1,0 +1,18 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
+    "Microsoft.Extensions.Logging.Abstractions": "1.1.0",
+    "Microsoft.IdentityModel.Protocols.OpenIdConnect": "2.1.2",
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "Microsoft.Rest.ClientRuntime": "2.3.5",
+    "NETStandard.Library": "1.6.1",
+    "Newtonsoft.Json": "9.0.1",
+    "System.ComponentModel": "4.3.0",
+    "System.Net.Http": "4.3.1",
+    "System.Security.Claims": "4.3.0"
+  },
+  "frameworks": {
+    "netstandard1.4": {}
+  }
+}

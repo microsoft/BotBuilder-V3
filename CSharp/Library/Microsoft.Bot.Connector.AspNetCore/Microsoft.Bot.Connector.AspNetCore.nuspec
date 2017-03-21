@@ -1,0 +1,29 @@
+﻿<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Microsoft.Bot.Connector.AspNetCore</id>
+    <version>$version$-alpha</version>
+    <authors>Microsoft</authors>
+    <iconUrl>https://bots.botframework.com/Client/Images/bot-framework-default-7.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library implements C# classes for using the Bot Framework Connector REST API using ASP.NET Core</description>
+    <summary>ASP.NET Core client REST API library for Microsoft Bot Framework Connector</summary>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="Microsoft.AspNetCore.Authentication.JwtBearer" version="1.1.0" />
+      <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.0" />
+      <dependency id="Microsoft.Extensions.DependencyInjection" version="1.1.0" />
+      <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.1.0" />
+      <dependency id="Microsoft.NETCore.Portable.Compatibility" version="1.0.1" />
+      <dependency id="NETStandard.Library" version="1.6.1" />
+      <dependency id="System.IdentityModel.Tokens.Jwt" version="5.1.2" />
+      <dependency id="Microsoft.Bot.Connector.Common" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="bin\release\Microsoft.Bot.Connector.AspNetCore.dll" target="lib\netstandard1.4"/>
+    <file src="bin\release\Microsoft.Bot.Connector.AspNetCore.xml" target="lib\netstandard1.4" />
+    <file src="bin\release\Microsoft.Bot.Connector.AspNetCore.pdb" target="lib\netstandard1.4" />
+    <file src="**\*.cs" exclude="**\obj\**\*.cs" target="src" />
+  </files>
+</package>

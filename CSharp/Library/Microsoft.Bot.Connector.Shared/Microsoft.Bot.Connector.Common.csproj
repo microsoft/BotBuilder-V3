@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{645862FF-BF5E-4D5B-B1B5-1462EDEDBB12}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Microsoft.Bot.Connector.Common</RootNamespace>
+    <AssemblyName>Microsoft.Bot.Connector.Common</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Microsoft.Bot.Connector.Common.XML</DocumentationFile>
+  </PropertyGroup>
+  <!-- A reference to the entire .NET Framework is automatically included -->
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ActionTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ActivityEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ActivityTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AttachmentLayoutTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AttachmentsEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BotAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BotDataEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CardEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ChannelAccountEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClaimsIdentityEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Attachments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\AttachmentsExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\ConnectorClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\ConnectorClientExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Conversations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\ConversationsExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\IAttachments.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\IConnectorClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\IConversations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Activity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\AdditionalProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\AnimationCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Attachment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\AttachmentData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\AttachmentInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\AttachmentView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\AudioCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\CardAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\CardImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ChannelAccount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationAccount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationParameters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationReference.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationResourceResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Entity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Error.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ErrorResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Fact.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\GeoCoordinates.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\HeroCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\MediaUrl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Place.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ReceiptCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ReceiptItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ResourceResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\SigninCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ThumbnailCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ThumbnailUrl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\VideoCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorClientEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ContactRelationUpdateActionTypes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConversationAccountEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConversationReferenceEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConversationsEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CredentialProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EntityEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ErrorHandling.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ErrorResponseEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HttpClientEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IContactRelationUpdateActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IConversationUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEndOfConversationActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IEventActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IInvokeActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IMessageActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ITypingActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JwtConfig.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JwtTokenExtractor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)JwtTokenRefresher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mention.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="MicrosoftAppCredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SigninCardEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateAPI\BotState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateAPI\BotStateExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateAPI\IBotState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateAPI\IStateClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateAPI\Models\APIResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateAPI\Models\BotData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateAPI\StateClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateAPI\StateClientExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StateClientEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TextFormatTypes.cs" />
+    <Compile Include="ServiceProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Swagger\ConnectorAPI.json" />
+    <Content Include="$(MSBuildThisFileDirectory)Swagger\StateAPI.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)generateClient.cmd" />
+    <None Include="Microsoft.Bot.Connector.Common.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="project.json" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

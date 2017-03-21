@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+import { SessionLogger } from '../SessionLogger';
 import * as utils from '../utils';
 import * as async from 'async';
 
@@ -45,7 +46,9 @@ export interface IRecognizeContext {
     userData: any;
     conversationData: any;
     privateConversationData: any;
+    dialogData: any;
     localizer: ILocalizer;
+    logger: SessionLogger;
     preferredLocale(): string;
     gettext(messageid: string, ...args: any[]): string;
     ngettext(messageid: string, messageid_plural: string, count: number): string;

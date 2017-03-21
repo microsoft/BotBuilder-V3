@@ -6,7 +6,6 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Dialog_1 = require("./Dialog");
 var consts = require("../consts");
-var logger = require("../logger");
 var SimpleDialog = (function (_super) {
     __extends(SimpleDialog, _super);
     function SimpleDialog(fn) {
@@ -47,7 +46,7 @@ function createWaterfall(steps) {
                 }
                 if (step >= 0 && step < steps.length) {
                     try {
-                        logger.info(s, 'waterfall() step %d of %d', step + 1, steps.length);
+                        s.logger.log(s.dialogStack(), 'waterfall() step ' + step + 1 + ' of ' + steps.length);
                         s.dialogData[consts.Data.WaterfallStep] = step;
                         steps[step](s, r, skip);
                     }
@@ -62,7 +61,7 @@ function createWaterfall(steps) {
         }
         else if (steps && steps.length > 0) {
             try {
-                logger.info(s, 'waterfall() step %d of %d', 1, steps.length);
+                s.logger.log(s.dialogStack(), 'waterfall() step 1 of ' + steps.length);
                 s.dialogData[consts.Data.WaterfallStep] = 0;
                 steps[0](s, r, skip);
             }
@@ -71,7 +70,7 @@ function createWaterfall(steps) {
             }
         }
         else {
-            logger.warn(s, 'waterfall() empty waterfall detected');
+            s.logger.warn(s.dialogStack(), 'waterfall() empty waterfall detected');
             s.endDialogWithResult({ resumed: Dialog_1.ResumeReason.notCompleted });
         }
     };

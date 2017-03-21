@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-#if NET45
-using System.Diagnostics;
-#endif
-#if NET45
-using System.IdentityModel.Tokens;
-#else
 using System.IdentityModel.Tokens.Jwt;
-#endif
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
-
 using Microsoft.IdentityModel.Protocols;
-#if !NET45
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-#endif
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Bot.Connector
 {
@@ -46,11 +37,9 @@ namespace Microsoft.Bot.Connector
             _tokenValidationParameters.RequireSignedTokens = true;
 
             if (!_openIdMetadataCache.ContainsKey(metadataUrl))
-#if NET45
-                _openIdMetadataCache[metadataUrl] = new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl);
-#else
+            {
                 _openIdMetadataCache[metadataUrl] = new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl, new OpenIdConnectConfigurationRetriever());
-#endif
+            }
 
             _openIdMetadata = _openIdMetadataCache[metadataUrl];
         }
@@ -90,11 +79,9 @@ namespace Microsoft.Bot.Connector
             }
             catch (Exception e)
             {
-#if NET45
-                Trace.TraceWarning("Invalid token. " + e.ToString());
-#else
                 IdentityModel.Logging.LogHelper.LogException<Exception>($"Invalid token. {e.ToString()}");
-#endif
+                ServiceProvider.Instance.CreateLogger().LogError($"Invalid token. {e.ToString()}");
+
                 return null;
             }
         }
@@ -152,11 +139,8 @@ namespace Microsoft.Bot.Connector
             }
             catch (Exception e)
             {
-#if NET45
-                Trace.TraceError($"Error refreshing OpenId configuration: {e}");
-#else
                 IdentityModel.Logging.LogHelper.LogException<Exception>($"Error refreshing OpenId configuration: {e}");
-#endif
+                ServiceProvider.Instance.CreateLogger().LogError($"Error refreshing OpenId configuration: {e}");
 
                 // No config? We can't continue
                 if (config == null)
@@ -164,11 +148,7 @@ namespace Microsoft.Bot.Connector
             }
 
             // Update the signing tokens from the last refresh
-#if NET45
-            _tokenValidationParameters.IssuerSigningTokens = config.SigningTokens;
-#else
             _tokenValidationParameters.IssuerSigningKeys = config.SigningKeys;
-#endif
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 
@@ -180,13 +160,8 @@ namespace Microsoft.Bot.Connector
             }
             catch (SecurityTokenSignatureKeyNotFoundException)
             {
-#if NET45
-                string keys = string.Join(", ", ((config?.SigningTokens) ?? Enumerable.Empty<SecurityToken>()).Select(t => t.Id));
-                Trace.TraceError("Error finding key for token. Available keys: " + keys);
-#else
                 string keys = string.Join(", ", ((config?.SigningKeys) ?? Enumerable.Empty<SecurityKey>()).Select(t => t.KeyId));
                 IdentityModel.Logging.LogHelper.LogException<SecurityTokenSignatureKeyNotFoundException>("Error finding key for token.Available keys: " + keys);
-#endif
                 throw;
             }
         }

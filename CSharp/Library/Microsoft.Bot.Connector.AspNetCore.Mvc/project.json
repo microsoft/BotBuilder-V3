@@ -1,0 +1,10 @@
+﻿{
+  "supports": {},
+  "dependencies": {
+    "Microsoft.AspNetCore.Mvc": "1.0.2",
+    "Microsoft.Rest.ClientRuntime": "2.3.5"
+  },
+  "frameworks": {
+    "netstandard1.6": {}
+  }
+}

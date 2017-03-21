@@ -1,27 +1,15 @@
-{
-  "title": "Microsoft.Bot.Connector",
-  "language": "en",
-  "version": "3.5.1-*",
-
+﻿{
+  "supports": {},
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
-    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.0.0",
-    "System.IdentityModel.Tokens.Jwt": "5.0.0",
-    "Microsoft.AspNetCore.Mvc.Core": "1.0.1"
-  },
-  "buildOptions": {
-    "outputName": "Microsoft.Bot.Connector",
-    "xmlDoc": true,
-    "nowarn": [ "CS1591" ]
+    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.1.0",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
+    "Microsoft.Extensions.DependencyInjection": "1.1.0",
+    "Microsoft.Extensions.Logging.Abstractions": "1.1.0",
+    "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
+    "NETStandard.Library": "1.6.1",
+    "System.IdentityModel.Tokens.Jwt": "5.1.2"
   },
   "frameworks": {
-    "netstandard1.6": {
-      "imports": "dnxcore50",
-      "dependencies": {
-        "Microsoft.Bot.Connector.NetCore": {
-          "target": "project"
-        }
-      }
-    }
+    "netstandard1.4": {}
   }
 }

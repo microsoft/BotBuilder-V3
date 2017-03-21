@@ -25,7 +25,7 @@
     <value>راهنما</value>
   </data>
   <data name="CommandHelpHelp" xml:space="preserve">
-    <value>کمک: انواع پاسخ می توانید وارد کنید را نشان می دهد.</value>
+    <value>راهنما: نمایش انواع پاسخی که می توانید وارد کنید.</value>
   </data>
   <data name="CommandHelpTerms" xml:space="preserve">
     <value>کمک; انتخاب; \?</value>
@@ -49,7 +49,7 @@
     <value>بیش از شروع; تنظیم مجدد; روشن</value>
   </data>
   <data name="CommandStatus" xml:space="preserve">
-    <value>Status</value>
+    <value>وضعیت</value>
   </data>
   <data name="CommandStatusHelp" xml:space="preserve">
     <value>وضعیت: پیشرفت شما را در پر کردن فرم تا کنون نشان می دهد.</value>
@@ -96,13 +96,13 @@
     <value>بله؛ y; مطمئن خوب; بله</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
-    <value>من درک نمی کنند. چیزی در پاسخ می گویند.</value>
+    <value>من متوجه نشدم، لطفا پاسخی دهید</value>
   </data>
   <data name="TemplateBool" xml:space="preserve">
     <value>{&amp;} داری؟ {||}</value>
   </data>
   <data name="TemplateBoolHelp" xml:space="preserve">
-    <value>لطفا را وارد کنید "بله" یا "هیچ" {?، {0}}.</value>
+    <value>لطفا "بله" یا "خیر" را وارد کنید {?، {0}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
@@ -158,25 +158,25 @@
     <comment>0-not understood term</comment>
   </data>
   <data name="TemplateHelp" xml:space="preserve">
-    <value>شما پر در زمینه {&amp;}.  پاسخ احتمالی:
+    <value>شما فیلد {&amp;} را پر کردید. پاسخ های احتمالی:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpClarify" xml:space="preserve">
-    <value>قادر به روشن ارزش {&amp;} است.  پاسخ احتمالی:
+    <value>شما مقدار {&amp;} را وارد کردید است. پاسخ های احتمالی:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpConfirm" xml:space="preserve">
-    <value>لطفا جواب این سوال.  پاسخ احتمالی:
+    <value>لطفا جواب این سوال را بدهید.  پاسخ های احتمالی:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpNavigation" xml:space="preserve">
-    <value>انتخاب کنید چه زمینه را تغییر دهید.  پاسخ احتمالی:
+    <value>انتخاب کنید کدام فیلد را تغییر میدهید.  پاسخ های احتمالی:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
@@ -194,7 +194,7 @@
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateNavigation" xml:space="preserve">
-    <value>چه تغییر دارید؟ {||}</value>
+    <value>چه تغییری دارید؟ {||}</value>
   </data>
   <data name="TemplateNavigationCommandHelp" xml:space="preserve">
     <value>شما با وارد کردن نام آن به میدان دیگری تعویض کنید. ({0}).</value>
@@ -243,12 +243,12 @@
     <value>تلاش های زیادی</value>
   </data>
   <data name="UserProfileDeleted" xml:space="preserve">
-    <value>مشخصات کاربر حذف شده!</value>
+    <value>مشخصات کاربر حذف شد!</value>
   </data>
   <data name="Confirmation" xml:space="preserve">
     <value>تأیید</value>
   </data>
   <data name="UnhandledExceptionToUser" xml:space="preserve">
-    <value>با عرض پوزش، من کد ربات است که با داشتن یک مسئله.</value>
+    <value>با عرض پوزش، کد ربات من با مشکل روبرو شده است.</value>
   </data>
 </root>

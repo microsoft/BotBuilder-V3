@@ -10,7 +10,6 @@ var Dialog_1 = require("./Dialog");
 var IntentRecognizerSet_1 = require("./IntentRecognizerSet");
 var RegExpRecognizer_1 = require("./RegExpRecognizer");
 var consts = require("../consts");
-var logger = require("../logger");
 var RecognizeMode;
 (function (RecognizeMode) {
     RecognizeMode[RecognizeMode["onBegin"] = 0] = "onBegin";
@@ -39,7 +38,7 @@ var IntentDialog = (function (_super) {
         var recognize = (mode == RecognizeMode.onBegin || (isRoot && mode == RecognizeMode.onBeginIfRoot));
         if (this.beginDialog) {
             try {
-                logger.info(session, 'IntentDialog.begin()');
+                session.logger.log(session.dialogStack(), 'IntentDialog.begin()');
                 this.beginDialog(session, args, function () {
                     if (recognize) {
                         _this.replyReceived(session);
@@ -145,11 +144,11 @@ var IntentDialog = (function (_super) {
     IntentDialog.prototype.invokeIntent = function (session, recognizeResult) {
         var activeIntent;
         if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
-            logger.info(session, 'IntentDialog.matches(%s)', recognizeResult.intent);
+            session.logger.log(session.dialogStack(), 'IntentDialog.matches(' + recognizeResult.intent + ')');
             activeIntent = recognizeResult.intent;
         }
         else if (this.handlers.hasOwnProperty(consts.Intents.Default)) {
-            logger.info(session, 'IntentDialog.onDefault()');
+            session.logger.log(session.dialogStack(), 'IntentDialog.onDefault()');
             activeIntent = consts.Intents.Default;
         }
         if (activeIntent) {
@@ -162,7 +161,7 @@ var IntentDialog = (function (_super) {
             }
         }
         else {
-            logger.warn(session, 'IntentDialog - no intent handler found for %s', recognizeResult.intent);
+            session.logger.warn(session.dialogStack(), 'IntentDialog - no intent handler found for ' + recognizeResult.intent);
         }
     };
     IntentDialog.prototype.emitError = function (session, err) {

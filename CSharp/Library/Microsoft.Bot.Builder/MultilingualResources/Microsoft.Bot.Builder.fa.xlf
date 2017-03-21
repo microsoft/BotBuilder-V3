@@ -24,7 +24,7 @@
         </trans-unit>
         <trans-unit id="CommandHelpHelp" translate="yes" xml:space="preserve">
           <source>Help: Show the kinds of responses you can enter.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">کمک: انواع پاسخ می توانید وارد کنید را نشان می دهد.</target>
+          <target state="translated">راهنما: نمایش انواع پاسخی که می توانید وارد کنید.</target>
         </trans-unit>
         <trans-unit id="CommandHelpTerms" translate="yes" xml:space="preserve">
           <source>help;choices;\?</source>
@@ -56,7 +56,7 @@
         </trans-unit>
         <trans-unit id="CommandStatus" translate="yes" xml:space="preserve">
           <source>Status</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Status</target>
+          <target state="translated">وضعیت</target>
         </trans-unit>
         <trans-unit id="CommandStatusHelp" translate="yes" xml:space="preserve">
           <source>Status: Show your progress in filling in the form so far.</source>
@@ -118,7 +118,7 @@
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">من درک نمی کنند. چیزی در پاسخ می گویند.</target>
+          <target state="translated">من متوجه نشدم، لطفا پاسخی دهید</target>
         </trans-unit>
         <trans-unit id="TemplateBool" translate="yes" xml:space="preserve">
           <source>Would you like a {&amp;}? {||}</source>
@@ -126,7 +126,7 @@
         </trans-unit>
         <trans-unit id="TemplateBoolHelp" translate="yes" xml:space="preserve">
           <source>Please enter 'yes' or 'no'{?, {0}}.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا را وارد کنید "بله" یا "هیچ" {?، {0}}.</target>
+          <target state="translated">لطفا "بله" یا "خیر" را وارد کنید {?، {0}}.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference</note>
         </trans-unit>
         <trans-unit id="TemplateClarify" translate="yes" xml:space="preserve">
@@ -199,7 +199,7 @@
           <source>You are filling in the {&amp;} field.  Possible responses:
 {0}
 {1}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">شما پر در زمینه {&amp;}.  پاسخ احتمالی:
+          <target state="translated">شما فیلد {&amp;} را پر کردید. پاسخ های احتمالی:
 {0}
 {1}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-recognizer help, 1-command help</note>
@@ -208,7 +208,7 @@
           <source>You are clarifying a {&amp;} value.  Possible responses:
 {0}
 {1}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">قادر به روشن ارزش {&amp;} است.  پاسخ احتمالی:
+          <target state="translated">شما مقدار {&amp;} را وارد کردید است. پاسخ های احتمالی:
 {0}
 {1}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-recognizer help, 1-command help</note>
@@ -217,7 +217,7 @@
           <source>Please answer the question.  Possible responses:
 {0}
 {1}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">لطفا جواب این سوال.  پاسخ احتمالی:
+          <target state="translated">لطفا جواب این سوال را بدهید.  پاسخ های احتمالی:
 {0}
 {1}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-recognizer help, 1-command help</note>
@@ -226,7 +226,7 @@
           <source>Choose what field to change.  Possible responses:
 {0}
 {1}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">انتخاب کنید چه زمینه را تغییر دهید.  پاسخ احتمالی:
+          <target state="translated">انتخاب کنید کدام فیلد را تغییر میدهید.  پاسخ های احتمالی:
 {0}
 {1}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-recognizer help, 1-command help</note>
@@ -248,7 +248,7 @@
         </trans-unit>
         <trans-unit id="TemplateNavigation" translate="yes" xml:space="preserve">
           <source>What do you want to change? {||}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">چه تغییر دارید؟ {||}</target>
+          <target state="translated">چه تغییری دارید؟ {||}</target>
         </trans-unit>
         <trans-unit id="TemplateNavigationCommandHelp" translate="yes" xml:space="preserve">
           <source>You can switch to another field by entering its name. ({0}).</source>
@@ -312,7 +312,7 @@
         </trans-unit>
         <trans-unit id="UserProfileDeleted" translate="yes" xml:space="preserve">
           <source>User profile deleted!</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">مشخصات کاربر حذف شده!</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">مشخصات کاربر حذف شد!</target>
         </trans-unit>
         <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
           <source>Confirmation</source>
@@ -320,7 +320,7 @@
         </trans-unit>
         <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
           <source>Sorry, my bot code is having an issue.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">با عرض پوزش، من کد ربات است که با داشتن یک مسئله.</target>
+          <target state="translated">با عرض پوزش، کد ربات من با مشکل روبرو شده است.</target>
         </trans-unit>
       </group>
     </body>

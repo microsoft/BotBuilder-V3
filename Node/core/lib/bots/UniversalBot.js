@@ -8,6 +8,8 @@ var Library_1 = require("./Library");
 var Session_1 = require("../Session");
 var DefaultLocalizer_1 = require("../DefaultLocalizer");
 var BotStorage_1 = require("../storage/BotStorage");
+var SessionLogger_1 = require("../SessionLogger");
+var RemoteSessionLogger_1 = require("../RemoteSessionLogger");
 var consts = require("../consts");
 var utils = require("../utils");
 var async = require("async");
@@ -200,7 +202,7 @@ var UniversalBot = (function (_super) {
                 }, cb);
             }, cb);
         }, this.errorLogger(function (err) {
-            if (!err) {
+            if (!err && list.length > 0) {
                 _this.tryCatch(function () {
                     var channelId = list[0].address.channelId;
                     var connector = _this.connector(channelId);
@@ -211,7 +213,7 @@ var UniversalBot = (function (_super) {
                 }, _this.errorLogger(done));
             }
             else if (done) {
-                done(null);
+                done(err);
             }
         }));
     };
@@ -289,8 +291,20 @@ var UniversalBot = (function (_super) {
                 var defaultLocale = _this.settings.localizerSettings ? _this.settings.localizerSettings.defaultLocale : null;
                 _this.localizer = new DefaultLocalizer_1.DefaultLocalizer(_this, defaultLocale);
             }
+            var logger;
+            if (message.source == consts.emulatorChannel) {
+                logger = new RemoteSessionLogger_1.RemoteSessionLogger(_this.connector(consts.emulatorChannel), message.address, message.address);
+            }
+            else if (data.privateConversationData && data.privateConversationData.hasOwnProperty(consts.Data.DebugAddress)) {
+                var debugAddress = data.privateConversationData[consts.Data.DebugAddress];
+                logger = new RemoteSessionLogger_1.RemoteSessionLogger(_this.connector(consts.emulatorChannel), debugAddress, message.address);
+            }
+            else {
+                logger = new SessionLogger_1.SessionLogger();
+            }
             var session = new Session_1.Session({
                 localizer: _this.localizer,
+                logger: logger,
                 autoBatchDelay: _this.settings.autoBatchDelay,
                 library: _this,
                 middleware: _this.mwSession,
@@ -324,8 +338,28 @@ var UniversalBot = (function (_super) {
     };
     UniversalBot.prototype.routeMessage = function (session, done) {
         var _this = this;
+        var entry = 'UniversalBot("' + this.name + '") routing ';
+        if (session.message.text) {
+            entry += '"' + session.message.text + '"';
+        }
+        else if (session.message.attachments && session.message.attachments.length > 0) {
+            entry += session.message.attachments.length + ' attachment(s)';
+        }
+        else {
+            entry += '<null>';
+        }
+        entry += ' from "' + session.message.source + '"';
+        session.logger.log(null, entry);
         var context = session.toRecognizeContext();
         this.recognize(context, function (err, topIntent) {
+            if (session.message.entities) {
+                session.message.entities.forEach(function (entity) {
+                    if (entity.type === consts.intentEntityType &&
+                        entity.score > topIntent.score) {
+                        topIntent = entity;
+                    }
+                });
+            }
             context.intent = topIntent;
             context.libraryName = _this.name;
             var results = Library_1.Library.addRouteResult({ score: 0.0, libraryName: _this.name });

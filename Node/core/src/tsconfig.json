@@ -4,9 +4,10 @@
         "module": "commonjs",
         "sourceMap": false,
         "noImplicitAny": true,
-        "outDir": "../built",
+        "outDir": "../lib",
         "noEmitOnError": true,
-        "removeComments": true
+        "removeComments": true,
+        "forceConsistentCasingInFileNames": true
     },
     "exclude": [
         "botbuilder.d.ts"

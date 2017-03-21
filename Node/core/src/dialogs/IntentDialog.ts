@@ -38,7 +38,6 @@ import { Dialog, IRecognizeDialogContext, IDialogResult } from './Dialog';
 import { IntentRecognizerSet, IIntentRecognizerSetOptions, IIntentRecognizer, IIntentRecognizerResult } from './IntentRecognizerSet';
 import { RegExpRecognizer } from './RegExpRecognizer';
 import * as consts from '../consts';
-import * as logger from '../logger';
 import * as async from 'async';
 
 export enum RecognizeMode { onBegin, onBeginIfRoot, onReply }
@@ -74,7 +73,7 @@ export class IntentDialog extends Dialog {
         var recognize = (mode == RecognizeMode.onBegin || (isRoot && mode == RecognizeMode.onBeginIfRoot)); 
         if (this.beginDialog) {
             try {
-                logger.info(session, 'IntentDialog.begin()');
+                session.logger.log(session.dialogStack(), 'IntentDialog.begin()');
                 this.beginDialog(session, args, () => {
                     if (recognize) {
                         this.replyReceived(session);
@@ -182,10 +181,10 @@ export class IntentDialog extends Dialog {
     private invokeIntent(session: Session, recognizeResult: IIntentRecognizerResult): void {
         var activeIntent: string;
         if (recognizeResult.intent && this.handlers.hasOwnProperty(recognizeResult.intent)) {
-            logger.info(session, 'IntentDialog.matches(%s)', recognizeResult.intent);
+            session.logger.log(session.dialogStack(), 'IntentDialog.matches(' + recognizeResult.intent + ')');
             activeIntent = recognizeResult.intent;                
         } else if (this.handlers.hasOwnProperty(consts.Intents.Default)) {
-            logger.info(session, 'IntentDialog.onDefault()');
+            session.logger.log(session.dialogStack(), 'IntentDialog.onDefault()');
             activeIntent = consts.Intents.Default;
         }
         if (activeIntent) {
@@ -196,7 +195,7 @@ export class IntentDialog extends Dialog {
                 this.emitError(session, e);
             }
         } else {
-            logger.warn(session, 'IntentDialog - no intent handler found for %s', recognizeResult.intent);
+            session.logger.warn(session.dialogStack(), 'IntentDialog - no intent handler found for ' + recognizeResult.intent);
         }
     }
 

@@ -1,0 +1,13 @@
+{
+    "default_text": "Não consigo entender. Por favor, tente novamente.",
+    "default_number": "Não consigo entender isso como um número. Por favor, escreva somente números.",
+    "default_confirm": "Não entendi. Por favor, responda 'sim' ou 'não'",
+    "list_or": " ou ",
+    "list_or_more": ", ou ",
+    "confirm_yes": "sim",
+    "confirm_no": "não",
+    "default_choice": "Não consigo entender. Por favor, selecione uma opção da lista.",
+    "default_time": "Não consigo entender o formato que você usou. Por favor, tente novamente usando o formato (MM/DD/AAAA HH:MM:SS).",
+    "default_file": "Não consegui receber o arquivo. Por favor, tente novamente.",
+    "default_error": "Oops. Algo deu errado. Por favor, comece novamente."
+}

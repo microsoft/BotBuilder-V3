@@ -154,19 +154,6 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Get StateClient appropriate for this activity
-        /// </summary>
-        /// <param name="microsoftAppId"></param>
-        /// <param name="microsoftAppPassword"></param>
-        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
-        /// <param name="handlers"></param>
-        /// <returns></returns>
-        public StateClient GetStateClient(string microsoftAppId = null, string microsoftAppPassword = null, string serviceUrl = null, params DelegatingHandler[] handlers)
-        {
-            return GetStateClient(new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword), serviceUrl, handlers);
-        }
-
-        /// <summary>
         /// Check if the message has content
         /// </summary>
         /// <returns>Returns true if this message has any content to send</returns>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <id>Microsoft.Bot.Connector.AspNetCore.Mvc</id>
+    <version>$version$-alpha</version>
+    <authors>Microsoft</authors>
+    <iconUrl>https://bots.botframework.com/Client/Images/bot-framework-default-7.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>This library adds support to AspNetCore MVC.</description>
+    <summary>This package integrates the Microsoft Bot Connector with AspNetCore MVC</summary>
+    <language>en-US</language>
+    <dependencies>
+      <dependency id="Microsoft.AspNetCore.Mvc" version="1.0.2" />
+      <dependency id="Microsoft.Bot.Connector.Common" version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Microsoft.Bot.Connector.AspNetCore.Mvc.NetFramework\bin\release\Microsoft.Bot.Connector.AspNetCore.Mvc.dll" target="lib\net461"/>
+    <file src="..\Microsoft.Bot.Connector.AspNetCore.Mvc.NetFramework\bin\release\Microsoft.Bot.Connector.AspNetCore.Mvc.xml" target="lib\net461" />
+    <file src="..\Microsoft.Bot.Connector.AspNetCore.Mvc.NetFramework\bin\release\Microsoft.Bot.Connector.AspNetCore.Mvc.pdb" target="lib\net461" />
+    <file src="bin\release\Microsoft.Bot.Connector.AspNetCore.Mvc.dll" target="lib\netstandard1.6"/>
+    <file src="bin\release\Microsoft.Bot.Connector.AspNetCore.Mvc.xml" target="lib\netstandard1.6" />
+    <file src="bin\release\Microsoft.Bot.Connector.AspNetCore.Mvc.pdb" target="lib\netstandard1.6" />
+    <file src="**\*.cs" exclude="**\obj\**\*.cs" target="src" />
+  </files>
+</package>
