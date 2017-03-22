@@ -699,7 +699,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
     /// <typeparam name="T">Form state.</typeparam>
     /// <remarks>
     /// Expressions recognized are based the C# Chronic parser for English and
-    /// the C# DateTime parser otherwise.
+    /// the C# DateTime parser otherwise.  
+    /// The Chronic parser is configured based on Thread.CurrentThread.CurrentUICultue.DateTimeFormat.ShortDatePattern.
+    /// If the pattern has d before m, then it will use EndianPrecedence of little and otherwise will use middle.
     /// </remarks>
     public sealed class RecognizeDateTime<T> : RecognizePrimitive<T>
         where T : class
@@ -711,7 +713,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public RecognizeDateTime(IField<T> field)
             : base(field)
         {
-            _parser = new Chronic.Parser();
+            var format = Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern.ToLower();
+            var options = new Chronic.Options();
+            options.EndianPrecedence = EndianPrecedence.Middle;
+            if (format.IndexOf('d') < format.IndexOf('m'))
+            {
+                options.EndianPrecedence = EndianPrecedence.Little;
+            }
+            _parser = new Chronic.Parser(options);
         }
 
         public override string Help(T state, object defaultValue)

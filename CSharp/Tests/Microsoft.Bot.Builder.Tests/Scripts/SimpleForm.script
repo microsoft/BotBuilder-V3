@@ -1,4 +1,4 @@
-en-us
+en-gb
 {"Date":"0001-01-01T00:00:00","Float":null,"Integer":0,"SomeChoices":0,"Text":null}
 []
 FromUser:"Hi"
@@ -59,7 +59,7 @@ FromUser:"status"
 ToUserText:"* Text: some text here\r\n* Integer: 99\r\n* Float: 1.5\r\n* Some Choices: One\r\n* Date: Unspecified\r\n"
 ToUserText:"Please enter a date and time for date "
 State:{"Date":"0001-01-01T00:00:00","Float":1.5,"Integer":99,"SomeChoices":1,"Text":"some text here"}
-FromUser:"1/1/2016"
+FromUser:"1/2/2016"
 0
-State:{"Date":"2016-01-01T00:00:00","Float":1.5,"Integer":99,"SomeChoices":1,"Text":"some text here"}
-Result: {"Text":"some text here","Integer":99,"Float":1.5,"SomeChoices":1,"Date":"2016-01-01T00:00:00"}
+State:{"Date":"2016-02-01T00:00:00","Float":1.5,"Integer":99,"SomeChoices":1,"Text":"some text here"}
+Result: {"Text":"some text here","Integer":99,"Float":1.5,"SomeChoices":1,"Date":"2016-02-01T00:00:00"}

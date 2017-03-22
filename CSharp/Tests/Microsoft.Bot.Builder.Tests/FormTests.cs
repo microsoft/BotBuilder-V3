@@ -216,7 +216,7 @@ namespace Microsoft.Bot.Builder.Tests
         {
             var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
             await VerifyFormScript(pathScript,
-                "en-us", () => new FormBuilder<SimpleForm>().AddRemainingFields().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
+                "en-gb", () => new FormBuilder<SimpleForm>().AddRemainingFields().Build(), FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
                 "Hi",
 
                 "?",
@@ -235,7 +235,7 @@ namespace Microsoft.Bot.Builder.Tests
 
                 "help",
                 "status",
-                "1/1/2016"
+                "1/2/2016"
                 );
         }
 
@@ -311,7 +311,7 @@ namespace Microsoft.Bot.Builder.Tests
                 "more than one",
                 "foo",
                 "two",
-                "1/1/2016"
+                "1/2/2016"
                 );
         }
 
