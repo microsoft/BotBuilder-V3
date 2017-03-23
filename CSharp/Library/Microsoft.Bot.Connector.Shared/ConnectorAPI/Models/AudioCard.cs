@@ -24,8 +24,9 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the AudioCard class.
         /// </summary>
-        public AudioCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?), string aspect = default(string))
+        public AudioCard(string aspect = default(string), string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?))
         {
+            Aspect = aspect;
             Title = title;
             Subtitle = subtitle;
             Text = text;
@@ -35,8 +36,14 @@ namespace Microsoft.Bot.Connector
             Shareable = shareable;
             Autoloop = autoloop;
             Autostart = autostart;
-            Aspect = aspect;
         }
+
+        /// <summary>
+        /// Aspect ratio of thumbnail/media placeholder, allowed values are
+        /// "16x9" and "9x16"
+        /// </summary>
+        [JsonProperty(PropertyName = "aspect")]
+        public string Aspect { get; set; }
 
         /// <summary>
         /// Title of the card
@@ -93,13 +100,6 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "autostart")]
         public bool? Autostart { get; set; }
-
-        /// <summary>
-        /// Aspect ratio of thumbnail/media placeholder, allowed values are
-        /// "16x9" and "9x16"
-        /// </summary>
-        [JsonProperty(PropertyName = "aspect")]
-        public string Aspect { get; set; }
 
     }
 }

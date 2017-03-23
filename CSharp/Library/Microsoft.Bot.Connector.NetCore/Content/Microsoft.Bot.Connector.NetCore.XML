@@ -226,7 +226,7 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
@@ -318,6 +318,17 @@
         <member name="P:Microsoft.Bot.Connector.Activity.Text">
             <summary>
             Content for the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Speak">
+            <summary>
+            SSML Speak for TTS audio response
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.ListeningMode">
+            <summary>
+            The bots listening mode is used to control things like microphone
+            input
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Summary">
@@ -786,7 +797,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [Connector API Swagger
-            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -1792,7 +1803,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [Connector API Swagger
-            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -2305,9 +2316,15 @@
             Initializes a new instance of the AudioCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String)">
+        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <summary>
             Initializes a new instance of the AudioCard class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Aspect">
+            <summary>
+            Aspect ratio of thumbnail/media placeholder, allowed values are
+            "16x9" and "9x16"
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Title">
@@ -2357,12 +2374,6 @@
             card (default:true)
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.AudioCard.Aspect">
-            <summary>
-            Aspect ratio of thumbnail/media placeholder, allowed values are
-            "16x9" and "9x16"
-            </summary>
-        </member>
         <member name="T:Microsoft.Bot.Connector.VideoCard">
             <summary>
             A video card
@@ -2373,7 +2384,7 @@
             Initializes a new instance of the VideoCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String)">
+        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor(System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean})">
             <summary>
             Initializes a new instance of the VideoCard class.
             </summary>
@@ -3085,6 +3096,33 @@
             Id of the resource
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.SuggestedActions">
+            <summary>
+            SuggestedActions that can be performed
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SuggestedActions.#ctor">
+            <summary>
+            Initializes a new instance of the SuggestedActions class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SuggestedActions.#ctor(System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
+            <summary>
+            Initializes a new instance of the SuggestedActions class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SuggestedActions.To">
+            <summary>
+            Ids of the recipients that the actions should be shown to.  These
+            Ids are relative to the channelId and a subset of all recipients
+            of the activity
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SuggestedActions.Actions">
+            <summary>
+            Actions that can be shown to the user
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ThumbnailUrl">
             <summary>
             Object describing a media thumbnail
@@ -3362,6 +3400,16 @@
             NOTE: Trigger activity has been renamed to Event activity
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.IInstallationUpdateActivity">
+            <summary>
+            A bot was installed or removed from a channel
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IInstallationUpdateActivity.Action">
+            <summary>
+            add|remove
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.IInvokeActivity">
             <summary>
             Synchronous request to invoke an operation
@@ -3398,6 +3446,16 @@
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Text">
             <summary>
             Content for the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.Speak">
+            <summary>
+            Speak tag (SSML markup for text to speech)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.ListeningMode">
+            <summary>
+            The bots listening mode is used to help control things like microphone input (Passive, Busy, ExpectingResponse)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Summary">
@@ -3445,6 +3503,11 @@
         <member name="M:Microsoft.Bot.Connector.IMessageActivity.GetMentions">
             <summary>
             Get mentions
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.Value">
+            <summary>
+            Value provided with CardAction
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ITypingActivity">
@@ -4169,7 +4232,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [State API Swagger
-            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/StateAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -4245,7 +4308,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [State API Swagger
-            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/StateAPI.json)
             
             © 2016 Microsoft
             </summary>

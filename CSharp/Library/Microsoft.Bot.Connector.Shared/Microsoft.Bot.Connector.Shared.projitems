@@ -55,6 +55,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ReceiptItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ResourceResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\SigninCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\SuggestedActions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ThumbnailCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ThumbnailUrl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\VideoCard.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IConversationUpdate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEndOfConversationActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IEventActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IInstallationUpdateActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IInvokeActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IMessageActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ITypingActivity.cs" />

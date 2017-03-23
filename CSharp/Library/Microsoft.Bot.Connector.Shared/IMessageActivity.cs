@@ -23,6 +23,16 @@ namespace Microsoft.Bot.Connector
         string Text { get; set; }
 
         /// <summary>
+        /// Speak tag (SSML markup for text to speech)
+        /// </summary>
+        string Speak { get; set; }
+
+        /// <summary>
+        /// The bots listening mode is used to help control things like microphone input (Passive, Busy, ExpectingResponse)
+        /// </summary>
+        string ListeningMode { get; set; }
+
+        /// <summary>
         /// Text to display if the channel cannot render cards
         /// </summary>
         string Summary { get; set; }
@@ -45,7 +55,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// SuggestedActions are used to express actions for interacting with a card like keyboards/quickReplies
         /// </summary>
-        IList<CardAction> SuggestedActions { get; set; }
+        SuggestedActions SuggestedActions { get; set; }
 
         /// <summary>
         /// Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.
@@ -68,5 +78,10 @@ namespace Microsoft.Bot.Connector
         /// Get mentions
         /// </summary>
         Mention[] GetMentions();
+
+        /// <summary>
+        /// Value provided with CardAction
+        /// </summary>
+        object Value { get; set; }
     }
 }
