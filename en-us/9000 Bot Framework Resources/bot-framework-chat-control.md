@@ -33,7 +33,7 @@ The Chat widget supports [Markdown](https://en.wikipedia.org/wiki/Markdown) and 
 
 7. Finally copy the generated secret and embed tag and press “I'm done configuring Web Chat”
 
-    ![Chat widget Token](/en-us/images/chatwidget/chatwidget-configure.png)
+    ![Chat widget Token](/en-us/images/chatwidget/chatwidget-configure-keys.png)
 
 ## Step 2 - Embed the chat widget in your website
 
