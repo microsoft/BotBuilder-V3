@@ -19,14 +19,21 @@ The Chat widget supports [Markdown](https://en.wikipedia.org/wiki/Markdown) and 
 1. Go to [https://dev.botframework.com/#/bots](https://dev.botframework.com/#/bots)
 2. Click on your bot
 3. Look for “Web Chat” in the Channels section
+4. Click on Edit for Web chat 
 
-![Chat widget channel](/en-us/images/chatwidget/chatwidget-channel.png)
+    ![Chat widget channel](/en-us/images/chatwidget/chatwidget-channel.png)
 
-Click on Edit for Web chat and press Generate Web Chat Secret
+5. Click on "Add a site"
 
-![Chat widget Token](/en-us/images/chatwidget/chatwidget-token.PNG)
+    ![Chat widget Token](/en-us/images/chatwidget/chatwidget-configure.png)
 
-Copy the generated secret and embed tag and press “I'm done configuring Web Chat”
+6. Enter a name for your site (this is just for your reference)
+
+    ![Chat widget Token](/en-us/images/chatwidget/chatwidget-configure-site.png)
+
+7. Finally copy the generated secret and embed tag and press “I'm done configuring Web Chat”
+
+    ![Chat widget Token](/en-us/images/chatwidget/chatwidget-configure.png)
 
 ## Step 2 - Embed the chat widget in your website
 
