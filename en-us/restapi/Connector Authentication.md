@@ -249,7 +249,7 @@ payload:
 
 ## Changes
 
-The contents of this document are current as of March 2017. At this time, the Bot Framework supports two authentication configurations: v3.0, for bots written before November and not upgraded, and v3.1, for bots that have upgrade to the latest Bot Builder SDK. **Support for v3.0 will be discontinued on May 31, 2017.**
+The contents of this document are current as of March 2017. At this time, the Bot Framework supports two authentication configurations: v3.0, for bots written before November and not upgraded, and v3.1, for bots that have been upgraded to the latest Bot Builder SDK. **Support for v3.0 will be discontinued on May 31, 2017.**
 
 The only differences between v3.0 and v3.1 are the values of the hardcoded constants used in token generation and validation. The table below describes these differences.
 
