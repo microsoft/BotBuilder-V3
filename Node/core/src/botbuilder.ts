@@ -68,7 +68,7 @@ export { ChatConnector } from './bots/ChatConnector';
 export { ConsoleConnector } from './bots/ConsoleConnector';
 export { MemoryBotStorage } from './storage/BotStorage';
 export { Middleware } from './middleware/Middleware';
-
+export { SuggestedActions } from './cards/SuggestedActions';
 // Deprecated in version 3.0
 export { BotConnectorBot } from './deprecated/BotConnectorBot';
 export { LuisDialog } from './deprecated/LuisDialog';

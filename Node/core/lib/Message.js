@@ -130,6 +130,14 @@ var Message = (function () {
         }
         return this;
     };
+    Message.prototype.suggestedActions = function (suggestedActions) {
+        if (suggestedActions) {
+            var action = suggestedActions.toSuggestedActions
+                ? suggestedActions.toSuggestedActions()
+                : suggestedActions;
+        }
+        return this;
+    };
     Message.prototype.entities = function (list) {
         this.data.entities = list || [];
         return this;

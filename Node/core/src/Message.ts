@@ -169,6 +169,17 @@ export class Message implements IIsMessage {
         }
         return this;
     }
+
+    public suggestedActions(suggestedActions: ISuggestedActions|IIsSuggestedActions): this {
+
+        if (suggestedActions) {
+            var action: ISuggestedActions = 
+                (<IIsSuggestedActions>suggestedActions).toSuggestedActions 
+                ? (<IIsSuggestedActions>suggestedActions).toSuggestedActions() 
+                : <ISuggestedActions>suggestedActions;
+        }
+        return this;
+    }
     
     public entities(list: Object[]): this {
         this.data.entities = list || [];

@@ -93,3 +93,5 @@ var TextBot_1 = require("./deprecated/TextBot");
 exports.TextBot = TextBot_1.TextBot;
 var LegacyPrompts_1 = require("./deprecated/LegacyPrompts");
 exports.SimplePromptRecognizer = LegacyPrompts_1.SimplePromptRecognizer;
+var SuggestedActions = require("./cards/SuggestedActions");
+exports.SuggestedActions = SuggestedActions.SuggestedActions;

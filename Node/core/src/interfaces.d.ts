@@ -47,6 +47,7 @@ interface IMessage extends IEvent {
     speak?: string;                  // Spoken message as Speech Synthesis Markup Language (SSML)
     textLocale?: string;             // Identified language of the message text.
     attachments?: IAttachment[];     // This is placeholder for structured objects attached to this message 
+    suggestedActions: ISuggestedActions; // Quick reply actions that can be suggested as part of the message 
     entities?: any[];                // This property is intended to keep structured data objects intended for Client application e.g.: Contacts, Reservation, Booking, Tickets. Structure of these object objects should be known to Client application.
     textFormat?: string;             // Format of text fields [plain|markdown|xml] default:markdown
     attachmentLayout?: string;       // AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] default:list
@@ -170,6 +171,16 @@ interface ICardAction {
 
 interface IIsCardAction {
     toAction(): ICardAction;
+}
+
+interface ISuggestedActions {
+    to?: string[]; // Optional recipients of the suggested actions. Not supported in all channels.
+    actions: ICardAction[]; // Quick reply actions that can be suggested as part of the message 
+}
+
+
+interface IIsSuggestedActions {
+    toSuggestedActions(): ISuggestedActions;
 }
 
 interface ICardImage {

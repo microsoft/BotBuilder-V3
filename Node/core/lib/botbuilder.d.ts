@@ -301,6 +301,22 @@ export interface IIsCardAction {
     toAction(): ICardAction;
 }
 
+/** Suggested actions to send to the user and displayed as quick replies. Suggested actions will be displayed only on the channels that support suggested actions. */
+export interface ISuggestedActions {
+    
+    /** Optional recipients of the suggested actions. Not supported in all channels. */
+    to?: string[];
+    
+    /** Quick reply actions that can be suggested as part of the message. */
+    actions: ICardAction[];
+}
+
+/** Implemented by classes that can be converted into suggested actions */
+export interface IIsSuggestedActions {
+    /** Returns the JSON object for the suggested actions */
+    toSuggestedActions(): ISuggestedActions;
+}
+
 /** An image on a card. */
 export interface ICardImage {
     /** Thumbnail image for major content property. */
@@ -1905,7 +1921,7 @@ export class Message implements IIsMessage {
     /** Hint for how clients should layout multiple attachments. The default value is 'list'. */ 
     attachmentLayout(style: string): Message;
     
-    /** Cards or images to send to the user.   */
+    /** Cards or images to send to the user. */
     attachments(list: IAttachment[]|IIsAttachment[]): Message;
        
     /**
@@ -1914,6 +1930,9 @@ export class Message implements IIsMessage {
      */    
     addAttachment(attachment: IAttachment|IIsAttachment): Message;
     
+    /** Optional suggested actions to send to the user. Suggested actions will be displayed only on the channels that support suggested actions. */
+    suggestedActions(suggestedActions: ISuggestedActions|IIsSuggestedActions): Message;
+
     /** Structured objects passed to the bot or user. */
     entities(list: Object[]): Message;
     
@@ -2056,6 +2075,30 @@ export class CardAction implements IIsCardAction {
     static dialogAction(session: Session, action: string, data?: string, title?: string|string[]): CardAction;
 }
 
+/** Builder class to add suggested actions to a message */
+export class SuggestedActions implements IIsSuggestedActions {
+
+    /**
+     * Creates a new SuggestedActions
+     * @param session (Optional) session object
+     */
+    constructor(session?: Session);
+
+    /** Optional recipients of the actions. Only supported by certain channels. */
+    to(text: string|string[]): SuggestedActions;
+
+    /** Collection of actions to be displayed as suggested actions. */
+    actions(list: ICardAction[]|IIsCardAction[]): SuggestedActions;
+
+    /** Adds an action to be displayed as a suggested action */
+    addAction(action: ICardAction|IIsCardAction): SuggestedActions;
+
+    /** Returns the JSON object for the suggested actions */
+    toSuggestedActions(): ISuggestedActions;
+
+    /** Creates a new SuggestedActions */
+    static create(session: Session, actions: ICardAction[]|IIsCardAction[], to?: string|string[]): SuggestedActions;
+}
 /** Builder class to simplify adding images to a card. */
 export class CardImage implements IIsCardImage {
 
