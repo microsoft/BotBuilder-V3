@@ -44,8 +44,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
-    appId: '6662ab96-4e8f-4952-b879-1e1c9514687b',//process.env.MICROSOFT_APP_ID,
-    appPassword: 'orJpyDhKhBBx2Mh3B0h8pEQ'//process.env.MICROSOFT_APP_PASSWORD
+    appId: process.env.MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 
 var bot = new builder.UniversalBot(connector);
@@ -75,16 +75,10 @@ bot.dialog('/', [
                     ]
                 )
             );
-            // .suggestedActions([
-            //     {title: "green", value: "green"},
-            //     {title: "blue", value: "blue"},
-            //     {title: "red", value: "red"}
-            // ]);
         session.send(msg);
         builder.Prompts.text(session, "What is your favorite color?");
     },
     function (session, results) {
-        // Always say goodbye
         session.send("My favorite color is also " + results.response);
     }
 ]);
