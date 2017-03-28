@@ -25,6 +25,38 @@ To install Microsoft.Bot.Builder, run the following command in the [Package Mana
 ## Release Notes
 The framework is still in preview mode so developers should expect breaking changes in future versions of the framework. A list of current issues can be found on our [GitHub Repository](https://github.com/Microsoft/BotBuilder/issues).
 
+
+### [v3.5.5](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.5.5)
+
+#### Changes
+
+- Add ConversationReference as a replacement to deprecated ResumptionCookie
+- Change default Luis host in Luis service and Deprecate Luis v1 endpoint
+- General bug fixes
+
+***
+
+### [v3.5.3](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.5.3)
+
+### Breaking changes
+- Change the FormFlow prompter so that the state and current field are passed in. **Note:** This will be a breaking change if the bot is using a custom prompter instead of the default prompter in FormFlow.
+
+#### Changes
+- Add better exception propagation and messaging for bot authentication failures
+
+***
+
+## [v3.5.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.5.2)
+
+#### Changes
+- Fix some FormFlow issues and add markdown support for FormFlow multiline prompts
+- Update ActivityResolver to support IInvokeActivity
+- Add AlteredQuery to LuisResult
+
+
+***
+
+
 ### [v3.5.1](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.5.1)
 
 #### Changes
