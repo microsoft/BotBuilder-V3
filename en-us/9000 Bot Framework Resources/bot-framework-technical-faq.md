@@ -36,7 +36,7 @@ This will help you validate the end-to-end user experience.
 
 ### Consider adding channels with additional authentication requirements.
 
-Once channels like Skype work, you can try additional channels like DirectLine or Web chat.
+Once channels like Skype work, you can try additional channels like Direct Line or Web chat.
 
 ## How can I troubleshoot my Bot's authentication?
 
@@ -224,13 +224,17 @@ The State Service allow you to persist progress through the dialogs in a convers
 
 If the dialog stack cannot be deserialized correctly (due to serialization format changes or because the code has changed too much), the conversation state will be reset.
 
-## Why does my Direct Line conversation start over after every message?
+## Why does my Direct Line 1.1 conversation start over after every message?
 
 If your Direct Line conversation appears to start over after every message, you are likely omitting the "from" field on the messages you sent from your Direct Line client. Direct Line auto-allocates IDs when the "from" property is null, so every message sent from your client appears to your bot to be a new user.
 
 To fix this, set the "from" field to a stable value that represents the user.
 
 The value of the field is up to you. If you already have a signed-in user in your webpage or app, you can use the existing user ID. If not, you could generate a random user ID on page/app load, optionally store that ID in a cookie or device state, and use that ID.
+
+## Why am I seeing HTTP 502 errors from the Direct Line service?
+
+Direct Line 3.0 returns HTTP 502 when it tries to contact your bot but the request does not complete successfully. This can happen if the bot returns an error or if it times out. You can find more information about your bot's errors by visiting the Bot Framework developer portal and checking the "Issues" column next to the affected channel. If you have Application Insights configured for your bot, you can find detailed error messages there.
 
 ## What are the possible machine-readable resolutions of the LUIS builtin date, time, duration, and set entities?
 
