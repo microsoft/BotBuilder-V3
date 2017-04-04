@@ -1,6 +1,9 @@
-- [ ] I've asked for help in the [Bot Framework Gitter](https://gitter.im/Microsoft/BotBuilder) before filing this issue.
-
+## Pre-flight checklist
+- [ ] I posted this issue on [Stack Overflow](http://stackoverflow.com/search?q=%23botframework) using the tag `#botframework`.
+- [ ] I have asked for help in the [Bot Framework Gitter group](https://gitter.im/Microsoft/BotBuilder) before filing this issue.
+- [ ] I have [searched the existing issues](https://github.com/Microsoft/BotBuilder/issues?utf8=%E2%9C%93&q=is%3Aissue) before logging a new one.
 ---------------------------
+
 ## Environment
 
 * Operating System: 
@@ -13,7 +16,7 @@
 
 ## Issue
 
-What the issue is, in broad strokes.
+What the issue is, in broad strokes. Link to [Stack Overflow](http://stackoverflow.com/search?q=%23botframework) post.
 
 ## Steps to Reproduce
 
