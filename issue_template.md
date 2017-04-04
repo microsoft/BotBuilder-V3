@@ -10,9 +10,9 @@
 * C# or Node SDK?:
 * SDK version:
 * Development - local or Azure?
-* If you are using the Node.js SDK, then:
-** Node.js version:
-** NPM version: 
+* If you are using the Node.js SDK:
+  * Node.js version:
+  * NPM version: 
 
 ## Issue
 
