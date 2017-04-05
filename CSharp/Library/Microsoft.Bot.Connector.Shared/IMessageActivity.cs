@@ -28,9 +28,9 @@ namespace Microsoft.Bot.Connector
         string Speak { get; set; }
 
         /// <summary>
-        /// The bots listening mode is used to help control things like microphone input (Passive, Busy, ExpectingResponse)
+        /// Indicates whether the bot is accepting, expecting, or ignoring input
         /// </summary>
-        string ListeningMode { get; set; }
+        string InputHint { get; set; }
 
         /// <summary>
         /// Text to display if the channel cannot render cards
@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Connector
         /// Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.
         /// </summary>
         IList<Entity> Entities { get; set; }
-
+        
         /// <summary>
         /// True if this activity has text, attachments, or channelData
         /// </summary>

@@ -163,6 +163,11 @@
             Return an IContactRelationUpdateActivity mask if this is a contact relation update activity
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsInstallationUpdateActivity">
+            <summary>
+            Return an IInstallationUpdateActivity mask if this is a installation update activity
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.AsConversationUpdateActivity">
             <summary>
             Return an IConversationUpdateActivity mask if this is a conversation update activity
@@ -263,7 +268,7 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference,System.String)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
@@ -362,9 +367,9 @@
             SSML Speak for TTS audio response
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.Activity.ListeningMode">
+        <member name="P:Microsoft.Bot.Connector.Activity.InputHint">
             <summary>
-            The bots listening mode is used to control things like microphone
+            Indicates whether the bot is accepting, expecting, or ignoring
             input
             </summary>
         </member>
@@ -420,6 +425,11 @@
             Reference to another conversation or activity
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Code">
+            <summary>
+            Code indicating why the conversation has ended
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ActivityTypes">
             <summary>
             Types of Activities
@@ -473,6 +483,11 @@
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.DeleteUserData">
             <summary>
             Delete user data
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.InstallationUpdate">
+            <summary>
+            Bot added or removed from channel
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Attachments">
@@ -3347,6 +3362,11 @@
             Return IContactRelationUpdateActivity if this is a contactRelationUpdate activity, null otherwise
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsInstallationUpdateActivity">
+            <summary>
+            Return IInstallationUpdateActivity if this is a installationUpdate activity, null otherwise
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IActivity.AsConversationUpdateActivity">
             <summary>
             Return IConversationUpdateActivity if this is a conversationUpdate activity, null otherwise
@@ -3410,6 +3430,21 @@
         <member name="T:Microsoft.Bot.Connector.IEndOfConversationActivity">
             <summary>
             Conversation is ending, or a request to end the conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IEndOfConversationActivity.Code">
+            <summary>
+            Code indicating why the conversation has ended
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IEndOfConversationActivity.Text">
+            <summary>
+            Content to display when ending the conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IEndOfConversationActivity.Entities">
+            <summary>
+            Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.IEventActivity">
@@ -3490,9 +3525,9 @@
             Speak tag (SSML markup for text to speech)
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.IMessageActivity.ListeningMode">
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.InputHint">
             <summary>
-            The bots listening mode is used to help control things like microphone input (Passive, Busy, ExpectingResponse)
+            Indicates whether the bot is accepting, expecting, or ignoring input
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Summary">
@@ -4538,6 +4573,27 @@
             <summary>
             B, I, S, U, A NOTE: Only supported on Skype for now
             </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Schema.InputHints">
+            <summary>
+            Indicates whether the bot is accepting, expecting, or ignoring input
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Schema.InputHints.AcceptingInput">
+            <summary> 
+            The sender is passively ready for input but is not waiting on a response.
+            </summary> 
+        </member>
+        <member name="F:Microsoft.Bot.Schema.InputHints.IgnoringInput">
+            <summary>
+            The sender is ignoring input. Bots may send this hint if they are actively processing a request and will ignore input
+            from users until the request is complete.
+            </summary> 
+        </member>
+        <member name="F:Microsoft.Bot.Schema.InputHints.ExpectingInput">
+            <summary>
+            The sender is actively expecting a response from the user.
+            </summary> 
         </member>
     </members>
 </doc>

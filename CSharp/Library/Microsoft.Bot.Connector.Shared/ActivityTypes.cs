@@ -58,5 +58,10 @@ namespace Microsoft.Bot.Connector
         /// Delete user data
         /// </summary>
         public const string DeleteUserData = "deleteUserData";
+
+        /// <summary>
+        /// Bot added or removed from channel
+        /// </summary>
+        public const string InstallationUpdate = "installationUpdate";
     }
 }
