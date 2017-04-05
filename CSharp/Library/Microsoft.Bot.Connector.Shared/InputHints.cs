@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Microsoft.Bot.Schema
+namespace Microsoft.Bot.Connector
 {
     /// <summary>
     /// Indicates whether the bot is accepting, expecting, or ignoring input
