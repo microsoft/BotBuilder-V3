@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Activity class.
         /// </summary>
-        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), DateTime? localTimestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string summary = default(string), IList<CardAction> suggestedActions = default(IList<CardAction>), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference))
+        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), DateTime? localTimestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string speak = default(string), string inputHint = default(string), string summary = default(string), SuggestedActions suggestedActions = default(SuggestedActions), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference), string code = default(string))
         {
             Type = type;
             Id = id;
@@ -44,6 +44,8 @@ namespace Microsoft.Bot.Connector
             HistoryDisclosed = historyDisclosed;
             Locale = locale;
             Text = text;
+            Speak = speak;
+            InputHint = inputHint;
             Summary = summary;
             SuggestedActions = suggestedActions;
             Attachments = attachments;
@@ -54,6 +56,7 @@ namespace Microsoft.Bot.Connector
             Value = value;
             Name = name;
             RelatesTo = relatesTo;
+            Code = code;
         }
 
         /// <summary>
@@ -163,6 +166,19 @@ namespace Microsoft.Bot.Connector
         public string Text { get; set; }
 
         /// <summary>
+        /// SSML Speak for TTS audio response
+        /// </summary>
+        [JsonProperty(PropertyName = "speak")]
+        public string Speak { get; set; }
+
+        /// <summary>
+        /// Indicates whether the bot is accepting, expecting, or ignoring
+        /// input
+        /// </summary>
+        [JsonProperty(PropertyName = "inputHint")]
+        public string InputHint { get; set; }
+
+        /// <summary>
         /// Text to display if the channel cannot render cards
         /// </summary>
         [JsonProperty(PropertyName = "summary")]
@@ -173,7 +189,7 @@ namespace Microsoft.Bot.Connector
         /// behavior in many clients
         /// </summary>
         [JsonProperty(PropertyName = "suggestedActions")]
-        public IList<CardAction> SuggestedActions { get; set; }
+        public SuggestedActions SuggestedActions { get; set; }
 
         /// <summary>
         /// Attachments
@@ -223,6 +239,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "relatesTo")]
         public ConversationReference RelatesTo { get; set; }
+
+        /// <summary>
+        /// Code indicating why the conversation has ended
+        /// </summary>
+        [JsonProperty(PropertyName = "code")]
+        public string Code { get; set; }
 
     }
 }

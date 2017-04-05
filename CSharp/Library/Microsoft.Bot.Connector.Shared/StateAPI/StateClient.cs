@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Connector
     /// * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
     /// * [Bot Builder for Node.js](/en-us/node/builder/overview/)
     /// * Generate your own from the [State API Swagger
-    /// file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
+    /// file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/StateAPI.json)
     /// 
     /// © 2016 Microsoft
     /// </summary>

@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Connector
         /// Address for the conversation that this activity is associated with
         /// </summary>
         ConversationAccount Conversation { get; set; }
-
+        
         /// <summary>
         /// Address that received the message
         /// </summary>
@@ -85,6 +85,11 @@ namespace Microsoft.Bot.Connector
         /// Return IContactRelationUpdateActivity if this is a contactRelationUpdate activity, null otherwise
         /// </summary>
         IContactRelationUpdateActivity AsContactRelationUpdateActivity();
+
+        /// <summary>
+        /// Return IInstallationUpdateActivity if this is a installationUpdate activity, null otherwise
+        /// </summary>
+        IInstallationUpdateActivity AsInstallationUpdateActivity();
 
         /// <summary>
         /// Return IConversationUpdateActivity if this is a conversationUpdate activity, null otherwise

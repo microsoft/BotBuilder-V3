@@ -126,6 +126,11 @@
             Return an IContactRelationUpdateActivity mask if this is a contact relation update activity
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.AsInstallationUpdateActivity">
+            <summary>
+            Return an IInstallationUpdateActivity mask if this is a installation update activity
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.AsConversationUpdateActivity">
             <summary>
             Return an IConversationUpdateActivity mask if this is a conversation update activity
@@ -226,7 +231,7 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference,System.String)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
@@ -320,6 +325,17 @@
             Content for the message
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Speak">
+            <summary>
+            SSML Speak for TTS audio response
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.InputHint">
+            <summary>
+            Indicates whether the bot is accepting, expecting, or ignoring
+            input
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Summary">
             <summary>
             Text to display if the channel cannot render cards
@@ -370,6 +386,11 @@
         <member name="P:Microsoft.Bot.Connector.Activity.RelatesTo">
             <summary>
             Reference to another conversation or activity
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Code">
+            <summary>
+            Code indicating why the conversation has ended
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ActivityTypes">
@@ -425,6 +446,11 @@
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.DeleteUserData">
             <summary>
             Delete user data
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.InstallationUpdate">
+            <summary>
+            Bot added or removed from channel
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Attachments">
@@ -786,7 +812,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [Connector API Swagger
-            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -1792,7 +1818,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [Connector API Swagger
-            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/ConnectorAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/ConnectorAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -2310,6 +2336,12 @@
             Initializes a new instance of the AudioCard class.
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Aspect">
+            <summary>
+            Aspect ratio of thumbnail/media placeholder, allowed values are
+            "16x9" and "9x16"
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Title">
             <summary>
             Title of the card
@@ -2355,12 +2387,6 @@
             <summary>
             Should the client automatically start playback of video in this
             card (default:true)
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.AudioCard.Aspect">
-            <summary>
-            Aspect ratio of thumbnail/media placeholder, allowed values are
-            "16x9" and "9x16"
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.VideoCard">
@@ -3085,6 +3111,33 @@
             Id of the resource
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.SuggestedActions">
+            <summary>
+            SuggestedActions that can be performed
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SuggestedActions.#ctor">
+            <summary>
+            Initializes a new instance of the SuggestedActions class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SuggestedActions.#ctor(System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction})">
+            <summary>
+            Initializes a new instance of the SuggestedActions class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SuggestedActions.To">
+            <summary>
+            Ids of the recipients that the actions should be shown to.  These
+            Ids are relative to the channelId and a subset of all recipients
+            of the activity
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SuggestedActions.Actions">
+            <summary>
+            Actions that can be shown to the user
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ThumbnailUrl">
             <summary>
             Object describing a media thumbnail
@@ -3272,6 +3325,11 @@
             Return IContactRelationUpdateActivity if this is a contactRelationUpdate activity, null otherwise
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IActivity.AsInstallationUpdateActivity">
+            <summary>
+            Return IInstallationUpdateActivity if this is a installationUpdate activity, null otherwise
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IActivity.AsConversationUpdateActivity">
             <summary>
             Return IConversationUpdateActivity if this is a conversationUpdate activity, null otherwise
@@ -3337,6 +3395,21 @@
             Conversation is ending, or a request to end the conversation
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.IEndOfConversationActivity.Code">
+            <summary>
+            Code indicating why the conversation has ended
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IEndOfConversationActivity.Text">
+            <summary>
+            Content to display when ending the conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IEndOfConversationActivity.Entities">
+            <summary>
+            Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.IEventActivity">
             <summary>
             Asynchronous external event
@@ -3360,6 +3433,16 @@
         <member name="T:Microsoft.Bot.Connector.ITriggerActivity">
             <summary>
             NOTE: Trigger activity has been renamed to Event activity
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IInstallationUpdateActivity">
+            <summary>
+            A bot was installed or removed from a channel
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IInstallationUpdateActivity.Action">
+            <summary>
+            add|remove
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.IInvokeActivity">
@@ -3398,6 +3481,16 @@
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Text">
             <summary>
             Content for the message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.Speak">
+            <summary>
+            Speak tag (SSML markup for text to speech)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.InputHint">
+            <summary>
+            Indicates whether the bot is accepting, expecting, or ignoring input
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.IMessageActivity.Summary">
@@ -3446,6 +3539,32 @@
             <summary>
             Get mentions
             </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IMessageActivity.Value">
+            <summary>
+            Value provided with CardAction
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.InputHints">
+            <summary>
+            Indicates whether the bot is accepting, expecting, or ignoring input
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.InputHints.AcceptingInput">
+            <summary> 
+            The sender is passively ready for input but is not waiting on a response.
+            </summary> 
+        </member>
+        <member name="F:Microsoft.Bot.Connector.InputHints.IgnoringInput">
+            <summary>
+            The sender is ignoring input. Bots may send this hint if they are actively processing a request and will ignore input
+            from users until the request is complete.
+            </summary> 
+        </member>
+        <member name="F:Microsoft.Bot.Connector.InputHints.ExpectingInput">
+            <summary>
+            The sender is actively expecting a response from the user.
+            </summary> 
         </member>
         <member name="T:Microsoft.Bot.Connector.ITypingActivity">
             <summary>
@@ -4169,7 +4288,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [State API Swagger
-            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/StateAPI.json)
             
             © 2016 Microsoft
             </summary>
@@ -4245,7 +4364,7 @@
             * [Bot Builder for C#](/en-us/csharp/builder/sdkreference/)
             * [Bot Builder for Node.js](/en-us/node/builder/overview/)
             * Generate your own from the [State API Swagger
-            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector/Swagger/StateAPI.json)
+            file](https://raw.githubusercontent.com/Microsoft/BotBuilder/master/CSharp/Library/Microsoft.Bot.Connector.Shared/Swagger/StateAPI.json)
             
             © 2016 Microsoft
             </summary>
