@@ -3582,6 +3582,27 @@
             Value provided with CardAction
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.InputHints">
+            <summary>
+            Indicates whether the bot is accepting, expecting, or ignoring input
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.InputHints.AcceptingInput">
+            <summary> 
+            The sender is passively ready for input but is not waiting on a response.
+            </summary> 
+        </member>
+        <member name="F:Microsoft.Bot.Connector.InputHints.IgnoringInput">
+            <summary>
+            The sender is ignoring input. Bots may send this hint if they are actively processing a request and will ignore input
+            from users until the request is complete.
+            </summary> 
+        </member>
+        <member name="F:Microsoft.Bot.Connector.InputHints.ExpectingInput">
+            <summary>
+            The sender is actively expecting a response from the user.
+            </summary> 
+        </member>
         <member name="T:Microsoft.Bot.Connector.ITypingActivity">
             <summary>
             The From address is typing
@@ -4573,27 +4594,6 @@
             <summary>
             B, I, S, U, A NOTE: Only supported on Skype for now
             </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Schema.InputHints">
-            <summary>
-            Indicates whether the bot is accepting, expecting, or ignoring input
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Schema.InputHints.AcceptingInput">
-            <summary> 
-            The sender is passively ready for input but is not waiting on a response.
-            </summary> 
-        </member>
-        <member name="F:Microsoft.Bot.Schema.InputHints.IgnoringInput">
-            <summary>
-            The sender is ignoring input. Bots may send this hint if they are actively processing a request and will ignore input
-            from users until the request is complete.
-            </summary> 
-        </member>
-        <member name="F:Microsoft.Bot.Schema.InputHints.ExpectingInput">
-            <summary>
-            The sender is actively expecting a response from the user.
-            </summary> 
         </member>
     </members>
 </doc>
