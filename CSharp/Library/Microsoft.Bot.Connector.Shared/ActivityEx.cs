@@ -18,6 +18,7 @@ namespace Microsoft.Bot.Connector
         IActivity,
         IConversationUpdateActivity,
         IContactRelationUpdateActivity,
+        IInstallationUpdateActivity,
         IMessageActivity,
         ITypingActivity,
         IEndOfConversationActivity,
@@ -108,6 +109,11 @@ namespace Microsoft.Bot.Connector
         /// Return an IContactRelationUpdateActivity mask if this is a contact relation update activity
         /// </summary>
         public IContactRelationUpdateActivity AsContactRelationUpdateActivity() { return IsActivity(ActivityTypes.ContactRelationUpdate) ? this : null; }
+
+        /// <summary>
+        /// Return an IInstallationUpdateActivity mask if this is a installation update activity
+        /// </summary>
+        public IInstallationUpdateActivity AsInstallationUpdateActivity() { return IsActivity(ActivityTypes.InstallationUpdate) ? this : null; }
 
         /// <summary>
         /// Return an IConversationUpdateActivity mask if this is a conversation update activity
