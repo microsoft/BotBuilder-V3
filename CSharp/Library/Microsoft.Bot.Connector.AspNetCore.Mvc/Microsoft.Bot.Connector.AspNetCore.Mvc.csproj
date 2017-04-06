@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="createpackage.cmd" />
     <None Include="Microsoft.Bot.Connector.AspNetCore.Mvc.nuspec" />
     <None Include="project.json" />
   </ItemGroup>
@@ -45,6 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Bot.Connector.AspNetCore\Microsoft.Bot.Connector.AspNetCore.csproj">
+      <Project>{6efa2312-9e6f-462d-b4be-2df44c84db00}</Project>
+      <Name>Microsoft.Bot.Connector.AspNetCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Common.csproj">
       <Project>{645862ff-bf5e-4d5b-b1b5-1462ededbb12}</Project>
       <Name>Microsoft.Bot.Connector.Common</Name>

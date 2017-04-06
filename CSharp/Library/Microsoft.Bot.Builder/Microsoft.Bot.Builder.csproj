@@ -204,11 +204,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
     <None Include="createpackage.cmd" />
     <None Include="Luis\generateLuisModels.bat" />
     <None Include="Luis\Luis-q.json" />
+    <None Include="Microsoft.Bot.Builder.Common.nuspec" />
     <None Include="Microsoft.Bot.Builder.nuspec">
       <SubType>Designer</SubType>
     </None>

@@ -22,8 +22,9 @@
     <summary>Microsoft.Bot.Builder is a framework for easily building stateless bots that span from regular expressions to AI based natural language.</summary>
     <language>en-US</language>
     <dependencies>
-      <dependency id="Microsoft.Bot.Builder.Framework" version="$version$" />
-      <dependency id="Microsoft.Bot.Connector" version="$version$" />
+      <dependency id="Microsoft.Bot.Builder.Common" version="$version$" />
+      <dependency id="Microsoft.Bot.Connector" version="$connector$" />
     </dependencies>
   </metadata>
+  <files />
 </package>

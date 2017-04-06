@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-    <id>Microsoft.Bot.Builder.Framework</id>
+    <id>Microsoft.Bot.Builder.Common</id>
     <version>$version$</version>
     <authors>Microsoft</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -27,7 +27,7 @@
       <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.5" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
       <dependency id="System.Net.Http" version="4.3.1" />
-      <dependency id="Microsoft.Bot.Connector.Common" version="$version$" />
+      <dependency id="Microsoft.Bot.Connector.Common" version="$connectorCommon$" />
     </dependencies>
   </metadata>
   <files>
@@ -41,7 +41,7 @@
     <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.pdb"  target="lib\net461" />
     <!-- source -->
     <file src="..\**\*.cs"
-          exclude="**\obj\**\*.cs;..\Microsoft.Bot.Builder.Azure\**;..\Microsoft.Bot.Builder.Calling\**;..\Microsoft.Bot.Builder.FormFlow.Json\**;..\Microsoft.Bot.Builder.History\**"
+          exclude="**\obj\**\*.cs;..\Microsoft.Bot.Builder.Azure\**;..\Microsoft.Bot.Builder.Calling\**;..\Microsoft.Bot.Builder.FormFlow.Json\**;..\Microsoft.Bot.Builder.History\**;..\Microsoft.Bot.Connector.AspNetCore\**;..\Microsoft.Bot.Connector.AspNetCore.Mvc\**;..\Microsoft.Bot.Connector.Netframework\**;..\Microsoft.Bot.Connector.Shared\**"
           target="src" />
     <!-- tools -->
     <file src="..\..\tools\rview\bin\release\RView.exe" target="tools"/>

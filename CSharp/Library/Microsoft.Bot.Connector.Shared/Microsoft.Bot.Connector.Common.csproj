@@ -112,7 +112,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JwtTokenExtractor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JwtTokenRefresher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mention.cs" />
-    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MicrosoftAppCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SigninCardEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\BotState.cs" />
@@ -133,6 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)generateClient.cmd" />
+    <None Include="createpackage.cmd" />
     <None Include="Microsoft.Bot.Connector.Common.nuspec">
       <SubType>Designer</SubType>
     </None>

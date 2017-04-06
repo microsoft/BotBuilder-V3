@@ -37,6 +37,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="createpackage.cmd" />
+    <None Include="Microsoft.Bot.Connector.AspNetCore.nuspec" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
