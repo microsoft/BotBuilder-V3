@@ -7,9 +7,18 @@
 ## Environment
 
 * Operating System: 
-* C# or Node SDK?:
+  * Windows
+  * macOS
+  * Linux
+* SDK Platform:
+  * C#/.NET
+  * Node.js
 * SDK version:
-* Development - local or Azure?
+* Development environment:
+  * localhost
+  * Azure Web App
+  * Azure Bot Service App
+  * other
 * If you are using the Node.js SDK:
   * Node.js version:
   * NPM version: 
@@ -17,6 +26,10 @@
 ## Issue
 
 What the issue is, in broad strokes. Link to [Stack Overflow](http://stackoverflow.com/search?q=%23botframework) post.
+
+## Example Code
+
+The code snippet or complete bot example (preferred) that demonstrates the issue.
 
 ## Steps to Reproduce
 
