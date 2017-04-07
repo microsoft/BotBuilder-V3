@@ -4,12 +4,8 @@
 
 namespace Microsoft.Bot.Connector
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.Rest;
 
 
     /// <summary>
@@ -93,7 +89,9 @@ namespace Microsoft.Bot.Connector
         {
             using (var _result = await operations.CreateConversationWithHttpMessagesAsync(parameters, null, cancellationToken).ConfigureAwait(false))
             {
-                return await _result.HandleErrorAsync<ConversationResourceResponse>().ConfigureAwait(false);
+                var res = await _result.HandleErrorAsync<ConversationResourceResponse>().ConfigureAwait(false);
+                MicrosoftAppCredentials.TrustServiceUrl(res.ServiceUrl);
+                return res;
             }
         }
 

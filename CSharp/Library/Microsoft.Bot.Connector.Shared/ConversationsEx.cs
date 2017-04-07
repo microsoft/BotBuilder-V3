@@ -1,9 +1,6 @@
 
 namespace Microsoft.Bot.Connector
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Rest;
@@ -34,7 +31,9 @@ namespace Microsoft.Bot.Connector
         public static async Task<ConversationResourceResponse> CreateDirectConversationAsync(this IConversations operations, ChannelAccount bot, ChannelAccount user, Activity activity = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(bot, user, activity), null, cancellationToken).ConfigureAwait(false);
-            return await _result.HandleErrorAsync<ConversationResourceResponse>().ConfigureAwait(false);
+            var res = await _result.HandleErrorAsync<ConversationResourceResponse>().ConfigureAwait(false);
+            MicrosoftAppCredentials.TrustServiceUrl(res.ServiceUrl);
+            return res;
         }
 
         /// <summary>
@@ -60,7 +59,9 @@ namespace Microsoft.Bot.Connector
         public static async Task<ConversationResourceResponse> CreateDirectConversationAsync(this IConversations operations, string botAddress, string userAddress, Activity activity = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             var _result = await operations.CreateConversationWithHttpMessagesAsync(GetDirectParameters(botAddress, userAddress, activity), null, cancellationToken).ConfigureAwait(false);
-            return await _result.HandleErrorAsync<ConversationResourceResponse>().ConfigureAwait(false);
+            var res = await _result.HandleErrorAsync<ConversationResourceResponse>().ConfigureAwait(false);
+            MicrosoftAppCredentials.TrustServiceUrl(res.ServiceUrl);
+            return res;
         }
 
         /// <summary>
