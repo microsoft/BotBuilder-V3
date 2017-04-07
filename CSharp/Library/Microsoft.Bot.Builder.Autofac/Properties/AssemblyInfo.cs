@@ -38,5 +38,4 @@ using System.Runtime.InteropServices;
 
 [assembly: InternalsVisibleTo("Microsoft.Bot.Builder.Tests")]
 [assembly: InternalsVisibleTo("Microsoft.Bot.Sample.Tests")]
-[assembly: NeutralResourcesLanguage("en")]
 

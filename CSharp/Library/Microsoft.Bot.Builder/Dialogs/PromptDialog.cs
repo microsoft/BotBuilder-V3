@@ -38,6 +38,7 @@ using Microsoft.Bot.Builder.Resource;
 using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,13 +55,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         Auto,
 
         /// <summary>
-        /// Generate keyboard card for choices that will be mapped to a 
-        /// <see cref="HeroCard"/> or a keyboard, e.g. Facebook quick replies
+        /// Map choices to a list of suggested actions that depending on the channel will be a keyboard, quick replies or a 
+        /// <see cref="HeroCard"/>.
         /// </summary>
-        /// <remarks>
-        /// Make sure to use <see cref="MapToChannelData_BotToUser"/> with <see cref="KeyboardCardMapper"/>
-        /// when you use this option
-        /// </remarks>
         Keyboard,
 
         /// <summary>
@@ -103,9 +100,24 @@ namespace Microsoft.Bot.Builder.Dialogs
         public readonly string Retry;
 
         /// <summary>
+        /// Speak tag (SSML markup for text to speech)
+        /// </summary>
+        public readonly string Speak;
+
+        /// <summary>
+        /// Retry Speak tag (SSML markup for text to speech)
+        /// </summary>
+        public readonly string RetrySpeak;
+
+        /// <summary>
         /// The choices to be returned when selected.
         /// </summary>
         public readonly IReadOnlyList<T> Options;
+
+        /// <summary>
+        /// The choices and synonyms to be returned when selected.
+        /// </summary>
+        public readonly IReadOnlyDictionary<T, IReadOnlyList<T>> Choices;
 
         /// <summary>
         /// The description of each possible option.
@@ -137,12 +149,22 @@ namespace Microsoft.Bot.Builder.Dialogs
         public string DefaultRetry { get; set; }
 
         /// <summary>
+        /// Default retry speak that is used if <see cref="RetrySpeak"/> is null.
+        /// </summary>
+        public string DefaultRetrySpeak { get; set; }
+
+        /// <summary>
         /// Default <see cref="TooManyAttempts"/> string that is used if <see cref="TooManyAttempts"/> is null.
         /// </summary>
         protected string DefaultTooManyAttempts
         {
             get { return Resources.TooManyAttempts; }
         }
+
+        /// <summary>
+        /// Entity Recognizer to parse the message content
+        /// </summary>
+        public IPromptRecognizer Recognizer { get; }
 
         /// <summary>
         /// Constructs the prompt options.
@@ -154,19 +176,54 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="attempts"> Maximum number of attempts.</param>
         /// <param name="promptStyler"> The prompt styler.</param>
         /// <param name="descriptions">Descriptions for each prompt.</param>
-        public PromptOptions(string prompt, string retry = null, string tooManyAttempts = null, IReadOnlyList<T> options = null, int attempts = 3, PromptStyler promptStyler = null, IReadOnlyList<string> descriptions = null)
+        /// <param name="speak"> The Speak tag (SSML markup for text to speech).</param>
+        /// <param name="retrySpeak"> What to display on retry Speak (SSML markup for text to speech).</param>
+        /// <param name="recognizer"> Entity Recognizer to parse the message content.</param>
+        public PromptOptions(string prompt, string retry = null, string tooManyAttempts = null, IReadOnlyList<T> options = null, int attempts = 3, PromptStyler promptStyler = null, IReadOnlyList<string> descriptions = null, string speak = null, string retrySpeak = null, IPromptRecognizer recognizer = null)
+            : this(prompt,
+                  retry,
+                  tooManyAttempts,
+                  options != null ? new ReadOnlyDictionary<T, IReadOnlyList<T>>(options.ToDictionary(x => x, x => (IReadOnlyList<T>)Enumerable.Empty<T>().ToList().AsReadOnly())) : null,
+                  attempts,
+                  promptStyler,
+                  descriptions,
+                  speak,
+                  retrySpeak,
+                  recognizer)
+        {
+        }
+
+        /// <summary>
+        /// Constructs the prompt options.
+        /// </summary>
+        /// <param name="prompt"> The prompt.</param>
+        /// <param name="retry"> What to display on retry.</param>
+        /// <param name="tooManyAttempts"> What to display when user didn't say a valid response after <see cref="Attempts"/>.</param>
+        /// <param name="choices"> The prompt choice values.</param>
+        /// <param name="attempts"> Maximum number of attempts.</param>
+        /// <param name="promptStyler"> The prompt styler.</param>
+        /// <param name="descriptions">Descriptions for each prompt.</param>
+        /// <param name="speak"> The Speak tag (SSML markup for text to speech).</param>
+        /// <param name="retrySpeak"> What to display on retry Speak (SSML markup for text to speech).</param>
+        /// <param name="recognizer"> Entity Recognizer to parse the message content.</param>
+        public PromptOptions(string prompt, string retry = null, string tooManyAttempts = null, IReadOnlyDictionary<T, IReadOnlyList<T>> choices = null, int attempts = 3, PromptStyler promptStyler = null, IReadOnlyList<string> descriptions = null, string speak = null, string retrySpeak = null, IPromptRecognizer recognizer = null)
         {
             SetField.NotNull(out this.Prompt, nameof(this.Prompt), prompt);
             this.Retry = retry;
+            this.Speak = speak;
+            this.RetrySpeak = retrySpeak;
             this.TooManyAttempts = tooManyAttempts ?? this.DefaultTooManyAttempts;
             this.Attempts = attempts;
-            this.Options = options;
+            this.Choices = choices;
+            this.Options = this.Choices?.Keys.ToList().AsReadOnly();
             this.Descriptions = descriptions;
             this.DefaultRetry = prompt;
+            this.DefaultRetrySpeak = speak;
             if (promptStyler == null)
             {
                 promptStyler = new PromptStyler();
             }
+            this.Recognizer = recognizer ?? new PromptRecognizer();
             this.PromptStyler = promptStyler;
         }
     }
@@ -188,7 +245,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>
-        /// <see cref="PromptStyler.Apply(ref IMessageActivity, string)"/>.
+        /// <see cref="PromptStyler.Apply(ref IMessageActivity, string, string)"/>.
         /// </summary>
         /// <typeparam name="T"> The type of the options.</typeparam>
         /// <param name="message"> The message.</param>
@@ -196,10 +253,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="options"> The options.</param>
         /// <param name="promptStyle"> The prompt style.</param>
         /// <param name="descriptions">Descriptions for each option.</param>
-        public static void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, PromptStyle promptStyle, IReadOnlyList<string> descriptions = null)
+        /// <param name="speak"> The speak.</param>
+        public static void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, PromptStyle promptStyle, IReadOnlyList<string> descriptions = null, string speak = null)
         {
             var styler = new PromptStyler(promptStyle);
-            styler.Apply(ref message, prompt, options, descriptions);
+            styler.Apply(ref message, prompt, options, descriptions, speak);
         }
 
         /// <summary>
@@ -207,10 +265,13 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         /// <param name="message"> The message that will contain the prompt.</param>
         /// <param name="prompt"> The prompt.</param>
-        public virtual void Apply(ref IMessageActivity message, string prompt)
+        /// <param name="speak"> The speak.</param>
+        public virtual void Apply(ref IMessageActivity message, string prompt, string speak = null)
         {
             SetField.CheckNull(nameof(prompt), prompt);
             message.Text = prompt;
+            message.Speak = speak;
+            message.InputHint = InputHints.ExpectingInput;
         }
 
         /// <summary>
@@ -221,13 +282,16 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="prompt"> The prompt.</param>
         /// <param name="options"> The options.</param>
         /// <param name="descriptions">Descriptions to display for each option.</param>
+        /// <param name="speak"> The speak.</param>
         /// <remarks>
         /// <typeparamref name="T"/> should implement <see cref="object.ToString"/> unless descriptions are supplied.
         /// </remarks>
-        public virtual void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, IReadOnlyList<string> descriptions = null)
+        public virtual void Apply<T>(ref IMessageActivity message, string prompt, IReadOnlyList<T> options, IReadOnlyList<string> descriptions = null, string speak = null)
         {
             SetField.CheckNull(nameof(prompt), prompt);
             SetField.CheckNull(nameof(options), options);
+            message.Speak = speak;
+            message.InputHint = InputHints.ExpectingInput;
             if (descriptions == null)
             {
                 descriptions = (from option in options select option.ToString()).ToList();
@@ -240,7 +304,8 @@ namespace Microsoft.Bot.Builder.Dialogs
                     {
                         if (PromptStyle == PromptStyle.Keyboard)
                         {
-                            message.AddKeyboardCard(prompt, options, descriptions);
+                            message.SuggestedActions = new SuggestedActions(actions: options.GenerateButtons(descriptions));
+                            message.Text = prompt;
                         }
                         else
                         {
@@ -293,9 +358,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="retry">    What to show on retry. </param>
         /// <param name="attempts"> The number of times to retry. </param>
         /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
-        public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, string prompt, string retry = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto)
+        /// <param name="options">Button labels for yes/no choices.</param>
+        /// <param name="patterns">Yes and no alternatives for matching input where first dimension is either <see cref="PromptConfirm.Yes"/> or <see cref="PromptConfirm.No"/> and the arrays are alternative strings to match.</param>
+        public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, string prompt, string retry = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto, string[] options = null, string[][] patterns = null)
         {
-            Confirm(context, resume, new PromptOptions<string>(prompt, retry, attempts: attempts, options: PromptConfirm.Options.ToList(), promptStyler: new PromptStyler(promptStyle: promptStyle)));
+            Confirm(context, resume, new PromptOptions<string>(prompt, retry, attempts: attempts, options: options ?? PromptConfirm.Options, promptStyler: new PromptStyler(promptStyle: promptStyle)), patterns);
         }
 
         /// <summary>
@@ -304,9 +371,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="context"> The dialog context.</param>
         /// <param name="resume"> Resume handler.</param>
         /// <param name="promptOptions"> The options for the prompt, <see cref="PromptOptions{T}"/>.</param>
-        public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, PromptOptions<string> promptOptions)
+        /// <param name="patterns">Yes and no alternatives for matching input where first dimension is either <see cref="PromptConfirm.Yes"/> or <see cref="PromptConfirm.No"/> and the arrays are alternative strings to match.</param>
+        public static void Confirm(IDialogContext context, ResumeAfter<bool> resume, PromptOptions<string> promptOptions, string[][] patterns = null)
         {
-            var child = new PromptConfirm(promptOptions);
+            var child = new PromptConfirm(promptOptions, patterns);
             context.Call<bool>(child, resume);
         }
 
@@ -348,6 +416,24 @@ namespace Microsoft.Bot.Builder.Dialogs
             Choice(context, resume, new PromptOptions<T>(prompt, retry, attempts: attempts, options: options.ToList(), promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()));
         }
 
+        /// <summary>   Prompt for one of a set of choices. </summary>
+        /// <param name="context">  The context. </param>
+        /// <param name="resume">   Resume handler. </param>
+        /// <param name="choices"> Dictionary with the options to choose from as a key and their synonyms as a value.</param>
+        /// <param name="prompt">   The prompt to show to the user. </param>
+        /// <param name="retry">    What to show on retry. </param>
+        /// <param name="attempts"> The number of times to retry. </param>
+        /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
+        /// <param name="descriptions">Descriptions to display for choices.</param>
+        /// <param name="recognizeChoices">(Optional) if true, the prompt will attempt to recognize numbers in the users utterance as the index of the choice to return. The default value is "true".</param>
+        /// <param name="recognizeNumbers">(Optional) if true, the prompt will attempt to recognize ordinals like "the first one" or "the second one" as the index of the choice to return. The default value is "true".</param>
+        /// <param name="recognizeOrdinals">(Optional) if true, the prompt will attempt to recognize the selected value using the choices themselves. The default value is "true".</param>
+        /// <param name="minScore">(Optional) minimum score from 0.0 - 1.0 needed for a recognized choice to be considered a match. The default value is "0.4".</param>
+        public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IDictionary<T, IEnumerable<T>> choices, string prompt, string retry = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto, IEnumerable<string> descriptions = null, bool recognizeChoices = true, bool recognizeNumbers = true, bool recognizeOrdinals = true, double minScore = 0.4)
+        {
+            Choice(context, resume, new PromptOptions<T>(prompt, retry, attempts: attempts, choices: choices.ToDictionary(x => x.Key, x => (IReadOnlyList<T>)x.Value.ToList().AsReadOnly()), promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()), recognizeChoices, recognizeNumbers, recognizeOrdinals, minScore: minScore);
+        }
+
         /// <summary>
         /// Prompt for one of a set of choices.
         /// </summary>
@@ -356,9 +442,13 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="context"> The dialog context.</param>
         /// <param name="resume"> Resume handler.</param>
         /// <param name="promptOptions"> The prompt options.</param>
-        public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, PromptOptions<T> promptOptions)
+        /// <param name="recognizeChoices">(Optional) if true, the prompt will attempt to recognize numbers in the users utterance as the index of the choice to return. The default value is "true".</param>
+        /// <param name="recognizeNumbers">(Optional) if true, the prompt will attempt to recognize ordinals like "the first one" or "the second one" as the index of the choice to return. The default value is "true".</param>
+        /// <param name="recognizeOrdinals">(Optional) if true, the prompt will attempt to recognize the selected value using the choices themselves. The default value is "true".</param>
+        /// <param name="minScore">(Optional) minimum score from 0.0 - 1.0 needed for a recognized choice to be considered a match. The default value is "0.4".</param>
+        public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, PromptOptions<T> promptOptions, bool recognizeChoices = true, bool recognizeNumbers = true, bool recognizeOrdinals = true, double minScore = 0.4)
         {
-            var child = new PromptChoice<T>(promptOptions);
+            var child = new PromptChoice<T>(promptOptions, recognizeChoices, recognizeNumbers, recognizeOrdinals, minScore);
             context.Call<T>(child, resume);
         }
 
@@ -387,7 +477,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptString(string prompt, string retry, int attempts)
-                : this(new PromptOptions<string>(prompt, retry, attempts: attempts)) { }
+                : this(new PromptOptions<string>(prompt, retry, attempts: attempts, choices: null)) { }
 
             /// <summary>   Constructor for a prompt string dialog. </summary>
             /// <param name="promptOptions"> THe prompt options.</param>
@@ -421,10 +511,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>   Prompt for a confirmation. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Confirm(IDialogContext, ResumeAfter{bool}, string, string, int, PromptStyle)"/>.</remarks>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Confirm(IDialogContext, ResumeAfter{bool}, string, string, int, PromptStyle, string[], string[][])"/>.</remarks>
         [Serializable]
         public sealed class PromptConfirm : Prompt<bool, string>
         {
+            private string[][] patterns;
+
             /// <summary>
             /// Index of yes descriptions.
             /// </summary>
@@ -436,22 +528,36 @@ namespace Microsoft.Bot.Builder.Dialogs
             public const int No = 1;
 
             /// <summary>
-            /// The yes, no options for confirmation prompt
+            /// The yes, no choice labels for confirmation prompt
             /// </summary>
-            public static string[] Options { set; get; } = { Resources.MatchYes.SplitList().First(), Resources.MatchNo.SplitList().First() };
+            public static string[] Options
+            {
+                get
+                {
+                    return new string[] { Resources.MatchYes.SplitList().First(), Resources.MatchNo.SplitList().First() };
+                }
+            }
 
             /// <summary>
             /// The patterns for matching yes/no responses in the confirmation prompt.
             /// </summary>
-            public static string[][] Patterns { get; set; } = { Resources.MatchYes.SplitList(), Resources.MatchNo.SplitList() };
+            public static string[][] Patterns
+            {
+                get
+                {
+                    return new string[][] { Resources.MatchYes.SplitList(), Resources.MatchNo.SplitList() };
+                }
+            }
 
             /// <summary>   Constructor for a prompt confirmation dialog. </summary>
             /// <param name="prompt">   The prompt. </param>
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
-            public PromptConfirm(string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto)
-                : this(new PromptOptions<string>(prompt, retry, attempts: attempts, options: Options.ToList(), promptStyler: new PromptStyler(promptStyle)))
+            /// <param name="options">Names for yes and no  options.</param>
+            /// <param name="patterns">Yes and no alternatives for matching input where first dimension is either <see cref="PromptConfirm.Yes"/> or <see cref="PromptConfirm.No"/> and the arrays are alternative strings to match.</param>
+            public PromptConfirm(string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto, string[] options = null, string[][] patterns = null)
+                : this(new PromptOptions<string>(prompt, retry, attempts: attempts, options: options ?? Options, promptStyler: new PromptStyler(promptStyle)), patterns)
             {
             }
 
@@ -459,32 +565,31 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// Constructor for a prompt confirmation dialog.
             /// </summary>
             /// <param name="promptOptions"> THe prompt options.</param>
-            public PromptConfirm(PromptOptions<string> promptOptions)
+            /// <param name="patterns"></param>
+            public PromptConfirm(PromptOptions<string> promptOptions, string[][] patterns = null)
                 : base(promptOptions)
             {
+                this.patterns = patterns ?? Patterns;
                 this.promptOptions.DefaultRetry = this.DefaultRetry;
             }
 
-
             protected override bool TryParse(IMessageActivity message, out bool result)
             {
-                var found = false;
-                result = false;
-                if (message.Text != null)
+                if (!string.IsNullOrEmpty(message.Text))
                 {
-                    var term = message.Text.Trim().ToLower();
-                    if ((from r in Patterns[Yes] select r.ToLower()).Contains(term))
+                    var choices = new Dictionary<string, IReadOnlyList<string>>();
+                    choices.Add(Yes.ToString(), this.patterns[Yes].Select(x => x.ToLowerInvariant()).ToList().AsReadOnly());
+                    choices.Add(No.ToString(), this.patterns[No].Select(x => x.ToLowerInvariant()).ToList().AsReadOnly());
+                    var matches = this.promptOptions.Recognizer.RecognizeChoices(message, choices);
+                    var topMatch = matches.MaxBy(x => x.Score);
+                    if (topMatch != null && topMatch.Score > 0)
                     {
-                        result = true;
-                        found = true;
-                    }
-                    else if ((from r in Patterns[No] select r.ToLower()).Contains(term))
-                    {
-                        result = false;
-                        found = true;
+                        result = topMatch.Entity == Yes.ToString();
+                        return true;
                     }
                 }
-                return found;
+                result = false;
+                return false;
             }
 
             public string DefaultRetry
@@ -506,7 +611,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptInt64(string prompt, string retry, int attempts)
-                : this(new PromptOptions<long>(prompt, retry, attempts: attempts)) { }
+                : this(new PromptOptions<long>(prompt, retry, attempts: attempts, choices: null)) { }
 
             /// <summary>   Constructor for a prompt int64 dialog. </summary>
             /// <param name="promptOptions"> THe prompt options.</param>
@@ -515,7 +620,15 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             protected override bool TryParse(IMessageActivity message, out Int64 result)
             {
-                return Int64.TryParse(message.Text, out result);
+                var matches = this.promptOptions.Recognizer.RecognizeInteger(message);
+                var topMatch = matches?.MaxBy(x => x.Score);
+                if (topMatch != null && topMatch.Score > 0)
+                {
+                    result = topMatch.Entity;
+                    return true;
+                }
+                result = 0;
+                return false;
             }
         }
 
@@ -529,7 +642,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
             public PromptDouble(string prompt, string retry, int attempts)
-                : this(new PromptOptions<double>(prompt, retry, attempts: attempts)) { }
+                : this(new PromptOptions<double>(prompt, retry, attempts: attempts, choices: null)) { }
 
             /// <summary>   Constructor for a prompt double dialog. </summary>
             /// <param name="promptOptions"> THe prompt options.</param>
@@ -538,7 +651,15 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             protected override bool TryParse(IMessageActivity message, out double result)
             {
-                return double.TryParse(message.Text, out result);
+                var matches = this.promptOptions.Recognizer.RecognizeDouble(message);
+                var topMatch = matches?.MaxBy(x => x.Score);
+                if (topMatch != null && topMatch.Score > 0)
+                {
+                    result = topMatch.Entity;
+                    return true;
+                }
+                result = 0;
+                return false;
             }
         }
 
@@ -547,6 +668,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         [Serializable]
         public class PromptChoice<T> : Prompt<T, T>
         {
+            private bool recognizeChoices;
+            private bool recognizeNumbers;
+            private bool recognizeOrdinals;
+            private double minScore;
+
             /// <summary>   Constructor for a prompt choice dialog. </summary>
             /// <param name="options">Enumerable of the options to choose from.</param>
             /// <param name="prompt">   The prompt. </param>
@@ -554,44 +680,93 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="attempts"> Maximum number of attempts. </param>
             /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
             /// <param name="descriptions">Descriptions to show for each option.</param>
-            public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto, IEnumerable<string> descriptions = null)
-                : this(new PromptOptions<T>(prompt, retry, options: options.ToList(), attempts: attempts, promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()))
+            /// <param name="recognizeChoices">(Optional) if true, the prompt will attempt to recognize numbers in the users utterance as the index of the choice to return. The default value is "true".</param>
+            /// <param name="recognizeNumbers">(Optional) if true, the prompt will attempt to recognize ordinals like "the first one" or "the second one" as the index of the choice to return. The default value is "true".</param>
+            /// <param name="recognizeOrdinals">(Optional) if true, the prompt will attempt to recognize the selected value using the choices themselves. The default value is "true".</param>
+            /// <param name="minScore">(Optional) minimum score from 0.0 - 1.0 needed for a recognized choice to be considered a match. The default value is "0.4".</param>
+            public PromptChoice(IEnumerable<T> options, string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto, IEnumerable<string> descriptions = null, bool recognizeChoices = true, bool recognizeNumbers = true, bool recognizeOrdinals = true, double minScore = 0.4)
+                : this(new PromptOptions<T>(prompt, retry, options: options.ToList(), attempts: attempts, promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()), recognizeChoices, recognizeNumbers, recognizeOrdinals, minScore)
+            {
+            }
+
+            /// <summary>   Constructor for a prompt choice dialog. </summary>
+            /// <param name="choices">Dictionary with the options to choose from as a key and their synonyms as a value.</param>
+            /// <param name="prompt">   The prompt. </param>
+            /// <param name="retry">    What to display on retry. </param>
+            /// <param name="attempts"> Maximum number of attempts. </param>
+            /// <param name="promptStyle"> Style of the prompt <see cref="PromptStyle" /> </param>
+            /// <param name="descriptions">Descriptions to show for each option.</param>
+            /// <param name="recognizeChoices">(Optional) if true, the prompt will attempt to recognize numbers in the users utterance as the index of the choice to return. The default value is "true".</param>
+            /// <param name="recognizeNumbers">(Optional) if true, the prompt will attempt to recognize ordinals like "the first one" or "the second one" as the index of the choice to return. The default value is "true".</param>
+            /// <param name="recognizeOrdinals">(Optional) if true, the prompt will attempt to recognize the selected value using the choices themselves. The default value is "true".</param>
+            /// <param name="minScore">(Optional) minimum score from 0.0 - 1.0 needed for a recognized choice to be considered a match. The default value is "0.4".</param>
+            public PromptChoice(IDictionary<T, IEnumerable<T>> choices, string prompt, string retry, int attempts, PromptStyle promptStyle = PromptStyle.Auto, IEnumerable<string> descriptions = null, bool recognizeChoices = true, bool recognizeNumbers = true, bool recognizeOrdinals = true, double minScore = 0.4)
+                : this(new PromptOptions<T>(prompt, retry, choices: choices.ToDictionary(x => x.Key, x => (IReadOnlyList<T>)x.Value.ToList().AsReadOnly()), attempts: attempts, promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()), recognizeChoices, recognizeNumbers, recognizeOrdinals, minScore)
             {
             }
 
             /// <summary>
             /// Constructs a choice dialog.
             /// </summary>
-            /// <param name="promptOptions"> The prompt options</param>
-            public PromptChoice(PromptOptions<T> promptOptions)
+            /// <param name="promptOptions"> The prompt options</param>s
+            /// <param name="recognizeChoices">(Optional) if true, the prompt will attempt to recognize numbers in the users utterance as the index of the choice to return. The default value is "true".</param>
+            /// <param name="recognizeNumbers">(Optional) if true, the prompt will attempt to recognize ordinals like "the first one" or "the second one" as the index of the choice to return. The default value is "true".</param>
+            /// <param name="recognizeOrdinals">(Optional) if true, the prompt will attempt to recognize the selected value using the choices themselves. The default value is "true".</param>
+            /// <param name="minScore">(Optional) minimum score from 0.0 - 1.0 needed for a recognized choice to be considered a match. The default value is "0.4".</param>
+            public PromptChoice(PromptOptions<T> promptOptions, bool recognizeChoices = true, bool recognizeNumbers = true, bool recognizeOrdinals = true, double minScore = 0.4)
                 : base(promptOptions)
             {
-                SetField.CheckNull(nameof(promptOptions.Options), promptOptions.Options);
-            }
-
-            public virtual Tuple<bool, int> ScoreMatch(T option, string input)
-            {
-                var trimmed = input.Trim();
-                var text = option.ToString();
-                bool occurs = text.IndexOf(trimmed, StringComparison.CurrentCultureIgnoreCase) >= 0;
-                bool equals = text == trimmed;
-                return occurs
-                    ? Tuple.Create(equals, trimmed.Length)
-                    : null;
+                SetField.CheckNull(nameof(promptOptions.Choices), promptOptions.Choices);
+                this.recognizeChoices = recognizeChoices;
+                this.recognizeNumbers = recognizeNumbers;
+                this.recognizeOrdinals = recognizeOrdinals;
+                this.minScore = minScore;
             }
 
             protected override bool TryParse(IMessageActivity message, out T result)
             {
                 if (!string.IsNullOrWhiteSpace(message.Text))
                 {
-                    var scores = from option in this.promptOptions.Options
-                                 let score = ScoreMatch(option, message.Text)
-                                 select new { score, option };
-
-                    var winner = scores.MaxBy(s => s.score);
-                    if (winner.score != null)
+                    var topScore = 0.0;
+                    T topEntity = default(T);
+                    if (recognizeChoices)
                     {
-                        result = winner.option;
+                        var entityMatches = this.promptOptions.Recognizer.RecognizeChoices<T>(message, this.promptOptions.Choices);
+                        var entityWinner = entityMatches.MaxBy(x => x.Score) ?? new RecognizeEntity<T>();
+                        topScore = entityWinner.Score;
+                        topEntity = entityWinner.Entity;
+                    }
+
+                    if (recognizeNumbers)
+                    {
+                        var cardinalMatches = this.promptOptions.Recognizer.RecognizeIntegerInRange(message, 0, this.promptOptions.Choices.Count - 1);
+                        var cardinalWinner = cardinalMatches.MaxBy(x => x.Score) ?? new RecognizeEntity<long>();
+                        if (topScore < cardinalWinner.Score)
+                        {
+                            var index = (int)cardinalWinner.Entity - 1;
+                            topScore = cardinalWinner.Score;
+                            topEntity = this.promptOptions.Choices.Keys.ElementAt(index);
+                        }
+                    }
+
+                    if (recognizeOrdinals)
+                    {
+                        var ordinalMatches = this.promptOptions.Recognizer.RecognizeOrdinals(message);
+                        var ordinalWinner = ordinalMatches.MaxBy(x => x.Score) ?? new RecognizeEntity<long>();
+                        if (topScore < ordinalWinner.Score)
+                        {
+                            var index = ordinalWinner.Entity > 0 ? (int)ordinalWinner.Entity - 1 : this.promptOptions.Choices.Count + (int)ordinalWinner.Entity;
+                            if (index >= 0 && index < this.promptOptions.Choices.Count)
+                            {
+                                topScore = ordinalWinner.Score;
+                                topEntity = this.promptOptions.Choices.Keys.ElementAt(index);
+                            }
+                        }
+                    }
+
+                    if (topScore >= this.minScore && topScore > 0)
+                    {
+                        result = topEntity;
                         return true;
                     }
                 }
@@ -618,7 +793,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="attempts"> The optional content types the attachment type should be part of.</param>
             /// <param name="contentTypes"> The content types that is used to filter the attachments. Null implies any content type.</param>
             public PromptAttachment(string prompt, string retry, int attempts, IEnumerable<string> contentTypes = null)
-                : base(new PromptOptions<Attachment>(prompt, retry, attempts: attempts))
+                : base(new PromptOptions<Attachment>(prompt, retry, attempts: attempts, choices: null))
             {
                 this.ContentTypes = contentTypes ?? new List<string>();
             }
@@ -683,23 +858,25 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var attachments = new List<Attachment>
             {
-                new HeroCard(text: text, buttons: GenerateButtons(options, descriptions)).ToAttachment()
+                new HeroCard(text: text, buttons: options.GenerateButtons(descriptions)).ToAttachment()
             };
 
             return attachments;
         }
 
+#pragma warning disable CS0618
         internal static IList<Attachment> GenerateKeyboardCard<T>(this IEnumerable<T> options, string text, IEnumerable<string> descriptions = null)
         {
             var attachments = new List<Attachment>
             {
-                new KeyboardCard(text: text, buttons: GenerateButtons(options, descriptions)).ToAttachment()
+                new KeyboardCard(text: text, buttons: options.GenerateButtons(descriptions)).ToAttachment()
             };
 
             return attachments;
         }
+#pragma warning restore CS0618
 
-        internal static IList<CardAction> GenerateButtons<T>(IEnumerable<T> options,
+        internal static IList<CardAction> GenerateButtons<T>(this IEnumerable<T> options,
             IEnumerable<string> descriptions = null)
         {
             var actions = new List<CardAction>();
@@ -732,12 +909,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public Prompt(PromptOptions<U> promptOptions)
         {
             SetField.NotNull(out this.promptOptions, nameof(promptOptions), promptOptions);
-
         }
 
         async Task IDialog<T>.StartAsync(IDialogContext context)
         {
-            await context.PostAsync(this.MakePrompt(context, promptOptions.Prompt, promptOptions.Options, promptOptions.Descriptions));
+            await context.PostAsync(this.MakePrompt(context, promptOptions.Prompt, promptOptions.Choices?.Keys.ToList().AsReadOnly(), promptOptions.Descriptions, promptOptions.Speak));
             context.Wait(MessageReceivedAsync);
         }
 
@@ -753,7 +929,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 --promptOptions.Attempts;
                 if (promptOptions.Attempts >= 0)
                 {
-                    await context.PostAsync(this.MakePrompt(context, promptOptions.Retry ?? promptOptions.DefaultRetry, promptOptions.Options, promptOptions.Descriptions));
+                    await context.PostAsync(this.MakePrompt(context, promptOptions.Retry ?? promptOptions.DefaultRetry, promptOptions.Choices?.Keys.ToList().AsReadOnly(), promptOptions.Descriptions, promptOptions.RetrySpeak ?? promptOptions.DefaultRetrySpeak));
                     context.Wait(MessageReceivedAsync);
                 }
                 else
@@ -767,16 +943,16 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         protected abstract bool TryParse(IMessageActivity message, out T result);
 
-        protected virtual IMessageActivity MakePrompt(IDialogContext context, string prompt, IReadOnlyList<U> options = null, IReadOnlyList<string> descriptions = null)
+        protected virtual IMessageActivity MakePrompt(IDialogContext context, string prompt, IReadOnlyList<U> options = null, IReadOnlyList<string> descriptions = null, string speak = null)
         {
             var msg = context.MakeMessage();
             if (options != null && options.Count > 0)
             {
-                promptOptions.PromptStyler.Apply(ref msg, prompt, options, descriptions);
+                promptOptions.PromptStyler.Apply(ref msg, prompt, options, descriptions, speak);
             }
             else
             {
-                promptOptions.PromptStyler.Apply(ref msg, prompt);
+                promptOptions.PromptStyler.Apply(ref msg, prompt, speak);
             }
             return msg;
         }

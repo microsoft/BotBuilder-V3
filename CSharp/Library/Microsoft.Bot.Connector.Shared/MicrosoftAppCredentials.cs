@@ -101,7 +101,26 @@ namespace Microsoft.Bot.Connector
                 if (expirationTime == default(DateTime))
                 {
                     // by default the service url is valid for one day
-                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host, DateTime.UtcNow.AddDays(1), (key, oldValue) => DateTime.UtcNow.AddDays(1));
+                    var extensionPeriod = TimeSpan.FromDays(1);
+                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host, DateTime.UtcNow.Add(extensionPeriod), (key, oldValue) =>
+                    {
+                        var newExpiration = DateTime.UtcNow.Add(extensionPeriod);
+                        // try not to override expirations that are greater than one day from now
+                        if (oldValue > newExpiration)
+                        {
+                            // make sure that extension can be added to oldValue and ArgumentOutOfRangeException
+                            // is not thrown
+                            if (oldValue >= DateTime.MaxValue.Subtract(extensionPeriod))
+                            {
+                                newExpiration = oldValue;
+                            }
+                            else
+                            {
+                                newExpiration = oldValue.Add(extensionPeriod);
+                            }
+                        }
+                        return newExpiration;
+                    });
                 }
                 else
                 {

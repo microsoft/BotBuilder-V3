@@ -36,14 +36,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
+using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
-
-using Autofac;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Builder.Tests
@@ -93,7 +90,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             builder
                 .RegisterType<BotToUserQueue>()
-                .AsSelf()                
+                .AsSelf()
                 .InstancePerLifetimeScope();
 
             builder
@@ -203,6 +200,20 @@ namespace Microsoft.Bot.Builder.Tests
         public static string NewID()
         {
             return Guid.NewGuid().ToString();
+        }
+
+        public static async Task AssertOutgoingActivity(ILifetimeScope container, Action<IMessageActivity> asserts)
+        {
+            var queue = container.Resolve<Queue<IMessageActivity>>();
+
+            if (queue.Count != 1)
+            {
+                Assert.Fail("Expecting only 1 activity");
+            }
+
+            var toUser = queue.Dequeue();
+
+            asserts(toUser);
         }
     }
 }

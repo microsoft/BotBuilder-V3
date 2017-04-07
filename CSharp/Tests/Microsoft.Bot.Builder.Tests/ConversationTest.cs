@@ -173,10 +173,34 @@ namespace Microsoft.Bot.Builder.Tests
         }
     }
 
+    public class AlwaysNeedInputHintChannelCapability : IChannelCapability
+    {
+        private readonly IChannelCapability inner;
+        public AlwaysNeedInputHintChannelCapability(IChannelCapability inner)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+        }
+
+        public bool NeedsInputHint()
+        {
+            return true;
+        }
+
+        public bool SupportsKeyboards(int buttonCount)
+        {
+            return this.inner.SupportsKeyboards(buttonCount);
+        }
+
+        public bool SupportsSpeak()
+        {
+            return this.inner.SupportsSpeak();
+        }
+    }
+
     public abstract class ConversationTestBase
     {
         [Flags]
-        public enum Options { None, InMemoryBotDataStore };
+        public enum Options { None, InMemoryBotDataStore, NeedsInputHint };
 
         public static IContainer Build(Options options, params object[] singletons)
         {
@@ -196,10 +220,10 @@ namespace Microsoft.Bot.Builder.Tests
               .AsSelf()
               .InstancePerLifetimeScope();
 
+            // truncate AlwaysSendDirect_BotToUser/IConnectorClient with null implementation
             builder
                 .RegisterType<BotToUserQueue>()
-                .AsSelf()
-                .As<IBotToUser>()
+                .Keyed<IBotToUser>(typeof(AlwaysSendDirect_BotToUser))
                 .InstancePerLifetimeScope();
 
             if (options.HasFlag(Options.InMemoryBotDataStore))
@@ -212,6 +236,13 @@ namespace Microsoft.Bot.Builder.Tests
                 builder.Register(c => new CachingBotDataStore(c.Resolve<InMemoryDataStore>(), CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
                     .As<IBotDataStore<BotData>>()
                     .AsSelf()
+                    .InstancePerLifetimeScope();
+            }
+
+            if (options.HasFlag(Options.NeedsInputHint))
+            {
+                builder.Register(c => new AlwaysNeedInputHintChannelCapability(new ChannelCapability(c.Resolve<IAddress>())))
+                    .AsImplementedInterfaces()
                     .InstancePerLifetimeScope();
             }
 
@@ -293,6 +324,106 @@ namespace Microsoft.Bot.Builder.Tests
                 }
             }
         }
+
+        [TestMethod]
+        public async Task InputHintTest()
+        {
+            var chain = Chain.PostToChain().Select(m => m.Text).ContinueWith<string, string>(async (context, result) =>
+            {
+                var text = await result;
+                if (text.ToLower().StartsWith("inputhint"))
+                {
+                    var reply = context.MakeMessage();
+                    reply.Text = "reply";
+                    reply.InputHint = InputHints.ExpectingInput;
+                    await context.PostAsync(reply);
+                    return Chain.Return($"{text}");
+                }
+                else if (!text.ToLower().StartsWith("reset"))
+                {
+                    for (int i = 0; i < 10; i++)
+                    {
+                        await context.PostAsync($"message:{i}");
+                    }
+                    return Chain.Return($"{text}");
+                }
+                else
+                {
+                    return Chain.From(() => new PromptDialog.PromptConfirm("Are you sure you want to reset the count?",
+                            "Didn't get that!", 3, PromptStyle.Keyboard)).ContinueWith<bool, string>(async (ctx, res) =>
+                            {
+                                string reply;
+                                if (await res)
+                                {
+                                    ctx.UserData.SetValue("count", 0);
+                                    reply = "Reset count.";
+                                }
+                                else
+                                {
+                                    reply = "Did not reset count.";
+                                }
+                                return Chain.Return(reply);
+                            });
+                }
+
+            }).PostToUser();
+            Func<IDialog<object>> MakeRoot = () => chain;
+
+            using (new FiberTestBase.ResolveMoqAssembly(chain))
+            using (var container = Build(Options.InMemoryBotDataStore | Options.NeedsInputHint, chain))
+            {
+
+
+                var msg = DialogTestBase.MakeTestMessage();
+                msg.Text = "test";
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, msg))
+                {
+                    scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
+                    await Conversation.SendAsync(scope, msg);
+                    var queue = scope.Resolve<Queue<IMessageActivity>>();
+                    Assert.IsTrue(queue.Count > 0);
+                    while (queue.Count > 0)
+                    {
+                        var toUser = queue.Dequeue();
+                        if (queue.Count > 0)
+                        {
+                            Assert.IsTrue(toUser.InputHint == InputHints.IgnoringInput);
+                        }
+                        else
+                        {
+                            Assert.IsTrue(toUser.InputHint == InputHints.AcceptingInput);
+                        }
+                    }
+                }
+
+
+                msg.Text = "inputhint";
+                using (var scope = DialogModule.BeginLifetimeScope(container, msg))
+                {
+                    scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
+                    await Conversation.SendAsync(scope, msg);
+                    var queue = scope.Resolve<Queue<IMessageActivity>>();
+                    Assert.IsTrue(queue.Count == 2);
+                    var toUser = queue.Dequeue();
+                    Assert.AreEqual("reply", toUser.Text);
+                    Assert.IsTrue(toUser.InputHint == InputHints.ExpectingInput);
+                }
+
+                msg.Text = "reset";
+                using (var scope = DialogModule.BeginLifetimeScope(container, msg))
+                {
+                    scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(MakeRoot));
+                    await Conversation.SendAsync(scope, msg);
+                    var queue = scope.Resolve<Queue<IMessageActivity>>();
+                    Assert.IsTrue(queue.Count == 1);
+                    var toUser = queue.Dequeue();
+                    Assert.IsTrue(toUser.InputHint == InputHints.ExpectingInput);
+                }
+
+            }
+        }
+
 
         [TestMethod]
         public async Task SendResumeAsyncTest()

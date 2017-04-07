@@ -31,74 +31,99 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
+    public sealed class ChannelIds
+    {
+        public const string Facebook = "facebook";
+        public const string Skype = "skype";
+        public const string Msteams = "msteams";
+        public const string Telegram = "telegram";
+        public const string Kik = "kik";
+        public const string Email = "email";
+        public const string Slack = "slack";
+        public const string Groupme = "groupme";
+        public const string Sms = "sms";
+        public const string Emulator = "emulator";
+        public const string Directline = "directline";
+        public const string Webchat = "webchat";
+        public const string Console = "console";
+        public const string Cortana = "cortana";
+    }
+
+
     /// <summary>
     /// Capability for a specific channel
     /// </summary>
     public interface IChannelCapability
     {
         /// <summary>
-        /// True if the channel support buttons, false otherwise.
+        /// Indicates if channel supports keyboard.
         /// </summary>
-        bool SupportButtons { get; }
-    }
+        /// <param name="buttonCount"> number of buttons.</param>
+        /// <returns>True if the channel support number of buttons; false otherwise.</returns>
+        bool SupportsKeyboards(int buttonCount);
 
-    /// <summary>
-    /// Channel capability detector.
-    /// </summary>
-    public interface IDetectChannelCapability
-    {
         /// <summary>
-        /// Detects channel capabilities.
+        /// Indicates if channel is TTS enabled.
         /// </summary>
-        /// <returns>
-        /// Capabilities of a channel.
-        /// </returns>
-        IChannelCapability Detect();
-    }
+        /// <returns>True if channel support TTS and the bot can set <see cref="Connector.Activity.Speak"/>; false otherwise.</returns>
+        bool SupportsSpeak();
 
-    public sealed class DetectChannelCapability : IDetectChannelCapability
-    {
-        private readonly IAddress address;
-
-        public DetectChannelCapability(IAddress address)
-        {
-            SetField.NotNull(out this.address, nameof(address), address);
-        }
-
-        public IChannelCapability Detect()
-        {
-            var isEmulator = ConnectorClientFactory.IsEmulator(this.address);
-            var capability = new ChannelCapability(supportButtons: ! isEmulator);
-            return capability;
-        }
+        /// <summary>
+        /// Indicates if channel relies on <see cref="Connector.Activity.InputHint"/>.
+        /// </summary>
+        /// <returns>True if channel expect bot setting <see cref="Connector.Activity.InputHint"/>; false otherwise </returns>
+        bool NeedsInputHint();
     }
 
     public sealed class ChannelCapability : IChannelCapability
     {
-        private readonly bool supportButtons;
+        private readonly IAddress address;
 
-        public ChannelCapability(bool supportButtons = true)
+        public ChannelCapability(IAddress address)
         {
-            this.supportButtons = supportButtons;
+            SetField.NotNull(out this.address, nameof(address), address);
         }
 
-        public bool SupportButtons
+        public bool NeedsInputHint()
         {
-            get
+            return this.address.ChannelId == ChannelIds.Cortana;
+        }
+
+        public bool SupportsKeyboards(int buttonCount)
+        {
+            switch (this.address.ChannelId)
             {
-                return supportButtons;
+                case ChannelIds.Facebook:
+                    return buttonCount <= 10;
+                case ChannelIds.Kik:
+                    return buttonCount <= 20;
+                case ChannelIds.Slack:
+                case ChannelIds.Telegram:
+                case ChannelIds.Cortana:
+                    return buttonCount <= 100;
+                default:
+                    return false;
             }
+        }
+
+        public bool SupportsSpeak()
+        {
+            return this.address.ChannelId == ChannelIds.Cortana || this.address.ChannelId == ChannelIds.Webchat;
+        }
+    }
+
+    public static class ChannelCapabilityEx
+    {
+        public static bool ShouldSetInputHint(this IChannelCapability channelCapability, IMessageActivity activity)
+        {
+            return channelCapability.NeedsInputHint()
+                && activity.Type == ActivityTypes.Message
+                && string.IsNullOrEmpty(activity.InputHint);
         }
     }
 }

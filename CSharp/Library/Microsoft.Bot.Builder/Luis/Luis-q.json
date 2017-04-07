@@ -165,7 +165,7 @@
         },
         "compositeEntities": {
           "type": "array",
-          "description": "The compsite entities found in the utterance.",
+          "description": "The composite entities found in the utterance.",
           "items": {
             "$ref": "#/definitions/CompositeEntity"
           }

@@ -25,7 +25,8 @@ namespace Microsoft.Bot.Connector
             HttpResponseMessage response = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
 
             // possibly a transient "token expiration" failure
-            if (response.StatusCode == HttpStatusCode.Unauthorized)
+            // work around for channels that might return Forbidden if the JwtToken is expired
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Forbidden)
             {
                 response.Dispose();
                 // this call might throw if the Microsoft login service returns an oauth failure

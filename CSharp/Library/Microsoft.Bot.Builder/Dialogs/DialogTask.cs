@@ -436,6 +436,28 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+
+    public sealed class QueueDrainingDialogTask : IPostToBot
+    {
+        private readonly IPostToBot inner;
+        private readonly IBotToUser botToUser;
+        private readonly IMessageQueue messageQueue;
+
+        public QueueDrainingDialogTask(IPostToBot inner, IBotToUser botToUser, IMessageQueue messageQueue)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
+            SetField.NotNull(out this.messageQueue, nameof(messageQueue), messageQueue);
+        }
+
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
+        {
+            await this.inner.PostAsync(activity, token);
+            await this.messageQueue.DrainQueueAsync(this.botToUser, token);
+        }
+    }
+
+
     /// <summary>
     /// This dialog task loads the dialog stack from <see cref="IBotData"/> before handling the incoming
     /// activity and saves the dialog stack to <see cref="IBotData"/> afterwards. 

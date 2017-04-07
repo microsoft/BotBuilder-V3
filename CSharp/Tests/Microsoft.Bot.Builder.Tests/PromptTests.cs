@@ -40,6 +40,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,16 +73,34 @@ namespace Microsoft.Bot.Builder.Tests
         }
     }
 
+    [TestClass]
+    public sealed class PromptTests_Localization
+    {
+        [TestMethod]
+        public async Task PromptLocalization_ChangeCulture()
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+            var options = PromptDialog.PromptConfirm.Options;
+            var patterns = PromptDialog.PromptConfirm.Patterns;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("es-ES");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-ES");
 
+            Assert.AreNotEqual(options, PromptDialog.PromptConfirm.Options);
+            Assert.AreNotEqual(patterns, PromptDialog.PromptConfirm.Patterns);
+        }
+    }
+    
     [TestClass]
     public sealed class PromptTests_Success : PromptTests_Base
     {
         private const string PromptText = "hello there";
 
-        public async Task PromptSuccessAsync<T>(Action<IDialogContext, ResumeAfter<T>> prompt, string text, T expected)
+        public async Task PromptSuccessAsync<T>(Action<IDialogContext, ResumeAfter<T>> prompt, string text, T expected, string locale = null)
         {
             var toBot = MakeTestMessage();
             toBot.Text = text;
+            toBot.Locale = locale;
             await PromptSuccessAsync(prompt, toBot, a => a.Equals(expected));
         }
 
@@ -153,6 +172,12 @@ namespace Microsoft.Bot.Builder.Tests
         {
             await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None), "Yes", true);
         }
+        
+        [TestMethod]
+        public async Task PromptSuccess_Confirm_Yes_WithLocale()
+        {
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None), "seguro", true, "es-ES");
+        }
 
         [TestMethod]
         public async Task PromptSuccess_Confirm_No()
@@ -167,9 +192,43 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
+        public async Task PromptSuccess_Confirm_No_WithLocale()
+        {
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None), "nop", false, "es-ES");
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Confirm_Maybe()
+        {
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None,
+                options: new string[] { "maybe", "no" }, patterns: new string[][] { new string[] { "maybe" }, new string[] { "no" } }),
+                "maybe", true);
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Confirm_Maybe_WithLocale()
+        {
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None,
+                options: new string[] { "quizás", "nunca" }, patterns: new string[][] { new string[] { "quizás" }, new string[] { "nunca" } }),
+                "quizás", true, "es-ES");
+        }
+
+        [TestMethod]
         public async Task PromptSuccess_Number_Long()
         {
             await PromptSuccessAsync((context, resume) => PromptDialog.Number(context, resume, PromptText), "42", 42L);
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Number_Long_Text()
+        {
+            await PromptSuccessAsync((context, resume) => PromptDialog.Number(context, resume, PromptText), "ten", 10L);
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Number_Long_TextLocale()
+        {
+            await PromptSuccessAsync((context, resume) => PromptDialog.Number(context, resume, PromptText), "diez", 10L, "es-ES");
         }
 
         [TestMethod]
@@ -183,6 +242,41 @@ namespace Microsoft.Bot.Builder.Tests
         {
             var choices = new[] { "one", "two", "three" };
             await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "two", "two");
+        }
+        
+        [TestMethod]
+        public async Task PromptSuccess_Choice_Ordinal()
+        {
+            var choices = new[] { "one", "two", "three" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "second", "two");
+        }
+        
+        [TestMethod]
+        public async Task PromptSuccess_Choice_Ordinal_WithLocale()
+        {
+            var choices = new[] { "one", "two", "three" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "el segundo", "two", "es-ES");
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Choice_Reverse_Ordinal()
+        {
+            var choices = new[] { "one", "two", "three" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "the third from last", "one");
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Choice_Reverse_Ordinal_WithLocale()
+        {
+            var choices = new[] { "one", "two", "three" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "el antepenúltimo", "one", "es-ES");
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Choice_Cardinal()
+        {
+            var choices = new[] { "one", "two", "three" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "2", "two");
         }
 
         [TestMethod]
