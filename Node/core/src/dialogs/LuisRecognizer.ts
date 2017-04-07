@@ -102,7 +102,7 @@ export class LuisRecognizer implements IIntentRecognizer {
         }
     }
 
-    static recognize(utterance: string, modelUrl: string, callback: (err: Error, intents?: IIntent[], entities?: IEntity[]) => void): void {
+    static recognize(utterance: string, modelUrl: string, callback: (err: Error, intents?: IIntent[], entities?: IEntity<any>[]) => void): void {
         try {
             var uri = modelUrl.trim();
             if (uri.lastIndexOf('&q=') != uri.length - 3) {
@@ -151,5 +151,5 @@ interface ILuisResults {
     query: string;
     topScoringIntent: IIntent;
     intents: IIntent[];
-    entities: IEntity[];
+    entities: IEntity<string>[];
 }

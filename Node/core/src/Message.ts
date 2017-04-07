@@ -54,6 +54,12 @@ export var AttachmentLayout = {
     carousel: 'carousel'
 };
 
+export var InputHint = {
+    acceptingInput: 'acceptingInput',
+    ignoringInput: 'ignoringInput',
+    expectingInput: 'expectingInput' 
+};
+
 export class Message implements IIsMessage {
     private data = <IMessage>{};
     
@@ -73,6 +79,23 @@ export class Message implements IIsMessage {
             }
         }
     }
+
+    public speak(ssml: string|string[], ...args: any[]): this {
+        if (ssml) {
+            this.data.speak = fmtText(this.session, ssml, args);
+        }
+        return this; 
+    }
+
+    public nspeak(ssml: string|string[], ssml_plural: string|string[], count: number): this {
+        var fmt = count == 1 ? Message.randomPrompt(ssml) : Message.randomPrompt(ssml_plural);
+        if (this.session) {
+            // Run prompt through localizer
+            fmt = this.session.gettext(fmt);
+        }
+        this.data.speak = sprintf.sprintf(fmt, count);
+        return this;
+    }
     
     public textLocale(locale: string): this {
         this.data.textLocale = locale;
@@ -85,10 +108,12 @@ export class Message implements IIsMessage {
     }
     
     public text(text: string|string[], ...args: any[]): this {
-        this.data.text = text ? fmtText(this.session, text, args) : '';
+        if (text) {
+            this.data.text = text ? fmtText(this.session, text, args) : '';
+        }
         return this; 
     }
-    
+
     public ntext(msg: string|string[], msg_plural: string|string[], count: number): this {
         var fmt = count == 1 ? Message.randomPrompt(msg) : Message.randomPrompt(msg_plural);
         if (this.session) {

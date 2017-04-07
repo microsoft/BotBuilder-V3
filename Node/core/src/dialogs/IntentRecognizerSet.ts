@@ -69,7 +69,7 @@ export interface IIntentRecognizerResult extends IRecognizeResult {
     expression?: RegExp;
     matched?: string[]; 
     intents?: IIntent[];
-    entities?: IEntity[];
+    entities?: IEntity<any>[];
 }
 
 export interface IIntentRecognizerSetOptions {

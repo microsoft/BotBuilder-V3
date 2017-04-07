@@ -1,4 +1,4 @@
-﻿// 
+// 
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
 // 
@@ -32,37 +32,29 @@
 //
 
 import { Session } from '../Session';
-import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizerSet';
-import { ActionSet } from './ActionSet';
+import { Prompt, IPromptFeatures } from './Prompt';
+import * as consts from '../consts';
 
-export enum ResumeReason { completed, notCompleted, canceled, back, forward, reprompt }
-
-export interface IDialogResult<T> {
-    resumed: ResumeReason;
-    childId?: string;
-    error?: Error;
-    response?: T;
+export interface IPromptTextFeatures extends IPromptFeatures {
+    /** (Optional) The score that should be returned when the prompts `onRecognize()` handler is called. The default value is "0.5". */
+    recognizeScore?: number;
 }
 
-export interface IRecognizeDialogContext extends IRecognizeContext {
-    activeDialog: boolean;
-    intent?: IIntentRecognizerResult;
-}
+export class PromptText extends Prompt<IPromptTextFeatures> {
+    constructor(features?: IPromptTextFeatures) {
+        super({
+            defaultRetryPrompt: 'default_text',
+            defaultRetryNamespace: consts.Library.system
+        });
+        this.updateFeatures(features);
 
-export abstract class Dialog extends ActionSet {
-    public begin<T>(session: Session, args?: T): void {
-        this.replyReceived(session);
-    }
-
-    abstract replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
-
-    public dialogResumed<T>(session: Session, result: IDialogResult<T>): void {
-        if (result.error) {
-            session.error(result.error);
-        } 
-    }
-
-    public recognize(context: IRecognizeDialogContext, cb: (err: Error, result: IRecognizeResult) => void): void {
-        cb(null, { score: 0.1 });
+        // Default recognizer logic
+        this.onRecognize((context, cb) => {
+            if (context.message.text && !this.features.disableRecognizer) {
+                cb(null, this.features.recognizeScore, context.message.text);
+            } else {
+                cb(null, 0.0);
+            }
+        });
     }
 }
