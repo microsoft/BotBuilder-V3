@@ -1,5 +1,6 @@
 ## Pre-flight checklist
-- [ ] I posted this issue on [Stack Overflow](http://stackoverflow.com/search?q=%23botframework) using the tag `#botframework`.
+- [ ] I have reviewed the BotBuilder SDK [Contribution Guidelines](https://github.com/Microsoft/BotBuilder/blob/master/Contributing.md)
+- [ ] I posted a question about this issue on [Stack Overflow](http://stackoverflow.com/search?q=%23botframework) using the tag `#botframework`.
 - [ ] I have asked for help in the [Bot Framework Gitter group](https://gitter.im/Microsoft/BotBuilder) before filing this issue.
 - [ ] I have [searched the existing issues](https://github.com/Microsoft/BotBuilder/issues?utf8=%E2%9C%93&q=is%3Aissue) before logging a new one.
 ---------------------------
