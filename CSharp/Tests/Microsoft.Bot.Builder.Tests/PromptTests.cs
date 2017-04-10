@@ -40,6 +40,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,7 +73,45 @@ namespace Microsoft.Bot.Builder.Tests
         }
     }
 
+    [TestClass]
+    public sealed class PromptTests_Localization
+    {
+        [TestMethod]
+        public async Task PromptLocalization_ChangeCulture()
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+            var options = PromptDialog.PromptConfirm.Options;
+            var patterns = PromptDialog.PromptConfirm.Patterns;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("es-ES");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("es-ES");
 
+            Assert.AreNotEqual(options, PromptDialog.PromptConfirm.Options);
+            Assert.AreNotEqual(patterns, PromptDialog.PromptConfirm.Patterns);
+        }
+
+        [TestMethod]
+        public void PromptLocalization_SetOptionsAndPatterns()
+        {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
+            var options = new string[] { "si", "no" };
+            var patterns = new string[][] {
+                new string[] { "si" , "s", "sip", "ok", "1" },
+                new string[] { "No", "n", "nop", "2" }
+            };
+
+            PromptDialog.PromptConfirm.Options = options;
+            PromptDialog.PromptConfirm.Patterns = patterns;
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
+
+            Assert.AreEqual(options, PromptDialog.PromptConfirm.Options);
+            Assert.AreEqual(patterns, PromptDialog.PromptConfirm.Patterns);
+        }
+    }
+    
     [TestClass]
     public sealed class PromptTests_Success : PromptTests_Base
     {

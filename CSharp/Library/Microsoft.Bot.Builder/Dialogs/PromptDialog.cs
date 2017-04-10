@@ -425,6 +425,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         [Serializable]
         public sealed class PromptConfirm : Prompt<bool, string>
         {
+            private static string[] options;
+            private static string[][] patterns;
+
             /// <summary>
             /// Index of yes descriptions.
             /// </summary>
@@ -434,16 +437,44 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// Index of no descriptions.
             /// </summary>
             public const int No = 1;
-
+            
             /// <summary>
             /// The yes, no options for confirmation prompt
             /// </summary>
-            public static string[] Options { set; get; } = { Resources.MatchYes.SplitList().First(), Resources.MatchNo.SplitList().First() };
+            public static string[] Options
+            {
+                get
+                {
+                    if (options == null)
+                    {
+                        return new string[] { Resources.MatchYes.SplitList().First(), Resources.MatchNo.SplitList().First() };
+                    }
+                    return options;
+                }
+                set
+                {
+                    options = value;
+                }
+            }
 
             /// <summary>
             /// The patterns for matching yes/no responses in the confirmation prompt.
             /// </summary>
-            public static string[][] Patterns { get; set; } = { Resources.MatchYes.SplitList(), Resources.MatchNo.SplitList() };
+            public static string[][] Patterns
+            {
+                get
+                {
+                    if (patterns == null)
+                    {
+                        return new string[][] { Resources.MatchYes.SplitList(), Resources.MatchNo.SplitList() };
+                    }
+                    return patterns;
+                }
+                set
+                {
+                    patterns = value;
+                }
+            }
 
             /// <summary>   Constructor for a prompt confirmation dialog. </summary>
             /// <param name="prompt">   The prompt. </param>
