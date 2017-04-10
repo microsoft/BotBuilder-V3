@@ -47,10 +47,10 @@ export enum PromptType { text, number, confirm, choice, time, attachment }
 export enum ListStyle { none, inline, list, button, auto }
 
 export interface IPromptOptions extends IMessageOptions {
-    prompt?: string|string[]|IMessage|IIsMessage;
-    speak?: string;
-    retryPrompt?: string|string[]|IMessage|IIsMessage;
-    retrySpeak?: string|string[];
+    prompt?: TextOrMessageType;
+    speak?: TextType;
+    retryPrompt?: TextOrMessageType;
+    retrySpeak?: TextType;
     maxRetries?: number;
     promptAfterAction?: boolean;
     listStyle?: ListStyle;
@@ -74,7 +74,7 @@ export interface IPromptHandler {
 }
 
 export interface IPromptFormatMessageHandler {
-    (session: Session, text: string|string[], speak: string|string[], callback: (err: Error, message?: IMessage) => void): void;
+    (session: Session, text: TextType, speak: TextType, callback: (err: Error, message?: IMessage) => void): void;
 }
 
 export interface IPromptRecognizeHandler {
@@ -86,7 +86,7 @@ export interface IPromptFeatures {
     disableRecognizer?: boolean;
 
     /** The default retryPrompt to send should the caller not provide one. */
-    defaultRetryPrompt?: string|string[]|IMessage|IIsMessage;
+    defaultRetryPrompt?: TextOrMessageType;
 
     /** The library namespace to use for the `defaultRetryPrompt`. If not specified then the bots default namespace of "*" will be used. */
     defaultRetryNamespace?: string;
@@ -99,7 +99,7 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
     private _onFormatMessage: IPromptFormatMessageHandler[] = [];
     private _onRecognize: IPromptRecognizeHandler[] = [];
 
-    constructor(protected features: T) {
+    constructor(public features: T) {
         super();
         if (!this.features) {
             this.features = <T>{};
@@ -163,6 +163,7 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
         dc.turns++;
         dc.lastTurn = new Date().getTime();
         dc.isReprompt = false;
+        dc.activeIntent = null;
 
         let recognizers = this.recognizers;
         function finalRecognize() {
@@ -235,7 +236,7 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
         }
     }
 
-    public sendPrompt(session: Session) {
+    public sendPrompt(session: Session): void {
         const _that = this;
         function defaultSend() {
             if (typeof options.maxRetries === 'number' && turns > options.maxRetries) {
@@ -246,13 +247,6 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
                     let speak = turns > 0 ? options.retrySpeak : options.speak;
                     _that.formatMessage(session, prompt, speak, (err, msg) => {
                         if (!err) {
-                            // Append attachments
-                            if (options.attachments) {
-                                msg.attachments = <IAttachment[]>options.attachments;
-                                if (options.attachmentLayout) {
-                                    msg.attachmentLayout = options.attachmentLayout;
-                                }
-                            }
                             sendMsg(msg);
                         } else {
                             session.error(err);
@@ -311,7 +305,7 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
         next();
     }
 
-    public formatMessage(session: Session, text: string|string[], speak: string|string[], callback: (err: Error, msg: IMessage) => void): void {
+    public formatMessage(session: Session, text: TextType, speak: TextType, callback: (err: Error, msg: IMessage) => void): void {
         let idx = 0;
         const handlers = this._onFormatMessage;
         function next(err: Error, msg: IMessage) {
@@ -362,9 +356,6 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
                 this.recognizers.recognizer(new RegExpRecognizer(id, <RegExp>intent));
             }
         }
-        if (this.handlers.hasOwnProperty(id)) {
-            throw new Error("A handler for '" + id + "' already exists.");
-        }
 
         // Register handler
         if (Array.isArray(dialogId)) {
@@ -390,7 +381,7 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
         return this;
     }
 
-    public updateFeatures(features: T): this {
+    protected updateFeatures(features: T): this {
         if (features) {
             for (let key in features) {
                 if (features.hasOwnProperty(key)) {
@@ -411,9 +402,14 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
     }
 
     private invokeIntent(session: Session, recognizeResult: IIntentRecognizerResult): void {
-        if (this.handlers.hasOwnProperty(recognizeResult.intent)) {
+        if (recognizeResult.intent === consts.Intents.Response) {
+            // Return response to caller
+            let response = recognizeResult.entities && recognizeResult.entities.length == 1 ? recognizeResult.entities[0].entity : null;
+            session.logger.log(session.dialogStack(), 'Prompt.returning(' + response + ')');
+            session.endDialogWithResult({ resumed: ResumeReason.completed, response: response });
+        } else if (this.handlers.hasOwnProperty(recognizeResult.intent)) {
             try {
-                session.logger.log(session.dialogStack(), 'InputDialog.matches(' + recognizeResult.intent + ')');
+                session.logger.log(session.dialogStack(), 'Prompt.matches(' + recognizeResult.intent + ')');
                 let dc = <IPromptContext>session.dialogData;
                 dc.activeIntent = recognizeResult.intent;
                 this.handlers[dc.activeIntent](session, recognizeResult);
@@ -421,7 +417,7 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
                 session.error(e);
             }
         } else {
-            session.logger.warn(session.dialogStack(), 'InputDialog - no intent handler found for ' + recognizeResult.intent);
+            session.logger.warn(session.dialogStack(), 'Prompt - no intent handler found for ' + recognizeResult.intent);
             this.sendPrompt(session);
         }
     }

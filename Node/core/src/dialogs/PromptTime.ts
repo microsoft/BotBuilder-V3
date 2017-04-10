@@ -32,7 +32,7 @@
 //
 
 import { Session } from '../Session';
-import { Prompt, IPromptOptions, IPromptFeatures } from './Prompt';
+import { Prompt, IPromptOptions, IPromptFeatures, IPromptContext } from './Prompt';
 import { PromptRecognizers } from './PromptRecognizers';
 import * as consts from '../consts';
 
@@ -58,6 +58,13 @@ export class PromptTime extends Prompt<IPromptFeatures> {
             } else {
                 cb(null, 0.0);
             }
+        });
+
+        // Add repeat intent handler
+        this.matches(consts.Intents.Repeat, (session) => {
+            // Set to turn-0 and re-prompt.
+            (<IPromptContext>session.dialogData).turns = 0;
+            this.sendPrompt(session);
         });
     }
 }

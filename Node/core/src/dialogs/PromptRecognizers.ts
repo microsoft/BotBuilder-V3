@@ -36,7 +36,7 @@ import { EntityRecognizer, IFindMatchResult } from './EntityRecognizer';
 import * as consts from '../consts';
 import * as chrono from 'chrono-node';
 
-const simpleTokinizer = /\w+/i;
+const simpleTokenizer = /\w+/ig;
 
 export type StringOrRegExp = string|RegExp;
 
@@ -125,16 +125,14 @@ export class PromptRecognizers {
         }
 
         // Recognize expression
-        let matches = cache[locale].exec(utterance);
-        if (matches) {
-            matches.forEach((value) => {
-                entities.push({
-                    type: consts.Entities.String,
-                    entity: value,
-                    score: PromptRecognizers.calculateScore(utterance, value)
-                });
+        let matches = matchAll(cache[locale], utterance);
+        matches.forEach((value) => {
+            entities.push({
+                type: consts.Entities.String,
+                entity: value,
+                score: PromptRecognizers.calculateScore(utterance, value)
             });
-        }
+        });
 
         // Return matches
         return entities;
@@ -205,7 +203,7 @@ export class PromptRecognizers {
         function addEntity(n: number, score: number) {
             if ((typeof options.minValue !== 'number' || n >= options.minValue) &&
                 (typeof options.maxValue !== 'number' || n <= options.maxValue) &&
-                !options.intergerOnly || Math.floor(n) == n) 
+                (!options.intergerOnly || Math.floor(n) == n)) 
             {
                 entities.push({
                     type: consts.Entities.Number,
@@ -378,14 +376,14 @@ export class PromptRecognizers {
         options = options || {};
         let entities: IEntity<number>[] = [];
         let text = utterance.trim().toLowerCase();
-        let tokens = simpleTokinizer.exec(text) || <string[]>[];
+        let tokens = matchAll(simpleTokenizer, text);
         let maxDistance = options.hasOwnProperty('maxTokenDistance') ? options.maxTokenDistance : 2;
         values.forEach((value, index) => {
             if (typeof value === 'string') {
                 // To match "last one" in "the last time I chose the last one" we need 
                 // to recursively search the utterance starting from each token position.
                 let topScore = 0.0;
-                let vTokens = simpleTokinizer.exec((<string>value).trim().toLowerCase()) || <string[]>[];
+                let vTokens = matchAll(simpleTokenizer, (<string>value).trim().toLowerCase());
                 for (let i = 0; i < tokens.length; i++) {
                     let score = matchValue(vTokens, i);
                     if (score > topScore) {
@@ -432,3 +430,13 @@ export class PromptRecognizers {
     }
 }
 
+/** Matches all occurences of an expression in a string. */
+function matchAll(exp: RegExp, text: string): string[] {
+    exp.lastIndex = 0;
+    let matches: string[] = [];
+    let match: string[];
+    while ((match = exp.exec(text)) != null) {
+        matches.push(match[0]);
+    }
+    return matches;
+}

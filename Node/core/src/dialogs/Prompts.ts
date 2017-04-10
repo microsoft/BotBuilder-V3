@@ -66,7 +66,7 @@ interface IPrompts {
 
 const promptPrefix = consts.Library.system + ':prompt-';
 
-export let Prompts = <IPrompts>{
+export const Prompts = <IPrompts>{
     text: (session, prompt, options) => {
         validateSession(session);
         let args: IPromptOptions = utils.clone(options || {});
@@ -141,7 +141,7 @@ export let Prompts = <IPrompts>{
         console.warn("Prompts.configure() has been deprecated as of version 3.8. Consider using custom prompts instead.");
         LegacyPrompts.configure(options);
     }
-}
+};
 
 function validateSession(session: Session): void {
     // Make sure that the session is passed, otherwise throw a clear error 
@@ -149,6 +149,14 @@ function validateSession(session: Session): void {
         throw 'Session should be provided as first parameter.';
     }
 }
+
+// Install base prompts
+Prompts.customize(PromptType.attachment, new PromptAttachment());
+Prompts.customize(PromptType.choice, new PromptChoice());
+Prompts.customize(PromptType.confirm, new PromptConfirm());
+Prompts.customize(PromptType.number, new PromptNumber());
+Prompts.customize(PromptType.text, new PromptText());
+Prompts.customize(PromptType.time, new PromptTime());
 
 /**
  * Internal dialog that prompts a user to confirm a cancelAction().

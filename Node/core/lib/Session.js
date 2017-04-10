@@ -171,7 +171,7 @@ var Session = (function (_super) {
         args.unshift(this.curLibraryName(), message);
         return Session.prototype.sendLocalized.apply(this, args);
     };
-    Session.prototype.sendLocalized = function (localizationNamespace, message) {
+    Session.prototype.sendLocalized = function (libraryNamespace, message) {
         var args = [];
         for (var _i = 2; _i < arguments.length; _i++) {
             args[_i - 2] = arguments[_i];
@@ -180,7 +180,7 @@ var Session = (function (_super) {
         if (message) {
             var m;
             if (typeof message == 'string' || Array.isArray(message)) {
-                m = this.createMessage(localizationNamespace, message, args);
+                m = this.createMessage(libraryNamespace, message, args);
             }
             else if (message.toMessage) {
                 m = message.toMessage();
@@ -194,6 +194,25 @@ var Session = (function (_super) {
         }
         this.startBatch();
         return this;
+    };
+    Session.prototype.say = function (text, speak, options) {
+        if (typeof speak === 'object') {
+            options = speak;
+            speak = null;
+        }
+        return this.sayLocalized(this.curLibraryName(), text, speak, options);
+    };
+    Session.prototype.sayLocalized = function (libraryNamespace, text, speak, options) {
+        this.msgSent = true;
+        var msg = new Message_1.Message(this).text(text).speak(speak).toMessage();
+        if (options) {
+            ['attachments', 'attachmentLayout', 'entities', 'textFormat', 'inputHint'].forEach(function (field) {
+                if (options.hasOwnProperty(field)) {
+                    msg[field] = options[field];
+                }
+            });
+        }
+        return this.sendLocalized(libraryNamespace, msg);
     };
     Session.prototype.sendTyping = function () {
         this.msgSent = true;

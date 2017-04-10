@@ -80,6 +80,11 @@ export class Message implements IIsMessage {
         }
     }
 
+    public InputHint(hint: string): this {
+        this.data.inputHint = hint;
+        return this;
+    }
+
     public speak(ssml: string|string[], ...args: any[]): this {
         if (ssml) {
             this.data.speak = fmtText(this.session, ssml, args);

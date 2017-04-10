@@ -71,6 +71,13 @@ export class PromptNumber extends Prompt<IPromptFeatures> {
                 cb(null, 0.0);
             }
         });
+
+        // Add repeat intent handler
+        this.matches(consts.Intents.Repeat, (session) => {
+            // Set to turn-0 and re-prompt.
+            (<IPromptContext>session.dialogData).turns = 0;
+            this.sendPrompt(session);
+        });
     }
 
 }

@@ -56,6 +56,9 @@ export interface IPromptChoiceFeatures extends IPromptFeatures {
 
     /** (Optional) number of items to show in an inline list when a `defaultListStyle` of ListStyle.list is being applied. The default value is "3". Set this value to "0" to disable inline mode. */
     inlineListCount?: number;
+
+    /** (Optional) minimum score from 0.0 - 1.0 needed for a recognized choice to be considered a match. The default value is "0.4". */
+    minScore?: number;
 }
 
 export interface IPromptChoiceOptions extends IPromptOptions {
@@ -78,7 +81,8 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
             recognizeOrdinals: true,
             recognizeChoices: true,
             defaultListStyle: ListStyle.list,
-            inlineListCount: 3
+            inlineListCount: 3,
+            minScore: 0.4
         });
         this.updateFeatures(features);
 
@@ -136,7 +140,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
                     }
 
                     // Return result 
-                    if (topScore > 0) {
+                    if (topScore >= this.features.minScore && topScore > 0) {
                         cb(null, topScore, topMatch);
                     } else {
                         cb(null, 0.0);
@@ -172,10 +176,17 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
                     let keyboardsOnly = context.turns > 0;
 
                     // Format message
-                    msg = PromptChoice.formatMessage(session, text, speak, choices, listStyle, keyboardsOnly);
+                    msg = PromptChoice.formatMessage(session, listStyle, text, speak, choices, keyboardsOnly);
                 }
                 callback(err, msg);
             });
+        });
+        
+        // Add repeat intent handler
+        this.matches(consts.Intents.Repeat, (session) => {
+            // Set to turn-0 and re-prompt.
+            (<IPromptContext>session.dialogData).turns = 0;
+            this.sendPrompt(session);
         });
     }
 
@@ -190,7 +201,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
                     if (idx < handlers.length) {
                         handlers[idx++](context, next, recognizePhase);
                     } else {
-                        choices = (<IPromptChoiceOptions>context.dialogData.args).choices || [];
+                        choices = (<IPromptChoiceOptions>context.dialogData.options).choices || [];
                         callback(null, choices);
                     }
                 } catch (e) {
@@ -207,10 +218,16 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
     }
 
     /** Returns a message containing a list of choices. */
-    static formatMessage(session: Session, text: string|string[], speak: string|string[], choices?: IChoice[], listStyle?: ListStyle, keyboardsOnly = false): IMessage {
+    static formatMessage(session: Session, listStyle: ListStyle, text: string|string[], speak?: string|string[], choices?: IChoice[], keyboardsOnly = false): IMessage {
         // Build message
-        let msg = new Message(session).speak(Prompt.gettext(session, speak));
-        let txt = Prompt.gettext(session, text);
+        let options = <IPromptOptions>session.dialogData.options;
+        let locale = session.preferredLocale();
+        let namespace = options ? options.libraryNamespace : null;
+        let msg = new Message(session);
+        if (speak) {
+            msg.speak(session.localizer.gettext(locale, Message.randomPrompt(speak), namespace));
+        }
+        let txt = session.localizer.gettext(locale, Message.randomPrompt(text), namespace);
         if (choices && choices.length > 0) {
             // Find list items
             let values: string[] = [];

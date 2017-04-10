@@ -254,7 +254,7 @@ export class Session extends events.EventEmitter {
             options = <any>speak;
             speak = null;
         }
-        return this.sayLocalized(this.curLibraryName(), text, speak);
+        return this.sayLocalized(this.curLibraryName(), text, speak, options);
     }
 
     /** Sends a text, and optional SSML, message to the user using a specific localization namespace. */

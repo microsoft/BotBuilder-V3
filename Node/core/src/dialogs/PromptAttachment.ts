@@ -32,7 +32,7 @@
 //
 
 import { Session } from '../Session';
-import { Prompt, IPromptFeatures, IPromptOptions } from './Prompt';
+import { Prompt, IPromptFeatures, IPromptOptions, IPromptContext } from './Prompt';
 import * as consts from '../consts';
 
 export interface IPromptAttachmentOptions extends IPromptOptions {
@@ -76,6 +76,13 @@ export class PromptAttachment extends Prompt<IPromptAttachmentFeatures> {
             } else {
                 cb(null, 0.0);
             }
+        });
+
+        // Add repeat intent handler
+        this.matches(consts.Intents.Repeat, (session) => {
+            // Set to turn-0 and re-prompt.
+            (<IPromptContext>session.dialogData).turns = 0;
+            this.sendPrompt(session);
         });
     }
 

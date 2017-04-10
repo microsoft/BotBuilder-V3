@@ -32,7 +32,7 @@
 //
 
 import { Session } from '../Session';
-import { Prompt, IPromptFeatures } from './Prompt';
+import { Prompt, IPromptFeatures, IPromptContext } from './Prompt';
 import * as consts from '../consts';
 
 export interface IPromptTextFeatures extends IPromptFeatures {
@@ -44,7 +44,8 @@ export class PromptText extends Prompt<IPromptTextFeatures> {
     constructor(features?: IPromptTextFeatures) {
         super({
             defaultRetryPrompt: 'default_text',
-            defaultRetryNamespace: consts.Library.system
+            defaultRetryNamespace: consts.Library.system,
+            recognizeScore: 0.5
         });
         this.updateFeatures(features);
 
@@ -55,6 +56,13 @@ export class PromptText extends Prompt<IPromptTextFeatures> {
             } else {
                 cb(null, 0.0);
             }
+        });
+
+        // Add repeat intent handler
+        this.matches(consts.Intents.Repeat, (session) => {
+            // Set to turn-0 and re-prompt.
+            (<IPromptContext>session.dialogData).turns = 0;
+            this.sendPrompt(session);
         });
     }
 }

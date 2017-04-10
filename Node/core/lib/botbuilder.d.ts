@@ -67,34 +67,58 @@ export interface IContactRelationUpdate extends IEvent {
  */
 export interface IMessage extends IEvent {
     /** Timestamp of message given by chat service for incoming messages. */
-    timestamp: string;
+    timestamp?: string;
 
     /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */  
-    summary: string; 
+    summary?: string;
+
+    /** Spoken message as [Speech Synthesis Markup Language](https://msdn.microsoft.com/en-us/library/hh378377(v=office.14).aspx). */
+    speak?: string;
 
     /** Message text. */
-    text: string;
+    text?: string;
 
     /** Identified language of the message text if known. */   
-    textLocale: string;
+    textLocale?: string;
 
     /** For incoming messages contains attachments like images sent from the user. For outgoing messages contains objects like cards or images to send to the user.   */
-    attachments: IAttachment[]; 
+    attachments?: IAttachment[]; 
 
     /** Structured objects passed to the bot or user. */
-    entities: any[];
+    entities?: any[];
 
     /** Format of text fields. The default value is 'markdown'. */
-    textFormat: string;
+    textFormat?: string;
 
     /** Hint for how clients should layout multiple attachments. The default value is 'list'. */ 
-    attachmentLayout: string; 
+    attachmentLayout?: string; 
+
+    /** Hint for clients letting them know if the bot is expecting further input or not. The built-in prompts will automatically populate this value for outgoing messages. */
+    inputHint?: string;
 }
 
 /** Implemented by classes that can be converted into a message. */
 export interface IIsMessage {
     /** Returns the JSON object for the message. */
     toMessage(): IMessage;
+}
+
+/** Optional message properties that can be sent to things like prompts or [session.say()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#say). */
+export interface IMessageOptions {
+    /** For incoming messages contains attachments like images sent from the user. For outgoing messages contains objects like cards or images to send to the user.   */
+    attachments?: IAttachment[]; 
+
+    /** Structured objects passed to the bot or user. */
+    entities?: any[];
+
+    /** Format of text fields. The default value is 'markdown'. */
+    textFormat?: string;
+
+    /** Hint for how clients should layout multiple attachments. The default value is 'list'. */ 
+    attachmentLayout?: string; 
+
+    /** Hint for clients letting them know if the bot is expecting further input or not. The built-in prompts will automatically populate this value for outgoing messages. */
+    inputHint?: string;
 }
 
 /** Represents a user, bot, or conversation. */
@@ -501,6 +525,7 @@ export interface IDialogActionOptions {
     label?: string;    
 }
 
+
 /** Options passed when defining a `beginDialogAction()`. */
 export interface IBeginDialogActionOptions extends IDialogActionOptions {
     /** (Optional) arguments to pass to the dialog spawned when the action is triggered. */
@@ -561,59 +586,233 @@ export interface IActionRouteData {
     dialogIndex?: number;
 }
 
-/** Options passed to built-in prompts. */
-export interface IPromptOptions {
+/** 
+ * A choice that can be passed to [Prompts.choice()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#choice)
+ * or [PromptRecognizers.recognizeChoices()][/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptrecognizers#recognizechoices]. 
+ */
+export interface IChoice {
+    /** Value to return when selected.  */
+    value: string;
+
+    /** (Optional) action to use when rendering the choice as a suggested action. */
+    action?: ICardAction;
+
+    /** (Optional) list of synonyms to recognize in addition to the value. */
+    synonyms?: string|string[];
+}
+
+/** Options passed to [PromptRecognizers.recognizeNumbers()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptrecognizers#recognizenumbers). */
+export interface IPromptRecognizeNumbersOptions {
+    /** (Optional) minimum value allowed. */
+    minValue?: number;
+
+    /** (Optional) maximum value allowed. */
+    maxValue?: number;
+
+    /** (Optional) if true, then only integers will be recognized. */
+    intergerOnly?: boolean;
+}
+
+/** Options passed to [PromptRecognizers.recognizeTimes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptrecognizers#recognizetimes). */
+export interface IPromptRecognizeTimesOptions {
+    /** (Optional) Reference date for releative times. */
+    refDate?: number;
+}
+
+/** Options passed to [PromptRecognizers.recognizeValues()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptrecognizers#recognizevalues). */
+export interface IPromptRecognizeValuesOptions {
     /** 
-     * (Optional) retry prompt to send if the users response isn't understood. Default is to just 
-     * reprompt with the configured [defaultRetryPrompt](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt) 
-     * plus the original prompt. 
-     * 
-     * Note that if the original prompt is an _IMessage_ the retry prompt will be sent as a seperate 
-     * message followed by the original message. If the retryPrompt is also an _IMessage_ it will 
-     * instead be sent in place of the original message. 
+     * (Optional) if true, then only some of the tokens in a value need to exist to be considered 
+     * a match. The default value is "false".
+     */
+    allowPartialMatches?: boolean;
+
+    /** 
+     * (Optional) maximum tokens allowed between two matched tokens in the utterance. So with
+     * a max distance of 2 the value "second last" would match the utternace "second from the last"
+     * but it wouldn't match "Wait a second. That's not the last one is it?". 
+     * The default value is "2".  
+     */
+    maxTokenDistance?: number;
+}
+
+/** Options passed to [PromptRecognizers.recognizeChoices()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptrecognizers#recognizechoices). */
+export interface IPromptRecognizeChoicesOptions extends IPromptRecognizeValuesOptions {
+    /** (Optional) If true, the choices value will NOT be recognized over. */
+    excludeValue?: boolean;
+
+    /** (Optional) If true, the choices action will NOT be recognized over. */
+    excludeAction?: boolean;
+}
+
+/** Options passed to the [built-in prompts](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts). */
+export interface IPromptOptions extends IMessageOptions {
+    /** 
+     * (Optional) Initial prompt to send the user. This is typically populated by the `Prompts.xxx()` function.
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
+     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
+     */
+    prompt?: string|string[]|IMessage|IIsMessage;
+
+    /** (Optional) SSML to send with the inital `prompt`. If the prompt is of type `IMessage` or `IIsMessage`, this value will be ignored. If this value is an array a response will be chosen at random. */
+    speak?: string|string[];
+
+    /** 
+     * (Optional) retry prompt to send if the users response isn't understood. Default is to just 
+     * reprompt with a customizable system prompt. 
+     * * _{string}_ - Message to send the user.
+     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+     * * _{IMessage}_ - Message to send the user. Message can contain attachments. 
      * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
      */
     retryPrompt?: string|string[]|IMessage|IIsMessage;
 
+    /** (Optional) SSML to send with the `retryPrompt`. If the retryPrompt is of type `IMessage` or `IIsMessage`, this value will be ignored. If this value is an array a response will be chosen at random. */
+    retrySpeak?: string|string[];
+
     /** (Optional) maximum number of times to reprompt the user. By default the user will be reprompted indefinitely. */
     maxRetries?: number;
-
-    /** (Optional) reference date when recognizing times. Date expressed in ticks using Date.getTime(). */
-    refDate?: number;
-
-    /** (Optional) type of list to render for PromptType.choice. Default value is ListStyle.auto. */
-    listStyle?: ListStyle;
 
     /** (Optional) flag used to control the reprompting of a user after a dialog started by an action ends. The default value is true. */
     promptAfterAction?: boolean;
 
-    /** (Optional) namespace to use when localizing a passed in prompt. */
+    /** (Optional) type of list to render for PromptType.choice. Default value is ListStyle.auto. */
+    listStyle?: ListStyle;
+
+    /** (Optional) reference date when recognizing times. Date expressed in ticks using Date.getTime(). */
+    refDate?: number;
+
+    /** (Optional) namespace to use for localization and other purposes. This defaults to the callers namespace. */
+    libraryNamespace?: string;
+
+    /** __DEPRECATED__ use [libraryNamespace](#librarynamespace) instead. */
     localizationNamespace?: string;
 }
 
-/** Arguments passed to the built-in prompts beginDialog() call. */
-export interface IPromptArgs extends IPromptOptions {
-    /** Type of prompt invoked. */
-    promptType: PromptType;
+/** 
+ * Contextual information tracked for a [Prompt](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompt). This information can be accessed 
+ * within a prompt through [session.dialogData](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#dialogdata).  
+ */
+export interface IPromptContext {
+    /** Options that the prompt was called with. */
+    options: IPromptOptions;
 
     /** 
-     * Initial message to send to user. 
-     * * _{string}_ - Initial message to send the user.
-     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
+     * Number of times the user has interacted with the prompt. The first message sent to the user 
+     * is turn-0, the users first reply is turn-1, and so forth.
      */
-    prompt: string|string[]|IMessage|IIsMessage;
+    turns: number;
 
-    /** Enum values for a choice prompt. */
-    enumsValues?: string[];
+    /** Timestamp of the last turn. */
+    lastTurn: number;
+
+    /** 
+     * If true, we're returning from an unexpected interuption and should send the initial turn-0 
+     * prompt again.  
+     */
+    isReprompt: boolean;
+
+    /** 
+     * Used to track which [Prompt.matches()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompt#matches) handler is active. This is 
+     * used internally to move the handlers waterfall to the next step.
+     */
+    activeIntent: string;
+}
+
+/** Optional features that should be enabled/diabled when creating a custom [Prompt](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompt) */
+export interface IPromptFeatures {
+    /** If true, then the prompt should not execute it's own recognition logic. The default is "false". */
+    disableRecognizer?: boolean;
+
+    /** The default retryPrompt to send should the caller not provide one. */
+    defaultRetryPrompt?: string|string[]|IMessage|IIsMessage;
+
+    /** The library namespace to use for the [defaultRetryPrompt](#defaultretryprompt). If not specified then the bots default namespace of "*" will be used. */
+    defaultRetryNamespace?: string;
+}
+
+/** Optional features for [PromptChoice](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptchoice) class. */
+export interface IPromptChoiceFeatures extends IPromptFeatures {
+    /** (Optional) if true, the prompt will attempt to recognize numbers in the users utterance as the index of the choice to return. The default value is "true". */
+    recognizeNumbers?: boolean;
+
+    /** (Optional) if true, the prompt will attempt to recognize ordinals like "the first one" or "the second one" as the index of the choice to return. The default value is "true". */
+    recognizeOrdinals?: boolean;
+
+    /** (Optional) if true, the prompt will attempt to recognize the selected value using the choices themselves. The default value is "true". */
+    recognizeChoices?: boolean;
+
+    /** (Optional) style to use as the default when the caller specifies ListStyle.auto and it's determined that keyboards aren't supported. The default value is "ListStyle.list". */
+    defaultListStyle?: ListStyle;
+
+    /** (Optional) number of items to show in an inline list when a [defaultListStyle](#defaultliststyle) of ListStyle.list is being applied. The default value is "3". Set this value to "0" to disable inline mode. */
+    inlineListCount?: number;
+
+    /** (Optional) minimum score from 0.0 - 1.0 needed for a recognized choice to be considered a match. The default value is "0.4". */
+    minScore?: number;
 }
 
 /** 
- * Route choices to pass to [Prompts.diambiguate()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompts#disambiguate).
+ * Options passed to [Prompts.choice()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#choice)
+ * or in a `session.beginDialog()` call to a custom prompt based on the [PromptChoice](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptchoice) 
+ * class. 
+ */
+export interface IPromptChoiceOptions extends IPromptOptions {
+    /** 
+     * (Optional) List of choices to present to the user. If ommited a [PromptChoice.onChoices()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptchoice#onchoices) 
+     * handler should be provided. 
+     */
+    choices?: IChoice[];
+}
+
+/** 
+ * Options passed to [Prompts.number()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#number)
+ * or in a `session.beginDialog()` call to a custom prompt based on the [PromptNumber](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptnumber) 
+ * class. 
+ */
+export interface IPromptNumberOptions extends IPromptOptions {
+    /** (Optional) minimum value that can be recognized. */
+    minValue?: number;
+
+    /** (Optional) maximum value that can be recognized. */
+    maxValue?: number;
+
+    /** (Optional) if true, then only integers will be recognized. The default value is false. */
+    intergerOnly?: boolean;
+}
+
+/** Optional features for [PromptText](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompttext) class. */
+export interface IPromptTextFeatures extends IPromptFeatures {
+    /** 
+     * (Optional) The score that should be returned when the prompts [onRecognize()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompt#onrecognize) 
+     * handler is called. The default value is "0.5". 
+     */
+    recognizeScore?: number;
+}
+
+/** 
+ * Options passed to [Prompts.attachment()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#attachment)
+ * or in a `session.beginDialog()` call to a custom prompt based on the [PromptAttachment](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptattachment) 
+ * class. 
+ */
+export interface IPromptAttachmentOptions extends IPromptOptions {
+    /** 
+     * (Optional) list of content types the prompt is waiting for. Types ending with '*' will be 
+     * prefixed matched again the received attachment(s). 
+     */
+    contentTypes?: string|string[];
+}
+
+/** Optional features for [PromptAttachment](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptattachment) class. */
+export interface IPromptAttachmentFeatures extends IPromptFeatures {
+    /** (Optional) The score that should be returned when attachments are detected. The default value is "1.0". */
+    recognizeScore?: number;
+}
+
+/** 
+ * Route choices to pass to [Prompts.diambiguate()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#disambiguate).
  * The key for the map should be the localized label to display to the user and the value should be
  * the route to select when chosen by the user.  You can pass `null` for the route to give the user the option to cancel.
  * @example
@@ -957,7 +1156,7 @@ export interface IMiddlewareMap {
  * Signature for functions passed as steps to [DialogAction.waterfall()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialogaction.html#waterfall). 
  * 
  * Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
- * waterfall can either execute one of the built-in [Prompts](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompts.html),
+ * waterfall can either execute one of the built-in [Prompts](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts.html),
  * start a new dialog by calling [session.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog),
  * advance to the next step of the waterfall manually using `skip()`, or terminate the waterfall.
  * 
@@ -1088,12 +1287,12 @@ export interface IFindRoutesHandler {
 }
 
 /** Custom route searching logic passed to [Library.onSelectRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onselectroute). */
-export interface ISelectRouteHandler {
+export interface ISelectRoutheandler {
     (session: Session, route: IRouteResult): void;
 }
 
 /** Custom route disambiguation logic passed to [UniversalBot.onDisambiguateRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#ondisambiguateroute). */
-export interface IDisambiguateRouteHandler {
+export interface IDisambiguateRoutheandler {
     (session: Session, routes: IRouteResult[]): void;
 }
 
@@ -1266,6 +1465,22 @@ export var AttachmentLayout: {
     carousel: string;
 };
 
+/** Indicates whether the bot is accepting, expecting, or ignoring input. */
+export var InputHint: {
+    /** The sender is passively ready for input but is not waiting on a response. */    
+    acceptingInput: string;
+
+    /** 
+     * The sender is ignoring input. Bots may send this hint if they are actively 
+     * processing a request and will ignore input from users until the request is 
+     * complete.
+     */
+    ignoringInput: string;
+
+    /** The sender is actively expecting a response from the user. */
+    expectingInput: string;
+};
+
 
 //=============================================================================
 //
@@ -1374,14 +1589,38 @@ export class Session {
 
     /**
      * Sends a message to a user using a specific localization namespace. 
-     * @param localizationNamespace Namespace to use for localizing the message.
+     * @param libraryNamespace Namespace to use for localizing the message.
      * @param message 
      * * __message:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer. If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
      * * __message:__ _{string[]}_ - The sent message will be chosen at random from the array.
      * * __message:__ _{IMessage|IIsMessage}_ - Message to send. 
      * @param args (Optional) arguments used to format the final output text when __message__ is a _{string|string[]}_.
      */
-    sendLocalized(localizationNamespace: string, message: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
+    sendLocalized(libraryNamespace: string, message: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
+
+    /**
+     * Sends a text, and optional SSML, message to the user. 
+     * @param text 
+     * * __text:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer.
+     * * __text:__ _{string[]}_ - The sent message will be chosen at random from the array.
+     * @param speak (Optional) message that should be spoken to the user. The message should be formatted as [Speech Synthesis Markup Language (SSML)](https://msdn.microsoft.com/en-us/library/hh378377(v=office.14).aspx). 
+     * If an array is passed a response will be chosen at random.
+     * @param options (Optional) properties that should be included on the outgoing message.
+     */
+    say(text: string|string[], speak?: string|string[], options?: IMessageOptions): Session;
+    say(text: string|string[], options?: IMessageOptions): Session;
+
+    /**
+     * Sends a text, and optional SSML, message to the user using a specific localization namespace. 
+     * @param libraryNamespace Namespace to use for localizing the message.
+     * @param text 
+     * * __text:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer.
+     * * __text:__ _{string[]}_ - The sent message will be chosen at random from the array.
+     * @param speak (Optional) message that should be spoken to the user. The message should be formatted as [Speech Synthesis Markup Language (SSML)](https://msdn.microsoft.com/en-us/library/hh378377(v=office.14).aspx). 
+     * If an array is passed a response will be chosen at random.
+     * @param options (Optional) properties that should be included on the outgoing message.
+     */
+    sayLocalized(libraryNamespace: string, text: string|string[], speak?: string|string[], options?: IMessageOptions): Session;
 
     /**
      * Sends the user an indication that the bot is typing. For long running operations this should be called every few seconds. 
@@ -1481,7 +1720,7 @@ export class Session {
     clearDialogStack(): Session;
 
     /**
-     * Dispatches the session to eitehr the active dialog or the default dialog for processing.
+     * Dispatches the session to either the active dialog or the default dialog for processing.
      * @param recognizeResult (Optional) results returned from calling [Library.findRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#findroutes), [Library.findActiveDialogRoutes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#findactivedialogroutes), * or [Dialog.recognize()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialog#recognize).
      */
     routeToActiveDialog(recognizeResult?: IRecognizeResult): void;
@@ -1635,6 +1874,15 @@ export class Message implements IIsMessage {
      * @param session (Optional) will be used to populate the messages address and localize any text. 
      */
     constructor(session?: Session);
+
+    /** Hint for clients letting them know if the bot is expecting further input or not. The built-in prompts will automatically populate this value for outgoing messages. */
+    inputHint(hint: string): Message;
+
+    /** Sets the speak field of the message as [Speech Synthesis Markup Language (SSML)](https://msdn.microsoft.com/en-us/library/hh378377(v=office.14).aspx). This will be spoken to the user on supported devices. */
+    speak(ssml: string|string[], ...args: any[]): Message;
+
+    /** Conditionally set the speak field of the message given a specified count. */
+    nspeak(ssml: string|string[], ssml_plural: string|string[], count: number): Message;
     
     /** Language of the message. */   
     textLocale(locale: string): Message;
@@ -1645,7 +1893,7 @@ export class Message implements IIsMessage {
     /** Sets the message text. */
     text(text: string|string[], ...args: any[]): Message;
     
-    /** Conditionally set this message text given a specified count. */
+    /** Conditionally set the message text given a specified count. */
     ntext(msg: string|string[], msg_plural: string|string[], count: number): Message;
     
     /** Composes a complex and randomized reply to the user.  */
@@ -2443,7 +2691,7 @@ export class Library {
      * Replaces the default logic for [selectRoute()](#selectroute) with a custom implementation.
      * @param handler Function that will be invoked anytime `selectRoute()` is called. 
      */
-    onSelectRoute(handler: ISelectRouteHandler): void;
+    onSelectRoute(handler: ISelectRoutheandler): void;
 
     /**
      * Gets the active dialogs confidence that it understands the current message. The dialog 
@@ -2503,8 +2751,9 @@ export class Library {
      * * __dialog:__ _{Dialog}_ - Dialog to add.
      * * __dialog:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute. See [IDialogWaterfallStep](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogwaterfallstep.html) for details.
      * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
+     * @param replace (Optional) if true, the dialog should replace the existing dialog if already registered.
      */
-    dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep): Dialog;
+    dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep, replace?:boolean): Dialog;
 
     /**
      * Searches the library and all of its dependencies for a specific dialog. Returns the dialog 
@@ -2607,9 +2856,24 @@ export class Library {
 }
 
 /**
- * Built in built-in prompts that can be called from any dialog. 
+ * Base class for built-in prompts and can be used to build new custom prompts. The Prompt class 
+ * provides the basic logic to prompt/re-prompt a user and provides a set of extensible hooks to
+ * customize the prompts recognition of the users reply as well as the output sent to the user.
+ * 
+ * Prompts should always have at least one [onRecognize()](#onrecognize) handler registered and 
+ * they support adding any number of [matches()](#matches) or [matchesAny()](#matchesany) handlers
+ * which can be used to add special user initiated commands to the prompt.  For instance, the
+ * built-in prompts add a `matches('BotBuilder.RepeatIntent')` to listen for a user to ask to 
+ * have a prompt repeated, causing the prompt to send its initial prompt again.
  */
-export class Prompts extends Dialog {
+export class Prompt<T extends IPromptFeatures> extends Dialog {
+    /**
+     * Creates a new customizable instance of the prompt. Your new prompt should be added as a
+     * dialog to either a bot or library.
+     * @param features (Optional) features used to customize the prompts behaviour.
+     */
+    constructor(features?: IPromptFeatures);
+
     /**
      * Processes messages received from the user. Called by the dialog system. 
      * @param session Session object for the current conversation.
@@ -2618,11 +2882,220 @@ export class Prompts extends Dialog {
     replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
 
     /**
-     * Updates global options for the Prompts dialog. 
-     * @param options Options to set.
+     * Sends a prompt to the user for the current turn. This can be called from a [matches()][#matches] 
+     * handler to manually send a prompt/reprompt to the user. To force sending of the initial prompt
+     * you would need to set `session.dialogData.turns = 0;` before calling `sendPrompt()`.
+     * @param session Session object for the current conversation.
      */
-    static configure(options: IPromptsOptions): void;
+    sendPrompt(session: Session): void;
 
+    /**
+     * Creates the message to send for the prompt. This is called automatically by [sendPrompt()](#sendprompt)
+     * so in most cases you'll want to register a [onFormatMessage()](#onformatmessage) handler to
+     * customize the message sent for a prompt. You should only need to call this method if you're 
+     * implementing your own `sendPrompt()` logic.
+     * @param session Session object for the current conversation.
+     * @param text Current prompt/retryPrompt text.
+     * @param speak Current speak/retrySpeak SSML. This value may be null.
+     * @param callback Function to receive the created message.
+     */
+    formatMessage(session: Session, text: string|string[], speak: string|string[], callback: (err: Error, msg: IMessage) => void): void;
+
+    /**
+     * Registers a handler that will be called every time the prompt is about to send a message to 
+     * the user. You can use this hook to implement your own custom prompt sending logic.
+     * 
+     * Multiple handlers can be registered and calling `next()` will invoke the next handler in
+     * the chain. The final handler performs the prompts default logic which is to create a new
+     * message using [formatMessage()](#formatmessage) and then send it.
+     * @param handler Function that will be called anytime [sendPrompt()](#sendprompt) is called.
+     */
+    onPrompt(handler: (session: Session, next: Function) => void): Prompt<any>;
+
+    /**
+     * Registers a handler that will be called to create the outgoing [IMessage](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage)
+     * that will be sent for the prompt.  This handler is only called when the current 
+     * prompt/retryPrompt is of type `string|string[]`. Anytime the prompt/retryPrompt is an
+     * `IMessage|IIsMessage` the configured message is used so your handler will not be called.
+     * 
+     * Multiple handlers can be registered and the first handler to call `callback()` with a message
+     * will be used. Calling `callback(null, null)` will cause processing to move to the next handler
+     * in the chain.
+     * @param handler Function that will be called to create an `IMessage` for the current prompt. Call `callback()` with either a message or `null` to continue processing.
+     */
+    onFormatMessage(handler: (session: Session, text: string|string[], speak: string|string[], callback: (err: Error, message?: IMessage) => void)=> void): Prompt<any>;
+
+    /**
+     * Registers a handler that will be called everytime the prompt receives a reply from the user.
+     * The handlers `callback()` can be used to return a confidence score that it understood the 
+     * users input as well as the value that should be returned to the caller of the prompt. 
+     * 
+     * Calling `callback(null, 1.0, true);` would indicate a high confidence that the user answered
+     * the prompt and would return a `boolean` true as the response from the prompt. Any response 
+     * type is possible, including objects. Calling `callback(null, 0.0);` indicates that the users 
+     * input was not understood at all and that they should be re-prompted.
+     * 
+     * Multiple handlers can be registered and unlike the other handler types, all of the registered
+     * will be called and handler providing the highest confidence score will be chosen as the winner.
+     * When customizing one of the built-in prompt types you'll often want to disable the prompts
+     * default recognizer logic. This can be achieved by setting the [features](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptfeatures)
+     * of the prompt when you create it. Just keep in mind that if you completely disable the prompts
+     * default recognizer logic, you'll need to do all of the recognition yourself. 
+     * @param handler Function that will be called to recognize the users reply to a prompt.
+     */
+    onRecognize(handler: (context: IRecognizeDialogContext, callback: (err: Error, score: number, response?: any) => void) => void): Prompt<any>;
+
+    /**
+     * Invokes a handler when a given intent is detected in the users utterance. For `string` based
+     * intents, the intent can either be an intent returned by a [recognizer()](#recognizer) registered
+     * for the prompt or it can be an intent that flows in from a global [recognizer()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#recognizer).
+     *
+     * > __NOTE:__ The full details of the match, including the list of intents & entities detected, will be passed to the [args](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizerresult) of the first waterfall step or dialog that's started.
+     * @param intent
+     * * __intent:__ _{RegExp}_ - A regular expression that will be evaluated to detect the users intent.
+     * * __intent:__ _{string}_ - A named intent returned by an [IIntentRecognizer](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer) plugin that will be used to match the users intent.
+     * @param dialogId
+     * * __dialogId:__ _{string} - The ID of a dialog to begin when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute when the intent is matched. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
+     * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
+     */
+    matches(intent: RegExp|string, dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+
+    /**
+     * Invokes a handler when any of the given intents are detected in the users utterance. For `string` based
+     * intents, the intent can either be an intent returned by a [recognizer()](#recognizer) registered
+     * for the prompt or it can be an intent that flows in from a global [recognizer()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#recognizer).
+     *
+     * > __NOTE:__ The full details of the match, including the list of intents & entities detected, will be passed to the [args](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizerresult) of the first waterfall step or dialog that's started.
+     * @param intent
+     * * __intent:__ _{RegExp[]}_ - Array of regular expressions that will be evaluated to detect the users intent.
+     * * __intent:__ _{string[]}_ - Array of named intents returned by an [IIntentRecognizer](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer) plugin that will be used to match the users intent.
+     * @param dialogId
+     * * __dialogId:__ _{string} - The ID of a dialog to begin when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep[]}_ - Waterfall of steps to execute when the intent is matched.
+     * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute when the intent is matched. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog. 
+     * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
+     */
+    matchesAny(intent: RegExp[]|string[], dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+
+    /**
+     * Adds a new recognizer plugin to the Prompt which will be run everytime the user replies
+     * to the prompt.
+     * @param plugin The recognizer to add. 
+     */
+    recognizer(plugin: IIntentRecognizer): IntentDialog;
+
+    /** The prompts current configured set of features. */
+    public features: T;
+
+    /**
+     * Applies a new set of features for the prompt. Normally called from a derived classes constructor
+     * to apply feature options passed in to the derived class.  
+     * @param features New features to apply.
+     */
+    protected updateFeatures(features: T): Prompt<any>;
+}
+
+/** Customizable attachment prompt. */
+export class PromptAttachment extends Prompt<IPromptAttachmentFeatures> {
+    /**
+     * Creates a new customizable instance of the prompt. Your new prompt should be added as a
+     * dialog to either a bot or library.
+     * @param features (Optional) features used to customize the prompts behaviour.
+     */
+    constructor(features?: IPromptAttachmentFeatures);
+}
+
+/** Customizable choice prompt. */
+export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
+    /**
+     * Creates a new customizable instance of the prompt. Your new prompt should be added as a
+     * dialog to either a bot or library.
+     * @param features (Optional) features used to customize the prompts behaviour.
+     */
+    constructor(features?: IPromptChoiceFeatures);
+
+    /**
+     * Returns the list of dynamic or static choices for the prompt. This method is typically called
+     * twice, once to get the list of choices to display and a second time to get the list of choices
+     * to recognize over.
+     * @param context Read-only recognizer context for the current conversation. 
+     * @param recognizePhase If true, the list of choices will be used to recognize the users utterance. Otherwise they will be used to render a list of available choices to the user. 
+     * @param callback Function that will be called with the prompts list of choices.
+     */
+    findChoices(context: IRecognizeContext, recognizePhase: boolean, callback: (err: Error, choices: IChoice[]) => void): void;
+
+    /**
+     * Registers a handler to provide a dynamic list of choices. The handler will be called at least
+     * twice during the lifetime of the prompt. Once to generate a list of choices to display to the
+     * user and a second time to retrieve the list of choices to compare against the users utterance.
+     * No caching of the returned choices is done and the handler will be called for every turn of ability
+     * conversation so you shoudl implement your own caching as appropriate.
+     * 
+     * Multiple handlers can be registered and the first handler to return a valid (not `null`) list 
+     * of choices will be used.
+     * @param handler Function to call when a list of choices is need. The `recognizePhase` parameter will be "true" if the choices will be used to recognize the users response. 
+     */
+    onChoices(handler: (context: IRecognizeContext, callback: (err: Error, choices?: IChoice[]) => void, recognizePhase?: boolean) => void): PromptChoice;
+
+    /**
+     * Returns a message containing a list of choices.
+     * @param session Current session for the conversation.
+     * @param listStyle 
+     * @param text Text of the message.
+     * @param speak (Optional) SSML to return with the message. This can be null.
+     * @param choices (Optional) list of choices to include in the message.
+     * @param keyboardsOnly (Optional) if true then the choices will only be included on the message if the `listStyle` is of type `Button`.
+     */
+    static formatMessage(session: Session, listStyle: ListStyle, text: string|string[], speak?: string|string[], choices?: IChoice[], keyboardsOnly?: boolean): IMessage;
+}
+
+/** Customizable confirmation prompt. */
+export class PromptConfirm extends PromptChoice {
+    /**
+     * Creates a new customizable instance of the prompt. Your new prompt should be added as a
+     * dialog to either a bot or library.
+     * @param features (Optional) features used to customize the prompts behaviour.
+     */
+    constructor(features?: IPromptFeatures);
+}
+
+/** Customizable confirmation prompt. */
+export class PromptNumber extends Prompt<IPromptFeatures> {
+    /**
+     * Creates a new customizable instance of the prompt. Your new prompt should be added as a
+     * dialog to either a bot or library.
+     * @param features (Optional) features used to customize the prompts behaviour.
+     */
+    constructor(features?: IPromptFeatures);
+}
+
+/** Customizable text prompt. */
+export class PromptText extends Prompt<IPromptTextFeatures> {
+    /**
+     * Creates a new customizable instance of the prompt. Your new prompt should be added as a
+     * dialog to either a bot or library.
+     * @param features (Optional) features used to customize the prompts behaviour.
+     */
+    constructor(features?: IPromptTextFeatures);
+}
+
+/** Customizable time prompt. */
+export class PromptTime extends Prompt<IPromptFeatures> {
+    /**
+     * Creates a new customizable instance of the prompt. Your new prompt should be added as a
+     * dialog to either a bot or library.
+     * @param features (Optional) features used to customize the prompts behaviour.
+     */
+    constructor(features?: IPromptFeatures);
+}
+
+/**
+ * Extensible set of built-in prompts. For TypeScript developers you can use interface decliration
+ * merging to add new global prompts in a way that will be TypeScript aware.
+ */
+export interface IPrompts {
     /**
      * Captures from the user a raw string of text. 
      * @param session Session object for the current conversation.
@@ -2632,7 +3105,7 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+    text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to enter a number.
@@ -2643,7 +3116,7 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static number(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+    number(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to confirm an action with a yes/no response.
@@ -2654,7 +3127,7 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static confirm(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+    confirm(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to choose from a list of options.
@@ -2667,9 +3140,10 @@ export class Prompts extends Dialog {
      * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
      * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
      * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
+     * * __choices:__ _{IChoice[]}_ - List of choices as an array of IChoice objects. 
      * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static choice(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: string|Object|string[], options?: IPromptOptions): void;
+    choice(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: string|Object|string[]|IChoice[], options?: IPromptChoiceOptions): void;
 
     /**
      * Prompts the user to enter a time.
@@ -2680,7 +3154,7 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static time(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+    time(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
     /**
      * Prompts the user to upload a file attachment.
@@ -2691,7 +3165,7 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
      * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static attachment(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+    attachment(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptAttachmentOptions): void;
 
     /**
      * Prompts the user to disambiguate multiple triggered actions. Should typically be called 
@@ -2709,26 +3183,35 @@ export class Prompts extends Dialog {
      * * __prompt:__ _{string}_ - Initial message to send the user.
      * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param choices Map of routes to select from. The key is the choice label taht will be displayed to the user.
+     * @param choices Map of routes to select from. The key is the choice label that will be displayed to the user.
      * @param options (Optional) parameters to control the behaviour of the prompt.
      */
-    static disambiguate(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: IDisambiguateChoices, options?: IPromptOptions): void;
+    disambiguate(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: IDisambiguateChoices, options?: IPromptOptions): void;
 
+    /**
+     * Replaces a built-in prompt with a new implementation. This lets you completely customize the 
+     * way a prompt like [builder.Prompts.time()](#time) works globally.
+     * @param type The type of built-in prompt that you're customizing.
+     * @param dialog The dialog that you wish to use in place of the default prompt. Be aware that your 
+     * dialog will be registered in the system namespace ('BotBuilder') which can potentially impact
+     * localization and calls to [session.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#begindialog). For calls to 
+     * beginDialog() from within your custom prompt you'll want to prefix your dialogID's with the 
+     * namespace of the library you're calling into, typically '*' for the bots default namespace. So
+     * you would use `session.beginDialog('*:help');` to call a "help" dialog from your custom prompt. 
+     */ 
+    customize(type: PromptType, dialog: Dialog): IPrompts;
+
+    /** __DEPRECATED__ this is no longer used as of v3.8. Use custom prompts instead. */
+    configure(options: IPromptsOptions): void;
 }
 
 /**
- * Implements a simple pattern based recognizer for parsing the built-in prompts. Derived classes can 
- * inherit from SimplePromptRecognizer and override the recognize() method to change the recognition
- * of one or more prompt types. 
+ * Provides global access to the SDK's built-in prompts. New prompts can be added by simply 
+ * adding a new function using `builder.Prompts.myPrompt = function (session, prompt, options) { }`.
+ * If you are using TypeScript you will first want to add the signature for your prompt to the [IPrompts](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts)
+ * interface using interface decleration merging.
  */
-export class SimplePromptRecognizer implements IPromptRecognizer {
-    /**
-      * Attempts to match a users reponse to a given prompt.
-      * @param args Arguments passed to the recognizer including that language, text, and prompt choices.
-      * @param callback Function to invoke with the result of the recognition attempt.
-      */
-    recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void): void;
-}
+export const Prompts: IPrompts;
 
 /** Federates a recognize() call across a set of intent recognizers. */
 export class IntentRecognizerSet implements IIntentRecognizer {
@@ -3192,7 +3675,7 @@ export class UniversalBot extends Library  {
      * Replaces the bots default route disambiguation logic with a custom implementation.
      * @param handler Function that will be invoked with the candidate routes to dispatch an incoming message to. 
      */
-    onDisambiguateRoute(handler: IDisambiguateRouteHandler): void;
+    onDisambiguateRoute(handler: IDisambiguateRoutheandler): void;
 }
 
 /** Connects a UniversalBot to multiple channels via the Bot Framework. */
@@ -3267,6 +3750,18 @@ export class Middleware {
      * operations you may want to send an additional typing indicator using [session.sendTyping](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#sendtyping).
      */
     static sendTyping(): IMiddlewareMap;
+}
+
+/** __DEPRECATED__ no longer supported as of v3.8. Use custom prompts instead. */
+export class SimplePromptRecognizer implements IPromptRecognizer {
+    recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void): void;
+}
+
+/** __DEPRECATED__ the new prompt system just uses IPromptOptions. */
+export interface IPromptArgs extends IPromptOptions {
+    retryCnt?: number;
+    promptType: PromptType;
+    enumsValues?: string[];
 }
 
 /** __DEPRECATED__ use an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog) with a [LuisRecognizer](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.luisrecognizer) instead. */

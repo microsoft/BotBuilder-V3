@@ -77,8 +77,9 @@ export const Id = {
 };
 
 export const Intents = {
-    Default: 'BotBuilder.Intents.Default',
-    Response: 'BotBuilder.Intents.Response' 
+    Default: 'BotBuilder.DefaultIntent',
+    Response: 'BotBuilder.ResponseIntent',
+    Repeat: 'BotBuilder.RepeatIntent'
 };
 
 export const Entities = {
