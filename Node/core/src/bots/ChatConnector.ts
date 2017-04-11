@@ -576,6 +576,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                     scope: this.settings.endpoint.refreshScope
                 }
             };
+            this.addUserAgent(opt);
             request(opt, (err, response, body) => {
                 if (!err) {
                     if (body && response.statusCode < 300) {
@@ -606,13 +607,13 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
 
     private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
-        this.addUserAgent(options);
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken((err, token) => {
                 if (!err && token) {
                     options.headers = {
                         'Authorization': 'Bearer ' + token
                     };
+                    this.addUserAgent(options);
                     cb(null);
                 } else {
                     cb(err);
