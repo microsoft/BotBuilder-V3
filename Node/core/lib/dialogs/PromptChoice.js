@@ -14,7 +14,7 @@ var PromptChoice = (function (_super) {
     __extends(PromptChoice, _super);
     function PromptChoice(features) {
         var _this = _super.call(this, {
-            defaultRetryPrompt: 'default_confirm',
+            defaultRetryPrompt: 'default_choice',
             defaultRetryNamespace: consts.Library.system,
             recognizeNumbers: true,
             recognizeOrdinals: true,

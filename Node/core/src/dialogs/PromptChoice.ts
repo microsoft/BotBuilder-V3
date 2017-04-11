@@ -75,7 +75,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
 
     constructor(features?: IPromptChoiceFeatures) {
         super({
-            defaultRetryPrompt: 'default_confirm',
+            defaultRetryPrompt: 'default_choice',
             defaultRetryNamespace: consts.Library.system,
             recognizeNumbers: true,
             recognizeOrdinals: true,
