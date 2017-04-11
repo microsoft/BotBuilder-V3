@@ -33,15 +33,17 @@ var bot = new builder.UniversalBot(connector, function (session) {
 // Override Library.findRoutes() function with custom implementation. The default logic has
 // been extended here to add a custom 'LanguageFilter' route type that looks for bad words.
 var stopWords = ['dang', 'hell', 'shoot'];
-bot.onFindRoutes(function (session, callback) {
+bot.onFindRoutes(function (context, callback) {
     var results = builder.Library.addRouteResult({ score: 0.0, libraryName: bot.name });
-    bot.recognize(session, (err, topIntent) => {
+    bot.recognize(context, (err, topIntent) => {
         if (!err) {
+            context.topIntent = topIntent && topIntent.score > 0 ? topIntent : null;
+            context.libraryName = bot.name;
             async.parallel([
                 // >>>> BEGIN CUSTOM ROUTE
                 (cb) => {
                     // Check users utterance for bad words
-                    var utterance = session.message.text.toLowerCase();
+                    var utterance = context.message.text.toLowerCase();
                     for (var i = 0; i < stopWords.length; i++) {
                         if (utterance.indexOf(stopWords[i]) >= 0) {
                             // Route triggered
@@ -61,7 +63,7 @@ bot.onFindRoutes(function (session, callback) {
                 // <<<< END CUSTOM ROUTE
                 (cb) => {
                     // Check the active dialogs score
-                    bot.findActiveDialogRoutes(session, topIntent, (err, routes) => {
+                    bot.findActiveDialogRoutes(context, (err, routes) => {
                         if (!err && routes) {
                             routes.forEach((r) => results = builder.Library.addRouteResult(r, results));
                         }
@@ -70,7 +72,7 @@ bot.onFindRoutes(function (session, callback) {
                 },
                 (cb) => {
                     // Search for triggered stack actions.
-                    bot.findStackActionRoutes(session, topIntent, (err, routes) => {
+                    bot.findStackActionRoutes(context, (err, routes) => {
                         if (!err && routes) {
                             routes.forEach((r) => results = builder.Library.addRouteResult(r, results));
                         }
@@ -79,7 +81,7 @@ bot.onFindRoutes(function (session, callback) {
                 },
                 (cb) => {
                     // Search for global actions.
-                    bot.findGlobalActionRoutes(session, topIntent, (err, routes) => {
+                    bot.findGlobalActionRoutes(context, (err, routes) => {
                         if (!err && routes) {
                             routes.forEach((r) => results = builder.Library.addRouteResult(r, results));
                         }
