@@ -205,8 +205,8 @@ var PromptRecognizers = (function () {
             if (matched > 0 && (matched == vTokens.length || options.allowPartialMatches)) {
                 var completeness = matched / vTokens.length;
                 var accuracy = completeness * (matched / (matched + totalDeviation));
-                var scoreBoost = 0.5 * accuracy;
-                score = Math.min(scoreBoost + (matched / tokens.length), 1.0);
+                var initialScore = accuracy * (matched / tokens.length);
+                score = 0.4 + (0.6 * initialScore);
             }
             return score;
         }

@@ -360,15 +360,15 @@ export class PromptRecognizers {
                 // be 0.5. 
                 let accuracy = completeness * (matched / (matched + totalDeviation));
 
-                // Amount of boost we want to give to the final score. This is needed 
-                // to handle the case where we want to match "last one" in a long
-                // utterance like "I'd really like to choose the last one please"
-                // and we don't want our score to fall between a really low threshold.
-                // Given our original example our scoreBoost would be 0.25.
-                let scoreBoost = 0.5 * accuracy;
+                // Calculate initial score on a scale from 0.0 - 1.0. For our example
+                // we end up with an initial score of 0.166 because the utterance was
+                // long and accuracy was low. We'll give this a boost in the next step.
+                let initialScore = accuracy * (matched / tokens.length);
 
-                // Calculate final score. For our example the score would be 0.583.
-                score = Math.min(scoreBoost + (matched / tokens.length), 1.0);
+                // Calculate final score by changing the scale of the initial score from
+                // 0.0 - 1.0 to 0.4 - 1.0. This will ensure that even a low score "can"
+                // match. For our example we land on a final score of 0.4996.
+                score = 0.4 + (0.6 * initialScore);
             }
             return score;
         }

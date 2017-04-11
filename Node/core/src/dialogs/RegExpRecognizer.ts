@@ -59,8 +59,9 @@ export class RegExpRecognizer implements IIntentRecognizer {
             if (exp) {
                 var matches = exp.exec(context.message.text);
                 if (matches && matches.length) {
+                    // Score is coverage on a scale of 0.4 - 1.0.
                     var matched = matches[0];
-                    result.score = matched.length / context.message.text.length;
+                    result.score = 0.4 + ((matched.length / context.message.text.length) * 0.6);
                     result.intent = this.intent;
                     result.expression = exp;
                     result.matched = matches;
