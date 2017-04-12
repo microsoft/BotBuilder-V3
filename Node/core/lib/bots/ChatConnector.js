@@ -477,6 +477,7 @@ var ChatConnector = (function () {
                     scope: this.settings.endpoint.refreshScope
                 }
             };
+            this.addUserAgent(opt);
             request(opt, function (err, response, body) {
                 if (!err) {
                     if (body && response.statusCode < 300) {
@@ -505,13 +506,14 @@ var ChatConnector = (function () {
         options.headers['User-Agent'] = USER_AGENT;
     };
     ChatConnector.prototype.addAccessToken = function (options, cb) {
-        this.addUserAgent(options);
+        var _this = this;
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken(function (err, token) {
                 if (!err && token) {
                     options.headers = {
                         'Authorization': 'Bearer ' + token
                     };
+                    _this.addUserAgent(options);
                     cb(null);
                 }
                 else {

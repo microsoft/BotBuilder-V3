@@ -54,7 +54,7 @@ export interface ISessionOptions {
     dialogId: string;
     dialogArgs?: any;
     autoBatchDelay?: number;
-    dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
+    dialogErrorMessage?: TextOrMessageType;
     actions?: ActionSet;
 }
 
@@ -222,18 +222,18 @@ export class Session extends events.EventEmitter {
     }
 
     /** Sends a message to the user. */
-    public send(message: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
+    public send(message: TextOrMessageType, ...args: any[]): this {
         args.unshift(this.curLibraryName(), message);
         return Session.prototype.sendLocalized.apply(this, args);
     }
 
     /** Sends a message to a user using a specific localization namespace. */
-    public sendLocalized(localizationNamespace: string, message: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
+    public sendLocalized(libraryNamespace: string, message: TextOrMessageType, ...args: any[]): this {
         this.msgSent = true;
         if (message) {
             var m: IMessage;
             if (typeof message == 'string' || Array.isArray(message)) {
-                m = this.createMessage(localizationNamespace, <string|string[]>message, args);
+                m = this.createMessage(libraryNamespace, <TextType>message, args);
             } else if ((<IIsMessage>message).toMessage) {
                 m = (<IIsMessage>message).toMessage();
             } else {
@@ -245,6 +245,30 @@ export class Session extends events.EventEmitter {
         }
         this.startBatch();
         return this;
+    }
+
+    /** Sends a text, and optional SSML, message to the user. */
+    public say(text: TextType, options?: IMessageOptions): this;
+    public say(text: TextType, speak?: TextType, options?: IMessageOptions): this {
+        if (typeof speak === 'object') {
+            options = <any>speak;
+            speak = null;
+        }
+        return this.sayLocalized(this.curLibraryName(), text, speak, options);
+    }
+
+    /** Sends a text, and optional SSML, message to the user using a specific localization namespace. */
+    public sayLocalized(libraryNamespace: string, text: TextType, speak?: TextType, options?: IMessageOptions): this {
+        this.msgSent = true;
+        let msg = new Message(this).text(text).speak(speak).toMessage();
+        if (options) {
+            ['attachments', 'attachmentLayout', 'entities', 'textFormat', 'inputHint'].forEach((field) => {
+                if (options.hasOwnProperty(field)) {
+                    (<any>msg)[field] = (<any>options)[field];
+                }
+            });
+        }
+        return this.sendLocalized(libraryNamespace, msg);
     }
 
     /** Sends a typing indicator to the user. */

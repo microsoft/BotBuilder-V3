@@ -1,4 +1,4 @@
-﻿// 
+// 
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
 // 
@@ -32,37 +32,39 @@
 //
 
 import { Session } from '../Session';
-import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizerSet';
-import { ActionSet } from './ActionSet';
+import { Prompt, IPromptOptions, IPromptFeatures, IPromptContext } from './Prompt';
+import { PromptRecognizers } from './PromptRecognizers';
+import * as consts from '../consts';
 
-export enum ResumeReason { completed, notCompleted, canceled, back, forward, reprompt }
+export class PromptTime extends Prompt<IPromptFeatures> {
+    constructor(features?: IPromptFeatures) {
+        super({
+            defaultRetryPrompt: 'default_time',
+            defaultRetryNamespace: consts.Library.system
+        });
+        this.updateFeatures(features);
 
-export interface IDialogResult<T> {
-    resumed: ResumeReason;
-    childId?: string;
-    error?: Error;
-    response?: T;
-}
+        // Default recognizer logic
+        this.onRecognize((context, cb) => {
+            if (context.message.text && !this.features.disableRecognizer) {
+                let options = <IPromptOptions>context.dialogData.options;
+                let entities = PromptRecognizers.recognizeTimes(context, options);
+                let top = PromptRecognizers.findTopEntity(entities);
+                if (top) {
+                    cb(null, top.score, top);
+                } else {
+                    cb(null, 0.0);
+                }
+            } else {
+                cb(null, 0.0);
+            }
+        });
 
-export interface IRecognizeDialogContext extends IRecognizeContext {
-    activeDialog: boolean;
-    intent?: IIntentRecognizerResult;
-}
-
-export abstract class Dialog extends ActionSet {
-    public begin<T>(session: Session, args?: T): void {
-        this.replyReceived(session);
-    }
-
-    abstract replyReceived(session: Session, recognizeResult?: IRecognizeResult): void;
-
-    public dialogResumed<T>(session: Session, result: IDialogResult<T>): void {
-        if (result.error) {
-            session.error(result.error);
-        } 
-    }
-
-    public recognize(context: IRecognizeDialogContext, cb: (err: Error, result: IRecognizeResult) => void): void {
-        cb(null, { score: 0.1 });
+        // Add repeat intent handler
+        this.matches(consts.Intents.Repeat, (session) => {
+            // Set to turn-0 and re-prompt.
+            (<IPromptContext>session.dialogData).turns = 0;
+            this.sendPrompt(session);
+        });
     }
 }
