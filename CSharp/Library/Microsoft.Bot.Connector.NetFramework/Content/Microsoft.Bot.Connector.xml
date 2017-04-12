@@ -108,6 +108,11 @@
             <param name="locale">language of your reply</param>
             <returns>message set up to route back to the sender</returns>
         </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Properties">
+            <summary>
+            Extension data for overflow of properties
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.CreateMessageActivity">
             <summary>
             Create an instance of the Activity class with IMessageActivity masking
