@@ -173,10 +173,11 @@ export class Message implements IIsMessage {
     public suggestedActions(suggestedActions: ISuggestedActions|IIsSuggestedActions): this {
 
         if (suggestedActions) {
-            var action: ISuggestedActions = 
+            let actions: ISuggestedActions = 
                 (<IIsSuggestedActions>suggestedActions).toSuggestedActions 
                 ? (<IIsSuggestedActions>suggestedActions).toSuggestedActions() 
                 : <ISuggestedActions>suggestedActions;
+            this.data.suggestedActions = actions;
         }
         return this;
     }

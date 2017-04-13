@@ -64,22 +64,22 @@ bot.use(builder.Middleware.dialogVersion({ version: 1.0, resetCommand: /^reset/i
 
 bot.dialog('/', [
     function (session) {
+        
         var msg = new builder.Message(session)
-            .text("Hi! I have colors in mind, but need your help to choose the best one.")
+            .text("Hi! What is your favorite color?")
             .suggestedActions(
                 builder.SuggestedActions.create(
                     session,[
-                        {title: "green", value: "green"},
-                        {title: "blue", value: "blue"},
-                        {title: "red", value: "red"}
+                        builder.CardAction.imBack(session, "green", "green"),
+                        builder.CardAction.imBack(session, "blue", "blue"),
+                        builder.CardAction.imBack(session, "red", "red")
                     ]
                 )
             );
-        session.send(msg);
-        builder.Prompts.text(session, "What is your favorite color?");
+        builder.Prompts.choice(session, msg, ["green", "blue", "red"]);
     },
-    function (session, results) {
-        session.send("My favorite color is also " + results.response);
+    function(session, results) {
+        session.send('I like ' +  results.response.entity + ' too!');
     }
 ]);
 
