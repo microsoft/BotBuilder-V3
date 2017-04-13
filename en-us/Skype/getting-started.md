@@ -255,7 +255,7 @@ image.alt|String|Image text used by screenreaders
 media[]|Array|List of media objects each with a single profile.
 media.url|URL (**must be HTTPS**)|URL to media source which can be SD (360x202 or 202x360, ~300kpbs, H.264 AAC) or HD (1280x720, 720x1280 ~1.5 mbps, H.264 AAC)
 media.profile|string|Name of profile (sd or hd).
-aspect|string|Aspect ratio of thumbnail. Allowed values are 16x9 or 9x16.
+aspect|string|Aspect ratio of thumbnail. Allowed values are 16:9 or 9:16.
 autostart|Boolean|Automatically play muted media as soon as it is received. **This the autoplay setting to be in the Skype channel setting, which notifies the user that media will be autoplayed from an external source**
 autoloop|Boolean|Automatically loop media when set to true. 
 buttons|Array of action objects|Set of button actions applicable to the current card. Maximum 3 buttons.
@@ -313,7 +313,7 @@ image.alt|String|Image text used by screenreaders
 media[]|Array|List of media objects each with a single profile.
 media.url|URL (must be HTTPS)|URL to media source.
 media.profile|string|Name of presentation profile (audio).
-aspect|string|Aspect ratio of thumbnail. Allowed values are 16x9 or 9x16.
+aspect|string|Aspect ratio of thumbnail. Allowed values are 16:9 or 9:16.
 autoloop|Boolean|Automatically loop media when set to true. 
 buttons|Array of action objects|Set of button actions applicable to the current card. Maximum 3 buttons.
 
@@ -356,7 +356,7 @@ image.alt|String|Image text used by screenreaders
 media[]|Array|List of media objects each with a single profile.
 media.url|URL (must be HTTPS)|URL to media source.
 media.profile|string|Name of presentation profile (animation).
-aspect|string|Aspect ratio of thumbnail. Allowed values are 16x9 or 9x16.
+aspect|string|Aspect ratio of thumbnail. Allowed values are 16:9 or 9:16.
 autoloop|Boolean|Automatically loop media when set to true. 
 buttons|Array of action objects|Set of button actions applicable to the current card. Maximum 3 buttons.
 
