@@ -128,10 +128,6 @@
       <Project>{df397efc-91db-4911-9971-c509926fc288}</Project>
       <Name>Microsoft.Bot.Connector</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Tests\Microsoft.Bot.Builder.Tests\Microsoft.Bot.Builder.Tests.csproj">
-      <Project>{508661a7-f47a-4d60-8ed6-69e378ed0e74}</Project>
-      <Name>Microsoft.Bot.Builder.Tests</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

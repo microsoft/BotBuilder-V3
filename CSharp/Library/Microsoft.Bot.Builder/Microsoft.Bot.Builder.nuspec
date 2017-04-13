@@ -46,7 +46,7 @@
     <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.pdb"  target="lib\net46" />
     <!-- source -->
     <file src="..\**\*.cs"
-          exclude="**\obj\**\*.cs;..\Microsoft.Bot.Builder.Azure\**;..\Microsoft.Bot.Builder.Calling\**;..\Microsoft.Bot.Builder.FormFlow.Json\**;..\Microsoft.Bot.Builder.History\**"
+          exclude="**\obj\**\*.cs;..\Microsoft.Bot.Builder.Azure\**;..\Microsoft.Bot.Builder.Calling\**;..\Microsoft.Bot.Builder.FormFlow.Json\**;..\Microsoft.Bot.Builder.History\**;..\Microsoft.Bot.Connector.AspNetCore\**;..\Microsoft.Bot.Connector.NetCore\**"
           target="src" />
     <!-- tools -->
     <file src="..\..\tools\rview\bin\release\RView.exe" target="tools"/>
