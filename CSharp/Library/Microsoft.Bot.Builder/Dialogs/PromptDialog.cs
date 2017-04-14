@@ -54,13 +54,9 @@ namespace Microsoft.Bot.Builder.Dialogs
         Auto,
 
         /// <summary>
-        /// Generate keyboard card for choices that will be mapped to a 
-        /// <see cref="HeroCard"/> or a keyboard, e.g. Facebook quick replies
+        /// Map choices to a list of suggested actions that depending on the channel will be a keyboard, quick replies or a 
+        /// <see cref="HeroCard"/>.
         /// </summary>
-        /// <remarks>
-        /// Make sure to use <see cref="MapToChannelData_BotToUser"/> with <see cref="KeyboardCardMapper"/>
-        /// when you use this option
-        /// </remarks>
         Keyboard,
 
         /// <summary>
@@ -240,7 +236,8 @@ namespace Microsoft.Bot.Builder.Dialogs
                     {
                         if (PromptStyle == PromptStyle.Keyboard)
                         {
-                            message.AddKeyboardCard(prompt, options, descriptions);
+                            message.SuggestedActions = new SuggestedActions(actions:Extensions.GenerateButtons(options, descriptions));
+                            message.Text = prompt;
                         }
                         else
                         {

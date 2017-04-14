@@ -39,6 +39,7 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.ConnectorEx
 {
+    [System.Obsolete("Please use SuggestedActions instead.")]
     /// <summary>
     /// Card representing a keyboard
     /// </summary>
