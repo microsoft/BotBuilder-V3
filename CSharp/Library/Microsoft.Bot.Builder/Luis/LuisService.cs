@@ -69,6 +69,11 @@ namespace Microsoft.Bot.Builder.Luis
         public readonly bool? Verbose;
 
         /// <summary>
+        /// Turn on spell checking.
+        /// </summary>
+        public readonly bool? SpellCheck;
+
+        /// <summary>
         /// Force setting the parameter.
         /// </summary>
         public readonly string ForceSet;
@@ -87,9 +92,10 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="verbose"> Indicates if the <see cref="LuisResult"/> should be verbose.</param>
         /// <param name="forceSet"> Force setting the parameter.</param>
         /// <param name="allowSampling"> Allow sampling.</param>
+        /// <param name="spellCheck">Turn on spell checking.</param>
         public LuisRequest(string query, double? timezoneOffset = default(double?),
             string contextId = default(string), bool? verbose = default(bool?), string forceSet = default(string),
-            string allowSampling = default(string))
+            string allowSampling = default(string), bool? spellCheck = default(bool?))
         {
             this.Query = query;
             this.TimezoneOffset = timezoneOffset;
@@ -97,6 +103,7 @@ namespace Microsoft.Bot.Builder.Luis
             this.Verbose = verbose;
             this.ForceSet = forceSet;
             this.AllowSampling = allowSampling;
+            this.SpellCheck = spellCheck;
         }
 
         /// <summary>
@@ -156,6 +163,10 @@ namespace Microsoft.Bot.Builder.Luis
             if (AllowSampling != null)
             {
                 queryParameters.Add($"allowSampling={Uri.EscapeDataString(AllowSampling)}");
+            }
+            if (SpellCheck != null)
+            {
+                queryParameters.Add($"spellCheck={Uri.EscapeDataString(Convert.ToString(SpellCheck))}");
             }
 
             builder.Query = string.Join("&", queryParameters);
