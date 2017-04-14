@@ -31,14 +31,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -75,7 +70,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public static bool IsEmulator(IAddress address)
         {
-            return address.ChannelId.Equals("emulator", StringComparison.OrdinalIgnoreCase);
+            return address.ChannelId.Equals(ChannelIds.Emulator, StringComparison.OrdinalIgnoreCase);
         }
 
         IConnectorClient IConnectorClientFactory.MakeConnectorClient()
