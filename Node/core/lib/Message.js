@@ -132,9 +132,10 @@ var Message = (function () {
     };
     Message.prototype.suggestedActions = function (suggestedActions) {
         if (suggestedActions) {
-            var action = suggestedActions.toSuggestedActions
+            var actions = suggestedActions.toSuggestedActions
                 ? suggestedActions.toSuggestedActions()
                 : suggestedActions;
+            this.data.suggestedActions = actions;
         }
         return this;
     };
