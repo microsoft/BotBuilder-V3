@@ -45,11 +45,7 @@ using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Scorables;
 using Microsoft.Bot.Builder.Scorables.Internals;
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Autofac.Base;
-using System.Configuration;
 using System.Linq;
-using System.Collections.Generic;
-using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {

@@ -39,7 +39,6 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.ConnectorEx
 {
-    [System.Obsolete("Please use SuggestedActions instead.")]
     /// <summary>
     /// Card representing a keyboard
     /// </summary>
@@ -48,6 +47,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
     /// except Facebook. For Facebook, <see cref="KeyboardCardMapper"/> maps it 
     /// to <see cref="FacebookQuickReply"/>
     /// </remarks>
+    [System.Obsolete("Please use SuggestedActions instead.")]
     public partial class KeyboardCard
     {
         /// <summary>

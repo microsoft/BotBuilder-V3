@@ -236,7 +236,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                     {
                         if (PromptStyle == PromptStyle.Keyboard)
                         {
-                            message.SuggestedActions = new SuggestedActions(actions:Extensions.GenerateButtons(options, descriptions));
+                            message.SuggestedActions = new SuggestedActions(actions:options.GenerateButtons(descriptions));
                             message.Text = prompt;
                         }
                         else
@@ -711,7 +711,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var attachments = new List<Attachment>
             {
-                new HeroCard(text: text, buttons: GenerateButtons(options, descriptions)).ToAttachment()
+                new HeroCard(text: text, buttons: options.GenerateButtons(descriptions)).ToAttachment()
             };
 
             return attachments;
@@ -721,13 +721,13 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var attachments = new List<Attachment>
             {
-                new KeyboardCard(text: text, buttons: GenerateButtons(options, descriptions)).ToAttachment()
+                new KeyboardCard(text: text, buttons: options.GenerateButtons(descriptions)).ToAttachment()
             };
 
             return attachments;
         }
 
-        internal static IList<CardAction> GenerateButtons<T>(IEnumerable<T> options,
+        internal static IList<CardAction> GenerateButtons<T>(this IEnumerable<T> options,
             IEnumerable<string> descriptions = null)
         {
             var actions = new List<CardAction>();
