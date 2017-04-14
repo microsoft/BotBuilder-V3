@@ -234,15 +234,18 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
             let actions: ICardAction[] = [];
             choices.forEach((choice) => {
                 if (listStyle == ListStyle.button) {
-                    if (choice.action) {
-                        actions.push(choice.action);
-                    } else {
-                        actions.push({
-                            type: 'imBack',
-                            title: choice.value,
-                            value: choice.value
-                        });
+                    const ca = choice.action || <ICardAction>{};
+                    let action: ICardAction = {
+                        type: ca.type || 'imBack',
+                        title: ca.title || choice.value,
+                        value: ca.value || choice.value
+                    };
+                    if (ca.image) {
+                        action.image = ca.image;
                     }
+                    actions.push(action);
+                } else if (choice.action && choice.action.title) {
+                    values.push(choice.action.title);
                 } else {
                     values.push(choice.value);
                 }

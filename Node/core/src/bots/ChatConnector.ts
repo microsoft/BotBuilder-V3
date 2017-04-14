@@ -224,10 +224,10 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
     
     public send(messages: IMessage[], done: (err: Error) => void): void {
-        async.eachSeries(messages, (msg, cb) => {
+        async.forEachOfSeries(messages, (msg, idx, cb) => {
             try {
                 if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
-                    this.postMessage(msg, cb);
+                    this.postMessage(msg, (idx == messages.length - 1), cb);
                 } else {
                     logger.error('ChatConnector: send - message is missing address or serviceUrl.')
                     cb(new Error('Message missing address or serviceUrl.'));
@@ -487,7 +487,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
     
     
-    private postMessage(msg: IMessage, cb: (err: Error) => void): void {
+    private postMessage(msg: IMessage, lastMsg: boolean, cb: (err: Error) => void): void {
         logger.info(address, 'ChatConnector: sending message.')
         this.prepOutgoingMessage(msg);
 
@@ -496,6 +496,11 @@ export class ChatConnector implements IConnector, IBotStorage {
         (<any>msg)['from'] = address.bot;
         (<any>msg)['recipient'] = address.user; 
         delete msg.address;
+
+        // Patch inputHint
+        if (!msg.inputHint) {
+            msg.inputHint = lastMsg ? 'acceptingInput' : 'ignoringInput';
+        }
 
         // Calculate path
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';

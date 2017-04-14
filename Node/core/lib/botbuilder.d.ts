@@ -603,7 +603,7 @@ export interface IActionRouteData {
 }
 
 /** 
- * A choice that can be passed to [Prompts.choice()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#choice)
+ * A choice that can be passed to [Prompts.choice()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts#choice)
  * or [PromptRecognizers.recognizeChoices()][/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptrecognizers#recognizechoices]. 
  */
 export interface IChoice {
@@ -661,7 +661,7 @@ export interface IPromptRecognizeChoicesOptions extends IPromptRecognizeValuesOp
     excludeAction?: boolean;
 }
 
-/** Options passed to the [built-in prompts](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts). */
+/** Options passed to the [built-in prompts](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts). */
 export interface IPromptOptions extends IMessageOptions {
     /** 
      * (Optional) Initial prompt to send the user. This is typically populated by the `Prompts.xxx()` function.
@@ -771,7 +771,7 @@ export interface IPromptChoiceFeatures extends IPromptFeatures {
 }
 
 /** 
- * Options passed to [Prompts.choice()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#choice)
+ * Options passed to [Prompts.choice()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts#choice)
  * or in a `session.beginDialog()` call to a custom prompt based on the [PromptChoice](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptchoice) 
  * class. 
  */
@@ -784,7 +784,7 @@ export interface IPromptChoiceOptions extends IPromptOptions {
 }
 
 /** 
- * Options passed to [Prompts.number()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#number)
+ * Options passed to [Prompts.number()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts#number)
  * or in a `session.beginDialog()` call to a custom prompt based on the [PromptNumber](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptnumber) 
  * class. 
  */
@@ -809,7 +809,7 @@ export interface IPromptTextFeatures extends IPromptFeatures {
 }
 
 /** 
- * Options passed to [Prompts.attachment()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#attachment)
+ * Options passed to [Prompts.attachment()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts#attachment)
  * or in a `session.beginDialog()` call to a custom prompt based on the [PromptAttachment](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptattachment) 
  * class. 
  */
@@ -828,7 +828,7 @@ export interface IPromptAttachmentFeatures extends IPromptFeatures {
 }
 
 /** 
- * Route choices to pass to [Prompts.diambiguate()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts#disambiguate).
+ * Route choices to pass to [Prompts.diambiguate()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts#disambiguate).
  * The key for the map should be the localized label to display to the user and the value should be
  * the route to select when chosen by the user.  You can pass `null` for the route to give the user the option to cancel.
  * @example
@@ -1172,7 +1172,7 @@ export interface IMiddlewareMap {
  * Signature for functions passed as steps to [DialogAction.waterfall()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialogaction.html#waterfall). 
  * 
  * Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
- * waterfall can either execute one of the built-in [Prompts](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts.html),
+ * waterfall can either execute one of the built-in [Prompts](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts.html),
  * start a new dialog by calling [session.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog),
  * advance to the next step of the waterfall manually using `skip()`, or terminate the waterfall.
  * 
@@ -3134,125 +3134,142 @@ export class PromptTime extends Prompt<IPromptFeatures> {
     constructor(features?: IPromptFeatures);
 }
 
-/**
- * Extensible set of built-in prompts. For TypeScript developers you can use interface decliration
- * merging to add new global prompts in a way that will be TypeScript aware.
- */
-export interface IPrompts {
+declare global {
     /**
-     * Captures from the user a raw string of text. 
-     * @param session Session object for the current conversation.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options (Optional) parameters to control the behaviour of the prompt.
+     * Extensible set of built-in prompts. For TypeScript developers you can use interface decliration
+     * merging to add new global prompts in a way that will be TypeScript aware.
      */
-    text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+    export interface IPrompts {
+        /**
+         * Captures from the user a raw string of text. 
+         * @param session Session object for the current conversation.
+         * @param prompt 
+         * * __prompt:__ _{string}_ - Initial message to send the user.
+         * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+         * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+         * @param options (Optional) parameters to control the behaviour of the prompt.
+         */
+        text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
-    /**
-     * Prompts the user to enter a number.
-     * @param session Session object for the current conversation.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options (Optional) parameters to control the behaviour of the prompt.
-     */
-    number(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+        /**
+         * Prompts the user to enter a number.
+         * @param session Session object for the current conversation.
+         * @param prompt 
+         * * __prompt:__ _{string}_ - Initial message to send the user.
+         * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+         * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+         * @param options (Optional) parameters to control the behaviour of the prompt.
+         */
+        number(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptNumberOptions): void;
 
-    /**
-     * Prompts the user to confirm an action with a yes/no response.
-     * @param session Session object for the current conversation.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options (Optional) parameters to control the behaviour of the prompt.
-     */
-    confirm(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+        /**
+         * Prompts the user to confirm an action with a yes/no response.
+         * @param session Session object for the current conversation.
+         * @param prompt 
+         * * __prompt:__ _{string}_ - Initial message to send the user.
+         * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+         * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+         * @param options (Optional) parameters to control the behaviour of the prompt.
+         */
+        confirm(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
-    /**
-     * Prompts the user to choose from a list of options.
-     * @param session Session object for the current conversation.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. Any [listStyle](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptoptions.html#liststyle) options will be ignored.
-     * @param choices 
-     * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
-     * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
-     * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
-     * * __choices:__ _{IChoice[]}_ - List of choices as an array of IChoice objects. 
-     * @param options (Optional) parameters to control the behaviour of the prompt.
-     */
-    choice(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: string|Object|string[]|IChoice[], options?: IPromptChoiceOptions): void;
+        /**
+         * Prompts the user to choose from a list of options.
+         * @param session Session object for the current conversation.
+         * @param prompt 
+         * * __prompt:__ _{string}_ - Initial message to send the user.
+         * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+         * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. Any [listStyle](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptoptions.html#liststyle) options will be ignored.
+         * @param choices 
+         * * __choices:__ _{string}_ - List of choices as a pipe ('|') delimted string.
+         * * __choices:__ _{Object}_ - List of choices expressed as an Object map. The objects field names will be used to build the list of values.
+         * * __choices:__ _{string[]}_ - List of choices as an array of strings. 
+         * * __choices:__ _{IChoice[]}_ - List of choices as an array of IChoice objects. 
+         * @param options (Optional) parameters to control the behaviour of the prompt.
+         */
+        choice(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: string|Object|string[]|IChoice[], options?: IPromptChoiceOptions): void;
 
-    /**
-     * Prompts the user to enter a time.
-     * @param session Session object for the current conversation.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options (Optional) parameters to control the behaviour of the prompt.
-     */
-    time(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+        /**
+         * Prompts the user to enter a time.
+         * @param session Session object for the current conversation.
+         * @param prompt 
+         * * __prompt:__ _{string}_ - Initial message to send the user.
+         * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+         * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+         * @param options (Optional) parameters to control the behaviour of the prompt.
+         */
+        time(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
 
-    /**
-     * Prompts the user to upload a file attachment.
-     * @param session Session object for the current conversation.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param options (Optional) parameters to control the behaviour of the prompt.
-     */
-    attachment(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptAttachmentOptions): void;
+        /**
+         * Prompts the user to upload a file attachment.
+         * @param session Session object for the current conversation.
+         * @param prompt 
+         * * __prompt:__ _{string}_ - Initial message to send the user.
+         * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+         * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+         * @param options (Optional) parameters to control the behaviour of the prompt.
+         */
+        attachment(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptAttachmentOptions): void;
 
-    /**
-     * Prompts the user to disambiguate multiple triggered actions. Should typically be called 
-     * from [UniversalBot.onDisambiguateRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#ondisambiguateroute).  
-     * @example
-     * <pre><code>
-     * builder.Prompts.disambiguate(session, "What would you like to cancel?", {
-     *      "Cancel Item": cancelItemRoute,
-     *      "Cancel Order": cancelOrderRoute,
-     *      "Neither": null
-     * });
-     * </code></pre>
-     * @param session Session object for the current conversation.
-     * @param prompt 
-     * * __prompt:__ _{string}_ - Initial message to send the user.
-     * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * @param choices Map of routes to select from. The key is the choice label that will be displayed to the user.
-     * @param options (Optional) parameters to control the behaviour of the prompt.
-     */
-    disambiguate(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: IDisambiguateChoices, options?: IPromptOptions): void;
+        /**
+         * Prompts the user to disambiguate multiple triggered actions. Should typically be called 
+         * from [UniversalBot.onDisambiguateRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#ondisambiguateroute).  
+         * @example
+         * <pre><code>
+         * builder.Prompts.disambiguate(session, "What would you like to cancel?", {
+         *      "Cancel Item": cancelItemRoute,
+         *      "Cancel Order": cancelOrderRoute,
+         *      "Neither": null
+         * });
+         * </code></pre>
+         * @param session Session object for the current conversation.
+         * @param prompt 
+         * * __prompt:__ _{string}_ - Initial message to send the user.
+         * * __prompt:__ _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
+         * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
+         * @param choices Map of routes to select from. The key is the choice label that will be displayed to the user.
+         * @param options (Optional) parameters to control the behaviour of the prompt.
+         */
+        disambiguate(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: IDisambiguateChoices, options?: IPromptOptions): void;
 
-    /**
-     * Replaces a built-in prompt with a new implementation. This lets you completely customize the 
-     * way a prompt like [builder.Prompts.time()](#time) works globally.
-     * @param type The type of built-in prompt that you're customizing.
-     * @param dialog The dialog that you wish to use in place of the default prompt. Be aware that your 
-     * dialog will be registered in the system namespace ('BotBuilder') which can potentially impact
-     * localization and calls to [session.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#begindialog). For calls to 
-     * beginDialog() from within your custom prompt you'll want to prefix your dialogID's with the 
-     * namespace of the library you're calling into, typically '*' for the bots default namespace. So
-     * you would use `session.beginDialog('*:help');` to call a "help" dialog from your custom prompt. 
-     */ 
-    customize(type: PromptType, dialog: Dialog): IPrompts;
+        /**
+         * Replaces a built-in prompt with a new implementation. This lets you completely customize the 
+         * way a prompt like [builder.Prompts.time()](#time) works globally.
+         * @param type The type of built-in prompt that you're customizing.
+         * @param dialog The dialog that you wish to use in place of the default prompt. Be aware that your 
+         * dialog will be registered in the system namespace ('BotBuilder') which can potentially impact
+         * localization and calls to [session.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#begindialog). For calls to 
+         * beginDialog() from within your custom prompt you'll want to prefix your dialogID's with the 
+         * namespace of the library you're calling into, typically '*' for the bots default namespace. So
+         * you would use `session.beginDialog('*:help');` to call a "help" dialog from your custom prompt. 
+         */ 
+        customize(type: PromptType, dialog: Dialog): IPrompts;
 
-    /** __DEPRECATED__ this is no longer used as of v3.8. Use custom prompts instead. */
-    configure(options: IPromptsOptions): void;
+        /** __DEPRECATED__ this is no longer used as of v3.8. Use custom prompts instead. */
+        configure(options: IPromptsOptions): void;
+    }
 }
-
+    
 /**
  * Provides global access to the SDK's built-in prompts. New prompts can be added by simply 
  * adding a new function using `builder.Prompts.myPrompt = function (session, prompt, options) { }`.
- * If you are using TypeScript you will first want to add the signature for your prompt to the [IPrompts](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iprompts)
+ * If you are using TypeScript you will first want to add the signature for your prompt to the [IPrompts](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts)
  * interface using interface decleration merging.
+ * @example
+ * <pre><code>
+ * declare global {
+ *      interface IPrompts {
+ *           myPrompt(session: Session, prompt: string, options?: IPromptOptions): void;
+ *      }
+ * 
+ *       
+ * }
+ * builder.Prompts.disambiguate(session, "What would you like to cancel?", {
+ *      "Cancel Item": cancelItemRoute,
+ *      "Cancel Order": cancelOrderRoute,
+ *      "Neither": null
+ * });
+ * </code></pre>
  */
 export const Prompts: IPrompts;
 

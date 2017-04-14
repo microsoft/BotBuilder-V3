@@ -80,7 +80,7 @@ export class Message implements IIsMessage {
         }
     }
 
-    public InputHint(hint: string): this {
+    public inputHint(hint: string): this {
         this.data.inputHint = hint;
         return this;
     }

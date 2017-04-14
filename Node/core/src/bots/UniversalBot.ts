@@ -89,7 +89,7 @@ export class UniversalBot extends Library {
     private settings = <IUniversalBotSettings>{ 
         processLimit: 4, 
         persistUserData: true, 
-        persistConversationData: false 
+        persistConversationData: true 
     };
     private connectors = <IConnectorMap>{}; 
     private mwReceive = <IEventMiddleware[]>[];

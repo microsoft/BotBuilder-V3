@@ -155,16 +155,19 @@ var PromptChoice = (function (_super) {
             var actions_1 = [];
             choices.forEach(function (choice) {
                 if (listStyle == Prompt_1.ListStyle.button) {
-                    if (choice.action) {
-                        actions_1.push(choice.action);
+                    var ca = choice.action || {};
+                    var action = {
+                        type: ca.type || 'imBack',
+                        title: ca.title || choice.value,
+                        value: ca.value || choice.value
+                    };
+                    if (ca.image) {
+                        action.image = ca.image;
                     }
-                    else {
-                        actions_1.push({
-                            type: 'imBack',
-                            title: choice.value,
-                            value: choice.value
-                        });
-                    }
+                    actions_1.push(action);
+                }
+                else if (choice.action && choice.action.title) {
+                    values_1.push(choice.action.title);
                 }
                 else {
                     values_1.push(choice.value);

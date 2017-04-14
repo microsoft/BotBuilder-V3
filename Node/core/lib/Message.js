@@ -38,7 +38,7 @@ var Message = (function () {
             }
         }
     }
-    Message.prototype.InputHint = function (hint) {
+    Message.prototype.inputHint = function (hint) {
         this.data.inputHint = hint;
         return this;
     };

@@ -35,7 +35,7 @@ import { Library, IRouteResult } from './bots/Library';
 import { Dialog, IDialogResult, ResumeReason, IRecognizeDialogContext } from './dialogs/Dialog';
 import { IRecognizeResult, IRecognizeContext } from './dialogs/IntentRecognizerSet';
 import { ActionSet, IFindActionRouteContext, IActionRouteData } from './dialogs/ActionSet';
-import { Message } from './Message';
+import { Message, InputHint } from './Message';
 import { DefaultLocalizer } from './DefaultLocalizer';
 import { SessionLogger } from './SessionLogger';
 import * as consts from './consts';
@@ -345,7 +345,8 @@ export class Session extends events.EventEmitter {
             this.batch.push(m);
         }
 
-        // Clear private conversation data
+        // Clear conversation data
+        this.conversationData = {};
         this.privateConversationData = {};
                 
         // Clear stack and save.

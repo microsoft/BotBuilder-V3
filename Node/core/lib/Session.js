@@ -271,6 +271,7 @@ var Session = (function (_super) {
             this.prepareMessage(m);
             this.batch.push(m);
         }
+        this.conversationData = {};
         this.privateConversationData = {};
         this.logger.log(this.dialogStack(), 'Session.endConversation()');
         var ss = this.sessionState;

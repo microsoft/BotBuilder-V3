@@ -139,10 +139,10 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.send = function (messages, done) {
         var _this = this;
-        async.eachSeries(messages, function (msg, cb) {
+        async.forEachOfSeries(messages, function (msg, idx, cb) {
             try {
                 if (msg.address && msg.address.serviceUrl) {
-                    _this.postMessage(msg, cb);
+                    _this.postMessage(msg, (idx == messages.length - 1), cb);
                 }
                 else {
                     logger.error('ChatConnector: send - message is missing address or serviceUrl.');
@@ -392,13 +392,16 @@ var ChatConnector = (function () {
     ChatConnector.prototype.isInvoke = function (message) {
         return (message && message.type && message.type.toLowerCase() == consts.invokeType);
     };
-    ChatConnector.prototype.postMessage = function (msg, cb) {
+    ChatConnector.prototype.postMessage = function (msg, lastMsg, cb) {
         logger.info(address, 'ChatConnector: sending message.');
         this.prepOutgoingMessage(msg);
         var address = msg.address;
         msg['from'] = address.bot;
         msg['recipient'] = address.user;
         delete msg.address;
+        if (!msg.inputHint) {
+            msg.inputHint = lastMsg ? 'acceptingInput' : 'ignoringInput';
+        }
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
         if (address.id && address.channelId !== 'skype') {
             path += '/' + encodeURIComponent(address.id);
