@@ -89,27 +89,6 @@ namespace Microsoft.Bot.Builder.Tests
             Assert.AreNotEqual(options, PromptDialog.PromptConfirm.Options);
             Assert.AreNotEqual(patterns, PromptDialog.PromptConfirm.Patterns);
         }
-
-        [TestMethod]
-        public void PromptLocalization_SetOptionsAndPatterns()
-        {
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("en-US");
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("en-US");
-            var options = new string[] { "si", "no" };
-            var patterns = new string[][] {
-                new string[] { "si" , "s", "sip", "ok", "1" },
-                new string[] { "No", "n", "nop", "2" }
-            };
-
-            PromptDialog.PromptConfirm.Options = options;
-            PromptDialog.PromptConfirm.Patterns = patterns;
-
-            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
-
-            Assert.AreEqual(options, PromptDialog.PromptConfirm.Options);
-            Assert.AreEqual(patterns, PromptDialog.PromptConfirm.Patterns);
-        }
     }
     
     [TestClass]
@@ -203,6 +182,14 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task PromptSuccess_Confirm_No_CaseInsensitive()
         {
             await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None), "No", false);
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Confirm_Maybe()
+        {
+            await PromptSuccessAsync((context, resume) => PromptDialog.Confirm(context, resume, PromptText, promptStyle: PromptStyle.None,
+                options: new string[] { "maybe", "no" }, patterns: new string[][] { new string[]{ "maybe" }, new string[]{ "no" } }),
+                "maybe", true);
         }
 
         [TestMethod]
