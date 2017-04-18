@@ -80,6 +80,7 @@ export interface IChatConnectorAddress extends IAddress {
     id?: string;            // Incoming Message ID
     serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete
     useAuth?: string;
+    channelData?: any;
 }
 
 export class ChatConnector implements IConnector, IBotStorage {
@@ -249,7 +250,8 @@ export class ChatConnector implements IConnector, IBotStorage {
                 url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
-                    members: [address.user] 
+                    members: [address.user],
+                    channelData: address.channelData
                 },
                 json: true
             };

@@ -224,7 +224,7 @@ describe('promptRecognizers', function() {
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
-                var options = { intergerOnly: true };
+                var options = { integerOnly: true };
                 var matches = builder.PromptRecognizers.recognizeNumbers(ctx, options);
                 assert(matches && matches.length == 2);
                 assert(matches[0].entity === 1);

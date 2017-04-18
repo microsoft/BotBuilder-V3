@@ -161,7 +161,8 @@ var ChatConnector = (function () {
                 url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
-                    members: [address.user]
+                    members: [address.user],
+                    channelData: address.channelData
                 },
                 json: true
             };
