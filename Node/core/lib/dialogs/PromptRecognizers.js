@@ -82,7 +82,7 @@ var PromptRecognizers = (function () {
         function addEntity(n, score) {
             if ((typeof options.minValue !== 'number' || n >= options.minValue) &&
                 (typeof options.maxValue !== 'number' || n <= options.maxValue) &&
-                (!options.intergerOnly || Math.floor(n) == n)) {
+                (!options.integerOnly || Math.floor(n) == n)) {
                 entities.push({
                     type: consts.Entities.Number,
                     entity: n,

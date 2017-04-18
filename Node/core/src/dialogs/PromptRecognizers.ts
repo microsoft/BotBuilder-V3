@@ -48,7 +48,7 @@ export interface IPromptRecognizeNumbersOptions {
     maxValue?: number;
 
     /** (Optional) if true, then only integers will be recognized. */
-    intergerOnly?: boolean;
+    integerOnly?: boolean;
 }
 
 export interface IPromptRecognizeTimesOptions {
@@ -203,7 +203,7 @@ export class PromptRecognizers {
         function addEntity(n: number, score: number) {
             if ((typeof options.minValue !== 'number' || n >= options.minValue) &&
                 (typeof options.maxValue !== 'number' || n <= options.maxValue) &&
-                (!options.intergerOnly || Math.floor(n) == n)) 
+                (!options.integerOnly || Math.floor(n) == n)) 
             {
                 entities.push({
                     type: consts.Entities.Number,

@@ -87,10 +87,24 @@ var PromptChoice = (function (_super) {
             _this.findChoices(session.toRecognizeContext(), false, function (err, choices) {
                 var msg;
                 if (!err && choices) {
+                    var sendChoices = context.turns === 0;
                     var listStyle = options.listStyle;
                     if (listStyle === undefined || listStyle === null || listStyle === Prompt_1.ListStyle.auto) {
-                        if (Channel.supportsKeyboards(session, choices.length)) {
+                        var maxTitleLength_1 = 0;
+                        choices.forEach(function (choice) {
+                            var l = choice.action && choice.action.title ? choice.action.title.length : choice.value.length;
+                            if (l > maxTitleLength_1) {
+                                maxTitleLength_1 = l;
+                            }
+                        });
+                        var supportsKeyboards = Channel.supportsKeyboards(session, choices.length);
+                        var supportsCardActions = Channel.supportsCardActions(session, choices.length);
+                        var maxActionTitleLength = Channel.maxActionTitleLength(session);
+                        var hasMessageFeed = Channel.hasMessageFeed(session);
+                        if (maxTitleLength_1 <= maxActionTitleLength &&
+                            (supportsKeyboards || (!hasMessageFeed && supportsCardActions))) {
                             listStyle = Prompt_1.ListStyle.button;
+                            sendChoices = true;
                         }
                         else {
                             listStyle = _this.features.defaultListStyle;
@@ -100,8 +114,7 @@ var PromptChoice = (function (_super) {
                             }
                         }
                     }
-                    var keyboardsOnly = context.turns > 0;
-                    msg = PromptChoice.formatMessage(session, listStyle, text, speak, choices, keyboardsOnly);
+                    msg = PromptChoice.formatMessage(session, listStyle, text, speak, sendChoices ? choices : null);
                 }
                 callback(err, msg);
             });
@@ -140,8 +153,7 @@ var PromptChoice = (function (_super) {
         this._onChoices.unshift(handler);
         return this;
     };
-    PromptChoice.formatMessage = function (session, listStyle, text, speak, choices, keyboardsOnly) {
-        if (keyboardsOnly === void 0) { keyboardsOnly = false; }
+    PromptChoice.formatMessage = function (session, listStyle, text, speak, choices) {
         var options = session.dialogData.options;
         var locale = session.preferredLocale();
         var namespace = options ? options.libraryNamespace : null;
@@ -182,29 +194,25 @@ var PromptChoice = (function (_super) {
                     }
                     break;
                 case Prompt_1.ListStyle.inline:
-                    if (values_1.length > 0 && !keyboardsOnly) {
-                        txt += ' (';
-                        values_1.forEach(function (v, index) {
-                            txt += connector_1 + (index + 1) + '. ' + v;
-                            if (index == (values_1.length - 2)) {
-                                var cid = index == 0 ? 'list_or' : 'list_or_more';
-                                connector_1 = Prompt_1.Prompt.gettext(session, cid, consts.Library.system);
-                            }
-                            else {
-                                connector_1 = ', ';
-                            }
-                        });
-                        txt += ')';
-                    }
+                    txt += ' (';
+                    values_1.forEach(function (v, index) {
+                        txt += connector_1 + (index + 1) + '. ' + v;
+                        if (index == (values_1.length - 2)) {
+                            var cid = index == 0 ? 'list_or' : 'list_or_more';
+                            connector_1 = Prompt_1.Prompt.gettext(session, cid, consts.Library.system);
+                        }
+                        else {
+                            connector_1 = ', ';
+                        }
+                    });
+                    txt += ')';
                     break;
                 case Prompt_1.ListStyle.list:
-                    if (values_1.length > 0 && !keyboardsOnly) {
-                        txt += '\n\n   ';
-                        values_1.forEach(function (v, index) {
-                            txt += connector_1 + (index + 1) + '. ' + v;
-                            connector_1 = '\n   ';
-                        });
-                    }
+                    txt += '\n\n   ';
+                    values_1.forEach(function (v, index) {
+                        txt += connector_1 + (index + 1) + '. ' + v;
+                        connector_1 = '\n   ';
+                    });
                     break;
             }
         }

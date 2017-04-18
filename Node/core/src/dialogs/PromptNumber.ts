@@ -45,7 +45,7 @@ export interface IPromptNumberOptions extends IPromptOptions {
     maxValue?: number;
 
     /** (Optional) if true, then only integers will be recognized. */
-    intergerOnly?: boolean;
+    integerOnly?: boolean;
 }
 
 export class PromptNumber extends Prompt<IPromptFeatures> {
@@ -69,6 +69,49 @@ export class PromptNumber extends Prompt<IPromptFeatures> {
                 }
             } else {
                 cb(null, 0.0);
+            }
+        });
+
+        this.onFormatMessage((session, text, speak, callback) => {
+            let context = (<IPromptContext>session.dialogData);
+            let options = (<IPromptNumberOptions>context.options);
+            let hasMinValue = typeof options.minValue === 'number';
+            let hasMaxValue = typeof options.maxValue === 'number';
+            let hasIntegerOnly = options.integerOnly;
+            if (context.turns > 0 && (hasMinValue || hasMaxValue || hasIntegerOnly)) {
+                // Find error prompt
+                let errorPrompt: string;
+                let context = session.toRecognizeContext();
+                let top = PromptRecognizers.findTopEntity(PromptRecognizers.recognizeNumbers(context));
+                if (top) {
+                    let value = top.entity;
+                    let bellowMin = hasMinValue && value < options.minValue;
+                    let aboveMax = hasMaxValue && value > options.maxValue;
+                    let notInteger = hasIntegerOnly && Math.floor(value) !== value; 
+                    if (hasMinValue && hasMaxValue && (bellowMin || aboveMax)) {
+                        errorPrompt = 'number_range_error';
+                    } else if (hasMinValue && bellowMin) {
+                        errorPrompt = 'number_minValue_error';
+                    } else if (hasMaxValue && aboveMax) {
+                        errorPrompt = 'number_maxValue_error';
+                    } else if (hasIntegerOnly && notInteger) {
+                        errorPrompt = 'number_integer_error';
+                    }
+                }
+
+                // Format error message
+                if (errorPrompt) {
+                    let text = Prompt.gettext(session, errorPrompt, consts.Library.system);
+                    let msg = <IMessage>{ text: session.gettext(text, options) };
+                    if (speak) {
+                        msg.speak = Prompt.gettext(session, speak);
+                    }
+                    callback(null, msg);
+                } else {
+                    callback(null, null);
+                }
+            } else {
+                callback(null, null);
             }
         });
 

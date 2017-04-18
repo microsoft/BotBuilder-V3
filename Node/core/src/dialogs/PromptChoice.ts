@@ -159,10 +159,27 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
                 let msg: IMessage;
                 if (!err && choices) {
                     // Resolve list style
+                    let sendChoices = context.turns === 0;
                     let listStyle = options.listStyle;
                     if (listStyle === undefined || listStyle === null || listStyle === ListStyle.auto) {
-                        if (Channel.supportsKeyboards(session, choices.length)) {
+                        // Find maximum title length
+                        let maxTitleLength = 0;
+                        choices.forEach((choice) => {
+                            let l = choice.action && choice.action.title ? choice.action.title.length : choice.value.length;
+                            if (l > maxTitleLength) {
+                                maxTitleLength = l;
+                            }
+                        });
+
+                        // Determine list style
+                        let supportsKeyboards = Channel.supportsKeyboards(session, choices.length);
+                        let supportsCardActions = Channel.supportsCardActions(session, choices.length);
+                        let maxActionTitleLength = Channel.maxActionTitleLength(session);
+                        let hasMessageFeed = Channel.hasMessageFeed(session);
+                        if (maxTitleLength <= maxActionTitleLength && 
+                            (supportsKeyboards || (!hasMessageFeed && supportsCardActions))) {
                             listStyle = ListStyle.button;
+                            sendChoices = true;
                         } else {
                             listStyle = this.features.defaultListStyle;
                             let inlineListCount = this.features.inlineListCount;
@@ -172,11 +189,8 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
                         }
                     }
 
-                    // Set keyboard only mode
-                    let keyboardsOnly = context.turns > 0;
-
                     // Format message
-                    msg = PromptChoice.formatMessage(session, listStyle, text, speak, choices, keyboardsOnly);
+                    msg = PromptChoice.formatMessage(session, listStyle, text, speak, sendChoices ? choices : null);
                 }
                 callback(err, msg);
             });
@@ -218,7 +232,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
     }
 
     /** Returns a message containing a list of choices. */
-    static formatMessage(session: Session, listStyle: ListStyle, text: string|string[], speak?: string|string[], choices?: IChoice[], keyboardsOnly = false): IMessage {
+    static formatMessage(session: Session, listStyle: ListStyle, text: string|string[], speak?: string|string[], choices?: IChoice[]): IMessage {
         // Build message
         let options = <IPromptOptions>session.dialogData.options;
         let locale = session.preferredLocale();
@@ -261,28 +275,24 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
                     }
                     break;
                 case ListStyle.inline:
-                    if (values.length > 0 && !keyboardsOnly) {
-                        txt += ' (';
-                        values.forEach((v, index) => {
-                            txt += connector + (index + 1) + '. ' + v;
-                            if (index == (values.length - 2)) {
-                                let cid =  index == 0 ? 'list_or' : 'list_or_more';
-                                connector = Prompt.gettext(session, cid, consts.Library.system);
-                            } else {
-                                connector = ', ';
-                            }
-                        });
-                        txt += ')';
-                    }
+                    txt += ' (';
+                    values.forEach((v, index) => {
+                        txt += connector + (index + 1) + '. ' + v;
+                        if (index == (values.length - 2)) {
+                            let cid =  index == 0 ? 'list_or' : 'list_or_more';
+                            connector = Prompt.gettext(session, cid, consts.Library.system);
+                        } else {
+                            connector = ', ';
+                        }
+                    });
+                    txt += ')';
                     break;
                 case ListStyle.list:
-                    if (values.length > 0 && !keyboardsOnly) {
-                        txt += '\n\n   ';
-                        values.forEach((v, index) => {
-                            txt += connector + (index + 1) + '. ' + v;
-                            connector = '\n   ';
-                        });
-                    }
+                    txt += '\n\n   ';
+                    values.forEach((v, index) => {
+                        txt += connector + (index + 1) + '. ' + v;
+                        connector = '\n   ';
+                    });
                     break;
             }
         }

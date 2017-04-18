@@ -261,7 +261,7 @@ export interface IReceiptItem {
     /** Text field appears just below subtitle, differs from Subtitle in font styling only. */  
     text: string;
 
-    /** Image to display on the card. Some channels may either send the image as a seperate message or simply include a link to the image. */  
+    /** Image to display on the card. Some channels may either send the image as a separate message or simply include a link to the image. */  
     image: ICardImage;
     
     /** Amount with currency. */
@@ -352,7 +352,7 @@ export interface IIsFact {
 
 /** Settings used to initialize an ILocalizer implementation. */
 interface IDefaultLocalizerSettings {
-    /** The path to the parent of the bot's locale directory  */
+    /** The path to the parent of the bots locale directory  */
     botLocalePath?: string;
 
     /** The default locale of the bot  */
@@ -362,7 +362,7 @@ interface IDefaultLocalizerSettings {
 /** Plugin for localizing messages sent to the user by a bot. */
 export interface ILocalizer {
     /**
-     * Loads the localied table for the supplied locale, and call's the supplied callback once the load is complete.
+     * Loads the localized table for the supplied locale, and call's the supplied callback once the load is complete.
      * @param locale The locale to load.
      * @param callback callback that is called once the supplied locale has been loaded, or an error if the load fails.
      */
@@ -426,7 +426,7 @@ export interface IDialogResult<T> {
     /** ID of the child dialog thats ending. */
     childId?: string;
 
-    /** If an error occured the child dialog can return the error to the parent. */
+    /** If an error occurred the child dialog can return the error to the parent. */
     error?: Error;
 
     /** The users response. */
@@ -528,16 +528,16 @@ export interface IDialogActionOptions {
 
     /**
      * (Optional) custom handler that's invoked whenever the action is triggered.  This lets you
-     * customize the behaviour of an action. For instance you could clear the dialog stack before
-     * the new dialog is started, changing the default behaviour which is to just push the new 
+     * customize the behavior of an action. For instance you could clear the dialog stack before
+     * the new dialog is started, changing the default behavior which is to just push the new 
      * dialog onto the end of the stack. 
      * 
      * It's important to note that this is not a waterfall and you should call `next()` if you 
-     * would like the actions default behaviour to run. 
+     * would like the actions default behavior to run. 
      */
     onSelectAction?: (session: Session, args?: IActionRouteData, next?: Function) => void;
 
-    /** (Optional) display label for the action which can be presented to the user when disambiguting between actions. */
+    /** (Optional) display label for the action which can be presented to the user to disambiguate between actions. */
     label?: string;    
 }
 
@@ -566,7 +566,7 @@ export interface ITriggerActionOptions extends IBeginDialogActionOptions {
      * the user to confirm the interruption was intended. 
      * 
      * It's important to note that this is not a waterfall and you should call `next()` if you 
-     * would like the actions default behaviour to run. 
+     * would like the actions default behavior to run. 
      */
     onInterrupted?: (session: Session, dialogId: string, dialogArgs?: any, next?: Function) => void;
 }
@@ -574,7 +574,7 @@ export interface ITriggerActionOptions extends IBeginDialogActionOptions {
 /** Options passed when defining a `cancelAction()`. */
 export interface ICancelActionOptions extends IDialogActionOptions {
     /**
-     * If specified the user will be asked to confirm that they truely would like to cancel an
+     * If specified the user will be asked to confirm that they truly would like to cancel an
      * action when triggered. 
      * * _{string}_ - Initial message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
@@ -626,12 +626,12 @@ export interface IPromptRecognizeNumbersOptions {
     maxValue?: number;
 
     /** (Optional) if true, then only integers will be recognized. */
-    intergerOnly?: boolean;
+    integerOnly?: boolean;
 }
 
 /** Options passed to [PromptRecognizers.recognizeTimes()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptrecognizers#recognizetimes). */
 export interface IPromptRecognizeTimesOptions {
-    /** (Optional) Reference date for releative times. */
+    /** (Optional) Reference date for relative times. */
     refDate?: number;
 }
 
@@ -645,7 +645,7 @@ export interface IPromptRecognizeValuesOptions {
 
     /** 
      * (Optional) maximum tokens allowed between two matched tokens in the utterance. So with
-     * a max distance of 2 the value "second last" would match the utternace "second from the last"
+     * a max distance of 2 the value "second last" would match the utterance "second from the last"
      * but it wouldn't match "Wait a second. That's not the last one is it?". 
      * The default value is "2".  
      */
@@ -672,12 +672,12 @@ export interface IPromptOptions extends IMessageOptions {
      */
     prompt?: string|string[]|IMessage|IIsMessage;
 
-    /** (Optional) SSML to send with the inital `prompt`. If the prompt is of type `IMessage` or `IIsMessage`, this value will be ignored. If this value is an array a response will be chosen at random. */
+    /** (Optional) SSML to send with the initial `prompt`. If the prompt is of type `IMessage` or `IIsMessage`, this value will be ignored. If this value is an array a response will be chosen at random. */
     speak?: string|string[];
 
     /** 
      * (Optional) retry prompt to send if the users response isn't understood. Default is to just 
-     * reprompt with a customizable system prompt. 
+     * re-prompt with a customizable system prompt. 
      * * _{string}_ - Message to send the user.
      * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
      * * _{IMessage}_ - Message to send the user. Message can contain attachments. 
@@ -688,10 +688,10 @@ export interface IPromptOptions extends IMessageOptions {
     /** (Optional) SSML to send with the `retryPrompt`. If the retryPrompt is of type `IMessage` or `IIsMessage`, this value will be ignored. If this value is an array a response will be chosen at random. */
     retrySpeak?: string|string[];
 
-    /** (Optional) maximum number of times to reprompt the user. By default the user will be reprompted indefinitely. */
+    /** (Optional) maximum number of times to re-prompt the user. By default the user will be re-prompted indefinitely. */
     maxRetries?: number;
 
-    /** (Optional) flag used to control the reprompting of a user after a dialog started by an action ends. The default value is true. */
+    /** (Optional) flag used to control the re-prompting of a user after a dialog started by an action ends. The default value is true. */
     promptAfterAction?: boolean;
 
     /** (Optional) type of list to render for PromptType.choice. Default value is ListStyle.auto. */
@@ -725,7 +725,7 @@ export interface IPromptContext {
     lastTurn: number;
 
     /** 
-     * If true, we're returning from an unexpected interuption and should send the initial turn-0 
+     * If true, we're returning from an unexpected interruption and should send the initial turn-0 
      * prompt again.  
      */
     isReprompt: boolean;
@@ -737,7 +737,7 @@ export interface IPromptContext {
     activeIntent: string;
 }
 
-/** Optional features that should be enabled/diabled when creating a custom [Prompt](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompt) */
+/** Optional features that should be enabled/disabled when creating a custom [Prompt](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompt) */
 export interface IPromptFeatures {
     /** If true, then the prompt should not execute it's own recognition logic. The default is "false". */
     disableRecognizer?: boolean;
@@ -777,7 +777,7 @@ export interface IPromptChoiceFeatures extends IPromptFeatures {
  */
 export interface IPromptChoiceOptions extends IPromptOptions {
     /** 
-     * (Optional) List of choices to present to the user. If ommited a [PromptChoice.onChoices()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptchoice#onchoices) 
+     * (Optional) List of choices to present to the user. If omitted a [PromptChoice.onChoices()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptchoice#onchoices) 
      * handler should be provided. 
      */
     choices?: IChoice[];
@@ -796,7 +796,7 @@ export interface IPromptNumberOptions extends IPromptOptions {
     maxValue?: number;
 
     /** (Optional) if true, then only integers will be recognized. The default value is false. */
-    intergerOnly?: boolean;
+    integerOnly?: boolean;
 }
 
 /** Optional features for [PromptText](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompttext) class. */
@@ -828,7 +828,7 @@ export interface IPromptAttachmentFeatures extends IPromptFeatures {
 }
 
 /** 
- * Route choices to pass to [Prompts.diambiguate()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts#disambiguate).
+ * Route choices to pass to [Prompts.disambiguate()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts#disambiguate).
  * The key for the map should be the localized label to display to the user and the value should be
  * the route to select when chosen by the user.  You can pass `null` for the route to give the user the option to cancel.
  * @example
@@ -877,7 +877,7 @@ export interface IPromptAttachmentResult extends IPromptResult<IAttachment[]> { 
 /** Plugin for recognizing prompt responses received by a user. */
 export interface IPromptRecognizer {
     /**
-      * Attempts to match a users reponse to a given prompt.
+      * Attempts to match a users response to a given prompt.
       * @param args Arguments passed to the recognizer including that language, text, and prompt choices.
       * @param callback Function to invoke with the result of the recognition attempt.
       * @param callback.result Returns the result of the recognition attempt.
@@ -956,7 +956,7 @@ export interface IIntentRecognizerSetOptions {
 
 /** Options used to configure an [IntentDialog](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentdialog.html). */
 export interface IIntentDialogOptions extends IIntentRecognizerSetOptions {
-    /** (Optional) Controls the dialogs processing of incomming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
+    /** (Optional) Controls the dialogs processing of incoming user utterances. The default is RecognizeMode.onBeginIfRoot.  The default prior to v3.2 was RecognizeMode.onBegin. */
     recognizeMode?: RecognizeMode;
 } 
 
@@ -966,7 +966,7 @@ export interface IIntentRecognizer {
      * Attempts to match a users text utterance to an intent.
      * @param context Contextual information for a received message that's being recognized.
      * @param callback Function to invoke with the results of the recognition operation.
-     * @param callback.error Any error that occured or `null`.
+     * @param callback.error Any error that occurred or `null`.
      * @param callback.result The result of the recognition.
      */
     recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
@@ -1029,7 +1029,7 @@ export interface ISessionOptions {
     actions?: ActionSet;
 }
 
-/** result returnd from a call to EntityRecognizer.findBestMatch() or EntityRecognizer.findAllMatches(). */
+/** result returned from a call to EntityRecognizer.findBestMatch() or EntityRecognizer.findAllMatches(). */
 export interface IFindMatchResult {
     /** Index of the matched value. */
     index: number;
@@ -1074,7 +1074,7 @@ export interface IBotStorageData {
     privateConversationData?: any;
 }
 
-/** Replacable storage system used by UniversalBot. */
+/** Replaceable storage system used by UniversalBot. */
 export interface IBotStorage {
     /** Reads in data from storage. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
@@ -1178,9 +1178,9 @@ export interface IMiddlewareMap {
  * 
  * When either a dialog or built-in prompt is called from a waterfall step, the results from that 
  * dialog or prompt will be passed via the `results` parameter to the next step of the waterfall. 
- * Users can say things like "nevermind" to cancel the built-in prompts so you should guard against
+ * Users can say things like "never mind" to cancel the built-in prompts so you should guard against
  * that by at least checking for [results.response](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#response) 
- * before proceeding. A more detailed explination of why the waterfall is being continued can be 
+ * before proceeding. A more detailed explanation of why the waterfall is being continued can be 
  * determined by looking at the [code](/en-us/node/builder/chat-reference/enums/_botbuilder_d_.resumereason.html) 
  * returned for [results.resumed](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#resumed).
  * 
@@ -1197,7 +1197,7 @@ export interface IMiddlewareMap {
  * dialogs and want a call to [session.endDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#enddialog)
  * from the last child on the stack to end the entire stack. The close of the last child will trigger
  * all of its parents to move to this hidden step which will cascade the close all the way up the stack.
- * This is typically a desired behaviour but if you want to avoid it or stop it somewhere in the 
+ * This is typically a desired behavior but if you want to avoid it or stop it somewhere in the 
  * middle you'll need to add a step to the end of your waterfall that either does nothing or calls 
  * something like [session.send()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#send)
  * which isn't going to advance the waterfall forward.   
@@ -1213,7 +1213,7 @@ export interface IMiddlewareMap {
  *             // User answered question.
  *             session.send("Hello %s.", results.response);
  *         } else {
- *             // User said nevermind.
+ *             // User said never mind.
  *             session.send("OK. Goodbye.");
  *         }
  *     }
@@ -1226,7 +1226,7 @@ export interface IDialogWaterfallStep {
      * @param result 
      * * __result:__ _{any}_ - For the first step of the waterfall this will be `null` or the value of any arguments passed to the handler.
      * * __result:__ _{IDialogResult}_ - For subsequent waterfall steps this will be the result of the prompt or dialog called in the previous step.
-     * @param skip Fuction used to manually skip to the next step of the waterfall.  
+     * @param skip Function used to manually skip to the next step of the waterfall.  
      * @param skip.results (Optional) results to pass to the next waterfall step. This lets you more accurately mimic the results returned from a prompt or dialog.
      */
     (session: Session, result?: any | IDialogResult<any>, skip?: (results?: IDialogResult<any>) => void): any;
@@ -1303,12 +1303,12 @@ export interface IFindRoutesHandler {
 }
 
 /** Custom route searching logic passed to [Library.onSelectRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onselectroute). */
-export interface ISelectRoutheandler {
+export interface ISelectRouteHandler {
     (session: Session, route: IRouteResult): void;
 }
 
 /** Custom route disambiguation logic passed to [UniversalBot.onDisambiguateRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#ondisambiguateroute). */
-export interface IDisambiguateRoutheandler {
+export interface IDisambiguateRouteHandler {
     (session: Session, routes: IRouteResult[]): void;
 }
 
@@ -1394,7 +1394,7 @@ export enum ResumeReason {
     /** The user requested to skip the current step of a dialog flow. */
     forward,
 
-    /** The dialog is being resumed because of an interruption and should reprompt. */
+    /** The dialog is being resumed because of an interruption and should re-prompt. */
     reprompt
 }
 
@@ -2734,7 +2734,7 @@ export class Library {
      * Replaces the default logic for [selectRoute()](#selectroute) with a custom implementation.
      * @param handler Function that will be invoked anytime `selectRoute()` is called. 
      */
-    onSelectRoute(handler: ISelectRoutheandler): void;
+    onSelectRoute(handler: ISelectRouteHandler): void;
 
     /**
      * Gets the active dialogs confidence that it understands the current message. The dialog 
@@ -3038,6 +3038,14 @@ export class Prompt<T extends IPromptFeatures> extends Dialog {
      * @param features New features to apply.
      */
     protected updateFeatures(features: T): Prompt<any>;
+
+    /**
+     * Returns the text for a prompt that's been localized using the namespace of the prompts caller.
+     * @param session Current session for the conversation.
+     * @param text Prompt to localize.
+     * @param namespace (Optional) library namespace to use for localizing the prompt. By default the namespace of the prompts caller will be used.
+     */
+    static gettext(session: Session, text: string|string[], namespace?: string): string;
 }
 
 /** Customizable attachment prompt. */
@@ -3085,13 +3093,12 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
     /**
      * Returns a message containing a list of choices.
      * @param session Current session for the conversation.
-     * @param listStyle 
+     * @param listStyle Style of list to include in message.
      * @param text Text of the message.
      * @param speak (Optional) SSML to return with the message. This can be null.
-     * @param choices (Optional) list of choices to include in the message.
-     * @param keyboardsOnly (Optional) if true then the choices will only be included on the message if the `listStyle` is of type `Button`.
+     * @param choices (Optional) list of choices to include in the message. If ommitted the message will be sent without including choices.
      */
-    static formatMessage(session: Session, listStyle: ListStyle, text: string|string[], speak?: string|string[], choices?: IChoice[], keyboardsOnly?: boolean): IMessage;
+    static formatMessage(session: Session, listStyle: ListStyle, text: string|string[], speak?: string|string[], choices?: IChoice[]): IMessage;
 }
 
 /** Customizable confirmation prompt. */
@@ -3735,7 +3742,7 @@ export class UniversalBot extends Library  {
      * Replaces the bots default route disambiguation logic with a custom implementation.
      * @param handler Function that will be invoked with the candidate routes to dispatch an incoming message to. 
      */
-    onDisambiguateRoute(handler: IDisambiguateRoutheandler): void;
+    onDisambiguateRoute(handler: IDisambiguateRouteHandler): void;
 }
 
 /** Connects a UniversalBot to multiple channels via the Bot Framework. */
