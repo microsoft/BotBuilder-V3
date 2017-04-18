@@ -643,6 +643,7 @@ var hierarchy =
     [ "Microsoft.Bot.Connector.ConversationParameters", "dd/d05/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_parameters.html", null ],
     [ "Microsoft.Bot.Connector.ConversationResourceResponse", "df/dd1/class_microsoft_1_1_bot_1_1_connector_1_1_conversation_resource_response.html", null ],
     [ "Microsoft.Bot.Connector.ConversationsExtensions", "d7/d08/class_microsoft_1_1_bot_1_1_connector_1_1_conversations_extensions.html", null ],
+    [ "Microsoft.Bot.Connector.EndOfConversationCodes", "dd/ddf/class_microsoft_1_1_bot_1_1_connector_1_1_end_of_conversation_codes.html", null ],
     [ "Microsoft.Bot.Connector.Entity", "d7/da5/class_microsoft_1_1_bot_1_1_connector_1_1_entity.html", [
       [ "Microsoft.Bot.Connector.Mention", "d7/d2e/class_microsoft_1_1_bot_1_1_connector_1_1_mention.html", null ]
     ] ],
@@ -670,6 +671,9 @@ var hierarchy =
         [ "Microsoft.Bot.Connector.Activity", "dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity.html", null ],
         [ "Microsoft.Bot.Connector.ITriggerActivity", "d9/dd3/interface_microsoft_1_1_bot_1_1_connector_1_1_i_trigger_activity.html", null ]
       ] ],
+      [ "Microsoft.Bot.Connector.IInstallationUpdateActivity", "dd/d31/interface_microsoft_1_1_bot_1_1_connector_1_1_i_installation_update_activity.html", [
+        [ "Microsoft.Bot.Connector.Activity", "dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity.html", null ]
+      ] ],
       [ "Microsoft.Bot.Connector.IInvokeActivity", "df/de7/interface_microsoft_1_1_bot_1_1_connector_1_1_i_invoke_activity.html", [
         [ "Microsoft.Bot.Connector.Activity", "dc/d2f/class_microsoft_1_1_bot_1_1_connector_1_1_activity.html", null ]
       ] ],
@@ -696,6 +700,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "Microsoft.Bot.Connector.IdentityToken", "d5/d65/class_microsoft_1_1_bot_1_1_connector_1_1_identity_token.html", null ],
+    [ "Microsoft.Bot.Connector.InputHints", "da/d88/class_microsoft_1_1_bot_1_1_connector_1_1_input_hints.html", null ],
     [ "Microsoft.Bot.Connector.JwtConfig", "da/da9/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_config.html", null ],
     [ "Microsoft.Bot.Connector.JwtTokenExtractor", "d3/dfc/class_microsoft_1_1_bot_1_1_connector_1_1_jwt_token_extractor.html", null ],
     [ "Microsoft.Bot.Connector.MediaUrl", "df/d34/class_microsoft_1_1_bot_1_1_connector_1_1_media_url.html", null ],
@@ -706,6 +711,7 @@ var hierarchy =
     [ "Microsoft.Bot.Connector.ResourceResponse", "de/df8/class_microsoft_1_1_bot_1_1_connector_1_1_resource_response.html", null ],
     [ "Microsoft.Bot.Connector.SigninCard", "dc/d03/class_microsoft_1_1_bot_1_1_connector_1_1_signin_card.html", null ],
     [ "Microsoft.Bot.Connector.StateClientExtensions", "d1/d4d/class_microsoft_1_1_bot_1_1_connector_1_1_state_client_extensions.html", null ],
+    [ "Microsoft.Bot.Connector.SuggestedActions", "d4/de7/class_microsoft_1_1_bot_1_1_connector_1_1_suggested_actions.html", null ],
     [ "Microsoft.Bot.Connector.TextFormatTypes", "da/df9/class_microsoft_1_1_bot_1_1_connector_1_1_text_format_types.html", null ],
     [ "Microsoft.Bot.Connector.ThumbnailCard", "da/da6/class_microsoft_1_1_bot_1_1_connector_1_1_thumbnail_card.html", null ],
     [ "Microsoft.Bot.Connector.ThumbnailUrl", "df/d36/class_microsoft_1_1_bot_1_1_connector_1_1_thumbnail_url.html", null ],

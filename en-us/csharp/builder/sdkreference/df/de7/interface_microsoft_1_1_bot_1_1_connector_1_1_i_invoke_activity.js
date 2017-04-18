@@ -4,6 +4,7 @@ var interface_microsoft_1_1_bot_1_1_connector_1_1_i_invoke_activity =
     [ "AsConversationUpdateActivity", "df/de7/interface_microsoft_1_1_bot_1_1_connector_1_1_i_invoke_activity.html#a01b5c88a32081b4a6c64ca470a1e5533", null ],
     [ "AsEndOfConversationActivity", "df/de7/interface_microsoft_1_1_bot_1_1_connector_1_1_i_invoke_activity.html#a8935e60226b4903338e85ae334df3e29", null ],
     [ "AsEventActivity", "df/de7/interface_microsoft_1_1_bot_1_1_connector_1_1_i_invoke_activity.html#a29732f53a5fdefa2d8d9fed6ae984254", null ],
+    [ "AsInstallationUpdateActivity", "df/de7/interface_microsoft_1_1_bot_1_1_connector_1_1_i_invoke_activity.html#a0bdc7c799da985acde52a66d9c38fc2c", null ],
     [ "AsInvokeActivity", "df/de7/interface_microsoft_1_1_bot_1_1_connector_1_1_i_invoke_activity.html#aa9e6e51b133d54693bf4475cd3ba9a3e", null ],
     [ "AsMessageActivity", "df/de7/interface_microsoft_1_1_bot_1_1_connector_1_1_i_invoke_activity.html#abaf116e08d616a55d009b8508410e922", null ],
     [ "AsTypingActivity", "df/de7/interface_microsoft_1_1_bot_1_1_connector_1_1_i_invoke_activity.html#a89709151bfd9787c786dfdcef7fb3b36", null ],

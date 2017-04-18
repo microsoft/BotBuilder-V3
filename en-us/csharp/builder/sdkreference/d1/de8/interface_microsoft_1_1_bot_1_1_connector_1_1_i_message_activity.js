@@ -4,6 +4,7 @@ var interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity =
     [ "AsConversationUpdateActivity", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a01b5c88a32081b4a6c64ca470a1e5533", null ],
     [ "AsEndOfConversationActivity", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a8935e60226b4903338e85ae334df3e29", null ],
     [ "AsEventActivity", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a29732f53a5fdefa2d8d9fed6ae984254", null ],
+    [ "AsInstallationUpdateActivity", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a0bdc7c799da985acde52a66d9c38fc2c", null ],
     [ "AsInvokeActivity", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#aa9e6e51b133d54693bf4475cd3ba9a3e", null ],
     [ "AsMessageActivity", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#abaf116e08d616a55d009b8508410e922", null ],
     [ "AsTypingActivity", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a89709151bfd9787c786dfdcef7fb3b36", null ],
@@ -18,14 +19,18 @@ var interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity =
     [ "Entities", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#ad8172664c55c73dcca08bfba1e07312f", null ],
     [ "From", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#aafd9141842e995364c0e73fe7aed8e95", null ],
     [ "Id", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a41b43592c991ff6f10b19434d5f7dce8", null ],
+    [ "InputHint", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#aeec1241b4174b7868d9b5589f885e331", null ],
     [ "Locale", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a726a28750bc94f8458c1787663ea7795", null ],
     [ "LocalTimestamp", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#adb986f4cf6dc639a617bccf3ca4eebfe", null ],
     [ "Recipient", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a9cefc0a8b4784473ba02b6990e8ae5f4", null ],
     [ "ReplyToId", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#ad3a4adb43c195c2a5b352a0d4d5e8a6d", null ],
     [ "ServiceUrl", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a64ea61e741a3a1740c64b7e547979b16", null ],
+    [ "Speak", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#aece1e53bbcb059d550495f7c034ca92e", null ],
+    [ "SuggestedActions", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a201fce1ac314639992bc5657fb0e551f", null ],
     [ "Summary", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a30c9067bd1e879cde9889d1e016d3ce8", null ],
     [ "Text", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#aaa542d8ce129cfad33c7ab9b203f5b89", null ],
     [ "TextFormat", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a7a5a60341de10c8e51f32be4dc78d6c2", null ],
     [ "Timestamp", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#ac1e043385af64a9409bd8cded03ed3f6", null ],
-    [ "Type", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a20e224c1ab869ab4ec0338de9ea896c3", null ]
+    [ "Type", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a20e224c1ab869ab4ec0338de9ea896c3", null ],
+    [ "Value", "d1/de8/interface_microsoft_1_1_bot_1_1_connector_1_1_i_message_activity.html#a65c27f04192f099eb813f12c96be4742", null ]
 ];

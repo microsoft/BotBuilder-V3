@@ -4,6 +4,7 @@ var interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity =
     [ "AsConversationUpdateActivity", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#a01b5c88a32081b4a6c64ca470a1e5533", null ],
     [ "AsEndOfConversationActivity", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#a8935e60226b4903338e85ae334df3e29", null ],
     [ "AsEventActivity", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#a29732f53a5fdefa2d8d9fed6ae984254", null ],
+    [ "AsInstallationUpdateActivity", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#a0bdc7c799da985acde52a66d9c38fc2c", null ],
     [ "AsInvokeActivity", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#aa9e6e51b133d54693bf4475cd3ba9a3e", null ],
     [ "AsMessageActivity", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#abaf116e08d616a55d009b8508410e922", null ],
     [ "AsTypingActivity", "d8/d45/interface_microsoft_1_1_bot_1_1_connector_1_1_i_typing_activity.html#a89709151bfd9787c786dfdcef7fb3b36", null ],
