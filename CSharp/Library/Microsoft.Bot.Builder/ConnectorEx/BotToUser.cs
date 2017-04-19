@@ -105,7 +105,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             await this.client.Conversations.ReplyToActivityAsync((Activity)message, cancellationToken);
         }
     }
-
     public interface IMessageQueue
     {
         Task QueueMessageAsync(IBotToUser botToUser, IMessageActivity message, CancellationToken token);
@@ -114,7 +113,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class AutoInputHint_BotToUser : IBotToUser
     {
-
         private readonly IBotToUser inner;
         private readonly IMessageQueue queue;
 
@@ -204,9 +202,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 await botToUser.PostAsync(toUser, token);
             }
         }
-
-
-
     }
 
     public interface IMessageActivityMapper

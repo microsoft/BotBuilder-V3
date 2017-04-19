@@ -71,7 +71,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// Indicates if channel is TTS enabled.
         /// </summary>
         /// <returns>True if channel support TTS and the bot can set <see cref="Connector.Activity.Speak"/>; false otherwise.</returns>
-        bool SupportSpeak();
+        bool SupportsSpeak();
 
         /// <summary>
         /// Indicates if channel relies on <see cref="Connector.Activity.InputHint"/>.
@@ -111,13 +111,13 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
-        public bool SupportSpeak()
+        public bool SupportsSpeak()
         {
             return this.address.ChannelId == ChannelIds.Cortana || this.address.ChannelId == ChannelIds.Webchat;
         }
     }
 
-    public static class ChannelCapabilitEx
+    public static class ChannelCapabilityEx
     {
         public static bool ShouldSetInputHint(this IChannelCapability channelCapability, IMessageActivity activity)
         {

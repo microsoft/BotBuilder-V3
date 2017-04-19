@@ -36,15 +36,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Threading;
 using System.Threading.Tasks;
-
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Builder.Scorables.Internals;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -200,11 +198,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         {
             var message = await item;
             var messageText = await GetLuisQueryTextAsync(context, message);
-            
+
             var tasks = this.services.Select(s => s.QueryAsync(messageText, context.CancellationToken)).ToArray();
             var results = await Task.WhenAll(tasks);
 
-            var winners = from result in results.Select((value, index) => new {value, index} )
+            var winners = from result in results.Select((value, index) => new { value, index })
                           let resultWinner = BestIntentFrom(result.value)
                           where resultWinner != null
                           select new LuisServiceResult(result.value, resultWinner, this.services[result.index]);
@@ -229,9 +227,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
-        protected virtual async Task DispatchToIntentHandler(IDialogContext context, 
-                                                            IAwaitable<IMessageActivity> item,  
-                                                            IntentRecommendation bestInent, 
+        protected virtual async Task DispatchToIntentHandler(IDialogContext context,
+                                                            IAwaitable<IMessageActivity> item,
+                                                            IntentRecommendation bestIntent,
                                                             LuisResult result)
         {
             if (this.handlerByIntent == null)
@@ -240,7 +238,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
 
             IntentActivityHandler handler = null;
-            if (result == null || !this.handlerByIntent.TryGetValue(bestInent.Intent, out handler))
+            if (result == null || !this.handlerByIntent.TryGetValue(bestIntent.Intent, out handler))
             {
                 handler = this.handlerByIntent[string.Empty];
             }
@@ -274,7 +272,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         protected virtual async Task LuisActionDialogFinished(IDialogContext context, IAwaitable<LuisResult> item)
         {
             var result = await item;
-            var messageActivity = (IMessageActivity) context.Activity;
+            var messageActivity = (IMessageActivity)context.Activity;
             await DispatchToIntentHandler(context, Awaitable.FromItem(messageActivity), BestIntentFrom(result), result);
         }
     }

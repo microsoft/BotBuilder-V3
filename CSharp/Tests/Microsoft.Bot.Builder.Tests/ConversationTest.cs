@@ -191,9 +191,9 @@ namespace Microsoft.Bot.Builder.Tests
             return this.inner.SupportsKeyboards(buttonCount);
         }
 
-        public bool SupportSpeak()
+        public bool SupportsSpeak()
         {
-            return this.inner.SupportSpeak();
+            return this.inner.SupportsSpeak();
         }
     }
 
