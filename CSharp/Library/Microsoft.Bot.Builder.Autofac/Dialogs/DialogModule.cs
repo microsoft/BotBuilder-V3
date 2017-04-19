@@ -337,10 +337,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
+                .RegisterKeyedType<QueueDrainingDialogTask, IPostToBot>()
+                .InstancePerLifetimeScope();
+
+            builder
                 .RegisterAdapterChain<IPostToBot>
                 (
                     typeof(EventLoopDialogTask),
                     typeof(SetAmbientThreadCulture),
+                    typeof(QueueDrainingDialogTask),
                     typeof(PersistentDialogTask),
                     typeof(ExceptionTranslationDialogTask),
                     typeof(SerializeByConversation),
@@ -364,11 +369,21 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // IBotToUser services
 
             builder
+                .Register(c => new System.Collections.Generic.Queue<IMessageActivity>())
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
                 .RegisterKeyedType<NullBotToUser, IBotToUser>()
                 .InstancePerLifetimeScope();
 
             builder
                 .RegisterKeyedType<AlwaysSendDirect_BotToUser, IBotToUser>()
+                .AsSelf()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterKeyedType<AutoInputHint_BotToUser, IBotToUser>()
                 .InstancePerLifetimeScope();
 
             builder
@@ -389,6 +404,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .RegisterAdapterChain<IBotToUser>
                 (
                     typeof(AlwaysSendDirect_BotToUser),
+                    typeof(AutoInputHint_BotToUser),
                     typeof(MapToChannelData_BotToUser),
                     typeof(LogBotToUser)
                 )

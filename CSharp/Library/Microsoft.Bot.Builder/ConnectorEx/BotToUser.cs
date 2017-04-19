@@ -32,16 +32,15 @@
 //
 
 using System;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Connector;
 using System.Collections.Generic;
-
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -107,6 +106,47 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class AutoInputHint_BotToUser : IBotToUser
+    {
+        private readonly IBotToUser inner;
+        private readonly IChannelCapability channelCapability;
+        private readonly Queue<IMessageActivity> queue;
+
+        public AutoInputHint_BotToUser(IBotToUser inner, Queue<IMessageActivity> queue, IChannelCapability channelCapability)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.channelCapability, nameof(channelCapability), channelCapability);
+            SetField.NotNull(out this.queue, nameof(queue), queue);
+        }
+
+
+        async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
+        {
+            // This assumes that if InputHint is set on message, it is the right value that channel expects 
+            // and will NOT queue the message
+            if (this.channelCapability.ShouldSetInputHint(message))
+            {
+                // drain the queue
+                while (this.queue.Count > 0)
+                {
+                    var toUser = this.queue.Dequeue();
+                    toUser.InputHint = InputHints.IgnoringInput;
+                    await this.inner.PostAsync(toUser, cancellationToken);
+                }
+                queue.Enqueue(message);
+            }
+            else
+            {
+                await this.inner.PostAsync(message, cancellationToken);
+            }
+        }
+
+        IMessageActivity IBotToUser.MakeMessage()
+        {
+            return inner.MakeMessage();
+        }
+    }
+
     public interface IMessageActivityMapper
     {
         IMessageActivity Map(IMessageActivity message);
@@ -143,7 +183,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return message;
         }
     }
-    
+
 
     public sealed class MapToChannelData_BotToUser : IBotToUser
     {
@@ -167,7 +207,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public IMessageActivity MakeMessage()
         {
-            return this.inner.MakeMessage(); 
+            return this.inner.MakeMessage();
         }
     }
 

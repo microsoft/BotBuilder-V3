@@ -436,6 +436,64 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+
+    public sealed class QueueDrainingDialogTask : IPostToBot
+    {
+        private readonly IPostToBot inner;
+        private readonly IBotToUser botToUser;
+        private readonly IChannelCapability channelCapability;
+        private readonly Queue<IMessageActivity> queue;
+        private readonly Func<IDialogStack> makeStack;
+
+        public QueueDrainingDialogTask(IPostToBot inner, Queue<IMessageActivity> queue, AlwaysSendDirect_BotToUser botToUser, IChannelCapability channelCapability, Func<IDialogStack> makeStack)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+            SetField.NotNull(out this.queue, nameof(queue), queue);
+            SetField.NotNull(out this.botToUser, nameof(botToUser), botToUser);
+            SetField.NotNull(out this.channelCapability, nameof(channelCapability), channelCapability);
+            SetField.NotNull(out this.makeStack, nameof(makeStack), makeStack);
+        }
+
+        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
+        {
+            await this.inner.PostAsync(activity, token);
+
+            while (this.queue.Count > 1)
+            {
+                var toUser = this.queue.Dequeue();
+                if (this.channelCapability.ShouldSetInputHint(toUser))
+                {
+                    toUser.InputHint = InputHints.IgnoringInput;
+                }
+
+                await botToUser.PostAsync(toUser, token);
+            }
+
+            // last message in the queue will be treated specially for channels that need input hints
+            if (this.queue.Count == 1)
+            {
+                var toUser = this.queue.Dequeue();
+                var stack = this.makeStack();
+                if (this.channelCapability.ShouldSetInputHint(toUser) && stack.Frames.Count > 0)
+                {
+                    var topOfStack = stack.Frames[0].Target;
+                    // if there is a prompt dialog on top of stack, the InputHint will be set to Expecting
+                    if (topOfStack.GetType().DeclaringType == typeof(PromptDialog))
+                    {
+                        toUser.InputHint = InputHints.ExpectingInput;
+                    }
+                    else
+                    {
+                        toUser.InputHint = InputHints.AcceptingInput;
+                    }
+
+                }
+                await botToUser.PostAsync(toUser, token);
+            }
+        }
+    }
+
+
     /// <summary>
     /// This dialog task loads the dialog stack from <see cref="IBotData"/> before handling the incoming
     /// activity and saves the dialog stack to <see cref="IBotData"/> afterwards. 

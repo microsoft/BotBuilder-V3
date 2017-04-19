@@ -32,6 +32,7 @@
 //
 
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -50,6 +51,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         public const string Directline = "directline";
         public const string Webchat = "webchat";
         public const string Console = "console";
+        public const string Cortana = "cortana";
     }
 
 
@@ -89,7 +91,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         public bool NeedsInputHint()
         {
-            return false;
+            return this.address.ChannelId == ChannelIds.Cortana;
         }
 
         public bool SupportsKeyboards(int buttonCount)
@@ -102,6 +104,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                     return buttonCount <= 20;
                 case ChannelIds.Slack:
                 case ChannelIds.Telegram:
+                case ChannelIds.Cortana:
                     return buttonCount <= 100;
                 default:
                     return false;
@@ -110,7 +113,15 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         public bool SupportSpeak()
         {
-            return false;
+            return this.address.ChannelId == ChannelIds.Cortana || this.address.ChannelId == ChannelIds.Webchat;
+        }
+    }
+
+    public static class ChannelCapabilitEx
+    {
+        public static bool ShouldSetInputHint(this IChannelCapability channelCapability, IMessageActivity activity)
+        {
+            return channelCapability.NeedsInputHint() && string.IsNullOrEmpty(activity.InputHint);
         }
     }
 }
