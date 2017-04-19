@@ -58,7 +58,7 @@ var PromptChoice = (function (_super) {
                     if (_this.features.recognizeOrdinals) {
                         var match = PromptRecognizers_1.PromptRecognizers.findTopEntity(PromptRecognizers_1.PromptRecognizers.recognizeOrdinals(context));
                         if (match && match.score > topScore) {
-                            var index = match.entity > 0 ? match.entity - 1 : choices.length - match.entity;
+                            var index = match.entity > 0 ? match.entity - 1 : choices.length + match.entity;
                             if (index >= 0 && index < choices.length) {
                                 topScore = match.score;
                                 topMatch = {
