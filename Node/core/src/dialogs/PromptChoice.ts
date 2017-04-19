@@ -127,7 +127,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
                     if (this.features.recognizeOrdinals) {
                         let match = PromptRecognizers.findTopEntity(PromptRecognizers.recognizeOrdinals(context));
                         if (match && match.score > topScore) {
-                            let index = match.entity > 0 ? match.entity - 1 : choices.length - match.entity;
+                            let index = match.entity > 0 ? match.entity - 1 : choices.length + match.entity;
                             if (index >= 0 && index < choices.length) {
                                 topScore = match.score;
                                 topMatch = {
