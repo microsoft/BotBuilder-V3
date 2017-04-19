@@ -400,7 +400,7 @@ var ChatConnector = (function () {
         msg['from'] = address.bot;
         msg['recipient'] = address.user;
         delete msg.address;
-        if (!msg.inputHint) {
+        if (msg.type === 'message' && !msg.inputHint) {
             msg.inputHint = lastMsg ? 'acceptingInput' : 'ignoringInput';
         }
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';

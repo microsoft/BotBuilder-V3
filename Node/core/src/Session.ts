@@ -348,7 +348,12 @@ export class Session extends events.EventEmitter {
         // Clear conversation data
         this.conversationData = {};
         this.privateConversationData = {};
-                
+
+        // Add end conversation message
+        var mec: IMessage = <any>{ type: 'endOfConversation', code: 'completedSuccessfully' };
+        this.prepareMessage(mec);
+        this.batch.push(mec);
+
         // Clear stack and save.
         this.logger.log(this.dialogStack(), 'Session.endConversation()');            
         var ss = this.sessionState;

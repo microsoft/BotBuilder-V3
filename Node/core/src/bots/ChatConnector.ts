@@ -500,7 +500,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         delete msg.address;
 
         // Patch inputHint
-        if (!msg.inputHint) {
+        if (msg.type === 'message' && !msg.inputHint) {
             msg.inputHint = lastMsg ? 'acceptingInput' : 'ignoringInput';
         }
 

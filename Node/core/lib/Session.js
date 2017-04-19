@@ -273,6 +273,9 @@ var Session = (function (_super) {
         }
         this.conversationData = {};
         this.privateConversationData = {};
+        var mec = { type: 'endOfConversation', code: 'completedSuccessfully' };
+        this.prepareMessage(mec);
+        this.batch.push(mec);
         this.logger.log(this.dialogStack(), 'Session.endConversation()');
         var ss = this.sessionState;
         ss.callstack = [];
