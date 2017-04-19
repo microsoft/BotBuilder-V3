@@ -31,6 +31,15 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
@@ -44,17 +53,6 @@ using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -736,7 +734,7 @@ namespace Microsoft.Bot.Builder.Tests
                 }
 
                 string ordinal;
-                if (! ordinalById.TryGetValue(id, out ordinal))
+                if (!ordinalById.TryGetValue(id, out ordinal))
                 {
                     ordinal = ordinalById.Count.ToString();
                     ordinalById.Add(id, ordinal);
@@ -838,6 +836,12 @@ namespace Microsoft.Bot.Builder.Tests
                     builder
                         .RegisterType<NullBotToUser>()
                         .Keyed<IBotToUser>(typeof(AlwaysSendDirect_BotToUser))
+                        .InstancePerLifetimeScope();
+
+                    // truncate QueueDrainingDialogTask/with PassThroughDialogTask implementation
+                    builder
+                        .RegisterType<PassThroughDialogTask>()
+                        .Keyed<IPostToBot>(typeof(QueueDrainingDialogTask))
                         .InstancePerLifetimeScope();
 
                     // truncate ConnectorStore/IStateClient with in-memory implementation

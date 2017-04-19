@@ -32,6 +32,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Resources;
@@ -369,7 +370,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // IBotToUser services
 
             builder
-                .Register(c => new System.Collections.Generic.Queue<IMessageActivity>())
+                .Register(c => new Queue<IMessageActivity>())
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
