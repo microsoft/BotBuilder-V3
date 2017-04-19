@@ -838,12 +838,6 @@ namespace Microsoft.Bot.Builder.Tests
                         .Keyed<IBotToUser>(typeof(AlwaysSendDirect_BotToUser))
                         .InstancePerLifetimeScope();
 
-                    // truncate QueueDrainingDialogTask/with PassThroughDialogTask implementation
-                    builder
-                        .RegisterType<PassThroughDialogTask>()
-                        .Keyed<IPostToBot>(typeof(QueueDrainingDialogTask))
-                        .InstancePerLifetimeScope();
-
                     // truncate ConnectorStore/IStateClient with in-memory implementation
                     builder
                         .RegisterType<InMemoryDataStore>()

@@ -202,12 +202,6 @@ namespace Microsoft.Bot.Builder.Tests
                 .As<IBotToUser>()
                 .InstancePerLifetimeScope();
 
-            // truncate QueueDrainingDialogTask/with PassThroughDialogTask implementation
-            builder
-                .RegisterType<PassThroughDialogTask>()
-                .Keyed<IPostToBot>(typeof(QueueDrainingDialogTask))
-                .InstancePerLifetimeScope();
-
             if (options.HasFlag(Options.InMemoryBotDataStore))
             {
                 //Note: memory store will be single instance for the bot

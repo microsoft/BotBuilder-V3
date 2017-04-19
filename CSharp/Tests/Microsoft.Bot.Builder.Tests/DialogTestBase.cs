@@ -45,21 +45,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Microsoft.Bot.Builder.Tests
 {
-    public class PassThroughDialogTask : IPostToBot
-    {
-        private readonly IPostToBot inner;
-
-        public PassThroughDialogTask(IPostToBot inner)
-        {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-        }
-
-        async Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
-        {
-            await this.inner.PostAsync(activity, token);
-        }
-    }
-
     public abstract class DialogTestBase
     {
         [Flags]
@@ -102,13 +87,6 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 r.SingleInstance();
             }
-
-
-            // truncate QueueDrainingDialogTask/with PassThroughDialogTask implementation
-            builder
-                .RegisterType<PassThroughDialogTask>()
-                .Keyed<IPostToBot>(typeof(QueueDrainingDialogTask))
-                .InstancePerLifetimeScope();
 
             builder
                 .RegisterType<BotToUserQueue>()

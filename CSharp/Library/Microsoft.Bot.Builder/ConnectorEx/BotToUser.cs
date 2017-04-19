@@ -106,23 +106,50 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public interface IMessageQueue
+    {
+        Task QueueMessageAsync(IBotToUser botToUser, IMessageActivity message, CancellationToken token);
+        Task DrainQueueAsync(IBotToUser botToUser, CancellationToken token);
+    }
+
     public sealed class AutoInputHint_BotToUser : IBotToUser
     {
+
         private readonly IBotToUser inner;
-        private readonly IChannelCapability channelCapability;
-        private readonly Queue<IMessageActivity> queue;
+        private readonly IMessageQueue queue;
 
-        public AutoInputHint_BotToUser(IBotToUser inner, Queue<IMessageActivity> queue, IChannelCapability channelCapability)
+        public AutoInputHint_BotToUser(IBotToUser inner, IMessageQueue queue)
         {
-            SetField.NotNull(out this.inner, nameof(inner), inner);
-            SetField.NotNull(out this.channelCapability, nameof(channelCapability), channelCapability);
             SetField.NotNull(out this.queue, nameof(queue), queue);
+            SetField.NotNull(out this.inner, nameof(inner), inner);
         }
-
 
         async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
         {
-            // This assumes that if InputHint is set on message, it is the right value that channel expects 
+            await this.queue.QueueMessageAsync(inner, message, cancellationToken);
+        }
+
+        IMessageActivity IBotToUser.MakeMessage()
+        {
+            return inner.MakeMessage();
+        }
+    }
+
+    public sealed class InputHintQueue : IMessageQueue
+    {
+        private readonly Queue<IMessageActivity> queue = new Queue<IMessageActivity>();
+        private readonly IChannelCapability channelCapability;
+        private readonly Func<IDialogStack> makeStack;
+
+        public InputHintQueue(IChannelCapability channelCapability, Func<IDialogStack> makeStack)
+        {
+            SetField.NotNull(out this.channelCapability, nameof(channelCapability), channelCapability);
+            SetField.NotNull(out this.makeStack, nameof(makeStack), makeStack);
+        }
+
+        async Task IMessageQueue.QueueMessageAsync(IBotToUser botToUser, IMessageActivity message, CancellationToken token)
+        {
+            // This assumes that if InputHint is set on message, it is the right value that channel expects
             // and will NOT queue the message
             if (this.channelCapability.ShouldSetInputHint(message))
             {
@@ -131,20 +158,55 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 {
                     var toUser = this.queue.Dequeue();
                     toUser.InputHint = InputHints.IgnoringInput;
-                    await this.inner.PostAsync(toUser, cancellationToken);
+                    await botToUser.PostAsync(toUser, token);
                 }
                 queue.Enqueue(message);
             }
             else
             {
-                await this.inner.PostAsync(message, cancellationToken);
+                await botToUser.PostAsync(message, token);
             }
         }
 
-        IMessageActivity IBotToUser.MakeMessage()
+        async Task IMessageQueue.DrainQueueAsync(IBotToUser botToUser, CancellationToken token)
         {
-            return inner.MakeMessage();
+            while (this.queue.Count > 0)
+            {
+                var toUser = this.queue.Dequeue();
+                // last message in the queue will be treated specially for channels that need input hints
+                if (this.queue.Count == 0)
+                {
+                    var stack = this.makeStack();
+                    if (this.channelCapability.ShouldSetInputHint(toUser) && stack.Frames.Count > 0)
+                    {
+                        var topOfStack = stack.Frames[0].Target;
+                        // if there is a prompt dialog on top of stack, the InputHint will be set to Expecting
+                        if (topOfStack.GetType().DeclaringType == typeof(PromptDialog))
+                        {
+                            toUser.InputHint = InputHints.ExpectingInput;
+                        }
+                        else
+                        {
+                            toUser.InputHint = InputHints.AcceptingInput;
+                        }
+
+                    }
+                }
+                else
+                {
+
+                    if (this.channelCapability.ShouldSetInputHint(toUser))
+                    {
+                        toUser.InputHint = InputHints.IgnoringInput;
+                    }
+                }
+
+                await botToUser.PostAsync(toUser, token);
+            }
         }
+
+
+
     }
 
     public interface IMessageActivityMapper

@@ -121,7 +121,9 @@ namespace Microsoft.Bot.Builder.Dialogs
     {
         public static bool ShouldSetInputHint(this IChannelCapability channelCapability, IMessageActivity activity)
         {
-            return channelCapability.NeedsInputHint() && string.IsNullOrEmpty(activity.InputHint);
+            return channelCapability.NeedsInputHint()
+                && activity.Type == ActivityTypes.Message
+                && string.IsNullOrEmpty(activity.InputHint);
         }
     }
 }
