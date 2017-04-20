@@ -16,6 +16,7 @@ var Session = (function (_super) {
         var _this = _super.call(this) || this;
         _this.options = options;
         _this.msgSent = false;
+        _this._hasError = false;
         _this._isReset = false;
         _this.lastSendTime = new Date().getTime();
         _this.batch = [];
@@ -106,6 +107,7 @@ var Session = (function (_super) {
         err = err instanceof Error ? err : new Error(m);
         this.emit('error', err);
         this.logger.error(this.dialogStack(), err);
+        this._hasError = true;
         if (this.options.dialogErrorMessage) {
             this.endConversation(this.options.dialogErrorMessage);
         }
@@ -273,7 +275,8 @@ var Session = (function (_super) {
         }
         this.conversationData = {};
         this.privateConversationData = {};
-        var mec = { type: 'endOfConversation', code: 'completedSuccessfully' };
+        var code = this._hasError ? 'unknown' : 'completedSuccessfully';
+        var mec = { type: 'endOfConversation', code: code };
         this.prepareMessage(mec);
         this.batch.push(mec);
         this.logger.log(this.dialogStack(), 'Session.endConversation()');

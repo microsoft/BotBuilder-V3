@@ -1884,6 +1884,8 @@ export class RemoteSessionLogger extends SessionLogger {
  * Message builder class that simplifies building complex messages with attachments.
  */
 export class Message implements IIsMessage {
+    /** Internal message object being built. */
+    protected data: IMessage;
 
     /** 
      * Creates a new Message builder. 
@@ -3774,6 +3776,17 @@ export class ChatConnector implements IConnector, IBotStorage {
 
     /** Writes out data to the Bot Frameworks state service. */
     saveData(context: IBotStorageContext, data: IBotStorageData, callback?: (err: Error) => void): void;
+
+    /** Gets the current access token for the bot. */
+    getAccessToken(cb: (err: Error, accessToken: string) => void): void;
+
+    /** 
+     * Called after the connector receives, authenticates, and prepares an event. Derived classes
+     * can override this to filter out incoming events before they're dispatched to the bot. 
+     * Calling `super.onDispatchMessage(event, callback)` will perform the connectors default 
+     * logic.   
+     */
+    protected onDispatchEvents(events: IEvent[], callback: (err: Error, body: any, status?: number) => void): void;
 }
 
 /** Connects a UniversalBot to the command line via a console window. */

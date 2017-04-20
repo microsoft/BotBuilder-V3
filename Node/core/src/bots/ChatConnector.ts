@@ -452,31 +452,36 @@ export class ChatConnector implements IConnector, IBotStorage {
         }
     }
 
+    protected onDispatchEvents(events: IEvent[], callback: (err: Error, body: any, status?: number) => void): void {
+        if(this.isInvoke(events[0])) {
+            this.onInvokeHandler(events[0], callback);
+        } else {
+            // Dispatch message
+            this.onEventHandler(events);
+
+            // Acknowledge that we received the events
+            callback(null, null, 202);
+        }
+    }
+
     private dispatch(msg: IMessage, res: IWebResponse) {
         // Dispatch message/activity
         try {
             this.prepIncomingMessage(msg);
             logger.info(msg, 'ChatConnector: message received.');
 
-            if(this.isInvoke(msg)) {
-                this.onInvokeHandler(msg, (err: Error, body: any, status?: number) => {
-                    if(err) {
-                        res.status(500);
-                        res.end();
-                        logger.error('Received error from invoke handler: ', err.message || '');
-                    } else {
-                        res.send(status || 200, body);
-                    }
-                });
-            } else {
-                // Dispatch message
-                this.onEventHandler([msg]);
-
-                // Acknowledge that we recieved the message(s)
-                res.status(202);
-                res.end();
-            }
-
+            this.onDispatchEvents([msg], (err, status, body) => {
+                if(err) {
+                    res.status(500);
+                    res.end();
+                    logger.error('ChatConnector: error dispatching event(s) - ', err.message || '');
+                } else if (body) {
+                    res.send(status || 200, body);
+                } else {
+                    res.status(status || 200);
+                    res.end();
+                }
+            })
         } catch (e) {
             console.error(e instanceof Error ? (<Error>e).stack : e.toString());
             res.status(500);
@@ -484,11 +489,10 @@ export class ChatConnector implements IConnector, IBotStorage {
         }
     }
 
-    private isInvoke(message: IMessage): boolean {
-        return (message && message.type && message.type.toLowerCase() == consts.invokeType);
+    private isInvoke(event: IEvent): boolean {
+        return (event && event.type && event.type.toLowerCase() == consts.invokeType);
     }
-    
-    
+        
     private postMessage(msg: IMessage, lastMsg: boolean, cb: (err: Error) => void): void {
         logger.info(address, 'ChatConnector: sending message.')
         this.prepOutgoingMessage(msg);

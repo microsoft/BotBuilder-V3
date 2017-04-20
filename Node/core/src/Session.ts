@@ -68,6 +68,7 @@ export interface IWatchableHandler {
 
 export class Session extends events.EventEmitter {
     private msgSent = false;
+    private _hasError = false;
     private _isReset = false;
     private lastSendTime = new Date().getTime();
     private batch: IMessage[] = [];
@@ -165,6 +166,7 @@ export class Session extends events.EventEmitter {
         this.logger.error(this.dialogStack(), err);
 
         // End conversation with a message
+        this._hasError = true;
         if (this.options.dialogErrorMessage) {
             this.endConversation(this.options.dialogErrorMessage);
         } else {
@@ -350,7 +352,8 @@ export class Session extends events.EventEmitter {
         this.privateConversationData = {};
 
         // Add end conversation message
-        var mec: IMessage = <any>{ type: 'endOfConversation', code: 'completedSuccessfully' };
+        let code = this._hasError ? 'unknown' : 'completedSuccessfully';
+        let mec: IMessage = <any>{ type: 'endOfConversation', code: code };
         this.prepareMessage(mec);
         this.batch.push(mec);
 
