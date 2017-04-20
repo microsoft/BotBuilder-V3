@@ -201,5 +201,19 @@ namespace Microsoft.Bot.Builder.Tests
         {
             return Guid.NewGuid().ToString();
         }
+
+        public static async Task AssertOutgoingActivity(ILifetimeScope container, Action<IMessageActivity> asserts)
+        {
+            var queue = container.Resolve<Queue<IMessageActivity>>();
+
+            if (queue.Count != 1)
+            {
+                Assert.Fail("Expecting only 1 activity");
+            }
+
+            var toUser = queue.Dequeue();
+
+            asserts(toUser);
+        }
     }
 }
