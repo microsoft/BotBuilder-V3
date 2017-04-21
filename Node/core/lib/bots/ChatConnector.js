@@ -375,7 +375,7 @@ var ChatConnector = (function () {
         try {
             this.prepIncomingMessage(msg);
             logger.info(msg, 'ChatConnector: message received.');
-            this.onDispatchEvents([msg], function (err, status, body) {
+            this.onDispatchEvents([msg], function (err, body, status) {
                 if (err) {
                     res.status(500);
                     res.end();

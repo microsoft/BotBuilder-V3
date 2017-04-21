@@ -470,7 +470,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             this.prepIncomingMessage(msg);
             logger.info(msg, 'ChatConnector: message received.');
 
-            this.onDispatchEvents([msg], (err, status, body) => {
+            this.onDispatchEvents([msg], (err, body, status) => {
                 if(err) {
                     res.status(500);
                     res.end();
