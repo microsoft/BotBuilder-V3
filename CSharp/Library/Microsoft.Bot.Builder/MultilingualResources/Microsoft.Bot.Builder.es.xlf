@@ -107,7 +107,7 @@
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
           <source>No;n;nope;2</source>
-          <target state="final">No; n;2</target>
+          <target state="final">No; n;nop;2</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>
