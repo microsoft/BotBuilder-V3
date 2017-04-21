@@ -590,7 +590,7 @@ namespace Microsoft.Bot.Builder.Tests
                         }, new Regex("reset"));
 
                         // add the resumption scorable decorator
-                        var options = new PromptOptions<string>(prompt: "Do you want to continue building the list?", choices: null);
+                        var options = new PromptOptions<string>(prompt: "Do you want to continue building the list?");
                         dialog = dialog.WithConfirmOnResume(options);
 
                         // interrupt the current stack
@@ -776,6 +776,10 @@ namespace Microsoft.Bot.Builder.Tests
             mock
                 .Setup(l => l.BuildUri(It.IsAny<LuisRequest>()))
                 .Returns<LuisRequest>(r => ((ILuisService)new LuisService(model)).BuildUri(r));
+
+            mock
+                .Setup(l => l.ModifyRequest(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(r => r);
 
             mock
                 .Setup(l => l.QueryAsync(It.Is<Uri>(u => u == uri), It.IsAny<CancellationToken>()))

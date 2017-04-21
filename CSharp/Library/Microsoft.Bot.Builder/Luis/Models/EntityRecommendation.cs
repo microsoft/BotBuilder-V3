@@ -29,7 +29,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
         /// <summary>
         /// Initializes a new instance of the EntityRecommendation class.
         /// </summary>
-        public EntityRecommendation(string type, string role = default(string), string entity = default(string), int? startIndex = default(int?), int? endIndex = default(int?), double? score = default(double?), IDictionary<string, string> resolution = default(IDictionary<string, string>))
+        public EntityRecommendation(string type, string role = default(string), string entity = default(string), int? startIndex = default(int?), int? endIndex = default(int?), double? score = default(double?), IDictionary<string, object> resolution = default(IDictionary<string, object>))
         {
             Role = role;
             Entity = entity;
@@ -77,12 +77,13 @@ namespace Microsoft.Bot.Builder.Luis.Models
         public double? Score { get; set; }
 
         /// <summary>
-        /// A machine readable dictionary with more information about the
-        /// entity Look at builtin.datetime for an example in the
-        /// https://www.luis.ai/Help#PreBuiltEntities.
+        /// A machine interpretable resolution of the entity.  For example the
+        /// string "one thousand" would have the resolution "1000".  The
+        /// exact form of the resolution is defined by the entity type and is
+        /// documented here: https://www.luis.ai/Help#PreBuiltEntities.
         /// </summary>
         [JsonProperty(PropertyName = "resolution")]
-        public IDictionary<string, string> Resolution { get; set; }
+        public IDictionary<string, object> Resolution { get; set; }
 
         /// <summary>
         /// Validate the object. Throws ValidationException if validation fails.

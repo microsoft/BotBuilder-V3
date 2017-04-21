@@ -308,26 +308,25 @@ namespace Microsoft.Bot.Builder.Luis
 
     public interface IResolutionParser
     {
-        bool TryParse(IDictionary<string, string> properties, out Resolution resolution);
+        bool TryParse(IDictionary<string, object> properties, out Resolution resolution);
     }
 
     public sealed class ResolutionParser : IResolutionParser
     {
-        bool IResolutionParser.TryParse(IDictionary<string, string> properties, out Resolution resolution)
+        bool IResolutionParser.TryParse(IDictionary<string, object> properties, out Resolution resolution)
         {
-            string resolution_type;
             if (properties != null)
             {
-                if (properties.TryGetValue("resolution_type", out resolution_type))
+                object value;
+                if (properties.TryGetValue("resolution_type", out value) && value is string)
                 {
-                    switch (resolution_type)
+                    switch (value as string)
                     {
                         case "builtin.datetime.date":
-                            string date;
-                            if (properties.TryGetValue("date", out date))
+                            if (properties.TryGetValue("date", out value) && value is string)
                             {
                                 BuiltIn.DateTime.DateTimeResolution dateTime;
-                                if (BuiltIn.DateTime.DateTimeResolution.TryParse(date, out dateTime))
+                                if (BuiltIn.DateTime.DateTimeResolution.TryParse(value as string, out dateTime))
                                 {
                                     resolution = dateTime;
                                     return true;
@@ -337,11 +336,10 @@ namespace Microsoft.Bot.Builder.Luis
                             break;
                         case "builtin.datetime.time":
                         case "builtin.datetime.set":
-                            string time;
-                            if (properties.TryGetValue("time", out time))
+                            if (properties.TryGetValue("time", out value) && value is string)
                             {
                                 BuiltIn.DateTime.DateTimeResolution dateTime;
-                                if (BuiltIn.DateTime.DateTimeResolution.TryParse(time, out dateTime))
+                                if (BuiltIn.DateTime.DateTimeResolution.TryParse(value as string, out dateTime))
                                 {
                                     resolution = dateTime;
                                     return true;

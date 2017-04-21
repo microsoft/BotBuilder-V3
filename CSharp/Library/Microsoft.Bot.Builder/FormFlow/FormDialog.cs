@@ -40,12 +40,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
-using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis.Models;
-using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.FormFlow
 {
@@ -141,6 +138,8 @@ namespace Microsoft.Bot.Builder.FormFlow
         // instantiated in constructor, re-instantiated when deserialized
         private readonly IForm<T> _form;
         private readonly IField<T> _commands;
+
+        internal T State => _state;
 
         private static IForm<T> BuildDefaultForm()
         {
