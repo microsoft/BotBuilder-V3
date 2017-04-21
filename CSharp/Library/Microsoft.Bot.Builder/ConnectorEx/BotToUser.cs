@@ -31,6 +31,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,9 +41,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder.ConnectorEx;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {
@@ -209,6 +209,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         IMessageActivity Map(IMessageActivity message);
     }
 
+#pragma warning disable CS0618
     public sealed class KeyboardCardMapper : IMessageActivityMapper
     {
         public IMessageActivity Map(IMessageActivity message)
@@ -241,6 +242,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+#pragma warning restore CS0618
 
     public sealed class MapToChannelData_BotToUser : IBotToUser
     {

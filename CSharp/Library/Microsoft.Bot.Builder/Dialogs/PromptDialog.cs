@@ -38,9 +38,9 @@ using Microsoft.Bot.Builder.Resource;
 using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -180,15 +180,15 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="retrySpeak"> What to display on retry Speak (SSML markup for text to speech).</param>
         /// <param name="recognizer"> Entity Recognizer to parse the message content.</param>
         public PromptOptions(string prompt, string retry = null, string tooManyAttempts = null, IReadOnlyList<T> options = null, int attempts = 3, PromptStyler promptStyler = null, IReadOnlyList<string> descriptions = null, string speak = null, string retrySpeak = null, IPromptRecognizer recognizer = null)
-            : this(prompt, 
-                  retry, 
-                  tooManyAttempts, 
-                  options != null ? new ReadOnlyDictionary<T, IReadOnlyList<T>>(options.ToDictionary(x => x, x => (IReadOnlyList<T>)Enumerable.Empty<T>().ToList().AsReadOnly())) : null, 
-                  attempts, 
-                  promptStyler, 
-                  descriptions, 
-                  speak, 
-                  retrySpeak, 
+            : this(prompt,
+                  retry,
+                  tooManyAttempts,
+                  options != null ? new ReadOnlyDictionary<T, IReadOnlyList<T>>(options.ToDictionary(x => x, x => (IReadOnlyList<T>)Enumerable.Empty<T>().ToList().AsReadOnly())) : null,
+                  attempts,
+                  promptStyler,
+                  descriptions,
+                  speak,
+                  retrySpeak,
                   recognizer)
         {
         }
@@ -428,9 +428,10 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="recognizeChoices">(Optional) if true, the prompt will attempt to recognize numbers in the users utterance as the index of the choice to return. The default value is "true".</param>
         /// <param name="recognizeNumbers">(Optional) if true, the prompt will attempt to recognize ordinals like "the first one" or "the second one" as the index of the choice to return. The default value is "true".</param>
         /// <param name="recognizeOrdinals">(Optional) if true, the prompt will attempt to recognize the selected value using the choices themselves. The default value is "true".</param>
+        /// <param name="minScore">(Optional) minimum score from 0.0 - 1.0 needed for a recognized choice to be considered a match. The default value is "0.4".</param>
         public static void Choice<T>(IDialogContext context, ResumeAfter<T> resume, IDictionary<T, IEnumerable<T>> choices, string prompt, string retry = null, int attempts = 3, PromptStyle promptStyle = PromptStyle.Auto, IEnumerable<string> descriptions = null, bool recognizeChoices = true, bool recognizeNumbers = true, bool recognizeOrdinals = true, double minScore = 0.4)
         {
-            Choice(context, resume, new PromptOptions<T>(prompt, retry, attempts: attempts, choices: choices.ToDictionary(x => x.Key, x => (IReadOnlyList<T>)x.Value.ToList().AsReadOnly()), promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()), recognizeChoices, recognizeNumbers, recognizeOrdinals);
+            Choice(context, resume, new PromptOptions<T>(prompt, retry, attempts: attempts, choices: choices.ToDictionary(x => x.Key, x => (IReadOnlyList<T>)x.Value.ToList().AsReadOnly()), promptStyler: new PromptStyler(promptStyle), descriptions: descriptions?.ToList()), recognizeChoices, recognizeNumbers, recognizeOrdinals, minScore: minScore);
         }
 
         /// <summary>
@@ -863,6 +864,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             return attachments;
         }
 
+#pragma warning disable CS0618
         internal static IList<Attachment> GenerateKeyboardCard<T>(this IEnumerable<T> options, string text, IEnumerable<string> descriptions = null)
         {
             var attachments = new List<Attachment>
@@ -872,6 +874,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
             return attachments;
         }
+#pragma warning restore CS0618
 
         internal static IList<CardAction> GenerateButtons<T>(this IEnumerable<T> options,
             IEnumerable<string> descriptions = null)
