@@ -142,6 +142,18 @@
     <Compile Include="DialogTaskManagerTests.cs" />
     <Compile Include="DialogTaskTests.cs" />
     <Compile Include="DialogTestBase.cs" />
+    <Compile Include="PromptRecognizerTests.cs" />
+    <Compile Include="RaceCondition\RaceConditionTests.cs" />
+    <Compile Include="RaceCondition\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resource\TestResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ResolverTests.cs" />
     <Compile Include="DispatchDialogTests .cs" />
     <Compile Include="ExceptionTests.cs" />
@@ -259,6 +271,19 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RaceCondition\Resources.es.resx" />
+    <EmbeddedResource Include="RaceCondition\Resources.it.resx" />
+    <EmbeddedResource Include="RaceCondition\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource\TestResources.es.resx" />
+    <EmbeddedResource Include="Resource\TestResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

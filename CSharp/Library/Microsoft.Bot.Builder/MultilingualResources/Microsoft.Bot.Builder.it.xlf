@@ -322,6 +322,26 @@
           <source>Sorry, my bot code is having an issue.</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Ci dispiace, il mio codice di bot sta riscontrando un problema.</target>
         </trans-unit>
+        <trans-unit id="NumberExpression" translate="yes" xml:space="preserve">
+          <source>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</source>
+          <target state="new">[+-]?(?:\d+\.?\d*|\d*\.?\d+)</target>
+        </trans-unit>
+        <trans-unit id="NumberOrdinals" translate="yes" xml:space="preserve">
+          <source>1=1st,first|2=2nd,second|3=3rd,third|4=4th,fourth|5=5th,fifth|6=6th,sixth|7=7th,seventh|8=8th,eigth|9=9th,ninth|10=10th,tenth</source>
+          <target state="new">1=1st,first|2=2nd,second|3=3rd,third|4=4th,fourth|5=5th,fifth|6=6th,sixth|7=7th,seventh|8=8th,eigth|9=9th,ninth|10=10th,tenth</target>
+        </trans-unit>
+        <trans-unit id="NumberReverseOrdinals" translate="yes" xml:space="preserve">
+          <source>-1=last|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last</source>
+          <target state="new">-1=last|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last</target>
+        </trans-unit>
+        <trans-unit id="BooleanChoices" translate="yes" xml:space="preserve">
+          <source>true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590</source>
+          <target state="new">true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590</target>
+        </trans-unit>
+        <trans-unit id="NumberTerms" translate="yes" xml:space="preserve">
+          <source>0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty</source>
+          <target state="new">0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty</target>
+        </trans-unit>
       </group>
     </body>
   </file>
