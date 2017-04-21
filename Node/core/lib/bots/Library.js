@@ -368,13 +368,13 @@ var Library = (function (_super) {
         }
         return best;
     };
-    Library.prototype.dialog = function (id, dialog) {
+    Library.prototype.dialog = function (id, dialog, replace) {
         var d;
         if (dialog) {
             if (id.indexOf(':') >= 0) {
                 id = id.split(':')[1];
             }
-            if (this.dialogs.hasOwnProperty(id)) {
+            if (this.dialogs.hasOwnProperty(id) && !replace) {
                 throw new Error("Dialog[" + id + "] already exists in library[" + this.name + "].");
             }
             if (Array.isArray(dialog)) {

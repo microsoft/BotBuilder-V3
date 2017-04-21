@@ -139,10 +139,10 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.send = function (messages, done) {
         var _this = this;
-        async.eachSeries(messages, function (msg, cb) {
+        async.forEachOfSeries(messages, function (msg, idx, cb) {
             try {
                 if (msg.address && msg.address.serviceUrl) {
-                    _this.postMessage(msg, cb);
+                    _this.postMessage(msg, (idx == messages.length - 1), cb);
                 }
                 else {
                     logger.error('ChatConnector: send - message is missing address or serviceUrl.');
@@ -161,7 +161,8 @@ var ChatConnector = (function () {
                 url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
-                    members: [address.user]
+                    members: [address.user],
+                    channelData: address.channelData
                 },
                 json: true
             };
@@ -392,13 +393,16 @@ var ChatConnector = (function () {
     ChatConnector.prototype.isInvoke = function (message) {
         return (message && message.type && message.type.toLowerCase() == consts.invokeType);
     };
-    ChatConnector.prototype.postMessage = function (msg, cb) {
+    ChatConnector.prototype.postMessage = function (msg, lastMsg, cb) {
         logger.info(address, 'ChatConnector: sending message.');
         this.prepOutgoingMessage(msg);
         var address = msg.address;
         msg['from'] = address.bot;
         msg['recipient'] = address.user;
         delete msg.address;
+        if (msg.type === 'message' && !msg.inputHint) {
+            msg.inputHint = lastMsg ? 'acceptingInput' : 'ignoringInput';
+        }
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + '/activities';
         if (address.id && address.channelId !== 'skype') {
             path += '/' + encodeURIComponent(address.id);
@@ -477,6 +481,7 @@ var ChatConnector = (function () {
                     scope: this.settings.endpoint.refreshScope
                 }
             };
+            this.addUserAgent(opt);
             request(opt, function (err, response, body) {
                 if (!err) {
                     if (body && response.statusCode < 300) {
@@ -505,13 +510,14 @@ var ChatConnector = (function () {
         options.headers['User-Agent'] = USER_AGENT;
     };
     ChatConnector.prototype.addAccessToken = function (options, cb) {
-        this.addUserAgent(options);
+        var _this = this;
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken(function (err, token) {
                 if (!err && token) {
                     options.headers = {
                         'Authorization': 'Bearer ' + token
                     };
+                    _this.addUserAgent(options);
                     cb(null);
                 }
                 else {

@@ -71,6 +71,11 @@
             <param name="locale">language of your reply</param>
             <returns>message set up to route back to the sender</returns>
         </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.Properties">
+            <summary>
+            Extension data for overflow of properties
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.CreateMessageActivity">
             <summary>
             Create an instance of the Activity class with IMessageActivity masking
@@ -3201,6 +3206,41 @@
         <member name="T:Microsoft.Bot.Connector.ConfigurationCredentialProvider">
             <summary>
             Credential provider which uses <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> to lookup appId and password
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.EndOfConversationCodes">
+            <summary>
+            Codes indicating why a conversation has ended
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.Unknown">
+            <summary>
+            The conversation was ended for unknown reasons
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.CompletedSuccessfully">
+            <summary>
+            The conversation completed successfully
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.UserCancelled">
+            <summary>
+            The user cancelled the conversation
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.BotTimedOut">
+            <summary>
+            The conversation was ended because requests sent to the bot timed out
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.BotIssuedInvalidMessage">
+            <summary>
+            The conversation was ended because the bot sent an invalid message
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.ChannelFailed">
+            <summary>
+            The conversation ended because the channel experienced an internal failure
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ErrorCodes">

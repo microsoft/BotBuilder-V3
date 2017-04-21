@@ -504,7 +504,7 @@ export class Library extends EventEmitter {
     //-------------------------------------------------------------------------
     
     /** Adds or looks up a dialog within the library. */
-    public dialog(id: string, dialog?: Dialog | IDialogWaterfallStep[] | IDialogWaterfallStep): Dialog {
+    public dialog(id: string, dialog?: Dialog | IDialogWaterfallStep[] | IDialogWaterfallStep, replace?: boolean): Dialog {
         var d: Dialog;
         if (dialog) {
             // Fixup id
@@ -513,7 +513,7 @@ export class Library extends EventEmitter {
             }
 
             // Ensure unique
-            if (this.dialogs.hasOwnProperty(id)) {
+            if (this.dialogs.hasOwnProperty(id) && !replace) {
                 throw new Error("Dialog[" + id + "] already exists in library[" + this.name + "].")
             }
 

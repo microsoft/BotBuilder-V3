@@ -46,7 +46,6 @@ export interface IDialogResult<T> {
 
 export interface IRecognizeDialogContext extends IRecognizeContext {
     activeDialog: boolean;
-    dialogData: any;
     intent?: IIntentRecognizerResult;
 }
 

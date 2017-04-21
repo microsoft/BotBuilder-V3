@@ -20,7 +20,7 @@ var UniversalBot = (function (_super) {
         _this.settings = {
             processLimit: 4,
             persistUserData: true,
-            persistConversationData: false
+            persistConversationData: true
         };
         _this.connectors = {};
         _this.mwReceive = [];

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Connector
@@ -54,6 +55,13 @@ namespace Microsoft.Bot.Connector
             reply.Entities = new List<Entity>();
             return reply;
         }
+
+        /// <summary>
+        /// Extension data for overflow of properties
+        /// </summary>
+        [JsonExtensionData(ReadData = true, WriteData = true)]
+        public JObject Properties { get; set; } = new JObject();
+
 
         /// <summary>
         /// Create an instance of the Activity class with IMessageActivity masking

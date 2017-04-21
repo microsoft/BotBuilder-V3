@@ -3,6 +3,7 @@ exports.agent = 'botbuilder';
 exports.messageType = 'message';
 exports.invokeType = 'invoke';
 exports.defaultConnector = '*';
+exports.defaultLocale = '*';
 exports.emulatorChannel = 'emulator';
 exports.intentEntityType = 'intent';
 exports.Errors = {
@@ -28,7 +29,6 @@ exports.Data = {
     DebugWatches: 'BotBuilder.Data.DebugWatches'
 };
 exports.DialogId = {
-    Prompts: 'BotBuilder:Prompts',
     FirstRun: 'BotBuilder:FirstRun',
     ConfirmCancel: 'BotBuilder:ConfirmCancel',
     ConfirmInterruption: 'BotBuilder:ConfirmInterruption',
@@ -39,5 +39,15 @@ exports.Id = {
     DefaultGroup: 'BotBuilder.Id.DefaultGroup'
 };
 exports.Intents = {
-    Default: 'BotBuilder.Intents.Default'
+    Default: 'BotBuilder.DefaultIntent',
+    Response: 'BotBuilder.ResponseIntent',
+    Repeat: 'BotBuilder.RepeatIntent'
+};
+exports.Entities = {
+    Response: 'BotBuilder.Entities.Response',
+    Number: 'number',
+    String: 'string',
+    Date: 'date',
+    Boolean: 'boolean',
+    Match: 'match'
 };
