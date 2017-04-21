@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -33,8 +32,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.5.6.0")]
-[assembly: AssemblyFileVersion("3.5.6.0")]
+[assembly: AssemblyVersion("3.5.7.0")]
+[assembly: AssemblyFileVersion("3.5.7.0")]
 
 [assembly: InternalsVisibleTo("Microsoft.Bot.Builder.Tests")]
 [assembly: InternalsVisibleTo("Microsoft.Bot.Sample.Tests")]
