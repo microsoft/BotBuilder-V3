@@ -267,9 +267,9 @@
         },
         "resolution": {
           "type": "object",
-          "description": "A machine readable dictionary with more information about the entity Look at builtin.datetime for an example in the https://www.luis.ai/Help#PreBuiltEntities.",
+          "description": "A machine interpretable resolution of the entity.  For example the string \"one thousand\" would have the resolution \"1000\".  The exact form of the resolution is defined by the entity type and is documented here: https://www.luis.ai/Help#PreBuiltEntities.",
           "additionalProperties": {
-            "type": "string"
+            "type": "object"
           }
         }
       },

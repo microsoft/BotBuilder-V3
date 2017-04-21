@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Builder.Tests
             return intents;
         }
 
-        public static EntityRecommendation EntityFor(string type, string entity, IDictionary<string, string> resolution = null)
+        public static EntityRecommendation EntityFor(string type, string entity, IDictionary<string, object> resolution = null)
         {
             return new EntityRecommendation(type: type) { Entity = entity, Resolution = resolution };
         }
@@ -72,7 +72,7 @@ namespace Microsoft.Bot.Builder.Tests
         {
             return EntityFor(type,
                 date.ToString("d", DateTimeFormatInfo.InvariantInfo),
-                new Dictionary<string, string>()
+                new Dictionary<string, object>()
                 {
                     { "resolution_type", "builtin.datetime.date" },
                     { "date", date.ToString("yyyy-MM-dd", DateTimeFormatInfo.InvariantInfo) }
@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Builder.Tests
         {
             return EntityFor(type,
                 time.ToString("t", DateTimeFormatInfo.InvariantInfo),
-                new Dictionary<string, string>()
+                new Dictionary<string, object>()
                 {
                     { "resolution_type", "builtin.datetime.time" },
                     { "time", time.ToString("THH:mm:ss", DateTimeFormatInfo.InvariantInfo) }
