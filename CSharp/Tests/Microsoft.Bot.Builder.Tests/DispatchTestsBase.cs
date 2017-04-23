@@ -150,6 +150,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<LuisRequest>(q => new UriBuilder() { Host = "one", Path = q.Query }.Uri);
 
             luisOne
+                .Setup(l => l.ModifyRequest(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(r => r);
+
+            luisOne
                 .Setup(l => l.QueryAsync(It.IsAny<Uri>(), token))
                 .Returns<Uri, CancellationToken>(async (u, t) =>
                 {
@@ -160,6 +164,10 @@ namespace Microsoft.Bot.Builder.Tests
             luisTwo
                 .Setup(l => l.BuildUri(It.IsAny<LuisRequest>()))
                 .Returns<LuisRequest>(q => new UriBuilder() { Host = "two", Path = q.Query }.Uri);
+
+            luisTwo
+                .Setup(l => l.ModifyRequest(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(r => r);
 
             luisTwo
                 .Setup(l => l.QueryAsync(It.IsAny<Uri>(), token))

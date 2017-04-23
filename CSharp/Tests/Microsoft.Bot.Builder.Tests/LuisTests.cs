@@ -119,6 +119,9 @@ namespace Microsoft.Bot.Builder.Tests
                 .Setup(l => l.BuildUri(It.Is<LuisRequest>(r => r.Query == utterance)))
                 .Returns(uri);
 
+            luis.Setup(l => l.ModifyRequest(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(r => r);
+
             luis
                 .Setup(l => l.QueryAsync(uri, It.IsAny<CancellationToken>()))
                 .Returns<Uri, CancellationToken>(async (_, token) =>
@@ -315,6 +318,10 @@ namespace Microsoft.Bot.Builder.Tests
                 );
 
             service
+                .Setup(l => l.ModifyRequest(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(r => r);
+
+            service
                 .Setup(l => l.QueryAsync(It.Is<Uri>(t => t.AbsoluteUri.Contains($"&contextId={contextId}")), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new LuisResult()
                 {
@@ -430,8 +437,8 @@ namespace Microsoft.Bot.Builder.Tests
 
             // https://github.com/Microsoft/BotBuilder/issues/247
             // https://github.com/Microsoft/BotBuilder/pull/76
-            Assert.AreNotEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%25u00e7ais", uri.AbsoluteUri);
-            Assert.AreEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%C3%A7ais", uri.AbsoluteUri);
+            Assert.AreNotEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%25u00e7ais&allowSampling=True", uri.AbsoluteUri);
+            Assert.AreEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%C3%A7ais&allowSampling=True", uri.AbsoluteUri);
         }
     }
 }

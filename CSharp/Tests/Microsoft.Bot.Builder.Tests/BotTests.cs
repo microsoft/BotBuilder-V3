@@ -778,6 +778,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<LuisRequest>(r => ((ILuisService)new LuisService(model)).BuildUri(r));
 
             mock
+                .Setup(l => l.ModifyRequest(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(r => r);
+
+            mock
                 .Setup(l => l.QueryAsync(It.Is<Uri>(u => u == uri), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new LuisResult()
                 {

@@ -71,6 +71,13 @@ namespace Microsoft.Bot.Builder.Luis
         /// Luis Api Version.
         /// </summary>
         LuisApiVersion ApiVersion { get; }
+
+        /// <summary>
+        /// Modify a Luis request to specify query parameters like spelling or logging.
+        /// </summary>
+        /// <param name="request">Request so far.</param>
+        /// <returns>Modified request.</returns>
+        LuisRequest ModifyRequest(LuisRequest request);
     }
 
     /// <summary>
@@ -81,24 +88,59 @@ namespace Microsoft.Bot.Builder.Luis
     public class LuisModelAttribute : Attribute, ILuisModel, IEquatable<ILuisModel>
     {
         private readonly string modelID;
+        /// <summary>
+        /// The GUID for the LUIS model.
+        /// </summary>
         public string ModelID => modelID;
 
         private readonly string subscriptionKey;
+        /// <summary>
+        /// The subscription key for LUIS.
+        /// </summary>
         public string SubscriptionKey => subscriptionKey;
 
+        private readonly string domain;
+        /// <summary>
+        /// Domain where LUIS application is located.
+        /// </summary>
+        /// <remarks>Null means default which is api.projectoxford.ai for V1 API and westus.api.cognitive.microsoft.com for V2 api.</remarks>
+        public string Domain => domain;
+
         private readonly Uri uriBase;
+        /// <summary>
+        /// Base URI for LUIS calls.
+        /// </summary>
         public Uri UriBase => uriBase;
 
         private readonly LuisApiVersion apiVersion;
+        /// <summary>
+        /// Version of query API to call.
+        /// </summary>
         public LuisApiVersion ApiVersion => apiVersion;
 
-        public static readonly IReadOnlyDictionary<LuisApiVersion, Uri> LuisEndpoints = new Dictionary<LuisApiVersion, Uri>()
-        {
-            #pragma warning disable CS0612
-            {LuisApiVersion.V1, new Uri("https://api.projectoxford.ai/luis/v1/application")},
-            #pragma warning restore CS0612
-            {LuisApiVersion.V2, new Uri("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/")}
-        };
+        private readonly bool allowSampling;
+        /// <summary>
+        /// Indicates if this query can be sampled as a candidate for improving the model.
+        /// </summary>
+        public bool AllowSampling => allowSampling;
+
+        private readonly bool spellCheck;
+        /// <summary>
+        /// Control spell checking.
+        /// </summary>
+        public bool SpellCheck => spellCheck;
+
+        private readonly bool staging;
+        /// <summary>
+        /// Whether to use staging or production endpoint.
+        /// </summary>
+        public bool Staging => staging;
+
+        private readonly bool verbose;
+        /// <summary>
+        /// Return verbose results from a query.
+        /// </summary>
+        public bool Verbose => verbose;
 
         /// <summary>
         /// Construct the LUIS model information.
@@ -106,12 +148,28 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="modelID">The LUIS model ID.</param>
         /// <param name="subscriptionKey">The LUIS subscription key.</param>
         /// <param name="apiVersion">The LUIS API version.</param>
-        public LuisModelAttribute(string modelID, string subscriptionKey, LuisApiVersion apiVersion = LuisApiVersion.V2)
+        /// <param name="allowSampling">Allow sampling query to improve model.</param>
+        /// <param name="domain">Domain where LUIS model is located.</param>
+        /// <param name="spellCheck">Control spell checking.</param>
+        /// <param name="staging">Control whether or not to use staging endpoint.</param>
+        /// <param name="verbose">Control verbose results.</param>
+        public LuisModelAttribute(string modelID, string subscriptionKey, 
+            LuisApiVersion apiVersion = LuisApiVersion.V2, string domain = null, 
+            bool allowSampling = true, bool spellCheck = false, bool staging=false, bool verbose=false)
         {
             SetField.NotNull(out this.modelID, nameof(modelID), modelID);
             SetField.NotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
             this.apiVersion = apiVersion;
-            this.uriBase = LuisEndpoints[this.apiVersion];
+            if (domain == null)
+            {
+                domain = apiVersion == LuisApiVersion.V2 ? "westus.api.cognitive.microsoft.com" : "api.projectoxford.ai/luis/v1/application";
+            }
+            this.allowSampling = allowSampling;
+            this.domain = domain;
+            this.spellCheck = spellCheck;
+            this.staging = staging;
+            this.uriBase = new Uri(apiVersion == LuisApiVersion.V2 ? $"https://{domain}/luis/v2.0/apps/" : $"https://api.projectoxford.ai/luis/v1/application");
+            this.verbose = verbose;
         }
 
         public bool Equals(ILuisModel other)
@@ -135,6 +193,27 @@ namespace Microsoft.Bot.Builder.Luis
                 ^ SubscriptionKey.GetHashCode()
                 ^ UriBase.GetHashCode()
                 ^ ApiVersion.GetHashCode();
+        }
+
+        public LuisRequest ModifyRequest(LuisRequest request)
+        {
+            if (AllowSampling)
+            {
+                request.AllowSampling = true;
+            }
+            if (SpellCheck)
+            {
+                request.SpellCheck = true;
+            }
+            if (Staging)
+            {
+                request.Staging = true;
+            }
+            if (Verbose)
+            {
+                request.Verbose = true;
+            }
+            return request;
         }
     }
 }

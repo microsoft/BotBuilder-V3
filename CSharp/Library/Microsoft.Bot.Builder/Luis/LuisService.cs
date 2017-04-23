@@ -51,59 +51,71 @@ namespace Microsoft.Bot.Builder.Luis
         /// <summary>
         /// The text query.
         /// </summary>
-        public readonly string Query;
-
-        /// <summary>
-        /// The time zone offset.
-        /// </summary>
-        public readonly double? TimezoneOffset;
-
-        /// <summary>
-        /// The context id.
-        /// </summary>
-        public readonly string ContextId;
-
-        /// <summary>
-        /// The verbose flag.
-        /// </summary>
-        public readonly bool? Verbose;
-
-        /// <summary>
-        /// Turn on spell checking.
-        /// </summary>
-        public readonly bool? SpellCheck;
-
-        /// <summary>
-        /// Force setting the parameter.
-        /// </summary>
-        public readonly string ForceSet;
+        public string Query;
 
         /// <summary>
         /// Indicates if sampling is allowed.
         /// </summary>
-        public readonly string AllowSampling;
+        public bool? AllowSampling;
+
+        /// <summary>
+        /// Turn on spell checking.
+        /// </summary>
+        public bool? SpellCheck;
+
+        /// <summary>
+        /// Use the staging endpoint.
+        /// </summary>
+        public bool? Staging;
+
+        /// <summary>
+        /// The time zone offset.
+        /// </summary>
+        public double? TimezoneOffset;
+
+        /// <summary>
+        /// The verbose flag.
+        /// </summary>
+        public bool? Verbose;
+
+        /// <summary>
+        /// The context id.
+        /// </summary>
+        [Obsolete("Action binding in LUIS should be replaced with code.")]
+        public string ContextId;
+
+        /// <summary>
+        /// Force setting the parameter when using action binding.
+        /// </summary>
+        [Obsolete("Action binding in LUIS should be replaced with code.")]
+        public string ForceSet;
 
         /// <summary>
         /// Constructs an instance of the LuisReqeuest.
         /// </summary>
         /// <param name="query"> The text query.</param>
-        /// <param name="timezoneOffset"> The time zone offset.</param>
-        /// <param name="contextId"> The context id for Luis dialog.</param>
-        /// <param name="verbose"> Indicates if the <see cref="LuisResult"/> should be verbose.</param>
-        /// <param name="forceSet"> Force setting the parameter.</param>
         /// <param name="allowSampling"> Allow sampling.</param>
         /// <param name="spellCheck">Turn on spell checking.</param>
-        public LuisRequest(string query, double? timezoneOffset = default(double?),
-            string contextId = default(string), bool? verbose = default(bool?), string forceSet = default(string),
-            string allowSampling = default(string), bool? spellCheck = default(bool?))
+        /// <param name="staging">Whether or not to use staging.</param>
+        /// <param name="timezoneOffset"> The time zone offset used for resolving time expressions.</param>
+        /// <param name="verbose"> Indicates if the <see cref="LuisResult"/> should be verbose.</param>
+        /// <param name="contextId"> The context id for Luis dialog.</param>
+        /// <param name="forceSet"> Force setting the parameter when using action binding.</param>
+        public LuisRequest(string query,
+            bool? allowSampling = default(bool?), bool? spellCheck = default(bool?), bool? staging = default(bool?), double? timezoneOffset = default(double?), bool? verbose = default(bool?),
+            string contextId = default(string), string forceSet = default(string)
+            )
         {
             this.Query = query;
-            this.TimezoneOffset = timezoneOffset;
-            this.ContextId = contextId;
-            this.Verbose = verbose;
-            this.ForceSet = forceSet;
             this.AllowSampling = allowSampling;
             this.SpellCheck = spellCheck;
+            this.Staging = staging;
+            this.Verbose = verbose;
+            this.TimezoneOffset = timezoneOffset;
+#pragma warning disable CS0618
+            this.ContextId = contextId;
+            this.ForceSet = forceSet;
+#pragma warning restore CS0618
         }
 
         /// <summary>
@@ -144,30 +156,36 @@ namespace Microsoft.Bot.Builder.Luis
                     throw new ArgumentException($"{model.ApiVersion} is not a valid Luis api version.");
             }
 
-            if (TimezoneOffset != null)
-            {
-                queryParameters.Add($"timezoneOffset={Uri.EscapeDataString(Convert.ToString(TimezoneOffset))}");
-            }
-            if (ContextId != null)
-            {
-                queryParameters.Add($"contextId={Uri.EscapeDataString(ContextId)}");
-            }
-            if (Verbose != null)
-            {
-                queryParameters.Add($"verbose={Uri.EscapeDataString(Convert.ToString(Verbose))}");
-            }
-            if (ForceSet != null)
-            {
-                queryParameters.Add($"forceSet={Uri.EscapeDataString(ForceSet)}");
-            }
             if (AllowSampling != null)
             {
-                queryParameters.Add($"allowSampling={Uri.EscapeDataString(AllowSampling)}");
+                queryParameters.Add($"allowSampling={Uri.EscapeDataString(Convert.ToString(AllowSampling))}");
             }
             if (SpellCheck != null)
             {
                 queryParameters.Add($"spellCheck={Uri.EscapeDataString(Convert.ToString(SpellCheck))}");
             }
+            if (Staging != null)
+            {
+                queryParameters.Add($"staging={Uri.EscapeDataString(Convert.ToString(Staging))}");
+            }
+            if (TimezoneOffset != null)
+            {
+                queryParameters.Add($"timezoneOffset={Uri.EscapeDataString(Convert.ToString(TimezoneOffset))}");
+            }
+            if (Verbose != null)
+            {
+                queryParameters.Add($"verbose={Uri.EscapeDataString(Convert.ToString(Verbose))}");
+            }
+#pragma warning disable CS0618
+            if (ContextId != null)
+            {
+                queryParameters.Add($"contextId={Uri.EscapeDataString(ContextId)}");
+            }
+            if (ForceSet != null)
+            {
+                queryParameters.Add($"forceSet={Uri.EscapeDataString(ForceSet)}");
+            }
+#pragma warning restore CS0618
 
             builder.Query = string.Join("&", queryParameters);
             return builder.Uri;
@@ -179,6 +197,13 @@ namespace Microsoft.Bot.Builder.Luis
     /// </summary>
     public interface ILuisService
     {
+        /// <summary>
+        /// Modify the incoming LUIS request.
+        /// </summary>
+        /// <param name="request">Request so far.</param>
+        /// <returns>Modified request.</returns>
+        LuisRequest ModifyRequest(LuisRequest request);
+
         /// <summary>
         /// Build the query uri for the <see cref="LuisRequest"/>.
         /// </summary>
@@ -210,6 +235,11 @@ namespace Microsoft.Bot.Builder.Luis
         public LuisService(ILuisModel model)
         {
             SetField.NotNull(out this.model, nameof(model), model);
+        }
+
+        public LuisRequest ModifyRequest(LuisRequest request)
+        {
+            return model.ModifyRequest(request);
         }
 
         Uri ILuisService.BuildUri(LuisRequest luisRequest)
@@ -261,7 +291,19 @@ namespace Microsoft.Bot.Builder.Luis
         /// <returns>The LUIS result.</returns>
         public static async Task<LuisResult> QueryAsync(this ILuisService service, string text, CancellationToken token)
         {
-            var uri = service.BuildUri(new LuisRequest(query: text));
+            return await service.QueryAsync(new LuisRequest(query: text), token);
+        }
+
+        /// <summary>
+        /// Query the LUIS service using this request.
+        /// </summary>
+        /// <param name="service">LUIS service.</param>
+        /// <param name="request">Query request.</param>
+        /// <param name="token">Cancellation token.</param>
+        /// <returns>LUIS result.</returns>
+        public static async Task<LuisResult> QueryAsync(this ILuisService service, LuisRequest request, CancellationToken token)
+        {
+            var uri = service.BuildUri(request);
             return await service.QueryAsync(uri, token);
         }
 
@@ -273,7 +315,7 @@ namespace Microsoft.Bot.Builder.Luis
         /// <returns>The LUIS request Uri.</returns>
         public static Uri BuildUri(this ILuisService service, string text)
         {
-            return service.BuildUri(new LuisRequest(query: text));
+            return service.BuildUri(service.ModifyRequest(new LuisRequest(query: text)));
         }
     }
 }
