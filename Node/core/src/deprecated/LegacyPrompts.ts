@@ -36,7 +36,7 @@ import { systemLib } from '../bots/Library';
 import { Dialog, ResumeReason, IDialogResult, IRecognizeDialogContext } from '../dialogs/Dialog'
 import { PromptType, IPromptOptions, ListStyle } from '../dialogs/Prompt';
 import { EntityRecognizer } from '../dialogs/EntityRecognizer';
-import { IRecognizeResult } from '../dialogs/IntentRecognizerSet';
+import { IRecognizeResult } from '../dialogs/IntentRecognizer';
 import { CardAction } from '../cards/CardAction';
 import { Keyboard } from '../cards/Keyboard';
 import { Message } from '../Message';

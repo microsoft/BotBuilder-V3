@@ -31,17 +31,17 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { IRecognizeContext } from './IntentRecognizerSet';
-import { IIntentRecognizer, IIntentRecognizerResult } from './IntentRecognizerSet';
+import { IntentRecognizer, IIntentRecognizer, IRecognizeContext, IIntentRecognizerResult } from './IntentRecognizer';
 import { RegExpRecognizer } from './RegExpRecognizer';
 
-export class LocalizedRegExpRecognizer implements IIntentRecognizer {
+export class LocalizedRegExpRecognizer extends IntentRecognizer {
     private recognizers = <IRecognizerMap>{};
 
     constructor(private intent: string, private key: string, private namespace?: string) {
+        super();
     }
 
-    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void {
+    public onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void {
         // Create recognizer for locale on first message
         var locale = context.preferredLocale();
         var recognizer = this.recognizers[locale];

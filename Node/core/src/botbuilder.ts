@@ -54,6 +54,7 @@ export { PromptNumber } from './dialogs/PromptNumber';
 export { PromptRecognizers } from './dialogs/PromptRecognizers';
 export { PromptText } from './dialogs/PromptText';
 export { PromptTime } from './dialogs/PromptTime';
+export { IntentRecognizer } from './dialogs/IntentRecognizer';
 export { IntentRecognizerSet, RecognizeOrder } from './dialogs/IntentRecognizerSet';
 export { IntentDialog, RecognizeMode } from './dialogs/IntentDialog';
 export { LuisRecognizer } from './dialogs/LuisRecognizer';

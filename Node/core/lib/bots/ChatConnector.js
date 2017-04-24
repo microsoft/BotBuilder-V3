@@ -363,12 +363,14 @@ var ChatConnector = (function () {
         }
     };
     ChatConnector.prototype.onDispatchEvents = function (events, callback) {
-        if (this.isInvoke(events[0])) {
-            this.onInvokeHandler(events[0], callback);
-        }
-        else {
-            this.onEventHandler(events);
-            callback(null, null, 202);
+        if (events && events.length > 0) {
+            if (this.isInvoke(events[0])) {
+                this.onInvokeHandler(events[0], callback);
+            }
+            else {
+                this.onEventHandler(events);
+                callback(null, null, 202);
+            }
         }
     };
     ChatConnector.prototype.dispatch = function (msg, res) {

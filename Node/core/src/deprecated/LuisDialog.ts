@@ -33,7 +33,7 @@
 
 import { Session } from '../Session';
 import { Dialog, IRecognizeDialogContext, IDialogResult } from '../dialogs/Dialog';
-import { IRecognizeResult } from '../dialogs/IntentRecognizerSet';
+import { IRecognizeResult } from '../dialogs/IntentRecognizer';
 import { IntentDialog, IBeginDialogHandler } from '../dialogs/IntentDialog';
 import { LuisRecognizer } from '../dialogs/LuisRecognizer';
 import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';

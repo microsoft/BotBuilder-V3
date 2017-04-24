@@ -33,7 +33,7 @@
 
 import { Session } from '../Session';
 import { Prompt, IPromptContext, IPromptOptions, IPromptFeatures, ListStyle } from './Prompt';
-import { IRecognizeContext } from './IntentRecognizerSet';
+import { IRecognizeContext } from './IntentRecognizer';
 import { PromptRecognizers, StringOrRegExp, IChoice } from './PromptRecognizers';
 import { IFindMatchResult } from './EntityRecognizer';
 import { Message } from '../Message';

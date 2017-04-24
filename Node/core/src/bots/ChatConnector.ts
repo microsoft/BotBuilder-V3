@@ -92,7 +92,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     private msaOpenIdMetadata: OpenIdMetadata;
     private emulatorOpenIdMetadata: OpenIdMetadata;
 
-    constructor(private settings: IChatConnectorSettings = {}) {
+    constructor(protected settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
                 refreshEndpoint: 'https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token',
@@ -453,14 +453,16 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
 
     protected onDispatchEvents(events: IEvent[], callback: (err: Error, body: any, status?: number) => void): void {
-        if(this.isInvoke(events[0])) {
-            this.onInvokeHandler(events[0], callback);
-        } else {
-            // Dispatch message
-            this.onEventHandler(events);
+        if (events && events.length > 0) {
+            if(this.isInvoke(events[0])) {
+                this.onInvokeHandler(events[0], callback);
+            } else {
+                // Dispatch message
+                this.onEventHandler(events);
 
-            // Acknowledge that we received the events
-            callback(null, null, 202);
+                // Acknowledge that we received the events
+                callback(null, null, 202);
+            }
         }
     }
 

@@ -33,7 +33,7 @@
 
 import { Library, IRouteResult } from './bots/Library';
 import { Dialog, IDialogResult, ResumeReason, IRecognizeDialogContext } from './dialogs/Dialog';
-import { IRecognizeResult, IRecognizeContext } from './dialogs/IntentRecognizerSet';
+import { IRecognizeResult, IRecognizeContext } from './dialogs/IntentRecognizer';
 import { ActionSet, IFindActionRouteContext, IActionRouteData } from './dialogs/ActionSet';
 import { Message, InputHint } from './Message';
 import { DefaultLocalizer } from './DefaultLocalizer';

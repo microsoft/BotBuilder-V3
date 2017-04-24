@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { IRecognizeContext } from './IntentRecognizerSet';
+import { IRecognizeContext } from './IntentRecognizer';
 import { EntityRecognizer, IFindMatchResult } from './EntityRecognizer';
 import * as consts from '../consts';
 import * as chrono from 'chrono-node';

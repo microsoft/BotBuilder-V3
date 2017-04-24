@@ -32,7 +32,7 @@
 //
 
 import { Session } from './Session';
-import { IRecognizeContext } from './dialogs/IntentRecognizerSet';
+import { IRecognizeContext } from './dialogs/IntentRecognizer';
 
 export var channels = {
     facebook: 'facebook',

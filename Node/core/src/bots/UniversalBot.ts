@@ -36,7 +36,7 @@ import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
 import { Session, ISessionMiddleware } from '../Session';
 import { DefaultLocalizer } from '../DefaultLocalizer';
 import { IBotStorage, IBotStorageContext, IBotStorageData, MemoryBotStorage } from '../storage/BotStorage';
-import { IIntentRecognizerResult } from '../dialogs/IntentRecognizerSet';
+import { IIntentRecognizerResult } from '../dialogs/IntentRecognizer';
 import { SessionLogger } from '../SessionLogger';
 import { RemoteSessionLogger } from '../RemoteSessionLogger';
 import * as consts from '../consts';

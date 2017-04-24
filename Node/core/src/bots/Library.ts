@@ -34,7 +34,8 @@
 import { Dialog, IRecognizeDialogContext } from '../dialogs/Dialog';
 import { SimpleDialog, IDialogWaterfallStep, createWaterfall } from '../dialogs/SimpleDialog';
 import { ActionSet, IDialogActionOptions, IFindActionRouteContext, IActionRouteData } from '../dialogs/ActionSet';
-import { IRecognizeContext, IntentRecognizerSet, IIntentRecognizer, IIntentRecognizerResult } from '../dialogs/IntentRecognizerSet';
+import { IRecognizeContext, IIntentRecognizer, IIntentRecognizerResult } from '../dialogs/IntentRecognizer';
+import { IntentRecognizerSet } from '../dialogs/IntentRecognizerSet';
 import { Session } from '../Session'; 
 import * as consts from '../consts';
 import * as utils from '../utils';

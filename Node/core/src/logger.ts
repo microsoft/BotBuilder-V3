@@ -32,7 +32,7 @@
 //
 
 import { Session } from './Session';
-import { IRecognizeContext } from './dialogs/IntentRecognizerSet'
+import { IRecognizeContext } from './dialogs/IntentRecognizer'
 import { PromptType, IPromptOptions } from './dialogs/Prompt';
 import { IPromptArgs } from './deprecated/LegacyPrompts';
 import * as Channel from './Channel';

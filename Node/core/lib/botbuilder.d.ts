@@ -3283,7 +3283,7 @@ declare global {
 export const Prompts: IPrompts;
 
 /** Federates a recognize() call across a set of intent recognizers. */
-export class IntentRecognizerSet implements IIntentRecognizer {
+export class IntentRecognizerSet extends IntentRecognizer {
     /** Number of recognizers in the set. */
     readonly length: number;
 
@@ -3299,8 +3299,8 @@ export class IntentRecognizerSet implements IIntentRecognizer {
      */
     clone(copyTo?: IntentRecognizerSet): IntentRecognizerSet;
 
-    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
-    recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+    /** Implements the actual recognition logic. */
+    onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
     /**
      * Adds a new recognizer plugin to the set.
@@ -3383,10 +3383,47 @@ export class IntentDialog extends Dialog {
 }
 
 /** 
+ * Base class for all core recognizers. Allows conditional execution of a recognizer and post
+ * filtering of recognized intents.  Derived class should override the abstract 
+ * [onRecognize()](#onrecognize) method. 
+ */
+export abstract class IntentRecognizer implements IIntentRecognizer {
+    /**
+     * Overriden by derived class to implement the actual recognition logic.
+     * @param context Contextual information for a received message that's being recognized.
+     * @param callback Function to invoke with the results of the recognition operation.
+     * @param callback.error Any error that occurred or `null`.
+     * @param callback.result The result of the recognition.
+     */
+    abstract onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /** 
+     * Attempts to match a users text utterance to an intent. 
+     * @param context Contextual information for a received message that's being recognized.
+     * @param callback Function to invoke with the results of the recognition operation.
+     */
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /**
+     * Registers a function to conditionally enable/disable the recognizer. Multiple handlers can
+     * be registered and the new handler will be executed before any other handlers.
+     * @param handler Function called for every message. You should call `callback(null, true)` for every message that should be recognized. 
+     */
+    public onEnabled(handler: (context: IRecognizeContext, callback: (err: Error, enabled: boolean) => void) => void): RecognizerFilter;
+
+    /**
+     * Registers a function to filter the output from the recognizer. Multiple handlers can be
+     * registered and the new handler will be executed after any other handlers.
+     * @param handler Function called for every message that results in an intent with a score greater then 0.0. You should call `callback(null, { score: 0.0, intent: null })` to block an intent from being returned.
+     */
+    public onFilter(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
+}
+
+/** 
  * Intent recognizer plugin that detects a users intent using a regular expression. Multiple
  * expressions can be passed in to support recognizing across multiple languages. 
  */
-export class RegExpRecognizer implements IIntentRecognizer {
+export class RegExpRecognizer extends IntentRecognizer {
     /**
      * Constructs a new instance of the recognizer.
      * @param intent The name of the intent to return when the expression is matched.
@@ -3394,8 +3431,8 @@ export class RegExpRecognizer implements IIntentRecognizer {
      */
     constructor(intent: string, expressions: RegExp|IRegExpMap);
 
-    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
-    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+    /** Implements the actual recognition logic. */
+    onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
 /** 
@@ -3409,7 +3446,7 @@ export class RegExpRecognizer implements IIntentRecognizer {
  * create instances of the recognizer using the namespace of your library and bot developers can 
  * customize your matching expressions by using a `<namespace>.json` file in their locale directory.
  */
-export class LocalizedRegExpRecognizer implements IIntentRecognizer {
+export class LocalizedRegExpRecognizer extends IntentRecognizer {
     /**
      * Constructs a new instance of the recognizer.
      * @param intent The name of the intent to return when the expression is matched.
@@ -3418,8 +3455,8 @@ export class LocalizedRegExpRecognizer implements IIntentRecognizer {
      */
     constructor(intent: string, key: string, namespace?: string);
 
-    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
-    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+    /** Implements the actual recognition logic. */
+    onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
 /**
@@ -3447,7 +3484,7 @@ export class RecognizerFilter implements IIntentRecognizer {
      * Registers a function to filter the output from the wrapped recognizer.
      * @param handler Function called for every message that results in an intent with a score greater then 0.0. You should call `callback(null, { score: 0.0, intent: null })` to block an intent from being returned.
      */
-    public onRecognized(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
+    onRecognized(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
 }
 
 /**
@@ -3455,15 +3492,15 @@ export class RecognizerFilter implements IIntentRecognizer {
  * The service URLs for multiple LUIS models (apps) can be passed in to support recognition 
  * across multiple languages. 
  */
-export class LuisRecognizer implements IIntentRecognizer {
+export class LuisRecognizer extends IntentRecognizer {
     /**
      * Constructs a new instance of the recognizer.
      * @param models Either an individual LUIS model used for all utterances or a map of per/locale models conditionally used depending on the locale of the utterance. 
      */
     constructor(models: string|ILuisModelMap);
 
-    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
-    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+    /** Implements the actual recognition logic. */
+    onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
     /**
      * Calls LUIS to recognizing intents & entities in a users utterance.
@@ -3784,9 +3821,14 @@ export class ChatConnector implements IConnector, IBotStorage {
      * Called after the connector receives, authenticates, and prepares an event. Derived classes
      * can override this to filter out incoming events before they're dispatched to the bot. 
      * Calling `super.onDispatchMessage(event, callback)` will perform the connectors default 
-     * logic.   
+     * logic.
+     * @param events Array of 0 or more events to dispatch.
+     * @param callback Function that will be called after all events have been dispatched.
      */
     protected onDispatchEvents(events: IEvent[], callback: (err: Error, body: any, status?: number) => void): void;
+
+    /** Configuration parameters for the connector. */
+    protected settings: IChatConnectorSettings;
 }
 
 /** Connects a UniversalBot to the command line via a console window. */

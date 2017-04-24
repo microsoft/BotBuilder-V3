@@ -1,15 +1,24 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var IntentRecognizer_1 = require("./IntentRecognizer");
 var request = require("request");
-var LuisRecognizer = (function () {
+var LuisRecognizer = (function (_super) {
+    __extends(LuisRecognizer, _super);
     function LuisRecognizer(models) {
+        var _this = _super.call(this) || this;
         if (typeof models == 'string') {
-            this.models = { '*': models };
+            _this.models = { '*': models };
         }
         else {
-            this.models = (models || {});
+            _this.models = (models || {});
         }
+        return _this;
     }
-    LuisRecognizer.prototype.recognize = function (context, cb) {
+    LuisRecognizer.prototype.onRecognize = function (context, callback) {
         var result = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
             var utterance = context.message.text;
@@ -41,19 +50,19 @@ var LuisRecognizer = (function () {
                                     break;
                             }
                         }
-                        cb(null, result);
+                        callback(null, result);
                     }
                     else {
-                        cb(err, null);
+                        callback(err, null);
                     }
                 });
             }
             else {
-                cb(new Error("LUIS model not found for locale '" + locale + "'."), null);
+                callback(new Error("LUIS model not found for locale '" + locale + "'."), null);
             }
         }
         else {
-            cb(null, result);
+            callback(null, result);
         }
     };
     LuisRecognizer.recognize = function (utterance, modelUrl, callback) {
@@ -100,5 +109,5 @@ var LuisRecognizer = (function () {
         }
     };
     return LuisRecognizer;
-}());
+}(IntentRecognizer_1.IntentRecognizer));
 exports.LuisRecognizer = LuisRecognizer;
