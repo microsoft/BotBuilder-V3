@@ -340,7 +340,7 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1=1st,first|2=2nd,second|3=3rd,third|4=4th,fourth|5=5th,fifth|6=6th,sixth|7=7th,seventh|8=8th,eigth|9=9th,ninth|10=10th,tenth.
+        ///   Looks up a localized string similar to 1=1st,first,first one|2=2nd,second,second one|3=3rd,third,third one|4=4th,fourth,fourth one|5=5th,fifth,fifth one|6=6th,sixth,sixth one|7=7th,seventh,seventh one|8=8th,eigth,eigth one|9=9th,ninth,ninth one|10=10th,tenth,tenth one.
         /// </summary>
         public static string NumberOrdinals {
             get {
@@ -349,7 +349,7 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to -1=last|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last.
+        ///   Looks up a localized string similar to -1=last,last one|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last.
         /// </summary>
         public static string NumberReverseOrdinals {
             get {
