@@ -31,16 +31,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using Microsoft.Bot.Builder.ConnectorEx;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Builder.Resource;
-using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.ConnectorEx;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Resource;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -130,7 +130,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// What to display when user didn't say a valid response after <see cref="Attempts"/>.
         /// </summary>
-        string TooManyAttempts { get;  }
+        string TooManyAttempts { get; }
 
         /// <summary>
         /// Maximum number of attempts.
@@ -216,7 +216,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// </summary>
         public int Attempts
         {
-            set { this.promptOptionsWithChoices.Attempts = value;  }
+            set { this.promptOptionsWithChoices.Attempts = value; }
             get { return this.promptOptionsWithChoices.Attempts; }
         }
 
@@ -768,25 +768,26 @@ namespace Microsoft.Bot.Builder.Dialogs
                     { No.ToString(), this.patterns[No].Select(x => x.ToLowerInvariant()).ToList() }
                 };
 
-               var promptChoiceOptions = new PromptOptionsWithSynonyms<string>(
-                   promptOptions.Prompt, 
-                   promptOptions.Retry, 
-                   promptOptions.TooManyAttempts, 
-                   choices,
-                   promptOptions.Attempts, 
-                   promptOptions.PromptStyler, 
-                   promptOptions.Descriptions, 
-                   promptOptions.Speak, 
-                   promptOptions.RetrySpeak, 
-                   promptOptions.Recognizer);
-                
+                var promptChoiceOptions = new PromptOptionsWithSynonyms<string>(
+                    promptOptions.Prompt,
+                    promptOptions.Retry,
+                    promptOptions.TooManyAttempts,
+                    choices,
+                    promptOptions.Attempts,
+                    promptOptions.PromptStyler,
+                    promptOptions.Descriptions,
+                    promptOptions.Speak,
+                    promptOptions.RetrySpeak,
+                    promptOptions.Recognizer);
+
                 this.innerPromptChoice = new PromptChoice<string>(promptChoiceOptions, recognizeNumbers: false, recognizeOrdinals: false);
             }
 
             protected internal override bool TryParse(IMessageActivity message, out bool result)
             {
-                var innerResult = this.innerPromptChoice.TryParse(message, out string entity);
+                string entity = string.Empty;
 
+                var innerResult = this.innerPromptChoice.TryParse(message, out entity);
                 result = entity == Yes.ToString();
 
                 return innerResult;
@@ -824,8 +825,8 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="max">      Maximum value.</param>
             /// <param name="min">      Minimun value.</param>
             public PromptInt64(string prompt, string retry, int attempts, string speak = null, long? min = null, long? max = null)
-                : this(new PromptOptions<long>(prompt, retry, attempts: attempts, choices: null, speak: speak), min, max) { }
-            
+                : this(new PromptOptions<long>(prompt, retry, attempts: attempts, speak: speak), min, max) { }
+
             /// <summary>   Constructor for a prompt int64 dialog. </summary>
             /// <param name="promptOptions"> THe prompt options.</param>
             /// <param name="max">Maximum value.</param>
@@ -874,7 +875,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="max">      Maximum value.</param>
             /// <param name="min">      Minimun value.</param>
             public PromptDouble(string prompt, string retry, int attempts, string speak = null, double? min = null, double? max = null)
-                : this(new PromptOptions<double>(prompt, retry, attempts: attempts, choices: null, speak: speak), min, max) { }
+                : this(new PromptOptions<double>(prompt, retry, attempts: attempts, speak: speak), min, max) { }
 
             /// <summary>   Constructor for a prompt double dialog. </summary>
             /// <param name="promptOptions"> THe prompt options.</param>
