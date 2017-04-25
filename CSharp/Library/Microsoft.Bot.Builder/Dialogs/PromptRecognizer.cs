@@ -17,8 +17,19 @@ namespace Microsoft.Bot.Builder.Dialogs
     }
     public interface IPromptRecognizeNumbersOptions
     {
-        int? MinValue { get; set; }
-        int? MaxValue { get; set; }
+        /// <summary>
+        /// (Optional) Minimum value allowed.
+        /// </summary>
+        double? MinValue { get; set; }
+
+        /// <summary>
+        /// (Optional) Maximum value allowed.
+        /// </summary>
+        double? MaxValue { get; set; }
+
+        /// <summary>
+        /// (Optional) If true, then only integers will be recognized.
+        /// </summary>
         bool? IntegerOnly { get; set; }
     }
 
@@ -27,11 +38,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>
         /// (Optional) Minimum value allowed.
         /// </summary>
-        public int? MinValue { get; set; }
+        public double? MinValue { get; set; }
         /// <summary>
         /// (Optional) Maximum value allowed.
         /// </summary>
-        public int? MaxValue { get; set; }
+        public double? MaxValue { get; set; }
         /// <summary>
         /// (Optional) If true, then only integers will be recognized.
         /// </summary>
@@ -500,10 +511,21 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="message">Message context.</param>
         /// <param name="max">Maximum value.</param>
         /// <param name="min">Minimun value.</param>
-        public static IEnumerable<RecognizeEntity<Int64>> RecognizeIntegerInRange(this IPromptRecognizer recognizer, IMessageActivity message, int min, int max)
+        public static IEnumerable<RecognizeEntity<Int64>> RecognizeIntegerInRange(this IPromptRecognizer recognizer, IMessageActivity message, long? min, long? max)
         {
             var entities = recognizer.RecognizeNumbers(message, new PromptRecognizeNumbersOptions { IntegerOnly = true, MinValue = min, MaxValue = max });
             return entities.Select(x => new RecognizeEntity<Int64> { Entity = Convert.ToInt64(x.Entity), Score = x.Score });
+        }
+
+        /// <summary>Recognizes the double in range.</summary>
+        /// <param name="recognizer"><see cref="IPromptRecognizer"/></param>
+        /// <param name="message">Message context.</param>
+        /// <param name="max">Maximum value.</param>
+        /// <param name="min">Minimun value.</param>
+        public static IEnumerable<RecognizeEntity<double>> RecognizeDoubleInRange(this IPromptRecognizer recognizer, IMessageActivity message, double? min, double? max)
+        {
+            var entities = recognizer.RecognizeNumbers(message, new PromptRecognizeNumbersOptions { IntegerOnly = false, MinValue = min, MaxValue = max });
+            return entities.Select(x => new RecognizeEntity<double> { Entity = Convert.ToDouble(x.Entity), Score = x.Score });
         }
     }
 }

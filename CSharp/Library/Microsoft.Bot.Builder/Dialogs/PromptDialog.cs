@@ -566,9 +566,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="prompt">   The prompt to show to the user. </param>
         /// <param name="retry">    What to show on retry. </param>
         /// <param name="attempts"> The number of times to retry. </param>
-        public static void Number(IDialogContext context, ResumeAfter<long> resume, string prompt, string retry = null, int attempts = 3)
+        /// <param name="speak">    Speak tag (SSML markup for text to speech)</param>
+        /// <param name="max">      Maximum value.</param>
+        /// <param name="min">      Minimun value.</param>
+        public static void Number(IDialogContext context, ResumeAfter<long> resume, string prompt, string retry = null, int attempts = 3, string speak = null, long? min = null, long? max = null)
         {
-            var child = new PromptInt64(prompt, retry, attempts);
+            var child = new PromptInt64(prompt, retry, attempts, speak, min, max);
             context.Call<long>(child, resume);
         }
 
@@ -578,9 +581,12 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="prompt">   The prompt to show to the user. </param>
         /// <param name="retry">    What to show on retry. </param>
         /// <param name="attempts"> The number of times to retry. </param>
-        public static void Number(IDialogContext context, ResumeAfter<double> resume, string prompt, string retry = null, int attempts = 3)
+        /// <param name="speak">    Speak tag (SSML markup for text to speech)</param>
+        /// <param name="max">      Maximum value.</param>
+        /// <param name="min">      Minimun value.</param>
+        public static void Number(IDialogContext context, ResumeAfter<double> resume, string prompt, string retry = null, int attempts = 3, string speak = null, double? min = null, double? max = null)
         {
-            var child = new PromptDouble(prompt, retry, attempts);
+            var child = new PromptDouble(prompt, retry, attempts, speak, min, max);
             context.Call<double>(child, resume);
         }
 
@@ -783,26 +789,47 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
-        /// <summary>   Prompt for a confirmation. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{long}, string, string, int)"/>.</remarks>
+        /// <summary>   Prompt for a Int64 </summary>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{long}, string, string, int, string, long?, long?)"/>.</remarks>
         [Serializable]
         public sealed class PromptInt64 : Prompt<long, long>
         {
+            /// <summary>
+            /// (Optional) Minimum value allowed.
+            /// </summary>
+            public long? Min { get; }
+
+            /// <summary>
+            /// (Optional) Maximum value allowed.
+            /// </summary>
+            public long? Max { get; }
+
             /// <summary>   Constructor for a prompt int64 dialog. </summary>
             /// <param name="prompt">   The prompt. </param>
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
-            public PromptInt64(string prompt, string retry, int attempts)
-                : this(new PromptOptions<long>(prompt, retry, attempts: attempts)) { }
+
+            /// <param name="speak">    Speak tag (SSML markup for text to speech)</param>
+            /// <param name="max">      Maximum value.</param>
+            /// <param name="min">      Minimun value.</param>
+            public PromptInt64(string prompt, string retry, int attempts, string speak = null, long? min = null, long? max = null)
+                : this(new PromptOptions<long>(prompt, retry, attempts: attempts, choices: null, speak: speak), min, max) { }
 
             /// <summary>   Constructor for a prompt int64 dialog. </summary>
             /// <param name="promptOptions"> THe prompt options.</param>
-            public PromptInt64(IPromptOptions<long> promptOptions)
-                : base(promptOptions) { }
+            /// <param name="max">Maximum value.</param>
+            /// <param name="min">Minimun value.</param>
+            public PromptInt64(PromptOptions<long> promptOptions, long? min = null, long? max = null)
+                : base(promptOptions)
+            {
+                this.Min = min;
+                this.Max = max;
+            }
+
 
             protected override bool TryParse(IMessageActivity message, out Int64 result)
             {
-                var matches = this.promptOptions.Recognizer.RecognizeInteger(message);
+                var matches = this.promptOptions.Recognizer.RecognizeIntegerInRange(message, this.Min, this.Max);
                 var topMatch = matches?.MaxBy(x => x.Score);
                 if (topMatch != null && topMatch.Score > 0)
                 {
@@ -815,25 +842,44 @@ namespace Microsoft.Bot.Builder.Dialogs
         }
 
         /// <summary>   Prompt for a double. </summary>
-        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{double}, string, string, int)"/>.</remarks>
+        /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{double}, string, string, int, string, double?, double?)"/>.</remarks>
         [Serializable]
         public sealed class PromptDouble : Prompt<double, double>
         {
+            /// <summary>
+            /// (Optional) Minimum value allowed.
+            /// </summary>
+            public double? Min { get; }
+
+            /// <summary>
+            /// (Optional) Maximum value allowed.
+            /// </summary>
+            public double? Max { get; }
+
             /// <summary>   Constructor for a prompt double dialog. </summary>
             /// <param name="prompt">   The prompt. </param>
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
-            public PromptDouble(string prompt, string retry, int attempts)
-                : this(new PromptOptionsWithSynonyms<double>(prompt, retry, attempts: attempts)) { }
+            /// <param name="speak">    Speak tag (SSML markup for text to speech)</param>
+            /// <param name="max">      Maximum value.</param>
+            /// <param name="min">      Minimun value.</param>
+            public PromptDouble(string prompt, string retry, int attempts, string speak = null, double? min = null, double? max = null)
+                : this(new PromptOptions<double>(prompt, retry, attempts: attempts, choices: null, speak: speak), min, max) { }
 
             /// <summary>   Constructor for a prompt double dialog. </summary>
             /// <param name="promptOptions"> THe prompt options.</param>
-            public PromptDouble(IPromptOptions<double> promptOptions)
-                : base(promptOptions) { }
+            /// <param name="max">Maximum value.</param>
+            /// <param name="min">Minimun value.</param>
+            public PromptDouble(PromptOptions<double> promptOptions, double? min = null, double? max = null)
+                : base(promptOptions)
+            {
+                this.Min = min;
+                this.Max = max;
+            }
 
             protected override bool TryParse(IMessageActivity message, out double result)
             {
-                var matches = this.promptOptions.Recognizer.RecognizeDouble(message);
+                var matches = this.promptOptions.Recognizer.RecognizeDoubleInRange(message, this.Min, this.Max);
                 var topMatch = matches?.MaxBy(x => x.Score);
                 if (topMatch != null && topMatch.Score > 0)
                 {
