@@ -675,7 +675,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 this.promptOptions.DefaultRetry = this.DefaultRetry;
             }
 
-            protected override bool TryParse(IMessageActivity message, out string result)
+            protected internal override bool TryParse(IMessageActivity message, out string result)
             {
                 if (!string.IsNullOrWhiteSpace(message.Text))
                 {
@@ -703,6 +703,8 @@ namespace Microsoft.Bot.Builder.Dialogs
         [Serializable]
         public sealed class PromptConfirm : Prompt<bool, string>
         {
+            private PromptChoice<string> innerPromptChoice;
+
             private string[][] patterns;
 
             /// <summary>
@@ -759,25 +761,35 @@ namespace Microsoft.Bot.Builder.Dialogs
             {
                 this.patterns = patterns ?? Patterns;
                 this.promptOptions.DefaultRetry = this.DefaultRetry;
+
+                var choices = new Dictionary<string, IReadOnlyList<string>>
+                {
+                    { Yes.ToString(), this.patterns[Yes].Select(x => x.ToLowerInvariant()).ToList() },
+                    { No.ToString(), this.patterns[No].Select(x => x.ToLowerInvariant()).ToList() }
+                };
+
+               var promptChoiceOptions = new PromptOptionsWithSynonyms<string>(
+                   promptOptions.Prompt, 
+                   promptOptions.Retry, 
+                   promptOptions.TooManyAttempts, 
+                   choices,
+                   promptOptions.Attempts, 
+                   promptOptions.PromptStyler, 
+                   promptOptions.Descriptions, 
+                   promptOptions.Speak, 
+                   promptOptions.RetrySpeak, 
+                   promptOptions.Recognizer);
+                
+                this.innerPromptChoice = new PromptChoice<string>(promptChoiceOptions, recognizeNumbers: false, recognizeOrdinals: false);
             }
 
-            protected override bool TryParse(IMessageActivity message, out bool result)
+            protected internal override bool TryParse(IMessageActivity message, out bool result)
             {
-                if (!string.IsNullOrEmpty(message.Text))
-                {
-                    var choices = new Dictionary<string, IReadOnlyList<string>>();
-                    choices.Add(Yes.ToString(), this.patterns[Yes].Select(x => x.ToLowerInvariant()).ToList().AsReadOnly());
-                    choices.Add(No.ToString(), this.patterns[No].Select(x => x.ToLowerInvariant()).ToList().AsReadOnly());
-                    var matches = this.promptOptions.Recognizer.RecognizeChoices(message, choices);
-                    var topMatch = matches.MaxBy(x => x.Score);
-                    if (topMatch != null && topMatch.Score > 0)
-                    {
-                        result = topMatch.Entity == Yes.ToString();
-                        return true;
-                    }
-                }
-                result = false;
-                return false;
+                var innerResult = this.innerPromptChoice.TryParse(message, out string entity);
+
+                result = entity == Yes.ToString();
+
+                return innerResult;
             }
 
             public string DefaultRetry
@@ -808,13 +820,12 @@ namespace Microsoft.Bot.Builder.Dialogs
             /// <param name="prompt">   The prompt. </param>
             /// <param name="retry">    What to display on retry. </param>
             /// <param name="attempts"> Maximum number of attempts. </param>
-
             /// <param name="speak">    Speak tag (SSML markup for text to speech)</param>
             /// <param name="max">      Maximum value.</param>
             /// <param name="min">      Minimun value.</param>
             public PromptInt64(string prompt, string retry, int attempts, string speak = null, long? min = null, long? max = null)
                 : this(new PromptOptions<long>(prompt, retry, attempts: attempts, choices: null, speak: speak), min, max) { }
-
+            
             /// <summary>   Constructor for a prompt int64 dialog. </summary>
             /// <param name="promptOptions"> THe prompt options.</param>
             /// <param name="max">Maximum value.</param>
@@ -826,8 +837,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 this.Max = max;
             }
 
-
-            protected override bool TryParse(IMessageActivity message, out Int64 result)
+            protected internal override bool TryParse(IMessageActivity message, out Int64 result)
             {
                 var matches = this.promptOptions.Recognizer.RecognizeIntegerInRange(message, this.Min, this.Max);
                 var topMatch = matches?.MaxBy(x => x.Score);
@@ -877,7 +887,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 this.Max = max;
             }
 
-            protected override bool TryParse(IMessageActivity message, out double result)
+            protected internal override bool TryParse(IMessageActivity message, out double result)
             {
                 var matches = this.promptOptions.Recognizer.RecognizeDoubleInRange(message, this.Min, this.Max);
                 var topMatch = matches?.MaxBy(x => x.Score);
@@ -951,7 +961,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 this.minScore = minScore;
             }
 
-            protected override bool TryParse(IMessageActivity message, out T result)
+            protected internal override bool TryParse(IMessageActivity message, out T result)
             {
                 if (!string.IsNullOrWhiteSpace(message.Text))
                 {
@@ -1026,7 +1036,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 this.ContentTypes = contentTypes ?? new List<string>();
             }
 
-            protected override bool TryParse(IMessageActivity message, out IEnumerable<Attachment> result)
+            protected internal override bool TryParse(IMessageActivity message, out IEnumerable<Attachment> result)
             {
                 if (message.Attachments != null && message.Attachments.Any())
                 {
@@ -1169,7 +1179,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
-        protected abstract bool TryParse(IMessageActivity message, out T result);
+        protected internal abstract bool TryParse(IMessageActivity message, out T result);
 
         protected virtual IMessageActivity MakePrompt(IDialogContext context, string prompt, IReadOnlyList<U> options = null, IReadOnlyList<string> descriptions = null, string speak = null)
         {
