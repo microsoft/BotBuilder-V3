@@ -590,7 +590,7 @@ namespace Microsoft.Bot.Builder.Tests
                         }, new Regex("reset"));
 
                         // add the resumption scorable decorator
-                        var options = new PromptOptions<string>(prompt: "Do you want to continue building the list?", choices: null);
+                        var options = new PromptOptions<string>(prompt: "Do you want to continue building the list?");
                         dialog = dialog.WithConfirmOnResume(options);
 
                         // interrupt the current stack
