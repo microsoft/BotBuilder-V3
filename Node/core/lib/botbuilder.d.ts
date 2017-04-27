@@ -1303,12 +1303,12 @@ export interface IFindRoutesHandler {
 }
 
 /** Custom route searching logic passed to [Library.onSelectRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onselectroute). */
-export interface ISelectRouteHandler {
+export interface ISelectRoutheandler {
     (session: Session, route: IRouteResult): void;
 }
 
 /** Custom route disambiguation logic passed to [UniversalBot.onDisambiguateRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#ondisambiguateroute). */
-export interface IDisambiguateRouteHandler {
+export interface IDisambiguateRoutheandler {
     (session: Session, routes: IRouteResult[]): void;
 }
 
@@ -2736,7 +2736,7 @@ export class Library {
      * Replaces the default logic for [selectRoute()](#selectroute) with a custom implementation.
      * @param handler Function that will be invoked anytime `selectRoute()` is called. 
      */
-    onSelectRoute(handler: ISelectRouteHandler): void;
+    onSelectRoute(handler: ISelectRoutheandler): void;
 
     /**
      * Gets the active dialogs confidence that it understands the current message. The dialog 
@@ -3635,6 +3635,46 @@ export class SimpleDialog extends Dialog {
     replyReceived(session: Session): void;
 }
 
+export class WaterfallDialog extends Dialog {
+    /**
+     * Creates a new waterfall dialog.
+     * @param steps Sequence of function(s) that should be called in order.
+     */
+    constructor(steps: IDialogWaterfallStep|IDialogWaterfallStep[]);
+    
+    /**
+     * Processes messages received from the user. Called by the dialog system. 
+     * @param session Session object for the current conversation.
+     */
+    replyReceived(session: Session): void;
+
+    /**
+     * Registers a handler that will be called before every step of the waterfall. The handlers
+     * `next()` function will execute either the next handler in the chain or the waterfall step
+     * itself.  This handler lets a developer skip steps and process the args being passed to 
+     * the next step.
+     * 
+     * Multiple handlers may be registered and the handler being registered will be executed before
+     * any other handlers in the chain.
+     * @param handler Function to invoke in-between each waterfall step.
+     */
+    onBeforeStep(handler: (session: Session, step: number, args: any, next: (step: number, args: any) => void) => void): WaterfallDialog;
+
+    /**
+     * Creates a function that can drive a waterfall. Everytime the function is called it will drive 
+     * the waterfall forward by invoking the next step of the waterfall. The function uses 
+     * `session.dialogData` to hold the waterfalls current step. 
+     * 
+     * To drive the waterfall forward, the `args` param passed to the handler should have 
+     * `args.resumed = builder.ResumeReason.completed`. Once the end of the waterfall is reached 
+     * it will automatically call `session.endDialogWithResult(args)` returning the passed in args.
+     * If the `args` param is missing the `resumed` field the waterfall will simply start over
+     * calling the first step. 
+     * @param steps Waterfall steps to execute.
+     */
+    static createHandler(steps: IDialogWaterfallStep[]): (session: Session, args?: any) => void;
+}
+
 /** Default in memory storage implementation for storing user & session state data. */
 export class MemoryBotStorage implements IBotStorage {
     /** Returns data from memmory for the given context. */
@@ -3781,7 +3821,7 @@ export class UniversalBot extends Library  {
      * Replaces the bots default route disambiguation logic with a custom implementation.
      * @param handler Function that will be invoked with the candidate routes to dispatch an incoming message to. 
      */
-    onDisambiguateRoute(handler: IDisambiguateRouteHandler): void;
+    onDisambiguateRoute(handler: IDisambiguateRoutheandler): void;
 }
 
 /** Connects a UniversalBot to multiple channels via the Bot Framework. */

@@ -6,6 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var IntentRecognizer_1 = require("./IntentRecognizer");
 var request = require("request");
+var url = require("url");
 var LuisRecognizer = (function (_super) {
     __extends(LuisRecognizer, _super);
     function LuisRecognizer(models) {
@@ -67,12 +68,15 @@ var LuisRecognizer = (function (_super) {
     };
     LuisRecognizer.recognize = function (utterance, modelUrl, callback) {
         try {
-            var uri = modelUrl.trim();
-            if (uri.lastIndexOf('&q=') != uri.length - 3) {
-                uri += '&q=';
+            var uri = url.parse(modelUrl, true);
+            uri.query['q'] = utterance || '';
+            if (uri.search) {
+                delete uri.search;
             }
-            uri += encodeURIComponent(utterance || '');
-            request.get(uri, function (err, res, body) {
+            if (!Object.prototype.hasOwnProperty.call(uri.query, 'allowSampling')) {
+                uri.query['allowSampling'] = 'true';
+            }
+            request.get(url.format(uri), function (err, res, body) {
                 var result;
                 try {
                     if (!err) {

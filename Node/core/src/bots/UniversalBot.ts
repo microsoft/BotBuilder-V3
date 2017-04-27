@@ -32,7 +32,7 @@
 //
 
 import { Library, systemLib, IRouteResult } from './Library';
-import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
+import { IDialogWaterfallStep } from '../dialogs/WaterfallDialog';
 import { Session, ISessionMiddleware } from '../Session';
 import { DefaultLocalizer } from '../DefaultLocalizer';
 import { IBotStorage, IBotStorageContext, IBotStorageData, MemoryBotStorage } from '../storage/BotStorage';

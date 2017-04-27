@@ -32,7 +32,7 @@
 //
 
 import { Dialog, IRecognizeDialogContext } from '../dialogs/Dialog';
-import { SimpleDialog, IDialogWaterfallStep, createWaterfall } from '../dialogs/SimpleDialog';
+import { WaterfallDialog, IDialogWaterfallStep } from '../dialogs/WaterfallDialog';
 import { ActionSet, IDialogActionOptions, IFindActionRouteContext, IActionRouteData } from '../dialogs/ActionSet';
 import { IRecognizeContext, IIntentRecognizer, IIntentRecognizerResult } from '../dialogs/IntentRecognizer';
 import { IntentRecognizerSet } from '../dialogs/IntentRecognizerSet';
@@ -519,10 +519,8 @@ export class Library extends EventEmitter {
             }
 
             // Wrap dialog and save
-            if (Array.isArray(dialog)) {
-                d = new SimpleDialog(createWaterfall(dialog));
-            } else if (typeof dialog == 'function') {
-                d = new SimpleDialog(createWaterfall([<any>dialog]));
+            if (Array.isArray(dialog) || typeof dialog === 'function') {
+                d = new WaterfallDialog(dialog);
             } else {
                 d = <any>dialog;
             }

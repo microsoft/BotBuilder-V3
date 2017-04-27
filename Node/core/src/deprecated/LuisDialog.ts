@@ -36,7 +36,7 @@ import { Dialog, IRecognizeDialogContext, IDialogResult } from '../dialogs/Dialo
 import { IRecognizeResult } from '../dialogs/IntentRecognizer';
 import { IntentDialog, IBeginDialogHandler } from '../dialogs/IntentDialog';
 import { LuisRecognizer } from '../dialogs/LuisRecognizer';
-import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
+import { IDialogWaterfallStep } from '../dialogs/WaterfallDialog';
 
 export class LuisDialog extends Dialog {
     private dialog: IntentDialog;

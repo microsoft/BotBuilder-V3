@@ -62,6 +62,7 @@ export { RegExpRecognizer } from './dialogs/RegExpRecognizer';
 export { LocalizedRegExpRecognizer } from './dialogs/LocalizedRegExpRecognizer';
 export { RecognizerFilter } from './dialogs/RecognizerFilter';
 export { SimpleDialog } from './dialogs/SimpleDialog';
+export { WaterfallDialog } from './dialogs/WaterfallDialog';
 export { EntityRecognizer } from './dialogs/EntityRecognizer';
 export { Library } from './bots/Library';
 export { UniversalBot } from './bots/UniversalBot';

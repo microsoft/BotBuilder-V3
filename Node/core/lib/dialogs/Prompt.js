@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var SimpleDialog_1 = require("./SimpleDialog");
+var WaterfallDialog_1 = require("./WaterfallDialog");
 var DialogAction_1 = require("./DialogAction");
 var Dialog_1 = require("./Dialog");
 var IntentRecognizerSet_1 = require("./IntentRecognizerSet");
@@ -279,13 +279,13 @@ var Prompt = (function (_super) {
             }
         }
         if (Array.isArray(dialogId)) {
-            this.handlers[id] = SimpleDialog_1.createWaterfall(dialogId);
+            this.handlers[id] = WaterfallDialog_1.WaterfallDialog.createHandler(dialogId);
         }
         else if (typeof dialogId === 'string') {
             this.handlers[id] = DialogAction_1.DialogAction.beginDialog(dialogId, dialogArgs);
         }
         else {
-            this.handlers[id] = SimpleDialog_1.createWaterfall([dialogId]);
+            this.handlers[id] = WaterfallDialog_1.WaterfallDialog.createHandler([dialogId]);
         }
         return this;
     };
