@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Language
+layout: 'redirect'
 permalink: /en-us/bot-intelligence/language/
-weight: 8240
-parent1: Bot Intelligence
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-language'
+sitemap: false
 ---
 
 * TOC

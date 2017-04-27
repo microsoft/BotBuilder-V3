@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Location Control
+layout: 'redirect'
 permalink: /en-us/bot-intelligence/location-control/
-weight: 8280
-parent1: Bot Intelligence
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-location-control'
+sitemap: false
 ---
 
 

@@ -1,12 +1,9 @@
 ---
-layout: page
-title: Getting Started
+layout: 'redirect'
 permalink: /en-us/bot-intelligence/getting-started/
-weight: 8200
-parent1: Bot Intelligence
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/intelligent-bots'
+sitemap: false
 ---
-
-
 * TOC
 {:toc}
 

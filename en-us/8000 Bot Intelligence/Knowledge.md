@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Knowledge
+layout: 'redirect'
 permalink: /en-us/bot-intelligence/knowledge/
-weight: 8250
-parent1: Bot Intelligence
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-knowledge'
+sitemap: false
 ---
 
 

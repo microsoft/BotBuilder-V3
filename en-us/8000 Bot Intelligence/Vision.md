@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Vision
+layout: 'redirect'
 permalink: /en-us/bot-intelligence/vision/
-weight: 8210
-parent1: Bot Intelligence
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-vision'
+sitemap: false
 ---
 
 * TOC

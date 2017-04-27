@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Speech
+layout: 'redirect'
 permalink: /en-us/bot-intelligence/speech/
-weight: 8220
-parent1: Bot Intelligence
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-speech'
+sitemap: false
 ---
 
 * TOC

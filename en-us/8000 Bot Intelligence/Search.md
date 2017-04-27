@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Search
+layout: 'redirect'
 permalink: /en-us/bot-intelligence/search/
-weight: 8260
-parent1: Bot Intelligence
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-search'
+sitemap: false
 ---
 
 
