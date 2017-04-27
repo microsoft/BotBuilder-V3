@@ -139,10 +139,14 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.send = function (messages, done) {
         var _this = this;
+        var responses = [];
         async.forEachOfSeries(messages, function (msg, idx, cb) {
             try {
                 if (msg.address && msg.address.serviceUrl) {
-                    _this.postMessage(msg, (idx == messages.length - 1), cb);
+                    _this.postMessage(msg, (idx == messages.length - 1), function (err, response) {
+                        responses.push(response);
+                        cb(err);
+                    });
                 }
                 else {
                     logger.error('ChatConnector: send - message is missing address or serviceUrl.');
@@ -152,7 +156,7 @@ var ChatConnector = (function () {
             catch (e) {
                 cb(e);
             }
-        }, done);
+        }, function (err) { return done(err, responses); });
     };
     ChatConnector.prototype.startConversation = function (address, done) {
         if (address && address.user && address.bot && address.serviceUrl) {
@@ -422,7 +426,7 @@ var ChatConnector = (function () {
             json: true
         };
         if (address.useAuth) {
-            this.authenticatedRequest(options, function (err, response, body) { return cb(err); });
+            this.authenticatedRequest(options, function (err, response, body) { return cb(err, typeof body === 'string' ? JSON.parse(body) : body); });
         }
         else {
             this.addUserAgent(options);
@@ -431,7 +435,7 @@ var ChatConnector = (function () {
                     var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
                     err = new Error(txt);
                 }
-                cb(err);
+                cb(err, typeof body === 'string' ? JSON.parse(body) : body);
             });
         }
     };

@@ -46,7 +46,7 @@ import * as async from 'async';
 
 export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
-    onSend: (messages: IMessage[], done: (err: Error) => void) => void;
+    onSend: (messages: IMessage[], done: (err: Error, responses?: any[]) => void) => void;
     library: Library;
     localizer: ILocalizer;
     logger: SessionLogger;
@@ -488,7 +488,7 @@ export class Session extends events.EventEmitter {
     }
 
     /** Manually triggers sending of the current auto-batch. */
-    public sendBatch(callback?: (err: Error) => void): void {
+    public sendBatch(done?: (err: Error, responses?: any[]) => void): void {
         this.logger.log(this.dialogStack(), 'Session.sendBatch() sending ' + this.batch.length + ' message(s)');            
         if (this.sendingBatch) {
             return;
@@ -508,20 +508,20 @@ export class Session extends events.EventEmitter {
         }
         this.onSave((err) => {
             if (!err) {
-                this.onSend(batch, (err) => {
+                this.onSend(batch, (err, responses) => {
                     this.onFinishBatch(() => {
                         if (this.batchStarted) {
                             this.startBatch();
                         }
-                        if (callback) {
-                            callback(err);
+                        if (done) {
+                            done(err, responses);
                         }
                     });
                 });
             } else {
                 this.onFinishBatch(() => {
-                    if (callback) {
-                        callback(err);
+                    if (done) {
+                        done(err, null);
                     }
                 });
             }
@@ -719,16 +719,16 @@ export class Session extends events.EventEmitter {
         });
     }
 
-    private onSend(batch: IMessage[], cb: (err: Error) => void): void {
+    private onSend(batch: IMessage[], cb: (err: Error, responses?: any[]) => void): void {
         if (batch && batch.length > 0) {
-            this.options.onSend(batch, (err) => {
+            this.options.onSend(batch, (err, responses) => {
                 if (err) {
                     this.logger.error(this.dialogStack(), err);
                 }
-                cb(err);
+                cb(err, responses);
             })
         } else {
-            cb(null);
+            cb(null, null);
         }
     }
 

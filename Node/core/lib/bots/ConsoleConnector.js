@@ -44,6 +44,7 @@ var ConsoleConnector = (function () {
         this.onInvokeHandler = handler;
     };
     ConsoleConnector.prototype.send = function (messages, done) {
+        var responses = [];
         for (var i = 0; i < messages.length; i++) {
             if (this.replyCnt++ > 0) {
                 console.log();
@@ -60,8 +61,9 @@ var ConsoleConnector = (function () {
                     renderAttachment(msg.attachments[j]);
                 }
             }
+            responses.push({ id: i.toString() });
         }
-        done(null);
+        done(null, responses);
     };
     ConsoleConnector.prototype.startConversation = function (address, cb) {
         var adr = utils.clone(address);

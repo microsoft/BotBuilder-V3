@@ -1002,7 +1002,7 @@ export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
 
     /** Function to invoke when a batch of messages are sent. */
-    onSend: (messages: IMessage[], done: (err: Error) => void) => void;
+    onSend: (messages: IMessage[], done: (err: Error, responses?: any[]) => void) => void;
 
     /** The bots root library of dialogs. */
     library: Library;
@@ -1138,7 +1138,7 @@ export interface IConnector {
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
 
     /** Called by the UniversalBot to deliver outgoing messages to a user. */
-    send(messages: IMessage[], callback: (err: Error) => void): void;
+    send(messages: IMessage[], callback: (err: Error, responses: any[]) => void): void;
 
     /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
     startConversation(address: IAddress, callback: (err: Error, address?: IAddress) => void): void;
@@ -1718,9 +1718,11 @@ export class Session {
 
     /** 
      * Immediately ends the current batch and delivers any queued up messages.
-     * @param callback (Optional) function called when the batch was either successfully delievered or failed for some reason. 
+     * @param done (Optional) function called when the batch was either successfully delievered or failed for some reason. 
+     * @param done.err Any error that occured during the send.
+     * @param done.responses An array of responses returned for each individual message within the batch.
      */
-    sendBatch(callback?: (err: Error) => void): void;
+    sendBatch(done?: (err: Error, responses?: any[]) => void): void;
 
     /**
      * Gets/sets the current dialog stack. A copy of the current dialog is returned so if any 
@@ -3799,8 +3801,10 @@ export class UniversalBot extends Library  {
      * Sends a message to the user without disrupting the current conversations dialog stack.
      * @param messages The message (or array of messages) to send the user.
      * @param done (Optional) function to invoke once the operation is completed. 
+     * @param done.err Any error that occured during the send.
+     * @param done.responses An array of responses returned for each individual message sent.
      */
-    send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error) => void): void;
+    send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, responses?: any[]) => void): void;
 
     /** 
      * Returns information about when the last turn between the user and a bot occured. This can be called
@@ -3887,7 +3891,7 @@ export class ConsoleConnector implements IConnector {
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
     
     /** Called by the UniversalBot to deliver outgoing messages to a user. */
-    send(messages: IMessage[], callback: (err: Error, conversationId?: string) => void): void;
+    send(messages: IMessage[], callback: (err: Error, responses?: any[]) => void): void;
 
     /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
     startConversation(address: IAddress, callback: (err: Error, address?: IAddress) => void): void;

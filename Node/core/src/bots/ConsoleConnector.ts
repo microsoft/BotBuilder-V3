@@ -81,7 +81,8 @@ export class ConsoleConnector implements IConnector {
     public onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void {
         this.onInvokeHandler = handler;
     }
-    public send(messages: IMessage[], done: (err: Error) => void): void {
+    public send(messages: IMessage[], done: (err: Error, responses?: any[]) => void): void {
+        let responses: any[] = [];
         for (var i = 0; i < messages.length; i++ ){
             if (this.replyCnt++ > 0) {
                 console.log();
@@ -98,9 +99,10 @@ export class ConsoleConnector implements IConnector {
                     renderAttachment(msg.attachments[j]);
                 }
             }
+            responses.push({ id: i.toString() });
         }
 
-        done(null);
+        done(null, responses);
     }
 
     public startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void {

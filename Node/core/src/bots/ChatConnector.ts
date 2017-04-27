@@ -224,11 +224,15 @@ export class ChatConnector implements IConnector, IBotStorage {
         this.onInvokeHandler = handler;
     }
     
-    public send(messages: IMessage[], done: (err: Error) => void): void {
+    public send(messages: IMessage[], done: (err: Error, responses?: any[]) => void): void {
+        let responses: any[] = [];
         async.forEachOfSeries(messages, (msg, idx, cb) => {
             try {
                 if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
-                    this.postMessage(msg, (idx == messages.length - 1), cb);
+                    this.postMessage(msg, (idx == messages.length - 1), (err, response) => {
+                        responses.push(response);
+                        cb(err);
+                    });
                 } else {
                     logger.error('ChatConnector: send - message is missing address or serviceUrl.')
                     cb(new Error('Message missing address or serviceUrl.'));
@@ -236,7 +240,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             } catch (e) {
                 cb(e);
             }
-        }, done);
+        }, (err) => done(err, responses));
     }
 
     public startConversation(address: IChatConnectorAddress, done: (err: Error, address?: IAddress) => void): void {
@@ -495,7 +499,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         return (event && event.type && event.type.toLowerCase() == consts.invokeType);
     }
         
-    private postMessage(msg: IMessage, lastMsg: boolean, cb: (err: Error) => void): void {
+    private postMessage(msg: IMessage, lastMsg: boolean, cb: (err: Error, response: any) => void): void {
         logger.info(address, 'ChatConnector: sending message.')
         this.prepOutgoingMessage(msg);
 
@@ -527,7 +531,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             json: true
         };
         if (address.useAuth) {
-            this.authenticatedRequest(options, (err, response, body) => cb(err));
+            this.authenticatedRequest(options, (err, response, body) => cb(err, typeof body === 'string' ? JSON.parse(body) : body));
         } else {
             this.addUserAgent(options);
             request(options, (err, response, body) => {
@@ -535,7 +539,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                     var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
                     err = new Error(txt);
                 }
-                cb(err);
+                cb(err, typeof body === 'string' ? JSON.parse(body) : body);
             });
         }
     }

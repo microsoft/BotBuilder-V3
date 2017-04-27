@@ -59,7 +59,7 @@ export interface IUniversalBotSettings {
 export interface IConnector {
     onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
     onInvoke?(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
-    send(messages: IMessage[], cb: (err: Error) => void): void;
+    send(messages: IMessage[], cb: (err: Error, responses: any[]) => void): void;
     startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void;
 }
 interface IConnectorMap {
@@ -273,7 +273,7 @@ export class UniversalBot extends Library {
         }, this.errorLogger(done));
     }
     
-    public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error) => void): void {
+    public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, responses: any[]) => void): void {
         var list: IMessage[];
         if (Array.isArray(messages)) {
             list = messages;
@@ -303,7 +303,7 @@ export class UniversalBot extends Library {
                     connector.send(list, this.errorLogger(done));
                 }, this.errorLogger(done));
             } else if (done) {
-                done(err);
+                done(err, null);
             }
         }));
     }
@@ -638,13 +638,13 @@ export class UniversalBot extends Library {
         return this.settings.storage;
     }
     
-    private tryCatch(fn: Function, error?: (err?: Error) => void): void {
+    private tryCatch(fn: Function, error?: (err?: Error, results?: any) => void): void {
         try {
             fn();
         } catch (e) {
             try {
                 if (error) {
-                    error(e);
+                    error(e, null);
                 }
             } catch (e2) {
                 this.emitError(e2);
@@ -652,13 +652,13 @@ export class UniversalBot extends Library {
         }
     }
 
-    private errorLogger(done?: (err: Error) => void): (err: Error) => void {
-        return (err: Error) => {
+    private errorLogger(done?: (err: Error, result?: any) => void): (err: Error, result?: any) => void {
+        return (err: Error, result: any) => {
             if (err) {
                 this.emitError(err);
             }
             if (done) {
-                done(err);
+                done(err, result);
                 done = null;
             }
         };
