@@ -1,11 +1,10 @@
 ---
-layout: page
-title: Deploying to Azure
+layout: 'redirect'
 permalink: /en-us/node/builder/guides/deploying-to-azure/
-weight: 2613
-parent1: Bot Builder for Node.js
-parent2: Guides
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/publish-bot-overview'
+sitemap: false
 ---
+
 
 There are many ways to deploy your bot to Azure, depending on your situation. We're presenting three ways here that can get you started quickly.
 

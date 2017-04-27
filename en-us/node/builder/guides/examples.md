@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Examples
+layout: 'redirect'
 permalink: /en-us/node/builder/guides/examples/
-weight: 2614
-parent1: Bot Builder for Node.js
-parent2: Guides
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/'
+sitemap: false
 ---
 
 * TOC

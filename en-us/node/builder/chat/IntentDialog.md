@@ -1,10 +1,8 @@
 ---
-layout: page
-title: IntentDialog
+layout: 'redirect'
 permalink: /en-us/node/builder/chat/IntentDialog/
-weight: 2625
-parent1: Bot Builder for Node.js
-parent2: Chat Bots
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-recognize-intent'
+sitemap: false
 ---
 
 * TOC

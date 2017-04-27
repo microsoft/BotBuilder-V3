@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Dialogs
+layout: 'redirect'
 permalink: /en-us/node/builder/chat/dialogs/
-weight: 2621
-parent1: Bot Builder for Node.js
-parent2: Chat Bots
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-manage-conversation-flow'
+sitemap: false
 ---
 
 * TOC

@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Prompts
+layout: 'redirect'
 permalink: /en-us/node/builder/chat/prompts/
-weight: 2623
-parent1: Bot Builder for Node.js
-parent2: Chat Bots
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-localization'
+sitemap: false
 ---
 
 * TOC

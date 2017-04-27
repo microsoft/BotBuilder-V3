@@ -1,12 +1,9 @@
 ---
-layout: page
-title: UniversalBot
+layout: 'redirect'
 permalink: /en-us/node/builder/chat/UniversalBot/
-weight: 2620
-parent1: Bot Builder for Node.js
-parent2: Chat Bots
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-use-default-message-handler'
+sitemap: false
 ---
-
 * TOC
 {:toc}
 

@@ -1,12 +1,9 @@
 ---
-layout: page
-title: Debug Locally with VSCode
+layout: 'redirect'
 permalink: /en-us/node/builder/guides/debug-locally-with-vscode/
-weight: 2612
-parent1: Bot Builder for Node.js
-parent2: Guides
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/debug-bots-locally-vscode'
+sitemap: false
 ---
-
 * TOC
 {:toc}
 

@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Bot Framework Downloads
-permalink: /en-us/downloads/
-weight: 9230
-parent1: Bot Framework Resources
+layout: 'redirect'
+permalink: /en-us/downloads
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/resources-tools-downloads'
+sitemap: false
 ---
 
 Here's a handy list of Bot Framework downloads:
@@ -47,6 +46,5 @@ Here's a handy list of Bot Framework downloads:
 
 ## Direct Line
 
-* 
+*
 {% endcomment %}
-

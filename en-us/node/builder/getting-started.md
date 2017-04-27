@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Getting Started
+layout: 'redirect'
 permalink: /en-us/node/builder/overview/
-weight: 2600
-parent1: Bot Builder for Node.js
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-quickstart'
+sitemap: false
 ---
 
 ## What is Bot Builder for Node.js and why should I use it?

@@ -1,12 +1,9 @@
 ---
-layout: page
-title: Core Concepts
+layout: 'redirect'
 permalink: /en-us/node/builder/guides/core-concepts/
-weight: 2610
-parent1: Bot Builder for Node.js
-parent2: Guides
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-concepts'
+sitemap: false
 ---
-
 * TOC
 {:toc}
 

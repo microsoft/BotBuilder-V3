@@ -1,12 +1,9 @@
 ---
-layout: page
-title: UniversalCallBot
+layout: 'redirect'
 permalink: /en-us/node/builder/calling/UniversalBot/
-weight: 2630
-parent1: Bot Builder for Node.js
-parent2: Calling Bots
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-conduct-audio-calls'
+sitemap: false
 ---
-
 * TOC
 {:toc}
 
