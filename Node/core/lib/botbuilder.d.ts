@@ -1303,12 +1303,12 @@ export interface IFindRoutesHandler {
 }
 
 /** Custom route searching logic passed to [Library.onSelectRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#onselectroute). */
-export interface ISelectRoutheandler {
+export interface ISelectRouteHandler {
     (session: Session, route: IRouteResult): void;
 }
 
 /** Custom route disambiguation logic passed to [UniversalBot.onDisambiguateRoute()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#ondisambiguateroute). */
-export interface IDisambiguateRoutheandler {
+export interface IDisambiguateRouteHandler {
     (session: Session, routes: IRouteResult[]): void;
 }
 
@@ -2736,7 +2736,7 @@ export class Library {
      * Replaces the default logic for [selectRoute()](#selectroute) with a custom implementation.
      * @param handler Function that will be invoked anytime `selectRoute()` is called. 
      */
-    onSelectRoute(handler: ISelectRoutheandler): void;
+    onSelectRoute(handler: ISelectRouteHandler): void;
 
     /**
      * Gets the active dialogs confidence that it understands the current message. The dialog 
@@ -3822,7 +3822,7 @@ export class UniversalBot extends Library  {
      * Replaces the bots default route disambiguation logic with a custom implementation.
      * @param handler Function that will be invoked with the candidate routes to dispatch an incoming message to. 
      */
-    onDisambiguateRoute(handler: IDisambiguateRoutheandler): void;
+    onDisambiguateRoute(handler: IDisambiguateRouteHandler): void;
 }
 
 /** Connects a UniversalBot to multiple channels via the Bot Framework. */
