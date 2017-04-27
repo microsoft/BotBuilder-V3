@@ -3635,6 +3635,7 @@ export class SimpleDialog extends Dialog {
     replyReceived(session: Session): void;
 }
 
+/** Allows for the creation of custom dialogs that are based on a waterfall. */
 export class WaterfallDialog extends Dialog {
     /**
      * Creates a new waterfall dialog.
