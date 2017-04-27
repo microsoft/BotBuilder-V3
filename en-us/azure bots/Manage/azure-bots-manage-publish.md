@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Publishing your bot
-permalink: en-us/azure-bot-service/manage/publish/
-weight: 13075
-parent1: Azure Bot Service
-parent2: Manage
+layout: 'redirect'
+permalink: /en-us/azure-bot-service/manage/publish/
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/publish-bot-overview'
+sitemap: false
 ---
 
 Now that you've written your bot and added it to one or more [channels](/en-us/azure-bot-service/manage/channels/), it's time to publish it to the Bot Directory and Skype apps. But first, we need to do a quick review of your bot. For information about the review process, see [Bot review guidelines](/en-us/directory/review-guidelines/). You should review the guidelines before submitting your bot for review to ensure that it complies with the guidelines. 

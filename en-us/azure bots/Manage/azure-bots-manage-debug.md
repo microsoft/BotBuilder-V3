@@ -1,10 +1,8 @@
 ---
-layout: page
-parent1: Azure Bot Service
-weight: 13025
+layout: 'redirect'
 permalink: /en-us/azure-bot-service/manage/debug/
-parent2: Manage
-title: Debugging your bot
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/azure/azure-bot-service-debug-bot'
+sitemap: false
 ---
 
 The Azure Bot Service bots are built on the Azure Functions Serverless architecture. In the Azure Bot Service model, your bot's code starts out in Azure, but you'll typically set up Azure's continuous integration feature so you can work with it locally in your favorite tool chain.  This article details how to debug your bot locally after setting up continuous integration.

@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Form bot
+layout: 'redirect'
 permalink: /en-us/azure-bot-service/templates/form/
-weight: 12100
-parent1: Azure Bot Service
-parent2: Templates
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/azure/azure-bot-service-template-form'
+sitemap: false
 ---
 
 

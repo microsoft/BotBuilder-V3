@@ -1,12 +1,9 @@
 ---
-layout: page
-title: Question and Answer bot
+layout: 'redirect'
 permalink: /en-us/azure-bot-service/templates/qnamaker/
-weight: 12250
-parent1: Azure Bot Service
-parent2: Templates
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/azure/azure-bot-service-template-question-and-answer'
+sitemap: false
 ---
-
 The question and answer bot template shows how to use the [QnA Maker](https://qnamaker.ai) tool to quickly create an FAQ Bot. One of the basic requirements in writing your own bot service is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, etc. [QnA Maker](https://qnamaker.ai) lets you ingest your existing FAQ content and expose it as an HTTP endpoint.
 
 When you create the template, Azure Bot Service lets you either select an existing knowledge base you may have created from the [QnA Maker](https://qnamaker.ai) portal, or creates an empty knowledge base.

@@ -1,11 +1,10 @@
 ---
-layout: page
-title: Creating your first bot
+layout: 'redirect'
 permalink: /en-us/azure-bots/build/first-bot/
-weight: 11000
-parent1: Azure Bot Service
-parent2: Get Started
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/azure/azure-bot-service-quickstart'
+sitemap: false
 ---
+
 
 To create a bot using Azure Bot Service:
 

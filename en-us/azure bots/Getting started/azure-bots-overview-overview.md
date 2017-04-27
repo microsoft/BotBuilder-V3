@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Azure Bot Service Overview
+layout: 'redirect'
 permalink: /en-us/azure-bot-service/
-weight: 10000
-parent1: Azure Bot Service
-parent2: Get Started
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/azure/'
+sitemap: false
 ---
 
 Use the Azure Bot Service to accelerate your bot’s development by working in an integrated environment that’s purpose-built for bot development. This integrated environment lets you build, connect, deploy and manage intelligent bots that interact naturally wherever your users are talking&mdash;from your app or website to Text/SMS, Skype, Slack, Facebook Messenger, Kik, Office 365 mail, and other popular services. You can also increase the value of your bots with a few lines of code by plugging into [Cognitive Services](/en-us/bot-intelligence/getting-started/) to enable your bots to see, hear, interpret and interact in more human ways.

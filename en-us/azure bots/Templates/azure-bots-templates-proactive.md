@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Proactive bot
+layout: 'redirect'
 permalink: /en-us/azure-bot-service/templates/proactive/
-weight: 12200
-parent1: Azure Bot Service
-parent2: Templates
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/azure/azure-bot-service-template-proactive'
+sitemap: false
 ---
 
 * TOC

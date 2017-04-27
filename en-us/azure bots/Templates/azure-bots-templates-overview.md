@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Overview
+layout: 'redirect'
 permalink: /en-us/azure-bot-service/templates/overview/
-weight: 11990
-parent1: Azure Bot Service
-parent2: Templates
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/azure/azure-bot-service-templates'
+sitemap: false
 ---
 
 Azure Bot Service is powered by the serveless infrastructure of Azure Functions, and it shares its [runtime concepts](https://azure.microsoft.com/en-us/documentation/articles/functions-reference/){:target="_blank"}, which you should become familiar with.

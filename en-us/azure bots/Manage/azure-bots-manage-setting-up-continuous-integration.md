@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Setting up continuous integration
+layout: 'redirect'
 permalink: /en-us/azure-bot-service/manage/setting-up-continuous-integration/
-weight: 13010
-parent1: Azure Bot Service
-parent2: Manage
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/azure/azure-bot-service-continuous-integration'
+sitemap: false
 ---
 
 If Azure's code editor does not meet your development needs, you can set up continuous integration using your favorite IDE. Follow these easy steps to get started.
