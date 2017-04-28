@@ -12,5 +12,5 @@ parent1: Bot Framework Resources
 |----------------------------|---------------------------------
 |**Bot Builder SDK issues/suggestions**| Use the issues tab on our <a href="https://github.com/Microsoft/BotBuilder/" target="_blank">GitHub repo</a>
 |**Using a bot** | Contact the bot's developer through their publisher e-mail                 
-|**Community support** | Use StackOverflow, with the hashtag [#botframework](https://stackoverflow.com/questions/tagged/botframework)
-|**Reporting Abuse**| Contact us at [bf-reports@microsoft.com](mailto://bf-reports@microsoft.com) 
+|**Community support** | [StackOverflow](https://stackoverflow.com/questions/tagged/botframework)
+|**Reporting Abuse**| Contact us at [bf-reports@microsoft.com](mailto://bf-reports@microsoft.com)
