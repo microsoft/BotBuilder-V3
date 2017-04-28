@@ -1,7 +1,7 @@
 {
   "title": "Microsoft.Bot.Connector",
   "language": "en",
-  "version": "3.5.7-*",
+  "version": "3.5.8-*",
 
   "dependencies": {
     "NETStandard.Library": "1.6.0",
