@@ -1,16 +1,15 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -107,75 +106,86 @@ namespace Microsoft.Bot.Builder.Tests
             return line;
         }
 
-        public static async Task VerifyScript(ILifetimeScope container, bool proactive, StreamReader stream, Action<string> extraCheck, string[] expected)
+        public static async Task VerifyScript(ILifetimeScope container, Func<IDialog<object>> makeRoot, bool proactive, StreamReader stream, Action<IDialogStack, string> extraCheck, string[] expected, string locale)
         {
             var toBot = DialogTestBase.MakeTestMessage();
-            using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+            if (!string.IsNullOrEmpty(locale))
             {
-                var task = scope.Resolve<IPostToBot>();
-                var queue = scope.Resolve<Queue<IMessageActivity>>();
-                string input, label;
-                Action check = () =>
+                toBot.Locale = locale;
+            }
+
+            string input, label;
+            int current = 0;
+            while ((input = ReadLine(stream, out label)) != null)
+            {
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
                 {
-                    var count = int.Parse(stream.ReadLine());
-                    Assert.AreEqual(count, queue.Count);
-                    for (var i = 0; i < count; ++i)
+                    var task = scope.Resolve<IPostToBot>();
+                    var queue = scope.Resolve<Queue<IMessageActivity>>();
+
+                    Action<IDialogStack> check = (stack) =>
                     {
-                        var toUser = queue.Dequeue();
-                        var expectedOut = ReadLine(stream, out label);
-                        if (label == "ToUserText")
+                        var count = int.Parse((proactive && current == 0) ? input : stream.ReadLine());
+                        Assert.AreEqual(count, queue.Count);
+                        for (var i = 0; i < count; ++i)
                         {
-                            Assert.AreEqual(expectedOut, JsonConvert.SerializeObject(toUser.Text));
+                            var toUser = queue.Dequeue();
+                            var expectedOut = ReadLine(stream, out label);
+                            if (label == "ToUserText")
+                            {
+                                Assert.AreEqual(expectedOut, JsonConvert.SerializeObject(toUser.Text));
+                            }
+                            else
+                            {
+                                Assert.AreEqual(expectedOut, JsonConvert.SerializeObject(toUser.Attachments));
+                            }
                         }
-                        else
-                        {
-                            Assert.AreEqual(expectedOut, JsonConvert.SerializeObject(toUser.Attachments));
-                        }
+
+                        extraCheck?.Invoke(stack, ReadLine(stream, out label));
+                    };
+
+                    Func<IDialog<object>> scriptMakeRoot = () =>
+                    {
+                        return makeRoot().Do(async (context, value) => context.PrivateConversationData.SetValue("result", JsonConvert.SerializeObject(await value)));
+                    };
+                    scope.Resolve<Func<IDialog<object>>>(TypedParameter.From(scriptMakeRoot));
+
+                    if (proactive && current == 0)
+                    {
+                        var loop = scriptMakeRoot().Loop();
+                        var data = scope.Resolve<IBotData>();
+                        await data.LoadAsync(CancellationToken.None);
+                        var stack = scope.Resolve<IDialogTask>();
+                        stack.Call(loop, null);
+                        await stack.PollAsync(CancellationToken.None);
+                        check(stack);
+                        input = ReadLine(stream, out label);
                     }
-                    extraCheck?.Invoke(ReadLine(stream, out label));
-                };
-                string result = null;
-                var root = scope.Resolve<IDialog<object>>().Do(async (context, value) => result = JsonConvert.SerializeObject(await value));
-                if (proactive)
-                {
-                    var loop = root.Loop();
-                    var data = scope.Resolve<IBotData>();
-                    await data.LoadAsync(CancellationToken.None);
-                    var stack = scope.Resolve<IDialogTask>();
-                    stack.Call(loop, null);
-                    await stack.PollAsync(CancellationToken.None);
-                    check();
-                }
-                else
-                {
-                    var builder = new ContainerBuilder();
-                    builder
-                        .RegisterInstance(root)
-                        .AsSelf()
-                        .As<IDialog<object>>();
-                    builder.Update((IContainer)container);
-                }
-                int current = 0;
-                while ((input = ReadLine(stream, out label)) != null)
-                {
+
                     if (input.StartsWith("\""))
                     {
-                        input = input.Substring(1, input.Length - 2);
-                        Assert.IsTrue(current < expected.Length && input == expected[current++]);
-                        toBot.Text = input;
                         try
                         {
+                            toBot.Text = input.Substring(1, input.Length - 2);
+                            Assert.IsTrue(current < expected.Length && toBot.Text == expected[current++]);
                             await task.PostAsync(toBot, CancellationToken.None);
-                            check();
+                            var data = scope.Resolve<IBotData>();
+                            await data.LoadAsync(CancellationToken.None);
+                            var stack = scope.Resolve<IDialogStack>();
+                            check(stack);
                         }
                         catch (Exception e)
                         {
                             Assert.AreEqual(ReadLine(stream, out label), e.Message);
                         }
                     }
-                    else if (input.StartsWith("Result:"))
+                    else if (label.ToLower().StartsWith("result"))
                     {
-                        Assert.AreEqual(input.Substring(7), result);
+                        var data = scope.Resolve<IBotData>();
+                        await data.LoadAsync(CancellationToken.None);
+                        string result;
+                        Assert.IsTrue(data.PrivateConversationData.TryGetValue("result", out result));
+                        Assert.AreEqual(input.Trim(), result);
                     }
                 }
             }
@@ -213,15 +223,9 @@ namespace Microsoft.Bot.Builder.Tests
             try
             {
                 using (var stream = new StreamReader(filePath))
-                using (var container = Build(Options.ResolveDialogFromContainer | Options.Reflection))
+                using (var container = Build(Options.Reflection))
                 {
-                    var builder = new ContainerBuilder();
-                    builder
-                        .RegisterInstance(dialog)
-                        .AsSelf()
-                        .As<IDialog<object>>();
-                    builder.Update(container);
-                    await VerifyScript(container, proactive, stream, null, inputs);
+                    await VerifyScript(container, () => (IDialog<object>)dialog, proactive, stream, null, inputs, locale: string.Empty);
                 }
             }
             catch (Exception)
