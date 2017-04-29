@@ -26,6 +26,7 @@ var Session = (function (_super) {
         _this._locale = null;
         _this.localizer = null;
         _this.logger = null;
+        _this.connector = options.connector;
         _this.library = options.library;
         _this.localizer = options.localizer;
         _this.logger = options.logger;
@@ -411,13 +412,13 @@ var Session = (function (_super) {
         }
         this.onSave(function (err) {
             if (!err) {
-                _this.onSend(batch, function (err, responses) {
+                _this.onSend(batch, function (err, addresses) {
                     _this.onFinishBatch(function () {
                         if (_this.batchStarted) {
                             _this.startBatch();
                         }
                         if (done) {
-                            done(err, responses);
+                            done(err, addresses);
                         }
                     });
                 });

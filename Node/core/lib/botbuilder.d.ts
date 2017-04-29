@@ -1002,7 +1002,10 @@ export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
 
     /** Function to invoke when a batch of messages are sent. */
-    onSend: (messages: IMessage[], done: (err: Error, responses?: any[]) => void) => void;
+    onSend: (messages: IMessage[], done: (err: Error, addresses?: IAddress[]) => void) => void;
+
+    /** The connector being used for this session. */
+    connector: IConnector;
 
     /** The bots root library of dialogs. */
     library: Library;
@@ -1130,18 +1133,67 @@ export interface IUniversalBotSettings {
 
 /** Implemented by connector plugins for the UniversalBot. */
 export interface IConnector {
+    /** 
+     * (Optional) Called by the UniversalBot at registration time to register a handler for
+     * receiving incoming invoke events. Invoke events are special events which are expected to
+     * return a body inline as part of the response to the received request. 
+     * @param handler The function that should be called anytime an "invoke" event is received.
+     */
+    onInvoke?(handler: (event: IEvent, callback?: (err: Error, body: any, status?: number) => void) => void): void;
 
-    /** Used to register a handler for receiving incoming invoke events. */
-    onInvoke?(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
-
-    /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
+    /** 
+     * Called by the UniversalBot at registration time to register a handler for receiving incoming 
+     * events from a channel. 
+     * @param handler The function that should be called anytime an event is received that is not of type "invoke".
+     */
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
 
-    /** Called by the UniversalBot to deliver outgoing messages to a user. */
-    send(messages: IMessage[], callback: (err: Error, responses: any[]) => void): void;
+    /** 
+     * Sends outgoing message(s) to a user. This method will ultimately get called anytime you call
+     * [UniversalBot.send()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#send) or [Session.send()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#send).
+     * 
+     * You can manually call this method using `session.connector.send()` as a convenient way of 
+     * getting the address of the message that was sent. You can then store this address and use
+     * it at a later point in time to either update or delete the message. The one thing to keep
+     * in mind is that if you manually call `session.connector.send()` you will bypass any 
+     * middleware that the outgoing message would normally run through. Calling 
+     * `session.send(msg).sendBatch(function (err, addresses) { })` does the same thing but ensures
+     * that the outgoing message is sent through middleware.   
+     * @param messages Array of message(s) to send the user.
+     * @param callback Function to invoke once the operation is completed. 
+     * @param callback.err Any error that occurred during the send.
+     * @param callback.addresses An array of address objects returned for each individual message within the batch. These address objects contain the ID of the posted messages so can be used to update or delete a message in the future.
+     */
+    send(messages: IMessage[], callback: (err: Error, addresses?: IAddress[]) => void): void;
 
-    /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
+    /** 
+     * Called when a UniversalBot wants to start a new proactive conversation with a user. The 
+     * connector should return an address with a properly formated [IAddress.conversation](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress#conversation)
+     * field. This will typically be called when you call [UniversalBot.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#begindialog) 
+     * but will also be called anytime `IAddress.conversation` is null for a message being sent. 
+     * @param address The address of the user to start the conversation for. The `IAddress.conversation` field should be null.
+     * @param callback Function to invoke once the operation is completed. 
+     * @param callback.err Any error that occurred while attempting to start the conversation.
+     * @param callback.address The address of the conversation that was started. This can be used to send future messages to the conversation.
+     */
     startConversation(address: IAddress, callback: (err: Error, address?: IAddress) => void): void;
+
+    /**
+     * (Optional) method that can be called to replace a message that was previously sent using [send()](#send).
+     * @param message The message to overwrite an existing message with. The `message.address` field should contain an address returned from a previous call to [send()](#send).
+     * @param callback Function to invoke once the operation is completed. 
+     * @param callback.err Any error that occurred while replacing the message.
+     * @param callback.address The address of the new message. For some channels this may different from the original messages address. 
+     */
+    update?(message: IMessage, callback: (err: Error, address?: IAddress) => void): void;
+
+    /** 
+     * (Optional) method that can be called to delete a message that was previously sent using [send()](#send).
+     * @param address The address of the message to delete.
+     * @param callback Function to invoke once the operation is completed. 
+     * @param callback.err Any error that occurred while replacing the message.
+     */
+    delete?(address: IAddress, callback: (err: Error) => void): void;
 }
 
 /** Function signature for a piece of middleware that hooks the 'receive' or 'send' events. */
@@ -1536,6 +1588,9 @@ export class Session {
      */
     dispatch(sessionState: ISessionState, message: IMessage, next: Function): Session;
 
+    /** The connector being used for this session. */
+    connector: IConnector;
+
     /** The bots root library of dialogs. */
     library: Library;
 
@@ -1720,9 +1775,9 @@ export class Session {
      * Immediately ends the current batch and delivers any queued up messages.
      * @param done (Optional) function called when the batch was either successfully delievered or failed for some reason. 
      * @param done.err Any error that occured during the send.
-     * @param done.responses An array of responses returned for each individual message within the batch.
+     * @param done.addresses An array of address objects returned for each individual message within the batch. These address objects contain the ID of the posted messages so can be used to update or delete a message in the future.
      */
-    sendBatch(done?: (err: Error, responses?: any[]) => void): void;
+    sendBatch(done?: (err: Error, addresses?: IAddress[]) => void): void;
 
     /**
      * Gets/sets the current dialog stack. A copy of the current dialog is returned so if any 
@@ -3802,9 +3857,9 @@ export class UniversalBot extends Library  {
      * @param messages The message (or array of messages) to send the user.
      * @param done (Optional) function to invoke once the operation is completed. 
      * @param done.err Any error that occured during the send.
-     * @param done.responses An array of responses returned for each individual message sent.
+     * @param done.addresses An array of address objects returned for each individual message within the batch. These address objects contain the ID of the posted messages so can be used to update or delete a message in the future.
      */
-    send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, responses?: any[]) => void): void;
+    send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, addresses?: IAddress[]) => void): void;
 
     /** 
      * Returns information about when the last turn between the user and a bot occured. This can be called
@@ -3848,10 +3903,16 @@ export class ChatConnector implements IConnector, IBotStorage {
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
     
     /** Called by the UniversalBot to deliver outgoing messages to a user. */
-    send(messages: IMessage[], done: (err: Error) => void): void;
+    send(messages: IMessage[], done: (err: Error, addresses?: IAddress[]) => void): void;
 
     /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
     startConversation(address: IAddress, done: (err: Error, address?: IAddress) => void): void;
+
+    /** Replaces an existing message with a new one. */
+    update(message: IMessage, done: (err: Error, address?: IAddress) => void): void;
+
+    /** Deletes an existing message. */
+    delete(address: IAddress, done: (err: Error) => void): void;
 
     /** Reads in data from the Bot Frameworks state service. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
@@ -3860,7 +3921,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     saveData(context: IBotStorageContext, data: IBotStorageData, callback?: (err: Error) => void): void;
 
     /** Gets the current access token for the bot. */
-    getAccessToken(cb: (err: Error, accessToken: string) => void): void;
+    getAccessToken(callback: (err: Error, accessToken: string) => void): void;
 
     /** 
      * Called after the connector receives, authenticates, and prepares an event. Derived classes
@@ -3891,7 +3952,7 @@ export class ConsoleConnector implements IConnector {
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
     
     /** Called by the UniversalBot to deliver outgoing messages to a user. */
-    send(messages: IMessage[], callback: (err: Error, responses?: any[]) => void): void;
+    send(messages: IMessage[], callback: (err: Error, addresses?: IAddress[]) => void): void;
 
     /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
     startConversation(address: IAddress, callback: (err: Error, address?: IAddress) => void): void;

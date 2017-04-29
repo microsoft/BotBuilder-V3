@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { IConnector } from './UniversalBot';
+import { IConnector } from '../Session';
 import { IBotStorage, IBotStorageContext, IBotStorageData } from '../storage/BotStorage';
 import { OpenIdMetadata } from './OpenIdMetadata';
 import * as utils from '../utils';
@@ -79,7 +79,6 @@ export interface IChatConnectorEndpoint {
 export interface IChatConnectorAddress extends IAddress {
     id?: string;            // Incoming Message ID
     serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete
-    useAuth?: string;
     channelData?: any;
 }
 
@@ -145,8 +144,6 @@ export class ChatConnector implements IConnector, IBotStorage {
 
         // Verify token
         if (token) {
-            req.body['useAuth'] = true;
-
             let decoded = jwt.decode(token, { complete: true });
             var verifyOptions: jwt.VerifyOptions;
             var openIdMetadata: OpenIdMetadata;
@@ -206,7 +203,6 @@ export class ChatConnector implements IConnector, IBotStorage {
         } else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
             // Emulator running without auth enabled
             logger.warn(req.body, 'ChatConnector: receive - emulator running without security enabled.');
-            req.body['useAuth'] = false;
             this.dispatch(req.body, res);
         } else {
             // Token not provided so
@@ -224,13 +220,13 @@ export class ChatConnector implements IConnector, IBotStorage {
         this.onInvokeHandler = handler;
     }
     
-    public send(messages: IMessage[], done: (err: Error, responses?: any[]) => void): void {
-        let responses: any[] = [];
+    public send(messages: IMessage[], done: (err: Error, addresses?: IAddress[]) => void): void {
+        let addresses: IAddress[] = [];
         async.forEachOfSeries(messages, (msg, idx, cb) => {
             try {
                 if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
-                    this.postMessage(msg, (idx == messages.length - 1), (err, response) => {
-                        responses.push(response);
+                    this.postMessage(msg, (idx == messages.length - 1), (err, address) => {
+                        addresses.push(address);
                         cb(err);
                     });
                 } else {
@@ -240,7 +236,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             } catch (e) {
                 cb(e);
             }
-        }, (err) => done(err, responses));
+        }, (err) => done(err, !err ? addresses : null));
     }
 
     public startConversation(address: IChatConnectorAddress, done: (err: Error, address?: IAddress) => void): void {
@@ -286,6 +282,34 @@ export class ChatConnector implements IConnector, IBotStorage {
             logger.error('ChatConnector: startConversation - address is invalid.')
             done(new Error('Invalid address.'))
         }
+    }
+
+    public update(message: IMessage, done: (err: Error, address?: IAddress) => void): void {
+        let address = <IChatConnectorAddress>message.address;
+        if (message.address && address.serviceUrl) {
+            (<any>message).id = address.id;
+            this.postMessage(message, true, done, 'PUT');
+        } else {
+            logger.error('ChatConnector: updateMessage - message is missing address or serviceUrl.')
+            done(new Error('Message missing address or serviceUrl.'), null);
+        }
+    }
+
+    public delete(address: IChatConnectorAddress, done: (err: Error) => void): void {
+        // Calculate path
+        var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) + 
+                   '/activities/' + encodeURIComponent(address.id);
+        
+        // Issue request
+        var options: request.Options = {
+            method: 'DELETE',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here, 
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(address.serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, (err, response, body) => done(err));
     }
 
     public getData(context: IBotStorageContext, callback: (err: Error, data: IChatConnectorStorageData) => void): void {
@@ -499,7 +523,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         return (event && event.type && event.type.toLowerCase() == consts.invokeType);
     }
         
-    private postMessage(msg: IMessage, lastMsg: boolean, cb: (err: Error, response: any) => void): void {
+    private postMessage(msg: IMessage, lastMsg: boolean, cb: (err: Error, address: IAddress) => void, method = 'POST'): void {
         logger.info(address, 'ChatConnector: sending message.')
         this.prepOutgoingMessage(msg);
 
@@ -522,7 +546,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         
         // Issue request
         var options: request.Options = {
-            method: 'POST',
+            method: method,
             // We use urlJoin to concatenate urls. url.resolve should not be used here, 
             // since it resolves urls as hrefs are resolved, which could result in losing
             // the last fragment of the serviceUrl
@@ -530,18 +554,20 @@ export class ChatConnector implements IConnector, IBotStorage {
             body: msg,
             json: true
         };
-        if (address.useAuth) {
-            this.authenticatedRequest(options, (err, response, body) => cb(err, typeof body === 'string' ? JSON.parse(body) : body));
-        } else {
-            this.addUserAgent(options);
-            request(options, (err, response, body) => {
-                if (!err && response.statusCode >= 400) {
-                    var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
-                    err = new Error(txt);
+        this.authenticatedRequest(options, (err, response, body) => {
+            if (!err) {
+                if (body && body.id) {
+                    // Return a new address object for the sent message
+                    let newAddress = utils.clone(address);
+                    newAddress.id = body.id;
+                    cb(null, newAddress);
+                } else {
+                    cb(null, address);
                 }
-                cb(err, typeof body === 'string' ? JSON.parse(body) : body);
-            });
-        }
+            } else {
+                cb(err, null);
+            }
+        });
     }
 
     private authenticatedRequest(options: request.Options, callback: (error: any, response: http.IncomingMessage, body: any) => void, refresh = false): void {
@@ -555,7 +581,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                         switch (response.statusCode) {
                             case 401:
                             case 403:
-                                if (!refresh) {
+                                if (!refresh && this.settings.appId && this.settings.appPassword) {
                                     this.authenticatedRequest(options, callback, true);
                                 } else {
                                     callback(null, response, body);
@@ -741,8 +767,7 @@ var toAddress = {
     'from': 'user',
     'conversation': 'conversation',
     'recipient': 'bot',
-    'serviceUrl': 'serviceUrl',
-    'useAuth': 'useAuth'
+    'serviceUrl': 'serviceUrl'
 }
 
 interface IChatConnectorStorageData extends IBotStorageData {

@@ -33,7 +33,7 @@
 
 import { Library, systemLib, IRouteResult } from './Library';
 import { IDialogWaterfallStep } from '../dialogs/WaterfallDialog';
-import { Session, ISessionMiddleware } from '../Session';
+import { Session, ISessionMiddleware, IConnector } from '../Session';
 import { DefaultLocalizer } from '../DefaultLocalizer';
 import { IBotStorage, IBotStorageContext, IBotStorageData, MemoryBotStorage } from '../storage/BotStorage';
 import { IIntentRecognizerResult } from '../dialogs/IntentRecognizer';
@@ -56,16 +56,6 @@ export interface IUniversalBotSettings {
     dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
 }
 
-export interface IConnector {
-    onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
-    onInvoke?(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
-    send(messages: IMessage[], cb: (err: Error, responses: any[]) => void): void;
-    startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void;
-}
-interface IConnectorMap {
-    [channel: string]: IConnector;    
-}
-
 export interface IMiddlewareMap {
     receive?: IEventMiddleware|IEventMiddleware[];
     send?: IEventMiddleware|IEventMiddleware[];
@@ -84,6 +74,9 @@ export interface IDisambiguateRouteHandler {
     (session: Session, routes: IRouteResult[]): void;
 }
 
+interface IConnectorMap {
+    [channel: string]: IConnector;    
+}
 
 export class UniversalBot extends Library {
     private settings = <IUniversalBotSettings>{ 
@@ -273,7 +266,7 @@ export class UniversalBot extends Library {
         }, this.errorLogger(done));
     }
     
-    public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, responses: any[]) => void): void {
+    public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, addresses: IAddress[]) => void): void {
         var list: IMessage[];
         if (Array.isArray(messages)) {
             list = messages;
@@ -439,6 +432,7 @@ export class UniversalBot extends Library {
                 localizer: this.localizer,
                 logger: logger,
                 autoBatchDelay: this.settings.autoBatchDelay,
+                connector: this.connector(message.address.channelId),
                 library: this,
                 //actions: this.actions,
                 middleware: this.mwSession,

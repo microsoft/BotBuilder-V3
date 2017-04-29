@@ -306,6 +306,7 @@ var UniversalBot = (function (_super) {
                 localizer: _this.localizer,
                 logger: logger,
                 autoBatchDelay: _this.settings.autoBatchDelay,
+                connector: _this.connector(message.address.channelId),
                 library: _this,
                 middleware: _this.mwSession,
                 dialogId: dialogId,

@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { IConnector } from './UniversalBot';
+import { IConnector } from '../Session';
 import { Message } from '../Message';
 import * as utils from '../utils';
 import * as readline from 'readline';
@@ -81,8 +81,8 @@ export class ConsoleConnector implements IConnector {
     public onInvoke(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void {
         this.onInvokeHandler = handler;
     }
-    public send(messages: IMessage[], done: (err: Error, responses?: any[]) => void): void {
-        let responses: any[] = [];
+    public send(messages: IMessage[], done: (err: Error, addresses?: IAddress[]) => void): void {
+        let addresses: any[] = [];
         for (var i = 0; i < messages.length; i++ ){
             if (this.replyCnt++ > 0) {
                 console.log();
@@ -99,10 +99,12 @@ export class ConsoleConnector implements IConnector {
                     renderAttachment(msg.attachments[j]);
                 }
             }
-            responses.push({ id: i.toString() });
+            let adr = utils.clone(msg.address);
+            adr.id = i.toString();
+            addresses.push(adr);
         }
 
-        done(null, responses);
+        done(null, addresses);
     }
 
     public startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void {

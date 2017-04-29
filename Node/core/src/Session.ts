@@ -44,9 +44,19 @@ import * as sprintf from 'sprintf-js';
 import * as events from 'events';
 import * as async from 'async';
 
+export interface IConnector {
+    onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
+    onInvoke?(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
+    send(messages: IMessage[], cb: (err: Error, addresses?: IAddress[]) => void): void;
+    startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void;
+    update?(message: IMessage, done: (err: Error, address?: IAddress) => void): void;
+    delete?(address: IAddress, done: (err: Error) => void): void;
+}
+
 export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
-    onSend: (messages: IMessage[], done: (err: Error, responses?: any[]) => void) => void;
+    onSend: (messages: IMessage[], done: (err: Error, addresses?: IAddress[]) => void) => void;
+    connector: IConnector;
     library: Library;
     localizer: ILocalizer;
     logger: SessionLogger;
@@ -80,6 +90,7 @@ export class Session extends events.EventEmitter {
 
     constructor(protected options: ISessionOptions) {
         super();
+        this.connector = options.connector;
         this.library = options.library;
         this.localizer = options.localizer;
         this.logger = options.logger;
@@ -147,6 +158,7 @@ export class Session extends events.EventEmitter {
         return this;
     }
 
+    public connector: IConnector;
     public library: Library;
     public sessionState: ISessionState;
     public message: IMessage;
@@ -508,13 +520,13 @@ export class Session extends events.EventEmitter {
         }
         this.onSave((err) => {
             if (!err) {
-                this.onSend(batch, (err, responses) => {
+                this.onSend(batch, (err, addresses) => {
                     this.onFinishBatch(() => {
                         if (this.batchStarted) {
                             this.startBatch();
                         }
                         if (done) {
-                            done(err, responses);
+                            done(err, addresses);
                         }
                     });
                 });
