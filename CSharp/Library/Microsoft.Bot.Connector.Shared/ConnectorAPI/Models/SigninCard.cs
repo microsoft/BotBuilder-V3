@@ -40,7 +40,7 @@ namespace Microsoft.Bot.Connector
         /// Action to use to perform signin
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<CardAction> Buttons { get; set; }
+        public IList<CardAction> Buttons { get; set; } = new List<CardAction>();
 
     }
 }

@@ -46,13 +46,13 @@ namespace Microsoft.Bot.Connector
         /// Array of Receipt Items
         /// </summary>
         [JsonProperty(PropertyName = "items")]
-        public IList<ReceiptItem> Items { get; set; }
+        public IList<ReceiptItem> Items { get; set; } = new List<ReceiptItem>();
 
         /// <summary>
         /// Array of Fact Objects   Array of key-value pairs.
         /// </summary>
         [JsonProperty(PropertyName = "facts")]
-        public IList<Fact> Facts { get; set; }
+        public IList<Fact> Facts { get; set; } = new List<Fact>();
 
         /// <summary>
         /// This action will be activated when user taps on the card
@@ -82,7 +82,7 @@ namespace Microsoft.Bot.Connector
         /// Set of actions applicable to the current card
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<CardAction> Buttons { get; set; }
+        public IList<CardAction> Buttons { get; set; } = new List<CardAction>();
 
     }
 }

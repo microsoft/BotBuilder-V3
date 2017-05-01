@@ -56,19 +56,18 @@ namespace Microsoft.Bot.Connector
         /// Array of images for the card
         /// </summary>
         [JsonProperty(PropertyName = "images")]
-        public IList<CardImage> Images { get; set; }
+        public IList<CardImage> Images { get; set; } = new List<CardImage>();
 
         /// <summary>
         /// Set of actions applicable to the current card
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<CardAction> Buttons { get; set; }
+        public IList<CardAction> Buttons { get; set; } = new List<CardAction>();
 
         /// <summary>
         /// This action will be activated when user taps on the card itself
         /// </summary>
         [JsonProperty(PropertyName = "tap")]
         public CardAction Tap { get; set; }
-
     }
 }

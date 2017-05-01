@@ -51,8 +51,6 @@ namespace Microsoft.Bot.Connector
             reply.Conversation = new ConversationAccount(isGroup: this.Conversation.IsGroup, id: this.Conversation.Id, name: this.Conversation.Name);
             reply.Text = text ?? String.Empty;
             reply.Locale = locale ?? this.Locale;
-            reply.Attachments = new List<Attachment>();
-            reply.Entities = new List<Entity>();
             return reply;
         }
 
