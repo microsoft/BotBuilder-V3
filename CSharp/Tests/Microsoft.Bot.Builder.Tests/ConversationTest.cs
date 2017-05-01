@@ -31,14 +31,6 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
 using Autofac;
 using Microsoft.Bot.Builder.ConnectorEx;
 using Microsoft.Bot.Builder.Dialogs;
@@ -48,6 +40,14 @@ using Microsoft.Bot.Connector;
 using Microsoft.Rest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -467,7 +467,7 @@ namespace Microsoft.Bot.Builder.Tests
 
                     var botData = scope.Resolve<IBotData>();
                     await botData.LoadAsync(default(CancellationToken));
-                    Assert.IsTrue(botData.UserData.Get<bool>("resume"));
+                    Assert.IsTrue(botData.UserData.GetValue<bool>("resume"));
                 }
             }
         }

@@ -149,131 +149,6 @@ namespace Microsoft.Bot.Connector
         public IInvokeActivity AsInvokeActivity() { return IsActivity(ActivityTypes.Invoke) ? this : null; }
 
         /// <summary>
-        /// Get StateClient appropriate for this activity
-        /// </summary>
-        /// <param name="credentials">credentials for bot to access state api</param>
-        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
-        /// <param name="handlers"></param>
-        /// <returns></returns>
-        public StateClient GetStateClient(MicrosoftAppCredentials credentials, string serviceUrl = null, params DelegatingHandler[] handlers)
-        {
-            bool useServiceUrl = (this.ChannelId == "emulator");
-            if (useServiceUrl)
-                return new StateClient(new Uri(this.ServiceUrl), credentials: credentials, handlers: handlers);
-
-            if (serviceUrl != null)
-                return new StateClient(new Uri(serviceUrl), credentials: credentials, handlers: handlers);
-
-            return new StateClient(credentials, true, handlers);
-        }
-
-        /// <summary>
-        /// Get StateClient appropriate for this activity
-        /// </summary>
-        /// <param name="microsoftAppId"></param>
-        /// <param name="microsoftAppPassword"></param>
-        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
-        /// <param name="handlers"></param>
-        /// <returns></returns>
-        public StateClient GetStateClient(string microsoftAppId = null, string microsoftAppPassword = null, string serviceUrl = null, params DelegatingHandler[] handlers)
-        {
-            return GetStateClient(new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword), serviceUrl, handlers);
-        }
-
-        /// <summary>
-        /// Check if the message has content
-        /// </summary>
-        /// <returns>Returns true if this message has any content to send</returns>
-        public bool HasContent()
-        {
-            if (!String.IsNullOrWhiteSpace(this.Text))
-                return true;
-
-            if (!String.IsNullOrWhiteSpace(this.Summary))
-                return true;
-
-            if (this.Attachments != null && this.Attachments.Any())
-                return true;
-
-            if (this.ChannelData != null)
-                return true;
-
-            return false;
-        }
-
-        /// <summary>
-        /// Get mentions 
-        /// </summary>
-        /// <returns></returns>
-        public Mention[] GetMentions()
-        {
-            return this.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0).Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
-        }
-
-        /// <summary>
-        /// Is there a mention of Id in the Text Property 
-        /// </summary>
-        /// <param name="id">ChannelAccount.Id</param>
-        /// <returns>true if this id is mentioned in the text</returns>
-        public bool MentionsId(string id)
-        {
-            return this.GetMentions().Where(mention => mention.Mentioned.Id == id).Any();
-        }
-
-        /// <summary>
-        /// Is there a mention of Recipient.Id in the Text Property 
-        /// </summary>
-        /// <returns>true if this id is mentioned in the text</returns>
-        public bool MentionsRecipient()
-        {
-            return this.GetMentions().Where(mention => mention.Mentioned.Id == this.Recipient.Id).Any();
-        }
-
-        /// <summary>
-        /// Remove recipient mention text from Text property
-        /// </summary>
-        /// <returns>new .Text property value</returns>
-        public string RemoveRecipientMention()
-        {
-            return RemoveMentionText(this.Recipient.Id);
-        }
-
-        /// <summary>
-        /// Replace any mention text for given id from Text property
-        /// </summary>
-        /// <param name="id">id to match</param>
-        /// <returns>new .Text property value</returns>
-        public string RemoveMentionText(string id)
-        {
-            foreach (var mention in this.GetMentions().Where(mention => mention.Mentioned.Id == id))
-            {
-                Text = Regex.Replace(Text, mention.Text, "", RegexOptions.IgnoreCase);
-            }
-            return this.Text;
-        }
-
-        /// <summary>
-        /// Get channeldata as typed structure
-        /// </summary>
-        /// <typeparam name="TypeT">type to use</typeparam>
-        /// <returns>typed object or default(TypeT)</returns>
-        public TypeT GetChannelData<TypeT>()
-        {
-            if (this.ChannelData == null)
-                return default(TypeT);
-            return ((JObject)this.ChannelData).ToObject<TypeT>();
-        }
-
-        /// <summary>
-        /// Return the "major" portion of the activity
-        /// </summary>
-        /// <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
-        public string GetActivityType()
-        {
-            var type = this.Type.Split('/').First();
-            return GetActivityType(type);
-        }
-
         public static string GetActivityType(string type)
         {
             if (String.Equals(type, ActivityTypes.Message, StringComparison.OrdinalIgnoreCase))
@@ -295,6 +170,185 @@ namespace Microsoft.Bot.Connector
                 return ActivityTypes.Ping;
 
             return $"{Char.ToLower(type[0])}{type.Substring(1)}";
+        }
+
+        public bool HasContent()
+        {
+            // hit the extension method
+            return ((IMessageActivity)this).HasContent();
+        }
+
+        public Mention[] GetMentions()
+        {
+            // hit the extension method
+            return ((IMessageActivity)this).GetMentions();
+        }
+    }
+
+    public static class ActivityExtensions
+    {
+        /// <summary>
+        /// Get StateClient appropriate for this activity
+        /// </summary>
+        /// <param name="credentials">credentials for bot to access state api</param>
+        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
+        /// <param name="handlers"></param>
+        /// <param name="activity"></param>
+        /// <returns></returns>
+        public static StateClient GetStateClient(this IActivity activity, MicrosoftAppCredentials credentials, string serviceUrl = null, params DelegatingHandler[] handlers)
+        {
+            bool useServiceUrl = (activity.ChannelId == "emulator");
+            if (useServiceUrl)
+                return new StateClient(new Uri(activity.ServiceUrl), credentials: credentials, handlers: handlers);
+
+            if (serviceUrl != null)
+                return new StateClient(new Uri(serviceUrl), credentials: credentials, handlers: handlers);
+
+            return new StateClient(credentials, true, handlers);
+        }
+
+        /// <summary>
+        /// Get StateClient appropriate for this activity
+        /// </summary>
+        /// <param name="microsoftAppId"></param>
+        /// <param name="microsoftAppPassword"></param>
+        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
+        /// <param name="handlers"></param>
+        /// <param name="activity"></param>
+        /// <returns></returns>
+        public static StateClient GetStateClient(this IActivity activity, string microsoftAppId = null, string microsoftAppPassword = null, string serviceUrl = null, params DelegatingHandler[] handlers) => GetStateClient(activity, new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword), serviceUrl, handlers);
+
+        /// <summary>
+        /// Return the "major" portion of the activity
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
+        public static string GetActivityType(this IActivity activity)
+        {
+            var type = activity.Type.Split('/').First();
+            return Activity.GetActivityType(type);
+        }
+
+        /// <summary>
+        /// Get channeldata as typed structure
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <typeparam name="TypeT">type to use</typeparam>
+        /// <returns>typed object or default(TypeT)</returns>
+        public static TypeT GetChannelData<TypeT>(this IActivity activity)
+        {
+            if (activity.ChannelData == null)
+                return default(TypeT);
+            return ((JObject)activity.ChannelData).ToObject<TypeT>();
+        }
+
+
+        /// <summary>
+        /// Get channeldata as typed structure
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <typeparam name="TypeT">type to use</typeparam>
+        /// <param name="instance">The resulting instance, if possible</param>
+        /// <returns>
+        /// <c>true</c> if value of <seealso cref="IActivity.ChannelData"/> was coerceable to <typeparamref name="TypeT"/>, <c>false</c> otherwise.
+        /// </returns>
+        public static bool TryGetChannelData<TypeT>(this IActivity activity,
+            out TypeT instance)
+        {
+            instance = default(TypeT);
+
+            try
+            {
+                if (activity.ChannelData == null)
+                {
+                    return false;
+                }
+
+                instance = GetChannelData<TypeT>(activity);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// Check if the message has content
+        /// </summary>
+        /// <returns>Returns true if this message has any content to send</returns>
+        public static bool HasContent(this IMessageActivity activity)
+        {
+            if (!String.IsNullOrWhiteSpace(activity.Text))
+                return true;
+
+            if (!String.IsNullOrWhiteSpace(activity.Summary))
+                return true;
+
+            if (activity.Attachments != null && activity.Attachments.Any())
+                return true;
+
+            if (activity.ChannelData != null)
+                return true;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Get mentions 
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <returns></returns>
+        public static Mention[] GetMentions(this IMessageActivity activity)
+        {
+            return activity.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0).Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
+        }
+
+        /// <summary>
+        /// Is there a mention of Id in the Text Property 
+        /// </summary>
+        /// <param name="id">ChannelAccount.Id</param>
+        /// <param name="activity"></param>
+        /// <returns>true if this id is mentioned in the text</returns>
+        public static bool MentionsId(this IMessageActivity activity, string id)
+        {
+            return activity.GetMentions().Where(mention => mention.Mentioned.Id == id).Any();
+        }
+
+        /// <summary>
+        /// Is there a mention of Recipient.Id in the Text Property 
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <returns>true if this id is mentioned in the text</returns>
+        public static bool MentionsRecipient(this IMessageActivity activity)
+        {
+            return activity.GetMentions().Where(mention => mention.Mentioned.Id == activity.Recipient.Id).Any();
+        }
+
+        /// <summary>
+        /// Remove recipient mention text from Text property
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <returns>new .Text property value</returns>
+        public static string RemoveRecipientMention(this IMessageActivity activity)
+        {
+            return activity.RemoveMentionText(activity.Recipient.Id);
+        }
+
+        /// <summary>
+        /// Replace any mention text for given id from Text property
+        /// </summary>
+        /// <param name="id">id to match</param>
+        /// <param name="activity"></param>
+        /// <returns>new .Text property value</returns>
+        public static string RemoveMentionText(this IMessageActivity activity, string id)
+        {
+            foreach (var mention in activity.GetMentions().Where(mention => mention.Mentioned.Id == id))
+            {
+                activity.Text = Regex.Replace(activity.Text, mention.Text, "", RegexOptions.IgnoreCase);
+            }
+            return activity.Text;
         }
     }
 }
