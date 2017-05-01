@@ -251,4 +251,19 @@
   <data name="UnhandledExceptionToUser" xml:space="preserve">
     <value>对不起，我的 bot 代码时遇到问题。</value>
   </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1 = 1，第一，第一个 | 2 = 2、 第二，第二人 | 3 = 3，第三，第三个 | 4 = 4，第四，第四个 | 5 = 5，第五，第五个 | 6 = 6，第六，第六个 | 7 = 7、 第七、 第七个 | 8 = 8，八，八人 | 9 = 9，第九、 第九一 | 10 = 10，第十，第十一个</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1 = 最后，最后一个 |-2 = 倒数第二到最后，从去年的第二次 |-3 = 从最后的倒数第三个，第三 |-4 = 从去年排名第四至最后，第四 |-5 = 从最后到最后，第五号</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>true = y，是的没错，当然，好的 \u1f44d，\u1f44c|false=n，不，不行，\u1f44e、 \\u270b、 \\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0 = 零 | 1 = 一 | 2 = 两个 | 3 = 3 | 4 = 四 | 5 = 五 | 6 = 6 | 7 = 七 | 8 = 八 | 9 = 九 | 10 = 十 | 11 = 11 | 12 = 12 | 13 = 十三 | 14 = 十四岁 | 15 = 十五岁 | 16 = 十六岁 | 17 = 十七岁 | 18 = 十八岁 | 19 = 十九岁 | 20 = 二十</value>
+  </data>
 </root>

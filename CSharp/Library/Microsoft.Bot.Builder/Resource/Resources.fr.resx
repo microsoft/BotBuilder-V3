@@ -248,4 +248,19 @@
   <data name="UnhandledExceptionToUser" xml:space="preserve">
     <value>Désolé, que mon code bot est d’avoir un problème.</value>
   </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1=1er,tout d’abord,tout d’abord un|2=2ème,deuxième,second|3=3ème,en troisième lieu,troisième|4=4e,Quatrièmement,quatrième|5=5ème,Cinquièmement,un cinquième|6=6ème,sixième,un sixième|7=7,septième,septuors|8=8,huitième,huitième un|9=9ème,neuvième,neuvième|10=10,dixième,un dixième</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1=dernière,dernière|-2=avant-dernière,deuxièmement pour durer,deuxième du dernier|-3=troisième au bout,troisième du dernier|-4=quatrième au bout,quatrième du dernier|-5=cinquième au bout,cinquième du dernier</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>true=y,oui,oui,bien sûr,OK,\u1f44d,\u1f44c|false=n,non,non,\u1f44e,\\u270b,\\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0=zéro|1=un|2=deux|3=trois|4=quatre|5=cinq|6=six|7=sept|8=huit|9=neuf|10=dix|11=onze|12=douze|13=treize|14=quatorze|15=quinze|16=seize|17=dix-sept|18=dix-huit|19=dix-neuf|20=vingt</value>
+  </data>
 </root>

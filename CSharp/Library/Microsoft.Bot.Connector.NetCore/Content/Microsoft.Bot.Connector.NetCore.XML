@@ -44,11 +44,6 @@
             Signin button
             </summary>
         </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.Invoke">
-            <summary>
-            Invoke a command back to the bot
-            </summary>
-        </member>
         <member name="T:Microsoft.Bot.Connector.Activity">
             <summary>
             An Activity is the basic communication type for the Bot Framework 3.0 protocol
@@ -2634,7 +2629,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.CardAction.Type">
             <summary>
-            Defines the type of action implemented by this button. Defaults to <see cref="F:Microsoft.Bot.Connector.ActionTypes.ImBack"/>
+            Defines the type of action implemented by this button.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.CardAction.Title">

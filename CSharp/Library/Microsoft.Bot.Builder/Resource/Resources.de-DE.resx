@@ -69,16 +69,16 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="DefaultChoiceLastSeparator" xml:space="preserve">
-    <value>, oder </value>
+    <value>,oder </value>
   </data>
   <data name="DefaultChoiceSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="DefaultLastSeparator" xml:space="preserve">
-    <value>, und </value>
+    <value>,und </value>
   </data>
   <data name="DefaultSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="LanguageArticles" xml:space="preserve">
     <value>der;die;das;ein;eine;eines;einer</value>
@@ -110,7 +110,7 @@
     <value>Möchtest du ein {&amp;}? {||}</value>
   </data>
   <data name="TemplateBoolHelp" xml:space="preserve">
-    <value>Bitte gib 'ja' oder 'nein' ein{?, {0}}.</value>
+    <value>Bitte gib 'ja' oder 'nein' ein{?,{0}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
@@ -128,7 +128,7 @@
     <value>Bitte gib ein Datum und einer Uhrzeit für {&amp;} ein {||}</value>
   </data>
   <data name="TemplateDateTimeHelp" xml:space="preserve">
-    <value>Bitte gib ein Datum oder eine Uhrzeit ein {?, {0}}{?, {1}}.</value>
+    <value>Bitte gib ein Datum oder eine Uhrzeit ein {?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateDouble" xml:space="preserve">
@@ -140,7 +140,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateDoubleHelp" xml:space="preserve">
-    <value>Bitte gib eine Nummer{? zwischen {2:F1} und {3:F1}} ein{?, {0}}{?, {1}}.</value>
+    <value>Bitte gib eine Nummer{? zwischen {2:F1} und {3:F1}} ein{?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateEnumManyNumberHelp" xml:space="preserve">
@@ -202,7 +202,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateIntegerHelp" xml:space="preserve">
-    <value>Du kannst eine Nummer{? zwischen {2} und {3}} eingeben{?, {0}}{?, {1}}.</value>
+    <value>Du kannst eine Nummer{? zwischen {2} und {3}} eingeben{?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateNavigation" xml:space="preserve">
@@ -217,7 +217,7 @@
     <comment>0-list of field names</comment>
   </data>
   <data name="TemplateNavigationHelp" xml:space="preserve">
-    <value>Wähle{? eine Nummer von {0} bis {1}, oder} der Name eines Feldes.</value>
+    <value>Wähle{? eine Nummer von {0} bis {1},oder} der Name eines Feldes.</value>
     <comment>0-min, 1-max</comment>
   </data>
   <data name="TemplateNoPreference" xml:space="preserve">
@@ -238,7 +238,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateStringHelp" xml:space="preserve">
-    <value>Du kannst alles eingeben (verwende Anführungszeichen " um eine Zeichenfolge zu erzwingen){?, {0}}{?, {1}}.</value>
+    <value>Du kannst alles eingeben (verwende Anführungszeichen " um eine Zeichenfolge zu erzwingen){?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateUnspecified" xml:space="preserve">
@@ -248,9 +248,24 @@
     <value>Zu viele Versuche.</value>
   </data>
   <data name="UnhandledExceptionToUser" xml:space="preserve">
-    <value>Sorry, mein Bot hat ein Problem.</value>
+    <value>Sorry,mein Bot hat ein Problem.</value>
   </data>
   <data name="UserProfileDeleted" xml:space="preserve">
     <value>Benutzerprofil gelöscht!</value>
+  </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1=1.,Erstens erste|2=2.,zweitens das zweite|3=3.,drittens dritte|4=4.,Viertens vierte|5=5.,Fünftens fünfte|6=6. Sechster,sechste|7=7.,siebte,siebte|8=8.,achte,achte man|9=9.,Neunter,neunte ein|10=10,zehnte,zehnte ein</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1=letzter,letzte|-2=neben letzte Sekunde zum letzten,Sekunde aus dem letzten|-3=zum letzten,dritten Drittel aus dem letzten|-4=vierte bis zum letzten,vierten aus dem letzten|-5=zum letzten,fünften Fith aus dem letzten</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>True=y,ja,ja,sicher,ok,\u1f44d,\u1f44c|false=n,Nein,Nein,\u1f44e,\\u270b,\\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0=Null|1=eins|2=zwei|3=drei|4=vier|5=fünf|6=sechs|7=sieben|8=acht|9=neun|10=10|11=elf|12=zwölf|13=dreizehn|14=14|15=15|16=16|17=17|18=18|19=19|20=20</value>
   </data>
 </root>
