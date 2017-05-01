@@ -43,6 +43,11 @@
             };
 
         /// <summary>
+        /// TO BOT FROM CHANNEL: Allowed token signing algorithms
+        /// </summary>
+        public static readonly string[] ToBotFromChannelAllowedSigningAlgorithms = new[] { "RS256", "RS384", "RS512" };
+
+        /// <summary>
         /// TO BOT FROM EMULATOR: OpenID metadata document for tokens coming from MSA
         /// </summary>
         public const string ToBotFromEmulatorOpenIdMetadataUrl = "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration";

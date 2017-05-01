@@ -39,11 +39,14 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         private readonly ConfigurationManager<OpenIdConnectConfiguration> _openIdMetadata;
 
-        public JwtTokenExtractor(TokenValidationParameters tokenValidationParameters, string metadataUrl)
+        private readonly string[] _allowedSigningAlgorithms;
+
+        public JwtTokenExtractor(TokenValidationParameters tokenValidationParameters, string metadataUrl, string[] allowedSigningAlgorithms)
         {
             // Make our own copy so we can edit it
             _tokenValidationParameters = tokenValidationParameters.Clone();
             _tokenValidationParameters.RequireSignedTokens = true;
+            _allowedSigningAlgorithms = allowedSigningAlgorithms;
 
             if (!_openIdMetadataCache.ContainsKey(metadataUrl))
 #if NET45
@@ -176,6 +179,14 @@ namespace Microsoft.Bot.Connector
             {
                 SecurityToken parsedToken;
                 ClaimsPrincipal principal = tokenHandler.ValidateToken(jwtToken, _tokenValidationParameters, out parsedToken);
+                if(_allowedSigningAlgorithms != null)
+                {
+                    string algorithm = (parsedToken as JwtSecurityToken)?.Header?.Alg;
+                    if(!_allowedSigningAlgorithms.Contains(algorithm))
+                    {
+                        throw new ArgumentException($"Token signing algorithm '{algorithm}' not in allowed list");
+                    }
+                }
                 return principal;
             }
             catch (SecurityTokenSignatureKeyNotFoundException)

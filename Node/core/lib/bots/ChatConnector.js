@@ -68,9 +68,11 @@ var ChatConnector = (function () {
             var decoded = jwt.decode(token, { complete: true });
             var verifyOptions;
             var openIdMetadata;
+            var algorithms = ['RS256', 'RS384', 'RS512'];
             if (isEmulator && decoded.payload.iss == this.settings.endpoint.msaIssuer) {
                 openIdMetadata = this.msaOpenIdMetadata;
                 verifyOptions = {
+                    algorithms: algorithms,
                     issuer: this.settings.endpoint.msaIssuer,
                     audience: this.settings.endpoint.msaAudience,
                     clockTolerance: 300
@@ -79,6 +81,7 @@ var ChatConnector = (function () {
             else if (isEmulator && decoded.payload.iss == this.settings.endpoint.emulatorIssuer) {
                 openIdMetadata = this.emulatorOpenIdMetadata;
                 verifyOptions = {
+                    algorithms: algorithms,
                     issuer: this.settings.endpoint.emulatorIssuer,
                     audience: this.settings.endpoint.emulatorAudience,
                     clockTolerance: 300
