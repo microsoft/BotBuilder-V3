@@ -19,12 +19,15 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the CardAction class.
         /// </summary>
-        public CardAction() { }
+        public CardAction()
+        {
+            this.Type = ActionTypes.ImBack;
+        }
 
         /// <summary>
         /// Initializes a new instance of the CardAction class.
         /// </summary>
-        public CardAction(string type = default(string), string title = default(string), string image = default(string), object value = default(object))
+        public CardAction(string type, string title = default(string), string image = default(string), object value = default(object)) : this()
         {
             Type = type;
             Title = title;
@@ -33,7 +36,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// Defines the type of action implemented by this button.
+        /// Defines the type of action implemented by this button. Defaults to <see cref="ActionTypes.ImBack"/>
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
