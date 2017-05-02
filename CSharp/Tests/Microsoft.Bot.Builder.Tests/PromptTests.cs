@@ -245,6 +245,20 @@ namespace Microsoft.Bot.Builder.Tests
         }
         
         [TestMethod]
+        public async Task PromptSuccess_Choice_MessageCaseInsensitive()
+        {
+            var choices = new[] { "one", "two", "three" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "Two", "two");
+        }
+
+        [TestMethod]
+        public async Task PromptSuccess_Choice_OptionsCaseInsensitive()
+        {
+            var choices = new[] { "One", "Two", "Three" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "two", "Two");
+        }
+
+        [TestMethod]
         public async Task PromptSuccess_Choice_Ordinal()
         {
             var choices = new[] { "one", "two", "three" };
