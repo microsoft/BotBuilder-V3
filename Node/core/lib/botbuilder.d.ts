@@ -1002,7 +1002,10 @@ export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
 
     /** Function to invoke when a batch of messages are sent. */
-    onSend: (messages: IMessage[], done: (err: Error) => void) => void;
+    onSend: (messages: IMessage[], done: (err: Error, addresses?: IAddress[]) => void) => void;
+
+    /** The connector being used for this session. */
+    connector: IConnector;
 
     /** The bots root library of dialogs. */
     library: Library;
@@ -1130,18 +1133,67 @@ export interface IUniversalBotSettings {
 
 /** Implemented by connector plugins for the UniversalBot. */
 export interface IConnector {
+    /** 
+     * (Optional) Called by the UniversalBot at registration time to register a handler for
+     * receiving incoming invoke events. Invoke events are special events which are expected to
+     * return a body inline as part of the response to the received request. 
+     * @param handler The function that should be called anytime an "invoke" event is received.
+     */
+    onInvoke?(handler: (event: IEvent, callback?: (err: Error, body: any, status?: number) => void) => void): void;
 
-    /** Used to register a handler for receiving incoming invoke events. */
-    onInvoke?(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
-
-    /** Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel. */
+    /** 
+     * Called by the UniversalBot at registration time to register a handler for receiving incoming 
+     * events from a channel. 
+     * @param handler The function that should be called anytime an event is received that is not of type "invoke".
+     */
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
 
-    /** Called by the UniversalBot to deliver outgoing messages to a user. */
-    send(messages: IMessage[], callback: (err: Error) => void): void;
+    /** 
+     * Sends outgoing message(s) to a user. This method will ultimately get called anytime you call
+     * [UniversalBot.send()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#send) or [Session.send()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#send).
+     * 
+     * You can manually call this method using `session.connector.send()` as a convenient way of 
+     * getting the address of the message that was sent. You can then store this address and use
+     * it at a later point in time to either update or delete the message. The one thing to keep
+     * in mind is that if you manually call `session.connector.send()` you will bypass any 
+     * middleware that the outgoing message would normally run through. Calling 
+     * `session.send(msg).sendBatch(function (err, addresses) { })` does the same thing but ensures
+     * that the outgoing message is sent through middleware.   
+     * @param messages Array of message(s) to send the user.
+     * @param callback Function to invoke once the operation is completed. 
+     * @param callback.err Any error that occurred during the send.
+     * @param callback.addresses An array of address objects returned for each individual message within the batch. These address objects contain the ID of the posted messages so can be used to update or delete a message in the future.
+     */
+    send(messages: IMessage[], callback: (err: Error, addresses?: IAddress[]) => void): void;
 
-    /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
+    /** 
+     * Called when a UniversalBot wants to start a new proactive conversation with a user. The 
+     * connector should return an address with a properly formated [IAddress.conversation](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress#conversation)
+     * field. This will typically be called when you call [UniversalBot.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#begindialog) 
+     * but will also be called anytime `IAddress.conversation` is null for a message being sent. 
+     * @param address The address of the user to start the conversation for. The `IAddress.conversation` field should be null.
+     * @param callback Function to invoke once the operation is completed. 
+     * @param callback.err Any error that occurred while attempting to start the conversation.
+     * @param callback.address The address of the conversation that was started. This can be used to send future messages to the conversation.
+     */
     startConversation(address: IAddress, callback: (err: Error, address?: IAddress) => void): void;
+
+    /**
+     * (Optional) method that can be called to replace a message that was previously sent using [send()](#send).
+     * @param message The message to overwrite an existing message with. The `message.address` field should contain an address returned from a previous call to [send()](#send).
+     * @param callback Function to invoke once the operation is completed. 
+     * @param callback.err Any error that occurred while replacing the message.
+     * @param callback.address The address of the new message. For some channels this may different from the original messages address. 
+     */
+    update?(message: IMessage, callback: (err: Error, address?: IAddress) => void): void;
+
+    /** 
+     * (Optional) method that can be called to delete a message that was previously sent using [send()](#send).
+     * @param address The address of the message to delete.
+     * @param callback Function to invoke once the operation is completed. 
+     * @param callback.err Any error that occurred while replacing the message.
+     */
+    delete?(address: IAddress, callback: (err: Error) => void): void;
 }
 
 /** Function signature for a piece of middleware that hooks the 'receive' or 'send' events. */
@@ -1536,6 +1588,9 @@ export class Session {
      */
     dispatch(sessionState: ISessionState, message: IMessage, next: Function): Session;
 
+    /** The connector being used for this session. */
+    connector: IConnector;
+
     /** The bots root library of dialogs. */
     library: Library;
 
@@ -1718,9 +1773,11 @@ export class Session {
 
     /** 
      * Immediately ends the current batch and delivers any queued up messages.
-     * @param callback (Optional) function called when the batch was either successfully delievered or failed for some reason. 
+     * @param done (Optional) function called when the batch was either successfully delievered or failed for some reason. 
+     * @param done.err Any error that occured during the send.
+     * @param done.addresses An array of address objects returned for each individual message within the batch. These address objects contain the ID of the posted messages so can be used to update or delete a message in the future.
      */
-    sendBatch(callback?: (err: Error) => void): void;
+    sendBatch(done?: (err: Error, addresses?: IAddress[]) => void): void;
 
     /**
      * Gets/sets the current dialog stack. A copy of the current dialog is returned so if any 
@@ -1884,6 +1941,8 @@ export class RemoteSessionLogger extends SessionLogger {
  * Message builder class that simplifies building complex messages with attachments.
  */
 export class Message implements IIsMessage {
+    /** Internal message object being built. */
+    protected data: IMessage;
 
     /** 
      * Creates a new Message builder. 
@@ -3281,7 +3340,7 @@ declare global {
 export const Prompts: IPrompts;
 
 /** Federates a recognize() call across a set of intent recognizers. */
-export class IntentRecognizerSet implements IIntentRecognizer {
+export class IntentRecognizerSet extends IntentRecognizer {
     /** Number of recognizers in the set. */
     readonly length: number;
 
@@ -3297,8 +3356,8 @@ export class IntentRecognizerSet implements IIntentRecognizer {
      */
     clone(copyTo?: IntentRecognizerSet): IntentRecognizerSet;
 
-    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
-    recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+    /** Implements the actual recognition logic. */
+    onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
     /**
      * Adds a new recognizer plugin to the set.
@@ -3381,10 +3440,47 @@ export class IntentDialog extends Dialog {
 }
 
 /** 
+ * Base class for all core recognizers. Allows conditional execution of a recognizer and post
+ * filtering of recognized intents.  Derived class should override the abstract 
+ * [onRecognize()](#onrecognize) method. 
+ */
+export abstract class IntentRecognizer implements IIntentRecognizer {
+    /**
+     * Overriden by derived class to implement the actual recognition logic.
+     * @param context Contextual information for a received message that's being recognized.
+     * @param callback Function to invoke with the results of the recognition operation.
+     * @param callback.error Any error that occurred or `null`.
+     * @param callback.result The result of the recognition.
+     */
+    abstract onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /** 
+     * Attempts to match a users text utterance to an intent. 
+     * @param context Contextual information for a received message that's being recognized.
+     * @param callback Function to invoke with the results of the recognition operation.
+     */
+    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+
+    /**
+     * Registers a function to conditionally enable/disable the recognizer. Multiple handlers can
+     * be registered and the new handler will be executed before any other handlers.
+     * @param handler Function called for every message. You should call `callback(null, true)` for every message that should be recognized. 
+     */
+    public onEnabled(handler: (context: IRecognizeContext, callback: (err: Error, enabled: boolean) => void) => void): RecognizerFilter;
+
+    /**
+     * Registers a function to filter the output from the recognizer. Multiple handlers can be
+     * registered and the new handler will be executed after any other handlers.
+     * @param handler Function called for every message that results in an intent with a score greater then 0.0. You should call `callback(null, { score: 0.0, intent: null })` to block an intent from being returned.
+     */
+    public onFilter(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
+}
+
+/** 
  * Intent recognizer plugin that detects a users intent using a regular expression. Multiple
  * expressions can be passed in to support recognizing across multiple languages. 
  */
-export class RegExpRecognizer implements IIntentRecognizer {
+export class RegExpRecognizer extends IntentRecognizer {
     /**
      * Constructs a new instance of the recognizer.
      * @param intent The name of the intent to return when the expression is matched.
@@ -3392,8 +3488,8 @@ export class RegExpRecognizer implements IIntentRecognizer {
      */
     constructor(intent: string, expressions: RegExp|IRegExpMap);
 
-    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
-    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+    /** Implements the actual recognition logic. */
+    onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
 /** 
@@ -3407,7 +3503,7 @@ export class RegExpRecognizer implements IIntentRecognizer {
  * create instances of the recognizer using the namespace of your library and bot developers can 
  * customize your matching expressions by using a `<namespace>.json` file in their locale directory.
  */
-export class LocalizedRegExpRecognizer implements IIntentRecognizer {
+export class LocalizedRegExpRecognizer extends IntentRecognizer {
     /**
      * Constructs a new instance of the recognizer.
      * @param intent The name of the intent to return when the expression is matched.
@@ -3416,8 +3512,8 @@ export class LocalizedRegExpRecognizer implements IIntentRecognizer {
      */
     constructor(intent: string, key: string, namespace?: string);
 
-    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
-    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+    /** Implements the actual recognition logic. */
+    onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 }
 
 /**
@@ -3445,7 +3541,7 @@ export class RecognizerFilter implements IIntentRecognizer {
      * Registers a function to filter the output from the wrapped recognizer.
      * @param handler Function called for every message that results in an intent with a score greater then 0.0. You should call `callback(null, { score: 0.0, intent: null })` to block an intent from being returned.
      */
-    public onRecognized(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
+    onRecognized(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
 }
 
 /**
@@ -3453,15 +3549,15 @@ export class RecognizerFilter implements IIntentRecognizer {
  * The service URLs for multiple LUIS models (apps) can be passed in to support recognition 
  * across multiple languages. 
  */
-export class LuisRecognizer implements IIntentRecognizer {
+export class LuisRecognizer extends IntentRecognizer {
     /**
      * Constructs a new instance of the recognizer.
      * @param models Either an individual LUIS model used for all utterances or a map of per/locale models conditionally used depending on the locale of the utterance. 
      */
     constructor(models: string|ILuisModelMap);
 
-    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
-    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
+    /** Implements the actual recognition logic. */
+    onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
 
     /**
      * Calls LUIS to recognizing intents & entities in a users utterance.
@@ -3596,6 +3692,47 @@ export class SimpleDialog extends Dialog {
     replyReceived(session: Session): void;
 }
 
+/** Allows for the creation of custom dialogs that are based on a waterfall. */
+export class WaterfallDialog extends Dialog {
+    /**
+     * Creates a new waterfall dialog.
+     * @param steps Sequence of function(s) that should be called in order.
+     */
+    constructor(steps: IDialogWaterfallStep|IDialogWaterfallStep[]);
+    
+    /**
+     * Processes messages received from the user. Called by the dialog system. 
+     * @param session Session object for the current conversation.
+     */
+    replyReceived(session: Session): void;
+
+    /**
+     * Registers a handler that will be called before every step of the waterfall. The handlers
+     * `next()` function will execute either the next handler in the chain or the waterfall step
+     * itself.  This handler lets a developer skip steps and process the args being passed to 
+     * the next step.
+     * 
+     * Multiple handlers may be registered and the handler being registered will be executed before
+     * any other handlers in the chain.
+     * @param handler Function to invoke in-between each waterfall step.
+     */
+    onBeforeStep(handler: (session: Session, step: number, args: any, next: (step: number, args: any) => void) => void): WaterfallDialog;
+
+    /**
+     * Creates a function that can drive a waterfall. Everytime the function is called it will drive 
+     * the waterfall forward by invoking the next step of the waterfall. The function uses 
+     * `session.dialogData` to hold the waterfalls current step. 
+     * 
+     * To drive the waterfall forward, the `args` param passed to the handler should have 
+     * `args.resumed = builder.ResumeReason.completed`. Once the end of the waterfall is reached 
+     * it will automatically call `session.endDialogWithResult(args)` returning the passed in args.
+     * If the `args` param is missing the `resumed` field the waterfall will simply start over
+     * calling the first step. 
+     * @param steps Waterfall steps to execute.
+     */
+    static createHandler(steps: IDialogWaterfallStep[]): (session: Session, args?: any) => void;
+}
+
 /** Default in memory storage implementation for storing user & session state data. */
 export class MemoryBotStorage implements IBotStorage {
     /** Returns data from memmory for the given context. */
@@ -3719,8 +3856,10 @@ export class UniversalBot extends Library  {
      * Sends a message to the user without disrupting the current conversations dialog stack.
      * @param messages The message (or array of messages) to send the user.
      * @param done (Optional) function to invoke once the operation is completed. 
+     * @param done.err Any error that occured during the send.
+     * @param done.addresses An array of address objects returned for each individual message within the batch. These address objects contain the ID of the posted messages so can be used to update or delete a message in the future.
      */
-    send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error) => void): void;
+    send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, addresses?: IAddress[]) => void): void;
 
     /** 
      * Returns information about when the last turn between the user and a bot occured. This can be called
@@ -3764,16 +3903,38 @@ export class ChatConnector implements IConnector, IBotStorage {
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
     
     /** Called by the UniversalBot to deliver outgoing messages to a user. */
-    send(messages: IMessage[], done: (err: Error) => void): void;
+    send(messages: IMessage[], done: (err: Error, addresses?: IAddress[]) => void): void;
 
     /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
     startConversation(address: IAddress, done: (err: Error, address?: IAddress) => void): void;
+
+    /** Replaces an existing message with a new one. */
+    update(message: IMessage, done: (err: Error, address?: IAddress) => void): void;
+
+    /** Deletes an existing message. */
+    delete(address: IAddress, done: (err: Error) => void): void;
 
     /** Reads in data from the Bot Frameworks state service. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
 
     /** Writes out data to the Bot Frameworks state service. */
     saveData(context: IBotStorageContext, data: IBotStorageData, callback?: (err: Error) => void): void;
+
+    /** Gets the current access token for the bot. */
+    getAccessToken(callback: (err: Error, accessToken: string) => void): void;
+
+    /** 
+     * Called after the connector receives, authenticates, and prepares an event. Derived classes
+     * can override this to filter out incoming events before they're dispatched to the bot. 
+     * Calling `super.onDispatchMessage(event, callback)` will perform the connectors default 
+     * logic.
+     * @param events Array of 0 or more events to dispatch.
+     * @param callback Function that will be called after all events have been dispatched.
+     */
+    protected onDispatchEvents(events: IEvent[], callback: (err: Error, body: any, status?: number) => void): void;
+
+    /** Configuration parameters for the connector. */
+    protected settings: IChatConnectorSettings;
 }
 
 /** Connects a UniversalBot to the command line via a console window. */
@@ -3791,7 +3952,7 @@ export class ConsoleConnector implements IConnector {
     onEvent(handler: (events: IEvent[], callback?: (err: Error) => void) => void): void;
     
     /** Called by the UniversalBot to deliver outgoing messages to a user. */
-    send(messages: IMessage[], callback: (err: Error, conversationId?: string) => void): void;
+    send(messages: IMessage[], callback: (err: Error, addresses?: IAddress[]) => void): void;
 
     /** Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated __address__ object with a populated __conversation__ field. */
     startConversation(address: IAddress, callback: (err: Error, address?: IAddress) => void): void;

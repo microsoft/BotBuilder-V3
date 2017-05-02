@@ -1,13 +1,22 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var IntentRecognizer_1 = require("./IntentRecognizer");
 var RegExpRecognizer_1 = require("./RegExpRecognizer");
-var LocalizedRegExpRecognizer = (function () {
+var LocalizedRegExpRecognizer = (function (_super) {
+    __extends(LocalizedRegExpRecognizer, _super);
     function LocalizedRegExpRecognizer(intent, key, namespace) {
-        this.intent = intent;
-        this.key = key;
-        this.namespace = namespace;
-        this.recognizers = {};
+        var _this = _super.call(this) || this;
+        _this.intent = intent;
+        _this.key = key;
+        _this.namespace = namespace;
+        _this.recognizers = {};
+        return _this;
     }
-    LocalizedRegExpRecognizer.prototype.recognize = function (context, callback) {
+    LocalizedRegExpRecognizer.prototype.onRecognize = function (context, callback) {
         var locale = context.preferredLocale();
         var recognizer = this.recognizers[locale];
         if (!recognizer) {
@@ -25,5 +34,5 @@ var LocalizedRegExpRecognizer = (function () {
         }
     };
     return LocalizedRegExpRecognizer;
-}());
+}(IntentRecognizer_1.IntentRecognizer));
 exports.LocalizedRegExpRecognizer = LocalizedRegExpRecognizer;

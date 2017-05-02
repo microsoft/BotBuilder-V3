@@ -32,10 +32,11 @@
 //
 
 import { Session } from '../Session';
-import { IDialogWaterfallStep, createWaterfall } from './SimpleDialog';
+import { IDialogWaterfallStep, WaterfallDialog } from './WaterfallDialog';
 import { DialogAction, IDialogHandler } from './DialogAction';
 import { Dialog, IRecognizeDialogContext, IDialogResult, ResumeReason } from './Dialog';
-import { IntentRecognizerSet, IIntentRecognizerSetOptions, IIntentRecognizer, IIntentRecognizerResult, IRecognizeContext } from './IntentRecognizerSet';
+import { IntentRecognizerSet, IIntentRecognizerSetOptions } from './IntentRecognizerSet';
+import { IIntentRecognizer, IIntentRecognizerResult, IRecognizeContext } from './IntentRecognizer';
 import { RegExpRecognizer } from './RegExpRecognizer';
 import { Message, InputHint } from '../Message';
 import * as consts from '../consts';
@@ -69,17 +70,9 @@ export interface IPromptContext {
     activeIntent: string;
 }
 
-export interface IPromptHandler {
-    (session: Session, next: Function): void;
-}
-
-export interface IPromptFormatMessageHandler {
-    (session: Session, text: TextType, speak: TextType, callback: (err: Error, message?: IMessage) => void): void;
-}
-
-export interface IPromptRecognizeHandler {
-    (context: IRecognizeDialogContext, callback: (err: Error, score: number, response?: any) => void): void;
-}
+export type PromptHandler = (session: Session, next: Function) => void;
+export type PromptFormatMessageHandler = (session: Session, text: TextType, speak: TextType, callback: (err: Error, message?: IMessage) => void) => void;
+export type PromptRecognizeHandler = (context: IRecognizeDialogContext, callback: (err: Error, score: number, response?: any) => void) => void;
 
 export interface IPromptFeatures {
     /** If true, then the prompt should not execute it's own recognition logic. The default is "false". */
@@ -95,9 +88,9 @@ export interface IPromptFeatures {
 export class Prompt<T extends IPromptFeatures>  extends Dialog {
     private recognizers: IntentRecognizerSet = new IntentRecognizerSet();
     private handlers = <IIntentHandlerMap>{};
-    private _onPrompt: IPromptHandler[] = [];
-    private _onFormatMessage: IPromptFormatMessageHandler[] = [];
-    private _onRecognize: IPromptRecognizeHandler[] = [];
+    private _onPrompt: PromptHandler[] = [];
+    private _onFormatMessage: PromptFormatMessageHandler[] = [];
+    private _onRecognize: PromptRecognizeHandler[] = [];
 
     constructor(public features: T) {
         super();
@@ -330,17 +323,17 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
         next(null, null);
     }
 
-    public onPrompt(handler: IPromptHandler): this {
+    public onPrompt(handler: PromptHandler): this {
         this._onPrompt.unshift(handler);
         return this;
     }
 
-    public onFormatMessage(handler: IPromptFormatMessageHandler): this {
+    public onFormatMessage(handler: PromptFormatMessageHandler): this {
         this._onFormatMessage.unshift(handler);
         return this;
     }
 
-    public onRecognize(handler: IPromptRecognizeHandler): this {
+    public onRecognize(handler: PromptRecognizeHandler): this {
         this._onRecognize.unshift(handler);
         return this;
     }
@@ -359,11 +352,11 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
 
         // Register handler
         if (Array.isArray(dialogId)) {
-            this.handlers[id] = createWaterfall(dialogId);
+            this.handlers[id] = WaterfallDialog.createHandler(dialogId);
         } else if (typeof dialogId === 'string') {
             this.handlers[id] = DialogAction.beginDialog(<string>dialogId, dialogArgs);
         } else {
-            this.handlers[id] = createWaterfall([<IDialogWaterfallStep>dialogId]);
+            this.handlers[id] = WaterfallDialog.createHandler([<IDialogWaterfallStep>dialogId]);
         }
         return this;
     }

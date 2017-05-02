@@ -251,4 +251,19 @@
   <data name="UnhandledExceptionToUser" xml:space="preserve">
     <value>عذراً، رمز بوت هو وجود مشكلة.</value>
   </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1= 1، أولاً، أول واحد | 2 = 2، ثانيا، ثانية واحدة | 3 = 3، ثالثا، ثلث | 4 = 4، رابعا، الرابع | 5 = 5، خامسا، الخامس الذي | 6 = 6، السادسة، واحد السادسة | 7 = 7، سابعا، واحد السابعة | 8 = 8, الثامن, الثامن واحد | 9 = 9، والتاسعة واحد التاسعة | 10 = 10، العاشرة، العاشرة واحد</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1 = آخر، واحد آخر |-2 = بجانب آخر، ثانيا من الماضي، الثاني من آخر |-3 = الثالثة الثالثة إلى آخر، ومن آخر |-4 = الرابعة الرابعة إلى آخر، ومن آخر |-5 = يتسابق الخامسة إلى آخر، من آخر</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>صحيح = نعم، نعم، نعم، \u1f44d بالتأكيد، موافق،، \u1f44c|false=n، لا، كلا، \u1f44e، \\u270b، \\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0 = صفر | 1 = واحد | 2 = اثنين | 3 = ثلاثة | 4 = أربعة | 5 = خمسة | 6 = ستة | 7 = سبعة | 8 = ثمانية | 9 = تسعة | 10 = عشرة | 11 = أحد عشر | 12 = اثنا عشر | 13 = ثلاثة عشر | 14 = أربعة عشر | 15 = 15 | 16 = ستة عشر | 17 = سبعة عشر | 18 = 18 | 19 = تسعة عشر | 20 = عشرين</value>
+  </data>
 </root>

@@ -161,76 +161,7 @@
             Return an IInvokeActivity mask if this is an invoke activity
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.GetStateClient(Microsoft.Bot.Connector.MicrosoftAppCredentials,System.String,System.Net.Http.DelegatingHandler[])">
-            <summary>
-            Get StateClient appropriate for this activity
-            </summary>
-            <param name="credentials">credentials for bot to access state api</param>
-            <param name="serviceUrl">alternate serviceurl to use for state service</param>
-            <param name="handlers"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.GetStateClient(System.String,System.String,System.String,System.Net.Http.DelegatingHandler[])">
-            <summary>
-            Get StateClient appropriate for this activity
-            </summary>
-            <param name="microsoftAppId"></param>
-            <param name="microsoftAppPassword"></param>
-            <param name="serviceUrl">alternate serviceurl to use for state service</param>
-            <param name="handlers"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.HasContent">
-            <summary>
-            Check if the message has content
-            </summary>
-            <returns>Returns true if this message has any content to send</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.GetMentions">
-            <summary>
-            Get mentions 
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.MentionsId(System.String)">
-            <summary>
-            Is there a mention of Id in the Text Property 
-            </summary>
-            <param name="id">ChannelAccount.Id</param>
-            <returns>true if this id is mentioned in the text</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.MentionsRecipient">
-            <summary>
-            Is there a mention of Recipient.Id in the Text Property 
-            </summary>
-            <returns>true if this id is mentioned in the text</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.RemoveRecipientMention">
-            <summary>
-            Remove recipient mention text from Text property
-            </summary>
-            <returns>new .Text property value</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.RemoveMentionText(System.String)">
-            <summary>
-            Replace any mention text for given id from Text property
-            </summary>
-            <param name="id">id to match</param>
-            <returns>new .Text property value</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.GetChannelData``1">
-            <summary>
-            Get channeldata as typed structure
-            </summary>
-            <typeparam name="TypeT">type to use</typeparam>
-            <returns>typed object or default(TypeT)</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.GetActivityType">
-            <summary>
-            Return the "major" portion of the activity
-            </summary>
-            <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:Microsoft.Bot.Connector.Activity.GetActivityType(System.String)" -->
         <member name="M:Microsoft.Bot.Connector.Activity.#ctor">
             <summary>
             Initializes a new instance of the Activity class.
@@ -397,6 +328,96 @@
             <summary>
             Code indicating why the conversation has ended
             </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.GetStateClient(Microsoft.Bot.Connector.IActivity,Microsoft.Bot.Connector.MicrosoftAppCredentials,System.String,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Get StateClient appropriate for this activity
+            </summary>
+            <param name="credentials">credentials for bot to access state api</param>
+            <param name="serviceUrl">alternate serviceurl to use for state service</param>
+            <param name="handlers"></param>
+            <param name="activity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.GetStateClient(Microsoft.Bot.Connector.IActivity,System.String,System.String,System.String,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Get StateClient appropriate for this activity
+            </summary>
+            <param name="microsoftAppId"></param>
+            <param name="microsoftAppPassword"></param>
+            <param name="serviceUrl">alternate serviceurl to use for state service</param>
+            <param name="handlers"></param>
+            <param name="activity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.GetActivityType(Microsoft.Bot.Connector.IActivity)">
+            <summary>
+            Return the "major" portion of the activity
+            </summary>
+            <param name="activity"></param>
+            <returns>normalized major portion of the activity, aka message/... will return "message"</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.GetChannelData``1(Microsoft.Bot.Connector.IActivity)">
+            <summary>
+            Get channeldata as typed structure
+            </summary>
+            <param name="activity"></param>
+            <typeparam name="TypeT">type to use</typeparam>
+            <returns>typed object or default(TypeT)</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.TryGetChannelData``1(Microsoft.Bot.Connector.IActivity,``0@)">
+            <summary>
+            Get channeldata as typed structure
+            </summary>
+            <param name="activity"></param>
+            <typeparam name="TypeT">type to use</typeparam>
+            <param name="instance">The resulting instance, if possible</param>
+            <returns>
+            <c>true</c> if value of <seealso cref="P:Microsoft.Bot.Connector.IActivity.ChannelData"/> was coerceable to <typeparamref name="TypeT"/>, <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.HasContent(Microsoft.Bot.Connector.IMessageActivity)">
+            <summary>
+            Check if the message has content
+            </summary>
+            <returns>Returns true if this message has any content to send</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.GetMentions(Microsoft.Bot.Connector.IMessageActivity)">
+            <summary>
+            Get mentions 
+            </summary>
+            <param name="activity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.MentionsId(Microsoft.Bot.Connector.IMessageActivity,System.String)">
+            <summary>
+            Is there a mention of Id in the Text Property 
+            </summary>
+            <param name="id">ChannelAccount.Id</param>
+            <param name="activity"></param>
+            <returns>true if this id is mentioned in the text</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.MentionsRecipient(Microsoft.Bot.Connector.IMessageActivity)">
+            <summary>
+            Is there a mention of Recipient.Id in the Text Property 
+            </summary>
+            <param name="activity"></param>
+            <returns>true if this id is mentioned in the text</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.RemoveRecipientMention(Microsoft.Bot.Connector.IMessageActivity)">
+            <summary>
+            Remove recipient mention text from Text property
+            </summary>
+            <param name="activity"></param>
+            <returns>new .Text property value</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.RemoveMentionText(Microsoft.Bot.Connector.IMessageActivity,System.String)">
+            <summary>
+            Replace any mention text for given id from Text property
+            </summary>
+            <param name="id">id to match</param>
+            <param name="activity"></param>
+            <returns>new .Text property value</returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.ActivityTypes">
             <summary>
@@ -3567,13 +3588,6 @@
             <summary>
             True if this activity has text, attachments, or channelData
             </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.IMessageActivity.GetChannelData``1">
-            <summary>
-            Get channeldata as typed structure
-            </summary>
-            <typeparam name="TypeT">type to use</typeparam>
-            <returns>typed object or default(TypeT)</returns>
         </member>
         <member name="M:Microsoft.Bot.Connector.IMessageActivity.GetMentions">
             <summary>

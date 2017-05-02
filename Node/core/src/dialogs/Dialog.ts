@@ -32,7 +32,7 @@
 //
 
 import { Session } from '../Session';
-import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizerSet';
+import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizer';
 import { ActionSet } from './ActionSet';
 
 export enum ResumeReason { completed, notCompleted, canceled, back, forward, reprompt }

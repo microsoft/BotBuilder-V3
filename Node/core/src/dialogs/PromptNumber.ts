@@ -33,7 +33,7 @@
 
 import { Session } from '../Session';
 import { Prompt, IPromptContext, IPromptOptions, IPromptFeatures } from './Prompt';
-import { IRecognizeContext } from './IntentRecognizerSet';
+import { IRecognizeContext } from './IntentRecognizer';
 import { PromptRecognizers } from './PromptRecognizers';
 import * as consts from '../consts';
 

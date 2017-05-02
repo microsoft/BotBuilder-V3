@@ -467,7 +467,7 @@ namespace Microsoft.Bot.Builder.Tests
 
                     var botData = scope.Resolve<IBotData>();
                     await botData.LoadAsync(default(CancellationToken));
-                    Assert.IsTrue(botData.UserData.Get<bool>("resume"));
+                    Assert.IsTrue(botData.UserData.GetValue<bool>("resume"));
                 }
             }
         }

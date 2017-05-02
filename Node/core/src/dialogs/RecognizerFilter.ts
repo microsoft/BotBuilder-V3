@@ -31,8 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { IRecognizeContext } from './IntentRecognizerSet';
-import { IIntentRecognizer, IIntentRecognizerResult } from './IntentRecognizerSet';
+import { IRecognizeContext, IIntentRecognizer, IIntentRecognizerResult } from './IntentRecognizer';
 
 export interface IRecognizerFilterOnEnabled {
     (context: IRecognizeContext, callback: (err: Error, enabled: boolean) => void): void;

@@ -20,12 +20,18 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Activity class.
         /// </summary>
-        public Activity() { }
+        public Activity()
+        {
+            Attachments = new List<Attachment>();
+            Entities = new List<Entity>();
+            MembersAdded = new List<ChannelAccount>();
+            MembersRemoved = new List<ChannelAccount>();
+        }
 
         /// <summary>
         /// Initializes a new instance of the Activity class.
         /// </summary>
-        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), DateTime? localTimestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string speak = default(string), string inputHint = default(string), string summary = default(string), SuggestedActions suggestedActions = default(SuggestedActions), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference), string code = default(string))
+        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), DateTime? localTimestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string speak = default(string), string inputHint = default(string), string summary = default(string), SuggestedActions suggestedActions = default(SuggestedActions), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference), string code = default(string)) : this()
         {
             Type = type;
             Id = id;
@@ -38,8 +44,6 @@ namespace Microsoft.Bot.Connector
             Recipient = recipient;
             TextFormat = textFormat;
             AttachmentLayout = attachmentLayout;
-            MembersAdded = membersAdded;
-            MembersRemoved = membersRemoved;
             TopicName = topicName;
             HistoryDisclosed = historyDisclosed;
             Locale = locale;
@@ -48,8 +52,6 @@ namespace Microsoft.Bot.Connector
             InputHint = inputHint;
             Summary = summary;
             SuggestedActions = suggestedActions;
-            Attachments = attachments;
-            Entities = entities;
             ChannelData = channelData;
             Action = action;
             ReplyToId = replyToId;
@@ -57,6 +59,10 @@ namespace Microsoft.Bot.Connector
             Name = name;
             RelatesTo = relatesTo;
             Code = code;
+            MembersAdded = membersAdded ?? new List<ChannelAccount>();
+            MembersRemoved = membersRemoved ?? new List<ChannelAccount>();
+            Attachments = attachments ?? new List<Attachment>();
+            Entities = entities ?? new List<Entity>();
         }
 
         /// <summary>

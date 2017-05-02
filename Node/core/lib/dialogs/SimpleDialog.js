@@ -5,7 +5,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Dialog_1 = require("./Dialog");
-var consts = require("../consts");
 var SimpleDialog = (function (_super) {
     __extends(SimpleDialog, _super);
     function SimpleDialog(fn) {
@@ -25,54 +24,3 @@ var SimpleDialog = (function (_super) {
     return SimpleDialog;
 }(Dialog_1.Dialog));
 exports.SimpleDialog = SimpleDialog;
-function createWaterfall(steps) {
-    return function waterfallAction(s, r) {
-        var skip = function (result) {
-            result = result || {};
-            if (result.resumed == null) {
-                result.resumed = Dialog_1.ResumeReason.forward;
-            }
-            waterfallAction(s, result);
-        };
-        if (r && r.hasOwnProperty('resumed')) {
-            if (r.resumed !== Dialog_1.ResumeReason.reprompt) {
-                var step = s.dialogData[consts.Data.WaterfallStep];
-                switch (r.resumed) {
-                    case Dialog_1.ResumeReason.back:
-                        step -= 1;
-                        break;
-                    default:
-                        step++;
-                }
-                if (step >= 0 && step < steps.length) {
-                    try {
-                        s.logger.log(s.dialogStack(), 'waterfall() step ' + step + 1 + ' of ' + steps.length);
-                        s.dialogData[consts.Data.WaterfallStep] = step;
-                        steps[step](s, r, skip);
-                    }
-                    catch (e) {
-                        s.error(e);
-                    }
-                }
-                else {
-                    s.endDialogWithResult(r);
-                }
-            }
-        }
-        else if (steps && steps.length > 0) {
-            try {
-                s.logger.log(s.dialogStack(), 'waterfall() step 1 of ' + steps.length);
-                s.dialogData[consts.Data.WaterfallStep] = 0;
-                steps[0](s, r, skip);
-            }
-            catch (e) {
-                s.error(e);
-            }
-        }
-        else {
-            s.logger.warn(s.dialogStack(), 'waterfall() empty waterfall detected');
-            s.endDialogWithResult({ resumed: Dialog_1.ResumeReason.notCompleted });
-        }
-    };
-}
-exports.createWaterfall = createWaterfall;

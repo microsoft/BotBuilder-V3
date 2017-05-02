@@ -61,7 +61,7 @@ export var InputHint = {
 };
 
 export class Message implements IIsMessage {
-    private data = <IMessage>{};
+    protected data = <IMessage>{};
     
     constructor(private session?: Session) {
         this.data.type = consts.messageType;

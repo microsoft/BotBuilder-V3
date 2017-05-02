@@ -213,7 +213,7 @@ var UniversalBot = (function (_super) {
                 }, _this.errorLogger(done));
             }
             else if (done) {
-                done(err);
+                done(err, null);
             }
         }));
     };
@@ -306,6 +306,7 @@ var UniversalBot = (function (_super) {
                 localizer: _this.localizer,
                 logger: logger,
                 autoBatchDelay: _this.settings.autoBatchDelay,
+                connector: _this.connector(message.address.channelId),
                 library: _this,
                 middleware: _this.mwSession,
                 dialogId: dialogId,
@@ -498,7 +499,7 @@ var UniversalBot = (function (_super) {
         catch (e) {
             try {
                 if (error) {
-                    error(e);
+                    error(e, null);
                 }
             }
             catch (e2) {
@@ -508,12 +509,12 @@ var UniversalBot = (function (_super) {
     };
     UniversalBot.prototype.errorLogger = function (done) {
         var _this = this;
-        return function (err) {
+        return function (err, result) {
             if (err) {
                 _this.emitError(err);
             }
             if (done) {
-                done(err);
+                done(err, result);
                 done = null;
             }
         };

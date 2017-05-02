@@ -32,8 +32,6 @@
 //
 
 using Microsoft.Bot.Builder.ConnectorEx;
-using Microsoft.Bot.Builder.Internals.Fibers;
-using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,6 +39,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs.Internals
 {

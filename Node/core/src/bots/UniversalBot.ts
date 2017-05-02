@@ -32,11 +32,11 @@
 //
 
 import { Library, systemLib, IRouteResult } from './Library';
-import { IDialogWaterfallStep } from '../dialogs/SimpleDialog';
-import { Session, ISessionMiddleware } from '../Session';
+import { IDialogWaterfallStep } from '../dialogs/WaterfallDialog';
+import { Session, ISessionMiddleware, IConnector } from '../Session';
 import { DefaultLocalizer } from '../DefaultLocalizer';
 import { IBotStorage, IBotStorageContext, IBotStorageData, MemoryBotStorage } from '../storage/BotStorage';
-import { IIntentRecognizerResult } from '../dialogs/IntentRecognizerSet';
+import { IIntentRecognizerResult } from '../dialogs/IntentRecognizer';
 import { SessionLogger } from '../SessionLogger';
 import { RemoteSessionLogger } from '../RemoteSessionLogger';
 import * as consts from '../consts';
@@ -54,16 +54,6 @@ export interface IUniversalBotSettings {
     persistUserData?: boolean;
     persistConversationData?: boolean;
     dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
-}
-
-export interface IConnector {
-    onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
-    onInvoke?(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
-    send(messages: IMessage[], cb: (err: Error) => void): void;
-    startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void;
-}
-interface IConnectorMap {
-    [channel: string]: IConnector;    
 }
 
 export interface IMiddlewareMap {
@@ -84,6 +74,9 @@ export interface IDisambiguateRouteHandler {
     (session: Session, routes: IRouteResult[]): void;
 }
 
+interface IConnectorMap {
+    [channel: string]: IConnector;    
+}
 
 export class UniversalBot extends Library {
     private settings = <IUniversalBotSettings>{ 
@@ -273,7 +266,7 @@ export class UniversalBot extends Library {
         }, this.errorLogger(done));
     }
     
-    public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error) => void): void {
+    public send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, addresses: IAddress[]) => void): void {
         var list: IMessage[];
         if (Array.isArray(messages)) {
             list = messages;
@@ -303,7 +296,7 @@ export class UniversalBot extends Library {
                     connector.send(list, this.errorLogger(done));
                 }, this.errorLogger(done));
             } else if (done) {
-                done(err);
+                done(err, null);
             }
         }));
     }
@@ -439,6 +432,7 @@ export class UniversalBot extends Library {
                 localizer: this.localizer,
                 logger: logger,
                 autoBatchDelay: this.settings.autoBatchDelay,
+                connector: this.connector(message.address.channelId),
                 library: this,
                 //actions: this.actions,
                 middleware: this.mwSession,
@@ -638,13 +632,13 @@ export class UniversalBot extends Library {
         return this.settings.storage;
     }
     
-    private tryCatch(fn: Function, error?: (err?: Error) => void): void {
+    private tryCatch(fn: Function, error?: (err?: Error, results?: any) => void): void {
         try {
             fn();
         } catch (e) {
             try {
                 if (error) {
-                    error(e);
+                    error(e, null);
                 }
             } catch (e2) {
                 this.emitError(e2);
@@ -652,13 +646,13 @@ export class UniversalBot extends Library {
         }
     }
 
-    private errorLogger(done?: (err: Error) => void): (err: Error) => void {
-        return (err: Error) => {
+    private errorLogger(done?: (err: Error, result?: any) => void): (err: Error, result?: any) => void {
+        return (err: Error, result: any) => {
             if (err) {
                 this.emitError(err);
             }
             if (done) {
-                done(err);
+                done(err, result);
                 done = null;
             }
         };

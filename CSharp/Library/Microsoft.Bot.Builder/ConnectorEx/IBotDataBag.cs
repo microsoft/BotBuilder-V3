@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// Gets the number of key/value pairs contained in the <see cref="IBotDataBag"/>.
         /// </summary>
         int Count { get; }
-        
+
         /// <summary>
         /// Checks if data bag contains a value with specified key
         /// </summary>
@@ -89,6 +89,18 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// </summary>
     public static partial class Extensions
     {
+        [System.Obsolete(@"Use GetValue<T> instead", false)]
+        public static T Get<T>(this IBotDataBag bag, string key)
+        {
+            T value;
+            if (!bag.TryGetValue(key, out value))
+            {
+                throw new KeyNotFoundException(key);
+            }
+
+            return value;
+        }
+
         /// <summary>
         /// Gets the value associated with the specified key.
         /// </summary>
@@ -96,12 +108,33 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="bag">The bot data bag.</param>
         /// <param name="key">The key of the value to get or set.</param>
         /// <returns>The value associated with the specified key. If the specified key is not found, a get operation throws a KeyNotFoundException.</returns>
-        public static T Get<T>(this IBotDataBag bag, string key)
+        /// <exception cref="KeyNotFoundException"><paramref name="key"/></exception>
+        public static T GetValue<T>(this IBotDataBag bag, string key)
         {
             T value;
             if (!bag.TryGetValue(key, out value))
             {
                 throw new KeyNotFoundException(key);
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Gets the value associated with the specified key or a default value if not found.
+        /// </summary>
+        /// <typeparam name="T">The type of the value to get.</typeparam>
+        /// <param name="bag">The bot data bag.</param>
+        /// <param name="key">The key of the value to get or set.</param>
+        /// <param name="defaultValue">The value to return if the key is not present</param>
+        /// <returns>The value associated with the specified key. If the specified key is not found, <paramref name="defaultValue"/>
+        /// is returned </returns>
+        public static T GetValueOrDefault<T>(this IBotDataBag bag, string key, T defaultValue = default(T))
+        {
+            T value;
+            if (!bag.TryGetValue(key, out value))
+            {
+                value = defaultValue;
             }
 
             return value;

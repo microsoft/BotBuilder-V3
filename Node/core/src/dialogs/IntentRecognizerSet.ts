@@ -31,46 +31,12 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { SessionLogger } from '../SessionLogger';
+import { IntentRecognizer, IIntentRecognizer, IRecognizeContext, IIntentRecognizerResult } from './IntentRecognizer'; 
 import * as utils from '../utils';
 import * as async from 'async';
 
 export enum RecognizeOrder { parallel, series }
 
-export interface IIntentRecognizer {
-    recognize(context: IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void;
-}
-
-export interface IRecognizeContext {
-    message: IMessage;
-    userData: any;
-    conversationData: any;
-    privateConversationData: any;
-    dialogData: any;
-    localizer: ILocalizer;
-    logger: SessionLogger;
-    preferredLocale(): string;
-    gettext(messageid: string, ...args: any[]): string;
-    ngettext(messageid: string, messageid_plural: string, count: number): string;
-    dialogStack(): IDialogState[];
-    intent?: IIntentRecognizerResult;
-    libraryName?: string;
-
-    /** deprecated */
-    locale: string;     
-}
-
-export interface IRecognizeResult {
-    score: number;
-}
-
-export interface IIntentRecognizerResult extends IRecognizeResult {
-    intent: string;
-    expression?: RegExp;
-    matched?: string[]; 
-    intents?: IIntent[];
-    entities?: IEntity<any>[];
-}
 
 export interface IIntentRecognizerSetOptions {
     intentThreshold?: number;
@@ -80,10 +46,11 @@ export interface IIntentRecognizerSetOptions {
     stopIfExactMatch?: boolean;
 } 
 
-export class IntentRecognizerSet implements IIntentRecognizer {
+export class IntentRecognizerSet extends IntentRecognizer {
     public length: number;
 
     constructor(private options: IIntentRecognizerSetOptions = {}) {
+        super();
         if (typeof this.options.intentThreshold !== 'number') {
             this.options.intentThreshold = 0.1;
         }
@@ -108,7 +75,7 @@ export class IntentRecognizerSet implements IIntentRecognizer {
         return obj;
     }
 
-    public recognize(context: IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void {
+    public onRecognize(context: IRecognizeContext, done: (err: Error, result: IIntentRecognizerResult) => void): void {
         if (this.options.recognizeOrder == RecognizeOrder.parallel) {
             this.recognizeInParallel(context, done);
         } else {

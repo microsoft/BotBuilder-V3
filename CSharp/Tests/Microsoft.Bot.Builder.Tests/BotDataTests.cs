@@ -31,20 +31,18 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using Microsoft.Rest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -66,7 +64,7 @@ namespace Microsoft.Bot.Builder.Tests
                 Assert.IsTrue(bag.TryGetValue(key, out existing));
                 Assert.AreEqual(existing, value);
 
-                existing = bag.Get<T>(key);
+                existing = bag.GetValue<T>(key);
                 Assert.AreEqual(existing, value);
 
                 Assert.AreEqual(count + 1, bag.Count);

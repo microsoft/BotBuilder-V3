@@ -32,7 +32,7 @@
 //
 
 import { Session } from '../Session';
-import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizerSet';
+import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizer';
 import { IRouteResult } from '../bots/Library';
 import * as consts from '../consts';
 import * as utils from '../utils';

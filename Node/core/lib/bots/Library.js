@@ -4,7 +4,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var SimpleDialog_1 = require("../dialogs/SimpleDialog");
+var WaterfallDialog_1 = require("../dialogs/WaterfallDialog");
 var ActionSet_1 = require("../dialogs/ActionSet");
 var IntentRecognizerSet_1 = require("../dialogs/IntentRecognizerSet");
 var Session_1 = require("../Session");
@@ -377,11 +377,8 @@ var Library = (function (_super) {
             if (this.dialogs.hasOwnProperty(id) && !replace) {
                 throw new Error("Dialog[" + id + "] already exists in library[" + this.name + "].");
             }
-            if (Array.isArray(dialog)) {
-                d = new SimpleDialog_1.SimpleDialog(SimpleDialog_1.createWaterfall(dialog));
-            }
-            else if (typeof dialog == 'function') {
-                d = new SimpleDialog_1.SimpleDialog(SimpleDialog_1.createWaterfall([dialog]));
+            if (Array.isArray(dialog) || typeof dialog === 'function') {
+                d = new WaterfallDialog_1.WaterfallDialog(dialog);
             }
             else {
                 d = dialog;

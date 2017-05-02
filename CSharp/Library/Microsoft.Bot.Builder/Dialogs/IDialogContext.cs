@@ -34,7 +34,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 
@@ -209,7 +208,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="message">The message that will be posted to child dialog.</param>
         /// <param name="token">A cancellation token.</param>
         /// <returns>A task representing the Forward operation.</returns>
-        public static async Task Forward<R>(this IDialogStack stack, IDialog<R> child, ResumeAfter<R> resume, IMessageActivity message, CancellationToken token)
+        public static async Task Forward<R>(this IDialogStack stack, IDialog<R> child, ResumeAfter<R> resume, IMessageActivity message, CancellationToken token = default(CancellationToken))
         {
             await stack.Forward<R, IMessageActivity>(child, resume, message, token);
         }
