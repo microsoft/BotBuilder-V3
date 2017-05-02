@@ -610,11 +610,12 @@
             <param name="token"> The cancellation token.</param>
             <returns></returns>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.GenerateUnauthorizedResponse(System.Net.Http.HttpRequestMessage)">
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.GenerateUnauthorizedResponse(System.Net.Http.HttpRequestMessage,System.String)">
             <summary>
             Generates <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> response for the request.
             </summary>
             <param name="request">The request.</param>
+            <param name="reason">The reason phrase for unauthorized status code.</param>
             <returns>A response with status code unauthorized.</returns>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotData.GetProperty``1(System.String)">

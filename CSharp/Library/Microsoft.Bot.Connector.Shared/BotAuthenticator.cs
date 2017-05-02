@@ -68,6 +68,7 @@ namespace Microsoft.Bot.Connector
            CancellationToken token)
         {
             var identityToken = await this.TryAuthenticateAsync(request, token);
+            identityToken.ValidateServiceUrlClaim(activities);
             TrustServiceUrls(identityToken, activities);
             return identityToken.Authenticated;
         }
@@ -76,8 +77,9 @@ namespace Microsoft.Bot.Connector
         /// Generates <see cref="HttpStatusCode.Unauthorized"/> response for the request.
         /// </summary>
         /// <param name="request">The request.</param>
+        /// <param name="reason">The reason phrase for unauthorized status code.</param>
         /// <returns>A response with status code unauthorized.</returns>
-        public static HttpResponseMessage GenerateUnauthorizedResponse(HttpRequestMessage request)
+        public static HttpResponseMessage GenerateUnauthorizedResponse(HttpRequestMessage request, string reason)
         {
             string host = request.RequestUri.DnsSafeHost;
 #if NET45
@@ -86,10 +88,14 @@ namespace Microsoft.Bot.Connector
             var response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
 #endif
             response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
+            if (!string.IsNullOrEmpty(reason))
+            {
+                response.Content = new StringContent(reason, System.Text.Encoding.UTF8);
+            }
             return response;
         }
 
-        internal void TrustServiceUrls(IdentityToken identityToken, IEnumerable<IActivity> activities)
+        private void TrustServiceUrls(IdentityToken identityToken, IEnumerable<IActivity> activities)
         {
             // add the service url to the list of trusted urls only if the JwtToken 
             // is valid and identity is not null
@@ -111,7 +117,7 @@ namespace Microsoft.Bot.Connector
             }
         }
 
-        internal async Task<IdentityToken> TryAuthenticateAsync(HttpRequestMessage request,
+        private async Task<IdentityToken> TryAuthenticateAsync(HttpRequestMessage request,
             CancellationToken token)
         {
             var authorizationHeader = request.Headers.Authorization;
@@ -205,6 +211,29 @@ namespace Microsoft.Bot.Connector
         {
             this.Authenticated = authenticated;
             this.Identity = identity;
+        }
+    }
+
+    public static class IdentityTokenExtensions
+    {
+        public static void ValidateServiceUrlClaim(this IdentityToken token, IEnumerable<IActivity> activities)
+        {
+            // if token is authenticated, the service url in the activities need to be validated using
+            // the service url claim.
+            if (token.Authenticated)
+            {
+                var serviceUrlClaim = token.Identity?.Claims.FirstOrDefault(claim => claim.Type == "serviceurl");
+                
+                // if there is a service url claim in the identity claims, check if it matches the service url in the activities
+                if (serviceUrlClaim != null && !string.IsNullOrEmpty(serviceUrlClaim.Value))
+                {
+                    var filteredActivities = activities.Where(activity => string.Compare(activity.ServiceUrl, serviceUrlClaim.Value) != 0);
+                    if (filteredActivities.Count() != 0)
+                    {
+                        throw new ArgumentException($"ServiceUrl claim: {serviceUrlClaim.Value} didn't match activity's ServiceUrl: {string.Join(",", filteredActivities.Select(activity => activity.ServiceUrl))}");
+                    }
+                }
+            }
         }
     }
 }

@@ -65,11 +65,11 @@ var ChatConnector = (function () {
             }
         }
         if (token) {
-            var decoded = jwt.decode(token, { complete: true });
+            var decoded_1 = jwt.decode(token, { complete: true });
             var verifyOptions;
             var openIdMetadata;
             var algorithms = ['RS256', 'RS384', 'RS512'];
-            if (isEmulator && decoded.payload.iss == this.settings.endpoint.msaIssuer) {
+            if (isEmulator && decoded_1.payload.iss == this.settings.endpoint.msaIssuer) {
                 openIdMetadata = this.msaOpenIdMetadata;
                 verifyOptions = {
                     algorithms: algorithms,
@@ -78,7 +78,7 @@ var ChatConnector = (function () {
                     clockTolerance: 300
                 };
             }
-            else if (isEmulator && decoded.payload.iss == this.settings.endpoint.emulatorIssuer) {
+            else if (isEmulator && decoded_1.payload.iss == this.settings.endpoint.emulatorIssuer) {
                 openIdMetadata = this.emulatorOpenIdMetadata;
                 verifyOptions = {
                     algorithms: algorithms,
@@ -95,16 +95,24 @@ var ChatConnector = (function () {
                     clockTolerance: 300
                 };
             }
-            if (isEmulator && decoded.payload.appid != this.settings.appId) {
+            if (isEmulator && decoded_1.payload.appid != this.settings.appId) {
                 logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
                 res.status(403);
                 res.end();
                 return;
             }
-            openIdMetadata.getKey(decoded.header.kid, function (key) {
+            openIdMetadata.getKey(decoded_1.header.kid, function (key) {
                 if (key) {
                     try {
                         jwt.verify(token, key, verifyOptions);
+                        if (typeof decoded_1.payload.serviceurl !== 'undefined' &&
+                            typeof req.body.serviceUrl !== 'undefined') {
+                            if (decoded_1.payload.serviceurl !== req.body.serviceUrl) {
+                                var errorDescription = "ServiceUrl in payload of token: " + decoded_1.payload.serviceurl + " didn't match the request's serviceurl: " + req.body.serviceUrl + ".";
+                                logger.error("ChatConnector: receive - serviceurl mismatch. " + errorDescription);
+                                throw new Error(errorDescription);
+                            }
+                        }
                     }
                     catch (err) {
                         logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');

@@ -1,16 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Connector
 {
@@ -64,16 +59,22 @@ namespace Microsoft.Bot.Connector
         {
             var provider = this.GetCredentialProvider();
             var botAuthenticator = new BotAuthenticator(provider, OpenIdConfigurationUrl, DisableEmulatorTokens);
-            var identityToken = await botAuthenticator.TryAuthenticateAsync(actionContext.Request, cancellationToken);
-
-            // the request is not authenticated, fail with 401.
-            if (!identityToken.Authenticated)
+            try
             {
-                actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request);
+                var authenticated = await botAuthenticator.TryAuthenticateAsync(actionContext.Request, GetActivities(actionContext), cancellationToken);
+                // the request is not authenticated, fail with 401.
+                if (!authenticated)
+                {
+                    actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request, "BotAuthenticator failed to authenticate incoming request!");
+                    return;
+                }
+            }
+            catch (Exception e)
+            {
+                actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request, $"Failed authenticating incoming request: {e.ToString()}");
                 return;
             }
 
-            botAuthenticator.TrustServiceUrls(identityToken, GetActivities(actionContext));
             await base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
 
@@ -115,7 +116,7 @@ namespace Microsoft.Bot.Connector
             {
                 // if we have raw values
                 credentialProvider = new StaticCredentialProvider(MicrosoftAppId, MicrosoftAppPassword);
-             
+
             }
             else
             {

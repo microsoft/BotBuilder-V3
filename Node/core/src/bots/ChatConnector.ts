@@ -188,6 +188,14 @@ export class ChatConnector implements IConnector, IBotStorage {
                 if (key) {
                     try {
                         jwt.verify(token, key, verifyOptions);
+                        if (typeof decoded.payload.serviceurl !== 'undefined' &&
+                            typeof req.body.serviceUrl !== 'undefined') {
+                            if (decoded.payload.serviceurl !== req.body.serviceUrl) {
+                                const errorDescription : string = `ServiceUrl in payload of token: ${decoded.payload.serviceurl} didn't match the request's serviceurl: ${req.body.serviceUrl}.`;
+                                logger.error(`ChatConnector: receive - serviceurl mismatch. ${errorDescription}`);
+                                throw new Error(errorDescription);
+                            }
+                        }
                     } catch (err) {
                         logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
                         res.status(403);
