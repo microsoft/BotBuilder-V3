@@ -30,7 +30,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-import { IRecognizeContext } from './IntentRecognizerSet';
+import { IRecognizeContext } from './IntentRecognizer';
 import * as utils from '../utils';
 import * as sprintf from 'sprintf-js';
 import * as chrono from 'chrono-node';
