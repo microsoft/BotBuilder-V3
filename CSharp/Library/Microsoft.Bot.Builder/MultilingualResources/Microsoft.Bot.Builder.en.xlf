@@ -322,7 +322,7 @@
           <source>Sorry, my bot code is having an issue.</source>
           <target state="new">Sorry, my bot code is having an issue.</target>
         </trans-unit>
-		<trans-unit id="NumberExpression" translate="yes" xml:space="preserve">
+        <trans-unit id="NumberExpression" translate="yes" xml:space="preserve">
           <source>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</source>
           <target state="new">[+-]?(?:\d+\.?\d*|\d*\.?\d+)</target>
         </trans-unit>

@@ -2629,7 +2629,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.CardAction.Type">
             <summary>
-            Defines the type of action implemented by this button.
+            Defines the type of action implemented by this button. Defaults to <see cref="F:Microsoft.Bot.Connector.ActionTypes.ImBack"/>
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.CardAction.Title">

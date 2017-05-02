@@ -351,7 +351,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             var index = 0;
             foreach (var value in values)
             {
-                var text = value.ToString();
+                var text = value?.ToString().Trim().ToLowerInvariant();
                 var topScore = 0.0;
                 IList<string> vTokens = new List<string>();
                 foreach (Match match in simpleTokenizer.Matches(text))
