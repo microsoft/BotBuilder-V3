@@ -1,0 +1,5 @@
+# Visual Studio config files
+.vs/
+
+# IntelliJ, WebStorm
+.idea/
