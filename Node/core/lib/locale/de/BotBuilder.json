@@ -9,5 +9,7 @@
     "default_choice": "Das habe ich nicht verstanden. Bitte waehlen Sie aus der Liste.",
     "default_time": "Die eingegebene Zeit habe ich nicht verstanden. Bitte geben Sie es im folgenden Format ein (MM/TT/JJJJ HH:MM:SS).",
     "default_file": "Ich habe nichts empfangen. Bitte versuchen Sie es erneut.",
-    "default_error": "Ups. Irgendetwas ist schief gelaufen. Wir versuchen es erneut."
+    "default_error": "Ups. Irgendetwas ist schief gelaufen. Wir versuchen es erneut.",
+    "yesExp": "^(1|ja)(\\W|$)",
+    "noExp": "^(2|nein)(\\W|$)"
 }
