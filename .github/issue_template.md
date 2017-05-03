@@ -3,7 +3,7 @@
 - [ ] I have [searched the existing issues](https://github.com/Microsoft/BotBuilder/issues?utf8=%E2%9C%93&q=is%3Aissue) before logging a new one.
 ---------------------------
 
-## System Information
+## System Information (Required)
 
 * **SDK language (C#/Node)**
 * **SDK version**
