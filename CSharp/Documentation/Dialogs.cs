@@ -79,7 +79,7 @@
     /// \until }
     /// \until }
     /// 
-    /// The first change you will notice is the addition of `private int count = 1;`. This is the state we are persisting
+    /// The first change you will notice is the addition of `protected int count = 1;`. This is the state we are persisting
     /// with this dialog on each message.  
     /// 
     /// In MessageReceivedAsync we have added check to see if the input was "reset" and if that is true we use the built-in
