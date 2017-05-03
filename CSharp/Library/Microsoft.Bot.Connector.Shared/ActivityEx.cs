@@ -147,6 +147,10 @@ namespace Microsoft.Bot.Connector
         public IInvokeActivity AsInvokeActivity() { return IsActivity(ActivityTypes.Invoke) ? this : null; }
 
         /// <summary>
+        /// Maps type to activity types 
+        /// </summary>
+        /// <param name="type"> The type.</param>
+        /// <returns> The activity type.</returns>
         public static string GetActivityType(string type)
         {
             if (String.Equals(type, ActivityTypes.Message, StringComparison.OrdinalIgnoreCase))

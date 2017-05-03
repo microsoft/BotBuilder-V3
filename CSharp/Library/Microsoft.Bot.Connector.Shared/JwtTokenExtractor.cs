@@ -11,7 +11,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 using Microsoft.IdentityModel.Protocols;
 #if !NET45
@@ -24,10 +26,23 @@ namespace Microsoft.Bot.Connector
     public class JwtTokenExtractor
     {
         /// <summary>
-        /// Shared of OpenIdConnect configuration managers (one per metadata URL)
+        /// The endorsements validator delegate.
+        /// </summary>
+        /// <param name="endorsements"> The endorsements used for validation.</param>
+        /// <returns>true if validation passes; false otherwise.</returns>
+        public delegate bool EndorsementsValidator(string[] endorsements);
+
+        /// <summary>
+        /// Cache for OpenIdConnect configuration managers (one per metadata URL)
         /// </summary>
         private static readonly Dictionary<string, ConfigurationManager<OpenIdConnectConfiguration>> _openIdMetadataCache =
             new Dictionary<string, ConfigurationManager<OpenIdConnectConfiguration>>();
+
+        /// <summary>
+        /// Cache for Endorsement configuration managers (one per metadata URL)
+        /// </summary>
+        private static readonly Dictionary<string, ConfigurationManager<IDictionary<string, string[]>>> _endorsementsCache =
+            new Dictionary<string, ConfigurationManager<IDictionary<string, string[]>>>();
 
         /// <summary>
         /// Token validation parameters for this instance
@@ -35,18 +50,32 @@ namespace Microsoft.Bot.Connector
         private readonly TokenValidationParameters _tokenValidationParameters;
 
         /// <summary>
-        /// OpenIdConnect configuration manager for this instances
+        /// OpenIdConnect configuration manager for this instance
         /// </summary>
         private readonly ConfigurationManager<OpenIdConnectConfiguration> _openIdMetadata;
 
+        /// <summary>
+        /// Endorsements configuration manager for this instance
+        /// </summary>
+        private readonly ConfigurationManager<IDictionary<string, string[]>> _endorsementsData;
+
+        /// <summary>
+        /// Allowed signing algorithms
+        /// </summary>
         private readonly string[] _allowedSigningAlgorithms;
 
-        public JwtTokenExtractor(TokenValidationParameters tokenValidationParameters, string metadataUrl, string[] allowedSigningAlgorithms)
+        /// <summary>
+        /// Delegate for validating endorsements extracted from JwtToken
+        /// </summary>
+        private readonly EndorsementsValidator _validator;
+
+        public JwtTokenExtractor(TokenValidationParameters tokenValidationParameters, string metadataUrl, string[] allowedSigningAlgorithms, EndorsementsValidator validator)
         {
             // Make our own copy so we can edit it
             _tokenValidationParameters = tokenValidationParameters.Clone();
             _tokenValidationParameters.RequireSignedTokens = true;
             _allowedSigningAlgorithms = allowedSigningAlgorithms;
+            _validator = validator;
 
             if (!_openIdMetadataCache.ContainsKey(metadataUrl))
 #if NET45
@@ -54,8 +83,14 @@ namespace Microsoft.Bot.Connector
 #else
                 _openIdMetadataCache[metadataUrl] = new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl, new OpenIdConnectConfigurationRetriever());
 #endif
-
+            if (!_endorsementsCache.ContainsKey(metadataUrl))
+            {
+                var retriever = new EndorsementsRetriever();
+                _endorsementsCache[metadataUrl] = new ConfigurationManager<IDictionary<string, string[]>>(metadataUrl, retriever, retriever);
+            }
+             
             _openIdMetadata = _openIdMetadataCache[metadataUrl];
+            _endorsementsData = _endorsementsCache[metadataUrl];
         }
 
         public async Task<ClaimsIdentity> GetIdentityAsync(HttpRequestMessage request)
@@ -179,9 +214,24 @@ namespace Microsoft.Bot.Connector
             {
                 SecurityToken parsedToken;
                 ClaimsPrincipal principal = tokenHandler.ValidateToken(jwtToken, _tokenValidationParameters, out parsedToken);
-                if(_allowedSigningAlgorithms != null)
+                var parsedJwtToken = parsedToken as JwtSecurityToken;
+
+                if (_validator != null)
                 {
-                    string algorithm = (parsedToken as JwtSecurityToken)?.Header?.Alg;
+                    string keyId = (string)parsedJwtToken?.Header?["kid"];
+                    var endorsements = await _endorsementsData.GetConfigurationAsync();
+                    if (!string.IsNullOrEmpty(keyId) && endorsements.ContainsKey(keyId))
+                    {
+                        if(!_validator(endorsements[keyId]))
+                        {
+                            throw new ArgumentException($"Could not validate endorsement for key: {keyId} with endorsements: {string.Join(",", endorsements[keyId])}");
+                        }
+                    }
+                }
+                
+                if (_allowedSigningAlgorithms != null)
+                {
+                    string algorithm = parsedJwtToken?.Header?.Alg;
                     if(!_allowedSigningAlgorithms.Contains(algorithm))
                     {
                         throw new ArgumentException($"Token signing algorithm '{algorithm}' not in allowed list");
@@ -199,6 +249,49 @@ namespace Microsoft.Bot.Connector
                 IdentityModel.Logging.LogHelper.LogException<SecurityTokenSignatureKeyNotFoundException>("Error finding key for token.Available keys: " + keys);
 #endif
                 throw;
+            }
+        }
+    }
+
+    public sealed class EndorsementsRetriever : IDocumentRetriever, IConfigurationRetriever<IDictionary<string, string[]>>
+    {
+        public async Task<IDictionary<string, string[]>> GetConfigurationAsync(string address, IDocumentRetriever retriever, CancellationToken cancel)
+        {
+            var res = await retriever.GetDocumentAsync(address, cancel);
+            var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(res);
+            if (obj != null && obj.HasValues && obj["keys"] != null)
+            {
+                var keys = obj.SelectToken("keys").Value<JArray>();
+                var endorsements = keys.Where(key => key["endorsements"] != null).Select(key => Tuple.Create(key.SelectToken("kid").Value<string>(), key.SelectToken("endorsements").Values<string>()));
+                return endorsements.ToDictionary(item => item.Item1, item => item.Item2.ToArray());
+            }
+            else
+            {
+                return new Dictionary<string, string[]>();
+            }
+        }
+
+        public async Task<string> GetDocumentAsync(string address, CancellationToken cancel)
+        {
+            using (var client = new HttpClient())
+            using (var response = await client.GetAsync(address, cancel))
+            {
+                response.EnsureSuccessStatusCode();
+                var json = await response.Content.ReadAsStringAsync();
+                JObject obj = Newtonsoft.Json.JsonConvert.DeserializeObject<JObject>(json);
+                if (obj != null && obj.HasValues && obj["jwks_uri"] != null)
+                {
+                    var keysUrl = obj.SelectToken("jwks_uri").Value<string>();
+                    using (var keysResponse = await client.GetAsync(keysUrl, cancel))
+                    {
+                        keysResponse.EnsureSuccessStatusCode();
+                        return await keysResponse.Content.ReadAsStringAsync();
+                    }
+                }
+                else
+                {
+                    return string.Empty;
+                }
             }
         }
     }

@@ -161,7 +161,13 @@
             Return an IInvokeActivity mask if this is an invoke activity
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Microsoft.Bot.Connector.Activity.GetActivityType(System.String)" -->
+        <member name="M:Microsoft.Bot.Connector.Activity.GetActivityType(System.String)">
+            <summary>
+            Maps type to activity types 
+            </summary>
+            <param name="type"> The type.</param>
+            <returns> The activity type.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.#ctor">
             <summary>
             Initializes a new instance of the Activity class.
@@ -563,6 +569,14 @@
             the self issued tokens used by emulator.
             </remarks>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.GenerateUnauthorizedResponse(System.Net.Http.HttpRequestMessage,System.String)">
+            <summary>
+            Generates <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> response for the request.
+            </summary>
+            <param name="request">The request.</param>
+            <param name="reason">The reason phrase for unauthorized status code.</param>
+            <returns>A response with status code unauthorized.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Connector.BotAuthenticator.TryAuthenticateAsync(System.Net.Http.HttpRequestMessage,System.Collections.Generic.IEnumerable{Microsoft.Bot.Connector.IActivity},System.Threading.CancellationToken)">
             <summary>
             Authenticates the incoming request and add the <see cref="P:Microsoft.Bot.Connector.IActivity.ServiceUrl"/> for each
@@ -572,13 +586,6 @@
             <param name="activities"> The activities extracted from request.</param>
             <param name="token"> The cancellation token.</param>
             <returns></returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.GenerateUnauthorizedResponse(System.Net.Http.HttpRequestMessage)">
-            <summary>
-            Generates <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> response for the request.
-            </summary>
-            <param name="request">The request.</param>
-            <returns>A response with status code unauthorized.</returns>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotData.GetProperty``1(System.String)">
             <summary>
@@ -3667,7 +3674,12 @@
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._openIdMetadataCache">
             <summary>
-            Shared of OpenIdConnect configuration managers (one per metadata URL)
+            Cache for OpenIdConnect configuration managers (one per metadata URL)
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._endorsementsCache">
+            <summary>
+            Cache for Endorsement configuration managers (one per metadata URL)
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._tokenValidationParameters">
@@ -3677,7 +3689,22 @@
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._openIdMetadata">
             <summary>
-            OpenIdConnect configuration manager for this instances
+            OpenIdConnect configuration manager for this instance
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._endorsementsData">
+            <summary>
+            Endorsements configuration manager for this instance
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._allowedSigningAlgorithms">
+            <summary>
+            Allowed signing algorithms
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._validator">
+            <summary>
+            Delegate for validating endorsements extracted from JwtToken
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Mention">

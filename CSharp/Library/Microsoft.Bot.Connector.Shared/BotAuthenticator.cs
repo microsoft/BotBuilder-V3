@@ -6,45 +6,60 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Protocols;
 #if NET45
 using System.Diagnostics;
 using System.Web;
 #endif
 
+#if NET45
+    using System.IdentityModel.Tokens;
+#else
+using Microsoft.IdentityModel.Tokens;
+#endif
 
 namespace Microsoft.Bot.Connector
 {
 
     public sealed class BotAuthenticator
     {
+        /// <summary>
+        /// The endorsements validator delegate. 
+        /// </summary>
+        /// <param name="activities"> The activities.</param>
+        /// <param name="endorsements"> The endorsements used for validation.</param>
+        /// <returns>true if validation passes; false otherwise.</returns>
+        public delegate bool EndorsementsValidator(IEnumerable<IActivity> activities, string[] endorsements);
+
         private readonly ICredentialProvider credentialProvider;
         private readonly string openIdConfigurationUrl;
         private readonly bool disableEmulatorTokens;
+        private readonly EndorsementsValidator validator;
 
         /// <summary>
         /// Creates an instance of bot authenticator. 
         /// </summary>
         /// <param name="microsoftAppId"> The Microsoft app Id.</param>
         /// <param name="microsoftAppPassword"> The Microsoft app password.</param>
+        /// <param name="validator"> The endorsements validator.</param>
         /// <remarks> This constructor sets the <see cref="openIdConfigurationUrl"/> to 
         /// <see cref="JwtConfig.ToBotFromChannelOpenIdMetadataUrl"/>  and doesn't disable 
         /// the self issued tokens used by emulator.
         /// </remarks>
-        public BotAuthenticator(string microsoftAppId, string microsoftAppPassword)
-        {
-            this.credentialProvider = new StaticCredentialProvider(microsoftAppId, microsoftAppPassword);
-            this.openIdConfigurationUrl = JwtConfig.ToBotFromChannelOpenIdMetadataUrl;
-            // by default Authenticator is not disabling emulator tokens
-            this.disableEmulatorTokens = false;
-        }
-
-        public BotAuthenticator(ICredentialProvider credentialProvider)
-            : this(credentialProvider, JwtConfig.ToBotFromChannelOpenIdMetadataUrl, false)
+        public BotAuthenticator(string microsoftAppId, string microsoftAppPassword, EndorsementsValidator validator = null)
+            :this(new StaticCredentialProvider(microsoftAppId, microsoftAppPassword), validator)
         {
         }
 
-        public BotAuthenticator(ICredentialProvider credentialProvider, string openIdConfigurationUrl,
-            bool disableEmulatorTokens)
+        public BotAuthenticator(ICredentialProvider credentialProvider, EndorsementsValidator validator = null)
+            : this(credentialProvider, JwtConfig.ToBotFromChannelOpenIdMetadataUrl, false, validator)
+        {
+        }
+
+        public BotAuthenticator(ICredentialProvider credentialProvider, 
+            string openIdConfigurationUrl,
+            bool disableEmulatorTokens, 
+            EndorsementsValidator validator = null)
         {
             if (credentialProvider == null)
             {
@@ -53,24 +68,7 @@ namespace Microsoft.Bot.Connector
             this.credentialProvider = credentialProvider;
             this.openIdConfigurationUrl = openIdConfigurationUrl;
             this.disableEmulatorTokens = disableEmulatorTokens;
-
-        }
-
-        /// <summary>
-        /// Authenticates the incoming request and add the <see cref="IActivity.ServiceUrl"/> for each
-        /// activities to <see cref="MicrosoftAppCredentials.TrustedHostNames"/> if the request is authenticated.
-        /// </summary>
-        /// <param name="request"> The request that should be authenticated.</param>
-        /// <param name="activities"> The activities extracted from request.</param>
-        /// <param name="token"> The cancellation token.</param>
-        /// <returns></returns>
-        public async Task<bool> TryAuthenticateAsync(HttpRequestMessage request, IEnumerable<IActivity> activities,
-           CancellationToken token)
-        {
-            var identityToken = await this.TryAuthenticateAsync(request, token);
-            identityToken.ValidateServiceUrlClaim(activities);
-            TrustServiceUrls(identityToken, activities);
-            return identityToken.Authenticated;
+            this.validator = validator ?? DefaultEndorsementsValidator;
         }
 
         /// <summary>
@@ -95,6 +93,42 @@ namespace Microsoft.Bot.Connector
             return response;
         }
 
+        /// <summary>
+        /// Authenticates the incoming request and add the <see cref="IActivity.ServiceUrl"/> for each
+        /// activities to <see cref="MicrosoftAppCredentials.TrustedHostNames"/> if the request is authenticated.
+        /// </summary>
+        /// <param name="request"> The request that should be authenticated.</param>
+        /// <param name="activities"> The activities extracted from request.</param>
+        /// <param name="token"> The cancellation token.</param>
+        /// <returns></returns>
+        public async Task<bool> TryAuthenticateAsync(HttpRequestMessage request, IEnumerable<IActivity> activities,
+           CancellationToken token)
+        {
+            var identityToken = await this.TryAuthenticateAsyncWithActivity(request, activities, token);
+            identityToken.ValidateServiceUrlClaim(activities);
+            TrustServiceUrls(identityToken, activities);
+            return identityToken.Authenticated;
+        }
+
+        public async Task<IdentityToken> TryAuthenticateAsync(string scheme, string token,
+            CancellationToken cancellationToken)
+        {
+            // then auth is disabled
+            if (await this.credentialProvider.IsAuthenticationDisabledAsync())
+            {
+                return new IdentityToken(true, null);
+            }
+
+            var toBotFromChannel = GetTokenExtractor(JwtConfig.ToBotFromChannelTokenValidationParameters, this.openIdConfigurationUrl);
+            var toBotFromEmulator = GetToBotFromEmulatorTokenExtractor();
+            return await TryAuthenticateAsync(toBotFromChannel, toBotFromEmulator, scheme, token, cancellationToken);
+        }
+
+        private static bool DefaultEndorsementsValidator(IEnumerable<IActivity> activities, string[] endorsements)
+        {
+            return activities.Select(activity => activity.ChannelId).Count(channelId => !endorsements.Contains(channelId)) == 0;
+        }
+
         private void TrustServiceUrls(IdentityToken identityToken, IEnumerable<IActivity> activities)
         {
             // add the service url to the list of trusted urls only if the JwtToken 
@@ -117,13 +151,15 @@ namespace Microsoft.Bot.Connector
             }
         }
 
-        private async Task<IdentityToken> TryAuthenticateAsync(HttpRequestMessage request,
+        private async Task<IdentityToken> TryAuthenticateAsyncWithActivity(HttpRequestMessage request,
+            IEnumerable<IActivity> activities,
             CancellationToken token)
         {
             var authorizationHeader = request.Headers.Authorization;
             if (authorizationHeader != null)
             {
-                return await TryAuthenticateAsync(authorizationHeader.Scheme, authorizationHeader.Parameter, token);
+                var toBotFromChannelExtractor = GetTokenExtractor(JwtConfig.ToBotFromChannelTokenValidationParameters, this.openIdConfigurationUrl, endorsements => this.validator(activities, endorsements));
+                return await TryAuthenticateAsync(toBotFromChannelExtractor, GetToBotFromEmulatorTokenExtractor(), authorizationHeader.Scheme, authorizationHeader.Parameter, token);
             }
             else if (await this.credentialProvider.IsAuthenticationDisabledAsync())
             {
@@ -132,8 +168,11 @@ namespace Microsoft.Bot.Connector
 
             return new IdentityToken(false, null);
         }
-        
-        public async Task<IdentityToken> TryAuthenticateAsync(string scheme, string token,
+
+        private async Task<IdentityToken> TryAuthenticateAsync(JwtTokenExtractor toBotFromChannelExtractor,
+            JwtTokenExtractor toBotFromEmulatorExtractor,
+            string scheme,
+            string token,
             CancellationToken cancellationToken)
         {
             // then auth is disabled
@@ -144,20 +183,18 @@ namespace Microsoft.Bot.Connector
 
             ClaimsIdentity identity = null;
             string appId = null;
-            var tokenExtractor = GetTokenExtractor();
-            identity = await tokenExtractor.GetIdentityAsync(scheme, token);
+            identity = await toBotFromChannelExtractor.GetIdentityAsync(scheme, token);
             if (identity != null)
-                appId = tokenExtractor.GetAppIdFromClaimsIdentity(identity);
+                appId = toBotFromChannelExtractor.GetAppIdFromClaimsIdentity(identity);
 
             // No identity? If we're allowed to, fall back to MSA
             // This code path is used by the emulator
             if (identity == null && !this.disableEmulatorTokens)
             {
-                tokenExtractor = new JwtTokenExtractor(JwtConfig.ToBotFromEmulatorTokenValidationParameters, JwtConfig.ToBotFromEmulatorOpenIdMetadataUrl, JwtConfig.ToBotFromChannelAllowedSigningAlgorithms);
-                identity = await tokenExtractor.GetIdentityAsync(scheme, token);
-                
+                identity = await toBotFromEmulatorExtractor.GetIdentityAsync(scheme, token);
+
                 if (identity != null)
-                    appId = tokenExtractor.GetAppIdFromEmulatorClaimsIdentity(identity);
+                    appId = toBotFromEmulatorExtractor.GetAppIdFromEmulatorClaimsIdentity(identity);
             }
 
             if (identity != null)
@@ -192,12 +229,19 @@ namespace Microsoft.Bot.Connector
             }
 
             return new IdentityToken(false, null);
+
         }
 
-        private JwtTokenExtractor GetTokenExtractor()
+        private static JwtTokenExtractor GetToBotFromEmulatorTokenExtractor()
         {
-            var parameters = JwtConfig.ToBotFromChannelTokenValidationParameters;
-            return new JwtTokenExtractor(parameters, this.openIdConfigurationUrl, JwtConfig.ToBotFromChannelAllowedSigningAlgorithms);
+            return GetTokenExtractor(JwtConfig.ToBotFromEmulatorTokenValidationParameters, JwtConfig.ToBotFromEmulatorOpenIdMetadataUrl);
+        }
+
+        private static JwtTokenExtractor GetTokenExtractor(TokenValidationParameters parameters,
+            string openIdConfigurationUrl,
+            JwtTokenExtractor.EndorsementsValidator validator = null)
+        {
+            return new JwtTokenExtractor(parameters, openIdConfigurationUrl, JwtConfig.ToBotFromChannelAllowedSigningAlgorithms, validator);
         }
 
     }
