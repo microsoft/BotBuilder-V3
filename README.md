@@ -19,8 +19,8 @@ Get started quickly with our samples:
 * Bot Builder samples [GitHub repo](https://github.com/Microsoft/BotBuilder-Samples)
 * More samples are available within the SDK [C#](https://github.com/Microsoft/BotBuilder/tree/master/CSharp/Samples), [Node.js](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples)
 
-Join the conversation on **[Gitter] (https://gitter.im/Microsoft/BotBuilder)**.
+Join the conversation on **[Gitter](https://gitter.im/Microsoft/BotBuilder)**.
 
-See all the support options **[here](https://docs.botframework.com/en-us/support/)**.
+See all the support options **[here](https://docs.microsoft.com/en-us/bot-framework/resources-support)**.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
