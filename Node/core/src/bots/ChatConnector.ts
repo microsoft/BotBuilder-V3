@@ -187,18 +187,28 @@ export class ChatConnector implements IConnector, IBotStorage {
             openIdMetadata.getKey(decoded.header.kid, key => {
                 if (key) {
                     try {
-                        jwt.verify(token, key, verifyOptions);
+                        jwt.verify(token, key.key, verifyOptions);
+
+                        // enforce endorsements in openIdMetadadata if there is any endorsements associated with the key
+                        if (typeof req.body.channelId !== 'undefined' &&
+                            typeof key.endorsements !== 'undefined' &&
+                            key.endorsements.lastIndexOf(req.body.channelId) === -1) {
+                            const errorDescription: string = `channelId in req.body: ${req.body.channelId} didn't match the endorsements: ${key.endorsements.join(',')}.`;
+                            logger.error(`ChatConnector: receive - endorsements validation failure. ${errorDescription}`);
+                            throw new Error(errorDescription);
+                        }
+
+                        // validate service url using token's serviceurl payload
                         if (typeof decoded.payload.serviceurl !== 'undefined' &&
-                            typeof req.body.serviceUrl !== 'undefined') {
-                            if (decoded.payload.serviceurl !== req.body.serviceUrl) {
-                                const errorDescription : string = `ServiceUrl in payload of token: ${decoded.payload.serviceurl} didn't match the request's serviceurl: ${req.body.serviceUrl}.`;
-                                logger.error(`ChatConnector: receive - serviceurl mismatch. ${errorDescription}`);
-                                throw new Error(errorDescription);
-                            }
+                            typeof req.body.serviceUrl !== 'undefined' &&
+                            decoded.payload.serviceurl !== req.body.serviceUrl) {
+                            const errorDescription: string = `ServiceUrl in payload of token: ${decoded.payload.serviceurl} didn't match the request's serviceurl: ${req.body.serviceUrl}.`;
+                            logger.error(`ChatConnector: receive - serviceurl mismatch. ${errorDescription}`);
+                            throw new Error(errorDescription);
                         }
                     } catch (err) {
                         logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
-                        res.status(403);
+                        res.send(403, err);
                         res.end();
                         return;
                     }

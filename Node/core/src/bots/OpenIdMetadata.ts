@@ -50,10 +50,10 @@ export class OpenIdMetadata {
         this.url = url;
     }
 
-    public getKey(keyId: string, cb: (key: string) => void): void {
+    public getKey(keyId: string, cb: (key: IOpenIdMetadataKey) => void): void {
         // If keys are more than 5 days old, refresh them
         var now = new Date().getTime();
-        if (this.lastUpdated < (now - 1000*60*60*24*5)) {
+        if (this.lastUpdated < (now - 1000 * 60 * 60 * 24 * 5)) {
             this.refreshCache((err) => {
                 if (err) {
                     logger.error('Error retrieving OpenId metadata at ' + this.url + ', error: ' + err.toString());
@@ -77,7 +77,7 @@ export class OpenIdMetadata {
             url: this.url,
             json: true
         };
-        
+
         request(options, (err, response, body) => {
             if (!err && (response.statusCode >= 400 || !body)) {
                 err = new Error('Failed to load openID config: ' + response.statusCode);
@@ -86,14 +86,14 @@ export class OpenIdMetadata {
             if (err) {
                 cb(err);
             } else {
-                var openIdConfig = <IOpenIdConfig> body;
+                var openIdConfig = <IOpenIdConfig>body;
 
                 var options: request.Options = {
                     method: 'GET',
                     url: openIdConfig.jwks_uri,
                     json: true
                 };
-                
+
                 request(options, (err, response, body) => {
                     if (!err && (response.statusCode >= 400 || !body)) {
                         err = new Error("Failed to load Keys: " + response.statusCode);
@@ -101,7 +101,7 @@ export class OpenIdMetadata {
 
                     if (!err) {
                         this.lastUpdated = new Date().getTime();
-                        this.keys = <IKey[]> body.keys;
+                        this.keys = <IKey[]>body.keys;
                     }
 
                     cb(err);
@@ -110,7 +110,7 @@ export class OpenIdMetadata {
         });
     }
 
-    private findKey(keyId: string): string {
+    private findKey(keyId: string): IOpenIdMetadataKey {
         if (!this.keys) {
             return null;
         }
@@ -127,7 +127,7 @@ export class OpenIdMetadata {
                 var modulus = base64url.toBase64(key.n);
                 var exponent = key.e;
 
-                return getPem(modulus, exponent);
+                return { key: getPem(modulus, exponent), endorsements: key.endorsements } as IOpenIdMetadataKey;
             }
         }
 
@@ -151,4 +151,10 @@ interface IKey {
     n: string;
     e: string;
     x5c: string[];
+    endorsements?: string[];
+}
+
+export interface IOpenIdMetadataKey {
+    key: string,
+    endorsements?: string[];
 }
