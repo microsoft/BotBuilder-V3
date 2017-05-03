@@ -226,7 +226,10 @@ export class ChatConnector implements IConnector, IBotStorage {
     public send(messages: IMessage[], done: (err: Error) => void): void {
         async.eachSeries(messages, (msg, cb) => {
             try {
-                if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
+                if(msg.type == 'delay') {
+                    setTimeout(cb, msg.text);
+                }
+                else if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
                     this.postMessage(msg, cb);
                 } else {
                     logger.error('ChatConnector: send - message is missing address or serviceUrl.')
