@@ -29,6 +29,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
     {
         private readonly ResumptionContext resumptionContext;
         private readonly ConversationReference conversationReference;
+        private string locale;
 
         public LocaleFinder(ConversationReference conversationReference, ResumptionContext resumptionContext)
         {
@@ -38,30 +39,33 @@ namespace Microsoft.Bot.Builder.ConnectorEx
 
         public async Task<string> FindLocale(IActivity activity, CancellationToken token)
         {
-            var resumptionData = await this.resumptionContext.LoadDataAsync(token);
-
-            if (resumptionData != null && resumptionData.IsTrustedServiceUrl)
+            if (string.IsNullOrEmpty(this.locale))
             {
-                MicrosoftAppCredentials.TrustServiceUrl(this.conversationReference.ServiceUrl);
+                var resumptionData = await this.resumptionContext.LoadDataAsync(token);
+
+                if (resumptionData != null && resumptionData.IsTrustedServiceUrl)
+                {
+                    MicrosoftAppCredentials.TrustServiceUrl(this.conversationReference.ServiceUrl);
+                }
+
+                this.locale = (activity as IMessageActivity)?.Locale;
+
+                // if locale is null or whitespace in the incoming request,
+                // try to set it from the ResumptionContext
+                if (string.IsNullOrWhiteSpace(this.locale))
+                {
+                    this.locale = resumptionData?.Locale;
+                }
+
+                // persist resumptionData with updated information
+                var data = new ResumptionData
+                {
+                    Locale = this.locale,
+                    IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(this.conversationReference.ServiceUrl)
+                };
+                await this.resumptionContext.SaveDataAsync(data, token);
             }
-
-            var locale = (activity as IMessageActivity)?.Locale;
-
-            // if locale is null or whitespace in the incoming request,
-            // try to set it from the ResumptionContext
-            if (string.IsNullOrWhiteSpace(locale))
-            {
-                locale = resumptionData?.Locale;
-            }
-
-            // persist resumptionData with updated information
-            var data = new ResumptionData
-            {
-                Locale = locale,
-                IsTrustedServiceUrl = MicrosoftAppCredentials.IsTrustedServiceUrl(this.conversationReference.ServiceUrl)
-            };
-            await this.resumptionContext.SaveDataAsync(data, token);
-            return locale;
+            return this.locale;
         }
     }
 }

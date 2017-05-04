@@ -14,6 +14,11 @@ exports.AttachmentLayout = {
     list: 'list',
     carousel: 'carousel'
 };
+exports.InputHint = {
+    acceptingInput: 'acceptingInput',
+    ignoringInput: 'ignoringInput',
+    expectingInput: 'expectingInput'
+};
 var Message = (function () {
     function Message(session) {
         this.session = session;
@@ -33,6 +38,28 @@ var Message = (function () {
             }
         }
     }
+    Message.prototype.inputHint = function (hint) {
+        this.data.inputHint = hint;
+        return this;
+    };
+    Message.prototype.speak = function (ssml) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (ssml) {
+            this.data.speak = fmtText(this.session, ssml, args);
+        }
+        return this;
+    };
+    Message.prototype.nspeak = function (ssml, ssml_plural, count) {
+        var fmt = count == 1 ? Message.randomPrompt(ssml) : Message.randomPrompt(ssml_plural);
+        if (this.session) {
+            fmt = this.session.gettext(fmt);
+        }
+        this.data.speak = sprintf.sprintf(fmt, count);
+        return this;
+    };
     Message.prototype.textLocale = function (locale) {
         this.data.textLocale = locale;
         return this;
@@ -46,7 +73,9 @@ var Message = (function () {
         for (var _i = 1; _i < arguments.length; _i++) {
             args[_i - 1] = arguments[_i];
         }
-        this.data.text = text ? fmtText(this.session, text, args) : '';
+        if (text) {
+            this.data.text = text ? fmtText(this.session, text, args) : '';
+        }
         return this;
     };
     Message.prototype.ntext = function (msg, msg_plural, count) {
@@ -98,6 +127,15 @@ var Message = (function () {
             else {
                 this.data.attachments.push(a);
             }
+        }
+        return this;
+    };
+    Message.prototype.suggestedActions = function (suggestedActions) {
+        if (suggestedActions) {
+            var actions = suggestedActions.toSuggestedActions
+                ? suggestedActions.toSuggestedActions()
+                : suggestedActions;
+            this.data.suggestedActions = actions;
         }
         return this;
     };

@@ -12,7 +12,8 @@ exports.channels = {
     emulator: 'emulator',
     directline: 'directline',
     webchat: 'webchat',
-    console: 'console'
+    console: 'console',
+    cortana: 'cortana'
 };
 function supportsKeyboards(session, buttonCnt) {
     if (buttonCnt === void 0) { buttonCnt = 100; }
@@ -40,12 +41,26 @@ function supportsCardActions(session, buttonCnt) {
         case exports.channels.emulator:
         case exports.channels.directline:
         case exports.channels.webchat:
+        case exports.channels.cortana:
             return (buttonCnt <= 100);
         default:
             return false;
     }
 }
 exports.supportsCardActions = supportsCardActions;
+function hasMessageFeed(session) {
+    switch (getChannelId(session)) {
+        case exports.channels.cortana:
+            return false;
+        default:
+            return true;
+    }
+}
+exports.hasMessageFeed = hasMessageFeed;
+function maxActionTitleLength(session) {
+    return 20;
+}
+exports.maxActionTitleLength = maxActionTitleLength;
 function getChannelId(addressable) {
     var channelId;
     if (addressable) {

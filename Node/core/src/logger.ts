@@ -32,8 +32,9 @@
 //
 
 import { Session } from './Session';
-import { IRecognizeContext } from './dialogs/IntentRecognizerSet'
-import { PromptType, IPromptArgs } from './dialogs/Prompts';
+import { IRecognizeContext } from './dialogs/IntentRecognizer'
+import { PromptType, IPromptOptions } from './dialogs/Prompt';
+import { IPromptArgs } from './deprecated/LegacyPrompts';
 import * as Channel from './Channel';
 import * as consts from './consts';
 import * as sprintf from 'sprintf-js';
@@ -94,7 +95,7 @@ export function getPrefix(addressable: Session|IDialogState[]): string {
         if (i == callstack.length - 1) {
             var cur = callstack[i];
             switch (cur.id) {
-                case consts.DialogId.Prompts:
+                case 'BotBuilder:Prompts':
                     var promptType = PromptType[(<IPromptArgs>cur.state).promptType];
                     prefix += 'Prompts.' + promptType + ' - ';
                     break;

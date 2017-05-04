@@ -32,7 +32,7 @@
 //
 
 import {SessionLogger} from './SessionLogger';
-import {IConnector} from './bots/UniversalBot';
+import {IConnector} from './Session';
 
 export interface IDebugEvent extends IEvent {
     name: string;

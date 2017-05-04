@@ -708,7 +708,7 @@ namespace Microsoft.Bot.Builder.Tests
     }
 
     [TestClass]
-    public sealed class BotTests
+    public sealed class BotTests : DialogTestBase
     {
         /// <summary>
         /// Activity logging for scripted unit tests
@@ -778,6 +778,10 @@ namespace Microsoft.Bot.Builder.Tests
                 .Returns<LuisRequest>(r => ((ILuisService)new LuisService(model)).BuildUri(r));
 
             mock
+                .Setup(l => l.ModifyRequest(It.IsAny<LuisRequest>()))
+                .Returns<LuisRequest>(r => r);
+
+            mock
                 .Setup(l => l.QueryAsync(It.Is<Uri>(u => u == uri), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new LuisResult()
                 {
@@ -813,7 +817,7 @@ namespace Microsoft.Bot.Builder.Tests
 
             using (var writer = File.CreateText(pathNew))
             {
-                var message = (Activity)DialogTestBase.MakeTestMessage();
+                var message = (Activity)MakeTestMessage();
 
                 var bot = ExampleBot.MakeBot(MakeMockedLuisService);
                 // TODO: Microsoft.Extensions.DependencyInjection
@@ -933,6 +937,204 @@ namespace Microsoft.Bot.Builder.Tests
             }
 
             CollectionAssert.AreEqual(File.ReadAllLines(pathOld), File.ReadAllLines(pathNew));
+        }
+
+        [TestMethod]
+        public async Task SayAsync_ShouldSendText()
+        {
+            var dialog = Chain.PostToChain().Do(async (context, activity) =>
+            {
+                await context.SayAsync("some text");
+            });
+
+            using (var container = Build(Options.None))
+            {
+                var toBot = MakeTestMessage();
+                toBot.Text = "hi";
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    DialogModule_MakeRoot.Register(scope, () => dialog);
+
+                    var task = scope.Resolve<IPostToBot>();
+
+                    await task.PostAsync(toBot, CancellationToken.None);
+                }
+
+                await AssertOutgoingActivity(container, (toUser) =>
+                {
+                    Assert.AreEqual("some text", toUser.Text);
+                    Assert.IsNull(toUser.Speak);
+                    Assert.AreEqual(0, toUser.Attachments.Count());
+                });
+            };
+        }
+
+        [TestMethod]
+        public async Task SayAsync_ShouldSendTextAndSSML()
+        {
+            var dialog = Chain.PostToChain().Do(async (context, activity) =>
+            {
+                await context.SayAsync("some text", "some ssml");
+            });
+
+            using (var container = Build(Options.None))
+            {
+                var toBot = MakeTestMessage();
+                toBot.Text = "hi";
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    DialogModule_MakeRoot.Register(scope, () => dialog);
+
+                    var task = scope.Resolve<IPostToBot>();
+
+                    await task.PostAsync(toBot, CancellationToken.None);
+                }
+
+                await AssertOutgoingActivity(container, (toUser) =>
+                {
+                    Assert.AreEqual("some text", toUser.Text);
+                    Assert.AreEqual("some ssml", toUser.Speak);
+                    Assert.AreEqual(0, toUser.Attachments.Count());
+                });
+            };
+        }
+
+        [TestMethod]
+        public async Task SayAsync_ShouldSendTextAndAttachments()
+        {
+            var dialog = Chain.PostToChain().Do(async (context, activity) =>
+            {
+                var messageOptions = new MessageOptions
+                {
+                    Attachments =
+                    {
+                            new Attachment
+                            {
+                                ContentType = "foo",
+                                Content = "bar"
+                            }
+                    }
+                };
+                await context.SayAsync("some text", options: messageOptions);
+            });
+
+            using (var container = Build(Options.None))
+            {
+                var toBot = MakeTestMessage();
+                toBot.Text = "hi";
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    DialogModule_MakeRoot.Register(scope, () => dialog);
+
+                    var task = scope.Resolve<IPostToBot>();
+
+                    await task.PostAsync(toBot, CancellationToken.None);
+                }
+
+                await AssertOutgoingActivity(container, (toUser) =>
+                {
+                    Assert.AreEqual("some text", toUser.Text);
+                    Assert.IsNull(toUser.Speak);
+                    Assert.AreEqual(1, toUser.Attachments.Count());
+                    Assert.AreEqual("foo", toUser.Attachments[0].ContentType);
+                });
+            };
+        }
+
+        [TestMethod]
+        public async Task SayAsync_ShouldSendTextAndSSMLAndAttachments()
+        {
+            var dialog = Chain.PostToChain().Do(async (context, activity) =>
+            {
+                var messageOptions = new MessageOptions
+                {
+                    Attachments =
+                    {
+                            new Attachment
+                            {
+                                ContentType = "foo",
+                                Content = "bar"
+                            }
+                    }
+                };
+                await context.SayAsync("some text", "some ssml", messageOptions);
+            });
+
+            using (var container = Build(Options.None))
+            {
+                var toBot = MakeTestMessage();
+                toBot.Text = "hi";
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    DialogModule_MakeRoot.Register(scope, () => dialog);
+
+                    var task = scope.Resolve<IPostToBot>();
+
+                    await task.PostAsync(toBot, CancellationToken.None);
+                }
+
+                await AssertOutgoingActivity(container, (toUser) =>
+                {
+                    Assert.AreEqual("some text", toUser.Text);
+                    Assert.AreEqual("some ssml", toUser.Speak);
+                    Assert.AreEqual(1, toUser.Attachments.Count());
+                    Assert.AreEqual("foo", toUser.Attachments[0].ContentType);
+                });
+            };
+        }
+
+        [TestMethod]
+        public async Task SayAsync_ShouldApplyMessageOptions()
+        {
+            var dialog = Chain.PostToChain().Do(async (context, activity) =>
+            {
+                var messageOptions = new MessageOptions
+                {
+                    AttachmentLayout = AttachmentLayoutTypes.Carousel,
+                    TextFormat = TextFormatTypes.Plain,
+                    InputHint = InputHints.ExpectingInput,
+                    Entities =
+                    {
+                            new Mention
+                            {
+                                 Type = "mention",
+                                 Text = "foo"
+                            }
+                    }
+                };
+                await context.SayAsync("some text", options: messageOptions);
+            });
+
+            using (var container = Build(Options.None))
+            {
+                var toBot = MakeTestMessage();
+                toBot.Text = "hi";
+
+                using (var scope = DialogModule.BeginLifetimeScope(container, toBot))
+                {
+                    DialogModule_MakeRoot.Register(scope, () => dialog);
+
+                    var task = scope.Resolve<IPostToBot>();
+
+                    await task.PostAsync(toBot, CancellationToken.None);
+                }
+
+                await AssertOutgoingActivity(container, (toUser) =>
+                {
+                    Assert.AreEqual("some text", toUser.Text);
+                    Assert.AreEqual(0, toUser.Attachments.Count());
+                    Assert.AreEqual(AttachmentLayoutTypes.Carousel, toUser.AttachmentLayout);
+                    Assert.AreEqual(TextFormatTypes.Plain, toUser.TextFormat);
+                    Assert.AreEqual(InputHints.ExpectingInput, toUser.InputHint);
+                    Assert.AreEqual(1, toUser.Entities.Count());
+                    Assert.IsInstanceOfType(toUser.Entities[0], typeof(Mention));
+                    Assert.AreEqual("foo", ((Mention)toUser.Entities[0]).Text);
+                });
+            };
         }
     }
 }

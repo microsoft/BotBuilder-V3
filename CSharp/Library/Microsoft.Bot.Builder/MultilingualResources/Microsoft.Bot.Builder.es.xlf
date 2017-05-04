@@ -107,7 +107,7 @@
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
           <source>No;n;nope;2</source>
-          <target state="final">No; n;2</target>
+          <target state="final">No; n;nop;2</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>
@@ -322,6 +322,26 @@
         <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
           <source>Sorry, my bot code is having an issue.</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Lo sentimos, que el código de mi bot está teniendo un problema.</target>
+        </trans-unit>
+        <trans-unit id="NumberExpression" translate="yes" xml:space="preserve">
+          <source>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</source>
+          <target state="translated">[+-]?(?:\d+\,?\d*|\d*\,?\d+)</target>
+        </trans-unit>
+        <trans-unit id="NumberOrdinals" translate="yes" xml:space="preserve">
+          <source>1=1st,first,first one|2=2nd,second,second one|3=3rd,third,third one|4=4th,fourth,fourth one|5=5th,fifth,fifth one|6=6th,sixth,sixth one|7=7th,seventh,seventh one|8=8th,eigth,eigth one|9=9th,ninth,ninth one|10=10th,tenth,tenth one</source>
+          <target state="translated">1=1ro,1ra,primer,primero,primera|2=2do,2da,segundo,segunda|3=3ro,3ra,tercero,tercera|4=4to,4ta,cuarto,cuarta|5=5to,5ta,quinto,quinta|6=6to,6ta,sexto,sexta|7=7mo,7ma,séptimo,séptima,septimo,septima|8=8vo,8va,octavo,octava|9=9no,9na,noveno,novena|10=10mo,10ma,décimo,décima,decimo,decima</target>
+        </trans-unit>
+        <trans-unit id="NumberReverseOrdinals" translate="yes" xml:space="preserve">
+          <source>-1=last,last one|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last</source>
+          <target state="translated">-1=último,última,ultimo,ultima|-2=penúltimo,penúltima,penultimo,penultima|-3=antepenúltimo,antepenúltima,antepenultimo,antepenultima</target>
+        </trans-unit>
+        <trans-unit id="BooleanChoices" translate="yes" xml:space="preserve">
+          <source>true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590</source>
+          <target state="translated">true=s,si,sip,claro,ok,\u1f44d,\u1f44c|false=n,no,nop,\u1f44e,\\u270b,\\u1f590</target>
+        </trans-unit>
+        <trans-unit id="NumberTerms" translate="yes" xml:space="preserve">
+          <source>0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty</source>
+          <target state="translated">0=cero|1=uno|2=dos|3=tres|4=cuatro|5=cinco|6=seis|7=siete|8=ocho|9=nueve|10=diez|11=once|12=doce|13=trece|14=catorce|15=quince|16=diesiseis,diesiséis|17=diesisiete|18=diesiocho|19=diesinueve|20=veinte</target>
         </trans-unit>
       </group>
     </body>

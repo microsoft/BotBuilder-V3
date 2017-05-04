@@ -24,7 +24,7 @@
         </trans-unit>
         <trans-unit id="CommandHelpHelp" translate="yes" xml:space="preserve">
           <source>Help: Show the kinds of responses you can enter.</source>
-          <target state="translated">Nápověda: Ukázat typy odpovědí, které můžete zadat.</target>
+          <target state="translated">Nápověda: Ukázat typy odpovědí,které můžete zadat.</target>
         </trans-unit>
         <trans-unit id="CommandHelpTerms" translate="yes" xml:space="preserve">
           <source>help;choices;\?</source>
@@ -60,7 +60,7 @@
         </trans-unit>
         <trans-unit id="CommandStatusHelp" translate="yes" xml:space="preserve">
           <source>Status: Show your progress in filling in the form so far.</source>
-          <target state="translated">Status: Ukázat, jak postupujete vyplňováním formuláře.</target>
+          <target state="translated">Status: Ukázat,jak postupujete vyplňováním formuláře.</target>
         </trans-unit>
         <trans-unit id="CommandStatusTerms" translate="yes" xml:space="preserve">
           <source>status;progress;so far;results</source>
@@ -78,19 +78,23 @@
         </trans-unit>
         <trans-unit id="DefaultChoiceLastSeparator" translate="yes" xml:space="preserve">
           <source>, or </source>
-          <target state="translated">nebo</target>
+          <target state="needs-review-translation">nebo</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultChoiceSeparator" translate="yes" xml:space="preserve">
           <source>, </source>
-          <target state="final">, </target>
+          <target state="needs-review-translation">,</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultLastSeparator" translate="yes" xml:space="preserve">
           <source>, and </source>
-          <target state="translated">a</target>
+          <target state="needs-review-translation">a</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultSeparator" translate="yes" xml:space="preserve">
           <source>, </source>
-          <target state="final">, </target>
+          <target state="needs-review-translation">,</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="LanguageArticles" translate="yes" xml:space="preserve">
           <source>a;an;the</source>
@@ -119,7 +123,7 @@
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>
-          <target state="translated">Tomu nerozumím, zkuste to ještě jednou.</target>
+          <target state="translated">Tomu nerozumím,zkuste to ještě jednou.</target>
         </trans-unit>
         <trans-unit id="TemplateBool" translate="yes" xml:space="preserve">
           <source>Would you like a {&amp;}? {||}</source>
@@ -127,12 +131,13 @@
         </trans-unit>
         <trans-unit id="TemplateBoolHelp" translate="yes" xml:space="preserve">
           <source>Please enter 'yes' or 'no'{?, {0}}.</source>
-          <target state="translated">Zadejte prosím "ano", nebo "ne"{?, {0}}.</target>
+          <target state="needs-review-translation">Zadejte prosím "ano",nebo "ne"{?,{0}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference</note>
         </trans-unit>
         <trans-unit id="TemplateClarify" translate="yes" xml:space="preserve">
           <source>By "{0}" {&amp;} did you mean {||}</source>
-          <target state="translated">Když říkáte "{0}", myslíte tím {&amp;}? {||}</target>
+          <target state="translated">Když říkáte "{0}",myslíte tím {&amp;}? {||}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-term being clarified</note>
         </trans-unit>
         <trans-unit id="TemplateCurrentChoice" translate="yes" xml:space="preserve">
@@ -145,7 +150,8 @@
         </trans-unit>
         <trans-unit id="TemplateDateTimeHelp" translate="yes" xml:space="preserve">
           <source>Please enter a date or time expression {?, {0}}{?, {1}}.</source>
-          <target state="translated">Zadejte prosím správně formátované datum nebo čas {?, {0}}{?, {1}}.</target>
+          <target state="needs-review-translation">Zadejte prosím správně formátované datum nebo čas {?,{0}}{?,{1}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference</note>
         </trans-unit>
         <trans-unit id="TemplateDouble" translate="yes" xml:space="preserve">
@@ -160,12 +166,13 @@
         </trans-unit>
         <trans-unit id="TemplateDoubleHelp" translate="yes" xml:space="preserve">
           <source>Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}.</source>
-          <target state="translated">Zadejte prosím číslo{? mezi {2:F1} a {3:F1}}{?, {0}}{?, {1}}.</target>
+          <target state="needs-review-translation">Zadejte prosím číslo{? mezi {2:F1} a {3:F1}}{?,{0}}{?,{1}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference, 2-min, 3-max</note>
         </trans-unit>
         <trans-unit id="TemplateEnumManyNumberHelp" translate="yes" xml:space="preserve">
           <source>You can enter one or more numbers {0}-{1} or words from the descriptions. ({2})</source>
-          <target state="translated">Můžete zadat jedno nebo více čísel {0}-{1}, případně slova z nabídnutých popisků. ({2})</target>
+          <target state="translated">Můžete zadat jedno nebo více čísel {0}-{1},případně slova z nabídnutých popisků. ({2})</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-min, 1-max and 2-enumerated descriptions</note>
         </trans-unit>
         <trans-unit id="TemplateEnumManyWordHelp" translate="yes" xml:space="preserve">
@@ -227,7 +234,7 @@
           <source>Choose what field to change.  Possible responses:
 {0}
 {1}</source>
-          <target state="translated">Zvolte, které pole chcete změnit. Možné varianty:
+          <target state="translated">Zvolte,které pole chcete změnit. Možné varianty:
 {0}
 {1}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-recognizer help, 1-command help</note>
@@ -244,7 +251,8 @@
         </trans-unit>
         <trans-unit id="TemplateIntegerHelp" translate="yes" xml:space="preserve">
           <source>You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}.</source>
-          <target state="translated">Můžete zadat číslo{? mezi {2} a {3}}{?, {0}}{?, {1}}.</target>
+          <target state="needs-review-translation">Můžete zadat číslo{? mezi {2} a {3}}{?,{0}}{?,{1}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference, 2-min, 3-max</note>
         </trans-unit>
         <trans-unit id="TemplateNavigation" translate="yes" xml:space="preserve">
@@ -253,7 +261,7 @@
         </trans-unit>
         <trans-unit id="TemplateNavigationCommandHelp" translate="yes" xml:space="preserve">
           <source>You can switch to another field by entering its name. ({0}).</source>
-          <target state="translated">Na jinou položku se přepnete tím, že napíšete její název. ({0}).</target>
+          <target state="translated">Na jinou položku se přepnete tím,že napíšete její název. ({0}).</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-list of field names</note>
         </trans-unit>
         <trans-unit id="TemplateNavigationFormat" translate="yes" xml:space="preserve">
@@ -263,7 +271,8 @@
         </trans-unit>
         <trans-unit id="TemplateNavigationHelp" translate="yes" xml:space="preserve">
           <source>Choose {?a number from {0}-{1}, or} a field name.</source>
-          <target state="translated">Zvolte {?číslo v rozsahu {0}-{1} nebo} název položky.</target>
+          <target state="needs-review-translation">Zvolte {?číslo v rozsahu {0}-{1} nebo} název položky.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-min, 1-max</note>
         </trans-unit>
         <trans-unit id="TemplateNoPreference" translate="yes" xml:space="preserve">
@@ -290,7 +299,8 @@
         </trans-unit>
         <trans-unit id="TemplateStringHelp" translate="yes" xml:space="preserve">
           <source>You can enter anything (use "'s to force string){?, {0}}{?, {1}}.</source>
-          <target state="translated">Můžete zadat cokoliv (řetězec vynutíte pomocí uvozovek "){?, {0}}{?, {1}}.</target>
+          <target state="needs-review-translation">Můžete zadat cokoliv (řetězec vynutíte pomocí uvozovek "){?,{0}}{?,{1}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference</note>
         </trans-unit>
         <trans-unit id="TemplateUnspecified" translate="yes" xml:space="preserve">
@@ -321,7 +331,28 @@
         </trans-unit>
         <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
           <source>Sorry, my bot code is having an issue.</source>
-          <target state="translated">Omlouvám se, můj botí kód má potíže.</target>
+          <target state="needs-review-translation">Omlouvám se,můj botí kód má potíže.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="NumberExpression" translate="yes" xml:space="preserve">
+          <source>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</source>
+          <target state="translated" state-qualifier="mt-suggestion">[+-]?(?:\d+\.?\d*|\d*\.?\d+)</target>
+        </trans-unit>
+        <trans-unit id="NumberOrdinals" translate="yes" xml:space="preserve">
+          <source>1=1st,first,first one|2=2nd,second,second one|3=3rd,third,third one|4=4th,fourth,fourth one|5=5th,fifth,fifth one|6=6th,sixth,sixth one|7=7th,seventh,seventh one|8=8th,eigth,eigth one|9=9th,ninth,ninth one|10=10th,tenth,tenth one</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">1=1,první,první|2=2,druhé,druhá varianta|3=3,třetí,třetí|4=4,čtvrté,čtvrtý|5=5. Zapáté,pátá|6=6,šesté,šestý|7=7,sedmém|8=8,osmá,osmá,jeden|9=9,devátá,devátého jednoho|10=10,desátá,desátá jeden</target>
+        </trans-unit>
+        <trans-unit id="NumberReverseOrdinals" translate="yes" xml:space="preserve">
+          <source>-1=last,last one|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">-1=poslední,poslední|-2=vedle poslední,druhé do poslední,od konce|-3=třetí,poslední,třetí z posledních|-4=Čtvrtá,poslední,čtvrtý z posledních|-5=k poslední,pátý fith z poslední</target>
+        </trans-unit>
+        <trans-unit id="BooleanChoices" translate="yes" xml:space="preserve">
+          <source>true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">true=y,ano,ano,jistě,ok,\u1f44d,\u1f44c|false=n,ne,no,\u1f44e,\\u270b,\\u1f590</target>
+        </trans-unit>
+        <trans-unit id="NumberTerms" translate="yes" xml:space="preserve">
+          <source>0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">0=0|1=jeden|2=dva|3=tři|4=čtyři|5=pět|6=šest|7=sedm|8=osm|9=devět|10=deset|11=jedenáct|12=dvanáct| 13=třináct|14=čtrnáct|15=patnáct|16=šestnáct|17=sedmnáct|18=osmnáct|19=devatenáct|20=dvacet</target>
         </trans-unit>
       </group>
     </body>

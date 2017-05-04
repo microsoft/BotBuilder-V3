@@ -252,4 +252,19 @@
   <data name="UnhandledExceptionToUser" xml:space="preserve">
     <value>申し訳ありませんが、私のボットのコードは、問題を抱えています。</value>
   </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1 = 1、最初に、最初の 1 つ | 2 = 第 2 回、第二に、2 つ目の | 3 = 第 3 回、第三に、3 つ目 | 4 = 第 4 回、第四に、4 分の 1 | 5 = 第 5 回、第五に、5 つ | 6 = 6、6、6 1 | 7 = 7、7、セブンス ・ ワン | 8 = 8、8 番目、8 番目の 1 つ | 9 = 9、9、9 1 | 10 = 10、10、10 1 つ</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1 = 最後に、最後の 1 つ |-2 最後から 2 番目、最後に 2 番目の最後の横にある = |-3 最後から最後に 3 番目 3 番目 = |-4 最後から最後に 4 番目 4 番目 = |-5 = 最後の最後、5 番目のフィス</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>true = y、yes、うん、ことを確認して、[ok]、\u1f44d、\u1f44c|false=n、いや、いや、\u1f44e、\\u270b、\\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0 = 0 | 1 = 1 つ | 2 = 2 | 3 = 3 | 4 = 4 | 5 = 5 | 6 = 6 | 7 = 7 | 8 = 8 | 9 = 9 | 10 = 10 | 11 = 11 | 12 = 12 | 13 = 13 | 14 = 14 | 15 = 15 | 16 = 16 | 17 = 17 | 18 = 18 | 19 = 19 | 20 = 20</value>
+  </data>
 </root>

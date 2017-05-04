@@ -165,14 +165,20 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .InstancePerLifetimeScope();
 
             builder
-                .RegisterType<JObjectBotData>()
+                .RegisterKeyedType<JObjectBotData, IBotData>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
             builder
-                .Register(c => new DialogTaskManagerBotDataLoader(c.Resolve<JObjectBotData>(),
-                                                 c.Resolve<IDialogTaskManager>()))
-                .As<IBotData>()
+                .RegisterKeyedType<DialogTaskManagerBotDataLoader, IBotData>()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterAdapterChain<IBotData>
+                (
+                    typeof(JObjectBotData),
+                    typeof(DialogTaskManagerBotDataLoader)
+                )
                 .InstancePerLifetimeScope();
 
             builder

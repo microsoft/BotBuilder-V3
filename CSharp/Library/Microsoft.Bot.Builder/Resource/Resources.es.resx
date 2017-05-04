@@ -88,7 +88,7 @@
     <value>Opción actual ('a'); corriente; a; elección actual, sin cambios</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>No; n;2</value>
+    <value>No; n;nop;2</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>Sin preferencia; no; no; nada; no me importa</value>
@@ -251,5 +251,20 @@
   </data>
   <data name="UnhandledExceptionToUser" xml:space="preserve">
     <value>Lo sentimos, que el código de mi bot está teniendo un problema.</value>
+  </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\,?\d*|\d*\,?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1=1ro,1ra,primer,primero,primera|2=2do,2da,segundo,segunda|3=3ro,3ra,tercero,tercera|4=4to,4ta,cuarto,cuarta|5=5to,5ta,quinto,quinta|6=6to,6ta,sexto,sexta|7=7mo,7ma,séptimo,séptima,septimo,septima|8=8vo,8va,octavo,octava|9=9no,9na,noveno,novena|10=10mo,10ma,décimo,décima,decimo,decima</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1=último,última,ultimo,ultima|-2=penúltimo,penúltima,penultimo,penultima|-3=antepenúltimo,antepenúltima,antepenultimo,antepenultima</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>true=s,si,sip,claro,ok,\u1f44d,\u1f44c|false=n,no,nop,\u1f44e,\\u270b,\\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0=cero|1=uno|2=dos|3=tres|4=cuatro|5=cinco|6=seis|7=siete|8=ocho|9=nueve|10=diez|11=once|12=doce|13=trece|14=catorce|15=quince|16=diesiseis,diesiséis|17=diesisiete|18=diesiocho|19=diesinueve|20=veinte</value>
   </data>
 </root>

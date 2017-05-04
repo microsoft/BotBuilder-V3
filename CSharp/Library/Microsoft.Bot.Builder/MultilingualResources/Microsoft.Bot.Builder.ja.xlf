@@ -323,6 +323,26 @@
           <source>Sorry, my bot code is having an issue.</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">申し訳ありませんが、私のボットのコードは、問題を抱えています。</target>
         </trans-unit>
+        <trans-unit id="NumberExpression" translate="yes" xml:space="preserve">
+          <source>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">[+-]?(?:\d+\.?\d*|\d*\.?\d+)</target>
+        </trans-unit>
+        <trans-unit id="NumberOrdinals" translate="yes" xml:space="preserve">
+          <source>1=1st,first,first one|2=2nd,second,second one|3=3rd,third,third one|4=4th,fourth,fourth one|5=5th,fifth,fifth one|6=6th,sixth,sixth one|7=7th,seventh,seventh one|8=8th,eigth,eigth one|9=9th,ninth,ninth one|10=10th,tenth,tenth one</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">1 = 1、最初に、最初の 1 つ | 2 = 第 2 回、第二に、2 つ目の | 3 = 第 3 回、第三に、3 つ目 | 4 = 第 4 回、第四に、4 分の 1 | 5 = 第 5 回、第五に、5 つ | 6 = 6、6、6 1 | 7 = 7、7、セブンス ・ ワン | 8 = 8、8 番目、8 番目の 1 つ | 9 = 9、9、9 1 | 10 = 10、10、10 1 つ</target>
+        </trans-unit>
+        <trans-unit id="NumberReverseOrdinals" translate="yes" xml:space="preserve">
+          <source>-1=last,last one|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">-1 = 最後に、最後の 1 つ |-2 最後から 2 番目、最後に 2 番目の最後の横にある = |-3 最後から最後に 3 番目 3 番目 = |-4 最後から最後に 4 番目 4 番目 = |-5 = 最後の最後、5 番目のフィス</target>
+        </trans-unit>
+        <trans-unit id="BooleanChoices" translate="yes" xml:space="preserve">
+          <source>true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">true = y、yes、うん、ことを確認して、[ok]、\u1f44d、\u1f44c|false=n、いや、いや、\u1f44e、\\u270b、\\u1f590</target>
+        </trans-unit>
+        <trans-unit id="NumberTerms" translate="yes" xml:space="preserve">
+          <source>0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">0 = 0 | 1 = 1 つ | 2 = 2 | 3 = 3 | 4 = 4 | 5 = 5 | 6 = 6 | 7 = 7 | 8 = 8 | 9 = 9 | 10 = 10 | 11 = 11 | 12 = 12 | 13 = 13 | 14 = 14 | 15 = 15 | 16 = 16 | 17 = 17 | 18 = 18 | 19 = 19 | 20 = 20</target>
+        </trans-unit>
       </group>
     </body>
   </file>

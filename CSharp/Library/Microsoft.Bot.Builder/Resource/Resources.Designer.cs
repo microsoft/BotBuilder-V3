@@ -61,6 +61,15 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590.
+        /// </summary>
+        public static string BooleanChoices {
+            get {
+                return ResourceManager.GetString("BooleanChoices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string CommandBack {
@@ -318,6 +327,42 @@ namespace Microsoft.Bot.Builder.Resource {
         public static string Navigation {
             get {
                 return ResourceManager.GetString("Navigation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [+-]?(?:\d+\.?\d*|\d*\.?\d+).
+        /// </summary>
+        public static string NumberExpression {
+            get {
+                return ResourceManager.GetString("NumberExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1=1st,first,first one|2=2nd,second,second one|3=3rd,third,third one|4=4th,fourth,fourth one|5=5th,fifth,fifth one|6=6th,sixth,sixth one|7=7th,seventh,seventh one|8=8th,eigth,eigth one|9=9th,ninth,ninth one|10=10th,tenth,tenth one.
+        /// </summary>
+        public static string NumberOrdinals {
+            get {
+                return ResourceManager.GetString("NumberOrdinals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -1=last,last one|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last.
+        /// </summary>
+        public static string NumberReverseOrdinals {
+            get {
+                return ResourceManager.GetString("NumberReverseOrdinals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty.
+        /// </summary>
+        public static string NumberTerms {
+            get {
+                return ResourceManager.GetString("NumberTerms", resourceCulture);
             }
         }
         

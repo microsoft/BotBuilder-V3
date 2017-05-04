@@ -65,13 +65,13 @@ namespace Microsoft.Bot.Connector
         /// Array of media Url objects
         /// </summary>
         [JsonProperty(PropertyName = "media")]
-        public IList<MediaUrl> Media { get; set; }
+        public IList<MediaUrl> Media { get; set; } = new List<MediaUrl>();
 
         /// <summary>
         /// Set of actions applicable to the current card
         /// </summary>
         [JsonProperty(PropertyName = "buttons")]
-        public IList<CardAction> Buttons { get; set; }
+        public IList<CardAction> Buttons { get; set; } = new List<CardAction>();
 
         /// <summary>
         /// Is it OK for this content to be shareable with others

@@ -33,9 +33,9 @@
 
 import { Library, IRouteResult } from './bots/Library';
 import { Dialog, IDialogResult, ResumeReason, IRecognizeDialogContext } from './dialogs/Dialog';
-import { IRecognizeResult, IRecognizeContext } from './dialogs/IntentRecognizerSet';
+import { IRecognizeResult, IRecognizeContext } from './dialogs/IntentRecognizer';
 import { ActionSet, IFindActionRouteContext, IActionRouteData } from './dialogs/ActionSet';
-import { Message } from './Message';
+import { Message, InputHint } from './Message';
 import { DefaultLocalizer } from './DefaultLocalizer';
 import { SessionLogger } from './SessionLogger';
 import * as consts from './consts';
@@ -44,9 +44,19 @@ import * as sprintf from 'sprintf-js';
 import * as events from 'events';
 import * as async from 'async';
 
+export interface IConnector {
+    onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void;
+    onInvoke?(handler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void): void;
+    send(messages: IMessage[], cb: (err: Error, addresses?: IAddress[]) => void): void;
+    startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void;
+    update?(message: IMessage, done: (err: Error, address?: IAddress) => void): void;
+    delete?(address: IAddress, done: (err: Error) => void): void;
+}
+
 export interface ISessionOptions {
     onSave: (done: (err: Error) => void) => void;
-    onSend: (messages: IMessage[], done: (err: Error) => void) => void;
+    onSend: (messages: IMessage[], done: (err: Error, addresses?: IAddress[]) => void) => void;
+    connector: IConnector;
     library: Library;
     localizer: ILocalizer;
     logger: SessionLogger;
@@ -54,7 +64,7 @@ export interface ISessionOptions {
     dialogId: string;
     dialogArgs?: any;
     autoBatchDelay?: number;
-    dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
+    dialogErrorMessage?: TextOrMessageType;
     actions?: ActionSet;
 }
 
@@ -68,6 +78,7 @@ export interface IWatchableHandler {
 
 export class Session extends events.EventEmitter {
     private msgSent = false;
+    private _hasError = false;
     private _isReset = false;
     private lastSendTime = new Date().getTime();
     private batch: IMessage[] = [];
@@ -79,6 +90,7 @@ export class Session extends events.EventEmitter {
 
     constructor(protected options: ISessionOptions) {
         super();
+        this.connector = options.connector;
         this.library = options.library;
         this.localizer = options.localizer;
         this.logger = options.logger;
@@ -146,6 +158,7 @@ export class Session extends events.EventEmitter {
         return this;
     }
 
+    public connector: IConnector;
     public library: Library;
     public sessionState: ISessionState;
     public message: IMessage;
@@ -165,6 +178,7 @@ export class Session extends events.EventEmitter {
         this.logger.error(this.dialogStack(), err);
 
         // End conversation with a message
+        this._hasError = true;
         if (this.options.dialogErrorMessage) {
             this.endConversation(this.options.dialogErrorMessage);
         } else {
@@ -222,18 +236,18 @@ export class Session extends events.EventEmitter {
     }
 
     /** Sends a message to the user. */
-    public send(message: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
+    public send(message: TextOrMessageType, ...args: any[]): this {
         args.unshift(this.curLibraryName(), message);
         return Session.prototype.sendLocalized.apply(this, args);
     }
 
     /** Sends a message to a user using a specific localization namespace. */
-    public sendLocalized(localizationNamespace: string, message: string|string[]|IMessage|IIsMessage, ...args: any[]): this {
+    public sendLocalized(libraryNamespace: string, message: TextOrMessageType, ...args: any[]): this {
         this.msgSent = true;
         if (message) {
             var m: IMessage;
             if (typeof message == 'string' || Array.isArray(message)) {
-                m = this.createMessage(localizationNamespace, <string|string[]>message, args);
+                m = this.createMessage(libraryNamespace, <TextType>message, args);
             } else if ((<IIsMessage>message).toMessage) {
                 m = (<IIsMessage>message).toMessage();
             } else {
@@ -245,6 +259,30 @@ export class Session extends events.EventEmitter {
         }
         this.startBatch();
         return this;
+    }
+
+    /** Sends a text, and optional SSML, message to the user. */
+    public say(text: TextType, options?: IMessageOptions): this;
+    public say(text: TextType, speak?: TextType, options?: IMessageOptions): this {
+        if (typeof speak === 'object') {
+            options = <any>speak;
+            speak = null;
+        }
+        return this.sayLocalized(this.curLibraryName(), text, speak, options);
+    }
+
+    /** Sends a text, and optional SSML, message to the user using a specific localization namespace. */
+    public sayLocalized(libraryNamespace: string, text: TextType, speak?: TextType, options?: IMessageOptions): this {
+        this.msgSent = true;
+        let msg = new Message(this).text(text).speak(speak).toMessage();
+        if (options) {
+            ['attachments', 'attachmentLayout', 'entities', 'textFormat', 'inputHint'].forEach((field) => {
+                if (options.hasOwnProperty(field)) {
+                    (<any>msg)[field] = (<any>options)[field];
+                }
+            });
+        }
+        return this.sendLocalized(libraryNamespace, msg);
     }
 
     /** Sends a typing indicator to the user. */
@@ -330,9 +368,16 @@ export class Session extends events.EventEmitter {
             this.batch.push(m);
         }
 
-        // Clear private conversation data
+        // Clear conversation data
+        this.conversationData = {};
         this.privateConversationData = {};
-                
+
+        // Add end conversation message
+        let code = this._hasError ? 'unknown' : 'completedSuccessfully';
+        let mec: IMessage = <any>{ type: 'endOfConversation', code: code };
+        this.prepareMessage(mec);
+        this.batch.push(mec);
+
         // Clear stack and save.
         this.logger.log(this.dialogStack(), 'Session.endConversation()');            
         var ss = this.sessionState;
@@ -464,7 +509,7 @@ export class Session extends events.EventEmitter {
     }
 
     /** Manually triggers sending of the current auto-batch. */
-    public sendBatch(callback?: (err: Error) => void): void {
+    public sendBatch(done?: (err: Error, responses?: any[]) => void): void {
         this.logger.log(this.dialogStack(), 'Session.sendBatch() sending ' + this.batch.length + ' message(s)');            
         if (this.sendingBatch) {
             return;
@@ -484,20 +529,20 @@ export class Session extends events.EventEmitter {
         }
         this.onSave((err) => {
             if (!err) {
-                this.onSend(batch, (err) => {
+                this.onSend(batch, (err, addresses) => {
                     this.onFinishBatch(() => {
                         if (this.batchStarted) {
                             this.startBatch();
                         }
-                        if (callback) {
-                            callback(err);
+                        if (done) {
+                            done(err, addresses);
                         }
                     });
                 });
             } else {
                 this.onFinishBatch(() => {
-                    if (callback) {
-                        callback(err);
+                    if (done) {
+                        done(err, null);
                     }
                 });
             }
@@ -695,16 +740,16 @@ export class Session extends events.EventEmitter {
         });
     }
 
-    private onSend(batch: IMessage[], cb: (err: Error) => void): void {
+    private onSend(batch: IMessage[], cb: (err: Error, responses?: any[]) => void): void {
         if (batch && batch.length > 0) {
-            this.options.onSend(batch, (err) => {
+            this.options.onSend(batch, (err, responses) => {
                 if (err) {
                     this.logger.error(this.dialogStack(), err);
                 }
-                cb(err);
+                cb(err, responses);
             })
         } else {
-            cb(null);
+            cb(null, null);
         }
     }
 

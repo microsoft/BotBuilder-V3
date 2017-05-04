@@ -1,15 +1,25 @@
 "use strict";
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var IntentRecognizer_1 = require("./IntentRecognizer");
 var request = require("request");
-var LuisRecognizer = (function () {
+var url = require("url");
+var LuisRecognizer = (function (_super) {
+    __extends(LuisRecognizer, _super);
     function LuisRecognizer(models) {
+        var _this = _super.call(this) || this;
         if (typeof models == 'string') {
-            this.models = { '*': models };
+            _this.models = { '*': models };
         }
         else {
-            this.models = (models || {});
+            _this.models = (models || {});
         }
+        return _this;
     }
-    LuisRecognizer.prototype.recognize = function (context, cb) {
+    LuisRecognizer.prototype.onRecognize = function (context, callback) {
         var result = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
             var utterance = context.message.text;
@@ -41,29 +51,32 @@ var LuisRecognizer = (function () {
                                     break;
                             }
                         }
-                        cb(null, result);
+                        callback(null, result);
                     }
                     else {
-                        cb(err, null);
+                        callback(err, null);
                     }
                 });
             }
             else {
-                cb(new Error("LUIS model not found for locale '" + locale + "'."), null);
+                callback(new Error("LUIS model not found for locale '" + locale + "'."), null);
             }
         }
         else {
-            cb(null, result);
+            callback(null, result);
         }
     };
     LuisRecognizer.recognize = function (utterance, modelUrl, callback) {
         try {
-            var uri = modelUrl.trim();
-            if (uri.lastIndexOf('&q=') != uri.length - 3) {
-                uri += '&q=';
+            var uri = url.parse(modelUrl, true);
+            uri.query['q'] = utterance || '';
+            if (uri.search) {
+                delete uri.search;
             }
-            uri += encodeURIComponent(utterance || '');
-            request.get(uri, function (err, res, body) {
+            if (!Object.prototype.hasOwnProperty.call(uri.query, 'allowSampling')) {
+                uri.query['allowSampling'] = 'true';
+            }
+            request.get(url.format(uri), function (err, res, body) {
                 var result;
                 try {
                     if (!err) {
@@ -100,5 +113,5 @@ var LuisRecognizer = (function () {
         }
     };
     return LuisRecognizer;
-}());
+}(IntentRecognizer_1.IntentRecognizer));
 exports.LuisRecognizer = LuisRecognizer;

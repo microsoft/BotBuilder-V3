@@ -32,9 +32,10 @@
 //
 
 import { Session } from '../Session';
-import { Dialog, IDialogResult, ResumeReason } from './Dialog';
-import { PromptType, IPromptArgs } from './Prompts';
-import { SimpleDialog } from './SimpleDialog';
+import { Dialog, IDialogResult, ResumeReason } from '../dialogs/Dialog';
+import { PromptType } from '../dialogs/Prompt';
+import { IPromptArgs } from '../deprecated/LegacyPrompts'
+import { SimpleDialog } from '../dialogs/SimpleDialog';
 import * as consts from '../consts';
 import * as utils from '../utils';
 
@@ -85,6 +86,7 @@ export class DialogAction {
     }
     
     static validatedPrompt(promptType: PromptType, validator: (response: any) => boolean): Dialog {
+        console.warn('DialogAction.validatedPrompt() has been deprecated as of version 3.8. Consider using custom prompts instead.');
         return new SimpleDialog((s: Session, r: IDialogResult<any>) => {
             r = r || <any>{};
 
@@ -123,14 +125,14 @@ export class DialogAction {
                 // Prompt user
                 var a: IPromptArgs = utils.clone(s.dialogData);
                 a.maxRetries = 0;
-                s.beginDialog(consts.DialogId.Prompts, a);
+                s.beginDialog('BotBuilder:Prompts', a);
             } else if (s.dialogData.maxRetries > 0) {
                 // Reprompt the user
                 s.dialogData.maxRetries--;
                 var a: IPromptArgs = utils.clone(s.dialogData);
                 a.maxRetries = 0;
                 a.prompt = s.dialogData.retryPrompt || "I didn't understand. " + s.dialogData.prompt;
-                s.beginDialog(consts.DialogId.Prompts, a);
+                s.beginDialog('BotBuilder:Prompts', a);
             } else {
                 // User failed to enter a valid response
                 s.endDialogWithResult({ resumed: ResumeReason.notCompleted });

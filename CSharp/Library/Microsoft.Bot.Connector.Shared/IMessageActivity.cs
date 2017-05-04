@@ -68,13 +68,6 @@ namespace Microsoft.Bot.Connector
         bool HasContent();
 
         /// <summary>
-        /// Get channeldata as typed structure
-        /// </summary>
-        /// <typeparam name="TypeT">type to use</typeparam>
-        /// <returns>typed object or default(TypeT)</returns>
-        TypeT GetChannelData<TypeT>();
-
-        /// <summary>
         /// Get mentions
         /// </summary>
         Mention[] GetMentions();

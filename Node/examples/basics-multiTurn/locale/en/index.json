@@ -8,5 +8,5 @@
     "answerHeadquarters": "The headquarters for %(company)s is located in %(value)s.",
     "answerDescription": "%(value)s",
     "answerFounders": "%(company)s was founded by %(value)s.",
-    "answerWebsite": "The webiste for %(company)s is %(value)s."
+    "answerWebsite": "The website for %(company)s is %(value)s."
 }

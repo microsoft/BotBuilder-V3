@@ -32,7 +32,7 @@
 //
 
 import { Session } from '../Session';
-import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizerSet';
+import { IRecognizeContext, IRecognizeResult, IIntentRecognizerResult } from './IntentRecognizer';
 import { IRouteResult } from '../bots/Library';
 import * as consts from '../consts';
 import * as utils from '../utils';
@@ -127,8 +127,9 @@ export class ActionSet {
                     } else {
                         var matches = exp.exec(text);
                         if (matches && matches.length) {
+                            // Score is coverage on a scale of 0.4 - 1.0.
                             var intent: IIntentRecognizerResult = {
-                                score: matches[0].length / text.length,
+                                score: 0.4 + ((matches[0].length / text.length) * 0.6),
                                 intent: exp.toString(),
                                 expression: exp,
                                 matched: matches

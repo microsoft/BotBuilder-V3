@@ -69,13 +69,13 @@
     <value> o </value>
   </data>
   <data name="DefaultChoiceSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="DefaultLastSeparator" xml:space="preserve">
     <value> e </value>
   </data>
   <data name="DefaultSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="LanguageArticles" xml:space="preserve">
     <value>un;uno;un';una;il;lo;la;i;gli;le</value>
@@ -102,11 +102,11 @@
     <value>Desideri {&amp;}? {||}</value>
   </data>
   <data name="TemplateBoolHelp" xml:space="preserve">
-    <value>Inserisci "si" oppure "no"{?, {0}}.</value>
+    <value>Inserisci "si" oppure "no"{?,{0}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
-    <value>Cosa intendevi con "{0}", come valore per il campo "{&amp;}"? {||}</value>
+    <value>Cosa intendevi con "{0}",come valore per il campo "{&amp;}"? {||}</value>
     <comment>0-term being clarified</comment>
   </data>
   <data name="TemplateCurrentChoice" xml:space="preserve">
@@ -116,7 +116,7 @@
     <value>Inserisci data e ora per {&amp;} {||}</value>
   </data>
   <data name="TemplateDateTimeHelp" xml:space="preserve">
-    <value>Inserisci un valore per la data o l'ora {?, {0}}{?, {1}}.</value>
+    <value>Inserisci un valore per la data o l'ora {?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateDouble" xml:space="preserve">
@@ -128,7 +128,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateDoubleHelp" xml:space="preserve">
-    <value>Inserisci un numero{? tra {2:F1} e {3:F1}}{?, {0}}{?, {1}}.</value>
+    <value>Inserisci un numero{? tra {2:F1} e {3:F1}}{?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateEnumManyNumberHelp" xml:space="preserve">
@@ -190,7 +190,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateIntegerHelp" xml:space="preserve">
-    <value>Puoi inserire un numero{? tra {2} e {3}}{?, {0}}{?, {1}}.</value>
+    <value>Puoi inserire un numero{? tra {2} e {3}}{?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateNavigation" xml:space="preserve">
@@ -226,7 +226,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateStringHelp" xml:space="preserve">
-    <value>Puoi inserire qualunque cosa (usa " per indicare del testo){?, {0}}{?, {1}}.</value>
+    <value>Puoi inserire qualunque cosa (usa " per indicare del testo){?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateUnspecified" xml:space="preserve">
@@ -249,6 +249,21 @@
     <value>Conferma</value>
   </data>
   <data name="UnhandledExceptionToUser" xml:space="preserve">
-    <value>Ci dispiace, il mio codice di bot sta riscontrando un problema.</value>
+    <value>Ci dispiace,il mio codice di bot sta riscontrando un problema.</value>
+  </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1=1,in primo luogo,prima una|2=2a,secondo,secondo uno|3=3,in terzo luogo,terzo|4=4 °,quarto,quarto|5=5,quinto,quinto|6=6,sesto,Sesto|7=7th,settimo,settimo|8=8,l'ottavo,ottavo uno|9=9,nono,Nona|10=10,decimo,decimo uno</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1=ultimo,ultimo|-2=vicino all'ultimo secondo per ultimo,secondo da ultimo|-3=terzo terzo all'ultimo,da ultimo|-4=quarto quarto all'ultimo,da ultimo|-5=fith quinto all'ultimo,da ultimo</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>true=y,sì,sì,certo,ok,\u1f44d,\u1f44c|false=n,no,no,\u1f44e,\\u270b,\\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0=zero|1=uno|2=due|3=tre|4=quattro|5=cinque|6=six|7=sette|8=otto|9=nove|10=dieci|11=undici|12=dodici|13=tredici|14=quattordici|15=quindici|16=sedici|17=diciassette|18=diciotto|19=diciannove|20=venti</value>
   </data>
 </root>

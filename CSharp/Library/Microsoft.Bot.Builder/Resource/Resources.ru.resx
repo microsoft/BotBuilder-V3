@@ -34,7 +34,7 @@
     <value>Выйти</value>
   </data>
   <data name="CommandQuitHelp" xml:space="preserve">
-    <value>Отмена: Выйти, не заполняя анкеты</value>
+    <value>Отмена: Выйти,не заполняя анкеты</value>
   </data>
   <data name="CommandQuitTerms" xml:space="preserve">
     <value>выйти;отмена;остановить;закончить;пока;до свидания;чао,прощай;до скорого;хватит</value>
@@ -69,13 +69,13 @@
     <value> или </value>
   </data>
   <data name="DefaultChoiceSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="DefaultLastSeparator" xml:space="preserve">
     <value> и </value>
   </data>
   <data name="DefaultSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="LanguageArticles" xml:space="preserve">
     <value></value>
@@ -102,7 +102,7 @@
     <value>Вы хотите {&amp;}? {||}</value>
   </data>
   <data name="TemplateBoolHelp" xml:space="preserve">
-    <value>Пожалуйста, введите «Да» или «нет» {?, {0}}.</value>
+    <value>Пожалуйста,введите «Да» или «нет» {?,{0}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
@@ -113,14 +113,14 @@
     <value>(текущий выбор: {})</value>
   </data>
   <data name="TemplateDateTime" xml:space="preserve">
-    <value>Пожалуйста, введите дату и время для {&amp;} {||}</value>
+    <value>Пожалуйста,введите дату и время для {&amp;} {||}</value>
   </data>
   <data name="TemplateDateTimeHelp" xml:space="preserve">
-    <value>Пожалуйста, введите дату или время {?, {0}} {?, {1}}.</value>
+    <value>Пожалуйста,введите дату или время {?,{0}} {?,{1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateDouble" xml:space="preserve">
-    <value>Пожалуйста, введите номер {? между {0:F1} и {1:F1}} на {&amp;} {||}</value>
+    <value>Пожалуйста,введите номер {? между {0:F1} и {1:F1}} на {&amp;} {||}</value>
     <comment>0-min, 1-max</comment>
   </data>
   <data name="TemplateDoubleChoiceFormat" xml:space="preserve">
@@ -128,7 +128,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateDoubleHelp" xml:space="preserve">
-    <value>Пожалуйста, введите номер {? между {2:F1} и {3:F1}} {?, {0}} {?, {1}}.</value>
+    <value>Пожалуйста,введите номер {? между {2:F1} и {3:F1}} {?,{0}} {?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateEnumManyNumberHelp" xml:space="preserve">
@@ -148,13 +148,13 @@
     <comment>2-enumerated descriptions</comment>
   </data>
   <data name="TemplateEnumSelectMany" xml:space="preserve">
-    <value>Пожалуйста, выберите один или несколько {&amp;} {||}</value>
+    <value>Пожалуйста,выберите один или несколько {&amp;} {||}</value>
   </data>
   <data name="TemplateEnumSelectOne" xml:space="preserve">
-    <value>Пожалуйста, выберите {&amp;} {||}</value>
+    <value>Пожалуйста,выберите {&amp;} {||}</value>
   </data>
   <data name="TemplateFeedback" xml:space="preserve">
-    <value>Я понял, что для {&amp;} {}. {?» {0} "не является выбором.}</value>
+    <value>Я понял,что для {&amp;} {}. {?» {0} "не является выбором.}</value>
     <comment>0-not understood term</comment>
   </data>
   <data name="TemplateHelp" xml:space="preserve">
@@ -170,19 +170,19 @@
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpConfirm" xml:space="preserve">
-    <value>Пожалуйста, ответьте на вопрос.  Возможные ответы:
+    <value>Пожалуйста,ответьте на вопрос.  Возможные ответы:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpNavigation" xml:space="preserve">
-    <value>Выберите, какое поле нужно изменить.  Возможные ответы:
+    <value>Выберите,какое поле нужно изменить.  Возможные ответы:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateInteger" xml:space="preserve">
-    <value>Пожалуйста, введите число {? между {0} и {1}} для {&amp;} {||}</value>
+    <value>Пожалуйста,введите число {? между {0} и {1}} для {&amp;} {||}</value>
     <comment>0-min, 1-max</comment>
   </data>
   <data name="TemplateIntegerChoiceFormat" xml:space="preserve">
@@ -190,14 +190,14 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateIntegerHelp" xml:space="preserve">
-    <value>Вы можете ввести число {? между {2} и {3}} {?, {0}} {?, {1}}.</value>
+    <value>Вы можете ввести число {? между {2} и {3}} {?,{0}} {?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateNavigation" xml:space="preserve">
     <value>Что вы хотите изменить? {||}</value>
   </data>
   <data name="TemplateNavigationCommandHelp" xml:space="preserve">
-    <value>Вы можете перейти к другому полю, введя его имя. ({0}).</value>
+    <value>Вы можете перейти к другому полю,введя его имя. ({0}).</value>
     <comment>0-list of field names</comment>
   </data>
   <data name="TemplateNavigationFormat" xml:space="preserve">
@@ -205,7 +205,7 @@
     <comment>0-list of field names</comment>
   </data>
   <data name="TemplateNavigationHelp" xml:space="preserve">
-    <value>Выберите {? число от {0}-{1}, или} имя поля.</value>
+    <value>Выберите {? число от {0}-{1},или} имя поля.</value>
     <comment>0-min, 1-max</comment>
   </data>
   <data name="TemplateNoPreference" xml:space="preserve">
@@ -219,14 +219,14 @@
     <value>{&amp;}: {}</value>
   </data>
   <data name="TemplateString" xml:space="preserve">
-    <value>Пожалуйста, введите {&amp;} {||}</value>
+    <value>Пожалуйста,введите {&amp;} {||}</value>
   </data>
   <data name="TemplateStringChoiceFormat" xml:space="preserve">
     <value>{1}</value>
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateStringHelp" xml:space="preserve">
-    <value>Вы можете ввести что угодно (use "'s to force string){?, {0}}{?, {1}}.
+    <value>Вы можете ввести что угодно (use "'s to force string){?,{0}}{?,{1}}.
 
 </value>
     <comment>0-current choice, 1-no preference</comment>
@@ -251,6 +251,21 @@
     <value>Подтверждение</value>
   </data>
   <data name="UnhandledExceptionToUser" xml:space="preserve">
-    <value>К сожалению, мой скрипт код имеет проблему.</value>
+    <value>К сожалению,мой скрипт код имеет проблему.</value>
+  </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1=1,во-первых,первый|2=2,во-вторых,второй|3=3,в-третьих,третий|4=4,в-четвертых,четвертый|5=5,в-пятых,пятая|6=6,в-шестых,шестой|7=7,в-седьмых,седьмой|8=8,восьмого,восьмого,один|9=9,девятый,девятый один|10=10,в-десятых,десятая один</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1=последний,последний|-2=рядом с последней,вторая к последнему,второй из последних|-3=третий к последнему,третьего от последнего|-4=четвертый,последний,четвертый от последнего|-5=Пятый,последний,пятый из последнего</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>true=y,да,да,конечно,хорошо,\u1f44d,\u1f44c|false=n,нет,нет,\u1f44e,\\u270b,\\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0=ноль|1=один|2=два|3=три|4=4|5=5|6=6|7=7|8=8|9=9|10=10|11=одиннадцать|12=12|13=тринадцать|14=четырнадцать|15=15|16=16|17=семнадцать|18=18|19=девятнадцать|20=20</value>
   </data>
 </root>

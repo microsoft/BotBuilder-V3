@@ -322,6 +322,26 @@
           <source>Sorry, my bot code is having an issue.</source>
           <target state="translated">با عرض پوزش، کد ربات من با مشکل روبرو شده است.</target>
         </trans-unit>
+        <trans-unit id="NumberExpression" translate="yes" xml:space="preserve">
+          <source>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</source>
+          <target state="translated" state-qualifier="mt-suggestion">[+-]?(?:\d+\.?\d*|\d*\.?\d+)</target>
+        </trans-unit>
+        <trans-unit id="NumberOrdinals" translate="yes" xml:space="preserve">
+          <source>1=1st,first,first one|2=2nd,second,second one|3=3rd,third,third one|4=4th,fourth,fourth one|5=5th,fifth,fifth one|6=6th,sixth,sixth one|7=7th,seventh,seventh one|8=8th,eigth,eigth one|9=9th,ninth,ninth one|10=10th,tenth,tenth one</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">1=1، اول، یکی از اولین | 2 = 2, دوم, دوم یکی | 3 = 3 سوم، یک سوم | 4 = 4 چهارم، یک چهارم | 5 = 5 پنجم، یک پنجم | 6 = 6، ششم، یک ششم | 7 = 7 هفتم، یک هفتم | 8 = 8 هشتم, ودر یکی | 9 = 9 نهم، یکی از نهم | 10 = 10 دهم، یک دهم</target>
+        </trans-unit>
+        <trans-unit id="NumberReverseOrdinals" translate="yes" xml:space="preserve">
+          <source>-1=last,last one|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">-1 = آخرین، یکی از آخرین | -2 = کنار گذشته، دوم به گذشته، دوم از آخرین | -3 = سوم سوم به گذشته، از آخرین | -4 = چهارم چهارم به گذشته، از آخرین | -5 = fith پنجم به گذشته، از آخرین به روز رسانی</target>
+        </trans-unit>
+        <trans-unit id="BooleanChoices" translate="yes" xml:space="preserve">
+          <source>true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">درست = y، بله، بله، مطمئن، خوب، \u1f44d، \u1f44c|false=n، نه، جواب منفی، \u1f44e، \\u270b، \\u1f590</target>
+        </trans-unit>
+        <trans-unit id="NumberTerms" translate="yes" xml:space="preserve">
+          <source>0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">0 = صفر | 1 = یکی | 2 = دو | 3 = سه | 4 = چهار | 5 پنج = | 6 = شش | 7 = هفت | 8 = هشت | 9 = 9 | 10 ده = | 11 یازده = | 12 = دوازده | 13 = 13 | 14 = چهارده | 15 = پانزده | 16 = شانزده | 17 = هفده | 18 = 18 | 19 نوزده = | 20 = بیست</target>
+        </trans-unit>
       </group>
     </body>
   </file>

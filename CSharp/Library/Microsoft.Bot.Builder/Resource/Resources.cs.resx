@@ -25,7 +25,7 @@
     <value>Nápověda</value>
   </data>
   <data name="CommandHelpHelp" xml:space="preserve">
-    <value>Nápověda: Ukázat typy odpovědí, které můžete zadat.</value>
+    <value>Nápověda: Ukázat typy odpovědí,které můžete zadat.</value>
   </data>
   <data name="CommandHelpTerms" xml:space="preserve">
     <value>help;choices;\?;nápověda;napoveda</value>
@@ -52,7 +52,7 @@
     <value>Status</value>
   </data>
   <data name="CommandStatusHelp" xml:space="preserve">
-    <value>Status: Ukázat, jak postupujete vyplňováním formuláře.</value>
+    <value>Status: Ukázat,jak postupujete vyplňováním formuláře.</value>
   </data>
   <data name="CommandStatusTerms" xml:space="preserve">
     <value>status;progress;so far;results;stav;postup</value>
@@ -69,13 +69,13 @@
     <value>nebo</value>
   </data>
   <data name="DefaultChoiceSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="DefaultLastSeparator" xml:space="preserve">
     <value>a</value>
   </data>
   <data name="DefaultSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="LanguageArticles" xml:space="preserve">
     <value>ten;ta;to</value>
@@ -97,17 +97,17 @@
     <value>Ano;a;jistě;zajisté;ok;jo;1</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
-    <value>Tomu nerozumím, zkuste to ještě jednou.</value>
+    <value>Tomu nerozumím,zkuste to ještě jednou.</value>
   </data>
   <data name="TemplateBool" xml:space="preserve">
     <value>Chcete {&amp;}? {||}</value>
   </data>
   <data name="TemplateBoolHelp" xml:space="preserve">
-    <value>Zadejte prosím "ano", nebo "ne"{?, {0}}.</value>
+    <value>Zadejte prosím "ano",nebo "ne"{?,{0}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
-    <value>Když říkáte "{0}", myslíte tím {&amp;}? {||}</value>
+    <value>Když říkáte "{0}",myslíte tím {&amp;}? {||}</value>
     <comment>0-term being clarified</comment>
   </data>
   <data name="TemplateCurrentChoice" xml:space="preserve">
@@ -117,7 +117,7 @@
     <value>Zadejte prosím datum a čas pro položku {&amp;} {||}</value>
   </data>
   <data name="TemplateDateTimeHelp" xml:space="preserve">
-    <value>Zadejte prosím správně formátované datum nebo čas {?, {0}}{?, {1}}.</value>
+    <value>Zadejte prosím správně formátované datum nebo čas {?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateDouble" xml:space="preserve">
@@ -129,11 +129,11 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateDoubleHelp" xml:space="preserve">
-    <value>Zadejte prosím číslo{? mezi {2:F1} a {3:F1}}{?, {0}}{?, {1}}.</value>
+    <value>Zadejte prosím číslo{? mezi {2:F1} a {3:F1}}{?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateEnumManyNumberHelp" xml:space="preserve">
-    <value>Můžete zadat jedno nebo více čísel {0}-{1}, případně slova z nabídnutých popisků. ({2})</value>
+    <value>Můžete zadat jedno nebo více čísel {0}-{1},případně slova z nabídnutých popisků. ({2})</value>
     <comment>0-min, 1-max and 2-enumerated descriptions</comment>
   </data>
   <data name="TemplateEnumManyWordHelp" xml:space="preserve">
@@ -177,7 +177,7 @@
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpNavigation" xml:space="preserve">
-    <value>Zvolte, které pole chcete změnit. Možné varianty:
+    <value>Zvolte,které pole chcete změnit. Možné varianty:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
@@ -191,14 +191,14 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateIntegerHelp" xml:space="preserve">
-    <value>Můžete zadat číslo{? mezi {2} a {3}}{?, {0}}{?, {1}}.</value>
+    <value>Můžete zadat číslo{? mezi {2} a {3}}{?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateNavigation" xml:space="preserve">
     <value>Co si přejete změnit? {||}</value>
   </data>
   <data name="TemplateNavigationCommandHelp" xml:space="preserve">
-    <value>Na jinou položku se přepnete tím, že napíšete její název. ({0}).</value>
+    <value>Na jinou položku se přepnete tím,že napíšete její název. ({0}).</value>
     <comment>0-list of field names</comment>
   </data>
   <data name="TemplateNavigationFormat" xml:space="preserve">
@@ -227,7 +227,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateStringHelp" xml:space="preserve">
-    <value>Můžete zadat cokoliv (řetězec vynutíte pomocí uvozovek "){?, {0}}{?, {1}}.</value>
+    <value>Můžete zadat cokoliv (řetězec vynutíte pomocí uvozovek "){?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateUnspecified" xml:space="preserve">
@@ -250,6 +250,21 @@
     <value>Potvrzení</value>
   </data>
   <data name="UnhandledExceptionToUser" xml:space="preserve">
-    <value>Omlouvám se, můj botí kód má potíže.</value>
+    <value>Omlouvám se,můj botí kód má potíže.</value>
+  </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1=1,první,první|2=2,druhé,druhá varianta|3=3,třetí,třetí|4=4,čtvrté,čtvrtý|5=5. Zapáté,pátá|6=6,šesté,šestý|7=7,sedmém|8=8,osmá,osmá,jeden|9=9,devátá,devátého jednoho|10=10,desátá,desátá jeden</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1=poslední,poslední|-2=vedle poslední,druhé do poslední,od konce|-3=třetí,poslední,třetí z posledních|-4=Čtvrtá,poslední,čtvrtý z posledních|-5=k poslední,pátý fith z poslední</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>true=y,ano,ano,jistě,ok,\u1f44d,\u1f44c|false=n,ne,no,\u1f44e,\\u270b,\\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0=0|1=jeden|2=dva|3=tři|4=čtyři|5=pět|6=šest|7=sedm|8=osm|9=devět|10=deset|11=jedenáct|12=dvanáct| 13=třináct|14=čtrnáct|15=patnáct|16=šestnáct|17=sedmnáct|18=osmnáct|19=devatenáct|20=dvacet</value>
   </data>
 </root>

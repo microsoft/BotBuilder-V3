@@ -67,13 +67,13 @@ describe('recognizers', function() {
         connector.processMessage('hello');
     });
 
-    it('should enable/disable a RecognizerFilter', function (done) {
+    it('should enable/disable a recognizer', function (done) {
         var step = 0;
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector, function (session, args) {
             session.send('Filtered').endDialog();
         });
-        var recognizer = new builder.RecognizerFilter(new builder.RegExpRecognizer('HelpIntent', /^help/i))
+        var recognizer = new builder.RegExpRecognizer('HelpIntent', /^help/i)
             .onEnabled(function (context, callback) {
                 callback(null, step === 0);
             });
@@ -95,14 +95,14 @@ describe('recognizers', function() {
         connector.processMessage('help');
     });
 
-    it('should filter the output using a RecognizerFilter', function (done) {
+    it('should filter the output of a recognizer', function (done) {
         var step = 0;
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector, function (session, args) {
             session.send('Filtered').endDialog();
         });
-        var recognizer = new builder.RecognizerFilter(new builder.RegExpRecognizer('HelpIntent', /^help/i))
-            .onRecognized(function (context, result, callback) {
+        var recognizer = new builder.RegExpRecognizer('HelpIntent', /^help/i)
+            .onFilter(function (context, result, callback) {
                 callback(null, step === 0 ? result : { score: 0.0, intent: null });
             });
         bot.recognizer(recognizer);

@@ -32,10 +32,11 @@
 //
 
 import { Session } from '../Session';
-import { IDialogWaterfallStep, createWaterfall } from './SimpleDialog';
+import { IDialogWaterfallStep, WaterfallDialog } from './WaterfallDialog';
 import { DialogAction, IDialogHandler } from './DialogAction';
 import { Dialog, IRecognizeDialogContext, IDialogResult } from './Dialog';
-import { IntentRecognizerSet, IIntentRecognizerSetOptions, IIntentRecognizer, IIntentRecognizerResult } from './IntentRecognizerSet';
+import { IntentRecognizerSet, IIntentRecognizerSetOptions } from './IntentRecognizerSet';
+import { IIntentRecognizer, IIntentRecognizerResult } from './IntentRecognizer';
 import { RegExpRecognizer } from './RegExpRecognizer';
 import * as consts from '../consts';
 import * as async from 'async';
@@ -144,11 +145,11 @@ export class IntentDialog extends Dialog {
 
         // Register handler
         if (Array.isArray(dialogId)) {
-            this.handlers[id] = createWaterfall(dialogId);
+            this.handlers[id] = WaterfallDialog.createHandler(dialogId);
         } else if (typeof dialogId === 'string') {
             this.handlers[id] = DialogAction.beginDialog(<string>dialogId, dialogArgs);
         } else {
-            this.handlers[id] = createWaterfall([<IDialogWaterfallStep>dialogId]);
+            this.handlers[id] = WaterfallDialog.createHandler([<IDialogWaterfallStep>dialogId]);
         }
         return this;
     }
@@ -163,11 +164,11 @@ export class IntentDialog extends Dialog {
     public onDefault(dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): this {
         // Register handler
         if (Array.isArray(dialogId)) {
-            this.handlers[consts.Intents.Default] = createWaterfall(dialogId);
+            this.handlers[consts.Intents.Default] = WaterfallDialog.createHandler(dialogId);
         } else if (typeof dialogId === 'string') {
             this.handlers[consts.Intents.Default] = DialogAction.beginDialog(<string>dialogId, dialogArgs);
         } else {
-            this.handlers[consts.Intents.Default] = createWaterfall([<IDialogWaterfallStep>dialogId]);
+            this.handlers[consts.Intents.Default] = WaterfallDialog.createHandler([<IDialogWaterfallStep>dialogId]);
         }
         return this;
     }

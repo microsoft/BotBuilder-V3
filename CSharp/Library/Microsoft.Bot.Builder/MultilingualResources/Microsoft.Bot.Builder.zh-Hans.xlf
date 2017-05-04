@@ -322,6 +322,26 @@
           <source>Sorry, my bot code is having an issue.</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">对不起，我的 bot 代码时遇到问题。</target>
         </trans-unit>
+        <trans-unit id="NumberExpression" translate="yes" xml:space="preserve">
+          <source>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">[+-]?(?:\d+\.?\d*|\d*\.?\d+)</target>
+        </trans-unit>
+        <trans-unit id="NumberOrdinals" translate="yes" xml:space="preserve">
+          <source>1=1st,first,first one|2=2nd,second,second one|3=3rd,third,third one|4=4th,fourth,fourth one|5=5th,fifth,fifth one|6=6th,sixth,sixth one|7=7th,seventh,seventh one|8=8th,eigth,eigth one|9=9th,ninth,ninth one|10=10th,tenth,tenth one</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">1 = 1，第一，第一个 | 2 = 2、 第二，第二人 | 3 = 3，第三，第三个 | 4 = 4，第四，第四个 | 5 = 5，第五，第五个 | 6 = 6，第六，第六个 | 7 = 7、 第七、 第七个 | 8 = 8，八，八人 | 9 = 9，第九、 第九一 | 10 = 10，第十，第十一个</target>
+        </trans-unit>
+        <trans-unit id="NumberReverseOrdinals" translate="yes" xml:space="preserve">
+          <source>-1=last,last one|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">-1 = 最后，最后一个 |-2 = 倒数第二到最后，从去年的第二次 |-3 = 从最后的倒数第三个，第三 |-4 = 从去年排名第四至最后，第四 |-5 = 从最后到最后，第五号</target>
+        </trans-unit>
+        <trans-unit id="BooleanChoices" translate="yes" xml:space="preserve">
+          <source>true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">true = y，是的没错，当然，好的 \u1f44d，\u1f44c|false=n，不，不行，\u1f44e、 \\u270b、 \\u1f590</target>
+        </trans-unit>
+        <trans-unit id="NumberTerms" translate="yes" xml:space="preserve">
+          <source>0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">0 = 零 | 1 = 一 | 2 = 两个 | 3 = 3 | 4 = 四 | 5 = 五 | 6 = 6 | 7 = 七 | 8 = 八 | 9 = 九 | 10 = 十 | 11 = 11 | 12 = 12 | 13 = 十三 | 14 = 十四岁 | 15 = 十五岁 | 16 = 十六岁 | 17 = 十七岁 | 18 = 十八岁 | 19 = 十九岁 | 20 = 二十</target>
+        </trans-unit>
       </group>
     </body>
   </file>

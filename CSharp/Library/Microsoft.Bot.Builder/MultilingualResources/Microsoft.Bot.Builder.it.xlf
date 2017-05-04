@@ -78,19 +78,23 @@
         </trans-unit>
         <trans-unit id="DefaultChoiceLastSeparator" translate="yes" xml:space="preserve">
           <source>, or </source>
-          <target state="final" state-qualifier="mt-suggestion"> o </target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion"> o </target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultChoiceSeparator" translate="yes" xml:space="preserve">
           <source>, </source>
-          <target state="final" state-qualifier="mt-suggestion">, </target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">,</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultLastSeparator" translate="yes" xml:space="preserve">
           <source>, and </source>
-          <target state="final" state-qualifier="mt-suggestion"> e </target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion"> e </target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultSeparator" translate="yes" xml:space="preserve">
           <source>, </source>
-          <target state="final" state-qualifier="mt-suggestion">, </target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">,</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="LanguageArticles" translate="yes" xml:space="preserve">
           <source>a;an;the</source>
@@ -126,12 +130,13 @@
         </trans-unit>
         <trans-unit id="TemplateBoolHelp" translate="yes" xml:space="preserve">
           <source>Please enter 'yes' or 'no'{?, {0}}.</source>
-          <target state="final">Inserisci "si" oppure "no"{?, {0}}.</target>
+          <target state="needs-review-translation">Inserisci "si" oppure "no"{?,{0}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference</note>
         </trans-unit>
         <trans-unit id="TemplateClarify" translate="yes" xml:space="preserve">
           <source>By "{0}" {&amp;} did you mean {||}</source>
-          <target state="final">Cosa intendevi con "{0}", come valore per il campo "{&amp;}"? {||}</target>
+          <target state="final">Cosa intendevi con "{0}",come valore per il campo "{&amp;}"? {||}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-term being clarified</note>
         </trans-unit>
         <trans-unit id="TemplateCurrentChoice" translate="yes" xml:space="preserve">
@@ -144,7 +149,8 @@
         </trans-unit>
         <trans-unit id="TemplateDateTimeHelp" translate="yes" xml:space="preserve">
           <source>Please enter a date or time expression {?, {0}}{?, {1}}.</source>
-          <target state="final">Inserisci un valore per la data o l'ora {?, {0}}{?, {1}}.</target>
+          <target state="needs-review-translation">Inserisci un valore per la data o l'ora {?,{0}}{?,{1}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference</note>
         </trans-unit>
         <trans-unit id="TemplateDouble" translate="yes" xml:space="preserve">
@@ -159,7 +165,8 @@
         </trans-unit>
         <trans-unit id="TemplateDoubleHelp" translate="yes" xml:space="preserve">
           <source>Please enter a number{? between {2:F1} and {3:F1}}{?, {0}}{?, {1}}.</source>
-          <target state="final" state-qualifier="mt-suggestion">Inserisci un numero{? tra {2:F1} e {3:F1}}{?, {0}}{?, {1}}.</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Inserisci un numero{? tra {2:F1} e {3:F1}}{?,{0}}{?,{1}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference, 2-min, 3-max</note>
         </trans-unit>
         <trans-unit id="TemplateEnumManyNumberHelp" translate="yes" xml:space="preserve">
@@ -243,7 +250,8 @@
         </trans-unit>
         <trans-unit id="TemplateIntegerHelp" translate="yes" xml:space="preserve">
           <source>You can enter a number{? between {2} and {3}}{?, {0}}{?, {1}}.</source>
-          <target state="final">Puoi inserire un numero{? tra {2} e {3}}{?, {0}}{?, {1}}.</target>
+          <target state="needs-review-translation">Puoi inserire un numero{? tra {2} e {3}}{?,{0}}{?,{1}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference, 2-min, 3-max</note>
         </trans-unit>
         <trans-unit id="TemplateNavigation" translate="yes" xml:space="preserve">
@@ -262,7 +270,8 @@
         </trans-unit>
         <trans-unit id="TemplateNavigationHelp" translate="yes" xml:space="preserve">
           <source>Choose {?a number from {0}-{1}, or} a field name.</source>
-          <target state="final">Scegli {?un numero da {0}-{1} oppure} il nome di un campo.</target>
+          <target state="needs-review-translation">Scegli {?un numero da {0}-{1} oppure} il nome di un campo.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-min, 1-max</note>
         </trans-unit>
         <trans-unit id="TemplateNoPreference" translate="yes" xml:space="preserve">
@@ -289,7 +298,8 @@
         </trans-unit>
         <trans-unit id="TemplateStringHelp" translate="yes" xml:space="preserve">
           <source>You can enter anything (use "'s to force string){?, {0}}{?, {1}}.</source>
-          <target state="final">Puoi inserire qualunque cosa (usa " per indicare del testo){?, {0}}{?, {1}}.</target>
+          <target state="needs-review-translation">Puoi inserire qualunque cosa (usa " per indicare del testo){?,{0}}{?,{1}}.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference</note>
         </trans-unit>
         <trans-unit id="TemplateUnspecified" translate="yes" xml:space="preserve">
@@ -320,7 +330,28 @@
         </trans-unit>
         <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
           <source>Sorry, my bot code is having an issue.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ci dispiace, il mio codice di bot sta riscontrando un problema.</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Ci dispiace,il mio codice di bot sta riscontrando un problema.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>
+        <trans-unit id="NumberExpression" translate="yes" xml:space="preserve">
+          <source>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">[+-]?(?:\d+\.?\d*|\d*\.?\d+)</target>
+        </trans-unit>
+        <trans-unit id="NumberOrdinals" translate="yes" xml:space="preserve">
+          <source>1=1st,first,first one|2=2nd,second,second one|3=3rd,third,third one|4=4th,fourth,fourth one|5=5th,fifth,fifth one|6=6th,sixth,sixth one|7=7th,seventh,seventh one|8=8th,eigth,eigth one|9=9th,ninth,ninth one|10=10th,tenth,tenth one</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">1=1,in primo luogo,prima una|2=2a,secondo,secondo uno|3=3,in terzo luogo,terzo|4=4 °,quarto,quarto|5=5,quinto,quinto|6=6,sesto,Sesto|7=7th,settimo,settimo|8=8,l'ottavo,ottavo uno|9=9,nono,Nona|10=10,decimo,decimo uno</target>
+        </trans-unit>
+        <trans-unit id="NumberReverseOrdinals" translate="yes" xml:space="preserve">
+          <source>-1=last,last one|-2=next to last,second to last,second from last|-3=third to last,third from last|-4=fourth to last,fourth from last|-5=fifth to last,fith from last</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">-1=ultimo,ultimo|-2=vicino all'ultimo secondo per ultimo,secondo da ultimo|-3=terzo terzo all'ultimo,da ultimo|-4=quarto quarto all'ultimo,da ultimo|-5=fith quinto all'ultimo,da ultimo</target>
+        </trans-unit>
+        <trans-unit id="BooleanChoices" translate="yes" xml:space="preserve">
+          <source>true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">true=y,sì,sì,certo,ok,\u1f44d,\u1f44c|false=n,no,no,\u1f44e,\\u270b,\\u1f590</target>
+        </trans-unit>
+        <trans-unit id="NumberTerms" translate="yes" xml:space="preserve">
+          <source>0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">0=zero|1=uno|2=due|3=tre|4=quattro|5=cinque|6=six|7=sette|8=otto|9=nove|10=dieci|11=undici|12=dodici|13=tredici|14=quattordici|15=quindici|16=sedici|17=diciassette|18=diciotto|19=diciannove|20=venti</target>
         </trans-unit>
       </group>
     </body>

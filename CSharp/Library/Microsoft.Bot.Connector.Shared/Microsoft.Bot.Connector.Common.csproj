@@ -94,6 +94,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConversationReferenceEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConversationsEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CredentialProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EndOfConversationCodes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)EntityEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ErrorHandling.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ErrorResponseEx.cs" />

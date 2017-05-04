@@ -251,4 +251,19 @@
   <data name="UnhandledExceptionToUser" xml:space="preserve">
     <value>با عرض پوزش، کد ربات من با مشکل روبرو شده است.</value>
   </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1=1، اول، یکی از اولین | 2 = 2, دوم, دوم یکی | 3 = 3 سوم، یک سوم | 4 = 4 چهارم، یک چهارم | 5 = 5 پنجم، یک پنجم | 6 = 6، ششم، یک ششم | 7 = 7 هفتم، یک هفتم | 8 = 8 هشتم, ودر یکی | 9 = 9 نهم، یکی از نهم | 10 = 10 دهم، یک دهم</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1 = آخرین، یکی از آخرین | -2 = کنار گذشته، دوم به گذشته، دوم از آخرین | -3 = سوم سوم به گذشته، از آخرین | -4 = چهارم چهارم به گذشته، از آخرین | -5 = fith پنجم به گذشته، از آخرین به روز رسانی</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>درست = y، بله، بله، مطمئن، خوب، \u1f44d، \u1f44c|false=n، نه، جواب منفی، \u1f44e، \\u270b، \\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0 = صفر | 1 = یکی | 2 = دو | 3 = سه | 4 = چهار | 5 پنج = | 6 = شش | 7 = هفت | 8 = هشت | 9 = 9 | 10 ده = | 11 یازده = | 12 = دوازده | 13 = 13 | 14 = چهارده | 15 = پانزده | 16 = شانزده | 17 = هفده | 18 = 18 | 19 نوزده = | 20 = بیست</value>
+  </data>
 </root>

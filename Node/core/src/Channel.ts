@@ -32,7 +32,7 @@
 //
 
 import { Session } from './Session';
-import { IRecognizeContext } from './dialogs/IntentRecognizerSet';
+import { IRecognizeContext } from './dialogs/IntentRecognizer';
 
 export var channels = {
     facebook: 'facebook',
@@ -47,7 +47,8 @@ export var channels = {
     emulator: 'emulator',
     directline: 'directline',
     webchat: 'webchat',
-    console: 'console'
+    console: 'console',
+    cortana: 'cortana'
 };
 
 export function supportsKeyboards(session: Session, buttonCnt = 100) {
@@ -74,10 +75,24 @@ export function supportsCardActions(session: Session, buttonCnt = 100) {
         case channels.emulator:
         case channels.directline:
         case channels.webchat:
+        case channels.cortana:
             return (buttonCnt <= 100);
         default:
             return false;
     }
+}
+
+export function hasMessageFeed(session: Session) {
+    switch (getChannelId(session)) {
+        case channels.cortana:
+            return false;
+        default:
+            return true;
+    }
+}
+
+export function maxActionTitleLength(session: Session) {
+    return 20;
 }
 
 export function getChannelId(addressable: Session|IRecognizeContext|IMessage|IAddress): string {

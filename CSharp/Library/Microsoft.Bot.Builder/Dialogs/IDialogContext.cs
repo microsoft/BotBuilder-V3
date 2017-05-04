@@ -31,9 +31,9 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 
@@ -83,12 +83,51 @@ namespace Microsoft.Bot.Builder.Dialogs
     }
 
     /// <summary>
+    /// Optional message properties that can be sent <see cref="Extensions.SayAsync(IBotToUser, string, string, MessageOptions, string, CancellationToken)"/>
+    /// </summary>
+    public class MessageOptions
+    {
+        public MessageOptions()
+        {
+            this.TextFormat = TextFormatTypes.Markdown;
+            this.AttachmentLayout = AttachmentLayoutTypes.List;
+            this.Attachments = new List<Attachment>();
+            this.Entities = new List<Entity>();
+        }
+
+        /// <summary>
+        /// Indicates whether the bot is accepting, expecting, or ignoring input
+        /// </summary>
+        public string InputHint { get; set; }
+
+        /// <summary>
+        /// Format of text fields [plain|markdown] Default:markdown
+        /// </summary>
+        public string TextFormat { get; set; }
+
+        /// <summary>
+        /// Hint for how to deal with multiple attachments: [list|carousel] Default:list
+        /// </summary>
+        public string AttachmentLayout { get; set; }
+
+        /// <summary>
+        /// Attachments
+        /// </summary>
+        public IList<Attachment> Attachments { get; set; }
+
+        /// <summary>
+        /// Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.
+        /// </summary>
+        public IList<Entity> Entities { get; set; }
+    }
+
+    /// <summary>
     /// Helper methods.
     /// </summary>
     public static partial class Extensions
     {
         /// <summary>
-        /// Post a message to be sent to the bot, using previous messages to establish a conversation context.
+        /// Post a message to be sent to the user, using previous messages to establish a conversation context.
         /// </summary>
         /// <remarks>
         /// If the locale parameter is not set, locale of the incoming message will be used for reply.
@@ -106,6 +145,44 @@ namespace Microsoft.Bot.Builder.Dialogs
             if (!string.IsNullOrEmpty(locale))
             {
                 message.Locale = locale;
+            }
+
+            await botToUser.PostAsync(message, cancellationToken);
+        }
+
+
+        /// <summary>
+        /// Post a message and optional SSML to be sent to the user, using previous messages to establish a conversation context.
+        /// </summary>
+        /// <remarks>
+        /// If the locale parameter is not set, locale of the incoming message will be used for reply.
+        /// </remarks>
+        /// <param name="botToUser">Communication channel to use.</param>
+        /// <param name="text">The message text.</param>
+        /// <param name="speak">The SSML markup for text to speech.</param>
+        /// <param name="options">The options for the message.</param>
+        /// <param name="locale">The locale of the text.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A task that represents the post operation.</returns>
+        public static async Task SayAsync(this IBotToUser botToUser, string text, string speak = null, MessageOptions options = null, string locale = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var message = botToUser.MakeMessage();
+
+            message.Text = text;
+            message.Speak = speak;
+
+            if (!string.IsNullOrEmpty(locale))
+            {
+                message.Locale = locale;
+            }
+
+            if (options != null)
+            {
+                message.InputHint = options.InputHint;
+                message.TextFormat = options.TextFormat;
+                message.AttachmentLayout = options.AttachmentLayout;
+                message.Attachments = options.Attachments;
+                message.Entities = options.Entities;
             }
 
             await botToUser.PostAsync(message, cancellationToken);
@@ -131,7 +208,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="message">The message that will be posted to child dialog.</param>
         /// <param name="token">A cancellation token.</param>
         /// <returns>A task representing the Forward operation.</returns>
-        public static async Task Forward<R>(this IDialogStack stack, IDialog<R> child, ResumeAfter<R> resume, IMessageActivity message, CancellationToken token)
+        public static async Task Forward<R>(this IDialogStack stack, IDialog<R> child, ResumeAfter<R> resume, IMessageActivity message, CancellationToken token = default(CancellationToken))
         {
             await stack.Forward<R, IMessageActivity>(child, resume, message, token);
         }

@@ -72,13 +72,13 @@
     <value> of </value>
   </data>
   <data name="DefaultChoiceSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="DefaultLastSeparator" xml:space="preserve">
     <value> en </value>
   </data>
   <data name="DefaultSeparator" xml:space="preserve">
-    <value>, </value>
+    <value>,</value>
   </data>
   <data name="LanguageArticles" xml:space="preserve">
     <value>de;het;een</value>
@@ -108,11 +108,11 @@
     <value>Wil je een {&amp;}? {||}</value>
   </data>
   <data name="TemplateBoolHelp" xml:space="preserve">
-    <value>Antwoord 'ja' of 'nee'{?, {0}}.</value>
+    <value>Antwoord 'ja' of 'nee'{?,{0}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
-    <value>Met "{0}" {&amp;}, bedoel je daarmee {||}?</value>
+    <value>Met "{0}" {&amp;},bedoel je daarmee {||}?</value>
     <comment>0-term being clarified</comment>
   </data>
   <data name="TemplateConfirmation" xml:space="preserve">
@@ -126,7 +126,7 @@
     <value>Geef datum en tijd voor {&amp;} {||}</value>
   </data>
   <data name="TemplateDateTimeHelp" xml:space="preserve">
-    <value>Geef een datum of tijd {?, {0}}{?, {1}}.</value>
+    <value>Geef een datum of tijd {?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateDouble" xml:space="preserve">
@@ -138,7 +138,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateDoubleHelp" xml:space="preserve">
-    <value>Geef een getal{? tussen {2:F1} en {3:F1}}{?, {0}}{?, {1}}.</value>
+    <value>Geef een getal{? tussen {2:F1} en {3:F1}}{?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateEnumManyNumberHelp" xml:space="preserve">
@@ -200,7 +200,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateIntegerHelp" xml:space="preserve">
-    <value>Je kunt een getal{? tussen {2} en {3}} geven{?, {0}}{?, {1}}.</value>
+    <value>Je kunt een getal{? tussen {2} en {3}} geven{?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateNavigation" xml:space="preserve">
@@ -215,7 +215,7 @@
     <comment>0-list of field names</comment>
   </data>
   <data name="TemplateNavigationHelp" xml:space="preserve">
-    <value>Kies{? een nummer van {0} tot {1}, of} de naam van een vraag.</value>
+    <value>Kies{? een nummer van {0} tot {1},of} de naam van een vraag.</value>
     <comment>0-min, 1-max</comment>
   </data>
   <data name="TemplateNoPreference" xml:space="preserve">
@@ -236,7 +236,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateStringHelp" xml:space="preserve">
-    <value>Je kunt alles antwoorden (Gebruik leestekens " om een letterlijk begrip te geven){?, {0}}{?, {1}}.</value>
+    <value>Je kunt alles antwoorden (Gebruik leestekens " om een letterlijk begrip te geven){?,{0}}{?,{1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateUnspecified" xml:space="preserve">
@@ -246,9 +246,24 @@
     <value>Te veel pogingen</value>
   </data>
   <data name="UnhandledExceptionToUser" xml:space="preserve">
-    <value>Het spijt me, mijn Bot-programma werkt momenteel niet goed.</value>
+    <value>Het spijt me,mijn Bot-programma werkt momenteel niet goed.</value>
   </data>
   <data name="UserProfileDeleted" xml:space="preserve">
     <value>Gebruikersprofiel verwijderd!</value>
+  </data>
+  <data name="NumberExpression" xml:space="preserve">
+    <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>
+  </data>
+  <data name="NumberOrdinals" xml:space="preserve">
+    <value>1=1e,eerst,eerste|2=2e,tweede,tweede|3=3e,ten derde,derde|4=4e,vierde,vierde|5=5e,vijfde,vijfde|6=6e,zesde,zesde één|7=7e,7e,zevende één|8=8e,achtste,achtste een|9=9,negende,negende een|10=10,tiende,tiende één</value>
+  </data>
+  <data name="NumberReverseOrdinals" xml:space="preserve">
+    <value>-1=laatst,laatste|-2=naast laatste,tweede tot laatste seconde vanaf laatste|-3=derde duren,derde vanaf laatste|-4=vierde naar de laatste,vierde van laatste|-5=vijfde duren,fith van de laatste</value>
+  </data>
+  <data name="BooleanChoices" xml:space="preserve">
+    <value>True=y,ja,ja,zeker,ok,\u1f44d,\u1f44c|false=n,Nee,Nee,\u1f44e,\\u270b,\\u1f590</value>
+  </data>
+  <data name="NumberTerms" xml:space="preserve">
+    <value>0=zero|1=een|2=twee|3=drie|4=vier|5=vijf|6=zes|7=zeven|8=acht|9=negen|10=tien|11=elf|12=twaalf|13=dertien|14=veertien|15=vijftien|16=zestien|17=zeventien|18=achttien|19=negentien|20=twintig</value>
   </data>
 </root>
