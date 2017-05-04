@@ -54,9 +54,9 @@ namespace Microsoft.Bot.Builder.Luis
         public string Query;
 
         /// <summary>
-        /// Indicates if sampling is allowed.
+        /// Indicates if logging of queries to LUIS is allowed.
         /// </summary>
-        public bool? AllowSampling;
+        public bool? Log;
 
         /// <summary>
         /// Turn on spell checking.
@@ -79,6 +79,11 @@ namespace Microsoft.Bot.Builder.Luis
         public bool? Verbose;
 
         /// <summary>
+        /// Any extra query parameters for the URL.
+        /// </summary>
+        public string ExtraParameters;
+
+        /// <summary>
         /// The context id.
         /// </summary>
         [Obsolete("Action binding in LUIS should be replaced with code.")]
@@ -94,20 +99,21 @@ namespace Microsoft.Bot.Builder.Luis
         /// Constructs an instance of the LuisReqeuest.
         /// </summary>
         /// <param name="query"> The text query.</param>
-        /// <param name="allowSampling"> Allow sampling.</param>
+        /// <param name="log"> Allow queries to be logged by LUIS.</param>
         /// <param name="spellCheck">Turn on spell checking.</param>
         /// <param name="staging">Whether or not to use staging.</param>
         /// <param name="timezoneOffset"> The time zone offset used for resolving time expressions.</param>
         /// <param name="verbose"> Indicates if the <see cref="LuisResult"/> should be verbose.</param>
         /// <param name="contextId"> The context id for Luis dialog.</param>
         /// <param name="forceSet"> Force setting the parameter when using action binding.</param>
+        /// <param name="extraParameters">Extra URL query parameters.</param>
         public LuisRequest(string query,
-            bool? allowSampling = default(bool?), bool? spellCheck = default(bool?), bool? staging = default(bool?), double? timezoneOffset = default(double?), bool? verbose = default(bool?),
-            string contextId = default(string), string forceSet = default(string)
+            bool? log = default(bool?), bool? spellCheck = default(bool?), bool? staging = default(bool?), double? timezoneOffset = default(double?), bool? verbose = default(bool?),
+            string contextId = default(string), string forceSet = default(string), string extraParameters = null
             )
         {
             this.Query = query;
-            this.AllowSampling = allowSampling;
+            this.Log = log;
             this.SpellCheck = spellCheck;
             this.Staging = staging;
             this.Verbose = verbose;
@@ -116,6 +122,7 @@ namespace Microsoft.Bot.Builder.Luis
             this.ContextId = contextId;
             this.ForceSet = forceSet;
 #pragma warning restore CS0618
+            this.ExtraParameters = extraParameters;
         }
 
         /// <summary>
@@ -156,9 +163,9 @@ namespace Microsoft.Bot.Builder.Luis
                     throw new ArgumentException($"{model.ApiVersion} is not a valid Luis api version.");
             }
 
-            if (AllowSampling != null)
+            if (Log != null)
             {
-                queryParameters.Add($"allowSampling={Uri.EscapeDataString(Convert.ToString(AllowSampling))}");
+                queryParameters.Add($"log={Uri.EscapeDataString(Convert.ToString(Log))}");
             }
             if (SpellCheck != null)
             {
@@ -186,7 +193,10 @@ namespace Microsoft.Bot.Builder.Luis
                 queryParameters.Add($"forceSet={Uri.EscapeDataString(ForceSet)}");
             }
 #pragma warning restore CS0618
-
+            if (ExtraParameters != null)
+            {
+                queryParameters.Add(ExtraParameters);
+            }
             builder.Query = string.Join("&", queryParameters);
             return builder.Uri;
         }

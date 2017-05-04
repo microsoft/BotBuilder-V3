@@ -118,11 +118,11 @@ namespace Microsoft.Bot.Builder.Luis
         /// </summary>
         public LuisApiVersion ApiVersion => apiVersion;
 
-        private readonly bool allowSampling;
+        private readonly bool log;
         /// <summary>
-        /// Indicates if this query can be sampled as a candidate for improving the model.
+        /// Indicates if this query can be logged by LUIS.
         /// </summary>
-        public bool AllowSampling => allowSampling;
+        public bool Log => log;
 
         private readonly bool spellCheck;
         /// <summary>
@@ -148,14 +148,14 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="modelID">The LUIS model ID.</param>
         /// <param name="subscriptionKey">The LUIS subscription key.</param>
         /// <param name="apiVersion">The LUIS API version.</param>
-        /// <param name="allowSampling">Allow sampling query to improve model.</param>
         /// <param name="domain">Domain where LUIS model is located.</param>
+        /// <param name="log">Allow LUIS to log query.</param>
         /// <param name="spellCheck">Control spell checking.</param>
         /// <param name="staging">Control whether or not to use staging endpoint.</param>
         /// <param name="verbose">Control verbose results.</param>
         public LuisModelAttribute(string modelID, string subscriptionKey, 
             LuisApiVersion apiVersion = LuisApiVersion.V2, string domain = null, 
-            bool allowSampling = true, bool spellCheck = false, bool staging=false, bool verbose=false)
+            bool log = true, bool spellCheck = false, bool staging=false, bool verbose=false)
         {
             SetField.NotNull(out this.modelID, nameof(modelID), modelID);
             SetField.NotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
@@ -164,7 +164,7 @@ namespace Microsoft.Bot.Builder.Luis
             {
                 domain = apiVersion == LuisApiVersion.V2 ? "westus.api.cognitive.microsoft.com" : "api.projectoxford.ai/luis/v1/application";
             }
-            this.allowSampling = allowSampling;
+            this.log = log;
             this.domain = domain;
             this.spellCheck = spellCheck;
             this.staging = staging;
@@ -197,10 +197,7 @@ namespace Microsoft.Bot.Builder.Luis
 
         public LuisRequest ModifyRequest(LuisRequest request)
         {
-            if (AllowSampling)
-            {
-                request.AllowSampling = true;
-            }
+            request.Log = log;
             if (SpellCheck)
             {
                 request.SpellCheck = true;
