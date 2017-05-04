@@ -1,19 +1,38 @@
-﻿using Autofac;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Connector;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Autofac;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.Scorables;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.EchoBot
 {
     [BotAuthentication]
     public class MessagesController : ApiController
     {
+        static MessagesController()
+        {
+            Conversation.UpdateContainer(builder =>
+            {
+                var scorable = Actions
+                .Bind(async (IBotToUser botToUser, IMessageActivity message) =>
+                {
+                    await botToUser.PostAsync("polo");
+                })
+                .When(new Regex("marco"))
+                .Normalize();
+
+                builder.RegisterInstance(scorable).AsImplementedInterfaces().SingleInstance();
+            });
+        }
+
+
         /// <summary>
         /// POST: api/Messages
         /// receive a message from a user and send replies
