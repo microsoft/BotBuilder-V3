@@ -88,7 +88,6 @@
     <Compile Include="Models\Contracts\AnswerOutcome.cs" />
     <Compile Include="Models\Contracts\BaseMessage.cs" />
     <Compile Include="Models\Contracts\CallbackLink.cs" />
-    <Compile Include="Models\Contracts\CallStateChangeNotification.cs" />
     <Compile Include="Models\Contracts\ChoiceOutcome.cs" />
     <Compile Include="Models\Contracts\CollectDigits.cs" />
     <Compile Include="Models\Contracts\CollectDigitsOutcome.cs" />
@@ -97,9 +96,6 @@
     <Compile Include="Models\Contracts\ConversationResult.cs" />
     <Compile Include="Models\Contracts\Hangup.cs" />
     <Compile Include="Models\Contracts\HangupOutcome.cs" />
-    <Compile Include="Models\Contracts\NotificationBase.cs" />
-    <Compile Include="Models\Contracts\NotificationConverter.cs" />
-    <Compile Include="Models\Contracts\NotificationResponse.cs" />
     <Compile Include="Models\Contracts\OperationOutcomeBase.cs" />
     <Compile Include="Models\Contracts\OperationOutcomeConverter.cs" />
     <Compile Include="Models\Contracts\Participant.cs" />
@@ -128,7 +124,6 @@
     <Compile Include="Models\Misc\MinValues.cs" />
     <Compile Include="Models\Misc\ModalityType.cs" />
     <Compile Include="Models\Misc\MultiPartConstants.cs" />
-    <Compile Include="Models\Misc\NotificationType.cs" />
     <Compile Include="Models\Misc\Outcome.cs" />
     <Compile Include="Models\Misc\RecognitionCompletionReason.cs" />
     <Compile Include="Models\Misc\RecordingCompletionReason.cs" />
