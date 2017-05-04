@@ -32,18 +32,11 @@
 //
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Threading.Tasks;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Internals.Fibers;
+using Microsoft.Bot.Builder.Luis;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Microsoft.Bot.Builder.Luis.BuiltIn.DateTime;
 
 namespace Microsoft.Bot.Builder.Tests
@@ -63,6 +56,52 @@ namespace Microsoft.Bot.Builder.Tests
 
         private static readonly IReadOnlyList<TestCase> TestCases = new[]
         {
+            // https://github.com/Microsoft/BotBuilder/issues/2088
+            new TestCase()
+            {
+                Text = "2020-W01",
+                Resolution = new DateTimeResolution(year: 2020, week: 1),
+                Ranges = new []
+                {
+                    Range.From(new DateTime(2020, 01, 01), new DateTime(2020, 01, 08)),
+                }
+            },
+            new TestCase()
+            {
+                Text = "2019-W52",
+                Resolution = new DateTimeResolution(year: 2019, week: 52),
+                Ranges = new []
+                {
+                    Range.From(new DateTime(2019, 12, 22), new DateTime(2019, 12, 29)),
+                }
+            },
+            new TestCase()
+            {
+                Text = "2018-W01-1",
+                Resolution = new DateTimeResolution(year: 2018, week: 1, dayOfWeek: DayOfWeek.Monday),
+                Ranges = new []
+                {
+                    Range.From(new DateTime(2018, 1, 1), new DateTime(2018, 1, 2)),
+                }
+            },
+            new TestCase()
+            {
+                Text = "2018-01",
+                Resolution = new DateTimeResolution(year: 2018, month: 1),
+                Ranges = new []
+                {
+                    Range.From(new DateTime(2018, 1, 1), new DateTime(2018, 2, 1)),
+                }
+            },
+            new TestCase()
+            {
+                Text = "2018-01-01",
+                Resolution = new DateTimeResolution(year: 2018, month: 1, day: 1),
+                Ranges = new []
+                {
+                    Range.From(new DateTime(2018, 1, 1), new DateTime(2018, 1, 2)),
+                }
+            },
             // examples from https://www.luis.ai/Help/#PreBuiltEntities
             new TestCase()
             {
@@ -116,11 +155,11 @@ namespace Microsoft.Bot.Builder.Tests
                 Resolution = new DateTimeResolution(hour: 3, minute: 0),
                 Ranges = new []
                 {
-                    Range.From(new DateTime(2013, 08, 04, 03, 00, 00), new DateTime(2013, 08, 04, 04, 00, 00)),
-                    Range.From(new DateTime(2013, 08, 05, 03, 00, 00), new DateTime(2013, 08, 05, 04, 00, 00)),
-                    Range.From(new DateTime(2013, 08, 06, 03, 00, 00), new DateTime(2013, 08, 06, 04, 00, 00)),
-                    Range.From(new DateTime(2013, 08, 07, 03, 00, 00), new DateTime(2013, 08, 07, 04, 00, 00)),
-                    Range.From(new DateTime(2013, 08, 08, 03, 00, 00), new DateTime(2013, 08, 08, 04, 00, 00)),
+                    Range.From(new DateTime(2013, 08, 04, 03, 00, 00), new DateTime(2013, 08, 04, 03, 01, 00)),
+                    Range.From(new DateTime(2013, 08, 05, 03, 00, 00), new DateTime(2013, 08, 05, 03, 01, 00)),
+                    Range.From(new DateTime(2013, 08, 06, 03, 00, 00), new DateTime(2013, 08, 06, 03, 01, 00)),
+                    Range.From(new DateTime(2013, 08, 07, 03, 00, 00), new DateTime(2013, 08, 07, 03, 01, 00)),
+                    Range.From(new DateTime(2013, 08, 08, 03, 00, 00), new DateTime(2013, 08, 08, 03, 01, 00)),
                 }
             },
             new TestCase()
