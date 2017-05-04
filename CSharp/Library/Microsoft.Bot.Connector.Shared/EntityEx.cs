@@ -10,8 +10,11 @@ namespace Microsoft.Bot.Connector
 {
     public partial class Entity
     {
+        /// <summary>
+        /// Extension data for overflow of properties
+        /// </summary>
         [JsonExtensionData(ReadData = true, WriteData = true)]
-        public JObject Properties { get; set; }
+        public JObject Properties { get; set; } = new JObject();
 
         /// <summary>
         /// Retrieve internal payload.

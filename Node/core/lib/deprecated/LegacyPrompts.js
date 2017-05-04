@@ -90,7 +90,7 @@ exports.SimplePromptRecognizer = SimplePromptRecognizer;
 var LegacyPrompts = (function (_super) {
     __extends(LegacyPrompts, _super);
     function LegacyPrompts() {
-        return _super.apply(this, arguments) || this;
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     LegacyPrompts.prototype.begin = function (session, args) {
         args = args || {};

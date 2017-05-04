@@ -65,20 +65,23 @@ var ChatConnector = (function () {
             }
         }
         if (token) {
-            var decoded = jwt.decode(token, { complete: true });
+            var decoded_1 = jwt.decode(token, { complete: true });
             var verifyOptions;
             var openIdMetadata;
-            if (isEmulator && decoded.payload.iss == this.settings.endpoint.msaIssuer) {
+            var algorithms = ['RS256', 'RS384', 'RS512'];
+            if (isEmulator && decoded_1.payload.iss == this.settings.endpoint.msaIssuer) {
                 openIdMetadata = this.msaOpenIdMetadata;
                 verifyOptions = {
+                    algorithms: algorithms,
                     issuer: this.settings.endpoint.msaIssuer,
                     audience: this.settings.endpoint.msaAudience,
                     clockTolerance: 300
                 };
             }
-            else if (isEmulator && decoded.payload.iss == this.settings.endpoint.emulatorIssuer) {
+            else if (isEmulator && decoded_1.payload.iss == this.settings.endpoint.emulatorIssuer) {
                 openIdMetadata = this.emulatorOpenIdMetadata;
                 verifyOptions = {
+                    algorithms: algorithms,
                     issuer: this.settings.endpoint.emulatorIssuer,
                     audience: this.settings.endpoint.emulatorAudience,
                     clockTolerance: 300
@@ -92,20 +95,34 @@ var ChatConnector = (function () {
                     clockTolerance: 300
                 };
             }
-            if (isEmulator && decoded.payload.appid != this.settings.appId) {
+            if (isEmulator && decoded_1.payload.appid != this.settings.appId) {
                 logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
                 res.status(403);
                 res.end();
                 return;
             }
-            openIdMetadata.getKey(decoded.header.kid, function (key) {
+            openIdMetadata.getKey(decoded_1.header.kid, function (key) {
                 if (key) {
                     try {
-                        jwt.verify(token, key, verifyOptions);
+                        jwt.verify(token, key.key, verifyOptions);
+                        if (typeof req.body.channelId !== 'undefined' &&
+                            typeof key.endorsements !== 'undefined' &&
+                            key.endorsements.lastIndexOf(req.body.channelId) === -1) {
+                            var errorDescription = "channelId in req.body: " + req.body.channelId + " didn't match the endorsements: " + key.endorsements.join(',') + ".";
+                            logger.error("ChatConnector: receive - endorsements validation failure. " + errorDescription);
+                            throw new Error(errorDescription);
+                        }
+                        if (typeof decoded_1.payload.serviceurl !== 'undefined' &&
+                            typeof req.body.serviceUrl !== 'undefined' &&
+                            decoded_1.payload.serviceurl !== req.body.serviceUrl) {
+                            var errorDescription = "ServiceUrl in payload of token: " + decoded_1.payload.serviceurl + " didn't match the request's serviceurl: " + req.body.serviceUrl + ".";
+                            logger.error("ChatConnector: receive - serviceurl mismatch. " + errorDescription);
+                            throw new Error(errorDescription);
+                        }
                     }
                     catch (err) {
                         logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
-                        res.status(403);
+                        res.send(403, err);
                         res.end();
                         return;
                     }
@@ -140,7 +157,10 @@ var ChatConnector = (function () {
         var addresses = [];
         async.forEachOfSeries(messages, function (msg, idx, cb) {
             try {
-                if (msg.address && msg.address.serviceUrl) {
+                if (msg.type == 'delay') {
+                    setTimeout(cb, msg.value);
+                }
+                else if (msg.address && msg.address.serviceUrl) {
                     _this.postMessage(msg, (idx == messages.length - 1), function (err, address) {
                         addresses.push(address);
                         cb(err);

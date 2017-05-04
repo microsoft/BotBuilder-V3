@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
@@ -147,6 +146,10 @@ namespace Microsoft.Bot.Connector
         public IInvokeActivity AsInvokeActivity() { return IsActivity(ActivityTypes.Invoke) ? this : null; }
 
         /// <summary>
+        /// Maps type to activity types 
+        /// </summary>
+        /// <param name="type"> The type.</param>
+        /// <returns> The activity type.</returns>
         public static string GetActivityType(string type)
         {
             if (String.Equals(type, ActivityTypes.Message, StringComparison.OrdinalIgnoreCase))
@@ -270,7 +273,6 @@ namespace Microsoft.Bot.Connector
                 return false;
             }
         }
-
 
         /// <summary>
         /// Check if the message has content

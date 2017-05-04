@@ -226,6 +226,14 @@ var Session = (function (_super) {
         this.sendBatch();
         return this;
     };
+    Session.prototype.delay = function (delay) {
+        this.msgSent = true;
+        var m = { type: 'delay', value: delay.toString() };
+        this.prepareMessage(m);
+        this.batch.push(m);
+        this.logger.log(this.dialogStack(), "Session.delay(" + delay + ")");
+        return this;
+    };
     Session.prototype.messageSent = function () {
         return this.msgSent;
     };
