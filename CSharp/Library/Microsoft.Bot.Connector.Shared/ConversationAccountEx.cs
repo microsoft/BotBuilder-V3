@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Connector
 {
@@ -29,5 +31,11 @@ namespace Microsoft.Bot.Connector
                 ^ this.IsGroup.GetHashCode();
             return code;
         }
+
+        /// <summary>
+        /// Extension data for overflow of properties
+        /// </summary>
+        [JsonExtensionData(ReadData = true, WriteData = true)]
+        public JObject Properties { get; set; } = new JObject();
     }
 }

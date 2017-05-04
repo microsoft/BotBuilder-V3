@@ -725,6 +725,11 @@
             Channel account information needed to route a message
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.Properties">
+            <summary>
+            Extension data for overflow of properties
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor">
             <summary>
             Initializes a new instance of the ChannelAccount class.
@@ -2763,6 +2768,11 @@
             Display friendly name
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationAccount.Properties">
+            <summary>
+            Extension data for overflow of properties
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConversationParameters">
             <summary>
             Parameters for creating a new conversation
@@ -2916,6 +2926,11 @@
         <member name="P:Microsoft.Bot.Connector.Entity.Type">
             <summary>
             Entity Type (typically from schema.org types)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Entity.Properties">
+            <summary>
+            Extension data for overflow of properties
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Entity.GetAs``1">
