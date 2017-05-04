@@ -239,6 +239,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .As<IScorable<IActivity, double>>()
                 .InstancePerLifetimeScope();
 
+            // scorable implementing "end conversation"
+            builder
+                .RegisterInstance(EndConversationEvent.MakeScorable())
+                .As<IScorable<IResolver, double>>()
+                .SingleInstance();
+
             builder
                 .Register(c =>
                 {
