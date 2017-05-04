@@ -264,7 +264,7 @@ namespace Microsoft.Bot.Connector
             {
                 var keys = obj.SelectToken("keys").Value<JArray>();
                 var endorsements = keys.Where(key => key["endorsements"] != null).Select(key => Tuple.Create(key.SelectToken("kid").Value<string>(), key.SelectToken("endorsements").Values<string>()));
-                return endorsements.ToDictionary(item => item.Item1, item => item.Item2.ToArray());
+                return endorsements.Distinct(new EndorsementsComparer()).ToDictionary(item => item.Item1, item => item.Item2.ToArray());
             }
             else
             {
@@ -295,5 +295,19 @@ namespace Microsoft.Bot.Connector
                 }
             }
         }
+
+        private class EndorsementsComparer : IEqualityComparer<Tuple<string, IEnumerable<string>>>
+        {
+            public bool Equals(Tuple<string, IEnumerable<string>> x, Tuple<string, IEnumerable<string>> y)
+            {
+                return x.Item1 == y.Item1;
+            }
+
+            public int GetHashCode(Tuple<string, IEnumerable<string>> obj)
+            {
+                return obj.Item1.GetHashCode();
+            }
+        }
+
     }
 }

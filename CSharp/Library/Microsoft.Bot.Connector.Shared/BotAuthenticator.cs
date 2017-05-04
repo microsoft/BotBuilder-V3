@@ -126,7 +126,7 @@ namespace Microsoft.Bot.Connector
 
         private static bool DefaultEndorsementsValidator(IEnumerable<IActivity> activities, string[] endorsements)
         {
-            return activities.Select(activity => activity.ChannelId).Count(channelId => !endorsements.Contains(channelId)) == 0;
+            return !activities.Select(activity => activity.ChannelId).Except(endorsements).Any();
         }
 
         private void TrustServiceUrls(IdentityToken identityToken, IEnumerable<IActivity> activities)
