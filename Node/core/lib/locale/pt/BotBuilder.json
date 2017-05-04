@@ -9,5 +9,7 @@
     "default_choice": "Não consigo entender. Por favor, selecione uma opção da lista.",
     "default_time": "Não consigo entender o formato que você usou. Por favor, tente novamente usando o formato (MM/DD/AAAA HH:MM:SS).",
     "default_file": "Não consegui receber o arquivo. Por favor, tente novamente.",
-    "default_error": "Oops. Algo deu errado. Por favor, comece novamente."
+    "default_error": "Oops. Algo deu errado. Por favor, comece novamente.",
+    "yesExp": "^(1|sim)(\\W|$)",
+    "noExp": "^(2|não)(\\W|$)"
 }
