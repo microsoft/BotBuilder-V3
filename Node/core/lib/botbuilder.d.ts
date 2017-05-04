@@ -1,11 +1,64 @@
 ﻿//=============================================================================
 //
+// TYPES
+//
+//=============================================================================
+
+/**
+ * Text based prompts that can be sent to a user.
+ * * _{string}_ - A simple message to send the user.
+ * * _{string[]}_ - Array of possible messages to send the user. One will be chosen at random. 
+ */
+export type TextType = string|string[];
+
+/**
+ * Message based prompts that can be sent to a user.
+ * * _{IMessage}_ - Message to send the user expressed using JSON. The message can contain attachments and suggested actions. Not all channels natively support all message properties but most channels will down render unsupported fields. 
+ * * _{IIsMessage}_ - An instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. This class helps to localize your messages and provides helpers to aid with formatting the text portions of your message. 
+ */
+export type MessageType = IMessage|IIsMessage;
+
+/**
+ * Flexible range of possible prompts that can be sent to a user.
+ * * _{string}_ - A simple message to send the user.
+ * * _{string[]}_ - Array of possible messages to send the user. One will be chosen at random. 
+ * * _{IMessage}_ - Message to send the user expressed using JSON. The message can contain attachments and suggested actions. Not all channels natively support all message properties but most channels will down render unsupported fields. 
+ * * _{IIsMessage}_ - An instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. This class helps to localize your messages and provides helpers to aid with formatting the text portions of your message. 
+ */
+export type TextOrMessageType = string|string[]|IMessage|IIsMessage;
+
+/**
+ * Some methods can take either an `IAttachment` in JSON form or one the various card builder classes
+ * that implement `IIsAttachment`. 
+ */
+export type AttachmentType = IAttachment|IIsAttachment;
+
+/**
+ * Supported rules for matching a users utterance.
+ * * _{RegExp}_ - A regular expression will be used to match the users utterance.
+ * * _{string}_ - A named intent returned from a recognizer will be used to match the users utterance.
+ * * _{(RegExp|string)[]}_ - An array of either regular expressions or named intents can be passed to match the users utterance in a number of possible ways. The rule generating the highest score (best match) will be used for scoring purposes. 
+ */
+export type MatchType = RegExp|string|(RegExp|string)[];
+
+/**
+ * List of text values. The values can be expressed as a pipe delimited string like "value1|value2|value3"
+ * or simple array of values.  
+ */
+export type ValueListType = string|string[];
+
+//=============================================================================
+//
 // INTERFACES
 //
 //=============================================================================
 
 /**
  * An event received from or being sent to a source.
+ * @example
+ * <pre><code>
+ * session.send({ type: 'typing' });
+ * </code></pre>
  */
 export interface IEvent {
     /** Defines type of event. Should be 'message' for an IMessage. */
@@ -30,7 +83,15 @@ export interface IEvent {
     user: IIdentity;
 }
 
-/** The Properties of a conversation have changed.  */
+/** 
+ * The Properties of a conversation have changed.  
+ * @example
+ * <pre><code>
+ * bot.on('conversationUpdate', function (update) {
+ *     // ... process update ...
+ * });
+ * </code></pre>
+ */
 export interface IConversationUpdate extends IEvent {
     /** Array of members added to the conversation. */
     membersAdded?: IIdentity[];
@@ -45,7 +106,15 @@ export interface IConversationUpdate extends IEvent {
     historyDisclosed?: boolean;
 }
 
-/** A user has updated their contact list. */
+/** 
+ * A user has updated their contact list. 
+ * @example
+ * <pre><code>
+ * bot.on('contactRelationUpdate', function (update) {
+ *     // ... process update ...
+ * });
+ * </code></pre>
+ */
 export interface IContactRelationUpdate extends IEvent {
     /** The action taken. Valid values are "add" or "remove". */
     action: string;
@@ -64,10 +133,20 @@ export interface IContactRelationUpdate extends IEvent {
  *
  * Composing a message to the user using the incoming address object will by default send a reply to the user in the context of the current conversation. Some channels allow for the starting of new conversations with the user. To start a new proactive conversation with the user simply delete 
  * the [conversation](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress.html#conversation) field from the address object before composing the outgoing message.
+ * @example
+ * <pre><code>
+ * session.send({
+ *      type: 'message',
+ *      text: "Hello World!"
+ * });
+ * </code></pre>
  */
 export interface IMessage extends IEvent {
-    /** Timestamp of message given by chat service for incoming messages. */
+    /** UTC Time when message was sent (set by service.) */
     timestamp?: string;
+
+    /** Local time when message was sent (set by client or bot, Ex: 2016-09-23T13:07:49.4714686-07:00.) */
+    localTimestamp?: string;
 
     /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */  
     summary?: string;
@@ -97,13 +176,29 @@ export interface IMessage extends IEvent {
     inputHint?: string;
 }
 
-/** Implemented by classes that can be converted into a message. */
+/** 
+ * Implemented by classes that can be converted into an IMessage, like the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message) builder class. 
+ * @example
+ * <pre><code>
+ * var msg = new builder.Message(session)
+ *      .text("Hello World!");
+ * session.send(msg);
+ * </code></pre>
+ */
 export interface IIsMessage {
     /** Returns the JSON object for the message. */
     toMessage(): IMessage;
 }
 
-/** Optional message properties that can be sent to things like prompts or [session.say()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#say). */
+/** 
+ * Optional message properties that can be sent to things like prompts or [session.say()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#say). 
+ * @example
+ * <pre><code>
+ * session.say("Please wait...", "<speak>Please wait</speak>", {
+ *     inputHint: builder.InputHint.ignoringInput
+ * });
+ * </code></pre>
+ */
 export interface IMessageOptions {
     /** For incoming messages contains attachments like images sent from the user. For outgoing messages contains objects like cards or images to send to the user.   */
     attachments?: IAttachment[]; 
@@ -134,9 +229,14 @@ export interface IIdentity {
 }
 
 /** 
- * Address routing information for a [message](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#address). 
- * Addresses are bidirectional meaning they can be used to address both incoming and outgoing messages. They're also connector specific meaning that
- * [connectors](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconnector.html) are free to add their own fields.
+ * Address routing information for an [event](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ievent.html#address). 
+ * Addresses are bidirectional meaning they can be used to address both incoming and outgoing events. 
+ * They're also connector specific meaning that [connectors](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconnector.html) 
+ * are free to add their own fields to the address.
+ * 
+ * To send a __proactive message__ to a user bots should save the address from a received [message](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage). 
+ * Depending on the channel addresses can change, so bots should periodically update the address stored for a given
+ * user.
  */
 export interface IAddress {
     /** Unique identifier for channel. */
@@ -155,7 +255,7 @@ export interface IAddress {
     conversation?: IIdentity;  
 }
 
-/** Chat connector specific address. */
+/** [ChatConnector](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.chatconnector) specific address. */
 export interface IChatConnectorAddress extends IAddress {
     /** Incoming Message ID. */
     id?: string;
@@ -170,7 +270,7 @@ export interface IChatConnectorAddress extends IAddress {
  * the channels native schema. The types of attachments that can be sent varies by channel but these are the basic types:
  * 
  * * __Media and Files:__  Basic files can be sent by setting [contentType](#contenttype) to the MIME type of the file and then passing a link to the file in [contentUrl](#contenturl).
- * * __Cards and Keyboards:__  A rich set of visual cards and custom keyboards can by setting [contentType](#contenttype) to the cards type and then passing the JSON for the card in [content](#content). If you use one of the rich card builder classes like
+ * * __Cards:__  A rich set of visual cards can by setting [contentType](#contenttype) to the cards type and then passing the JSON for the card in [content](#content). If you use one of the rich card builder classes like
  * [HeroCard](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.herocard.html) the attachment will automatically filled in for you.    
  */
 export interface IAttachment {
@@ -181,7 +281,13 @@ export interface IAttachment {
     content?: any;
 
     /** (Optional) reference to location of attachment content. */  
-    contentUrl?: string; 
+    contentUrl?: string;
+
+    /** (Optional) name of the attachment. */
+    name?: string;
+
+    /** (Optional) link to the attachments thumbnail. */
+    thumbnailUrl?: string;
 }
 
 /** Implemented by classes that can be converted into an attachment. */
@@ -420,7 +526,7 @@ export interface IDialogState {
   * Results returned by a child dialog to its parent via a call to session.endDialog(). 
   */
 export interface IDialogResult<T> {
-    /** The reason why the current dialog is being resumed. Defaults to {ResumeReason.completed} */
+    /** The reason why the current dialog is being resumed. Defaults to [ResumeReason.completed](/en-us/node/builder/chat-reference/enums/_botbuilder_d_.resumereason#completed). */
     resumed?: ResumeReason;
 
     /** ID of the child dialog thats ending. */
@@ -491,7 +597,7 @@ export interface IRecognizeContext {
 
 /** Context passed to `Dialog.recognize()`. */
 export interface IRecognizeDialogContext extends IRecognizeContext {
-    /** If true the Dialog is the active dialog on the callstack. */
+    /** If true the Dialog is the active dialog on the dialog stack. */
     activeDialog: boolean;
 
     /** Data persisted for the current dialog . */
@@ -511,9 +617,11 @@ export interface IDialogActionOptions {
      * intent can be provided and multiple intents can be specified.  When a named intent is 
      * provided the action will be matched using the recognizers assigned to the library/bot using
      * [Library.recognizer()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#recognizer). 
-     * If a matches option isn't provided then the action can only be triggered from a button click. 
+     * 
+     * If a matches option isn't provided then the action can only be matched if an [onFindAction](#onfindaction)
+     * handler is provided. 
      */
-    matches?: RegExp|RegExp[]|string|string[];
+    matches?: MatchType;
 
     /** (Optional) minimum score needed to trigger the action using the value of [matches](#matches). The default value is 0.1. */
     intentThreshold?: number;
@@ -536,9 +644,6 @@ export interface IDialogActionOptions {
      * would like the actions default behavior to run. 
      */
     onSelectAction?: (session: Session, args?: IActionRouteData, next?: Function) => void;
-
-    /** (Optional) display label for the action which can be presented to the user to disambiguate between actions. */
-    label?: string;    
 }
 
 
@@ -553,12 +658,8 @@ export interface ITriggerActionOptions extends IBeginDialogActionOptions {
     /**
      * If specified the user will be asked to confirm that they are ok canceling the current 
      * uncompleted task.
-     * * _{string}_ - Initial message to send the user.
-     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * _{IMessage}_ - Message to send the user. Message can contain attachments. 
-     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
      */
-    confirmPrompt?: string|string[]|IMessage|IIsMessage;
+    confirmPrompt?: TextOrMessageType;
 
     /** 
      * (Optional) custom handler called when a root dialog is being interrupted by another root 
@@ -576,12 +677,8 @@ export interface ICancelActionOptions extends IDialogActionOptions {
     /**
      * If specified the user will be asked to confirm that they truly would like to cancel an
      * action when triggered. 
-     * * _{string}_ - Initial message to send the user.
-     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * _{IMessage}_ - Message to send the user. Message can contain attachments. 
-     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
      */
-    confirmPrompt?: string|string[]|IMessage|IIsMessage;
+    confirmPrompt?: TextOrMessageType;
 }
 
 /** Arguments passed to a triggered action. */
@@ -614,7 +711,7 @@ export interface IChoice {
     action?: ICardAction;
 
     /** (Optional) list of synonyms to recognize in addition to the value. */
-    synonyms?: string|string[];
+    synonyms?: ValueListType;
 }
 
 /** Options passed to [PromptRecognizers.recognizeNumbers()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptrecognizers#recognizenumbers). */
@@ -665,28 +762,20 @@ export interface IPromptRecognizeChoicesOptions extends IPromptRecognizeValuesOp
 export interface IPromptOptions extends IMessageOptions {
     /** 
      * (Optional) Initial prompt to send the user. This is typically populated by the `Prompts.xxx()` function.
-     * * _{string}_ - Initial message to send the user.
-     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * _{IMessage}_ - Initial message to send the user. Message can contain attachments. 
-     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
      */
-    prompt?: string|string[]|IMessage|IIsMessage;
+    prompt?: TextOrMessageType;
 
     /** (Optional) SSML to send with the initial `prompt`. If the prompt is of type `IMessage` or `IIsMessage`, this value will be ignored. If this value is an array a response will be chosen at random. */
-    speak?: string|string[];
+    speak?: TextType;
 
     /** 
      * (Optional) retry prompt to send if the users response isn't understood. Default is to just 
      * re-prompt with a customizable system prompt. 
-     * * _{string}_ - Message to send the user.
-     * * _{string[]}_ - Array of possible messages to send user. One will be chosen at random. 
-     * * _{IMessage}_ - Message to send the user. Message can contain attachments. 
-     * * _{IIsMessage}_ - Instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. 
      */
-    retryPrompt?: string|string[]|IMessage|IIsMessage;
+    retryPrompt?: TextOrMessageType;
 
     /** (Optional) SSML to send with the `retryPrompt`. If the retryPrompt is of type `IMessage` or `IIsMessage`, this value will be ignored. If this value is an array a response will be chosen at random. */
-    retrySpeak?: string|string[];
+    retrySpeak?: TextType;
 
     /** (Optional) maximum number of times to re-prompt the user. By default the user will be re-prompted indefinitely. */
     maxRetries?: number;
@@ -743,7 +832,7 @@ export interface IPromptFeatures {
     disableRecognizer?: boolean;
 
     /** The default retryPrompt to send should the caller not provide one. */
-    defaultRetryPrompt?: string|string[]|IMessage|IIsMessage;
+    defaultRetryPrompt?: TextOrMessageType;
 
     /** The library namespace to use for the [defaultRetryPrompt](#defaultretryprompt). If not specified then the bots default namespace of "*" will be used. */
     defaultRetryNamespace?: string;
@@ -874,41 +963,6 @@ export interface IPromptTimeResult extends IPromptResult<IEntity> { }
 /** Strongly typed Attachment Prompt Result. */
 export interface IPromptAttachmentResult extends IPromptResult<IAttachment[]> { }
 
-/** Plugin for recognizing prompt responses received by a user. */
-export interface IPromptRecognizer {
-    /**
-      * Attempts to match a users response to a given prompt.
-      * @param args Arguments passed to the recognizer including that language, text, and prompt choices.
-      * @param callback Function to invoke with the result of the recognition attempt.
-      * @param callback.result Returns the result of the recognition attempt.
-      */
-    recognize<T>(args: IPromptRecognizerArgs, callback: (result: IPromptRecognizerResult<T>) => void): void;
-}
-
-/** Arguments passed to the IPromptRecognizer.recognize() method.*/
-export interface IPromptRecognizerArgs {
-    /** Type of prompt being responded to. */
-    promptType: PromptType;
-
-    /** Text of the users response to the prompt. */
-    text: string;
-
-    /** Language of the text if known. */
-    language?: string;
-
-    /** For choice prompts the list of possible choices. */
-    enumValues?: string[];
-
-    /** (Optional) reference date when recognizing times. */
-    refDate?: number;
-}
-
-/** Global configuration options for the Prompts dialog. */
-export interface IPromptsOptions {
-    /** Replaces the default recognizer (SimplePromptRecognizer) used to recognize prompt replies. */
-    recognizer?: IPromptRecognizer
-}
-
 /** A recognized intent. */
 export interface IIntent {
     /** Intent that was recognized. */
@@ -924,7 +978,7 @@ export interface IEntity {
     type: string;
 
     /** Value of the recognized entity. */
-    entity: string;
+    entity: any;
 
     /** Start position of entity within text utterance. */
     startIndex?: number;
@@ -1026,13 +1080,13 @@ export interface ISessionOptions {
     autoBatchDelay?: number;
 
     /** Default error message to send users when a dialog error occurs. */
-    dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
+    dialogErrorMessage?: TextOrMessageType;
 
     /** Global actions registered for the bot. */
     actions?: ActionSet;
 }
 
-/** result returned from a call to EntityRecognizer.findBestMatch() or EntityRecognizer.findAllMatches(). */
+/** Result returned from a call to EntityRecognizer.findBestMatch() or EntityRecognizer.findAllMatches(). */
 export interface IFindMatchResult {
     /** Index of the matched value. */
     index: number;
@@ -1128,7 +1182,7 @@ export interface IUniversalBotSettings {
     persistConversationData?: boolean;
 
     /** (Optional) message to send the user should an unexpected error occur during a conversation. A default message is provided. */
-    dialogErrorMessage?: string|string[]|IMessage|IIsMessage;
+    dialogErrorMessage?: TextOrMessageType;
 }
 
 /** Implemented by connector plugins for the UniversalBot. */
@@ -1305,7 +1359,7 @@ export interface IDialogVersionOptions {
     version: number;
 
     /** Optional message to send the user when their conversation is ended due to a version number change. A default message is provided. */
-    message?: string|string[]|IMessage|IIsMessage;
+    message?: TextOrMessageType;
 
     /** Optional regular expression to listen for to manually detect a request to reset the users session state. */
     resetCommand?: RegExp;
@@ -1613,11 +1667,21 @@ export class Session {
     dialogData: any;
 
     /** The localizer for the current session. */
-    localizer:ILocalizer ;    
+    localizer: ILocalizer ;    
     
     /**
      * Signals that an error occured. The bot will signal the error via an on('error', err) event.
      * @param err Error that occured.
+     * @example
+     * <pre><code>
+     * bot.dialog('taskDialog', function (session) {
+     *      try {
+     *           // ... do something that could raise an error ...
+     *      } catch (err) {
+     *           session.error(err);
+     *      }
+     * });
+     * </code></pre>
      */
     error(err: Error): Session;
 
@@ -1625,6 +1689,23 @@ export class Session {
      * Returns the preferred locale when no parameters are supplied, otherwise sets the preferred locale.
      * @param locale (Optional) the locale to use for localizing messages. 
      * @param callback (Optional) function called when the localization table has been loaded for the supplied locale. 
+     * @example
+     * <pre><code>
+     * bot.dialog('localePicker', [
+     *      function (session) {
+     *           var choices = [
+     *                { value: 'en', title: "English" },
+     *                { value: 'es', title: "Español" }
+     *           ];
+     *           builder.Prompts.choice(session, "Please select your preferred language.", choices);
+     *      },
+     *      function (session, results) {
+     *           var locale = results.response.entity;
+     *           session.preferredLocale(locale);
+     *           session.send("Language updated.").endDialog();
+     *      }
+     * ]);
+     * </code></pre>
      */
     preferredLocale(locale?: string, callback?: (err: Error) => void): string;
 
@@ -1633,6 +1714,10 @@ export class Session {
      * will be treated as a template and formatted using [sprintf-js](https://github.com/alexei/sprintf.js) (see their docs for details.) 
      * @param msgid String to use as a key in the localized string table. Typically this will just be the english version of the string.
      * @param args (Optional) arguments used to format the final output string. 
+     * @example
+     * <pre><code>
+     * var msg = session.gettext("")
+     * </code></pre>
      */
     gettext(msgid: string, ...args: any[]): string;
 
@@ -1650,53 +1735,49 @@ export class Session {
 
     /**
      * Sends a message to the user. 
-     * @param message 
-     * * __message:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer. If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
-     * * __message:__ _{string[]}_ - The sent message will be chosen at random from the array.
-     * * __message:__ _{IMessage|IIsMessage}_ - Message to send. 
+     * @param message Text/message to send to user.
      * @param args (Optional) arguments used to format the final output text when __message__ is a _{string|string[]}_.
      */
-    send(message: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
+    send(message: TextOrMessageType, ...args: any[]): Session;
 
     /**
      * Sends a message to a user using a specific localization namespace. 
      * @param libraryNamespace Namespace to use for localizing the message.
-     * @param message 
-     * * __message:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer. If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
-     * * __message:__ _{string[]}_ - The sent message will be chosen at random from the array.
-     * * __message:__ _{IMessage|IIsMessage}_ - Message to send. 
+     * @param message Text/message to send to user.
      * @param args (Optional) arguments used to format the final output text when __message__ is a _{string|string[]}_.
      */
-    sendLocalized(libraryNamespace: string, message: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
+    sendLocalized(libraryNamespace: string, message: TextOrMessageType, ...args: any[]): Session;
 
     /**
      * Sends a text, and optional SSML, message to the user. 
-     * @param text 
-     * * __text:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer.
-     * * __text:__ _{string[]}_ - The sent message will be chosen at random from the array.
+     * @param text Text to send to the user. This can be null to send only SSML or attachments. 
      * @param speak (Optional) message that should be spoken to the user. The message should be formatted as [Speech Synthesis Markup Language (SSML)](https://msdn.microsoft.com/en-us/library/hh378377(v=office.14).aspx). 
      * If an array is passed a response will be chosen at random.
      * @param options (Optional) properties that should be included on the outgoing message.
      */
-    say(text: string|string[], speak?: string|string[], options?: IMessageOptions): Session;
-    say(text: string|string[], options?: IMessageOptions): Session;
+    say(text: TextType, speak?: TextType, options?: IMessageOptions): Session;
+    say(text: TextType, options?: IMessageOptions): Session;
 
     /**
      * Sends a text, and optional SSML, message to the user using a specific localization namespace. 
      * @param libraryNamespace Namespace to use for localizing the message.
-     * @param text 
-     * * __text:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer.
-     * * __text:__ _{string[]}_ - The sent message will be chosen at random from the array.
+     * @param text Text to send to the user. This can be null to send only SSML or attachments. 
      * @param speak (Optional) message that should be spoken to the user. The message should be formatted as [Speech Synthesis Markup Language (SSML)](https://msdn.microsoft.com/en-us/library/hh378377(v=office.14).aspx). 
      * If an array is passed a response will be chosen at random.
      * @param options (Optional) properties that should be included on the outgoing message.
      */
-    sayLocalized(libraryNamespace: string, text: string|string[], speak?: string|string[], options?: IMessageOptions): Session;
+    sayLocalized(libraryNamespace: string, text: TextType, speak?: TextType, options?: IMessageOptions): Session;
 
     /**
      * Sends the user an indication that the bot is typing. For long running operations this should be called every few seconds. 
      */
     sendTyping(): Session;
+
+    /**
+     * Inserts a delay between outgoing messages.
+     * @param delay Number of milliseconds to pause for.
+     */
+    delay(delay: number): Session;
 
     /**
      * Returns true if a message has been sent for this session.
@@ -1723,27 +1804,22 @@ export class Session {
 
     /** 
      * Ends the current conversation and optionally sends a message to the user. 
-     * @param message (Optional)
-     * * __message:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer. If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
-     * * __message:__ _{string[]}_ - The sent message will be chosen at random from the array.
-     * * __message:__ _{IMessage|IIsMessage}_ - Message to send. 
+     * @param message (Optional) text/message to send the user before ending the conversation.
      * @param args (Optional) arguments used to format the final output text when __message__ is a _{string|string[]}_.
      */
-    endConversation(message?: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
+    endConversation(message?: TextOrMessageType, ...args: any[]): Session;
 
     /**
      * Ends the current dialog and optionally sends a message to the user. The parent will be resumed with an [IDialogResult.resumed](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#resumed) 
      * reason of [completed](/en-us/node/builder/chat-reference/enums/_botbuilder_d_.resumereason.html#completed).  
-     * @param message (Optional)
-     * * __message:__ _{string}_ - Text of the message to send. The message will be localized using the sessions configured localizer. If arguments are passed in the message will be formatted using [sprintf-js](https://github.com/alexei/sprintf.js).
-     * * __message:__ _{string[]}_ - The sent message will be chosen at random from the array.
-     * * __message:__ _{IMessage|IIsMessage}_ - Message to send. 
+     * @param message (Optional) text/message to send the user before ending the dialog.
      * @param args (Optional) arguments used to format the final output text when __message__ is a _{string|string[]}_.
      */
-    endDialog(message?: string|string[]|IMessage|IIsMessage, ...args: any[]): Session;
+    endDialog(message?: TextOrMessageType, ...args: any[]): Session;
 
     /**
-     * Ends the current dialog and optionally returns a result to the dialogs parent. 
+     * Ends the current dialog and optionally returns a result to the dialogs parent.
+     * @param result (Optional) result to send the user. The value you'd like to return should be in the [response](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult#response) field.  
      */
     endDialogWithResult(result?: IDialogResult<any>): Session;
     
@@ -1954,10 +2030,10 @@ export class Message implements IIsMessage {
     inputHint(hint: string): Message;
 
     /** Sets the speak field of the message as [Speech Synthesis Markup Language (SSML)](https://msdn.microsoft.com/en-us/library/hh378377(v=office.14).aspx). This will be spoken to the user on supported devices. */
-    speak(ssml: string|string[], ...args: any[]): Message;
+    speak(ssml: TextType, ...args: any[]): Message;
 
     /** Conditionally set the speak field of the message given a specified count. */
-    nspeak(ssml: string|string[], ssml_plural: string|string[], count: number): Message;
+    nspeak(ssml: TextType, ssml_plural: TextType, count: number): Message;
     
     /** Language of the message. */   
     textLocale(locale: string): Message;
@@ -1966,28 +2042,28 @@ export class Message implements IIsMessage {
     textFormat(style: string): Message;
     
     /** Sets the message text. */
-    text(text: string|string[], ...args: any[]): Message;
+    text(text: TextType, ...args: any[]): Message;
     
     /** Conditionally set the message text given a specified count. */
-    ntext(msg: string|string[], msg_plural: string|string[], count: number): Message;
+    ntext(msg: TextType, msg_plural: TextType, count: number): Message;
     
     /** Composes a complex and randomized reply to the user.  */
     compose(prompts: string[][], ...args: any[]): Message;
 
     /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */  
-    summary(text: string|string[], ...args: any[]): Message;
+    summary(text: TextType, ...args: any[]): Message;
 
     /** Hint for how clients should layout multiple attachments. The default value is 'list'. */ 
     attachmentLayout(style: string): Message;
     
     /** Cards or images to send to the user. */
-    attachments(list: IAttachment[]|IIsAttachment[]): Message;
+    attachments(list: AttachmentType): Message;
        
     /**
      * Adds an attachment to the message. See [IAttachment](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html) for examples.
      * @param attachment The attachment to add.   
      */    
-    addAttachment(attachment: IAttachment|IIsAttachment): Message;
+    addAttachment(attachment: AttachmentType): Message;
     
     /** Optional suggested actions to send to the user. Suggested actions will be displayed only on the channels that support suggested actions. */
     suggestedActions(suggestedActions: ISuggestedActions|IIsSuggestedActions): Message;
@@ -2001,8 +2077,14 @@ export class Message implements IIsMessage {
     /** Address routing information for the message. Save this field to external storage somewhere to later compose a proactive message to the user. */
     address(adr: IAddress): Message;
     
-    /** Timestamp of the message. If called will default the timestamp to (now). */
+    /** Set by connectors service. Use [localTimestamp()](#localtimestamp) instead. */
     timestamp(time?: string): Message;
+
+    /** 
+     * Local time when message was sent (set by client or bot, Ex: 2016-09-23T13:07:49.4714686-07:00.) 
+     * @param time (Optional) time expressed as an ISO string. Defaults to `new Date().toISOString()`.
+     */
+    localTimestamp(time?: string): Message;
 
     /** Message in original/native format of the channel for incoming messages. */
     originalEvent(event: any): Message;
@@ -2017,7 +2099,7 @@ export class Message implements IIsMessage {
     setLanguage(language: string): Message;
     
     /** __DEPRECATED__ use [text()](#text) instead. */ 
-    setText(session: Session, prompt: string|string[], ...args: any[]): Message;
+    setText(session: Session, prompt: TextType, ...args: any[]): Message;
 
     /** __DEPRECATED__ use [ntext()](#ntext) instead. */ 
     setNText(session: Session, msg: string, msg_plural: string, count: number): Message;
@@ -2032,7 +2114,7 @@ export class Message implements IIsMessage {
      * Selects a prompt at random.
      * @param prompts Array of prompts to choose from. When prompts is type _string_ the prompt will simply be returned unmodified.
      */
-    static randomPrompt(prompts: string|string[]): string;
+    static randomPrompt(prompts: TextType): string;
     
     /**
      * Combines an array of prompts into a single localized prompt and then optionally fills the
@@ -2058,7 +2140,7 @@ export class CardAction implements IIsCardAction {
     type(t: string): CardAction;
     
     /** Title of the action. For buttons this will be the label of the button.  For tap actions this may be used for accesibility purposes or shown on hover. */
-    title(text: string|string[], ...args: any[]): CardAction;
+    title(text: TextType, ...args: any[]): CardAction;
 
     /** The actions value. */    
     value(v: string): CardAction;
@@ -2073,49 +2155,49 @@ export class CardAction implements IIsCardAction {
      * Places a call to a phone number. The should include country code in +44/+1 format for Skype calls. 
      * @param session (Optional) Current session object for the conversation. If specified will be used to localize titles.
      */
-    static call(session: Session, number: string, title?: string|string[]): CardAction;
+    static call(session: Session, number: string, title?: TextType): CardAction;
     
     /** 
      * Opens the specified URL. 
      * @param session (Optional) Current session object for the conversation. If specified will be used to localize titles.
      */
-    static openUrl(session: Session, url: string, title?: string|string[]): CardAction;
+    static openUrl(session: Session, url: string, title?: TextType): CardAction;
     
     /** 
      * Sends a message to the bot for processing in a way that's visible to all members of the conversation. For some channels this may get mapped to a [postBack](#postback). 
      * @param session (Optional) Current session object for the conversation. If specified will be used to localize titles.
      */
-    static imBack(session: Session, msg: string, title?: string|string[]): CardAction;
+    static imBack(session: Session, msg: string, title?: TextType): CardAction;
     
     /** 
      * Sends a message to the bot for processing in a way that's hidden from all members of the conversation. For some channels this may get mapped to a [imBack](#imback). 
      * @param session (Optional) Current session object for the conversation. If specified will be used to localize titles.
      */
-    static postBack(session: Session, msg: string, title?: string|string[]): CardAction;
+    static postBack(session: Session, msg: string, title?: TextType): CardAction;
     
     /** 
      * Plays the specified audio file to the user. Not currently supported for Skype. 
      * @param session (Optional) Current session object for the conversation. If specified will be used to localize titles.
      */
-    static playAudio(session: Session, url: string, title?: string|string[]): CardAction;
+    static playAudio(session: Session, url: string, title?: TextType): CardAction;
     
     /** 
      * Plays the specified video to the user. Not currently supported for Skype. 
      * @param session (Optional) Current session object for the conversation. If specified will be used to localize titles.
      */
-    static playVideo(session: Session, url: string, title?: string|string[]): CardAction;
+    static playVideo(session: Session, url: string, title?: TextType): CardAction;
     
     /**
      * Opens the specified image in a native image viewer. For Skype only valid as a tap action on a CardImage. 
      * @param session (Optional) Current session object for the conversation. If specified will be used to localize titles.
      */
-    static showImage(session: Session, url: string, title?: string|string[]): CardAction;
+    static showImage(session: Session, url: string, title?: TextType): CardAction;
     
     /** 
      * Downloads the specified file to the users device. Not currently supported for Skype. 
      * @param session (Optional) Current session object for the conversation. If specified will be used to localize titles.
      */
-    static downloadFile(session: Session, url: string, title?: string|string[]): CardAction;
+    static downloadFile(session: Session, url: string, title?: TextType): CardAction;
 
     /**
      * Binds a button or tap action to a named action registered for a dialog or globally off the bot.
@@ -2131,7 +2213,7 @@ export class CardAction implements IIsCardAction {
      * as part of the dialogs initial arguments.
      * @param title (Optional) title to assign when binding the action to a button.  
      */
-    static dialogAction(session: Session, action: string, data?: string, title?: string|string[]): CardAction;
+    static dialogAction(session: Session, action: string, data?: string, title?: TextType): CardAction;
 }
 
 /** Builder class to add suggested actions to a message */
@@ -2144,7 +2226,7 @@ export class SuggestedActions implements IIsSuggestedActions {
     constructor(session?: Session);
 
     /** Optional recipients of the actions. Only supported by certain channels. */
-    to(text: string|string[]): SuggestedActions;
+    to(text: TextType): SuggestedActions;
 
     /** Collection of actions to be displayed as suggested actions. */
     actions(list: ICardAction[]|IIsCardAction[]): SuggestedActions;
@@ -2171,7 +2253,7 @@ export class CardImage implements IIsCardImage {
     url(u: string): CardImage;
     
     /** Alternate text of the image to use for accessibility pourposes. */
-    alt(text: string|string[], ...args: any[]): CardImage;
+    alt(text: TextType, ...args: any[]): CardImage;
     
     /** Action to take when the image is tapped. */
     tap(action: ICardAction|IIsCardAction): CardImage;
@@ -2212,13 +2294,13 @@ export class ThumbnailCard extends Keyboard {
     constructor(session?: Session);
     
     /** Title of the Card. */
-    title(text: string|string[], ...args: any[]): ThumbnailCard;
+    title(text: TextType, ...args: any[]): ThumbnailCard;
 
     /** Subtitle appears just below Title field, differs from Title in font styling only. */  
-    subtitle(text: string|string[], ...args: any[]): ThumbnailCard;
+    subtitle(text: TextType, ...args: any[]): ThumbnailCard;
     
     /** Text field appears just below subtitle, differs from Subtitle in font styling only. */
-    text(text: string|string[], ...args: any[]): ThumbnailCard;
+    text(text: TextType, ...args: any[]): ThumbnailCard;
     
     /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. */  
     images(list: ICardImage[]|IIsCardImage[]): ThumbnailCard;
@@ -2235,7 +2317,7 @@ export class VideoCard extends MediaCard implements IIsAttachment {
      * @param session (Optional) will be used to localize any text. 
      */
     constructor(session?: Session);
-    aspect(text: string|string[], ...args: any[]): this;
+    aspect(text: TextType, ...args: any[]): this;
 }
 
 /** Card builder class that simplifies building Animation cards. */
@@ -2268,13 +2350,13 @@ export class MediaCard  implements IIsAttachment{
     constructor(session?: Session);
     
     /** Title of the Card */
-    title(text: string|string[], ...args: any[]): this;
+    title(text: TextType, ...args: any[]): this;
 
     /** Subtitle appears just below Title field, differs from Title in font styling only */
-    subtitle(text: string|string[], ...args: any[]): this;
+    subtitle(text: TextType, ...args: any[]): this;
     
     /** Text field appears just below subtitle, differs from Subtitle in font styling only */
-    text(text: string|string[], ...args: any[]): this;
+    text(text: TextType, ...args: any[]): this;
     
     /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download.*/
     image(image: ICardImage|IIsCardImage): this;
@@ -2344,10 +2426,10 @@ export class SigninCard implements IIsAttachment {
     constructor(session?: Session);
     
     /** Title of the Card. */
-    text(prompts: string|string[], ...args: any[]): SigninCard;
+    text(prompts: TextType, ...args: any[]): SigninCard;
     
     /** Signin button label and link. */  
-    button(title: string|string[], url: string): SigninCard;
+    button(title: TextType, url: string): SigninCard;
     
     /** Returns the JSON for the card, */
     toAttachment(): IAttachment;
@@ -2363,7 +2445,7 @@ export class ReceiptCard implements IIsAttachment {
     constructor(session?: Session);
     
     /** Title of the Card. */
-    title(text: string|string[], ...args: any[]): ReceiptCard;
+    title(text: TextType, ...args: any[]): ReceiptCard;
     
     /** Array of receipt items. */  
     items(list: IReceiptItem[]|IIsReceiptItem[]): ReceiptCard;
@@ -2400,13 +2482,13 @@ export class ReceiptItem implements IIsReceiptItem {
     constructor(session?: Session);
     
     /** Title of the item. */
-    title(text: string|string[], ...args: any[]): ReceiptItem;
+    title(text: TextType, ...args: any[]): ReceiptItem;
 
     /** Subtitle appears just below Title field, differs from Title in font styling only. On some channels may be combined with the [title](#title) or [text](#text). */
-    subtitle(text: string|string[], ...args: any[]): ReceiptItem;
+    subtitle(text: TextType, ...args: any[]): ReceiptItem;
     
     /** Text field appears just below subtitle, differs from Subtitle in font styling only. */  
-    text(text: string|string[], ...args: any[]): ReceiptItem;
+    text(text: TextType, ...args: any[]): ReceiptItem;
     
     /** Image to display on the card. Some channels may either send the image as a seperate message or simply include a link to the image. */  
     image(img: ICardImage|IIsCardImage): ReceiptItem;
@@ -2424,7 +2506,7 @@ export class ReceiptItem implements IIsReceiptItem {
     toItem(): IReceiptItem;
 
     /** Creates a new ReceiptItem. */
-    static create(session: Session, price: string, title?: string|string[]): ReceiptItem;
+    static create(session: Session, price: string, title?: TextType): ReceiptItem;
 }
 
 /** Builder class to simplify creating a list of facts for a card like a receipt. */
@@ -2437,7 +2519,7 @@ export class Fact implements IIsFact {
     constructor(session?: Session);
     
     /** Display name of the fact. */
-    key(text: string|string[], ...args: any[]): Fact;
+    key(text: TextType, ...args: any[]): Fact;
     
     /** Display value of the fact. */  
     value(v: string): Fact;
@@ -2446,7 +2528,7 @@ export class Fact implements IIsFact {
     toFact(): IFact;
 
     /** Creates a new Fact. */
-    static create(session: Session, value: string, key?: string|string[]): Fact;
+    static create(session: Session, value: string, key?: TextType): Fact;
 }
 
 
@@ -2573,7 +2655,7 @@ export abstract class Dialog extends ActionSet {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action.
      */
-    cancelAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
+    cancelAction(name: string, msg?: TextOrMessageType, options?: ICancelActionOptions): Dialog;
 
     /**
      * Binds an action to the dialog that will cause the dialog to be reloaded anytime its triggered. This is
@@ -2584,7 +2666,7 @@ export abstract class Dialog extends ActionSet {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action. You can also use [dialogArgs](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#dialogargs) to pass additional params to the dialog when reloaded.
      */
-    reloadAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: IBeginDialogActionOptions): Dialog;
+    reloadAction(name: string, msg?: TextOrMessageType, options?: IBeginDialogActionOptions): Dialog;
 
     /**
      * Binds an action to the dialog that will start another dialog anytime its triggered. The new 
@@ -2608,7 +2690,7 @@ export abstract class Dialog extends ActionSet {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action.
      */
-    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
+    endConversationAction(name: string, msg?: TextOrMessageType, options?: ICancelActionOptions): Dialog;
 
     /**
      * Binds a custom action to the dialog that will call the passed in [onSelectAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onselectaction) 
@@ -2920,7 +3002,7 @@ export class Library {
      * for the user to say a word or phrase that triggers the action, otherwise the action needs to be bound to a button using [CardAction.dialogAction()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.cardaction#dialogaction) 
      * to trigger the action.
      */
-    endConversationAction(name: string, msg?: string|string[]|IMessage|IIsMessage, options?: ICancelActionOptions): Dialog;
+    endConversationAction(name: string, msg?: TextOrMessageType, options?: ICancelActionOptions): Dialog;
 
     /**
      * Registers a custom global action that will call the passed in [onSelectAction](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onselectaction) 
@@ -3001,7 +3083,7 @@ export class Prompt<T extends IPromptFeatures> extends Dialog {
      * @param speak Current speak/retrySpeak SSML. This value may be null.
      * @param callback Function to receive the created message.
      */
-    formatMessage(session: Session, text: string|string[], speak: string|string[], callback: (err: Error, msg: IMessage) => void): void;
+    formatMessage(session: Session, text: TextType, speak: TextType, callback: (err: Error, msg: IMessage) => void): void;
 
     /**
      * Registers a handler that will be called every time the prompt is about to send a message to 
@@ -3025,7 +3107,7 @@ export class Prompt<T extends IPromptFeatures> extends Dialog {
      * in the chain.
      * @param handler Function that will be called to create an `IMessage` for the current prompt. Call `callback()` with either a message or `null` to continue processing.
      */
-    onFormatMessage(handler: (session: Session, text: string|string[], speak: string|string[], callback: (err: Error, message?: IMessage) => void)=> void): Prompt<any>;
+    onFormatMessage(handler: (session: Session, text: TextType, speak: TextType, callback: (err: Error, message?: IMessage) => void)=> void): Prompt<any>;
 
     /**
      * Registers a handler that will be called everytime the prompt receives a reply from the user.
@@ -3104,7 +3186,7 @@ export class Prompt<T extends IPromptFeatures> extends Dialog {
      * @param text Prompt to localize.
      * @param namespace (Optional) library namespace to use for localizing the prompt. By default the namespace of the prompts caller will be used.
      */
-    static gettext(session: Session, text: string|string[], namespace?: string): string;
+    static gettext(session: Session, text: TextType, namespace?: string): string;
 }
 
 /** Customizable attachment prompt. */
@@ -3157,7 +3239,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
      * @param speak (Optional) SSML to return with the message. This can be null.
      * @param choices (Optional) list of choices to include in the message. If ommitted the message will be sent without including choices.
      */
-    static formatMessage(session: Session, listStyle: ListStyle, text: string|string[], speak?: string|string[], choices?: IChoice[]): IMessage;
+    static formatMessage(session: Session, listStyle: ListStyle, text: TextType, speak?: TextType, choices?: IChoice[]): IMessage;
 }
 
 /** Customizable confirmation prompt. */
@@ -3215,7 +3297,7 @@ declare global {
          * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        text(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+        text(session: Session, prompt: TextOrMessageType, options?: IPromptOptions): void;
 
         /**
          * Prompts the user to enter a number.
@@ -3226,7 +3308,7 @@ declare global {
          * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        number(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptNumberOptions): void;
+        number(session: Session, prompt: TextOrMessageType, options?: IPromptNumberOptions): void;
 
         /**
          * Prompts the user to confirm an action with a yes/no response.
@@ -3237,7 +3319,7 @@ declare global {
          * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        confirm(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+        confirm(session: Session, prompt: TextOrMessageType, options?: IPromptOptions): void;
 
         /**
          * Prompts the user to choose from a list of options.
@@ -3253,7 +3335,7 @@ declare global {
          * * __choices:__ _{IChoice[]}_ - List of choices as an array of IChoice objects. 
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        choice(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: string|Object|string[]|IChoice[], options?: IPromptChoiceOptions): void;
+        choice(session: Session, prompt: TextOrMessageType, choices: string|Object|string[]|IChoice[], options?: IPromptChoiceOptions): void;
 
         /**
          * Prompts the user to enter a time.
@@ -3264,7 +3346,7 @@ declare global {
          * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        time(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptOptions): void;
+        time(session: Session, prompt: TextOrMessageType, options?: IPromptOptions): void;
 
         /**
          * Prompts the user to upload a file attachment.
@@ -3275,7 +3357,7 @@ declare global {
          * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        attachment(session: Session, prompt: string|string[]|IMessage|IIsMessage, options?: IPromptAttachmentOptions): void;
+        attachment(session: Session, prompt: TextOrMessageType, options?: IPromptAttachmentOptions): void;
 
         /**
          * Prompts the user to disambiguate multiple triggered actions. Should typically be called 
@@ -3296,7 +3378,7 @@ declare global {
          * @param choices Map of routes to select from. The key is the choice label that will be displayed to the user.
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        disambiguate(session: Session, prompt: string|string[]|IMessage|IIsMessage, choices: IDisambiguateChoices, options?: IPromptOptions): void;
+        disambiguate(session: Session, prompt: TextOrMessageType, choices: IDisambiguateChoices, options?: IPromptOptions): void;
 
         /**
          * Replaces a built-in prompt with a new implementation. This lets you completely customize the 
@@ -3983,6 +4065,25 @@ export class Middleware {
 /** __DEPRECATED__ no longer supported as of v3.8. Use custom prompts instead. */
 export class SimplePromptRecognizer implements IPromptRecognizer {
     recognize(args: IPromptRecognizerArgs, callback: (result: IPromptResult<any>) => void): void;
+}
+
+/** __DEPRECATED__ no longer supported as of v3.8. Use custom prompts instead. */
+export interface IPromptRecognizer {
+    recognize<T>(args: IPromptRecognizerArgs, callback: (result: IPromptRecognizerResult<T>) => void): void;
+}
+
+/** __DEPRECATED__ no longer supported as of v3.8. Use custom prompts instead. */
+export interface IPromptRecognizerArgs {
+    promptType: PromptType;
+    text: string;
+    language?: string;
+    enumValues?: string[];
+    refDate?: number;
+}
+
+/** __DEPRECATED__ no longer supported as of v3.8. Use custom prompts instead. */
+export interface IPromptsOptions {
+    recognizer?: IPromptRecognizer
 }
 
 /** __DEPRECATED__ the new prompt system just uses IPromptOptions. */
