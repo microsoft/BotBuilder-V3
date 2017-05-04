@@ -24,18 +24,36 @@ Create a file named app.js and say hello in a few lines of code.
     var restify = require('restify');
     var builder = require('botbuilder');
 
-    // Create bot and add dialogs
-    var bot = new builder.BotConnectorBot({ appId: 'YourAppId', appSecret: 'YourAppSecret' });
-    bot.add('/', function (session) {
-        session.send('Hello World');
+    // Setup Restify Server
+
+    var server = restify.createServer();
+
+    server.listen(process.env.port || process.env.PORT || 3978, function () {
+
+    console.log('%s listening to %s', server.name, server.url); 
+
     });
 
-    // Setup Restify Server
-    var server = restify.createServer();
-    server.post('/api/messages', bot.verifyBotFramework(), bot.listen());
-    server.listen(process.env.port || 3978, function () {
-        console.log('%s listening to %s', server.name, server.url); 
+    // Create chat bot
+    var connector = new builder.ChatConnector({
+
+        appId: process.env.MICROSOFT_APP_ID,
+
+        appPassword: process.env.MICROSOFT_APP_PASSWORD
+
     });
+
+    var bot = new builder.UniversalBot(connector);
+
+    bot.dialog('/', [
+        function (session) {
+            session.send("Hello World!");
+        }
+
+    ]);
+
+    server.post('/api/messages', connector.listen());
+
 
 ## Test your bot (Windows Only)
 Use the [Bot Framework Emulator](http://docs.botframework.com/connector/tools/bot-framework-emulator/) to test your bot on localhost. 
