@@ -244,6 +244,18 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
 #pragma warning restore CS0618
 
+    public sealed class SetLocalTimestampMapper : IMessageActivityMapper
+    {
+        public IMessageActivity Map(IMessageActivity message)
+        {
+            if (message.LocalTimestamp == null)
+            {
+                message.LocalTimestamp = DateTimeOffset.UtcNow;
+            }
+            return message;
+        }
+    }
+
     public sealed class MapToChannelData_BotToUser : IBotToUser
     {
         private readonly IBotToUser inner;

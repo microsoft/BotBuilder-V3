@@ -378,6 +378,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .AsImplementedInterfaces()
                 .SingleInstance();
 
+            builder
+                .RegisterType<SetLocalTimestampMapper>()
+                .AsImplementedInterfaces()
+                .SingleInstance();
+
             // IBotToUser services
             builder
                 .RegisterType<InputHintQueue>()

@@ -419,6 +419,7 @@ namespace Microsoft.Bot.Builder.Tests
                     Assert.IsTrue(queue.Count == 1);
                     var toUser = queue.Dequeue();
                     Assert.IsTrue(toUser.InputHint == InputHints.ExpectingInput);
+                    Assert.IsNotNull(toUser.LocalTimestamp);
                 }
 
             }
