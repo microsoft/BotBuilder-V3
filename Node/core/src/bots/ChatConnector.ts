@@ -227,7 +227,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         async.eachSeries(messages, (msg, cb) => {
             try {
                 if(msg.type == 'delay') {
-                    setTimeout(cb, msg.text);
+                    setTimeout(cb, (<any> msg).value);
                 }
                 else if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
                     this.postMessage(msg, cb);

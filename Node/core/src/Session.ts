@@ -260,7 +260,7 @@ export class Session extends events.EventEmitter {
 
     public delay(delay:number): this {
         this.msgSent = true;
-        var m = <IMessage>{ type: 'delay', text: delay.toString() };
+        var m = <any>{ type: 'delay', value: delay.toString() };
         this.prepareMessage(m);
         this.batch.push(m);
         this.logger.log(this.dialogStack(), `Session.delay(${delay})`);
