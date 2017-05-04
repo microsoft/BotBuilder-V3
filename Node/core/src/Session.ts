@@ -296,6 +296,15 @@ export class Session extends events.EventEmitter {
         return this;        
     }
 
+    public delay(delay:number): this {
+        this.msgSent = true;
+        var m = <any>{ type: 'delay', value: delay.toString() };
+        this.prepareMessage(m);
+        this.batch.push(m);
+        this.logger.log(this.dialogStack(), `Session.delay(${delay})`);
+        return this;        
+    }
+
     /** Returns true if at least one message has been sent. */
     public messageSent(): boolean {
         return this.msgSent;

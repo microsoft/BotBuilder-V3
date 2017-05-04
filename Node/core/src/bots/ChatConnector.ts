@@ -245,7 +245,10 @@ export class ChatConnector implements IConnector, IBotStorage {
         let addresses: IAddress[] = [];
         async.forEachOfSeries(messages, (msg, idx, cb) => {
             try {
-                if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
+                if(msg.type == 'delay') {
+                    setTimeout(cb, (<any> msg).value);
+                }
+                else if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
                     this.postMessage(msg, (idx == messages.length - 1), (err, address) => {
                         addresses.push(address);
                         cb(err);
