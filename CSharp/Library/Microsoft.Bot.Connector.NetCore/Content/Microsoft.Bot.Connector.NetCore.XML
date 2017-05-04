@@ -558,12 +558,21 @@
             A response object containing the response body and response headers.
             </return>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.#ctor(System.String,System.String)">
+        <member name="T:Microsoft.Bot.Connector.BotAuthenticator.EndorsementsValidator">
+            <summary>
+            The endorsements validator delegate. 
+            </summary>
+            <param name="activities"> The activities.</param>
+            <param name="endorsements"> The endorsements used for validation.</param>
+            <returns>true if validation passes; false otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotAuthenticator.#ctor(System.String,System.String,Microsoft.Bot.Connector.BotAuthenticator.EndorsementsValidator)">
             <summary>
             Creates an instance of bot authenticator. 
             </summary>
             <param name="microsoftAppId"> The Microsoft app Id.</param>
             <param name="microsoftAppPassword"> The Microsoft app password.</param>
+            <param name="validator"> The endorsements validator.</param>
             <remarks> This constructor sets the <see cref="F:Microsoft.Bot.Connector.BotAuthenticator.openIdConfigurationUrl"/> to 
             <see cref="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromChannelOpenIdMetadataUrl"/>  and doesn't disable 
             the self issued tokens used by emulator.
@@ -3671,6 +3680,13 @@
             <summary>
             TO BOT FROM EMULATOR: Token validation parameters when connecting to a channel
             </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.JwtTokenExtractor.EndorsementsValidator">
+            <summary>
+            The endorsements validator delegate.
+            </summary>
+            <param name="endorsements"> The endorsements used for validation.</param>
+            <returns>true if validation passes; false otherwise.</returns>
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtTokenExtractor._openIdMetadataCache">
             <summary>

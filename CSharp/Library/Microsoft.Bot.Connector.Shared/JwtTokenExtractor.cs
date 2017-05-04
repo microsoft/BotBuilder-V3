@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using System.Collections.Concurrent;
 
 using Microsoft.IdentityModel.Protocols;
 #if !NET45
@@ -35,14 +36,14 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Cache for OpenIdConnect configuration managers (one per metadata URL)
         /// </summary>
-        private static readonly Dictionary<string, ConfigurationManager<OpenIdConnectConfiguration>> _openIdMetadataCache =
-            new Dictionary<string, ConfigurationManager<OpenIdConnectConfiguration>>();
+        private static readonly ConcurrentDictionary<string, ConfigurationManager<OpenIdConnectConfiguration>> _openIdMetadataCache =
+            new ConcurrentDictionary<string, ConfigurationManager<OpenIdConnectConfiguration>>();
 
         /// <summary>
         /// Cache for Endorsement configuration managers (one per metadata URL)
         /// </summary>
-        private static readonly Dictionary<string, ConfigurationManager<IDictionary<string, string[]>>> _endorsementsCache =
-            new Dictionary<string, ConfigurationManager<IDictionary<string, string[]>>>();
+        private static readonly ConcurrentDictionary<string, ConfigurationManager<IDictionary<string, string[]>>> _endorsementsCache =
+            new ConcurrentDictionary<string, ConfigurationManager<IDictionary<string, string[]>>>();
 
         /// <summary>
         /// Token validation parameters for this instance
@@ -77,20 +78,20 @@ namespace Microsoft.Bot.Connector
             _allowedSigningAlgorithms = allowedSigningAlgorithms;
             _validator = validator;
 
-            if (!_openIdMetadataCache.ContainsKey(metadataUrl))
+            _openIdMetadata = _openIdMetadataCache.GetOrAdd(metadataUrl, key =>
+            {
 #if NET45
-                _openIdMetadataCache[metadataUrl] = new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl);
+                return new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl);
 #else
-                _openIdMetadataCache[metadataUrl] = new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl, new OpenIdConnectConfigurationRetriever());
+                return new ConfigurationManager<OpenIdConnectConfiguration>(metadataUrl, new OpenIdConnectConfigurationRetriever());
 #endif
-            if (!_endorsementsCache.ContainsKey(metadataUrl))
+            });
+
+            _endorsementsData = _endorsementsCache.GetOrAdd(metadataUrl, key =>
             {
                 var retriever = new EndorsementsRetriever();
-                _endorsementsCache[metadataUrl] = new ConfigurationManager<IDictionary<string, string[]>>(metadataUrl, retriever, retriever);
-            }
-             
-            _openIdMetadata = _openIdMetadataCache[metadataUrl];
-            _endorsementsData = _endorsementsCache[metadataUrl];
+                return new ConfigurationManager<IDictionary<string, string[]>>(metadataUrl, retriever, retriever);
+            }); ;
         }
 
         public async Task<ClaimsIdentity> GetIdentityAsync(HttpRequestMessage request)
