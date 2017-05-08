@@ -151,10 +151,14 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Address routing information for a <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage.html#address">message</a>.
-												Addresses are bidirectional meaning they can be used to address both incoming and outgoing messages. They&#39;re also connector specific meaning that
-											<a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconnector.html">connectors</a> are free to add their own fields.</p>
+											<p>Address routing information for an <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ievent.html#address">event</a>.
+												Addresses are bidirectional meaning they can be used to address both incoming and outgoing events.
+												They&#39;re also connector specific meaning that <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iconnector.html">connectors</a>
+											are free to add their own fields to the address.</p>
 										</div>
+										<p>To send a <strong>proactive message</strong> to a user bots should save the address from a received <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.imessage">message</a>.
+											Depending on the channel addresses can change, so bots should periodically update the address stored for a given
+										user.</p>
 									</div>
 								</section>
 								<section class="tsd-panel tsd-hierarchy">
@@ -189,7 +193,7 @@
 										<div class="tsd-signature tsd-kind-icon">bot<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iidentity.html" class="tsd-signature-type">IIdentity</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L125">botbuilder.d.ts:125</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L249">botbuilder.d.ts:249</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -204,7 +208,7 @@
 										<div class="tsd-signature tsd-kind-icon">channel<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L119">botbuilder.d.ts:119</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L243">botbuilder.d.ts:243</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -219,7 +223,7 @@
 										<div class="tsd-signature tsd-kind-icon">conversation<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iidentity.html" class="tsd-signature-type">IIdentity</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L131">botbuilder.d.ts:131</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L255">botbuilder.d.ts:255</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -235,7 +239,7 @@
 										<div class="tsd-signature tsd-kind-icon">user<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iidentity.html" class="tsd-signature-type">IIdentity</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L122">botbuilder.d.ts:122</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L246">botbuilder.d.ts:246</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">

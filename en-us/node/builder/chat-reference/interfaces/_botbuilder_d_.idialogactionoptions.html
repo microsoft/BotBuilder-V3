@@ -171,7 +171,6 @@
 												<h3>Properties</h3>
 												<ul class="tsd-index-list">
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#intentthreshold" class="tsd-kind-icon">intent<wbr>Threshold</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#label" class="tsd-kind-icon">label</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#matches" class="tsd-kind-icon">matches</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#onfindaction" class="tsd-kind-icon">on<wbr>Find<wbr>Action</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.idialogactionoptions.html#onselectaction" class="tsd-kind-icon">on<wbr>Select<wbr>Action</a></li>
@@ -188,7 +187,7 @@
 										<div class="tsd-signature tsd-kind-icon">intent<wbr>Threshold<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L473">botbuilder.d.ts:473</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L627">botbuilder.d.ts:627</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -198,27 +197,12 @@
 										</div>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-										<a name="label" class="tsd-anchor"></a>
-										<h3><span class="tsd-flag ts-flagOptional">Optional</span> label</h3>
-										<div class="tsd-signature tsd-kind-icon">label<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-										<aside class="tsd-sources">
-											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L495">botbuilder.d.ts:495</a></li>
-											</ul>
-										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>(Optional) display label for the action which can be presented to the user when disambiguting between actions.</p>
-											</div>
-										</div>
-									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="matches" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagOptional">Optional</span> matches</h3>
-										<div class="tsd-signature tsd-kind-icon">matches<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
+										<div class="tsd-signature tsd-kind-icon">matches<span class="tsd-signature-symbol">:</span> <a href="../modules/_botbuilder_d_.html#matchtype" class="tsd-signature-type">MatchType</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L470">botbuilder.d.ts:470</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L624">botbuilder.d.ts:624</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -226,9 +210,10 @@
 												<p>(Optional) intent(s) used to trigger the action. Either a regular expression or a named
 													intent can be provided and multiple intents can be specified.  When a named intent is
 													provided the action will be matched using the recognizers assigned to the library/bot using
-													<a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#recognizer">Library.recognizer()</a>.
-												If a matches option isn&#39;t provided then the action can only be triggered from a button click.</p>
+												<a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.library#recognizer">Library.recognizer()</a>.</p>
 											</div>
+											<p>If a matches option isn&#39;t provided then the action can only be matched if an <a href="#onfindaction">onFindAction</a>
+											handler is provided.</p>
 										</div>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -237,7 +222,7 @@
 										<div class="tsd-signature tsd-kind-icon">on<wbr>Find<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L481">botbuilder.d.ts:481</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L635">botbuilder.d.ts:635</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -303,18 +288,18 @@
 										<div class="tsd-signature tsd-kind-icon">on<wbr>Select<wbr>Action<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L492">botbuilder.d.ts:492</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L646">botbuilder.d.ts:646</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>(Optional) custom handler that&#39;s invoked whenever the action is triggered.  This lets you
-													customize the behaviour of an action. For instance you could clear the dialog stack before
-													the new dialog is started, changing the default behaviour which is to just push the new
+													customize the behavior of an action. For instance you could clear the dialog stack before
+													the new dialog is started, changing the default behavior which is to just push the new
 												dialog onto the end of the stack.</p>
 											</div>
 											<p>It&#39;s important to note that this is not a waterfall and you should call <code>next()</code> if you
-											would like the actions default behaviour to run.</p>
+											would like the actions default behavior to run.</p>
 										</div>
 										<div class="tsd-type-declaration">
 											<h4>Type declaration</h4>
@@ -366,9 +351,6 @@
 											<ul>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.idialogactionoptions.html#intentthreshold" class="tsd-kind-icon">intent<wbr>Threshold</a>
-												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
-													<a href="_botbuilder_d_.idialogactionoptions.html#label" class="tsd-kind-icon">label</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.idialogactionoptions.html#matches" class="tsd-kind-icon">matches</a>

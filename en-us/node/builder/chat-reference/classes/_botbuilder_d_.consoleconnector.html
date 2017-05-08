@@ -178,6 +178,7 @@
 												<ul class="tsd-index-list">
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.consoleconnector.html#listen" class="tsd-kind-icon">listen</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.consoleconnector.html#onevent" class="tsd-kind-icon">on<wbr>Event</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.consoleconnector.html#oninvoke" class="tsd-kind-icon">on<wbr>Invoke</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.consoleconnector.html#processmessage" class="tsd-kind-icon">process<wbr>Message</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.consoleconnector.html#send" class="tsd-kind-icon">send</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.consoleconnector.html#startconversation" class="tsd-kind-icon">start<wbr>Conversation</a></li>
@@ -198,7 +199,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L3043">botbuilder.d.ts:3043</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L4021">botbuilder.d.ts:4021</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -220,7 +221,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L3049">botbuilder.d.ts:3049</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L4030">botbuilder.d.ts:4030</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -278,6 +279,79 @@
 										</ul>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+										<a name="oninvoke" class="tsd-anchor"></a>
+										<h3>on<wbr>Invoke</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">on<wbr>Invoke<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L4027">botbuilder.d.ts:4027</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Used to register a handler for receiving incoming invoke events.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>handler: <span class="tsd-signature-type">function</span></h5>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter-siganture">
+																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.ievent.html" class="tsd-signature-type">IEvent</a>, cb<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																</ul>
+																<ul class="tsd-descriptions">
+																	<li class="tsd-description">
+																		<h4 class="tsd-parameters-title">Parameters</h4>
+																		<ul class="tsd-parameters">
+																			<li>
+																				<h5>event: <a href="../interfaces/_botbuilder_d_.ievent.html" class="tsd-signature-type">IEvent</a></h5>
+																			</li>
+																			<li>
+																				<h5><span class="tsd-flag ts-flagOptional">Optional</span> cb: <span class="tsd-signature-type">function</span></h5>
+																				<ul class="tsd-parameters">
+																					<li class="tsd-parameter-siganture">
+																						<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																							<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, status<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																						</ul>
+																						<ul class="tsd-descriptions">
+																							<li class="tsd-description">
+																								<h4 class="tsd-parameters-title">Parameters</h4>
+																								<ul class="tsd-parameters">
+																									<li>
+																										<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																									</li>
+																									<li>
+																										<h5>body: <span class="tsd-signature-type">any</span></h5>
+																									</li>
+																									<li>
+																										<h5><span class="tsd-flag ts-flagOptional">Optional</span> status: <span class="tsd-signature-type">number</span></h5>
+																									</li>
+																								</ul>
+																								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																							</li>
+																						</ul>
+																					</li>
+																				</ul>
+																			</li>
+																		</ul>
+																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 										<a name="processmessage" class="tsd-anchor"></a>
 										<h3>process<wbr>Message</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -287,7 +361,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L3046">botbuilder.d.ts:3046</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L4024">botbuilder.d.ts:4024</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -315,7 +389,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L3052">botbuilder.d.ts:3052</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L4033">botbuilder.d.ts:4033</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -333,7 +407,7 @@
 														<ul class="tsd-parameters">
 															<li class="tsd-parameter-siganture">
 																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, conversationId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, addresses<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 																</ul>
 																<ul class="tsd-descriptions">
 																	<li class="tsd-description">
@@ -343,7 +417,7 @@
 																				<h5>err: <span class="tsd-signature-type">Error</span></h5>
 																			</li>
 																			<li>
-																				<h5><span class="tsd-flag ts-flagOptional">Optional</span> conversationId: <span class="tsd-signature-type">string</span></h5>
+																				<h5><span class="tsd-flag ts-flagOptional">Optional</span> addresses: <a href="../interfaces/_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a><span class="tsd-signature-symbol">[]</span></h5>
 																			</li>
 																		</ul>
 																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -367,7 +441,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L3055">botbuilder.d.ts:3055</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L4036">botbuilder.d.ts:4036</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -434,6 +508,9 @@
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class">
 													<a href="_botbuilder_d_.consoleconnector.html#onevent" class="tsd-kind-icon">on<wbr>Event</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-class">
+													<a href="_botbuilder_d_.consoleconnector.html#oninvoke" class="tsd-kind-icon">on<wbr>Invoke</a>
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class">
 													<a href="_botbuilder_d_.consoleconnector.html#processmessage" class="tsd-kind-icon">process<wbr>Message</a>

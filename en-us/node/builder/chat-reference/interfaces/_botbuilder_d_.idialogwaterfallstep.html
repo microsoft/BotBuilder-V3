@@ -154,14 +154,14 @@
 											<p>Signature for functions passed as steps to <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialogaction.html#waterfall">DialogAction.waterfall()</a>.</p>
 										</div>
 										<p>Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
-											waterfall can either execute one of the built-in <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompts.html">Prompts</a>,
+											waterfall can either execute one of the built-in <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts.html">Prompts</a>,
 											start a new dialog by calling <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog">session.beginDialog()</a>,
 										advance to the next step of the waterfall manually using <code>skip()</code>, or terminate the waterfall.</p>
 										<p>When either a dialog or built-in prompt is called from a waterfall step, the results from that
 											dialog or prompt will be passed via the <code>results</code> parameter to the next step of the waterfall.
-											Users can say things like &quot;nevermind&quot; to cancel the built-in prompts so you should guard against
+											Users can say things like &quot;never mind&quot; to cancel the built-in prompts so you should guard against
 											that by at least checking for <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#response">results.response</a>
-											before proceeding. A more detailed explination of why the waterfall is being continued can be
+											before proceeding. A more detailed explanation of why the waterfall is being continued can be
 											determined by looking at the <a href="/en-us/node/builder/chat-reference/enums/_botbuilder_d_.resumereason.html">code</a>
 										returned for <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#resumed">results.resumed</a>.</p>
 										<p>You can manually advance to the next step of the waterfall using the <code>skip()</code> function passed
@@ -175,7 +175,7 @@
 											dialogs and want a call to <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#enddialog">session.endDialog()</a>
 											from the last child on the stack to end the entire stack. The close of the last child will trigger
 											all of its parents to move to this hidden step which will cascade the close all the way up the stack.
-											This is typically a desired behaviour but if you want to avoid it or stop it somewhere in the
+											This is typically a desired behavior but if you want to avoid it or stop it somewhere in the
 											middle you&#39;ll need to add a step to the end of your waterfall that either does nothing or calls
 											something like <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#send">session.send()</a>
 										which isn&#39;t going to advance the waterfall forward.</p>
@@ -192,7 +192,7 @@ bot.add('/', [
             // User answered question.
             session.send("Hello %s.", results.response);
         } else {
-            // User said nevermind.
+            // User said never mind.
             session.send("OK. Goodbye.");
         }
     }
@@ -219,7 +219,7 @@ bot.add('/', [
 										<li class="tsd-description">
 											<aside class="tsd-sources">
 												<ul>
-													<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L990">botbuilder.d.ts:990</a></li>
+													<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1329">botbuilder.d.ts:1329</a></li>
 												</ul>
 											</aside>
 											<div class="tsd-comment tsd-typography">
@@ -227,14 +227,14 @@ bot.add('/', [
 													<p>Signature for functions passed as steps to <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.dialogaction.html#waterfall">DialogAction.waterfall()</a>.</p>
 												</div>
 												<p>Waterfalls let you prompt a user for information using a sequence of questions. Each step of the
-													waterfall can either execute one of the built-in <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompts.html">Prompts</a>,
+													waterfall can either execute one of the built-in <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts.html">Prompts</a>,
 													start a new dialog by calling <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#begindialog">session.beginDialog()</a>,
 												advance to the next step of the waterfall manually using <code>skip()</code>, or terminate the waterfall.</p>
 												<p>When either a dialog or built-in prompt is called from a waterfall step, the results from that
 													dialog or prompt will be passed via the <code>results</code> parameter to the next step of the waterfall.
-													Users can say things like &quot;nevermind&quot; to cancel the built-in prompts so you should guard against
+													Users can say things like &quot;never mind&quot; to cancel the built-in prompts so you should guard against
 													that by at least checking for <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#response">results.response</a>
-													before proceeding. A more detailed explination of why the waterfall is being continued can be
+													before proceeding. A more detailed explanation of why the waterfall is being continued can be
 													determined by looking at the <a href="/en-us/node/builder/chat-reference/enums/_botbuilder_d_.resumereason.html">code</a>
 												returned for <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogresult.html#resumed">results.resumed</a>.</p>
 												<p>You can manually advance to the next step of the waterfall using the <code>skip()</code> function passed
@@ -248,7 +248,7 @@ bot.add('/', [
 													dialogs and want a call to <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#enddialog">session.endDialog()</a>
 													from the last child on the stack to end the entire stack. The close of the last child will trigger
 													all of its parents to move to this hidden step which will cascade the close all the way up the stack.
-													This is typically a desired behaviour but if you want to avoid it or stop it somewhere in the
+													This is typically a desired behavior but if you want to avoid it or stop it somewhere in the
 													middle you&#39;ll need to add a step to the end of your waterfall that either does nothing or calls
 													something like <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session.html#send">session.send()</a>
 												which isn&#39;t going to advance the waterfall forward.</p>
@@ -273,7 +273,7 @@ bot.add('/', [
 												<li>
 													<h5><span class="tsd-flag ts-flagOptional">Optional</span> skip: <span class="tsd-signature-type">function</span></h5>
 													<div class="tsd-comment tsd-typography">
-														<p>Fuction used to manually skip to the next step of the waterfall.</p>
+														<p>Function used to manually skip to the next step of the waterfall.</p>
 													</div>
 													<ul class="tsd-parameters">
 														<li class="tsd-parameter-siganture">

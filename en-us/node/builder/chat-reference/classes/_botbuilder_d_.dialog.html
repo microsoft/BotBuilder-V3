@@ -177,6 +177,7 @@
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.dialog.html#begindialogaction" class="tsd-kind-icon">begin<wbr>Dialog<wbr>Action</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.dialog.html#cancelaction" class="tsd-kind-icon">cancel<wbr>Action</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_botbuilder_d_.dialog.html#clone" class="tsd-kind-icon">clone</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.dialog.html#customaction" class="tsd-kind-icon">custom<wbr>Action</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.dialog.html#dialoginterrupted" class="tsd-kind-icon">dialog<wbr>Interrupted</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="_botbuilder_d_.dialog.html#dialogresumed" class="tsd-kind-icon">dialog<wbr>Resumed</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-class"><a href="_botbuilder_d_.dialog.html#endconversationaction" class="tsd-kind-icon">end<wbr>Conversation<wbr>Action</a></li>
@@ -204,7 +205,7 @@
 												<aside class="tsd-sources">
 													<p>Inherited from <a href="_botbuilder_d_.actionset.html">ActionSet</a>.<a href="_botbuilder_d_.actionset.html#adddialogtrigger">addDialogTrigger</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2013">botbuilder.d.ts:2013</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2551">botbuilder.d.ts:2551</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -243,7 +244,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2043">botbuilder.d.ts:2043</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2581">botbuilder.d.ts:2581</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -286,7 +287,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2141">botbuilder.d.ts:2141</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2679">botbuilder.d.ts:2679</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -329,13 +330,13 @@
 										<a name="cancelaction" class="tsd-anchor"></a>
 										<h3>cancel<wbr>Action</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-											<li class="tsd-signature tsd-kind-icon">cancel<wbr>Action<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.iismessage.html" class="tsd-signature-type">IIsMessage</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.icancelactionoptions.html" class="tsd-signature-type">ICancelActionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a></li>
+											<li class="tsd-signature tsd-kind-icon">cancel<wbr>Action<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msg<span class="tsd-signature-symbol">?: </span><a href="../modules/_botbuilder_d_.html#textormessagetype" class="tsd-signature-type">TextOrMessageType</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.icancelactionoptions.html" class="tsd-signature-type">ICancelActionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2116">botbuilder.d.ts:2116</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2654">botbuilder.d.ts:2654</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -353,7 +354,7 @@
 														</div>
 													</li>
 													<li>
-														<h5><span class="tsd-flag ts-flagOptional">Optional</span> msg: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.iismessage.html" class="tsd-signature-type">IIsMessage</a></h5>
+														<h5><span class="tsd-flag ts-flagOptional">Optional</span> msg: <a href="../modules/_botbuilder_d_.html#textormessagetype" class="tsd-signature-type">TextOrMessageType</a></h5>
 														<div class="tsd-comment tsd-typography">
 															<p>(Optional) message to send the user prior to canceling the dialog.</p>
 														</div>
@@ -382,7 +383,7 @@
 												<aside class="tsd-sources">
 													<p>Inherited from <a href="_botbuilder_d_.actionset.html">ActionSet</a>.<a href="_botbuilder_d_.actionset.html#clone">clone</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2004">botbuilder.d.ts:2004</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2542">botbuilder.d.ts:2542</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -404,6 +405,39 @@
 										</ul>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+										<a name="customaction" class="tsd-anchor"></a>
+										<h3>custom<wbr>Action</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+											<li class="tsd-signature tsd-kind-icon">custom<wbr>Action<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_botbuilder_d_.idialogactionoptions.html" class="tsd-signature-type">IDialogActionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.library.html" class="tsd-signature-type">Library</a></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2697">botbuilder.d.ts:2697</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>Binds a custom action to the dialog that will call the passed in <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onselectaction">onSelectAction</a>
+														handler when triggered.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>options: <a href="../interfaces/_botbuilder_d_.idialogactionoptions.html" class="tsd-signature-type">IDialogActionOptions</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The options used to configure the action. If <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#matches">matches</a> is specified the action will listen
+															for the user to say a word or phrase that triggers the action. Custom matching logic can be provided using <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.idialogactionoptions#onfindaction">onFindAction</a>.</p>
+														</div>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <a href="_botbuilder_d_.library.html" class="tsd-signature-type">Library</a></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 										<a name="dialoginterrupted" class="tsd-anchor"></a>
 										<h3>dialog<wbr>Interrupted</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -413,7 +447,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2070">botbuilder.d.ts:2070</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2608">botbuilder.d.ts:2608</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -458,7 +492,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2059">botbuilder.d.ts:2059</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2597">botbuilder.d.ts:2597</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -495,13 +529,13 @@
 										<a name="endconversationaction" class="tsd-anchor"></a>
 										<h3>end<wbr>Conversation<wbr>Action</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-											<li class="tsd-signature tsd-kind-icon">end<wbr>Conversation<wbr>Action<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.iismessage.html" class="tsd-signature-type">IIsMessage</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.icancelactionoptions.html" class="tsd-signature-type">ICancelActionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a></li>
+											<li class="tsd-signature tsd-kind-icon">end<wbr>Conversation<wbr>Action<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msg<span class="tsd-signature-symbol">?: </span><a href="../modules/_botbuilder_d_.html#textormessagetype" class="tsd-signature-type">TextOrMessageType</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.icancelactionoptions.html" class="tsd-signature-type">ICancelActionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2151">botbuilder.d.ts:2151</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2689">botbuilder.d.ts:2689</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -518,7 +552,7 @@
 														</div>
 													</li>
 													<li>
-														<h5><span class="tsd-flag ts-flagOptional">Optional</span> msg: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.iismessage.html" class="tsd-signature-type">IIsMessage</a></h5>
+														<h5><span class="tsd-flag ts-flagOptional">Optional</span> msg: <a href="../modules/_botbuilder_d_.html#textormessagetype" class="tsd-signature-type">TextOrMessageType</a></h5>
 														<div class="tsd-comment tsd-typography">
 															<p>(Optional) message to send the user prior to ending the conversation.</p>
 														</div>
@@ -547,7 +581,7 @@
 												<aside class="tsd-sources">
 													<p>Inherited from <a href="_botbuilder_d_.actionset.html">ActionSet</a>.<a href="_botbuilder_d_.actionset.html#findactionroutes">findActionRoutes</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2022">botbuilder.d.ts:2022</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2560">botbuilder.d.ts:2560</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -607,7 +641,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2093">botbuilder.d.ts:2093</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2631">botbuilder.d.ts:2631</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -673,13 +707,13 @@
 										<a name="reloadaction" class="tsd-anchor"></a>
 										<h3>reload<wbr>Action</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-											<li class="tsd-signature tsd-kind-icon">reload<wbr>Action<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.iismessage.html" class="tsd-signature-type">IIsMessage</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.ibegindialogactionoptions.html" class="tsd-signature-type">IBeginDialogActionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a></li>
+											<li class="tsd-signature tsd-kind-icon">reload<wbr>Action<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, msg<span class="tsd-signature-symbol">?: </span><a href="../modules/_botbuilder_d_.html#textormessagetype" class="tsd-signature-type">TextOrMessageType</a>, options<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_botbuilder_d_.ibegindialogactionoptions.html" class="tsd-signature-type">IBeginDialogActionOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.dialog.html" class="tsd-signature-type">Dialog</a></li>
 										</ul>
 										<ul class="tsd-descriptions">
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2127">botbuilder.d.ts:2127</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2665">botbuilder.d.ts:2665</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -697,7 +731,7 @@
 														</div>
 													</li>
 													<li>
-														<h5><span class="tsd-flag ts-flagOptional">Optional</span> msg: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_botbuilder_d_.iismessage.html" class="tsd-signature-type">IIsMessage</a></h5>
+														<h5><span class="tsd-flag ts-flagOptional">Optional</span> msg: <a href="../modules/_botbuilder_d_.html#textormessagetype" class="tsd-signature-type">TextOrMessageType</a></h5>
 														<div class="tsd-comment tsd-typography">
 															<p>(Optional) message to send the user prior to reloading the dialog.</p>
 														</div>
@@ -725,7 +759,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2052">botbuilder.d.ts:2052</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2590">botbuilder.d.ts:2590</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -764,7 +798,7 @@
 												<aside class="tsd-sources">
 													<p>Inherited from <a href="_botbuilder_d_.actionset.html">ActionSet</a>.<a href="_botbuilder_d_.actionset.html#selectactionroute">selectActionRoute</a></p>
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2029">botbuilder.d.ts:2029</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2567">botbuilder.d.ts:2567</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -801,7 +835,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L2105">botbuilder.d.ts:2105</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L2643">botbuilder.d.ts:2643</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -862,6 +896,9 @@
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 													<a href="_botbuilder_d_.dialog.html#clone" class="tsd-kind-icon">clone</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-class">
+													<a href="_botbuilder_d_.dialog.html#customaction" class="tsd-kind-icon">custom<wbr>Action</a>
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-class">
 													<a href="_botbuilder_d_.dialog.html#dialoginterrupted" class="tsd-kind-icon">dialog<wbr>Interrupted</a>

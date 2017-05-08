@@ -177,9 +177,12 @@
 											<section class="tsd-index-section ">
 												<h3>Methods</h3>
 												<ul class="tsd-index-list">
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.iconnector.html#delete" class="tsd-kind-icon">delete</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.iconnector.html#onevent" class="tsd-kind-icon">on<wbr>Event</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.iconnector.html#oninvoke" class="tsd-kind-icon">on<wbr>Invoke</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.iconnector.html#send" class="tsd-kind-icon">send</a></li>
 													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.iconnector.html#startconversation" class="tsd-kind-icon">start<wbr>Conversation</a></li>
+													<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_botbuilder_d_.iconnector.html#update" class="tsd-kind-icon">update</a></li>
 												</ul>
 											</section>
 										</div>
@@ -187,6 +190,64 @@
 								</section>
 								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Methods</h2>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="delete" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> delete</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">delete<span class="tsd-signature-symbol">(</span>address<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1250">botbuilder.d.ts:1250</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>(Optional) method that can be called to delete a message that was previously sent using <a href="#send">send()</a>.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>address: <a href="_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The address of the message to delete.</p>
+														</div>
+													</li>
+													<li>
+														<h5>callback: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Function to invoke once the operation is completed.</p>
+														</div>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter-siganture">
+																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																</ul>
+																<ul class="tsd-descriptions">
+																	<li class="tsd-description">
+																		<h4 class="tsd-parameters-title">Parameters</h4>
+																		<ul class="tsd-parameters">
+																			<li>
+																				<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>Any error that occurred while replacing the message.</p>
+																				</div>
+																			</li>
+																		</ul>
+																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</section>
 									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 										<a name="onevent" class="tsd-anchor"></a>
 										<h3>on<wbr>Event</h3>
@@ -197,18 +258,22 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L905">botbuilder.d.ts:905</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1203">botbuilder.d.ts:1203</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
-														<p>Called by the UniversalBot at registration time to register a handler for receiving incoming events from a channel.</p>
+														<p>Called by the UniversalBot at registration time to register a handler for receiving incoming
+														events from a channel.</p>
 													</div>
 												</div>
 												<h4 class="tsd-parameters-title">Parameters</h4>
 												<ul class="tsd-parameters">
 													<li>
 														<h5>handler: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The function that should be called anytime an event is received that is not of type &quot;invoke&quot;.</p>
+														</div>
 														<ul class="tsd-parameters">
 															<li class="tsd-parameter-siganture">
 																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -255,6 +320,84 @@
 										</ul>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="oninvoke" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Invoke</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">on<wbr>Invoke<span class="tsd-signature-symbol">(</span>handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1196">botbuilder.d.ts:1196</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>(Optional) Called by the UniversalBot at registration time to register a handler for
+															receiving incoming invoke events. Invoke events are special events which are expected to
+														return a body inline as part of the response to the received request.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>handler: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The function that should be called anytime an &quot;invoke&quot; event is received.</p>
+														</div>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter-siganture">
+																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.ievent.html" class="tsd-signature-type">IEvent</a>, callback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																</ul>
+																<ul class="tsd-descriptions">
+																	<li class="tsd-description">
+																		<h4 class="tsd-parameters-title">Parameters</h4>
+																		<ul class="tsd-parameters">
+																			<li>
+																				<h5>event: <a href="_botbuilder_d_.ievent.html" class="tsd-signature-type">IEvent</a></h5>
+																			</li>
+																			<li>
+																				<h5><span class="tsd-flag ts-flagOptional">Optional</span> callback: <span class="tsd-signature-type">function</span></h5>
+																				<ul class="tsd-parameters">
+																					<li class="tsd-parameter-siganture">
+																						<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																							<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, body<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, status<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																						</ul>
+																						<ul class="tsd-descriptions">
+																							<li class="tsd-description">
+																								<h4 class="tsd-parameters-title">Parameters</h4>
+																								<ul class="tsd-parameters">
+																									<li>
+																										<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																									</li>
+																									<li>
+																										<h5>body: <span class="tsd-signature-type">any</span></h5>
+																									</li>
+																									<li>
+																										<h5><span class="tsd-flag ts-flagOptional">Optional</span> status: <span class="tsd-signature-type">number</span></h5>
+																									</li>
+																								</ul>
+																								<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																							</li>
+																						</ul>
+																					</li>
+																				</ul>
+																			</li>
+																		</ul>
+																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 										<a name="send" class="tsd-anchor"></a>
 										<h3>send</h3>
 										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
@@ -264,25 +407,39 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L908">botbuilder.d.ts:908</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1221">botbuilder.d.ts:1221</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
-														<p>Called by the UniversalBot to deliver outgoing messages to a user.</p>
+														<p>Sends outgoing message(s) to a user. This method will ultimately get called anytime you call
+														<a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#send">UniversalBot.send()</a> or <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.session#send">Session.send()</a>.</p>
 													</div>
+													<p>You can manually call this method using <code>session.connector.send()</code> as a convenient way of
+														getting the address of the message that was sent. You can then store this address and use
+														it at a later point in time to either update or delete the message. The one thing to keep
+														in mind is that if you manually call <code>session.connector.send()</code> you will bypass any
+														middleware that the outgoing message would normally run through. Calling
+														<code>session.send(msg).sendBatch(function (err, addresses) { })</code> does the same thing but ensures
+													that the outgoing message is sent through middleware.</p>
 												</div>
 												<h4 class="tsd-parameters-title">Parameters</h4>
 												<ul class="tsd-parameters">
 													<li>
 														<h5>messages: <a href="_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol">[]</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Array of message(s) to send the user.</p>
+														</div>
 													</li>
 													<li>
 														<h5>callback: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Function to invoke once the operation is completed.</p>
+														</div>
 														<ul class="tsd-parameters">
 															<li class="tsd-parameter-siganture">
 																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, addresses<span class="tsd-signature-symbol">?: </span><a href="_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 																</ul>
 																<ul class="tsd-descriptions">
 																	<li class="tsd-description">
@@ -290,6 +447,15 @@
 																		<ul class="tsd-parameters">
 																			<li>
 																				<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>Any error that occurred during the send.</p>
+																				</div>
+																			</li>
+																			<li>
+																				<h5><span class="tsd-flag ts-flagOptional">Optional</span> addresses: <a href="_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a><span class="tsd-signature-symbol">[]</span></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>An array of address objects returned for each individual message within the batch. These address objects contain the ID of the posted messages so can be used to update or delete a message in the future.</p>
+																				</div>
 																			</li>
 																		</ul>
 																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -313,21 +479,30 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L911">botbuilder.d.ts:911</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1233">botbuilder.d.ts:1233</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
 													<div class="lead">
-														<p>Called when a UniversalBot wants to start a new proactive conversation with a user. The connector should return a properly formated <strong>address</strong> object with a populated <strong>conversation</strong> field.</p>
+														<p>Called when a UniversalBot wants to start a new proactive conversation with a user. The
+															connector should return an address with a properly formated <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress#conversation">IAddress.conversation</a>
+															field. This will typically be called when you call <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#begindialog">UniversalBot.beginDialog()</a>
+														but will also be called anytime <code>IAddress.conversation</code> is null for a message being sent.</p>
 													</div>
 												</div>
 												<h4 class="tsd-parameters-title">Parameters</h4>
 												<ul class="tsd-parameters">
 													<li>
 														<h5>address: <a href="_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The address of the user to start the conversation for. The <code>IAddress.conversation</code> field should be null.</p>
+														</div>
 													</li>
 													<li>
 														<h5>callback: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Function to invoke once the operation is completed.</p>
+														</div>
 														<ul class="tsd-parameters">
 															<li class="tsd-parameter-siganture">
 																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
@@ -339,9 +514,79 @@
 																		<ul class="tsd-parameters">
 																			<li>
 																				<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>Any error that occurred while attempting to start the conversation.</p>
+																				</div>
 																			</li>
 																			<li>
 																				<h5><span class="tsd-flag ts-flagOptional">Optional</span> address: <a href="_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>The address of the conversation that was started. This can be used to send future messages to the conversation.</p>
+																				</div>
+																			</li>
+																		</ul>
+																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+										</ul>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
+										<a name="update" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> update</h3>
+										<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
+											<li class="tsd-signature tsd-kind-icon">update<span class="tsd-signature-symbol">(</span>message<span class="tsd-signature-symbol">: </span><a href="_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a>, callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1242">botbuilder.d.ts:1242</a></li>
+													</ul>
+												</aside>
+												<div class="tsd-comment tsd-typography">
+													<div class="lead">
+														<p>(Optional) method that can be called to replace a message that was previously sent using <a href="#send">send()</a>.</p>
+													</div>
+												</div>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>message: <a href="_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>The message to overwrite an existing message with. The <code>message.address</code> field should contain an address returned from a previous call to <a href="#send">send()</a>.</p>
+														</div>
+													</li>
+													<li>
+														<h5>callback: <span class="tsd-signature-type">function</span></h5>
+														<div class="tsd-comment tsd-typography">
+															<p>Function to invoke once the operation is completed.</p>
+														</div>
+														<ul class="tsd-parameters">
+															<li class="tsd-parameter-siganture">
+																<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+																	<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>err<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Error</span>, address<span class="tsd-signature-symbol">?: </span><a href="_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+																</ul>
+																<ul class="tsd-descriptions">
+																	<li class="tsd-description">
+																		<h4 class="tsd-parameters-title">Parameters</h4>
+																		<ul class="tsd-parameters">
+																			<li>
+																				<h5>err: <span class="tsd-signature-type">Error</span></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>Any error that occurred while replacing the message.</p>
+																				</div>
+																			</li>
+																			<li>
+																				<h5><span class="tsd-flag ts-flagOptional">Optional</span> address: <a href="_botbuilder_d_.iaddress.html" class="tsd-signature-type">IAddress</a></h5>
+																				<div class="tsd-comment tsd-typography">
+																					<p>The address of the new message. For some channels this may different from the original messages address.</p>
+																				</div>
 																			</li>
 																		</ul>
 																		<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -376,13 +621,22 @@
 											<a href="_botbuilder_d_.iconnector.html" class="tsd-kind-icon">IConnector</a>
 											<ul>
 												<li class=" tsd-kind-method tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.iconnector.html#delete" class="tsd-kind-icon">delete</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.iconnector.html#onevent" class="tsd-kind-icon">on<wbr>Event</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.iconnector.html#oninvoke" class="tsd-kind-icon">on<wbr>Invoke</a>
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.iconnector.html#send" class="tsd-kind-icon">send</a>
 												</li>
 												<li class=" tsd-kind-method tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.iconnector.html#startconversation" class="tsd-kind-icon">start<wbr>Conversation</a>
+												</li>
+												<li class=" tsd-kind-method tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.iconnector.html#update" class="tsd-kind-icon">update</a>
 												</li>
 											</ul>
 										</li>

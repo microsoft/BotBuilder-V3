@@ -151,7 +151,7 @@
 								<section class="tsd-panel tsd-comment">
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Arguments passed to the built-in prompts beginDialog() call.</p>
+											<p><strong>DEPRECATED</strong> the new prompt system just uses IPromptOptions.</p>
 										</div>
 									</div>
 								</section>
@@ -170,15 +170,24 @@
 											<section class="tsd-index-section ">
 												<h3>Properties</h3>
 												<ul class="tsd-index-list">
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#attachmentlayout" class="tsd-kind-icon">attachment<wbr>Layout</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#attachments" class="tsd-kind-icon">attachments</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#entities" class="tsd-kind-icon">entities</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#enumsvalues" class="tsd-kind-icon">enums<wbr>Values</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#inputhint" class="tsd-kind-icon">input<wbr>Hint</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#librarynamespace" class="tsd-kind-icon">library<wbr>Namespace</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#liststyle" class="tsd-kind-icon">list<wbr>Style</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#localizationnamespace" class="tsd-kind-icon">localization<wbr>Namespace</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a></li>
-													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#prompt" class="tsd-kind-icon">prompt</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#prompt" class="tsd-kind-icon">prompt</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#promptafteraction" class="tsd-kind-icon">prompt<wbr>After<wbr>Action</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#prompttype" class="tsd-kind-icon">prompt<wbr>Type</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#refdate" class="tsd-kind-icon">ref<wbr>Date</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.ipromptargs.html#retrycnt" class="tsd-kind-icon">retry<wbr>Cnt</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#retryprompt" class="tsd-kind-icon">retry<wbr>Prompt</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#retryspeak" class="tsd-kind-icon">retry<wbr>Speak</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#speak" class="tsd-kind-icon">speak</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.ipromptargs.html#textformat" class="tsd-kind-icon">text<wbr>Format</a></li>
 												</ul>
 											</section>
 										</div>
@@ -186,18 +195,93 @@
 								</section>
 								<section class="tsd-panel-group tsd-member-group ">
 									<h2>Properties</h2>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a name="attachmentlayout" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> attachment<wbr>Layout</h3>
+										<div class="tsd-signature tsd-kind-icon">attachment<wbr>Layout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#attachmentlayout">attachmentLayout</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L213">botbuilder.d.ts:213</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Hint for how clients should layout multiple attachments. The default value is &#39;list&#39;.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a name="attachments" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> attachments</h3>
+										<div class="tsd-signature tsd-kind-icon">attachments<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iattachment.html" class="tsd-signature-type">IAttachment</a><span class="tsd-signature-symbol">[]</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#attachments">attachments</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L204">botbuilder.d.ts:204</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>For incoming messages contains attachments like images sent from the user. For outgoing messages contains objects like cards or images to send to the user.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a name="entities" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> entities</h3>
+										<div class="tsd-signature tsd-kind-icon">entities<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#entities">entities</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L207">botbuilder.d.ts:207</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Structured objects passed to the bot or user.</p>
+											</div>
+										</div>
+									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="enumsvalues" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagOptional">Optional</span> enums<wbr>Values</h3>
 										<div class="tsd-signature tsd-kind-icon">enums<wbr>Values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L598">botbuilder.d.ts:598</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L4089">botbuilder.d.ts:4089</a></li>
+											</ul>
+										</aside>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a name="inputhint" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> input<wbr>Hint</h3>
+										<div class="tsd-signature tsd-kind-icon">input<wbr>Hint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#inputhint">inputHint</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L216">botbuilder.d.ts:216</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Enum values for a choice prompt.</p>
+												<p>Hint for clients letting them know if the bot is expecting further input or not. The built-in prompts will automatically populate this value for outgoing messages.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a name="librarynamespace" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> library<wbr>Namespace</h3>
+										<div class="tsd-signature tsd-kind-icon">library<wbr>Namespace<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#librarynamespace">libraryNamespace</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L793">botbuilder.d.ts:793</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>(Optional) namespace to use for localization and other purposes. This defaults to the callers namespace.</p>
 											</div>
 										</div>
 									</section>
@@ -208,7 +292,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#liststyle">listStyle</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L574">botbuilder.d.ts:574</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L787">botbuilder.d.ts:787</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -224,12 +308,12 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#localizationnamespace">localizationNamespace</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L580">botbuilder.d.ts:580</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L796">botbuilder.d.ts:796</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>(Optional) namespace to use when localizing a passed in prompt.</p>
+												<p><strong>DEPRECATED</strong> use <a href="#librarynamespace">libraryNamespace</a> instead.</p>
 											</div>
 										</div>
 									</section>
@@ -240,33 +324,28 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#maxretries">maxRetries</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L568">botbuilder.d.ts:568</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L781">botbuilder.d.ts:781</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>(Optional) maximum number of times to reprompt the user. By default the user will be reprompted indefinitely.</p>
+												<p>(Optional) maximum number of times to re-prompt the user. By default the user will be re-prompted indefinitely.</p>
 											</div>
 										</div>
 									</section>
-									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a name="prompt" class="tsd-anchor"></a>
-										<h3>prompt</h3>
-										<div class="tsd-signature tsd-kind-icon">prompt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.iismessage.html" class="tsd-signature-type">IIsMessage</a></div>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> prompt</h3>
+										<div class="tsd-signature tsd-kind-icon">prompt<span class="tsd-signature-symbol">:</span> <a href="../modules/_botbuilder_d_.html#textormessagetype" class="tsd-signature-type">TextOrMessageType</a></div>
 										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#prompt">prompt</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L595">botbuilder.d.ts:595</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L766">botbuilder.d.ts:766</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Initial message to send to user.</p>
-												<ul>
-													<li><em>{string}</em> - Initial message to send the user.</li>
-													<li><em>{string[]}</em> - Array of possible messages to send user. One will be chosen at random.</li>
-													<li><em>{IMessage}</em> - Initial message to send the user. Message can contain attachments.</li>
-													<li><em>{IIsMessage}</em> - Instance of the <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html">Message</a> builder class.</li>
-												</ul>
+												<p>(Optional) Initial prompt to send the user. This is typically populated by the <code>Prompts.xxx()</code> function.</p>
 											</div>
 										</div>
 									</section>
@@ -277,12 +356,12 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#promptafteraction">promptAfterAction</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L577">botbuilder.d.ts:577</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L784">botbuilder.d.ts:784</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>(Optional) flag used to control the reprompting of a user after a dialog started by an action ends. The default value is true.</p>
+												<p>(Optional) flag used to control the re-prompting of a user after a dialog started by an action ends. The default value is true.</p>
 											</div>
 										</div>
 									</section>
@@ -292,14 +371,9 @@
 										<div class="tsd-signature tsd-kind-icon">prompt<wbr>Type<span class="tsd-signature-symbol">:</span> <a href="../enums/_botbuilder_d_.prompttype.html" class="tsd-signature-type">PromptType</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L586">botbuilder.d.ts:586</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L4088">botbuilder.d.ts:4088</a></li>
 											</ul>
 										</aside>
-										<div class="tsd-comment tsd-typography">
-											<div class="lead">
-												<p>Type of prompt invoked.</p>
-											</div>
-										</div>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a name="refdate" class="tsd-anchor"></a>
@@ -308,7 +382,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#refdate">refDate</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L571">botbuilder.d.ts:571</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L790">botbuilder.d.ts:790</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -317,31 +391,79 @@
 											</div>
 										</div>
 									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="retrycnt" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Cnt</h3>
+										<div class="tsd-signature tsd-kind-icon">retry<wbr>Cnt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L4087">botbuilder.d.ts:4087</a></li>
+											</ul>
+										</aside>
+									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 										<a name="retryprompt" class="tsd-anchor"></a>
 										<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Prompt</h3>
-										<div class="tsd-signature tsd-kind-icon">retry<wbr>Prompt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a><span class="tsd-signature-symbol"> | </span><a href="_botbuilder_d_.iismessage.html" class="tsd-signature-type">IIsMessage</a></div>
+										<div class="tsd-signature tsd-kind-icon">retry<wbr>Prompt<span class="tsd-signature-symbol">:</span> <a href="../modules/_botbuilder_d_.html#textormessagetype" class="tsd-signature-type">TextOrMessageType</a></div>
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#retryprompt">retryPrompt</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L565">botbuilder.d.ts:565</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L775">botbuilder.d.ts:775</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>(Optional) retry prompt to send if the users response isn&#39;t understood. Default is to just
-													reprompt with the configured <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ipromptsoptions.html#defaultretryprompt">defaultRetryPrompt</a>
-												plus the original prompt.</p>
+												re-prompt with a customizable system prompt.</p>
 											</div>
-											<p>Note that if the original prompt is an <em>IMessage</em> the retry prompt will be sent as a seperate
-												message followed by the original message. If the retryPrompt is also an <em>IMessage</em> it will
-											instead be sent in place of the original message.</p>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a name="retryspeak" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> retry<wbr>Speak</h3>
+										<div class="tsd-signature tsd-kind-icon">retry<wbr>Speak<span class="tsd-signature-symbol">:</span> <a href="../modules/_botbuilder_d_.html#texttype" class="tsd-signature-type">TextType</a></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#retryspeak">retrySpeak</a></p>
 											<ul>
-												<li><em>{string}</em> - Initial message to send the user.</li>
-												<li><em>{string[]}</em> - Array of possible messages to send user. One will be chosen at random.</li>
-												<li><em>{IMessage}</em> - Initial message to send the user. Message can contain attachments.</li>
-												<li><em>{IIsMessage}</em> - Instance of the <a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html">Message</a> builder class.</li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L778">botbuilder.d.ts:778</a></li>
 											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>(Optional) SSML to send with the <code>retryPrompt</code>. If the retryPrompt is of type <code>IMessage</code> or <code>IIsMessage</code>, this value will be ignored. If this value is an array a response will be chosen at random.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a name="speak" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> speak</h3>
+										<div class="tsd-signature tsd-kind-icon">speak<span class="tsd-signature-symbol">:</span> <a href="../modules/_botbuilder_d_.html#texttype" class="tsd-signature-type">TextType</a></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#speak">speak</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L769">botbuilder.d.ts:769</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>(Optional) SSML to send with the initial <code>prompt</code>. If the prompt is of type <code>IMessage</code> or <code>IIsMessage</code>, this value will be ignored. If this value is an array a response will be chosen at random.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+										<a name="textformat" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Format</h3>
+										<div class="tsd-signature tsd-kind-icon">text<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#textformat">textFormat</a></p>
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L210">botbuilder.d.ts:210</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Format of text fields. The default value is &#39;markdown&#39;.</p>
+											</div>
 										</div>
 									</section>
 								</section>
@@ -364,8 +486,23 @@
 										<li class="current tsd-kind-interface tsd-parent-kind-external-module">
 											<a href="_botbuilder_d_.ipromptargs.html" class="tsd-kind-icon">IPrompt<wbr>Args</a>
 											<ul>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+													<a href="_botbuilder_d_.ipromptargs.html#attachmentlayout" class="tsd-kind-icon">attachment<wbr>Layout</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+													<a href="_botbuilder_d_.ipromptargs.html#attachments" class="tsd-kind-icon">attachments</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+													<a href="_botbuilder_d_.ipromptargs.html#entities" class="tsd-kind-icon">entities</a>
+												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.ipromptargs.html#enumsvalues" class="tsd-kind-icon">enums<wbr>Values</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+													<a href="_botbuilder_d_.ipromptargs.html#inputhint" class="tsd-kind-icon">input<wbr>Hint</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+													<a href="_botbuilder_d_.ipromptargs.html#librarynamespace" class="tsd-kind-icon">library<wbr>Namespace</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.ipromptargs.html#liststyle" class="tsd-kind-icon">list<wbr>Style</a>
@@ -376,7 +513,7 @@
 												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.ipromptargs.html#maxretries" class="tsd-kind-icon">max<wbr>Retries</a>
 												</li>
-												<li class=" tsd-kind-property tsd-parent-kind-interface">
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.ipromptargs.html#prompt" class="tsd-kind-icon">prompt</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
@@ -388,8 +525,20 @@
 												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.ipromptargs.html#refdate" class="tsd-kind-icon">ref<wbr>Date</a>
 												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.ipromptargs.html#retrycnt" class="tsd-kind-icon">retry<wbr>Cnt</a>
+												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.ipromptargs.html#retryprompt" class="tsd-kind-icon">retry<wbr>Prompt</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+													<a href="_botbuilder_d_.ipromptargs.html#retryspeak" class="tsd-kind-icon">retry<wbr>Speak</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+													<a href="_botbuilder_d_.ipromptargs.html#speak" class="tsd-kind-icon">speak</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+													<a href="_botbuilder_d_.ipromptargs.html#textformat" class="tsd-kind-icon">text<wbr>Format</a>
 												</li>
 											</ul>
 										</li>

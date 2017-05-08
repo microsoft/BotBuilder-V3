@@ -163,6 +163,16 @@
 										<a href="/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot.html#send">UniversalBot.send()</a>.</p>
 										<p>Composing a message to the user using the incoming address object will by default send a reply to the user in the context of the current conversation. Some channels allow for the starting of new conversations with the user. To start a new proactive conversation with the user simply delete
 										the <a href="/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iaddress.html#conversation">conversation</a> field from the address object before composing the outgoing message.</p>
+										<dl class="tsd-comment-tags">
+											<dt>example</dt>
+											<dd><pre><code>
+session.send({
+     type: 'message',
+     text: "Hello World!"
+});
+</code></pre>
+											</dd>
+										</dl>
 									</div>
 								</section>
 								<section class="tsd-panel tsd-hierarchy">
@@ -185,8 +195,11 @@
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.imessage.html#attachmentlayout" class="tsd-kind-icon">attachment<wbr>Layout</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.imessage.html#attachments" class="tsd-kind-icon">attachments</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.imessage.html#entities" class="tsd-kind-icon">entities</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.imessage.html#inputhint" class="tsd-kind-icon">input<wbr>Hint</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.imessage.html#localtimestamp" class="tsd-kind-icon">local<wbr>Timestamp</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.imessage.html#source" class="tsd-kind-icon">source</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_botbuilder_d_.imessage.html#sourceevent" class="tsd-kind-icon">source<wbr>Event</a></li>
+													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.imessage.html#speak" class="tsd-kind-icon">speak</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.imessage.html#summary" class="tsd-kind-icon">summary</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.imessage.html#text" class="tsd-kind-icon">text</a></li>
 													<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_botbuilder_d_.imessage.html#textformat" class="tsd-kind-icon">text<wbr>Format</a></li>
@@ -208,7 +221,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#address">address</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L24">botbuilder.d.ts:24</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L77">botbuilder.d.ts:77</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -224,7 +237,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#agent">agent</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L15">botbuilder.d.ts:15</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L68">botbuilder.d.ts:68</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -235,11 +248,11 @@
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="attachmentlayout" class="tsd-anchor"></a>
-										<h3>attachment<wbr>Layout</h3>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> attachment<wbr>Layout</h3>
 										<div class="tsd-signature tsd-kind-icon">attachment<wbr>Layout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L91">botbuilder.d.ts:91</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L173">botbuilder.d.ts:173</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -250,11 +263,11 @@
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="attachments" class="tsd-anchor"></a>
-										<h3>attachments</h3>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> attachments</h3>
 										<div class="tsd-signature tsd-kind-icon">attachments<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iattachment.html" class="tsd-signature-type">IAttachment</a><span class="tsd-signature-symbol">[]</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L82">botbuilder.d.ts:82</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L164">botbuilder.d.ts:164</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -265,16 +278,46 @@
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="entities" class="tsd-anchor"></a>
-										<h3>entities</h3>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> entities</h3>
 										<div class="tsd-signature tsd-kind-icon">entities<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L85">botbuilder.d.ts:85</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L167">botbuilder.d.ts:167</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
 												<p>Structured objects passed to the bot or user.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="inputhint" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> input<wbr>Hint</h3>
+										<div class="tsd-signature tsd-kind-icon">input<wbr>Hint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L176">botbuilder.d.ts:176</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Hint for clients letting them know if the bot is expecting further input or not. The built-in prompts will automatically populate this value for outgoing messages.</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="localtimestamp" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> local<wbr>Timestamp</h3>
+										<div class="tsd-signature tsd-kind-icon">local<wbr>Timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L149">botbuilder.d.ts:149</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Local time when message was sent (set by client or bot, Ex: 2016-09-23T13:07:49.4714686-07:00.)</p>
 											</div>
 										</div>
 									</section>
@@ -285,7 +328,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#source">source</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L18">botbuilder.d.ts:18</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L71">botbuilder.d.ts:71</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -301,7 +344,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#sourceevent">sourceEvent</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L21">botbuilder.d.ts:21</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L74">botbuilder.d.ts:74</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -311,12 +354,27 @@
 										</div>
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+										<a name="speak" class="tsd-anchor"></a>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> speak</h3>
+										<div class="tsd-signature tsd-kind-icon">speak<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+										<aside class="tsd-sources">
+											<ul>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L155">botbuilder.d.ts:155</a></li>
+											</ul>
+										</aside>
+										<div class="tsd-comment tsd-typography">
+											<div class="lead">
+												<p>Spoken message as <a href="https://msdn.microsoft.com/en-us/library/hh378377(v=office.14">Speech Synthesis Markup Language</a>.aspx).</p>
+											</div>
+										</div>
+									</section>
+									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="summary" class="tsd-anchor"></a>
-										<h3>summary</h3>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> summary</h3>
 										<div class="tsd-signature tsd-kind-icon">summary<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L73">botbuilder.d.ts:73</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L152">botbuilder.d.ts:152</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -327,11 +385,11 @@
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="text" class="tsd-anchor"></a>
-										<h3>text</h3>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> text</h3>
 										<div class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L76">botbuilder.d.ts:76</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L158">botbuilder.d.ts:158</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -342,11 +400,11 @@
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="textformat" class="tsd-anchor"></a>
-										<h3>text<wbr>Format</h3>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Format</h3>
 										<div class="tsd-signature tsd-kind-icon">text<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L88">botbuilder.d.ts:88</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L170">botbuilder.d.ts:170</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -357,11 +415,11 @@
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="textlocale" class="tsd-anchor"></a>
-										<h3>text<wbr>Locale</h3>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> text<wbr>Locale</h3>
 										<div class="tsd-signature tsd-kind-icon">text<wbr>Locale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L79">botbuilder.d.ts:79</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L161">botbuilder.d.ts:161</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -372,16 +430,16 @@
 									</section>
 									<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 										<a name="timestamp" class="tsd-anchor"></a>
-										<h3>timestamp</h3>
+										<h3><span class="tsd-flag ts-flagOptional">Optional</span> timestamp</h3>
 										<div class="tsd-signature tsd-kind-icon">timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L70">botbuilder.d.ts:70</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L146">botbuilder.d.ts:146</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
 											<div class="lead">
-												<p>Timestamp of message given by chat service for incoming messages.</p>
+												<p>UTC Time when message was sent (set by service.)</p>
 											</div>
 										</div>
 									</section>
@@ -392,7 +450,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#type">type</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L12">botbuilder.d.ts:12</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L65">botbuilder.d.ts:65</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -408,7 +466,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#user">user</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/core/src/botbuilder.d.ts#L30">botbuilder.d.ts:30</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L83">botbuilder.d.ts:83</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -453,11 +511,20 @@
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.imessage.html#entities" class="tsd-kind-icon">entities</a>
 												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.imessage.html#inputhint" class="tsd-kind-icon">input<wbr>Hint</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.imessage.html#localtimestamp" class="tsd-kind-icon">local<wbr>Timestamp</a>
+												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.imessage.html#source" class="tsd-kind-icon">source</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
 													<a href="_botbuilder_d_.imessage.html#sourceevent" class="tsd-kind-icon">source<wbr>Event</a>
+												</li>
+												<li class=" tsd-kind-property tsd-parent-kind-interface">
+													<a href="_botbuilder_d_.imessage.html#speak" class="tsd-kind-icon">speak</a>
 												</li>
 												<li class=" tsd-kind-property tsd-parent-kind-interface">
 													<a href="_botbuilder_d_.imessage.html#summary" class="tsd-kind-icon">summary</a>
