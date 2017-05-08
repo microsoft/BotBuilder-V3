@@ -119,14 +119,6 @@ var ChatConnector = (function () {
                             logger.error("ChatConnector: receive - serviceurl mismatch. " + errorDescription);
                             throw new Error(errorDescription);
                         }
-                        if (typeof decoded_1.payload.serviceurl !== 'undefined' &&
-                            typeof req.body.serviceUrl !== 'undefined') {
-                            if (decoded_1.payload.serviceurl !== req.body.serviceUrl) {
-                                var errorDescription = "ServiceUrl in payload of token: " + decoded_1.payload.serviceurl + " didn't match the request's serviceurl: " + req.body.serviceUrl + ".";
-                                logger.error("ChatConnector: receive - serviceurl mismatch. " + errorDescription);
-                                throw new Error(errorDescription);
-                            }
-                        }
                     }
                     catch (err) {
                         logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
@@ -667,6 +659,9 @@ var ChatConnector = (function () {
         });
         delete msg.agent;
         delete msg.source;
+        if (!msg.localTimestamp) {
+            msg.localTimestamp = new Date().toISOString();
+        }
     };
     return ChatConnector;
 }());
