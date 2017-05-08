@@ -1,25 +1,37 @@
-﻿@import "../Less/_variables.less";
-@import "../Less/_icons.less";
-@import "../Less/_mixins.less";
-@import "../Less/_fonts.less";
-@import "../Less/_reset.less";
-@import "../Less/_grid.less";
-@import "../Less/_header.less";
-@import "../Less/_palette.less";
-@import "../Less/_dialog.less";
-@import "../Less/_error.less";
-@import "../Less/_loading.less";
-@import "../Less/_progress.less";
-@import "../Less/_page.less";
-@import "../Less/_introV3.less";
+﻿@import "../Less/v4/_icons.less";
+@import "../Less/v4/_mixins.less";
+@import "../Less/v4/_fonts.less";
+@import "../Less/v4/_reset.less";
+@import "../Less/v4/_controls.less";
+@import "../Less/v4/_grid.less";
+@import "../Less/v4/_header.less";
+@import "../Less/v4/_palette.less";
+@import "../Less/v4/_dialog.less";
+@import "../Less/v4/_error.less";
+@import "../Less/v4/_loading.less";
+@import "../Less/v4/_page.less";
+@import "../Less/v4/_bot_cards.less";
+@import "../Less/v4/_introV3.less";
+@import "../Less/v4/_progress.less";
+@import "../Less/v4/_sort_toggle.less";
+@import "../Less/v4/_sortableList.less";
+@import "../Less/v4/_list_pager.less";
+@import "../Less/v4/_action_sheet.less";
+@import "../Less/v4/_variables.less";
+@import "../../Intercom.DevPortal/Client/Content/v4/_bot_create.less";
+@import "../../Intercom.DevPortal/Client/Content/v4/_bot_app.less";
+@import "../../Intercom.DevPortal/Client/Content/v4/_bot_page.less";
 
+@max-field-width: 600px;
+@icon-upload-size: 100px;
 
 body, table, div, p, dl {
     font: @base-font-size @font-family;
 }
 
-body {
-    background: @background-gray !important;
+#app-body, .app-body {
+    overflow: scroll !important; 
+    height: 100%;
 }
 
 #side-nav {
@@ -213,6 +225,10 @@ a {
     background-color: transparent;
 }
 
+.outline.footer {
+    position: relative !important;
+}
+
 .post-content {
     padding-right: 20%;
     table {
@@ -229,17 +245,11 @@ a {
             td {
                 padding: 6px 13px;
                 border: 1px solid #ddd;
-                word-break: break-word;
-
-                a, strong {
-                    word-break: normal;
-                }
             }
         }
         th {
             padding: 6px 13px;
             border: 1px solid #ddd;
-            text-align: left;
         }
     }
 
@@ -252,16 +262,12 @@ a {
     }
 
     p {
-        margin: 0 0 30px 0;
-        line-height: 30px;
+        margin: 0 0 10px 0;
+        line-height: 25px;
     }
 
     .post-header {
         margin-bottom: 0;
-    }
-
-    > p {
-        margin: 0 0 30px 0;
     }
 }
 
@@ -283,7 +289,7 @@ a {
 
 
 .imagecaption {
-    margin: -25px 0 20px 0;
+    margin-top: -25px;
     text-align: center;
     font-size: 13px;
     font-style: italic;
@@ -298,6 +304,10 @@ a {
     .outline {
         min-width: 0;
     }
+    .outline.footer {
+        position: relative !important;
+    }
+
     #side-nav, #doc-content {
         width: 100% !important;
         float:none;
@@ -440,6 +450,6 @@ p.bingSearchUrl {
     margin: 0;
 }
 
-.ui-widget-content a {
-    color: @C20 !important;
+.header {
+    position: relative;
 }

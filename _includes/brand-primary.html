@@ -1,43 +1,28 @@
-{% if jekyll.environment == "development" %}
-    {% assign bf-home = "https://intercom-devportal-scratch.azurewebsites.net/" %}
-    {% assign bf-mybots = "https://intercom-devportal-scratch.azurewebsites.net/#/bots" %}
-    {% assign bf-register = "https://intercom-devportal-scratch.azurewebsites.net/#/bots/new" %}
-    {% assign bf-directory = "https://intercom-botdirectory-scratch.azurewebsites.net/" %}
-    {% assign bf-blog = "http://blog.botframework.com/" %}
-{% else %}
-    {% assign bf-home = "https://www.botframework.com/" %}
-    {% assign bf-mybots = "https://dev.botframework.com/bots" %}
-    {% assign bf-register = "https://dev.botframework.com/bots/new" %}
-    {% assign bf-directory = "https://bots.botframework.com/" %}
-    {% assign bf-blog = "http://blog.botframework.com/" %}
+{% if jekyll.environment == "development" %} 
+	{% assign bf-home = "https://scratch.botframework.com/"%} 
+	{% assign bf-mybots = "https://scratch.botframework.com/bots" %} 
+	{% assign bf-register = "https://scratch.botframework.com/bots/new"%} 
+	{% assign bf-directory = "https://intercom-botdirectory-scratch.azurewebsites.net/" %} 
+	{% assign bf-docs = "http://fuseserver01/"%} 
+	{% assign bf-blog = "/" %} 
+{% else %} 
+	{% assign bf-home = "https://www.botframework.com/" %} 
+	{% assign bf-mybots = "https://dev.botframework.com/bots"%} 
+	{% assign bf-register = "https://dev.botframework.com/bots/new" %} 
+	{% assign bf-directory = "https://bots.botframework.com/"%} 
+	{% assign bf-docs = "//docs.microsoft.com/en-us/bot-framework/" %} 
+	{% assign bf-blog = "/" %} 
 {% endif %}
 
-<div class="jumbo">
-	<div class="jumbo-header">
-		<a href="{{bf-home}}">Bot Framework</a>
-	</div>
-	<ul class="header-nav"><li>
-			<a href="{{bf-mybots}}">My bots</a>
-		</li><li>
-			<a href="{{bf-register}}">Register a bot</a>
-		</li><li class="active">
-			<a href="/">Documentation</a>
-		</li><li>
-			<a href="{{bf-directory}}">Bot Directory</a>
-		</li><li>
-			<a href="{{bf-blog}}">Blog</a>
-		</li></ul>
-	<!-- 
-	<div class="search-outter">
-		<div class="open-search"></div>
-		<div class="searchBox">
-			<form method="GET" action="https://intercom-botdirectory-scratch.azurewebsites.net/#/search">
-				<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…" />
-					<button type="submit" class="icon-search">
-						<span>Search</span>
-					</button>
-			</form>
+<div class="dark-theme cover-container">
+	<div class="jumbo outline">
+		<div class="jumbo-header"><a href="{{bf-home}}" class="appnav">Bot Framework</a></div>
+		<ul class="header-nav">
+			<li><a href="{{bf-mybots}}" class="appnav">My bots</a></li>
+			<li><a href="{{bf-docs}}">Documentation</a></li>
+			<li><a href="{{bf-directory}}">Bot Directory</a></li>
+			<li><a href="{{bf-blog}}">Blog</a></li>
+		</ul>
 		</div>
 	</div>
-	-->
 </div>

@@ -5,14 +5,12 @@
 	  <div id="app-body">
 		<div class="fullWidth">
 			<div>
-				<header>
+				<header class="cover-container">
 					<div class="outline">
 						{% include header.html %}
 					</div>
 				</header>
-				<div class="brand-primary">
-					{% include brand-primary.html %}
-				</div>
+				{% include brand-primary.html %}
 			</div>
 			<div class="outline">
 				{{ content }}
