@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Reference
+layout: 'redirect'
 permalink: /en-us/core-concepts/reference/
-weight: 1060
-parent1: Core Concepts
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-api-reference'
+sitemap: false
 ---
 
 

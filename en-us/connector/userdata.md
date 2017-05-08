@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Saving User State Data
+layout: 'redirect'
 permalink: /en-us/core-concepts/userdata/
-weight: 1050
-parent1: Core Concepts
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-state'
+sitemap: false
 ---
 
 The Bot Framework offers three stores that you can use to store user state: [User Data store](#savinguserdata), [Conversation store](#savingconversationdata), and [Private Conversation store](#savingprivateconversationdata). If you want to save state data for a user on a channel that is NOT specific to a conversation, use the User Data store. If you want to save state data for a user on a channel that IS specific to a conversation, use the Private Conversation data store. If you want to save general data about a conversation on a channel, use the Conversation store. 

@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Sending and Receiving Messages
+layout: 'redirect'
 permalink: /en-us/core-concepts/messages/
-weight: 1020
-parent1: Core Concepts
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-send-and-receive-messages'
+sitemap: false
 ---
 
 A conversation is a series of message sent between your bot and one or more users. Each message is an [Activity](../reference/#activity) object. When a user sends a message, the channel that they're communicating on posts the message to your bot (web service). Your bot examines the message to determine its type and responds accordingly. The following are the types of messages that bots and users can exchange.

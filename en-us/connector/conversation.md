@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Starting a Conversation
+layout: 'redirect'
 permalink: /en-us/core-concepts/conversation/
-weight: 1010
-parent1: Core Concepts
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-send-and-receive-messages'
+sitemap: false
 ---
 
 Conversations can take many forms. For example, your bot can have a private conversation with a single user, or a group conversation with multiple users including other bots. Most channels support private conversations but not all channels support group conversations. To determine whether the channel supports group conversations, see the channel's documentation. 

@@ -1,10 +1,10 @@
 ---
-layout: page
-title: Adding Channel Data
+layout: 'redirect'
 permalink: /en-us/core-concepts/channeldata/
-weight: 1040
-parent1: Core Concepts
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-channeldata'
+sitemap: false
 ---
+
 
 Some channels provide features that can't be described by using the Bot Connector's text and attachment schema. To use some channels, or to use channel-specific features, you need to set the [message](../reference/#activity)'s **channelData** property to an object that contains the channel-specific data. For example, to use the Office 365 email channel, you'd set the **channelData** property to the email's body and subject. For all requirements about exchanging messages, and a description of the channel-specific data, see the channel's documentation.
 

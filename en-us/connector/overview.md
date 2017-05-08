@@ -1,10 +1,10 @@
 ---
-layout: page
-title: Overview
+layout: 'redirect'
 permalink: /en-us/core-concepts/overview/
-weight: 1000
-parent1: Core Concepts
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/'
+sitemap: false
 ---
+
 
 Microsoft Bot Framework is a comprehensive offering that you use to build and deploy high quality bots for your users to enjoy wherever they are talking. A bot is a web service that interacts with users in a conversational format. Users can start conversations with your bot from any channel that you've configured your bot to work on (for example, SMS, Skype, Slack, Facebook, and other popular services). 
 

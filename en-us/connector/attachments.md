@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Adding Attachments to a Message
+layout: 'redirect'
 permalink: /en-us/core-concepts/attachments/
-weight: 1030
-parent1: Core Concepts
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-send-and-receive-messages'
+sitemap: false
 ---
 
 

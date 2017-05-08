@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Authentication
+layout: 'redirect'
 permalink: /en-us/core-concepts/authentication/
-weight: 1005
-parent1: Core Concepts
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-authentication'
+sitemap: false
 ---
 
 The Bot Connector service uses [OAuth 2.0 client credentials](https://tools.ietf.org/html/rfc6749#section-4.4) for bot authentication. To send messages to the Bot Connector, your bot must get an access token from the Microsoft Account (MSA) server. After getting the access token, you include the token in the `Authorization` header of all requests that your bot sends to the Bot Connector. For details, see [Getting an Access Token and Calling the Bot Connector Service](#getaccesstoken).  

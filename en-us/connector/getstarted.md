@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Quick Start
+layout: 'redirect'
 permalink: /en-us/core-concepts/getstarted/
-weight: 1003
-parent1: Core Concepts
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-quickstart'
+sitemap: false
 ---
 
 The following sections layout the steps to building and registering a bot, and configuring it to work on one or more channels.
