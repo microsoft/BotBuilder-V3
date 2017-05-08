@@ -126,7 +126,6 @@ interface IMediaCard extends IKeyboard{
     autoloop: boolean;              // Should the media source reproduction run in a lool
     autostart: boolean;             // Should the media start automatically
     shareable: boolean;             // Should media be shareable
-    buttons: ICardAction[];         // Set of actions applicable to the current card.
 }
 
 interface IVideoCard extends IMediaCard {

@@ -1420,7 +1420,6 @@ export interface IDisambiguateRouteHandler {
 
 /** Interface definition for a video card */
 export interface IVideoCard extends IMediaCard {
-
     /** Hint of the aspect ratio of the video or animation. (16:9)(4:3) */
     aspect: string;
 }
@@ -1431,9 +1430,6 @@ export interface IAudioCard extends IMediaCard {
 
 /** Interface definition for an animation card */
 export interface IAnimationCard extends IMediaCard {
-
-    /** Hint of the aspect ratio of the video or animation. (16:9)(4:3) */
-    aspect: string;
 }
 
 /** Interface definition of a generic MediaCard, which in its concrete form can be an Audio, Animation or Video card */
