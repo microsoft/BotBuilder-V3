@@ -1,12 +1,9 @@
 ---
-layout: page
-title: Prompts
+layout: 'redirect'
 permalink: /en-us/node/builder/calling/prompts/
-weight: 2631
-parent1: Bot Builder for Node.js
-parent2: Calling Bots
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-dialog-prompt
+sitemap: false
 ---
-
 * TOC
 {:toc}
 

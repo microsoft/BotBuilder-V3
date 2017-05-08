@@ -1,10 +1,10 @@
 ---
-layout: page
-title: What's new or changed in v3.3
+layout: 'redirect'
 permalink: /en-us/node/builder/whats-new/
-weight: 2601
-parent1: Bot Builder for Node.js
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-overview'
+sitemap: false
 ---
+
 
 * TOC
 {:toc}
