@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Bot Framework IDs Guide
+layout: 'redirect'
 permalink: /en-us/bot-framework-guide-id/
-weight: 9350
-parent1: Bot Framework Resources
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/resources-identifiers-guide'
+sitemap: false
 ---
 
 This guide describes the characteristics of ID fields present in the Bot Framework v3 protocol.

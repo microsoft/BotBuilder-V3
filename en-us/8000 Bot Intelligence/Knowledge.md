@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/bot-intelligence/knowledge/
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-knowledge'
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-bot-intelligence-overview'
 sitemap: false
 ---
 

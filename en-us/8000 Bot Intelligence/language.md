@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/bot-intelligence/language/
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-language'
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-bot-intelligence-overview'
 sitemap: false
 ---
 

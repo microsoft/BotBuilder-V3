@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Bot Framework Support
+layout: 'redirect'
 permalink: /en-us/support/
-weight: 9100
-parent1: Bot Framework Resources
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/resources-support'
+sitemap: false
 ---
 
 

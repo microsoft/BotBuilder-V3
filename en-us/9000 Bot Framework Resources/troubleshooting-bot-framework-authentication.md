@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Troubleshooting Bot Framework Authentication
+layout: 'redirect'
 permalink: /en-us/support/troubleshooting-bot-framework-authentication/
-weight: 9380
-parent1: Bot Framework Resources
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/troubleshoot-authentication-problems'
+sitemap: false
 ---
 
 ## Overview

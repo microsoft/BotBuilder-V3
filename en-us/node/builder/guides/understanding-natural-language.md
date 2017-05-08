@@ -1,12 +1,4 @@
 ---
-layout: page
-title: Understanding Natural Language
-permalink: 
-weight: 2611
-parent1: Bot Builder for Node.js
-parent2: Guides
----
----
 layout: 'redirect'
 permalink: /en-us/node/builder/guides/understanding-natural-language/
 redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-bot-intelligence-overview#language-understanding'

@@ -1,8 +1,6 @@
 ---
-layout: default
-title: Getting started
+layout: 'redirect'
 permalink: /en-us/csharp/builder/overview/
-weight: 3500
-parent1: Bot Builder for .NET
-redirect: /en-us/csharp/builder/sdkreference/
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/dotnet/'
+sitemap: false
 ---

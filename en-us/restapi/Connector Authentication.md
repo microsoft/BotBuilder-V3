@@ -1,10 +1,8 @@
 ---
-layout: page
-title: Authentication
+layout: 'redirect'
 permalink: /en-us/restapi/authentication/
-weight: 4229
-parent1: REST API
-parent2: Bots
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-authentication'
+sitemap: false
 ---
 
 

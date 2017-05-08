@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Bot Framework Technical FAQ
+layout: 'redirect'
 permalink: /en-us/technical-faq/
-weight: 9350
-parent1: Bot Framework Resources
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/troubleshoot-general-problems'
+sitemap: false
 ---
 
 * TOC

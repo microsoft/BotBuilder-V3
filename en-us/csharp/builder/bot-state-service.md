@@ -1,8 +1,7 @@
 ---
-layout: default
-title: Bot State Service
+layout: 'redirect'
 permalink: /en-us/csharp/builder/stateservice/
-weight: 3503
-parent1: Bot Builder for .NET
-redirect: /en-us/csharp/builder/sdkreference/stateapi.html
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-state'
+sitemap: false
 ---
+

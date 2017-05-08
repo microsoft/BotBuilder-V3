@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Releases
+layout: 'redirect'
 permalink: /en-us/csharp/builder/libraries/latest/
-weight: 3560
-parent1: Bot Builder for .NET
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-release-notes'
+sitemap: false
 ---
 
 Microsoft Bot Builder is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and leverages C# to provide a natural way to write bots.

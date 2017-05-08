@@ -1,10 +1,9 @@
 ---
-layout: default
-title: Connector Service
+layout: 'redirect'
 permalink: /en-us/csharp/builder/connector/
-weight: 3502
-parent1: Bot Builder for .NET
-redirect: /en-us/csharp/builder/sdkreference/connector.html
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/dotnet/bot-builder-dotnet-concepts'
+sitemap: false
 ---
+
 
 

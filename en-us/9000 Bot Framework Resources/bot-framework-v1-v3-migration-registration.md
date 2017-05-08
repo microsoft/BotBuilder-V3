@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Upgrade your bot to V3
+layout: 'redirect'
 permalink: /en-us/support/upgrade-to-v3/
-weight: 9400
-parent1: Bot Framework Resources
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/'
+sitemap: false
 ---
 
 At Build 2016 Microsoft announced the Microsoft Bot Framework and its initial iteration of the Bot Connector API, along with Bot Builder and Bot Connector SDK's.  Since Build we've been collecting your feedback and actively working to improve the REST API and SDK's to be ready for the future, better support for attachments, and improved performance.

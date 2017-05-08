@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Embed the Chat Control
+layout: 'redirect'
 permalink: /en-us/support/embed-chat-control2/
-weight: 9300
-parent1: Bot Framework Resources
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/embed-chat-control-web-page'
+sitemap: false
 ---
 
 ## Overview

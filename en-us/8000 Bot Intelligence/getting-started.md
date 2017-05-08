@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/bot-intelligence/getting-started/
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/intelligent-bots'
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-bot-intelligence-overview'
 sitemap: false
 ---
 * TOC

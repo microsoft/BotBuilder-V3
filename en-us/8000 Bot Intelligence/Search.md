@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/bot-intelligence/search/
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-add-bot-search'
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/cognitive-services-bot-intelligence-overview'
 sitemap: false
 ---
 

@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Bot Framework Emulator
+layout: 'redirect'
 permalink: /en-us/tools/bot-framework-emulator/
-weight: 9250
-parent1: Bot Framework Resources
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/debug-bots-emulator'
+sitemap: false
 ---
 
 We have released a new Bot Framework Emulator! Get it [here](https://emulator.botframework.com/) and for documentation, [here](https://github.com/microsoft/botframework-emulator/wiki/Getting-Started). 
