@@ -162,7 +162,14 @@ var Message = (function () {
         return this;
     };
     Message.prototype.timestamp = function (time) {
+        if (this.session) {
+            this.session.logger.warn(this.session.dialogStack(), "Message.timestamp() should be set by the connectors service. Use Message.localTimestamp() instead.");
+        }
         this.data.timestamp = time || new Date().toISOString();
+        return this;
+    };
+    Message.prototype.localTimestamp = function (time) {
+        this.data.localTimestamp = time || new Date().toISOString();
         return this;
     };
     Message.prototype.sourceEvent = function (map) {

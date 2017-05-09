@@ -73,9 +73,6 @@ var LuisRecognizer = (function (_super) {
             if (uri.search) {
                 delete uri.search;
             }
-            if (!Object.prototype.hasOwnProperty.call(uri.query, 'allowSampling')) {
-                uri.query['allowSampling'] = 'true';
-            }
             request.get(url.format(uri), function (err, res, body) {
                 var result;
                 try {

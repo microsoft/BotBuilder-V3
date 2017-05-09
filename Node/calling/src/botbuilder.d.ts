@@ -829,8 +829,8 @@ interface IBotStorage {
 
 /** Options used to initialize a ChatConnector instance. */
 interface ICallConnectorSettings {
-    /** The URI that should be used to receive workflow callbacks. This should typically be the endpoint calling entered into the developer portal. */
-    callbackUri: string;
+    /** The URL that should be used to receive workflow callbacks. This should typically be the endpoint calling entered into the developer portal. */
+    callbackUrl: string;
     
     /** The bots App ID assigned in the Bot Framework portal. */
     appId?: string;

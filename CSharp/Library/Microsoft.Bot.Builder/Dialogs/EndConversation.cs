@@ -40,14 +40,30 @@ using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
+    /// <summary>
+    /// This event represents the end of the conversation.  It is initiated by <see cref="Extensions.EndConversation(IDialogContext, string)"/>
+    /// and propagates as an event in the stack scorable process to allow interception.
+    /// </summary>
     public sealed class EndConversationEvent
     {
+        /// <summary>
+        /// Code selected from <see cref="EndOfConversationCodes"/> 
+        /// </summary>
         public string Code { get; }
+
+        /// <summary>
+        /// Construct the <see cref="EndConversationEvent"/>.
+        /// </summary>
+        /// <param name="code">Code selected from <see cref="EndOfConversationCodes"/>.</param>
         public EndConversationEvent(string code)
         {
             this.Code = code;
         }
 
+        /// <summary>
+        /// Construct the scorable used to handle the <see cref="EndConversationEvent"/>.
+        /// </summary>
+        /// <returns>The constructed scorable.</returns>
         public static IScorable<IResolver, double> MakeScorable()
         {
             var scorable =
@@ -74,6 +90,10 @@ namespace Microsoft.Bot.Builder.Dialogs
     {
         private static readonly ResumeAfter<IEventActivity> AfterReset = (context, result) => Task.CompletedTask;
 
+        /// <summary>
+        /// Initiate an <see cref="EndConversationEvent"/> to reset the conversation's state and stack and send an
+        /// <see cref="ActivityTypes.EndOfConversation"/> to the Connector.
+        /// </summary>
         public static void EndConversation(this IDialogContext context, string code)
         {
             var activity = new Activity(ActivityTypes.Event) { Value = new EndConversationEvent(code) };

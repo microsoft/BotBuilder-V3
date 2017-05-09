@@ -30,6 +30,12 @@ namespace Microsoft.Bot.Builder.Calling.ObjectModel.Contracts
         public bool IsMultiparty { get; set; }
 
         /// <summary>
+        /// Identifies a specfic topic within a chat thread.
+        /// </summary>
+        [JsonProperty(Required = Required.Default)]
+        public string ThreadMessageId { get; set; }
+
+        /// <summary>
         /// Id for the chat thread
         /// </summary>
         [JsonProperty(Required = Required.Default)]

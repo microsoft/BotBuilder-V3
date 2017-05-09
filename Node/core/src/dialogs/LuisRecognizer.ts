@@ -112,9 +112,6 @@ export class LuisRecognizer extends IntentRecognizer {
             if (uri.search) {
                 delete uri.search;
             }
-            if (!Object.prototype.hasOwnProperty.call(uri.query, 'allowSampling')) {
-                uri.query['allowSampling'] = 'true';
-            }
 
             // Call model
             request.get(url.format(uri), (err: Error, res: any, body: string) => {

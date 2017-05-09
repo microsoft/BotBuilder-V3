@@ -30,10 +30,11 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-
+import { IRecognizeContext } from './IntentRecognizer';
 import * as utils from '../utils';
 import * as sprintf from 'sprintf-js';
 import * as chrono from 'chrono-node';
+import * as consts from '../consts';
 
 interface ILuisDateTimeEntity extends IEntity<string> {
     resolution: {
@@ -195,8 +196,19 @@ export class EntityRecognizer {
         return Number.NaN;
     }
 
-    static parseBoolean(utterance: string): boolean {
+    static parseBoolean(utterance: string, context?: IRecognizeContext): boolean {
         utterance = utterance.trim();
+        if (context) {
+            var locale = context.preferredLocale();
+            var pattern = context.localizer.trygettext(locale, 'yesExp', consts.Library.system);
+            if (pattern) { 
+                EntityRecognizer.yesExp = new RegExp(pattern,'i');
+            } 
+            pattern = context.localizer.trygettext(locale, 'noExp', consts.Library.system);
+            if (pattern) {
+                EntityRecognizer.noExp = new RegExp(pattern, 'i');
+            }
+        }
         if (EntityRecognizer.yesExp.test(utterance)) {
             return true;
         } else if (EntityRecognizer.noExp.test(utterance)) {

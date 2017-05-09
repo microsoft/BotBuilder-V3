@@ -659,6 +659,9 @@ var ChatConnector = (function () {
         });
         delete msg.agent;
         delete msg.source;
+        if (!msg.localTimestamp) {
+            msg.localTimestamp = new Date().toISOString();
+        }
     };
     return ChatConnector;
 }());

@@ -5,6 +5,8 @@ Bot Builder for Node.js examples are organized into groups and designed to illus
     git clone https://github.com/Microsoft/BotBuilder.git
     cd BotBuilder/Node
     npm install
+    cd core
+    npm install
 
 The node examples below can then be found under the "Node/examples" directory. 
 

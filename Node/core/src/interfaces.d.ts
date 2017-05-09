@@ -31,6 +31,16 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+type TextType = string|string[];
+type MessageType = IMessage|IIsMessage;
+type TextOrMessageType = TextType|MessageType;
+type CardActionType = ICardAction|IIsCardAction;
+type CardImageType = ICardImage|IIsCardImage;
+type AttachmentType = IAttachment|IIsAttachment;
+type MatchType = RegExp|string|(RegExp|string)[];
+type ValueListType = string|string[];
+
+
 interface IEvent {
     type: string;
     address: IAddress;
@@ -41,7 +51,8 @@ interface IEvent {
 }
 
 interface IMessage extends IEvent {
-    timestamp?: string;              // Timestamp of message given by chat service 
+    timestamp?: string;              // UTC Time when message was sent (set by service)
+    localTimestamp?: string;         // Local time when message was sent (set by client or bot, Ex: 2016-09-23T13:07:49.4714686-07:00)
     summary?: string;                // Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations 
     text?: string;                   // Message text
     speak?: string;                  // Spoken message as Speech Synthesis Markup Language (SSML)
@@ -115,7 +126,6 @@ interface IMediaCard extends IKeyboard{
     autoloop: boolean;              // Should the media source reproduction run in a lool
     autostart: boolean;             // Should the media start automatically
     shareable: boolean;             // Should media be shareable
-    buttons: ICardAction[];         // Set of actions applicable to the current card.
 }
 
 interface IVideoCard extends IMediaCard {
@@ -251,9 +261,3 @@ interface IEntity<T> {
     score?: number;
 }
 
-type TextType = string|string[];
-type MessageType = IMessage|IIsMessage;
-type TextOrMessageType = TextType|MessageType;
-type AttachmentType = IAttachment|IIsAttachment;
-type CardActionType = ICardAction|IIsCardAction;
-type CardImageType = ICardImage|IIsCardImage;

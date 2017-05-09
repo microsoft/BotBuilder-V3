@@ -47,7 +47,6 @@ export interface IDialogActionOptions {
     intentThreshold?: number;
     onFindAction?: (context: IFindActionRouteContext, callback: (err: Error, score: number, routeData?: IActionRouteData) => void) => void;
     onSelectAction?: (session: Session, args?: any, next?: Function) => void;
-    label?: string;
 }
 
 export interface IBeginDialogActionOptions extends IDialogActionOptions {

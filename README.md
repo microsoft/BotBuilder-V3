@@ -4,7 +4,6 @@ The Microsoft Bot Framework provides just what you need to build and connect int
 
 The Microsoft Bot Builder SDK is one of three main components of the Microsoft Bot Framework. It is a powerful, easy-to-use framework that provides a familiar way for .NET and Node.js developers to develop bots. The Bot Builder SDK provides features that make interactions between bots and users much simpler. Bot Builder also includes an emulator for debugging your bots, as well as a large set of sample bots you can use as building blocks.
 
-![Bot Framework Diagram](http://docs.botframework.com/en-us/images/faq-overview/botframework_overview_july.png)
 
 Think of a bot as an app that users interact with in a conversational way. Bots can communicate conversationally with text, cards , or speech. A bot may be as simple as basic pattern matching with a response, or it may be a sophisticated weaving of artificial intelligence techniques with complex conversational state tracking and integration to existing business services.
 
