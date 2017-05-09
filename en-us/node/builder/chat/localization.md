@@ -1,11 +1,13 @@
 ---
-layout: page
-title: Localization
+layout: 'redirect'
 permalink: /en-us/node/builder/chat/localization/
-weight: 2626
-parent1: Bot Builder for Node.js
-parent2: Chat Bots
+redir_to: 'https://docs.botframework.com/en-us/node/builder/chat-reference/modules/_botbuilder_d_.html'
+sitemap: false
 ---
+
+
+
+
 
 * TOC
 {:toc}
