@@ -11,7 +11,7 @@
 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
-	<link rel="stylesheet" href="/css/documentation.css" />
+	<link rel="stylesheet" href="/css/documentation.css?3" />
 	<script src="/js/index.js"></script>
 	<script src="/js/documents.js"></script>
 	<script src="/js/leftnav.js"></script>
@@ -37,53 +37,28 @@
 <body>
 <div id="app-body">
 	<div class="fullWidth">
-		<header>
+		<header class="cover-container">
 			<div class="outline">
-				<div class="header">
+				<div class="header outline">
 					<a class="logo" href="//www.microsoft.com">
 						<svg class="svgicon svgicon-microsoft-color-logo">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo"></use>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href=" /images/symbol-defs.svg#svgicon-microsoft-color-logo "></use>
 						</svg>
 					</a>
-					<div class="loading-animation"></div>
-					<span class="environment"></span>
-					<div>
-					</div>
 				</div>
 			</div>
 		</header>
-		<div class="brand-primary">
-			<div class="jumbo">
-				<div class="jumbo-header">
-					<a href="https://www.botframework.com/">Bot Framework</a>
-				</div>
-				<ul class="header-nav"><li>
-						<a href="https://dev.botframework.com/#/bots">My bots</a>
-						</li><li>
-						<a href="https://dev.botframework.com/#/bots/new">Register a bot</a>
-						</li><li class="active">
-						<a href="/">Documentation</a>
-						</li><li>
-						<a href="https://bots.botframework.com/">Bot Directory</a>
-						</li><li>
-						<a href="https://blog.botframework.com/">Blog</a>
-				</li></ul>
-				<!--
-		<div class="search-outter">
-			<div class="open-search"></div>
-			<div class="searchBox">
-				<form method="GET" action="https://dev.botframework.com/#/search">
-					<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…"/>
-						<button type="submit" class="icon-search">
-							<span>Search</span>
-						</button>
-				</form>
+		<div class="dark-theme cover-container">
+			<div class="jumbo outline">
+				<div class="jumbo-header"><a href="https://dev.botframework.com/" class="appnav">Bot Framework</a></div>
+				<ul class="header-nav">
+					<li><a href="https://dev.botframework.com/bots" class="appnav">My bots</a></li>
+					<li><a href="/">Documentation</a></li>
+					<li><a href="https://bots.botframework.com/">Bot Directory</a></li>
+					<li><a href="https://blog.botframework.com/">Blog</a></li>
+				</ul>
 			</div>
-		</div>
-		-->
-			</div>
-		</div>
-		<div class="outline">
+			</div>			<div class="outline">
 			<article class="post">
 				<div id="side-nav">
 					{% include leftnav.html %}
@@ -185,7 +160,7 @@
 										<div class="tsd-signature tsd-kind-icon">entity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/calling/src/botbuilder.d.ts#L782">botbuilder.d.ts:782</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/calling/src/botbuilder.d.ts#L782">botbuilder.d.ts:782</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -200,7 +175,7 @@
 										<div class="tsd-signature tsd-kind-icon">score<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/d51e893/Node/calling/src/botbuilder.d.ts#L785">botbuilder.d.ts:785</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/calling/src/botbuilder.d.ts#L785">botbuilder.d.ts:785</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -312,7 +287,7 @@
 				<li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
 				<li><a href="//aka.ms/bf-terms">Terms of use</a></li>
 				<li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
-				<li>&copy; 2016 Microsoft</li>
+				<li>&copy; 2017 Microsoft</li>
 			</ul>
 		</div>
 		<div class="overlay"></div>

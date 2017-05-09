@@ -11,7 +11,7 @@
 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
-	<link rel="stylesheet" href="/css/documentation.css" />
+	<link rel="stylesheet" href="/css/documentation.css?3" />
 	<script src="/js/index.js"></script>
 	<script src="/js/documents.js"></script>
 	<script src="/js/leftnav.js"></script>
@@ -37,53 +37,28 @@
 <body>
 <div id="app-body">
 	<div class="fullWidth">
-		<header>
+		<header class="cover-container">
 			<div class="outline">
-				<div class="header">
+				<div class="header outline">
 					<a class="logo" href="//www.microsoft.com">
 						<svg class="svgicon svgicon-microsoft-color-logo">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo"></use>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href=" /images/symbol-defs.svg#svgicon-microsoft-color-logo "></use>
 						</svg>
 					</a>
-					<div class="loading-animation"></div>
-					<span class="environment"></span>
-					<div>
-					</div>
 				</div>
 			</div>
 		</header>
-		<div class="brand-primary">
-			<div class="jumbo">
-				<div class="jumbo-header">
-					<a href="https://www.botframework.com/">Bot Framework</a>
-				</div>
-				<ul class="header-nav"><li>
-						<a href="https://dev.botframework.com/#/bots">My bots</a>
-						</li><li>
-						<a href="https://dev.botframework.com/#/bots/new">Register a bot</a>
-						</li><li class="active">
-						<a href="/">Documentation</a>
-						</li><li>
-						<a href="https://bots.botframework.com/">Bot Directory</a>
-						</li><li>
-						<a href="https://blog.botframework.com/">Blog</a>
-				</li></ul>
-				<!--
-		<div class="search-outter">
-			<div class="open-search"></div>
-			<div class="searchBox">
-				<form method="GET" action="https://dev.botframework.com/#/search">
-					<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…"/>
-						<button type="submit" class="icon-search">
-							<span>Search</span>
-						</button>
-				</form>
+		<div class="dark-theme cover-container">
+			<div class="jumbo outline">
+				<div class="jumbo-header"><a href="https://dev.botframework.com/" class="appnav">Bot Framework</a></div>
+				<ul class="header-nav">
+					<li><a href="https://dev.botframework.com/bots" class="appnav">My bots</a></li>
+					<li><a href="/">Documentation</a></li>
+					<li><a href="https://bots.botframework.com/">Bot Directory</a></li>
+					<li><a href="https://blog.botframework.com/">Blog</a></li>
+				</ul>
 			</div>
-		</div>
-		-->
-			</div>
-		</div>
-		<div class="outline">
+			</div>			<div class="outline">
 			<article class="post">
 				<div id="side-nav">
 					{% include leftnav.html %}
@@ -204,7 +179,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#attachmentlayout">attachmentLayout</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L213">botbuilder.d.ts:213</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L213">botbuilder.d.ts:213</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -220,7 +195,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#attachments">attachments</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L204">botbuilder.d.ts:204</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L204">botbuilder.d.ts:204</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -236,7 +211,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#entities">entities</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L207">botbuilder.d.ts:207</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L207">botbuilder.d.ts:207</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -252,7 +227,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#inputhint">inputHint</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L216">botbuilder.d.ts:216</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L216">botbuilder.d.ts:216</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -267,7 +242,7 @@
 										<div class="tsd-signature tsd-kind-icon">integer<wbr>Only<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L888">botbuilder.d.ts:888</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L888">botbuilder.d.ts:888</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -283,7 +258,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#librarynamespace">libraryNamespace</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L793">botbuilder.d.ts:793</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L793">botbuilder.d.ts:793</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -299,7 +274,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#liststyle">listStyle</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L787">botbuilder.d.ts:787</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L787">botbuilder.d.ts:787</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -315,7 +290,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#localizationnamespace">localizationNamespace</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L796">botbuilder.d.ts:796</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L796">botbuilder.d.ts:796</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -331,7 +306,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#maxretries">maxRetries</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L781">botbuilder.d.ts:781</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L781">botbuilder.d.ts:781</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -346,7 +321,7 @@
 										<div class="tsd-signature tsd-kind-icon">max<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L885">botbuilder.d.ts:885</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L885">botbuilder.d.ts:885</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -361,7 +336,7 @@
 										<div class="tsd-signature tsd-kind-icon">min<wbr>Value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L882">botbuilder.d.ts:882</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L882">botbuilder.d.ts:882</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -377,7 +352,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#prompt">prompt</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L766">botbuilder.d.ts:766</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L766">botbuilder.d.ts:766</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -393,7 +368,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#promptafteraction">promptAfterAction</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L784">botbuilder.d.ts:784</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L784">botbuilder.d.ts:784</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -409,7 +384,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#refdate">refDate</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L790">botbuilder.d.ts:790</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L790">botbuilder.d.ts:790</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -425,7 +400,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#retryprompt">retryPrompt</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L775">botbuilder.d.ts:775</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L775">botbuilder.d.ts:775</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -442,7 +417,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#retryspeak">retrySpeak</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L778">botbuilder.d.ts:778</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L778">botbuilder.d.ts:778</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -458,7 +433,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ipromptoptions.html">IPromptOptions</a>.<a href="_botbuilder_d_.ipromptoptions.html#speak">speak</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L769">botbuilder.d.ts:769</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L769">botbuilder.d.ts:769</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -474,7 +449,7 @@
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.imessageoptions.html">IMessageOptions</a>.<a href="_botbuilder_d_.imessageoptions.html#textformat">textFormat</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L210">botbuilder.d.ts:210</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L210">botbuilder.d.ts:210</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -634,7 +609,7 @@
 				<li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
 				<li><a href="//aka.ms/bf-terms">Terms of use</a></li>
 				<li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
-				<li>&copy; 2016 Microsoft</li>
+				<li>&copy; 2017 Microsoft</li>
 			</ul>
 		</div>
 		<div class="overlay"></div>

@@ -11,7 +11,7 @@
 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
-	<link rel="stylesheet" href="/css/documentation.css" />
+	<link rel="stylesheet" href="/css/documentation.css?3" />
 	<script src="/js/index.js"></script>
 	<script src="/js/documents.js"></script>
 	<script src="/js/leftnav.js"></script>
@@ -37,53 +37,28 @@
 <body>
 <div id="app-body">
 	<div class="fullWidth">
-		<header>
+		<header class="cover-container">
 			<div class="outline">
-				<div class="header">
+				<div class="header outline">
 					<a class="logo" href="//www.microsoft.com">
 						<svg class="svgicon svgicon-microsoft-color-logo">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo"></use>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href=" /images/symbol-defs.svg#svgicon-microsoft-color-logo "></use>
 						</svg>
 					</a>
-					<div class="loading-animation"></div>
-					<span class="environment"></span>
-					<div>
-					</div>
 				</div>
 			</div>
 		</header>
-		<div class="brand-primary">
-			<div class="jumbo">
-				<div class="jumbo-header">
-					<a href="https://www.botframework.com/">Bot Framework</a>
-				</div>
-				<ul class="header-nav"><li>
-						<a href="https://dev.botframework.com/#/bots">My bots</a>
-						</li><li>
-						<a href="https://dev.botframework.com/#/bots/new">Register a bot</a>
-						</li><li class="active">
-						<a href="/">Documentation</a>
-						</li><li>
-						<a href="https://bots.botframework.com/">Bot Directory</a>
-						</li><li>
-						<a href="https://blog.botframework.com/">Blog</a>
-				</li></ul>
-				<!--
-		<div class="search-outter">
-			<div class="open-search"></div>
-			<div class="searchBox">
-				<form method="GET" action="https://dev.botframework.com/#/search">
-					<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…"/>
-						<button type="submit" class="icon-search">
-							<span>Search</span>
-						</button>
-				</form>
+		<div class="dark-theme cover-container">
+			<div class="jumbo outline">
+				<div class="jumbo-header"><a href="https://dev.botframework.com/" class="appnav">Bot Framework</a></div>
+				<ul class="header-nav">
+					<li><a href="https://dev.botframework.com/bots" class="appnav">My bots</a></li>
+					<li><a href="/">Documentation</a></li>
+					<li><a href="https://bots.botframework.com/">Bot Directory</a></li>
+					<li><a href="https://blog.botframework.com/">Blog</a></li>
+				</ul>
 			</div>
-		</div>
-		-->
-			</div>
-		</div>
-		<div class="outline">
+			</div>			<div class="outline">
 			<article class="post">
 				<div id="side-nav">
 					{% include leftnav.html %}
@@ -245,7 +220,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1620">botbuilder.d.ts:1620</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1620">botbuilder.d.ts:1620</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -277,7 +252,7 @@
 										<div class="tsd-signature tsd-kind-icon">connector<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.iconnector.html" class="tsd-signature-type">IConnector</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1642">botbuilder.d.ts:1642</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1642">botbuilder.d.ts:1642</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -292,7 +267,7 @@
 										<div class="tsd-signature tsd-kind-icon">conversation<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1657">botbuilder.d.ts:1657</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1657">botbuilder.d.ts:1657</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -307,7 +282,7 @@
 										<div class="tsd-signature tsd-kind-icon">dialog<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1663">botbuilder.d.ts:1663</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1663">botbuilder.d.ts:1663</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -322,7 +297,7 @@
 										<div class="tsd-signature tsd-kind-icon">library<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.library.html" class="tsd-signature-type">Library</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1645">botbuilder.d.ts:1645</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1645">botbuilder.d.ts:1645</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -337,7 +312,7 @@
 										<div class="tsd-signature tsd-kind-icon">localizer<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.ilocalizer.html" class="tsd-signature-type">ILocalizer</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1666">botbuilder.d.ts:1666</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1666">botbuilder.d.ts:1666</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -352,7 +327,7 @@
 										<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.imessage.html" class="tsd-signature-type">IMessage</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1651">botbuilder.d.ts:1651</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1651">botbuilder.d.ts:1651</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -367,7 +342,7 @@
 										<div class="tsd-signature tsd-kind-icon">private<wbr>Conversation<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1660">botbuilder.d.ts:1660</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1660">botbuilder.d.ts:1660</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -382,7 +357,7 @@
 										<div class="tsd-signature tsd-kind-icon">session<wbr>State<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_botbuilder_d_.isessionstate.html" class="tsd-signature-type">ISessionState</a></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1648">botbuilder.d.ts:1648</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1648">botbuilder.d.ts:1648</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -397,7 +372,7 @@
 										<div class="tsd-signature tsd-kind-icon">user<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1654">botbuilder.d.ts:1654</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1654">botbuilder.d.ts:1654</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -419,7 +394,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1791">botbuilder.d.ts:1791</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1791">botbuilder.d.ts:1791</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -465,7 +440,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1834">botbuilder.d.ts:1834</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1834">botbuilder.d.ts:1834</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -515,7 +490,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1865">botbuilder.d.ts:1865</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1865">botbuilder.d.ts:1865</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -537,7 +512,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1776">botbuilder.d.ts:1776</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1776">botbuilder.d.ts:1776</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -568,7 +543,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1860">botbuilder.d.ts:1860</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1860">botbuilder.d.ts:1860</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -601,7 +576,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1639">botbuilder.d.ts:1639</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1639">botbuilder.d.ts:1639</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -646,7 +621,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1806">botbuilder.d.ts:1806</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1806">botbuilder.d.ts:1806</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -683,7 +658,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1814">botbuilder.d.ts:1814</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1814">botbuilder.d.ts:1814</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -721,7 +696,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1820">botbuilder.d.ts:1820</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1820">botbuilder.d.ts:1820</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -752,7 +727,7 @@
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1682">botbuilder.d.ts:1682</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1682">botbuilder.d.ts:1682</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -796,7 +771,7 @@ bot.dialog('taskDialog', function (session) {
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1718">botbuilder.d.ts:1718</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1718">botbuilder.d.ts:1718</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -841,7 +816,7 @@ var msg = session.gettext("")
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1844">botbuilder.d.ts:1844</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1844">botbuilder.d.ts:1844</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -863,7 +838,7 @@ var msg = session.gettext("")
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1781">botbuilder.d.ts:1781</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1781">botbuilder.d.ts:1781</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -885,7 +860,7 @@ var msg = session.gettext("")
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1727">botbuilder.d.ts:1727</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1727">botbuilder.d.ts:1727</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -929,7 +904,7 @@ var msg = session.gettext("")
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1620">botbuilder.d.ts:1620</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1620">botbuilder.d.ts:1620</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -990,7 +965,7 @@ var msg = session.gettext("")
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1706">botbuilder.d.ts:1706</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1706">botbuilder.d.ts:1706</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1065,7 +1040,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1799">botbuilder.d.ts:1799</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1799">botbuilder.d.ts:1799</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1109,7 +1084,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1841">botbuilder.d.ts:1841</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1841">botbuilder.d.ts:1841</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1146,7 +1121,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1871">botbuilder.d.ts:1871</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1871">botbuilder.d.ts:1871</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1177,7 +1152,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1730">botbuilder.d.ts:1730</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1730">botbuilder.d.ts:1730</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1200,7 +1175,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1754">botbuilder.d.ts:1754</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1754">botbuilder.d.ts:1754</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1235,7 +1210,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1755">botbuilder.d.ts:1755</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1755">botbuilder.d.ts:1755</a></li>
 													</ul>
 												</aside>
 												<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1261,7 +1236,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1765">botbuilder.d.ts:1765</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1765">botbuilder.d.ts:1765</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1311,7 +1286,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1737">botbuilder.d.ts:1737</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1737">botbuilder.d.ts:1737</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1348,7 +1323,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1852">botbuilder.d.ts:1852</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1852">botbuilder.d.ts:1852</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1406,7 +1381,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1745">botbuilder.d.ts:1745</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1745">botbuilder.d.ts:1745</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1449,7 +1424,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1770">botbuilder.d.ts:1770</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1770">botbuilder.d.ts:1770</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1471,7 +1446,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1629">botbuilder.d.ts:1629</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1629">botbuilder.d.ts:1629</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1493,7 +1468,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1932">botbuilder.d.ts:1932</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1932">botbuilder.d.ts:1932</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1530,7 +1505,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1937">botbuilder.d.ts:1937</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1937">botbuilder.d.ts:1937</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1552,7 +1527,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1896">botbuilder.d.ts:1896</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1896">botbuilder.d.ts:1896</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1583,7 +1558,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1890">botbuilder.d.ts:1890</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1890">botbuilder.d.ts:1890</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1627,7 +1602,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1881">botbuilder.d.ts:1881</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1881">botbuilder.d.ts:1881</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1697,7 +1672,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1909">botbuilder.d.ts:1909</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1909">botbuilder.d.ts:1909</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1728,7 +1703,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1917">botbuilder.d.ts:1917</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1917">botbuilder.d.ts:1917</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1766,7 +1741,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1903">botbuilder.d.ts:1903</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1903">botbuilder.d.ts:1903</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1803,7 +1778,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1925">botbuilder.d.ts:1925</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1925">botbuilder.d.ts:1925</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1841,7 +1816,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1944">botbuilder.d.ts:1944</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1944">botbuilder.d.ts:1944</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -1878,7 +1853,7 @@ bot.dialog('localePicker', [
 											<li class="tsd-description">
 												<aside class="tsd-sources">
 													<ul>
-														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L1949">botbuilder.d.ts:1949</a></li>
+														<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L1949">botbuilder.d.ts:1949</a></li>
 													</ul>
 												</aside>
 												<div class="tsd-comment tsd-typography">
@@ -2131,7 +2106,7 @@ bot.dialog('localePicker', [
 				<li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
 				<li><a href="//aka.ms/bf-terms">Terms of use</a></li>
 				<li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
-				<li>&copy; 2016 Microsoft</li>
+				<li>&copy; 2017 Microsoft</li>
 			</ul>
 		</div>
 		<div class="overlay"></div>

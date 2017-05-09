@@ -11,7 +11,7 @@
 	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.0.min.js"></script>
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script src="../assets/js/modernizr.js"></script>
-	<link rel="stylesheet" href="/css/documentation.css" />
+	<link rel="stylesheet" href="/css/documentation.css?3" />
 	<script src="/js/index.js"></script>
 	<script src="/js/documents.js"></script>
 	<script src="/js/leftnav.js"></script>
@@ -37,53 +37,28 @@
 <body>
 <div id="app-body">
 	<div class="fullWidth">
-		<header>
+		<header class="cover-container">
 			<div class="outline">
-				<div class="header">
+				<div class="header outline">
 					<a class="logo" href="//www.microsoft.com">
 						<svg class="svgicon svgicon-microsoft-color-logo">
-							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/images/symbol-defs.svg#svgicon-microsoft-color-logo"></use>
+							<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href=" /images/symbol-defs.svg#svgicon-microsoft-color-logo "></use>
 						</svg>
 					</a>
-					<div class="loading-animation"></div>
-					<span class="environment"></span>
-					<div>
-					</div>
 				</div>
 			</div>
 		</header>
-		<div class="brand-primary">
-			<div class="jumbo">
-				<div class="jumbo-header">
-					<a href="https://www.botframework.com/">Bot Framework</a>
-				</div>
-				<ul class="header-nav"><li>
-						<a href="https://dev.botframework.com/#/bots">My bots</a>
-						</li><li>
-						<a href="https://dev.botframework.com/#/bots/new">Register a bot</a>
-						</li><li class="active">
-						<a href="/">Documentation</a>
-						</li><li>
-						<a href="https://bots.botframework.com/">Bot Directory</a>
-						</li><li>
-						<a href="https://blog.botframework.com/">Blog</a>
-				</li></ul>
-				<!--
-		<div class="search-outter">
-			<div class="open-search"></div>
-			<div class="searchBox">
-				<form method="GET" action="https://dev.botframework.com/#/search">
-					<input type="text" class="searchText" name="s" placeholder="Search Microsoft bot directory…"/>
-						<button type="submit" class="icon-search">
-							<span>Search</span>
-						</button>
-				</form>
+		<div class="dark-theme cover-container">
+			<div class="jumbo outline">
+				<div class="jumbo-header"><a href="https://dev.botframework.com/" class="appnav">Bot Framework</a></div>
+				<ul class="header-nav">
+					<li><a href="https://dev.botframework.com/bots" class="appnav">My bots</a></li>
+					<li><a href="/">Documentation</a></li>
+					<li><a href="https://bots.botframework.com/">Bot Directory</a></li>
+					<li><a href="https://blog.botframework.com/">Blog</a></li>
+				</ul>
 			</div>
-		</div>
-		-->
-			</div>
-		</div>
-		<div class="outline">
+			</div>			<div class="outline">
 			<article class="post">
 				<div id="side-nav">
 					{% include leftnav.html %}
@@ -221,7 +196,7 @@ session.send({
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#address">address</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L77">botbuilder.d.ts:77</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L77">botbuilder.d.ts:77</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -237,7 +212,7 @@ session.send({
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#agent">agent</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L68">botbuilder.d.ts:68</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L68">botbuilder.d.ts:68</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -252,7 +227,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">attachment<wbr>Layout<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L173">botbuilder.d.ts:173</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L173">botbuilder.d.ts:173</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -267,7 +242,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">attachments<span class="tsd-signature-symbol">:</span> <a href="_botbuilder_d_.iattachment.html" class="tsd-signature-type">IAttachment</a><span class="tsd-signature-symbol">[]</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L164">botbuilder.d.ts:164</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L164">botbuilder.d.ts:164</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -282,7 +257,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">entities<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">[]</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L167">botbuilder.d.ts:167</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L167">botbuilder.d.ts:167</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -297,7 +272,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">input<wbr>Hint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L176">botbuilder.d.ts:176</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L176">botbuilder.d.ts:176</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -312,7 +287,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">local<wbr>Timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L149">botbuilder.d.ts:149</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L149">botbuilder.d.ts:149</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -328,7 +303,7 @@ session.send({
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#source">source</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L71">botbuilder.d.ts:71</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L71">botbuilder.d.ts:71</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -344,7 +319,7 @@ session.send({
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#sourceevent">sourceEvent</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L74">botbuilder.d.ts:74</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L74">botbuilder.d.ts:74</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -359,7 +334,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">speak<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L155">botbuilder.d.ts:155</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L155">botbuilder.d.ts:155</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -374,7 +349,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">summary<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L152">botbuilder.d.ts:152</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L152">botbuilder.d.ts:152</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -389,7 +364,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L158">botbuilder.d.ts:158</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L158">botbuilder.d.ts:158</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -404,7 +379,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">text<wbr>Format<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L170">botbuilder.d.ts:170</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L170">botbuilder.d.ts:170</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -419,7 +394,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">text<wbr>Locale<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L161">botbuilder.d.ts:161</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L161">botbuilder.d.ts:161</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -434,7 +409,7 @@ session.send({
 										<div class="tsd-signature tsd-kind-icon">timestamp<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 										<aside class="tsd-sources">
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L146">botbuilder.d.ts:146</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L146">botbuilder.d.ts:146</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -450,7 +425,7 @@ session.send({
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#type">type</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L65">botbuilder.d.ts:65</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L65">botbuilder.d.ts:65</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -466,7 +441,7 @@ session.send({
 										<aside class="tsd-sources">
 											<p>Inherited from <a href="_botbuilder_d_.ievent.html">IEvent</a>.<a href="_botbuilder_d_.ievent.html#user">user</a></p>
 											<ul>
-												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/6b35e14ac/Node/core/lib/botbuilder.d.ts#L83">botbuilder.d.ts:83</a></li>
+												<li>Defined in <a href="https://github.com/Microsoft/BotBuilder/blob/74c45e0/Node/core/lib/botbuilder.d.ts#L83">botbuilder.d.ts:83</a></li>
 											</ul>
 										</aside>
 										<div class="tsd-comment tsd-typography">
@@ -624,7 +599,7 @@ session.send({
 				<li><a href="//aka.ms/bf-privacy">Privacy & cookies</a></li>
 				<li><a href="//aka.ms/bf-terms">Terms of use</a></li>
 				<li><a href="//aka.ms/bf-conduct">Code of conduct</a></li>
-				<li>&copy; 2016 Microsoft</li>
+				<li>&copy; 2017 Microsoft</li>
 			</ul>
 		</div>
 		<div class="overlay"></div>
