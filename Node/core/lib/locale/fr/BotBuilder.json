@@ -11,6 +11,9 @@
     "confirm_yes": "oui",
     "confirm_no": "non",
     "boolean_choices": "true=y,yes,oui,\u1F44D,\u1F44C|false=n,no,non,\u1F44E,\u270B,\u1F590",
+    "number_terms": "0=zéro,zero|1=un,une|2=deux|3=trois|4=quatre|5=cinq|6=six|7=sept|8=huit|9=neuf|10=dix|11=onze|12=douze|13=treize|14=quatorze|15=quinze|16=seize|17=dix-sept|18=dix-huit|19=dix-neuf|20=vingt",
+    "number_ordinals": "1=1er,1re,premier,premiere,première|2=2e,2ème,2eme,deuxieme,deuxième,second,seconde|3=3e,3ème,3eme,troisieme,troisième|4=4e,4ème,4eme,quatrieme,quatrième|5=5e,5ème,5eme,cinquieme,cinquième|6=6e,6ème,6eme,sixieme,sixième|7=7e,7ème,7eme,septieme,septième|8=8e,8ème,8eme,huitieme,huitième|9=9e,9ème,9eme,neuvieme,neuvième|10=10e,10ème,10eme,dixieme,dixième",
+    "number_reverse_ordinals": "-1=dernier,derniere,dernière|-2=avant-dernier,avant-derniere,avant-dernière",
     "yesExp": "^(1|oui)(\\W|$)",
     "noExp": "^(2|non)(\\W|$)"
 }   
