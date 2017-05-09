@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/azure-bot-service/manage/publish/
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/publish-bot-overview'
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/portal-register-bot'
 sitemap: false
 ---
 

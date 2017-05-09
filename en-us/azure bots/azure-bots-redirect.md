@@ -2,6 +2,6 @@
 layout: page
 title: Azure Bot Service
 permalink: /en-us/azure-bot-framework/
-redirect: /en-us/azure-bot-service/
+redirect: https://docs.microsoft.com/en-us/bot-framework/azure
 sitemap: false
 ---

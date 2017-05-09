@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Bot review guidelines
+layout: 'redirect'
 permalink: /en-us/directory/review-guidelines/
-weight: 10200
-parent1: Bot Directory
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/portal-register-bot'
+sitemap: false
 ---
 
 <style>

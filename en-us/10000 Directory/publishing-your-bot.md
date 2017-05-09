@@ -1,10 +1,10 @@
 ---
-layout: page
-title: Publishing your Bot
+layout: 'redirect'
 permalink: /en-us/directory/publishing/
-weight: 10000
-parent1: Bot Directory
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/portal-register-bot'
+sitemap: false
 ---
+
 
 In order to publish your bot to the available directories, you need to do two things: 
 

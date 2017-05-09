@@ -1,12 +1,9 @@
 ---
-layout: page
-title: Managing your MSA App ID and password
+layout: 'redirect'
 permalink: /en-us/azure-bot-service/manage/appid-password/
-weight: 13200
-parent1: Azure Bot Service
-parent2: Manage
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/azure'
+sitemap: false
 ---
-
 Azure Bot Service is powered by Microsoft Bot Framework, which requires an app ID and password to work. If you create a bot by using the Azure Bot Service templates, you will be asked to generate an MSA app ID and password during the creation flow (see [Creating your first bot](/en-us/azure-bots/build/first-bot/)). The MSA app ID and password are saved to the following application settings keys:
 
 - MicrosoftAppId

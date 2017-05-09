@@ -1,9 +1,8 @@
 ---
-layout: page
-title: Experience Principles and Best Practices
+layout: 'redirect'
 permalink: /en-us/directory/best-practices/
-weight: 10100
-parent1: Bot Directory
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/bot-design-principles'
+sitemap: false
 ---
 
 ## Experience Principles
