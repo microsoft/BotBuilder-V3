@@ -1,6 +1,8 @@
 ﻿namespace Microsoft.Bot.Connector
 {
     using System;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
 
     public partial class Attachment : IEquatable<Attachment>
     {
@@ -30,5 +32,11 @@
 
             return code;
         }
+
+        /// <summary>
+        /// Extension data for overflow of properties
+        /// </summary>
+        [JsonExtensionData(ReadData = true, WriteData = true)]
+        public JObject Properties { get; set; } = new JObject();
     }
 }
