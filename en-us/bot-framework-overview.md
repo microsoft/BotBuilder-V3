@@ -1,12 +1,9 @@
 ---
-layout: page
-title: Bot Framework Overview
+layout: 'redirect'
 permalink: /en-us/
-weight: 100
-parent1: none
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/'
+sitemap: false
 ---
-
-
 
 The Microsoft Bot Framework is a comprehensive offering that you use to build and deploy high quality bots for your users to enjoy wherever they are talking. The framework consists of the Bot Builder SDK, Bot Connector, Developer Portal, and Bot Directory. There's also an emulator that you can use to test your bot.
 
