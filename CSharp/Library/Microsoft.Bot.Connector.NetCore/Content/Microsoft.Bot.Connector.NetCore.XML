@@ -2562,6 +2562,11 @@
             (OPTIONAL) Thumbnail associated with attachment
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.Attachment.Properties">
+            <summary>
+            Extension data for overflow of properties
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.AttachmentData">
             <summary>
             Attachment data

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,10 +33,12 @@ namespace Microsoft.Bot.Sample.SimpleDispatchDialog
                     ContinueWithNextGroup();
                     break;
 
+                case ActivityTypes.Ping:
+                    Trace.TraceInformation("Ping received");
+                    break;
                 case ActivityTypes.ContactRelationUpdate:
                 case ActivityTypes.Typing:
-                case ActivityTypes.DeleteUserData:
-                case ActivityTypes.Ping:
+                case ActivityTypes.DeleteUserData:                
                 default:
                     await context.PostAsync($"Unknown activity type ignored: {activity.Type}");
                     break;
