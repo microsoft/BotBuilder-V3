@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/skype/calling/
-redir_to: 'https://dev.skype.com/bots '
+redir_to: 'https://dev.skype.com/bots'
 sitemap: false
 ---
 
