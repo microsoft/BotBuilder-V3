@@ -1,10 +1,8 @@
 ---
-layout: default
-title: Classes
-permalink: /en-us/csharp/builder/classes/
-weight: 3530
-parent1: Bot Builder for .NET
-redirect: /en-us/csharp/builder/sdkreference/annotated.html
+layout: 'redirect'
+permalink: /en-us/csharp/builder/calling/
+redir_to: 'https://docs.microsoft.com/en-us/dotnet/api/?view=bot-builder-3.8'
+sitemap: false
 ---
 
 

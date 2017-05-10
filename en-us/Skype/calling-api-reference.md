@@ -1,10 +1,10 @@
 ---
-layout: page
-title: Skype Calling API
+layout: 'redirect'
 permalink: /en-us/skype/calling/
-weight: 5130
-parent1: Skype bots
+redir_to: 'https://dev.skype.com/bots '
+sitemap: false
 ---
+
 
 * TOC
 {:toc}

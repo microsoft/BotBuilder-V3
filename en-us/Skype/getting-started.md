@@ -1,10 +1,10 @@
 ---
-layout: page
-title: Getting Started
+layout: 'redirect'
 permalink: /en-us/skype/getting-started/
-weight: 5100
-parent1: Skype bots
+redir_to: 'https://dev.skype.com/bots '
+sitemap: false
 ---
+
 
 You've come to the right place to build and publish a Skype bot - with cards, groups and calling - using the Microsoft Bot Framework.
 
