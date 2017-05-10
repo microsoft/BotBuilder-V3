@@ -1,7 +1,8 @@
 ---
-layout: 'redirect'
-permalink: /a
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/resources-bot-framework-faq'
+layout: page
+title: Bot Framework Downloads
+permalink: /downloads/
+redirect: https://docs.microsoft.com/en-us/bot-framework/resources-bot-framework-faq
 sitemap: false
 ---
 16
