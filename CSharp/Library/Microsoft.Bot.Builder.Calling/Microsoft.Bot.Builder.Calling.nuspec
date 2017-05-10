@@ -18,8 +18,8 @@
       <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
       <dependency id="Microsoft.Bot.Builder" version="$builder$" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
-      <dependency id="System.IdentityModel.Tokens.Jwt" version="4.0.2.206221351" />
-      <dependency id="Microsoft.IdentityModel.Protocol.Extensions" version="1.0.2.206221351" />
+      <dependency id="System.IdentityModel.Tokens.Jwt" version="[4.0.4.403061554,5.0)" />
+      <dependency id="Microsoft.IdentityModel.Protocol.Extensions" version="1.0.4.403061554" />
     </dependencies>
   </metadata>
   <files>

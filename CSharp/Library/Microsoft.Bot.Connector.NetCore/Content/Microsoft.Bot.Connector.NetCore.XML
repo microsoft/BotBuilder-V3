@@ -3810,6 +3810,661 @@
             </summary>
             <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
         </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData">
+            <summary>
+            Pay method data for Microsoft Payment.
+            </summary>
+            <summary>
+            W3C Payment Method Data for Microsoft Pay
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData.MethodName">
+            <summary>
+            The pay method name.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData.#ctor(System.String,System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{System.String},System.Boolean)">
+            <summary>
+            Initializes a new instance of the MicrosoftPayMethodData class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData.Mode">
+            <summary>
+            Payment method mode
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData.ToPaymentMethodData">
+            <summary>
+            Get Microsoft Pay method data
+            </summary>
+            <returns>Payment method data</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData.#ctor">
+            <summary>
+            Initializes a new instance of the MicrosoftPayMethodData class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData.#ctor(System.String,System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{System.String})">
+            <summary>
+            Initializes a new instance of the MicrosoftPayMethodData class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData.MerchantId">
+            <summary>
+            Microsoft Pay Merchant ID
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData.SupportedNetworks">
+            <summary>
+            Supported payment networks (e.g., "visa" and "mastercard")
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.MicrosoftPayMethodData.SupportedTypes">
+            <summary>
+            Supported payment types (e.g., "credit")
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentAddress">
+            <summary>
+            Address within a Payment Request
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentAddress.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentAddress class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentAddress.#ctor(System.String,System.Collections.Generic.IList{System.String},System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the PaymentAddress class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.Country">
+            <summary>
+            This is the CLDR (Common Locale Data Repository) region code. For
+            example, US, GB, CN, or JP
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.AddressLine">
+            <summary>
+            This is the most specific part of the address. It can include, for
+            example, a street name, a house number, apartment number, a rural
+            delivery route, descriptive instructions, or a post office box
+            number.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.Region">
+            <summary>
+            This is the top level administrative subdivision of the country.
+            For example, this can be a state, a province, an oblast, or a
+            prefecture.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.City">
+            <summary>
+            This is the city/town portion of the address.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.DependentLocality">
+            <summary>
+            This is the dependent locality or sublocality within a city. For
+            example, used for neighborhoods, boroughs, districts, or UK
+            dependent localities.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.PostalCode">
+            <summary>
+            This is the postal code or ZIP code, also known as PIN code in
+            India.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.SortingCode">
+            <summary>
+            This is the sorting code as used in, for example, France.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.LanguageCode">
+            <summary>
+            This is the BCP-47 language code for the address. It's used to
+            determine the field separators and the order of fields when
+            formatting the address for display.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.Organization">
+            <summary>
+            This is the organization, firm, company, or institution at this
+            address.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.Recipient">
+            <summary>
+            This is the name of the recipient or contact person.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentAddress.Phone">
+            <summary>
+            This is the phone number of the recipient or contact person.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentCurrencyAmount">
+            <summary>
+            Supplies monetary amounts
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentCurrencyAmount.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentCurrencyAmount class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentCurrencyAmount.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the PaymentCurrencyAmount class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentCurrencyAmount.Currency">
+            <summary>
+            A currency identifier
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentCurrencyAmount.Value">
+            <summary>
+            Decimal monetary value
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentCurrencyAmount.CurrencySystem">
+            <summary>
+            Currency system
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentDetails">
+            <summary>
+            Provides information about the requested transaction
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentDetails.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentDetails class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentDetails.#ctor(Microsoft.Bot.Connector.Payments.PaymentItem,System.Collections.Generic.IList{Microsoft.Bot.Connector.Payments.PaymentItem},System.Collections.Generic.IList{Microsoft.Bot.Connector.Payments.PaymentShippingOption},System.Collections.Generic.IList{Microsoft.Bot.Connector.Payments.PaymentDetailsModifier},System.String)">
+            <summary>
+            Initializes a new instance of the PaymentDetails class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentDetails.Total">
+            <summary>
+            Contains the total amount of the payment request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentDetails.DisplayItems">
+            <summary>
+            Contains line items for the payment request that the user agent
+            may display
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentDetails.ShippingOptions">
+            <summary>
+            A sequence containing the different shipping options for the user
+            to choose from
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentDetails.Modifiers">
+            <summary>
+            Contains modifiers for particular payment method identifiers
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentDetails.Error">
+            <summary>
+            Error description
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentDetailsModifier">
+            <summary>
+            Provides details that modify the PaymentDetails based on payment
+            method identifier
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentDetailsModifier.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentDetailsModifier class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentDetailsModifier.#ctor(System.Collections.Generic.IList{System.String},Microsoft.Bot.Connector.Payments.PaymentItem,System.Collections.Generic.IList{Microsoft.Bot.Connector.Payments.PaymentItem},System.Object)">
+            <summary>
+            Initializes a new instance of the PaymentDetailsModifier class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentDetailsModifier.SupportedMethods">
+            <summary>
+            Contains a sequence of payment method identifiers
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentDetailsModifier.Total">
+            <summary>
+            This value overrides the total field in the PaymentDetails
+            dictionary for the payment method identifiers in the
+            supportedMethods field
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentDetailsModifier.AdditionalDisplayItems">
+            <summary>
+            Provides additional display items that are appended to the
+            displayItems field in the PaymentDetails dictionary for the
+            payment method identifiers in the supportedMethods field
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentDetailsModifier.Data">
+            <summary>
+            A JSON-serializable object that provides optional information that
+            might be needed by the supported payment methods
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentItem">
+            <summary>
+            Indicates what the payment request is for and the value asked for
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentItem.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentItem class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentItem.#ctor(System.String,Microsoft.Bot.Connector.Payments.PaymentCurrencyAmount,System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the PaymentItem class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentItem.Label">
+            <summary>
+            Human-readable description of the item
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentItem.Amount">
+            <summary>
+            Monetary amount for the item
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentItem.Pending">
+            <summary>
+            When set to true this flag means that the amount field is not
+            final.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentMethodData">
+            <summary>
+            Indicates a set of supported payment methods and any associated
+            payment method specific data for those methods
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentMethodData.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentMethodData class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentMethodData.#ctor(System.Collections.Generic.IList{System.String},System.Object)">
+            <summary>
+            Initializes a new instance of the PaymentMethodData class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentMethodData.SupportedMethods">
+            <summary>
+            Required sequence of strings containing payment method identifiers
+            for payment methods that the merchant web site accepts
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentMethodData.Data">
+            <summary>
+            A JSON-serializable object that provides optional information that
+            might be needed by the supported payment methods
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentOptions">
+            <summary>
+            Provides information about the options desired for the payment request
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentOptions.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentOptions class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentOptions.#ctor(System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String)">
+            <summary>
+            Initializes a new instance of the PaymentOptions class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentOptions.RequestPayerName">
+            <summary>
+            Indicates whether the user agent should collect and return the
+            payer's name as part of the payment request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentOptions.RequestPayerEmail">
+            <summary>
+            Indicates whether the user agent should collect and return the
+            payer's email address as part of the payment request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentOptions.RequestPayerPhone">
+            <summary>
+            Indicates whether the user agent should collect and return the
+            payer's phone number as part of the payment request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentOptions.RequestShipping">
+            <summary>
+            Indicates whether the user agent should collect and return a
+            shipping address as part of the payment request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentOptions.ShippingType">
+            <summary>
+            If requestShipping is set to true, then the shippingType field may
+            be used to influence the way the user agent presents the user
+            interface for gathering the shipping address
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentRequest">
+            <summary>
+            A request to make a payment
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequest.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentRequest class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequest.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.Payments.PaymentMethodData},Microsoft.Bot.Connector.Payments.PaymentDetails,Microsoft.Bot.Connector.Payments.PaymentOptions,System.String)">
+            <summary>
+            Initializes a new instance of the PaymentRequest class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequest.Id">
+            <summary>
+            ID of this payment request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequest.MethodData">
+            <summary>
+            Allowed payment methods for this request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequest.Details">
+            <summary>
+            Details for this request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequest.Options">
+            <summary>
+            Provides information about the options desired for the payment
+            request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequest.Expires">
+            <summary>
+            Expiration for this request, in ISO 8601 duration format (e.g.,
+            'P1D')
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Payments.PaymentRequest.PaymentActionType">
+            <summary>
+            Action type for Payment action
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Payments.PaymentRequest.PaymentContentType">
+            <summary>
+            Content-type for Payment card
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentRequestComplete">
+            <summary>
+            Payload delivered when completing a payment request
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequestComplete.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentRequestComplete class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequestComplete.#ctor(System.String,Microsoft.Bot.Connector.Payments.PaymentRequest,Microsoft.Bot.Connector.Payments.PaymentResponse)">
+            <summary>
+            Initializes a new instance of the PaymentRequestComplete class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequestComplete.Id">
+            <summary>
+            Payment request ID
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequestComplete.PaymentRequest">
+            <summary>
+            Initial payment request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequestComplete.PaymentResponse">
+            <summary>
+            Corresponding payment response
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentRequestCompleteResult">
+            <summary>
+            Result from a completed payment request
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequestCompleteResult.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentRequestCompleteResult
+            class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequestCompleteResult.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the PaymentRequestCompleteResult
+            class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequestCompleteResult.Result">
+            <summary>
+            Result of the payment request completion
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentRequestUpdate">
+            <summary>
+            An update to a payment request
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequestUpdate.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentRequestUpdate class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequestUpdate.#ctor(System.String,Microsoft.Bot.Connector.Payments.PaymentDetails,Microsoft.Bot.Connector.Payments.PaymentAddress,System.String)">
+            <summary>
+            Initializes a new instance of the PaymentRequestUpdate class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequestUpdate.Id">
+            <summary>
+            ID for the payment request to update
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequestUpdate.Details">
+            <summary>
+            Update payment details
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequestUpdate.ShippingAddress">
+            <summary>
+            Updated shipping address
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequestUpdate.ShippingOption">
+            <summary>
+            Updated shipping options
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentRequestUpdateResult">
+            <summary>
+            A result object from a Payment Request Update invoke operation
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequestUpdateResult.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentRequestUpdateResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentRequestUpdateResult.#ctor(Microsoft.Bot.Connector.Payments.PaymentDetails)">
+            <summary>
+            Initializes a new instance of the PaymentRequestUpdateResult class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentRequestUpdateResult.Details">
+            <summary>
+            Update payment details
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentResponse">
+            <summary>
+            A PaymentResponse is returned when a user has selected a payment
+            method and approved a payment request
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentResponse.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentResponse class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentResponse.#ctor(System.String,System.Object,Microsoft.Bot.Connector.Payments.PaymentAddress,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the PaymentResponse class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentResponse.MethodName">
+            <summary>
+            The payment method identifier for the payment method that the user
+            selected to fulfil the transaction
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentResponse.Details">
+            <summary>
+            A JSON-serializable object that provides a payment method specific
+            message used by the merchant to process the transaction and
+            determine successful fund transfer
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentResponse.ShippingAddress">
+            <summary>
+            If the requestShipping flag was set to true in the PaymentOptions
+            passed to the PaymentRequest constructor, then shippingAddress
+            will be the full and final shipping address chosen by the user
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentResponse.ShippingOption">
+            <summary>
+            If the requestShipping flag was set to true in the PaymentOptions
+            passed to the PaymentRequest constructor, then shippingOption
+            will be the id attribute of the selected shipping option
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentResponse.PayerEmail">
+            <summary>
+            If the requestPayerEmail flag was set to true in the
+            PaymentOptions passed to the PaymentRequest constructor, then
+            payerEmail will be the email address chosen by the user
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentResponse.PayerPhone">
+            <summary>
+            If the requestPayerPhone flag was set to true in the
+            PaymentOptions passed to the PaymentRequest constructor, then
+            payerPhone will be the phone number chosen by the user
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentShippingOption">
+            <summary>
+            Describes a shipping option
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentShippingOption.#ctor">
+            <summary>
+            Initializes a new instance of the PaymentShippingOption class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Payments.PaymentShippingOption.#ctor(System.String,System.String,Microsoft.Bot.Connector.Payments.PaymentCurrencyAmount,System.Nullable{System.Boolean})">
+            <summary>
+            Initializes a new instance of the PaymentShippingOption class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentShippingOption.Id">
+            <summary>
+            String identifier used to reference this PaymentShippingOption
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentShippingOption.Label">
+            <summary>
+            Human-readable description of the item
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentShippingOption.Amount">
+            <summary>
+            Contains the monetary amount for the item
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Payments.PaymentShippingOption.Selected">
+            <summary>
+            Indicates whether this is the default selected
+            PaymentShippingOption
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentOperations">
+            <summary>
+            Names for invocable operations in the payment callback protocol
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Payments.PaymentOperations.UpdateShippingAddressOperationName">
+            <summary>
+            Name for the Update Shipping Address operation invocation
+            </summary>
+            <remarks>
+            This operation accepts a PaymentRequestUpdate object and returns a PaymentDetails object or an error
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Payments.PaymentOperations.UpdateShippingOptionOperationName">
+            <summary>
+            Name for the Update Shipping Option operation invocation
+            </summary>
+            <remarks>
+            This operation accepts a PaymentRequestUpdate object and returns a PaymentDetails object or an error
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Payments.PaymentOperations.PaymentCompleteOperationName">
+            <summary>
+            Name for the payment completion operation invocation
+            </summary>
+            <remarks>
+            This operation accepts a PaymentRequestComplete object and returns a PaymentRequestResult object or an error
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.Payments.PaymentShippingTypes">
+            <summary>
+            Different shipping types. See http://www.w3.org/TR/payment-request/#dom-paymentoptions-shippingtype for more information.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Payments.PaymentShippingTypes.Shipping">
+            <summary>
+            This is the default and refers to the address being collected as the destination for shipping.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Payments.PaymentShippingTypes.Delivery">
+            <summary>
+            This refers to the address being collected as being used for delivery. This is commonly faster than shipping. For example, it might be used for food delivery.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.Payments.PaymentShippingTypes.PickUp">
+            <summary>
+            This refers to the address being collected as part of a service pickup. For example, this could be the address for laundry pickup.
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.BotState">
             <summary>
             BotState operations.

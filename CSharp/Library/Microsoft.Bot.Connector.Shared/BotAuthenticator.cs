@@ -77,7 +77,7 @@ namespace Microsoft.Bot.Connector
         /// <param name="request">The request.</param>
         /// <param name="reason">The reason phrase for unauthorized status code.</param>
         /// <returns>A response with status code unauthorized.</returns>
-        public static HttpResponseMessage GenerateUnauthorizedResponse(HttpRequestMessage request, string reason)
+        public static HttpResponseMessage GenerateUnauthorizedResponse(HttpRequestMessage request, string reason = "")
         {
             string host = request.RequestUri.DnsSafeHost;
 #if NET45

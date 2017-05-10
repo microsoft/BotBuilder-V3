@@ -84,8 +84,27 @@
     <Compile Include="$(MSBuildThisFileDirectory)JwtTokenExtractor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JwtTokenRefresher.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mention.cs" /> 
-	<Compile Include="$(MSBuildThisFileDirectory)MicrosoftAppCredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MicrosoftAppCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachmentEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\MicrosoftPayMethodDataEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\MicrosoftPayMethodData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentAddress.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentCurrencyAmount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentDetails.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentDetailsModifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentMethodData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentOptions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentRequest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentRequestComplete.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentRequestCompleteResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentRequestUpdate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentRequestUpdateResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentResponse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\Models\PaymentShippingOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentOperations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentRequestEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentShippingTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SigninCardEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\BotState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\BotStateExtensions.cs" />
@@ -99,6 +118,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)TextFormatTypes.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Swagger\Connector-Payments.json" />
     <Content Include="$(MSBuildThisFileDirectory)Swagger\ConnectorAPI.json" />
     <Content Include="$(MSBuildThisFileDirectory)Swagger\StateAPI.json" />
   </ItemGroup>
