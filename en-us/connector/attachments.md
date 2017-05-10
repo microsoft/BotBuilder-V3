@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/core-concepts/attachments/
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-send-and-receive-messages'
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/rest-api/bot-framework-rest-connector-add-media-attachments'
 sitemap: false
 ---
 
