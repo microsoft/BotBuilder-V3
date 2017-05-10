@@ -1,11 +1,9 @@
 ---
 layout: 'redirect'
-permalink: /a
+permalink: /en-us/faq
 redir_to: 'https://docs.microsoft.com/en-us/bot-framework/resources-bot-framework-faq'
 sitemap: false
 ---
-16
-
 * TOC
 {:toc}
 
