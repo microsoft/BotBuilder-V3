@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/directory/review-guidelines/
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/portal-register-bot'
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/portal-bot-review-guidelines'
 sitemap: false
 ---
 

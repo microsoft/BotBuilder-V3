@@ -1,6 +1,6 @@
 ---
 layout: 'redirect'
-permalink: /en-us/downloads
+permalink: /en-us/downloads/
 redir_to: 'https://docs.microsoft.com/en-us/bot-framework/resources-tools-downloads'
 sitemap: false
 ---
