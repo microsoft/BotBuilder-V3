@@ -1,6 +1,6 @@
 ---
 layout: 'redirect'
-permalink: /en-us/faq
+permalink: /en-us/faq/
 redir_to: 'https://docs.microsoft.com/en-us/bot-framework/resources-bot-framework-faq'
 sitemap: false
 ---
