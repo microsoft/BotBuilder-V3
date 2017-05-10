@@ -2053,7 +2053,7 @@ export class Message implements IIsMessage {
     attachmentLayout(style: string): Message;
     
     /** Cards or images to send to the user. */
-    attachments(list: AttachmentType): Message;
+    attachments(list: AttachmentType[]): Message;
        
     /**
      * Adds an attachment to the message. See [IAttachment](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html) for examples.
