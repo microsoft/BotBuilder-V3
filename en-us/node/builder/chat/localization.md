@@ -1,13 +1,9 @@
 ---
 layout: 'redirect'
 permalink: /en-us/node/builder/chat/localization/
-redir_to: 'https://docs.botframework.com/en-us/node/builder/chat-reference/modules/_botbuilder_d_.html'
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-localization'
 sitemap: false
 ---
-
-
-
-
 
 * TOC
 {:toc}
