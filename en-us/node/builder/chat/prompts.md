@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/node/builder/chat/prompts/
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/nodejs/bot-builder-nodejs-localization'
+redir_to: 'https://docs.microsoft.com/en-us/botframework/nodejs/bot-builder-nodejs-prompts'
 sitemap: false
 ---
 
