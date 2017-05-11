@@ -1,7 +1,7 @@
 ---
 layout: 'redirect'
 permalink: /en-us/support/upgrade-to-v3/
-redir_to: 'https://docs.microsoft.com/en-us/bot-framework/'
+redir_to: 'https://docs.microsoft.com/en-us/bot-framework/resources-upgrade-to-v3'
 sitemap: false
 ---
 
