@@ -92,6 +92,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ActivityExTests.cs" />
     <Compile Include="BotDataTests.cs" />
     <Compile Include="EndConversationTests.cs" />
     <Compile Include="BotTests.cs" />

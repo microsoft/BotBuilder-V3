@@ -175,14 +175,25 @@ namespace Microsoft.Bot.Connector
 
         public bool HasContent()
         {
-            // hit the extension method
-            return ((IMessageActivity)this).HasContent();
+            if (!String.IsNullOrWhiteSpace(this.Text))
+                return true;
+
+            if (!String.IsNullOrWhiteSpace(this.Summary))
+                return true;
+
+            if (this.Attachments != null && this.Attachments.Any())
+                return true;
+
+            if (this.ChannelData != null)
+                return true;
+
+            return false;
         }
 
         public Mention[] GetMentions()
         {
             // hit the extension method
-            return ((IMessageActivity)this).GetMentions();
+            return this.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0).Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
         }
     }
 
@@ -280,19 +291,7 @@ namespace Microsoft.Bot.Connector
         /// <returns>Returns true if this message has any content to send</returns>
         public static bool HasContent(this IMessageActivity activity)
         {
-            if (!String.IsNullOrWhiteSpace(activity.Text))
-                return true;
-
-            if (!String.IsNullOrWhiteSpace(activity.Summary))
-                return true;
-
-            if (activity.Attachments != null && activity.Attachments.Any())
-                return true;
-
-            if (activity.ChannelData != null)
-                return true;
-
-            return false;
+            return ((Activity)activity).HasContent();
         }
 
         /// <summary>
@@ -302,7 +301,7 @@ namespace Microsoft.Bot.Connector
         /// <returns></returns>
         public static Mention[] GetMentions(this IMessageActivity activity)
         {
-            return activity.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0).Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
+            return ((Activity)activity).GetMentions();
         }
 
         /// <summary>
