@@ -243,19 +243,18 @@ namespace Microsoft.Bot.Connector
 
                 using (var response = await httpClient.PostAsync(OAuthEndpoint, content).ConfigureAwait(false))
                 {
-                    string body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
+                    string body = null;
                     try
                     {
                         response.EnsureSuccessStatusCode();
-
+                        body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                         var oauthResponse = JsonConvert.DeserializeObject<OAuthResponse>(body);
                         oauthResponse.expiration_time = DateTime.UtcNow.AddSeconds(oauthResponse.expires_in).Subtract(TimeSpan.FromSeconds(60));
                         return oauthResponse;
                     }
                     catch (Exception error)
                     {
-                        throw new OAuthException(body, error);
+                        throw new OAuthException(body ?? response.ReasonPhrase, error);
                     }
                 }
             }
