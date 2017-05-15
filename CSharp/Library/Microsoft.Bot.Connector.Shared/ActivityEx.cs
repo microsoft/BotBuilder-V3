@@ -173,6 +173,10 @@ namespace Microsoft.Bot.Connector
             return $"{Char.ToLower(type[0])}{type.Substring(1)}";
         }
 
+        /// <summary>
+        /// Checks if this (message) activity has content.
+        /// </summary>
+        /// <returns>Returns true, if this message has any content to send. False otherwise.</returns>
         public bool HasContent()
         {
             if (!String.IsNullOrWhiteSpace(this.Text))
@@ -190,10 +194,14 @@ namespace Microsoft.Bot.Connector
             return false;
         }
 
+        /// <summary>
+        /// Resolves the mentions from the entities of this (message) activity.
+        /// </summary>
+        /// <returns>The array of mentions or an empty array, if none found.</returns>
         public Mention[] GetMentions()
         {
-            // hit the extension method
-            return this.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0).Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
+            return this.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0)
+                .Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
         }
     }
 
@@ -283,25 +291,6 @@ namespace Microsoft.Bot.Connector
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Check if the message has content
-        /// </summary>
-        /// <returns>Returns true if this message has any content to send</returns>
-        public static bool HasContent(this IMessageActivity activity)
-        {
-            return ((Activity)activity).HasContent();
-        }
-
-        /// <summary>
-        /// Get mentions 
-        /// </summary>
-        /// <param name="activity"></param>
-        /// <returns></returns>
-        public static Mention[] GetMentions(this IMessageActivity activity)
-        {
-            return ((Activity)activity).GetMentions();
         }
 
         /// <summary>

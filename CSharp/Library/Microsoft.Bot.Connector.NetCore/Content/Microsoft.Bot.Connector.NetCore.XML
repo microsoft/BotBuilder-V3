@@ -168,6 +168,18 @@
             <param name="type"> The type.</param>
             <returns> The activity type.</returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.HasContent">
+            <summary>
+            Checks if this (message) activity has content.
+            </summary>
+            <returns>Returns true, if this message has any content to send. False otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.GetMentions">
+            <summary>
+            Resolves the mentions from the entities of this (message) activity.
+            </summary>
+            <returns>The array of mentions or an empty array, if none found.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.#ctor">
             <summary>
             Initializes a new instance of the Activity class.
@@ -381,19 +393,6 @@
             <returns>
             <c>true</c> if value of <seealso cref="P:Microsoft.Bot.Connector.IActivity.ChannelData"/> was coerceable to <typeparamref name="TypeT"/>, <c>false</c> otherwise.
             </returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.HasContent(Microsoft.Bot.Connector.IMessageActivity)">
-            <summary>
-            Check if the message has content
-            </summary>
-            <returns>Returns true if this message has any content to send</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.GetMentions(Microsoft.Bot.Connector.IMessageActivity)">
-            <summary>
-            Get mentions 
-            </summary>
-            <param name="activity"></param>
-            <returns></returns>
         </member>
         <member name="M:Microsoft.Bot.Connector.ActivityExtensions.MentionsId(Microsoft.Bot.Connector.IMessageActivity,System.String)">
             <summary>
