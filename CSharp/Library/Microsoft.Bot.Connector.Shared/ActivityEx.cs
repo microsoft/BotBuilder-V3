@@ -173,16 +173,35 @@ namespace Microsoft.Bot.Connector
             return $"{Char.ToLower(type[0])}{type.Substring(1)}";
         }
 
+        /// <summary>
+        /// Checks if this (message) activity has content.
+        /// </summary>
+        /// <returns>Returns true, if this message has any content to send. False otherwise.</returns>
         public bool HasContent()
         {
-            // hit the extension method
-            return ((IMessageActivity)this).HasContent();
+            if (!String.IsNullOrWhiteSpace(this.Text))
+                return true;
+
+            if (!String.IsNullOrWhiteSpace(this.Summary))
+                return true;
+
+            if (this.Attachments != null && this.Attachments.Any())
+                return true;
+
+            if (this.ChannelData != null)
+                return true;
+
+            return false;
         }
 
+        /// <summary>
+        /// Resolves the mentions from the entities of this (message) activity.
+        /// </summary>
+        /// <returns>The array of mentions or an empty array, if none found.</returns>
         public Mention[] GetMentions()
         {
-            // hit the extension method
-            return ((IMessageActivity)this).GetMentions();
+            return this.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0)
+                .Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
         }
     }
 
@@ -272,37 +291,6 @@ namespace Microsoft.Bot.Connector
             {
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Check if the message has content
-        /// </summary>
-        /// <returns>Returns true if this message has any content to send</returns>
-        public static bool HasContent(this IMessageActivity activity)
-        {
-            if (!String.IsNullOrWhiteSpace(activity.Text))
-                return true;
-
-            if (!String.IsNullOrWhiteSpace(activity.Summary))
-                return true;
-
-            if (activity.Attachments != null && activity.Attachments.Any())
-                return true;
-
-            if (activity.ChannelData != null)
-                return true;
-
-            return false;
-        }
-
-        /// <summary>
-        /// Get mentions 
-        /// </summary>
-        /// <param name="activity"></param>
-        /// <returns></returns>
-        public static Mention[] GetMentions(this IMessageActivity activity)
-        {
-            return activity.Entities?.Where(entity => String.Compare(entity.Type, "mention", ignoreCase: true) == 0).Select(e => e.Properties.ToObject<Mention>()).ToArray() ?? new Mention[0];
         }
 
         /// <summary>

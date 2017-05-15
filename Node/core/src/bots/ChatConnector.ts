@@ -597,6 +597,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         if (refresh) {
             this.accessToken = null;
         }
+        this.addUserAgent(options);
         this.addAccessToken(options, (err) => {
             if (!err) {
                 request(options, (err, response, body) => {

@@ -2053,7 +2053,7 @@ export class Message implements IIsMessage {
     attachmentLayout(style: string): Message;
     
     /** Cards or images to send to the user. */
-    attachments(list: AttachmentType): Message;
+    attachments(list: AttachmentType[]): Message;
        
     /**
      * Adds an attachment to the message. See [IAttachment](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iattachment.html) for examples.
@@ -3544,14 +3544,14 @@ export abstract class IntentRecognizer implements IIntentRecognizer {
      * be registered and the new handler will be executed before any other handlers.
      * @param handler Function called for every message. You should call `callback(null, true)` for every message that should be recognized. 
      */
-    public onEnabled(handler: (context: IRecognizeContext, callback: (err: Error, enabled: boolean) => void) => void): RecognizerFilter;
+    public onEnabled(handler: (context: IRecognizeContext, callback: (err: Error, enabled: boolean) => void) => void): IntentRecognizer;
 
     /**
      * Registers a function to filter the output from the recognizer. Multiple handlers can be
      * registered and the new handler will be executed after any other handlers.
      * @param handler Function called for every message that results in an intent with a score greater then 0.0. You should call `callback(null, { score: 0.0, intent: null })` to block an intent from being returned.
      */
-    public onFilter(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
+    public onFilter(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): IntentRecognizer;
 }
 
 /** 
@@ -3592,34 +3592,6 @@ export class LocalizedRegExpRecognizer extends IntentRecognizer {
 
     /** Implements the actual recognition logic. */
     onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
-}
-
-/**
- * Wraps a recognizer with a filter that lets you conditionally enable/disable the recognizer or filter the intents
- * returned from the recognizer. This can be composed with an [IntentRecognizerSet](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.intentrecognizerset)
- * to conditionally enable or filter the output of an entire set of recognizers.
- */
-export class RecognizerFilter implements IIntentRecognizer {
-    /**
-     * Constructs a new instance of the recognizer.
-     * @param recognizer The recognizer that should be either Conditionally enabled or have its output filtered.
-     */
-    constructor(recognizer: IIntentRecognizer);
-
-    /** Attempts to match a users text utterance to an intent. See [IIntentRecognizer.recognize()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iintentrecognizer#recognize) for details. */
-    public recognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
-
-    /**
-     * Registers a function to conditionally enable/disable the wrapped recognizer.
-     * @param handler Function called for every message. You should call `callback(null, true)` for every message that should be passed to the wrapped recognizer. 
-     */
-    public onEnabled(handler: (context: IRecognizeContext, callback: (err: Error, enabled: boolean) => void) => void): RecognizerFilter;
-
-    /**
-     * Registers a function to filter the output from the wrapped recognizer.
-     * @param handler Function called for every message that results in an intent with a score greater then 0.0. You should call `callback(null, { score: 0.0, intent: null })` to block an intent from being returned.
-     */
-    onRecognized(handler: (context: IRecognizeContext, result: IIntentRecognizerResult, callback: (err: Error, result: IIntentRecognizerResult) => void) => void): RecognizerFilter;
 }
 
 /**

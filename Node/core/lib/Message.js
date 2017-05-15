@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var HeroCard_1 = require("./cards/HeroCard");
 var CardImage_1 = require("./cards/CardImage");
 var CardAction_1 = require("./cards/CardAction");

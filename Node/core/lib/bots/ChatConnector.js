@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var OpenIdMetadata_1 = require("./OpenIdMetadata");
 var utils = require("../utils");
 var logger = require("../logger");
@@ -487,6 +488,7 @@ var ChatConnector = (function () {
         if (refresh) {
             this.accessToken = null;
         }
+        this.addUserAgent(options);
         this.addAccessToken(options, function (err) {
             if (!err) {
                 request(options, function (err, response, body) {
@@ -564,14 +566,12 @@ var ChatConnector = (function () {
         options.headers['User-Agent'] = USER_AGENT;
     };
     ChatConnector.prototype.addAccessToken = function (options, cb) {
-        var _this = this;
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken(function (err, token) {
                 if (!err && token) {
                     options.headers = {
                         'Authorization': 'Bearer ' + token
                     };
-                    _this.addUserAgent(options);
                     cb(null);
                 }
                 else {

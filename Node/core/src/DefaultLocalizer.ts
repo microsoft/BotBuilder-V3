@@ -31,7 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-import { Library } from './bots/Library';
+import { Library, systemLib } from './bots/Library';
 import * as logger from './logger';
 import * as consts from './consts';
 import * as fs from 'fs';
@@ -64,11 +64,12 @@ export class DefaultLocalizer implements ILocalizer {
                 // - Order is important here. We want the bots root path to be last so that any
                 //   overrides for the bot will be applied last.
                 var path = library.localePath();
-                if (path) {
+                if (path && fs.existsSync(path)) {
                     _that.localePaths.push(path);
                 }
             }
-        }        
+        }
+        libsSeen[systemLib.name] = true;    // <-- skip system library
         addPaths(root);
     }
 
@@ -158,21 +159,19 @@ export class DefaultLocalizer implements ILocalizer {
         return this.defaultLocale();
     }
     private loadLocale(locale: string): Promise.IThenable<boolean> {
+        const asyncEachSeries = Promise.denodeify(async.eachSeries);
+
         // Load local on first access
         if (!this.locales.hasOwnProperty(locale)) {
             var entry: ILocaleEntry;
             this.locales[locale] = entry = { loaded: null, entries: {} };
             entry.loaded = new Promise((resolve, reject) => {
-                // Load locale in all file paths
-                async.eachSeries(this.localePaths, (path, cb) => {
-                    this.loadLocalePath(locale, path).done(() => cb(), (err) => cb(err));
-                }, (err) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(true);
-                    }
-                });
+                this.loadSystemResources(locale)
+                    .then(() => {
+                        return asyncEachSeries(this.localePaths, (localePath: string, cb: (err?: Error) => void) => {
+                            this.loadLocalePath(locale, localePath).done(() => cb(), (err) => cb(err));
+                        });
+                    }).done(() => resolve(true), (err) => reject(err));
             });
         } 
         return this.locales[locale].loaded;
@@ -255,6 +254,29 @@ export class DefaultLocalizer implements ILocalizer {
                 }, (err) => {
                     reject(err);
                 });
+        });
+    }
+
+    private loadSystemResources(locale: string): Promise.IThenable<number> {
+        return new Promise<number>((resolve, reject) => {
+            const access = Promise.denodeify(fs.access);
+            const dir = path.join(systemLib.localePath(), locale);
+            const filename = systemLib.name + '.json';
+            const filepath = path.join(dir, filename);
+            access(filepath)
+                .then(() => {
+                    return this.parseFile(locale, dir, filename);
+                })
+                .done((count) => resolve(count), (err) => {
+                    if (err.code === 'ENOENT') {
+                        // No local directory
+                        logger.debug("localizer.loadSystemResources(%s) - Couldn't find file: %s", locale, filepath);                                
+                        resolve(-1);
+                    } else {
+                        logger.error('localizer.loadSystemResources(%s) - Error: %s', locale, err.toString());
+                        reject(err);
+                    }                         
+                })
         });
     }
 

@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Message_1 = require("../Message");
 var CardAction = (function () {
     function CardAction(session) {

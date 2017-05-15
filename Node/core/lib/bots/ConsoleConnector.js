@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Message_1 = require("../Message");
 var utils = require("../utils");
 var readline = require("readline");
@@ -70,6 +71,7 @@ var ConsoleConnector = (function () {
                     var adr = utils.clone(msg.address);
                     adr.id = idx.toString();
                     addresses.push(adr);
+                    cb(null);
                 }
                 else {
                     cb(null);
