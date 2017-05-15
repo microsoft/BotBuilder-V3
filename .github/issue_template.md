@@ -5,14 +5,13 @@
 
 ## System Information (Required)
 
-* **SDK language (C#/Node)**
-* **SDK version**
-* **Development environment - localhost | Azure Bot Service | Azure App Service | other**
-* **Node.js + npm version**
+* SDK Pletform: .NET or Node?
+* SDK Version:
+* Development Environment: localhost | Azure Bot Service | Azure App Service | other
 
 ## Issue Description
 
-What the issue is, in broad strokes. Link to [Stack Overflow](http://stackoverflow.com/search?q=%23botframework) post.
+Describe the issue here.
 
 ## Example Code
 
