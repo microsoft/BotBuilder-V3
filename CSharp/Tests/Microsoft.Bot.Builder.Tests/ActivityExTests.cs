@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Bot.Connector;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -17,13 +19,16 @@ namespace Microsoft.Bot.Builder.Tests
 
         }
 
+        [TestMethod]
         public void GetMentions_Test()
         {
             IMessageActivity activity = DialogTestBase.MakeTestMessage();
             Assert.IsFalse(activity.GetMentions().Any());
-            activity.Entities.Add(new Mention() { Text = "testMention" });
-            Assert.IsTrue(activity.GetMentions().Any());
-            Assert.AreEqual("testMention", activity.GetMentions()[0].Text);
+            activity.Entities = new List<Entity> { new Mention() { Text = "testMention" } };
+            // Cloning activity to resemble the incoming activity to bot
+            var clonedActivity = JsonConvert.DeserializeObject<Activity>(JsonConvert.SerializeObject(activity));
+            Assert.IsTrue(clonedActivity.GetMentions().Any());
+            Assert.AreEqual("testMention", clonedActivity.GetMentions()[0].Text);
         }
     }
 }
