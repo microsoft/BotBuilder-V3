@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var SuggestedActions = (function () {
     function SuggestedActions(session) {
         this.session = session;

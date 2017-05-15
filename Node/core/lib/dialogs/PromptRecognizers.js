@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var EntityRecognizer_1 = require("./EntityRecognizer");
 var consts = require("../consts");
 var simpleTokenizer = /\w+/ig;

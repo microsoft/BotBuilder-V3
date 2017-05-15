@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Dialog_1 = require("./Dialog");
 var Library_1 = require("../bots/Library");
 var LegacyPrompts_1 = require("../deprecated/LegacyPrompts");

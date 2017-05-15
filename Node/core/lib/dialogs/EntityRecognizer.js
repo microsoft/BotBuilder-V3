@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var utils = require("../utils");
 var chrono = require("chrono-node");
 var consts = require("../consts");

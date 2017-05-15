@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var OpenIdMetadata_1 = require("./OpenIdMetadata");
 var utils = require("../utils");
 var logger = require("../logger");

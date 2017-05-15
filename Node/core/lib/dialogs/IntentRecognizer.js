@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var IntentRecognizer = (function () {
     function IntentRecognizer() {
         this._onEnabled = [];

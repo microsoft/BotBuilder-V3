@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Library_1 = require("./bots/Library");
 var logger = require("./logger");
 var consts = require("./consts");
 var fs = require("fs");
@@ -19,11 +21,12 @@ var DefaultLocalizer = (function () {
                     addPaths(child);
                 });
                 var path = library.localePath();
-                if (path) {
+                if (path && fs.existsSync(path)) {
                     _that.localePaths.push(path);
                 }
             }
         }
+        libsSeen[Library_1.systemLib.name] = true;
         addPaths(root);
     }
     DefaultLocalizer.prototype.defaultLocale = function (locale) {
@@ -99,20 +102,17 @@ var DefaultLocalizer = (function () {
     };
     DefaultLocalizer.prototype.loadLocale = function (locale) {
         var _this = this;
+        var asyncEachSeries = Promise.denodeify(async.eachSeries);
         if (!this.locales.hasOwnProperty(locale)) {
             var entry;
             this.locales[locale] = entry = { loaded: null, entries: {} };
             entry.loaded = new Promise(function (resolve, reject) {
-                async.eachSeries(_this.localePaths, function (path, cb) {
-                    _this.loadLocalePath(locale, path).done(function () { return cb(); }, function (err) { return cb(err); });
-                }, function (err) {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        resolve(true);
-                    }
-                });
+                _this.loadSystemResources(locale)
+                    .then(function () {
+                    return asyncEachSeries(_this.localePaths, function (localePath, cb) {
+                        _this.loadLocalePath(locale, localePath).done(function () { return cb(); }, function (err) { return cb(err); });
+                    });
+                }).done(function () { return resolve(true); }, function (err) { return reject(err); });
             });
         }
         return this.locales[locale].loaded;
@@ -189,6 +189,29 @@ var DefaultLocalizer = (function () {
                 }
             }, function (err) {
                 reject(err);
+            });
+        });
+    };
+    DefaultLocalizer.prototype.loadSystemResources = function (locale) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var access = Promise.denodeify(fs.access);
+            var dir = path.join(Library_1.systemLib.localePath(), locale);
+            var filename = Library_1.systemLib.name + '.json';
+            var filepath = path.join(dir, filename);
+            access(filepath)
+                .then(function () {
+                return _this.parseFile(locale, dir, filename);
+            })
+                .done(function (count) { return resolve(count); }, function (err) {
+                if (err.code === 'ENOENT') {
+                    logger.debug("localizer.loadSystemResources(%s) - Couldn't find file: %s", locale, filepath);
+                    resolve(-1);
+                }
+                else {
+                    logger.error('localizer.loadSystemResources(%s) - Error: %s', locale, err.toString());
+                    reject(err);
+                }
             });
         });
     };

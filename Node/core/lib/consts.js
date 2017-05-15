@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.agent = 'botbuilder';
 exports.messageType = 'message';
 exports.invokeType = 'invoke';
