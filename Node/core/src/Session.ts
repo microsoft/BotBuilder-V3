@@ -512,6 +512,7 @@ export class Session extends events.EventEmitter {
     public sendBatch(done?: (err: Error, responses?: any[]) => void): void {
         this.logger.log(this.dialogStack(), 'Session.sendBatch() sending ' + this.batch.length + ' message(s)');            
         if (this.sendingBatch) {
+            this.batchStarted = true;
             return;
         }
         if (this.batchTimer) {
