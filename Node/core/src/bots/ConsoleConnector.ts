@@ -106,6 +106,7 @@ export class ConsoleConnector implements IConnector {
                     let adr = utils.clone(msg.address);
                     adr.id = idx.toString();
                     addresses.push(adr);
+                    cb(null);
                 } else {
                     cb(null);
                 }
