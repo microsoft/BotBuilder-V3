@@ -92,7 +92,7 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
     private _onFormatMessage: PromptFormatMessageHandler[] = [];
     private _onRecognize: PromptRecognizeHandler[] = [];
 
-    constructor(public features: T) {
+    constructor(public features?: T) {
         super();
         if (!this.features) {
             this.features = <T>{};
@@ -437,3 +437,5 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
 interface IIntentHandlerMap {
     [id: string]: IDialogHandler<any>;
 }
+
+var prompt = new Prompt({});
