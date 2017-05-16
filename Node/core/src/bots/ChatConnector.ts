@@ -666,7 +666,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
 
     private addUserAgent(options: request.Options): void {
-        if (options.headers == null) {
+        if (!options.headers) {
             options.headers = {};
         }
         options.headers['User-Agent'] = USER_AGENT;
@@ -676,9 +676,10 @@ export class ChatConnector implements IConnector, IBotStorage {
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken((err, token) => {
                 if (!err && token) {
-                    options.headers = {
-                        'Authorization': 'Bearer ' + token
-                    };
+                    if (!options.headers) {
+                        options.headers = {};
+                    } 
+                    options.headers['Authorization'] = 'Bearer ' + token
                     cb(null);
                 } else {
                     cb(err);

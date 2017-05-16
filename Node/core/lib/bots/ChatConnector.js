@@ -560,7 +560,7 @@ var ChatConnector = (function () {
         }
     };
     ChatConnector.prototype.addUserAgent = function (options) {
-        if (options.headers == null) {
+        if (!options.headers) {
             options.headers = {};
         }
         options.headers['User-Agent'] = USER_AGENT;
@@ -569,9 +569,10 @@ var ChatConnector = (function () {
         if (this.settings.appId && this.settings.appPassword) {
             this.getAccessToken(function (err, token) {
                 if (!err && token) {
-                    options.headers = {
-                        'Authorization': 'Bearer ' + token
-                    };
+                    if (!options.headers) {
+                        options.headers = {};
+                    }
+                    options.headers['Authorization'] = 'Bearer ' + token;
                     cb(null);
                 }
                 else {
