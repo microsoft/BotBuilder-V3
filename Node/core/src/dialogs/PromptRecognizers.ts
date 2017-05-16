@@ -36,7 +36,7 @@ import { EntityRecognizer, IFindMatchResult } from './EntityRecognizer';
 import * as consts from '../consts';
 import * as chrono from 'chrono-node';
 
-const simpleTokenizer = /\w+/ig;
+const breakingChars = " \n\r~`!@#$%^&*()-+={}|[]\\:\";'<>?,./";
 
 export type StringOrRegExp = string|RegExp;
 
@@ -114,8 +114,8 @@ export class PromptRecognizers {
         // Ensure cached
         let key = namespace + ':' + expId;
         let entities: IEntity<string>[] = [];
-        let locale = context.preferredLocale();
-        let utterance = context.message.text ? context.message.text.trim() : '';
+        const locale = context.preferredLocale();
+        const utterance = context.message.text ? context.message.text.trim() : '';
         let cache = this.expCache[key];
         if (!cache) {
             this.expCache[key] = cache = {};
@@ -142,8 +142,8 @@ export class PromptRecognizers {
         // Ensure cached
         let key = namespace + ':' + listId;
         let entities: IEntity<string>[] = [];
-        let locale = context.preferredLocale();
-        let utterance = context.message.text ? context.message.text.trim() : '';
+        const locale = context.preferredLocale();
+        const utterance = context.message.text ? context.message.text.trim() : '';
         let cache = this.choiceCache[key];
         if (!cache) {
             this.expCache[key] = cache = {};
@@ -272,7 +272,7 @@ export class PromptRecognizers {
         options = options || {};
         let refData = options.refDate ? new Date(options.refDate) : null;
         let entities: IEntity<string>[] = [];
-        let utterance = context.message.text ? context.message.text.trim() : '';
+        const utterance = context.message.text ? context.message.text.trim() : '';
         let entity = EntityRecognizer.recognizeTime(utterance, refData);
         if (entity) {
             entity.score = PromptRecognizers.calculateScore(utterance, entity.entity);
@@ -302,7 +302,7 @@ export class PromptRecognizers {
             }
 
             // Recognize matched values.
-            let match = PromptRecognizers.findTopEntity(PromptRecognizers.recognizeValues(utterance, values));
+            let match = PromptRecognizers.findTopEntity(PromptRecognizers.recognizeValues(utterance, values, options));
             if (match) {
                 // Push the choice onto the list of matches. 
                 entities.push({
@@ -352,7 +352,7 @@ export class PromptRecognizers {
             let score = 0.0;
             if (matched > 0 && (matched == vTokens.length || options.allowPartialMatches)) {
                 // Percentage of tokens matched. If matching "second last" in 
-                // "the second from the last one" the completness would be 1.0 since
+                // "the second from the last one" the completeness would be 1.0 since
                 // all tokens were found.
                 let completeness = matched / vTokens.length;
 
@@ -376,14 +376,14 @@ export class PromptRecognizers {
         options = options || {};
         let entities: IEntity<number>[] = [];
         let text = utterance.trim().toLowerCase();
-        let tokens = matchAll(simpleTokenizer, text);
+        let tokens = tokenize(text);
         let maxDistance = options.hasOwnProperty('maxTokenDistance') ? options.maxTokenDistance : 2;
         values.forEach((value, index) => {
             if (typeof value === 'string') {
                 // To match "last one" in "the last time I chose the last one" we need 
                 // to recursively search the utterance starting from each token position.
                 let topScore = 0.0;
-                let vTokens = matchAll(simpleTokenizer, (<string>value).trim().toLowerCase());
+                let vTokens = tokenize((<string>value).trim().toLowerCase());
                 for (let i = 0; i < tokens.length; i++) {
                     let score = matchValue(vTokens, i);
                     if (score > topScore) {
@@ -440,3 +440,27 @@ function matchAll(exp: RegExp, text: string): string[] {
     }
     return matches;
 }
+
+/** Breaks a string of text into an array of tokens. */
+function tokenize(text: string): string[] {
+    let tokens: string[] = [];
+    if (text && text.length > 0) {
+        let token = '';
+        for (let i = 0; i < text.length; i++) {
+            const chr = text[i];
+            if (breakingChars.indexOf(chr) >= 0) {
+                if (token.length > 0) {
+                    tokens.push(token);
+                }
+                token = '';
+            } else {
+                token += chr;
+            }
+        }
+        if (token.length > 0) {
+            tokens.push(token);
+        }
+    }
+    return tokens;
+}
+
