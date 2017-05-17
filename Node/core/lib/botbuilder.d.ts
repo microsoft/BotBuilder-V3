@@ -1731,7 +1731,7 @@ export class Session {
 
     /**
      * Sends a message to the user. 
-     * @param message Text/message to send to user.
+     * @param message Text/message to send to user. If an array is passed a response will be chosen at random.
      * @param args (Optional) arguments used to format the final output text when __message__ is a _{string|string[]}_.
      */
     send(message: TextOrMessageType, ...args: any[]): Session;

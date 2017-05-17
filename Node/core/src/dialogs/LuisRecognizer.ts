@@ -104,7 +104,7 @@ export class LuisRecognizer extends IntentRecognizer {
         }
     }
 
-    static recognize(utterance: string, modelUrl: string, callback: (err: Error, intents?: IIntent[], entities?: IEntity<any>[]) => void): void {
+    static recognize(utterance: string, modelUrl: string, callback: (err: Error, intents?: IIntent[], entities?: IEntity<any>[], compositeEntities?: ICompositeEntity<any>[]) => void): void {
         try {
             // Format url
             var uri = url.parse(modelUrl, true);
@@ -122,6 +122,7 @@ export class LuisRecognizer extends IntentRecognizer {
                         result = JSON.parse(body);
                         result.intents = result.intents || [];
                         result.entities = result.entities || [];
+                        result.compositeEntities = result.compositeEntities || [];
                         if (result.topScoringIntent && result.intents.length == 0) {
                             result.intents.push(result.topScoringIntent);
                         }
@@ -137,7 +138,7 @@ export class LuisRecognizer extends IntentRecognizer {
                 // Return result
                 try {
                     if (!err) {
-                        callback(null, result.intents, result.entities);
+                        callback(null, result.intents, result.entities, result.compositeEntities);
                     } else {
                         var m = err.toString();
                         callback(err instanceof Error ? err : new Error(m));
@@ -157,4 +158,5 @@ interface ILuisResults {
     topScoringIntent: IIntent;
     intents: IIntent[];
     entities: IEntity<string>[];
+    compositeEntities?: ICompositeEntity<any>[];
 }
