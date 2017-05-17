@@ -45,7 +45,7 @@ export interface IActionHandler {
 export interface IDialogActionOptions {
     matches?: RegExp|RegExp[]|string|string[];
     intentThreshold?: number;
-    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error, score: number, routeData?: IActionRouteData) => void) => void;
+    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error | null, score: number, routeData?: IActionRouteData) => void) => void;
     onSelectAction?: (session: Session, args?: any, next?: Function) => void;
 }
 
