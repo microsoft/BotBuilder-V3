@@ -4,18 +4,15 @@
 ---------------------------
 
 ## System Information (Required)
-
-* SDK Platform: .NET or Node?
-* SDK Version:
+* SDK Platform: 
+* SDK Version: 
 * Development Environment: localhost | Azure Bot Service | Azure App Service | other
 
 ## Issue Description
-
 Describe the issue here.
 
 ## Example Code
-
-Your bot code that demonstrates the issue.
+The complete bot code that reproduces the issue.
 
 ## Steps to Reproduce
 1.
@@ -23,10 +20,7 @@ Your bot code that demonstrates the issue.
 3.
 
 ## Expected Behavior
-
 What you expected to happen.
 
 ## Actual Results
-
 What actually happened. Please give examples and support it with screenshots, copied output or error messages.
-
