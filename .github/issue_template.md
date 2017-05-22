@@ -5,7 +5,7 @@
 
 ## System Information (Required)
 
-* SDK Pletform: .NET or Node?
+* SDK Platform: .NET or Node?
 * SDK Version:
 * Development Environment: localhost | Azure Bot Service | Azure App Service | other
 
