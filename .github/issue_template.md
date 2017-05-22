@@ -15,7 +15,7 @@ Describe the issue here.
 
 ## Example Code
 
-The code snippet or complete bot example (preferred) that demonstrates the issue.
+Your bot code that demonstrates the issue.
 
 ## Steps to Reproduce
 1.
