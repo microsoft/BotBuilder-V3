@@ -400,7 +400,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                             var commands =
                                 (messageText == null || messageText.Trim().StartsWith("\""))
                                 ? new TermMatch[0]
-                                : (from command in MatchAnalyzer.Coalesce(_commands.Prompt.Recognizer.Matches(messageText), messageText)
+                                : (from command in MatchAnalyzer.Coalesce(_commands.Prompt.Recognizer.Matches(message), messageText)
                                    where (command.Value is FormCommand
                                           || (!_formState.ProcessInputs && _form.Fields.Field((string)command.Value).Active(_state)))
                                    select command).ToArray();

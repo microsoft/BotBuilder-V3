@@ -112,21 +112,19 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, IMessageActivity input)
         {
-            var inputText = MessageActivityHelper.GetSanitizedTextInput(input);
-
             IEnumerable<TermMatch> matches = null;
             Debug.Assert(form.Phase() == StepPhase.Responding);
             var stepState = (FieldStepState)form.StepState;
             if (stepState.State == FieldStepStates.SentPrompt)
             {
-                matches = _field.Prompt.Recognizer.Matches(inputText, _field.GetValue(state));
+                matches = _field.Prompt.Recognizer.Matches(input, _field.GetValue(state));
             }
             else if (stepState.State == FieldStepStates.SentClarify)
             {
                 var fieldState = (FieldStepState)form.StepState;
                 var iprompt = _field.Prompt;
                 var choiceRecognizer = ClarifyRecognizer(fieldState, iprompt.Recognizer);
-                matches = MatchAnalyzer.Coalesce(MatchAnalyzer.HighestConfidence(choiceRecognizer.Matches(inputText)), inputText).ToArray();
+                matches = MatchAnalyzer.Coalesce(MatchAnalyzer.HighestConfidence(choiceRecognizer.Matches(input)), MessageActivityHelper.GetSanitizedTextInput(input)).ToArray();
                 if (matches.Count() > 1)
                 {
                     matches = new TermMatch[0];
@@ -568,7 +566,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, IMessageActivity input)
         {
-            return _field.Prompt.Recognizer.Matches(MessageActivityHelper.GetSanitizedTextInput(input));
+            return _field.Prompt.Recognizer.Matches(input);
         }
 
         public string Name
@@ -710,7 +708,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, IMessageActivity input)
         {
-            return _field.Prompt.Recognizer.Matches(MessageActivityHelper.GetSanitizedTextInput(input));
+            return _field.Prompt.Recognizer.Matches(input);
         }
 
         public string Name
