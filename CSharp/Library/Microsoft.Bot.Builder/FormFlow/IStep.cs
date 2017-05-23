@@ -35,6 +35,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -80,11 +81,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         bool InClarify(FormState form);
 
-        IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, string input);
+        IEnumerable<TermMatch> Match(IDialogContext context, T state, FormState form, IMessageActivity input);
 
-        Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, string input, IEnumerable<TermMatch> matches);
+        Task<StepResult> ProcessAsync(IDialogContext context, T state, FormState form, IMessageActivity input, IEnumerable<TermMatch> matches);
 
-        FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, string input);
+        FormPrompt NotUnderstood(IDialogContext context, T state, FormState form, IMessageActivity input);
 
         FormPrompt Help(T state, FormState form, string commandHelp);
 

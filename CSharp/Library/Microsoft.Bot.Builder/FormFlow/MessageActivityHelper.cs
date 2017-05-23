@@ -2,7 +2,7 @@
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
-    internal class StepInputHandler
+    internal class MessageActivityHelper
     {
         internal static string GetSanitizedTextInput(IMessageActivity activity)
         {

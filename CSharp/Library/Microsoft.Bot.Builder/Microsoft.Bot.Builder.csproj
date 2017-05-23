@@ -138,7 +138,7 @@
     <Compile Include="FormFlow\FieldReflector.cs" />
     <Compile Include="Base\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
-    <Compile Include="FormFlow\StepInputHandler.cs" />
+    <Compile Include="FormFlow\MessageActivityHelper.cs" />
     <Compile Include="Luis\CalendarPlus.cs" />
     <Compile Include="Luis\EntityToType.cs" />
     <Compile Include="Luis\Extensions.cs" />
