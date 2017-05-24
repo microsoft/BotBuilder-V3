@@ -1,9 +1,10 @@
 "use strict";
-var request = require('request');
-var async = require('async');
-var url = require('url');
-var utils = require('../utils');
-var consts = require('../consts');
+Object.defineProperty(exports, "__esModule", { value: true });
+var request = require("request");
+var async = require("async");
+var url = require("url");
+var utils = require("../utils");
+var consts = require("../consts");
 var Busboy = require('busboy');
 var jwt = require('jsonwebtoken');
 var getPem = require('rsa-pem-from-mod-exp');
@@ -122,31 +123,30 @@ var CallConnector = (function () {
                 token = auth[1];
             }
         }
+        var jwtVerifyOptions = {
+            audience: this.settings.appId,
+            ignoreExpiration: false,
+            ignoreNotBefore: false,
+            clockTolerance: 300
+        };
         var callback = this.responseCallback(req, res);
         if (token) {
             this.ensureCachedKeys(function (err, keys) {
                 if (!err) {
-                    var decoded = jwt.decode(token, { complete: true });
-                    var now = new Date().getTime() / 1000;
-                    if (decoded.payload.aud != _this.settings.appId || decoded.payload.iss != issuer ||
-                        now > decoded.payload.exp || now < decoded.payload.nbf) {
+                    try {
+                        var decoded = jwt.decode(token, { complete: true });
+                        var secret = _this.getSecretForKey(decoded.header.kid);
+                        var verified = jwt.verify(token, secret, jwtVerifyOptions);
+                        _this.dispatch(req.body, callback);
+                    }
+                    catch (err) {
+                        console.error(err.message);
                         res.status(403);
                         res.end();
                     }
-                    else {
-                        var keyId = decoded.header.kid;
-                        var secret = _this.getSecretForKey(keyId);
-                        try {
-                            decoded = jwt.verify(token, secret);
-                            _this.dispatch(req.body, callback);
-                        }
-                        catch (err) {
-                            res.status(403);
-                            res.end();
-                        }
-                    }
                 }
                 else {
+                    console.error(err.message);
                     res.status(500);
                     res.end();
                 }

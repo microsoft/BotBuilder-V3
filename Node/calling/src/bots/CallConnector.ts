@@ -188,40 +188,30 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
             }
         }
 
+        const jwtVerifyOptions = {
+            audience: this.settings.appId,
+            ignoreExpiration: false,
+            ignoreNotBefore: false,
+            clockTolerance: 300
+        };
+
         // Verify token
         var callback = this.responseCallback(req, res);
         if (token) {
             this.ensureCachedKeys((err, keys) => {
                 if (!err) {
-                    var decoded = jwt.decode(token, { complete: true });
-                    var now = new Date().getTime() / 1000;
-
-                    // verify appId, issuer, token expirs and token notBefore
-                    if (decoded.payload.aud != this.settings.appId || decoded.payload.iss != issuer || 
-                        now > decoded.payload.exp || now < decoded.payload.nbf) {
+                    try {
+                        const decoded = jwt.decode(token, { complete: true });
+                        const secret = this.getSecretForKey(decoded.header.kid);
+                        const verified = jwt.verify(token, secret, jwtVerifyOptions);
+                        this.dispatch(req.body, callback);
+                    } catch (err) {
+                        console.error(err.message);
                         res.status(403);
-                        res.end();   
-                    } else {
-                        var keyId = decoded.header.kid;
-                        var secret = this.getSecretForKey(keyId);
-
-                        try {
-
-                            let jwtVerifyOptions = {
-                                audience: this.settings.appId,
-                                ignoreExpiration: false,
-                                ignoreNotBefore: false,
-                                clockTolerance: 300
-                            };
-
-                            decoded = jwt.verify(token, secret, jwtVerifyOptions);
-                            this.dispatch(req.body, callback);
-                        } catch(err) {
-                            res.status(403);
-                            res.end();     
-                        }
+                        res.end();
                     }
                 } else {
+                    console.error(err.message);
                     res.status(500);
                     res.end();
                 }
