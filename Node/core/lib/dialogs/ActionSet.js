@@ -18,7 +18,7 @@ var ActionSet = (function () {
     ActionSet.prototype.addDialogTrigger = function (actions, dialogId) {
         if (this.trigger) {
             this.trigger.localizationNamespace = dialogId.split(':')[0];
-            actions.beginDialogAction('trigger(' + dialogId + ')', dialogId, this.trigger);
+            actions.beginDialogAction(dialogId, dialogId, this.trigger);
         }
     };
     ActionSet.prototype.findActionRoutes = function (context, callback) {

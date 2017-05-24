@@ -91,7 +91,7 @@ export class ActionSet {
     public addDialogTrigger(actions: ActionSet, dialogId: string): void {
         if (this.trigger) {
             this.trigger.localizationNamespace = dialogId.split(':')[0];
-            actions.beginDialogAction('trigger(' + dialogId + ')', dialogId, this.trigger);
+            actions.beginDialogAction(dialogId, dialogId, this.trigger);
         }
     }
 
