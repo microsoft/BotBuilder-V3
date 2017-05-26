@@ -126,6 +126,7 @@
     <Compile Include="ActionsTests.cs" />
     <Compile Include="ScorableTests.cs" />
     <Compile Include="DataStoreTests.cs" />
+    <Compile Include="DialogModuleTests.cs" />
     <Compile Include="TestFiles.cs" />
     <Compile Include="UrlTokenTests.cs" />
     <Compile Include="RangeTests.cs" />

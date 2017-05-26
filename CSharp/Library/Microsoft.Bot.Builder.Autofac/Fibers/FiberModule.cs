@@ -35,13 +35,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 using Autofac;
-using Autofac.Core;
-
 using Microsoft.Bot.Builder.Scorables.Internals;
 
 namespace Microsoft.Bot.Builder.Internals.Fibers
@@ -51,36 +48,15 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
     /// </summary>
     public abstract class FiberModule : Module
     {
-        public static readonly object Key_DoNotSerialize = new object();
-        public static readonly object Key_SurrogateProvider = new object();
-
         /// <summary>
-        /// Eagerly enumerate the services keyed with <see cref="Key_DoNotSerialize"/> that will not be serialized.
+        /// Services keyed with <see cref="Key_DoNotSerialize"/> will not be serialized.
         /// </summary>
         /// <remarks>
         /// Services marked with <see cref="Key_DoNotSerialize"/> will not serialize their dependencies either.
         /// </remarks>
-        private static IEnumerable<object> DoNotSerialize(IComponentContext context, IEnumerable<Parameter> parameters)
-        {
-            foreach (var registration in context.ComponentRegistry.Registrations)
-            {
-                foreach (var service in registration.Services)
-                {
-                    var keyed = service as KeyedService;
-                    if (keyed != null)
-                    {
-                        if (keyed.ServiceKey == Key_DoNotSerialize)
-                        {
-                            object instance;
-                            if (context.TryResolveService(service, parameters, out instance))
-                            {
-                                yield return instance;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        public static readonly object Key_DoNotSerialize = new object();
+
+        public static readonly object Key_SurrogateProvider = new object();
 
         protected override void Load(ContainerBuilder builder)
         {
@@ -126,9 +102,13 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .SingleInstance();
 
             // per request, depends on resolution parameters through "p"
-
             builder
-                .Register((c, p) => new ArrayResolver(NullResolver.Instance, DoNotSerialize(c, p).Distinct().ToArray()))
+                .Register((c, p) =>
+                {
+                    var cc = c.Resolve<IComponentContext>();
+                    // late bound workaround for https://github.com/autofac/Autofac/issues/852
+                    return new DoNotSerializeResolver(cc, p);
+                })
                 .As<IResolver>()
                 .InstancePerLifetimeScope();
 

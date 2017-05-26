@@ -67,6 +67,7 @@
     <Compile Include="Base\Extensions.cs" />
     <Compile Include="Dialogs\Conversation.cs" />
     <Compile Include="Dialogs\DialogModule.cs" />
+    <Compile Include="Fibers\DoNotSerializeResolver.cs" />
     <Compile Include="Fibers\FiberModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scorables\Resolver.cs" />
