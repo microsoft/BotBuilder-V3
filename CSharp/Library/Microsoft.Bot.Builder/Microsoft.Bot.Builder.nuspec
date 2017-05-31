@@ -52,14 +52,16 @@
     <file src="..\..\tools\rview\bin\release\RView.exe" target="tools"/>
     <!-- resources -->
     <file src="bin\release\ar\*.dll" target="lib\net46\ar"/>
+    <file src="bin\release\cs\*.dll" target="lib\net46\cs"/>
+    <file src="bin\release\de-dE\*.dll" target="lib\net46\de-dE"/>
     <file src="bin\release\en\*.dll" target="lib\net46\en"/>
     <file src="bin\release\es\*.dll" target="lib\net46\es"/>
     <file src="bin\release\fa\*.dll" target="lib\net46\fa"/>
     <file src="bin\release\fr\*.dll" target="lib\net46\fr"/>
+    <file src="bin\release\it\*.dll" target="lib\net46\it"/>
     <file src="bin\release\ja\*.dll" target="lib\net46\ja"/>
+    <file src="bin\release\nl\*.dll" target="lib\net46\nl"/>
     <file src="bin\release\ru\*.dll" target="lib\net46\ru"/>
     <file src="bin\release\zh-hans\*.dll" target="lib\net46\zh-hans"/>
-    <file src="bin\release\de-dE\*.dll" target="lib\net46\de-dE"/>
-    <file src="bin\release\cs\*.dll" target="lib\net46\cs"/>
   </files>
 </package>
