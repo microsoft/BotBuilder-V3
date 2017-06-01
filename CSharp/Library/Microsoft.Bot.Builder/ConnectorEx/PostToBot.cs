@@ -60,9 +60,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
     public sealed class NullPostToBot : IPostToBot
     {
+        Task IPostToBot.PostAsync(IActivity activity, CancellationToken token)
+        {
+            return Task.CompletedTask;
+        }
+    }
+
+    public sealed class PassPostToBot : IPostToBot
+    {
         private readonly IPostToBot inner;
 
-        public NullPostToBot(IPostToBot inner)
+        public PassPostToBot(IPostToBot inner)
         {
             SetField.NotNull(out this.inner, nameof(inner), inner);
         }

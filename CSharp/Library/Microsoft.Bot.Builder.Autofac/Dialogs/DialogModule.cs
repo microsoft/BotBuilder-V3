@@ -33,7 +33,6 @@
 
 using System;
 using System.IO;
-using System.Linq;
 using System.Resources;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -316,7 +315,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder
                 .RegisterKeyedType<NullPostToBot, IPostToBot>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
+
+            builder
+                .RegisterKeyedType<PassPostToBot, IPostToBot>()
+                .InstancePerDependency();
 
             builder
                 .RegisterKeyedType<EventLoopDialogTask, IPostToBot>()
@@ -389,7 +392,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder
                 .RegisterKeyedType<NullBotToUser, IBotToUser>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
+
+            builder
+                .RegisterKeyedType<PassBotToUser, IBotToUser>()
+                .InstancePerDependency();
 
             builder
                 .RegisterKeyedType<AlwaysSendDirect_BotToUser, IBotToUser>()

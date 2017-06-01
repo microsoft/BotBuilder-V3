@@ -84,6 +84,25 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
     }
 
+    public sealed class PassBotToUser : IBotToUser
+    {
+        private readonly IBotToUser inner;
+        public PassBotToUser(IBotToUser inner)
+        {
+            SetField.NotNull(out this.inner, nameof(inner), inner);
+        }
+
+        IMessageActivity IBotToUser.MakeMessage()
+        {
+            return this.inner.MakeMessage();
+        }
+
+        async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
+        {
+            await this.inner.PostAsync(message, cancellationToken);
+        }
+    }
+
     public sealed class AlwaysSendDirect_BotToUser : IBotToUser
     {
         private readonly IMessageActivity toBot;
