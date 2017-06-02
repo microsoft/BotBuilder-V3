@@ -64,7 +64,7 @@ describe('actions', function() {
             onSelectAction: function (session, args, next) {
                 assert(session !== null);
                 assert(args !== null);
-                assert(args.action === '/');
+                assert(args.action === '*:/');
                 assert(next !== null);
                 done();
             }
