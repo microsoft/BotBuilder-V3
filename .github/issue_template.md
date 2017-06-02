@@ -1,18 +1,15 @@
-## Pre-flight checklist
-- [ ] I posted a question about this issue on [Stack Overflow](http://stackoverflow.com/search?q=%23botframework) using the tag `botframework`.
-- [ ] I have [searched the existing issues](https://github.com/Microsoft/BotBuilder/issues?utf8=%E2%9C%93&q=is%3Aissue) before logging a new one.
----------------------------
+<!-- Do you have a question? Please ask it on http://stackoverflow.com/questions/tagged/botframework -->
 
 ## System Information (Required)
-* SDK Platform: 
-* SDK Version: 
-* Development Environment: localhost | Azure Bot Service | Azure App Service | other
+* SDK Language: <NODE OR .NET/C#?>
+* SDK Version: <SDK VERSION>
+* Development Environment: <LOCALHOST, AZURE_BOT_SERVICE, AZURE_APP_SERVICE, OTHER>
 
 ## Issue Description
-Describe the issue here.
+<DESCRIBE YOUR ISSUE/QUESTION/FEATURE REQUEST HERE>
 
-## Example Code
-The complete bot code that reproduces the issue.
+## Code Example
+<PASTE COMPLETE CODE EXAMPLE THAT REPRODUCES THE ISSUE HERE>
 
 ## Steps to Reproduce
 1.
