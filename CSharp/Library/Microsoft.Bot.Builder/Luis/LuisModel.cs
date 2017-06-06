@@ -32,7 +32,6 @@
 //
 
 using System;
-using System.Collections.Generic;
 using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Luis
@@ -142,6 +141,16 @@ namespace Microsoft.Bot.Builder.Luis
         /// </summary>
         public bool Verbose => verbose;
 
+        public static Uri UriFor(LuisApiVersion apiVersion, string domain = null)
+        {
+            if (domain == null)
+            {
+                domain = apiVersion == LuisApiVersion.V2 ? "westus.api.cognitive.microsoft.com" : "api.projectoxford.ai/luis/v1/application";
+            }
+
+            return new Uri(apiVersion == LuisApiVersion.V2 ? $"https://{domain}/luis/v2.0/apps/" : $"https://api.projectoxford.ai/luis/v1/application");
+        }
+
         /// <summary>
         /// Construct the LUIS model information.
         /// </summary>
@@ -153,22 +162,19 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="spellCheck">Control spell checking.</param>
         /// <param name="staging">Control whether or not to use staging endpoint.</param>
         /// <param name="verbose">Control verbose results.</param>
-        public LuisModelAttribute(string modelID, string subscriptionKey, 
-            LuisApiVersion apiVersion = LuisApiVersion.V2, string domain = null, 
-            bool log = true, bool spellCheck = false, bool staging=false, bool verbose=false)
+        public LuisModelAttribute(string modelID, string subscriptionKey,
+            LuisApiVersion apiVersion = LuisApiVersion.V2, string domain = null,
+            bool log = true, bool spellCheck = false, bool staging = false, bool verbose = false)
         {
             SetField.NotNull(out this.modelID, nameof(modelID), modelID);
             SetField.NotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
             this.apiVersion = apiVersion;
-            if (domain == null)
-            {
-                domain = apiVersion == LuisApiVersion.V2 ? "westus.api.cognitive.microsoft.com" : "api.projectoxford.ai/luis/v1/application";
-            }
-            this.log = log;
             this.domain = domain;
+            this.uriBase = UriFor(apiVersion, domain);
+
+            this.log = log;
             this.spellCheck = spellCheck;
             this.staging = staging;
-            this.uriBase = new Uri(apiVersion == LuisApiVersion.V2 ? $"https://{domain}/luis/v2.0/apps/" : $"https://api.projectoxford.ai/luis/v1/application");
             this.verbose = verbose;
         }
 
