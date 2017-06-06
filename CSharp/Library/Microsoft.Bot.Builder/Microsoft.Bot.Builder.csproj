@@ -119,6 +119,7 @@
     <Compile Include="Luis\EntityToType.cs" />
     <Compile Include="Luis\Extensions.cs" />
     <Compile Include="Luis\LuisModel.cs" />
+    <Compile Include="Luis\LuisOptions.cs" />
     <Compile Include="Luis\Models\CompositeChild.cs" />
     <Compile Include="Luis\Models\CompositeEntity.cs" />
     <Compile Include="Luis\Models\DialogResponse.cs" />

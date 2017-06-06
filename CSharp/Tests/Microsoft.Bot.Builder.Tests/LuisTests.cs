@@ -437,8 +437,8 @@ namespace Microsoft.Bot.Builder.Tests
 
             // https://github.com/Microsoft/BotBuilder/issues/247
             // https://github.com/Microsoft/BotBuilder/pull/76
-            Assert.AreNotEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%25u00e7ais&log=True", uri.AbsoluteUri);
-            Assert.AreEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%C3%A7ais&log=True", uri.AbsoluteUri);
+            Assert.AreNotEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%25u00e7ais", uri.AbsoluteUri);
+            Assert.AreEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%C3%A7ais", uri.AbsoluteUri);
         }
 
         [TestMethod]
@@ -452,12 +452,14 @@ namespace Microsoft.Bot.Builder.Tests
             // TODO: xunit theory
             var tests = new[]
             {
-#pragma warning disable CS0618
-                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V1, null, false, false, false, false), u = new Uri("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscription&q=text&id=model&log=False") },
-                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V1, Domain, true, true, true, true), u = new Uri("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscription&q=text&id=model&log=True&spellCheck=True&staging=True&verbose=True") },
-#pragma warning restore CS0618
-                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V2, null, false, false, false, false), u = new Uri("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/model?subscription-key=subscription&q=text&log=False") },
-                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V2, Domain, true, true, true, true), u = new Uri("https://domain/luis/v2.0/apps/model?subscription-key=subscription&q=text&log=True&spellCheck=True&staging=True&verbose=True") },
+#pragma warning disable CS0612
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V1, null) { }, u = new Uri("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscription&q=text&id=model") },
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V1, null) { Log = false, SpellCheck = false, Staging = false, TimezoneOffset = 1, Verbose = false }, u = new Uri("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscription&q=text&id=model&log=False&spellCheck=False&staging=False&timezoneOffset=1&verbose=False") },
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V1, Domain) { Log = true, SpellCheck = true, Staging = true, TimezoneOffset = 2, Verbose = true }, u = new Uri("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscription&q=text&id=model&log=True&spellCheck=True&staging=True&timezoneOffset=2&verbose=True") },
+#pragma warning restore CS0612
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V2, null) { }, u = new Uri("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/model?subscription-key=subscription&q=text") },
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V2, null) { Log = false, SpellCheck = false, Staging = false, TimezoneOffset = 1, Verbose = false }, u = new Uri("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/model?subscription-key=subscription&q=text&log=False&spellCheck=False&staging=False&timezoneOffset=1&verbose=False") },
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V2, Domain) { Log = true, SpellCheck = true, Staging = true, TimezoneOffset = 2, Verbose = true }, u = new Uri("https://domain/luis/v2.0/apps/model?subscription-key=subscription&q=text&log=True&spellCheck=True&staging=True&timezoneOffset=2&verbose=True") },
             };
 
             foreach (var test in tests)

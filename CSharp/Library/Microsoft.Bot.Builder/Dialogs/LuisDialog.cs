@@ -327,7 +327,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         protected virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> item)
         {
             var message = await item;
-            var luisRequest = new LuisRequest(query: message.Text, contextId: this.contextId);
+            var luisRequest = new LuisRequest(query: message.Text) { ContextId = this.contextId };
             var result = await luisService.QueryAsync(luisService.BuildUri(luisService.ModifyRequest(luisRequest)), context.CancellationToken);
             if (result.Dialog.Status != DialogResponse.DialogStatus.Finished)
             {
