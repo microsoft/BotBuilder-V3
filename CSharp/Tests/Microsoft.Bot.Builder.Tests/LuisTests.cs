@@ -301,6 +301,42 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
+        [Serializable]
+        public sealed class NullMessageTextLuisDialog : LuisDialog<object>
+        {
+            public NullMessageTextLuisDialog(params ILuisService[] services)
+                : base(services)
+            {
+            }
+
+            [LuisIntent("")]
+            public async Task NullHandler(IDialogContext context, LuisResult luisResult)
+            {
+                await context.PostAsync("I see null");
+                context.Wait(MessageReceived);
+            }
+        }
+
+        [TestMethod]
+        public async Task NullMessageText_Is_EmptyIntent()
+        {
+            var service = new Mock<ILuisService>();
+
+            var dialog = new NullMessageTextLuisDialog(service.Object);
+
+            using (new FiberTestBase.ResolveMoqAssembly(service.Object))
+            using (var container = Build(Options.ResolveDialogFromContainer, service.Object))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(dialog)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container, null, "I see null");
+            }
+        }
+
 
         [TestMethod]
         public async Task Service_With_LuisActionDialog()
