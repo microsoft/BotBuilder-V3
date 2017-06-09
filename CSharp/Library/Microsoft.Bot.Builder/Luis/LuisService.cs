@@ -102,6 +102,7 @@ namespace Microsoft.Bot.Builder.Luis
         public LuisRequest(string query)
         {
             this.Query = query;
+            this.Log = true;
         }
 
         /// <summary>

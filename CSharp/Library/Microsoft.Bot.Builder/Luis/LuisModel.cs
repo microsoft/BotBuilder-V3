@@ -175,6 +175,8 @@ namespace Microsoft.Bot.Builder.Luis
             this.apiVersion = apiVersion;
             this.domain = domain;
             this.uriBase = UriFor(apiVersion, domain);
+
+            this.Log = true;
         }
 
         public bool Equals(ILuisModel other)
