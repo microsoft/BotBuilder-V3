@@ -14,6 +14,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
     using Newtonsoft.Json;
     using Microsoft.Rest;
     using Microsoft.Rest.Serialization;
+    using Newtonsoft.Json.Linq;
 
     /// <summary>
     /// Luis entity recommendation. Look at https://www.luis.ai/Help for more
@@ -82,7 +83,7 @@ namespace Microsoft.Bot.Builder.Luis.Models
         /// exact form of the resolution is defined by the entity type and is
         /// documented here: https://www.luis.ai/Help#PreBuiltEntities.
         /// </summary>
-        [JsonProperty(PropertyName = "resolution")]
+        [JsonProperty(PropertyName = "resolution", ItemConverterType = typeof(ResolutionConverter))]
         public IDictionary<string, object> Resolution { get; set; }
 
         /// <summary>
@@ -93,6 +94,40 @@ namespace Microsoft.Bot.Builder.Luis.Models
             if (Type == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "Type");
+            }
+        }
+
+        internal class ResolutionConverter : JsonConverter
+        {
+            public override bool CanConvert(Type objectType)
+            {
+                return (objectType == typeof(IDictionary<string, object>));
+            }
+
+            public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+            {
+                JToken token = JToken.Load(reader);
+
+                if (token.Type == JTokenType.Array)
+                {
+                    var children = token.Children();
+
+                    if (children.Count() == 1)
+                    {
+                        return children.First().ToObject<IDictionary<string, object>>();
+                    }
+
+                    return null;
+                }
+                else
+                {
+                    return token.ToObject<object>();
+                }
+            }
+
+            public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+                serializer.Serialize(writer, value);
             }
         }
     }
