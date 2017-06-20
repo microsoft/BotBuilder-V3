@@ -1,4 +1,4 @@
-<!-- Do you have a question? Please ask it on http://stackoverflow.com/questions/tagged/botframework -->
+<!-- Have a question? Please ask it on http://stackoverflow.com/questions/tagged/botframework -->
 
 ## System Information (Required)
 * SDK Language: <NODE OR .NET/C#>
@@ -11,7 +11,7 @@
 ## Code Example
 <PASTE COMPLETE CODE EXAMPLE THAT REPRODUCES THE ISSUE HERE>
 
-## Steps to Reproduce
+## Steps to Reproduce the Issue
 1.
 2.
 3.
