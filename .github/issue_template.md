@@ -1,15 +1,15 @@
 <!-- Have a question? Please ask it on http://stackoverflow.com/questions/tagged/botframework -->
 
 ## System Information (Required)
-* SDK Language: <NODE OR .NET/C#>
-* SDK Version: <SDK VERSION>
-* Development Environment: <LOCALHOST, AZURE_BOT_SERVICE, AZURE_APP_SERVICE, OTHER>
+* SDK Language: <!-- NODE OR .NET/C# -->
+* SDK Version: <!-- SDK VERSION -->
+* Development Environment: <!-- LOCALHOST, AZURE_BOT_SERVICE, AZURE_APP_SERVICE, OTHER -->
 
 ## Issue Description
-<DESCRIBE YOUR ISSUE, QUESTION, OR FEATURE REQUEST HERE>
+<!-- DESCRIBE YOUR ISSUE, QUESTION, OR FEATURE REQUEST HERE -->
 
 ## Code Example
-<PASTE COMPLETE CODE EXAMPLE THAT REPRODUCES THE ISSUE HERE>
+<!-- PASTE COMPLETE CODE EXAMPLE THAT REPRODUCES THE ISSUE HERE -->
 
 ## Steps to Reproduce the Issue
 1.
