@@ -372,7 +372,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else
                 {
-                    _terms = new TermsAttribute(Language.GenerateTerms(Language.CamelCase(name), 3));
+                    _terms = new TermsAttribute(Language.GenerateTerms(_description.Description, 3));
                 }
 
                 if (prompt != null)

@@ -851,5 +851,73 @@ Is this what you wanted? {||}")
                     );
             }
         }
+
+        private class TestFormAttribute
+        {
+            public string FieldNameWithoutAttributes { get; set; }
+
+            [Describe("FieldDescribe1")]
+            public string FieldNameWithDescribeAttributeOnly { get; set; }
+
+            [Describe("FieldName2")]
+            [Terms("FieldName2")]
+            public string FieldNameWithDescribeTermsAttributesSame { get; set; }
+
+            [Describe("FieldDescribe3")]
+            [Terms("FieldTerms3")]
+            public string FieldNameWithDescribeTermsAttributesDiffer { get; set; }
+
+            [Terms("FieldTerms4")]
+            public string FieldNameWithTermsAttributeOnly { get; set; }
+
+            public IForm<TestFormAttribute> FormBuilder;
+            public TestFormAttribute()
+            {
+                FormBuilder = BuildForm();
+            }
+
+            public static IForm<TestFormAttribute> BuildForm()
+            {
+                return new FormBuilder<TestFormAttribute>()
+                    .Message("Provide test field name:")
+                    .Build();
+
+            }
+
+
+        }
+
+        [TestMethod]
+        public async Task VerifyFormBuilderDescribeTermsAttributes()
+        {
+            foreach (var field in (new TestFormAttribute()).FormBuilder.Fields)
+            {
+                if (field.Name == "FieldNameWithoutAttributes")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "Field Name Without Attributes");
+                    Assert.IsTrue(field.FieldTerms.Any(ft => ft.StartsWith(field.FieldDescription.Description.ToLower())));
+                }
+                else if (field.Name == "FieldNameWithDescribeAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "FieldDescribe1");
+                    Assert.IsTrue(field.FieldTerms.Any(ft => ft.StartsWith(field.FieldDescription.Description.ToLower())));
+                }
+                else if (field.Name == "FieldNameWithDescribeTermsAttributesSame")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "FieldName2");
+                    Assert.IsTrue(field.FieldTerms.Contains("FieldName2"));
+                }
+                else if (field.Name == "FieldNameWithDescribeTermsAttributesDiffer")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "FieldDescribe3");
+                    Assert.IsTrue(field.FieldTerms.Contains("FieldTerms3"));
+                }
+                else if (field.Name == "FieldNameWithTermsAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "Field Name With Terms Attribute Only");
+                    Assert.IsTrue(field.FieldTerms.Contains("FieldTerms4"));
+                }
+            }
+        }
     }
 }
