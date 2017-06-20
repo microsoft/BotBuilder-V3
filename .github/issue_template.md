@@ -17,7 +17,7 @@
 3.
 
 ## Expected Behavior
-What you expected to happen.
+<!-- What you expected to happen. -->
 
 ## Actual Results
-What actually happened. Please give examples and support it with screenshots, copied output or error messages.
+<!-- What actually happened. Please give examples and support it with screenshots, copied output or error messages. -->
