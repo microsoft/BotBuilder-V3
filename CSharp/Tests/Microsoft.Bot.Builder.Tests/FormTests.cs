@@ -834,5 +834,99 @@ Is this what you wanted? {||}")
                     );
             }
         }
+
+
+        private class TestFormAttribute
+        {
+            public string FieldNameWithoutAttributes { get; set; }
+
+            [Describe(description: " ")]
+            public string FieldNameWithDescribeSpaceDescriptionAttributeOnly { get; set; }
+
+            [Describe(description: "")]
+            public string FieldNameWithDescribeEmptyDescriptionAttributeOnly { get; set; }
+
+            [Describe(description: "FieldDescribeDescription1")]
+            public string FieldNameWithDescribeDescriptionAttributeOnly { get; set; }
+
+            [Describe(title: "FieldDescribeNullDescription1")]
+            public string FieldNameWithDescribeNullDescriptionAttributeOnly { get; set; }
+
+            [Describe("FieldName2")]
+            [Terms("FieldName2")]
+            public string FieldNameWithDescribeTermsAttributesSame { get; set; }
+
+            [Describe("FieldDescribe3")]
+            [Terms("FieldTerms3")]
+            public string FieldNameWithDescribeTermsAttributesDiffer { get; set; }
+
+            [Terms("FieldTerms4")]
+            public string FieldNameWithTermsAttributeOnly { get; set; }
+
+            public IForm<TestFormAttribute> FormBuilder;
+            public TestFormAttribute()
+            {
+                FormBuilder = BuildForm();
+            }
+
+            public static IForm<TestFormAttribute> BuildForm()
+            {
+                return new FormBuilder<TestFormAttribute>()
+                    .Message("Provide test field name:")
+                    .Build();
+
+            }
+
+
+        }
+
+        [TestMethod]
+        public async Task VerifyFormBuilderDescribeTermsAttributes()
+        {
+            foreach (var field in (new TestFormAttribute()).FormBuilder.Fields)
+            {
+                if (field.Name == "FieldNameWithoutAttributes")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "Field Name Without Attributes");
+                    Assert.IsTrue(field.FieldTerms.Any(ft => ft.StartsWith(field.FieldDescription.Description.ToLower())));
+                }
+                else if (field.Name == "FieldNameWithDescribeSpaceDescriptionAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == " ");
+                    Assert.IsTrue(field.FieldTerms.Contains("field name with describe space description attribute only"));
+                }
+                else if (field.Name == "FieldNameWithDescribeEmptyDescriptionAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "");
+                    Assert.IsTrue(field.FieldTerms.Contains("field name with describe empty description attribute only"));
+                }
+                else if (field.Name == "FieldNameWithDescribeDescriptionAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "FieldDescribeDescription1");
+                    Assert.IsTrue(field.FieldTerms.Any(ft => ft.StartsWith(field.FieldDescription.Description.ToLower())));
+                }
+                else if (field.Name == "FieldNameWithDescribeNullDescriptionAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == null);
+                    Assert.IsTrue(field.FieldTerms.Contains("field name with describe null description attribute only"));
+                }
+                else if (field.Name == "FieldNameWithDescribeTermsAttributesSame")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "FieldName2");
+                    Assert.IsTrue(field.FieldTerms.Contains("FieldName2"));
+                }
+                else if (field.Name == "FieldNameWithDescribeTermsAttributesDiffer")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "FieldDescribe3");
+                    Assert.IsTrue(field.FieldTerms.Contains("FieldTerms3"));
+                }
+                else if (field.Name == "FieldNameWithTermsAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "Field Name With Terms Attribute Only");
+                    Assert.IsTrue(field.FieldTerms.Contains("FieldTerms4"));
+                }
+            }
+        }
+
     }
 }
