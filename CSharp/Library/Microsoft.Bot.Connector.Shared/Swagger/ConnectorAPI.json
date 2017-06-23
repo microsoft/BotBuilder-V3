@@ -170,7 +170,7 @@
           "Conversations"
         ],
         "summary": "CreateConversation",
-        "description": "Create a new Conversation.\r\n\r\nPOST to this method with a\r\n* Bot being the bot creating the conversation\r\n* IsGroup set to true if this is not a direct message (default is false)\r\n* Members array contining the members you want to have be in the conversation.\r\n\r\nThe return value is a ResourceResponse which contains a conversation id which is suitable for use\r\nin the message payload and REST API uris.\r\n\r\nMost channels only support the semantics of bots initiating a direct message conversation.  An example of how to do that would be:\r\n\r\n```\r\nvar resource = await connector.conversations.CreateConversation(new ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new ChannelAccount(\"user1\") } );\r\nawait connect.Conversations.SendToConversationAsync(resource.Id, new Activity() ... ) ;\r\n\r\n```",
+        "description": "Create a new Conversation.\r\n\r\nPOST to this method with a\r\n* Bot being the bot creating the conversation\r\n* IsGroup set to true if this is not a direct message (default is false)\r\n* Members array containing the members you want to have be in the conversation.\r\n\r\nThe return value is a ResourceResponse which contains a conversation id which is suitable for use\r\nin the message payload and REST API uris.\r\n\r\nMost channels only support the semantics of bots initiating a direct message conversation.  An example of how to do that would be:\r\n\r\n```\r\nvar resource = await connector.conversations.CreateConversation(new ConversationParameters(){ Bot = bot, members = new ChannelAccount[] { new ChannelAccount(\"user1\") } );\r\nawait connect.Conversations.SendToConversationAsync(resource.Id, new Activity() ... ) ;\r\n\r\n```",
         "operationId": "Conversations_CreateConversation",
         "consumes": [
           "application/json",
@@ -1228,19 +1228,27 @@
       }
     },
     "CardAction": {
-      "description": "An action on a card",
+      "description": "A clickable action",
       "type": "object",
       "properties": {
         "type": {
-          "description": "Defines the type of action implemented by this button.",
+          "description": "The type of action implemented by this button",
           "type": "string"
         },
         "title": {
-          "description": "Text description which appear on the button.",
+          "description": "Text description which appears on the button",
           "type": "string"
         },
         "image": {
-          "description": "URL Picture which will appear on the button, next to text label.",
+          "description": "Image URL which will appear on the button, next to text label",
+          "type": "string"
+        },
+        "text": {
+          "description": "Text for this action",
+          "type": "string"
+        },
+        "displayText": {
+          "description": "(Optional) text to display in the chat feed if the button is clicked",
           "type": "string"
         },
         "value": {
@@ -1282,7 +1290,7 @@
       "type": "object",
       "properties": {
         "type": {
-          "description": "content type of the attachmnet",
+          "description": "Content-Type of the attachment",
           "type": "string"
         },
         "name": {
@@ -1291,12 +1299,12 @@
         },
         "originalBase64": {
           "format": "byte",
-          "description": "original content",
+          "description": "Attachment content",
           "type": "string"
         },
         "thumbnailBase64": {
           "format": "byte",
-          "description": "Thumbnail",
+          "description": "Attachment thumbnail",
           "type": "string"
         }
       }
@@ -1552,6 +1560,10 @@
         "autostart": {
           "description": "Should the client automatically start playback of video in this card (default:true)",
           "type": "boolean"
+        },
+        "value": {
+          "$ref": "#/definitions/Object",
+          "description": "Supplementary parameter for this card"
         }
       }
     },
@@ -1628,6 +1640,10 @@
         "autostart": {
           "description": "Should the client automatically start playback of video in this card (default:true)",
           "type": "boolean"
+        },
+        "value": {
+          "$ref": "#/definitions/Object",
+          "description": "Supplementary parameter for this card"
         }
       }
     },
@@ -1680,6 +1696,10 @@
         "autostart": {
           "description": "Should the client automatically start playback of video in this card (default:true)",
           "type": "boolean"
+        },
+        "value": {
+          "$ref": "#/definitions/Object",
+          "description": "Supplementary parameter for this card"
         }
       }
     },
@@ -1709,6 +1729,16 @@
         "name": {
           "description": "The name of the thing",
           "type": "string"
+        }
+      }
+    },
+    "MediaEventValue": {
+      "description": "Supplementary parameter for media events",
+      "type": "object",
+      "properties": {
+        "cardValue": {
+          "$ref": "#/definitions/Object",
+          "description": "Callback parameter specified in the Value field of the MediaCard that originated this event"
         }
       }
     },

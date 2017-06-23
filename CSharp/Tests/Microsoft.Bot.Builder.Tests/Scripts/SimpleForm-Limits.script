@@ -55,7 +55,7 @@ ToUserText:"\"-1.79769313486232E+309\" is not a float option."
 State:{"Date":"0001-01-01T00:00:00","Float":null,"Integer":-2147483648,"SomeChoices":0,"Text":null}
 FromUser:"3.402823E+38"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":"","subtitle":null,"text":"Please select a some choices ","images":null,"buttons":[{"type":"imBack","title":"One","image":null,"value":"One"},{"type":"imBack","title":"Two","image":null,"value":"Two"},{"type":"imBack","title":"Three","image":null,"value":"Three"},{"type":"imBack","title":"Four","image":null,"value":"Four"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":"","subtitle":null,"text":"Please select a some choices ","images":null,"buttons":[{"type":"imBack","title":"One","image":null,"text":null,"displayText":null,"value":"One"},{"type":"imBack","title":"Two","image":null,"text":null,"displayText":null,"value":"Two"},{"type":"imBack","title":"Three","image":null,"text":null,"displayText":null,"value":"Three"},{"type":"imBack","title":"Four","image":null,"text":null,"displayText":null,"value":"Four"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"Date":"0001-01-01T00:00:00","Float":3.402823E+38,"Integer":-2147483648,"SomeChoices":0,"Text":null}
 FromUser:"back"
 1
@@ -63,7 +63,7 @@ ToUserText:"Please enter a number for float (current choice: 3.4028230607371E+38
 State:{"Date":"0001-01-01T00:00:00","Float":3.402823E+38,"Integer":-2147483648,"SomeChoices":0,"Text":null}
 FromUser:"-3.402823E+38"
 1
-ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":"","subtitle":null,"text":"Please select a some choices ","images":null,"buttons":[{"type":"imBack","title":"One","image":null,"value":"One"},{"type":"imBack","title":"Two","image":null,"value":"Two"},{"type":"imBack","title":"Three","image":null,"value":"Three"},{"type":"imBack","title":"Four","image":null,"value":"Four"}],"tap":null},"name":null,"thumbnailUrl":null}]
+ToUserButtons:[{"contentType":"application/vnd.microsoft.card.hero","contentUrl":null,"content":{"title":"","subtitle":null,"text":"Please select a some choices ","images":null,"buttons":[{"type":"imBack","title":"One","image":null,"text":null,"displayText":null,"value":"One"},{"type":"imBack","title":"Two","image":null,"text":null,"displayText":null,"value":"Two"},{"type":"imBack","title":"Three","image":null,"text":null,"displayText":null,"value":"Three"},{"type":"imBack","title":"Four","image":null,"text":null,"displayText":null,"value":"Four"}],"tap":null},"name":null,"thumbnailUrl":null}]
 State:{"Date":"0001-01-01T00:00:00","Float":-3.402823E+38,"Integer":-2147483648,"SomeChoices":0,"Text":null}
 FromUser:"quit"
 Exception:Form quit.

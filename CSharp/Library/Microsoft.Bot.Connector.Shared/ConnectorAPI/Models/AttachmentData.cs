@@ -33,7 +33,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// content type of the attachmnet
+        /// Content-Type of the attachment
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
@@ -45,13 +45,13 @@ namespace Microsoft.Bot.Connector
         public string Name { get; set; }
 
         /// <summary>
-        /// original content
+        /// Attachment content
         /// </summary>
         [JsonProperty(PropertyName = "originalBase64")]
         public byte[] OriginalBase64 { get; set; }
 
         /// <summary>
-        /// Thumbnail
+        /// Attachment thumbnail
         /// </summary>
         [JsonProperty(PropertyName = "thumbnailBase64")]
         public byte[] ThumbnailBase64 { get; set; }

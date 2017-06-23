@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest.Serialization;
 
     /// <summary>
-    /// An action on a card
+    /// A clickable action
     /// </summary>
     public partial class CardAction
     {
@@ -27,31 +27,46 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the CardAction class.
         /// </summary>
-        public CardAction(string type, string title = default(string), string image = default(string), object value = default(object)) : this()
+        public CardAction(string type, string title = default(string), string image = default(string), object value = default(object), string text = default(string), string displayText = default(string)) : this()
         {
             Type = type;
             Title = title;
             Image = image;
+            Text = text;
+            DisplayText = displayText;
             Value = value;
         }
 
         /// <summary>
-        /// Defines the type of action implemented by this button. Defaults to <see cref="ActionTypes.ImBack"/>
+        /// The type of action implemented by this button. Defaults to <see cref="ActionTypes.ImBack"/>
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
         /// <summary>
-        /// Text description which appear on the button.
+        /// Text description which appears on the button
         /// </summary>
         [JsonProperty(PropertyName = "title")]
         public string Title { get; set; }
 
         /// <summary>
-        /// URL Picture which will appear on the button, next to text label.
+        /// Image URL which will appear on the button, next to text label
         /// </summary>
         [JsonProperty(PropertyName = "image")]
         public string Image { get; set; }
+
+        /// <summary>
+        /// Text for this action
+        /// </summary>
+        [JsonProperty(PropertyName = "text")]
+        public string Text { get; set; }
+
+        /// <summary>
+        /// (Optional) text to display in the chat feed if the button is
+        /// clicked
+        /// </summary>
+        [JsonProperty(PropertyName = "displayText")]
+        public string DisplayText { get; set; }
 
         /// <summary>
         /// Supplementary parameter for action. Content of this property
