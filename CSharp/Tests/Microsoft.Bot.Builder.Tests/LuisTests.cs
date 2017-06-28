@@ -337,6 +337,20 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
+        [TestMethod]
+        public void NullOrEmptyIntents_DefaultsTo_TopScoringIntent()
+        {
+            var intent = new IntentRecommendation();
+            var result = new LuisResult()
+            {
+                TopScoringIntent = intent
+            };
+
+            LuisService.Fix(result);
+
+            Assert.AreEqual(1, result.Intents.Count);
+            Assert.AreEqual(intent, result.Intents[0]);
+        }
 
         [TestMethod]
         public async Task Service_With_LuisActionDialog()

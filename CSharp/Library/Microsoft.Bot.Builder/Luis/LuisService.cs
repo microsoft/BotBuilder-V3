@@ -237,6 +237,21 @@ namespace Microsoft.Bot.Builder.Luis
             return luisRequest.BuildUri(this.model);
         }
 
+        public static void Fix(LuisResult result)
+        {
+            // fix up Luis result for backward compatibility
+            // v2 api is not returning list of intents if verbose query parameter 
+            // is not set. This will move IntentRecommendation in TopScoringIntent
+            // to list of Intents.
+            if (result.Intents == null || result.Intents.Count == 0)
+            {
+                if (result.TopScoringIntent != null)
+                {
+                    result.Intents = new List<IntentRecommendation> { result.TopScoringIntent };
+                }
+            }
+        }
+
         async Task<LuisResult> ILuisService.QueryAsync(Uri uri, CancellationToken token)
         {
             string json;
@@ -250,14 +265,7 @@ namespace Microsoft.Bot.Builder.Luis
             try
             {
                 var result = JsonConvert.DeserializeObject<LuisResult>(json);
-                // fix up Luis result for backward compatibility
-                // v2 api is not returning list of intents if verbose query parameter 
-                // is not set. This will move IntentRecommendation in TopScoringIntent
-                // to list of Intents.
-                if (result.TopScoringIntent != null && result.Intents == null)
-                {
-                    result.Intents = new List<IntentRecommendation> { result.TopScoringIntent };
-                }
+                Fix(result);
                 return result;
             }
             catch (JsonException ex)
