@@ -204,7 +204,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
         });
     }
 
-    public findChoices(context: IRecognizeContext, recognizePhase: boolean, callback: (err: Error, choices: IChoice[]) => void): void {
+    public findChoices(context: IRecognizeContext, recognizePhrase: boolean, callback: (err: Error, choices: IChoice[]) => void): void {
         let idx = 0;
         const handlers = this._onChoices;
         function next(err: Error, choices?: IChoice[]) {
@@ -213,7 +213,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
             } else {
                 try {
                     if (idx < handlers.length) {
-                        handlers[idx++](context, next, recognizePhase);
+                        handlers[idx++](context, next, recognizePhrase);
                     } else {
                         choices = (<IPromptChoiceOptions>context.dialogData.options).choices || [];
                         callback(null, choices);
@@ -234,9 +234,10 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
     /** Returns a message containing a list of choices. */
     static formatMessage(session: Session, listStyle: ListStyle, text: string|string[], speak?: string|string[], choices?: IChoice[]): IMessage {
         // Build message
-        let options = <IPromptOptions>session.dialogData.options;
+        let options = <IPromptChoiceOptions>session.dialogData.options;
         let locale = session.preferredLocale();
         let namespace = options ? options.libraryNamespace : null;
+        choices = choices ? choices : options.choices;
         let msg = new Message(session);
         if (speak) {
             msg.speak(session.localizer.gettext(locale, Message.randomPrompt(speak), namespace));
