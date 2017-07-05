@@ -1,0 +1,135 @@
+{
+  "luis_schema_version": "2.1.0",
+  "versionId": "0.1",
+  "name": "onFilter_Example",
+  "desc": "onFilter_Example",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "AskForWater"
+    },
+    {
+      "name": "Farewell"
+    },
+    {
+      "name": "Greetings"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [],
+  "composites": [],
+  "closedLists": [],
+  "bing_entities": [],
+  "actions": [],
+  "model_features": [],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "lsdkfsdfk",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "bye!",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "good-bye",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "ttyl",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "gtg",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "see you later",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "farewell",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "bye",
+      "intent": "Farewell",
+      "entities": []
+    },
+    {
+      "text": "hi there",
+      "intent": "Greetings",
+      "entities": []
+    },
+    {
+      "text": "hey there",
+      "intent": "Greetings",
+      "entities": []
+    },
+    {
+      "text": "hey",
+      "intent": "Greetings",
+      "entities": []
+    },
+    {
+      "text": "wassup",
+      "intent": "Greetings",
+      "entities": []
+    },
+    {
+      "text": "what's up",
+      "intent": "Greetings",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "Greetings",
+      "entities": []
+    },
+    {
+      "text": "hello there",
+      "intent": "Greetings",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "Greetings",
+      "entities": []
+    },
+    {
+      "text": "please give me water",
+      "intent": "AskForWater",
+      "entities": []
+    },
+    {
+      "text": "water please?",
+      "intent": "AskForWater",
+      "entities": []
+    },
+    {
+      "text": "can i have water please?",
+      "intent": "AskForWater",
+      "entities": []
+    },
+    {
+      "text": "do you have water?",
+      "intent": "AskForWater",
+      "entities": []
+    },
+    {
+      "text": "can i have water",
+      "intent": "AskForWater",
+      "entities": []
+    }
+  ]
+}

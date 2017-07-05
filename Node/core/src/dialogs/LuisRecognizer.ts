@@ -59,11 +59,11 @@ export class LuisRecognizer extends IntentRecognizer {
             var locale = context.locale || '*';
             var model = this.models.hasOwnProperty(locale) ? this.models[locale] : this.models['*'];
             if (model) {
-                LuisRecognizer.recognize(utterance, model, (err, intents, entities) => {
+                LuisRecognizer.recognize(utterance, model, (err, intents, entities, compositeEntities) => {
                     if (!err) {
                         result.intents = intents;
                         result.entities = entities;
-
+                        result.compositeEntities = compositeEntities;
                         // Return top intent
                         var top: IIntent;
                         intents.forEach((intent) => {

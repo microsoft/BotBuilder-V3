@@ -32,10 +32,11 @@ var LuisRecognizer = (function (_super) {
             var locale = context.locale || '*';
             var model = this.models.hasOwnProperty(locale) ? this.models[locale] : this.models['*'];
             if (model) {
-                LuisRecognizer.recognize(utterance, model, function (err, intents, entities) {
+                LuisRecognizer.recognize(utterance, model, function (err, intents, entities, compositeEntities) {
                     if (!err) {
                         result.intents = intents;
                         result.entities = entities;
+                        result.compositeEntities = compositeEntities;
                         var top;
                         intents.forEach(function (intent) {
                             if (top) {
@@ -86,6 +87,7 @@ var LuisRecognizer = (function (_super) {
                         result = JSON.parse(body);
                         result.intents = result.intents || [];
                         result.entities = result.entities || [];
+                        result.compositeEntities = result.compositeEntities || [];
                         if (result.topScoringIntent && result.intents.length == 0) {
                             result.intents.push(result.topScoringIntent);
                         }
@@ -99,7 +101,7 @@ var LuisRecognizer = (function (_super) {
                 }
                 try {
                     if (!err) {
-                        callback(null, result.intents, result.entities);
+                        callback(null, result.intents, result.entities, result.compositeEntities);
                     }
                     else {
                         var m = err.toString();
