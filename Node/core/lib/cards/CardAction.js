@@ -43,6 +43,9 @@ var CardAction = (function () {
     CardAction.openUrl = function (session, url, title) {
         return new CardAction(session).type('openUrl').value(url).title(title || "Click to open website in your browser");
     };
+    CardAction.openApp = function (session, url, title) {
+        return new CardAction(session).type('openApp').value(url).title(title || "Click to open website in a webview");
+    };
     CardAction.imBack = function (session, msg, title) {
         return new CardAction(session).type('imBack').value(msg).title(title || "Click to send response to bot");
     };
