@@ -107,7 +107,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <returns>The state api endpoint from settings.</returns>
         private static string GetSettingsStateApiUrl(string key = "BotStateEndpoint")
         {
-            return SettingsUtils.GetAppSettings(key);
+            var url = SettingsUtils.GetAppSettings(key);
+            if (!string.IsNullOrEmpty(url))
+            {
+                MicrosoftAppCredentials.TrustServiceUrl(url, DateTime.MaxValue);
+            }
+            return url;
         }
 
     }
