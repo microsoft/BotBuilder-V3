@@ -970,7 +970,8 @@ namespace Microsoft.Bot.Builder.Dialogs
                     T topEntity = default(T);
                     if (recognizeChoices)
                     {
-                        var entityMatches = this.promptOptions.Recognizer.RecognizeChoices<T>(message, this.promptOptions.Choices);
+                        var options = new PromptRecognizeChoicesOptions { AllowPartialMatches = true };
+                        var entityMatches = this.promptOptions.Recognizer.RecognizeChoices<T>(message, this.promptOptions.Choices, options);
                         var entityWinner = entityMatches.MaxBy(x => x.Score) ?? new RecognizeEntity<T>();
                         topScore = entityWinner.Score;
                         topEntity = entityWinner.Entity;
