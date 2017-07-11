@@ -14,4 +14,12 @@ namespace Microsoft.Bot.Connector
             this.Password = BotServiceProvider.Instance.ConfigurationRoot.GetSection(MicrosoftAppCredentials.MicrosoftAppPasswordKey)?.Value;
         }
     }
+
+    public static class SettingsUtils
+    {
+        public static string GetAppSettings(string key)
+        {
+            return ConfigurationManager.AppSettings[key] ?? Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
+        }
+    }
 }

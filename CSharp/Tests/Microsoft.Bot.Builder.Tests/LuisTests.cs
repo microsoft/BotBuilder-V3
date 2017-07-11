@@ -301,6 +301,56 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
+        [Serializable]
+        public sealed class NullMessageTextLuisDialog : LuisDialog<object>
+        {
+            public NullMessageTextLuisDialog(params ILuisService[] services)
+                : base(services)
+            {
+            }
+
+            [LuisIntent("")]
+            public async Task NullHandler(IDialogContext context, LuisResult luisResult)
+            {
+                await context.PostAsync("I see null");
+                context.Wait(MessageReceived);
+            }
+        }
+
+        [TestMethod]
+        public async Task NullMessageText_Is_EmptyIntent()
+        {
+            var service = new Mock<ILuisService>();
+
+            var dialog = new NullMessageTextLuisDialog(service.Object);
+
+            using (new FiberTestBase.ResolveMoqAssembly(service.Object))
+            using (var container = Build(Options.ResolveDialogFromContainer, service.Object))
+            {
+                var builder = new ContainerBuilder();
+                builder
+                    .RegisterInstance(dialog)
+                    .As<IDialog<object>>();
+                builder.Update(container);
+
+                await AssertScriptAsync(container, null, "I see null");
+            }
+        }
+
+        [TestMethod]
+        public void NullOrEmptyIntents_DefaultsTo_TopScoringIntent()
+        {
+            var intent = new IntentRecommendation();
+            var result = new LuisResult()
+            {
+                TopScoringIntent = intent
+            };
+
+            LuisService.Fix(result);
+
+            Assert.AreEqual(1, result.Intents.Count);
+            Assert.AreEqual(intent, result.Intents[0]);
+        }
 
         [TestMethod]
         public async Task Service_With_LuisActionDialog()
@@ -439,6 +489,35 @@ namespace Microsoft.Bot.Builder.Tests
             // https://github.com/Microsoft/BotBuilder/pull/76
             Assert.AreNotEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%25u00e7ais&log=True", uri.AbsoluteUri);
             Assert.AreEqual("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/modelID?subscription-key=subscriptionID&q=Fran%C3%A7ais&log=True", uri.AbsoluteUri);
+        }
+
+        [TestMethod]
+        public void Uri_Building()
+        {
+            const string Model = "model";
+            const string Subscription = "subscription";
+            const string Domain = "domain";
+            const string Text = "text";
+
+            // TODO: xunit theory
+            var tests = new[]
+            {
+#pragma warning disable CS0612
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V1, null) { }, u = new Uri("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscription&q=text&id=model&log=True") },
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V1, null) { Log = false, SpellCheck = false, Staging = false, TimezoneOffset = 1, Verbose = false }, u = new Uri("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscription&q=text&id=model&log=False&spellCheck=False&staging=False&timezoneOffset=1&verbose=False") },
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V1, Domain) { Log = true, SpellCheck = true, Staging = true, TimezoneOffset = 2, Verbose = true }, u = new Uri("https://api.projectoxford.ai/luis/v1/application?subscription-key=subscription&q=text&id=model&log=True&spellCheck=True&staging=True&timezoneOffset=2&verbose=True") },
+#pragma warning restore CS0612
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V2, null) { }, u = new Uri("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/model?subscription-key=subscription&q=text&log=True") },
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V2, null) { Log = false, SpellCheck = false, Staging = false, TimezoneOffset = 1, Verbose = false }, u = new Uri("https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/model?subscription-key=subscription&q=text&log=False&spellCheck=False&staging=False&timezoneOffset=1&verbose=False") },
+                new { m = new LuisModelAttribute(Model, Subscription, LuisApiVersion.V2, Domain) { Log = true, SpellCheck = true, Staging = true, TimezoneOffset = 2, Verbose = true }, u = new Uri("https://domain/luis/v2.0/apps/model?subscription-key=subscription&q=text&log=True&spellCheck=True&staging=True&timezoneOffset=2&verbose=True") },
+            };
+
+            foreach (var test in tests)
+            {
+                ILuisService service = new LuisService(test.m);
+                var actual = service.BuildUri(Text);
+                Assert.AreEqual(test.u, actual);
+            }
         }
     }
 }

@@ -132,9 +132,10 @@ namespace Microsoft.Bot.Connector
         {
             if (ShouldSetToken(request))
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetTokenAsync());
+                string token = await this.GetTokenAsync().ConfigureAwait(false);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
-            await base.ProcessHttpRequestAsync(request, cancellationToken);
+            await base.ProcessHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
 

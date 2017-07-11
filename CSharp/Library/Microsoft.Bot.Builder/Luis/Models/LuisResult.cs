@@ -9,11 +9,9 @@
 namespace Microsoft.Bot.Builder.Luis.Models
 {
     using System;
-    using System.Linq;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
     using Microsoft.Rest;
-    using Microsoft.Rest.Serialization;
+    using Newtonsoft.Json;
 
     public partial class LuisResult
     {
@@ -51,19 +49,19 @@ namespace Microsoft.Bot.Builder.Luis.Models
         /// The intents found in the query text.
         /// </summary>
         [JsonProperty(PropertyName = "intents")]
-        public IList<IntentRecommendation> Intents { get; set; }
+        public IList<IntentRecommendation> Intents { get; set; } = Array.Empty<IntentRecommendation>();
 
         /// <summary>
         /// The entities found in the query text.
         /// </summary>
         [JsonProperty(PropertyName = "entities")]
-        public IList<EntityRecommendation> Entities { get; set; }
+        public IList<EntityRecommendation> Entities { get; set; } = Array.Empty<EntityRecommendation>();
 
         /// <summary>
         /// The composite entities found in the utterance.
         /// </summary>
         [JsonProperty(PropertyName = "compositeEntities")]
-        public IList<CompositeEntity> CompositeEntities { get; set; }
+        public IList<CompositeEntity> CompositeEntities { get; set; } = Array.Empty<CompositeEntity>();
 
         /// <summary>
         /// </summary>

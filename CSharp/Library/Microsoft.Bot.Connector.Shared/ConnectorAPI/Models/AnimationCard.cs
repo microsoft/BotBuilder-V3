@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the AnimationCard class.
         /// </summary>
-        public AnimationCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?))
+        public AnimationCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?), object value = default(object))
         {
             Title = title;
             Subtitle = subtitle;
@@ -35,6 +35,7 @@ namespace Microsoft.Bot.Connector
             Shareable = shareable;
             Autoloop = autoloop;
             Autostart = autostart;
+            Value = value;
         }
 
         /// <summary>
@@ -92,6 +93,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "autostart")]
         public bool? Autostart { get; set; }
+
+        /// <summary>
+        /// Supplementary parameter for this card
+        /// </summary>
+        [JsonProperty(PropertyName = "value")]
+        public object Value { get; set; }
 
     }
 }

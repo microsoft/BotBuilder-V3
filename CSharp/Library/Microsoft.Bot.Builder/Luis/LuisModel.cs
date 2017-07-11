@@ -32,7 +32,6 @@
 //
 
 using System;
-using System.Collections.Generic;
 using Microsoft.Bot.Builder.Internals.Fibers;
 
 namespace Microsoft.Bot.Builder.Luis
@@ -85,7 +84,7 @@ namespace Microsoft.Bot.Builder.Luis
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Method, AllowMultiple = true)]
     [Serializable]
-    public class LuisModelAttribute : Attribute, ILuisModel, IEquatable<ILuisModel>
+    public class LuisModelAttribute : Attribute, ILuisModel, ILuisOptions, IEquatable<ILuisModel>
     {
         private readonly string modelID;
         /// <summary>
@@ -118,29 +117,48 @@ namespace Microsoft.Bot.Builder.Luis
         /// </summary>
         public LuisApiVersion ApiVersion => apiVersion;
 
-        private readonly bool log;
-        /// <summary>
-        /// Indicates if this query can be logged by LUIS.
-        /// </summary>
-        public bool Log => log;
+        private ILuisOptions Options => (ILuisOptions)this;
 
-        private readonly bool spellCheck;
         /// <summary>
-        /// Control spell checking.
+        /// Indicates if logging of queries to LUIS is allowed.
         /// </summary>
-        public bool SpellCheck => spellCheck;
+        public bool Log { get { return Options.Log.Value; } set { Options.Log = value; } }
 
-        private readonly bool staging;
         /// <summary>
-        /// Whether to use staging or production endpoint.
+        /// Turn on spell checking.
         /// </summary>
-        public bool Staging => staging;
+        public bool SpellCheck { get { return Options.SpellCheck.Value; } set { Options.SpellCheck = value; } }
 
-        private readonly bool verbose;
         /// <summary>
-        /// Return verbose results from a query.
+        /// Use the staging endpoint.
         /// </summary>
-        public bool Verbose => verbose;
+        public bool Staging { get { return Options.Staging.Value; } set { Options.Staging = value; } }
+
+        /// <summary>
+        /// The time zone offset.
+        /// </summary>
+        public double TimezoneOffset { get { return Options.TimezoneOffset.Value; } set { Options.TimezoneOffset = value; } }
+
+        /// <summary>
+        /// The verbose flag.
+        /// </summary>
+        public bool Verbose { get { return Options.Verbose.Value; } set { Options.Verbose = value; } }
+
+        bool? ILuisOptions.Log { get; set; }
+        bool? ILuisOptions.SpellCheck { get; set; }
+        bool? ILuisOptions.Staging { get; set; }
+        double? ILuisOptions.TimezoneOffset { get; set; }
+        bool? ILuisOptions.Verbose { get; set; }
+
+        public static Uri UriFor(LuisApiVersion apiVersion, string domain = null)
+        {
+            if (domain == null)
+            {
+                domain = apiVersion == LuisApiVersion.V2 ? "westus.api.cognitive.microsoft.com" : "api.projectoxford.ai/luis/v1/application";
+            }
+
+            return new Uri(apiVersion == LuisApiVersion.V2 ? $"https://{domain}/luis/v2.0/apps/" : $"https://api.projectoxford.ai/luis/v1/application");
+        }
 
         /// <summary>
         /// Construct the LUIS model information.
@@ -149,27 +167,16 @@ namespace Microsoft.Bot.Builder.Luis
         /// <param name="subscriptionKey">The LUIS subscription key.</param>
         /// <param name="apiVersion">The LUIS API version.</param>
         /// <param name="domain">Domain where LUIS model is located.</param>
-        /// <param name="log">Allow LUIS to log query.</param>
-        /// <param name="spellCheck">Control spell checking.</param>
-        /// <param name="staging">Control whether or not to use staging endpoint.</param>
-        /// <param name="verbose">Control verbose results.</param>
-        public LuisModelAttribute(string modelID, string subscriptionKey, 
-            LuisApiVersion apiVersion = LuisApiVersion.V2, string domain = null, 
-            bool log = true, bool spellCheck = false, bool staging=false, bool verbose=false)
+        public LuisModelAttribute(string modelID, string subscriptionKey,
+            LuisApiVersion apiVersion = LuisApiVersion.V2, string domain = null)
         {
             SetField.NotNull(out this.modelID, nameof(modelID), modelID);
             SetField.NotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
             this.apiVersion = apiVersion;
-            if (domain == null)
-            {
-                domain = apiVersion == LuisApiVersion.V2 ? "westus.api.cognitive.microsoft.com" : "api.projectoxford.ai/luis/v1/application";
-            }
-            this.log = log;
             this.domain = domain;
-            this.spellCheck = spellCheck;
-            this.staging = staging;
-            this.uriBase = new Uri(apiVersion == LuisApiVersion.V2 ? $"https://{domain}/luis/v2.0/apps/" : $"https://api.projectoxford.ai/luis/v1/application");
-            this.verbose = verbose;
+            this.uriBase = UriFor(apiVersion, domain);
+
+            this.Log = true;
         }
 
         public bool Equals(ILuisModel other)
@@ -197,19 +204,7 @@ namespace Microsoft.Bot.Builder.Luis
 
         public LuisRequest ModifyRequest(LuisRequest request)
         {
-            request.Log = log;
-            if (SpellCheck)
-            {
-                request.SpellCheck = true;
-            }
-            if (Staging)
-            {
-                request.Staging = true;
-            }
-            if (Verbose)
-            {
-                request.Verbose = true;
-            }
+            Options.Apply(request);
             return request;
         }
     }

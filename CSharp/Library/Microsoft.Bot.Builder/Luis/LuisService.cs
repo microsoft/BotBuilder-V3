@@ -46,83 +46,63 @@ namespace Microsoft.Bot.Builder.Luis
     /// <summary>
     /// Object that contains all the possible parameters to build Luis request.
     /// </summary>
-    public sealed class LuisRequest
+    public sealed class LuisRequest : ILuisOptions
     {
         /// <summary>
         /// The text query.
         /// </summary>
-        public string Query;
+        public string Query { get; set; }
 
         /// <summary>
         /// Indicates if logging of queries to LUIS is allowed.
         /// </summary>
-        public bool? Log;
+        public bool? Log { get; set; }
 
         /// <summary>
         /// Turn on spell checking.
         /// </summary>
-        public bool? SpellCheck;
+        public bool? SpellCheck { get; set; }
 
         /// <summary>
         /// Use the staging endpoint.
         /// </summary>
-        public bool? Staging;
+        public bool? Staging { get; set; }
 
         /// <summary>
         /// The time zone offset.
         /// </summary>
-        public double? TimezoneOffset;
+        public double? TimezoneOffset { get; set; }
 
         /// <summary>
         /// The verbose flag.
         /// </summary>
-        public bool? Verbose;
+        public bool? Verbose { get; set; }
 
         /// <summary>
         /// Any extra query parameters for the URL.
         /// </summary>
-        public string ExtraParameters;
+        public string ExtraParameters { get; set; }
 
         /// <summary>
         /// The context id.
         /// </summary>
         [Obsolete("Action binding in LUIS should be replaced with code.")]
-        public string ContextId;
+        public string ContextId { get; set; }
 
         /// <summary>
         /// Force setting the parameter when using action binding.
         /// </summary>
         [Obsolete("Action binding in LUIS should be replaced with code.")]
-        public string ForceSet;
+        public string ForceSet { get; set; }
 
         /// <summary>
         /// Constructs an instance of the LuisReqeuest.
         /// </summary>
         /// <param name="query"> The text query.</param>
-        /// <param name="log"> Allow queries to be logged by LUIS.</param>
-        /// <param name="spellCheck">Turn on spell checking.</param>
-        /// <param name="staging">Whether or not to use staging.</param>
-        /// <param name="timezoneOffset"> The time zone offset used for resolving time expressions.</param>
-        /// <param name="verbose"> Indicates if the <see cref="LuisResult"/> should be verbose.</param>
-        /// <param name="contextId"> The context id for Luis dialog.</param>
-        /// <param name="forceSet"> Force setting the parameter when using action binding.</param>
-        /// <param name="extraParameters">Extra URL query parameters.</param>
-        public LuisRequest(string query,
-            bool? log = default(bool?), bool? spellCheck = default(bool?), bool? staging = default(bool?), double? timezoneOffset = default(double?), bool? verbose = default(bool?),
-            string contextId = default(string), string forceSet = default(string), string extraParameters = null
-            )
+        public LuisRequest(string query)
         {
             this.Query = query;
-            this.Log = log;
-            this.SpellCheck = spellCheck;
-            this.Staging = staging;
-            this.Verbose = verbose;
-            this.TimezoneOffset = timezoneOffset;
-#pragma warning disable CS0618
-            this.ContextId = contextId;
-            this.ForceSet = forceSet;
-#pragma warning restore CS0618
-            this.ExtraParameters = extraParameters;
+            this.Log = true;
         }
 
         /// <summary>
@@ -257,6 +237,21 @@ namespace Microsoft.Bot.Builder.Luis
             return luisRequest.BuildUri(this.model);
         }
 
+        public static void Fix(LuisResult result)
+        {
+            // fix up Luis result for backward compatibility
+            // v2 api is not returning list of intents if verbose query parameter 
+            // is not set. This will move IntentRecommendation in TopScoringIntent
+            // to list of Intents.
+            if (result.Intents == null || result.Intents.Count == 0)
+            {
+                if (result.TopScoringIntent != null)
+                {
+                    result.Intents = new List<IntentRecommendation> { result.TopScoringIntent };
+                }
+            }
+        }
+
         async Task<LuisResult> ILuisService.QueryAsync(Uri uri, CancellationToken token)
         {
             string json;
@@ -270,14 +265,7 @@ namespace Microsoft.Bot.Builder.Luis
             try
             {
                 var result = JsonConvert.DeserializeObject<LuisResult>(json);
-                // fix up Luis result for backward compatibility
-                // v2 api is not returning list of intents if verbose query parameter 
-                // is not set. This will move IntentRecommendation in TopScoringIntent
-                // to list of Intents.
-                if (result.TopScoringIntent != null && result.Intents == null)
-                {
-                    result.Intents = new List<IntentRecommendation> { result.TopScoringIntent };
-                }
+                Fix(result);
                 return result;
             }
             catch (JsonException ex)

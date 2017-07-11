@@ -33,23 +33,16 @@
 
 using System;
 using System.Globalization;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Dialogs.Internals;
-using Microsoft.Bot.Builder.Tests;
-using Microsoft.Bot.Builder.Luis.Models;
-
-using Moq;
 using Autofac;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Builder.Tests;
 using Microsoft.Bot.Sample.SimpleAlarmBot;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 
 namespace Microsoft.Bot.Sample.Tests
 {
@@ -69,6 +62,7 @@ namespace Microsoft.Bot.Sample.Tests
 
             Func<IDialog<object>> MakeRoot = () => new SimpleAlarmDialog(luis.Object);
             var toBot = MakeTestMessage();
+            toBot.Text = string.Empty;
 
             using (new FiberTestBase.ResolveMoqAssembly(luis.Object))
             using (var container = Build(Options.ScopedQueue, luis.Object))

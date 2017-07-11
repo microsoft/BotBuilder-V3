@@ -318,7 +318,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder
                 .RegisterKeyedType<NullPostToBot, IPostToBot>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
+
+            builder
+                .RegisterKeyedType<PassPostToBot, IPostToBot>()
+                .InstancePerDependency();
 
             builder
                 .RegisterKeyedType<EventLoopDialogTask, IPostToBot>()
@@ -391,7 +395,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             builder
                 .RegisterKeyedType<NullBotToUser, IBotToUser>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
+
+            builder
+                .RegisterKeyedType<PassBotToUser, IBotToUser>()
+                .InstancePerDependency();
 
             builder
                 .RegisterKeyedType<AlwaysSendDirect_BotToUser, IBotToUser>()

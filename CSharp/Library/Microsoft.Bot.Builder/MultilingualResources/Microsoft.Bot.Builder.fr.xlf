@@ -16,7 +16,7 @@
         </trans-unit>
         <trans-unit id="CommandBackTerms" translate="yes" xml:space="preserve">
           <source>backup;go back;back</source>
-          <target state="translated">retour; retourner</target>
+          <target state="translated">retour;précédent</target>
         </trans-unit>
         <trans-unit id="CommandHelp" translate="yes" xml:space="preserve">
           <source>Help</source>
@@ -36,7 +36,7 @@
         </trans-unit>
         <trans-unit id="CommandQuitHelp" translate="yes" xml:space="preserve">
           <source>Quit: Quit the form without completing it.</source>
-          <target state="translated">Abandonner: Abandonner sans finir</target>
+          <target state="translated">Abandonner: Quitter le formulaire sans le compléter.</target>
         </trans-unit>
         <trans-unit id="CommandQuitTerms" translate="yes" xml:space="preserve">
           <source>quit;stop;finish;goodby?;good bye?;bye;ciao;adios;bye-bye;so long;cheers</source>
@@ -48,7 +48,7 @@
         </trans-unit>
         <trans-unit id="CommandResetHelp" translate="yes" xml:space="preserve">
           <source>Reset: Start over filling in the form.  (With defaults from your previous entries.)</source>
-          <target state="translated">Recommencer remplir le formulaire.  (Vos réponses précédentes sont enregistrées.)</target>
+          <target state="translated">Remplir à nouveau le formulaire.  (Vos réponses précédentes sont enregistrées.)</target>
         </trans-unit>
         <trans-unit id="CommandResetTerms" translate="yes" xml:space="preserve">
           <source>start over;reset;clear</source>
@@ -94,7 +94,8 @@
         </trans-unit>
         <trans-unit id="LanguageArticles" translate="yes" xml:space="preserve">
           <source>a;an;the</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">un, une, la</target>
+          <target state="needs-review-translation">un;une;la</target>
+          <note from="MultilingualEditor" annotates="source" priority="4">The translation in french depends on the gender.</note>
         </trans-unit>
         <trans-unit id="LanguageStopWords" translate="yes" xml:space="preserve">
           <source>a;about;above;above;across;after;afterwards;again;against;all;almost;alone;along;already;also;although;always;am;among;amongst;amoungst;amount;an;and;another;any;anyhow;anyone;anything;anyway;anywhere;are;around;as;at;back;be;became;because;become;becomes;becoming;been;before;beforehand;behind;being;below;beside;besides;between;beyond;bill;both;bottom;but;by;call;can;cannot;cant;co;con;could;couldnt;cry;de;describe;detail;do;done;down;due;during;each;eg;eight;either;eleven;else;elsewhere;empty;enough;etc;even;ever;every;everyone;everything;everywhere;except;few;fifteen;fify;fill;find;fire;first;five;for;former;formerly;forty;found;four;from;front;full;further;get;give;go;had;has;hasnt;have;he;hence;her;here;hereafter;hereby;herein;hereupon;hers;herself;him;himself;his;how;however;hundred;ie;if;in;inc;indeed;interest;into;is;it;its;itself;keep;last;latter;latterly;least;less;ltd;made;many;may;me;meanwhile;might;mill;mine;more;moreover;most;mostly;move;much;must;my;myself;name;namely;neither;never;nevertheless;next;nine;no;nobody;none;noone;nor;not;nothing;now;nowhere;of;off;often;on;once;one;only;onto;or;other;others;otherwise;our;ours;ourselves;out;over;own;part;per;perhaps;please;put;rather;re;same;see;seem;seemed;seeming;seems;serious;several;she;should;show;side;since;sincere;six;sixty;so;some;somehow;someone;something;sometime;sometimes;somewhere;still;such;system;take;ten;than;that;the;their;them;themselves;then;thence;there;thereafter;thereby;therefore;therein;thereupon;these;they;thick;thin;third;this;those;though;three;through;throughout;thru;thus;to;together;too;top;toward;towards;twelve;twenty;two;un;under;until;up;upon;us;very;via;was;we;well;were;what;whatever;when;whence;whenever;where;whereafter;whereas;whereby;wherein;whereupon;wherever;whether;which;while;whither;who;whoever;whole;whom;whose;why;will;with;within;without;would;yet;you;your;yours;yourself;yourselves</source>
@@ -126,7 +127,7 @@
         </trans-unit>
         <trans-unit id="TemplateBoolHelp" translate="yes" xml:space="preserve">
           <source>Please enter 'yes' or 'no'{?, {0}}.</source>
-          <target state="translated">Tapez « oui » ou «non» s'il vous plaît t {?, {0}}.</target>
+          <target state="translated">Tapez « oui » ou «non» s'il vous plaît {?, {0}}.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference</note>
         </trans-unit>
         <trans-unit id="TemplateClarify" translate="yes" xml:space="preserve">
@@ -164,7 +165,7 @@
         </trans-unit>
         <trans-unit id="TemplateEnumManyNumberHelp" translate="yes" xml:space="preserve">
           <source>You can enter one or more numbers {0}-{1} or words from the descriptions. ({2})</source>
-          <target state="translated">Vous pouvez saisir un ou plusieurs nombres {0}-{1} ou les mots de la description ({2})</target>
+          <target state="translated">Vous pouvez saisir un ou plusieurs nombres {0}-{1} ou des mots de la description. ({2})</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-min, 1-max and 2-enumerated descriptions</note>
         </trans-unit>
         <trans-unit id="TemplateEnumManyWordHelp" translate="yes" xml:space="preserve">
@@ -179,7 +180,7 @@
         </trans-unit>
         <trans-unit id="TemplateEnumOneWordHelp" translate="yes" xml:space="preserve">
           <source>You can enter in any words from the descriptions. ({2})</source>
-          <target state="translated">Vous pouvez choisir parmi touts les mots de la descriptions ({2})</target>
+          <target state="translated">Vous pouvez choisir parmi touts les mots de la description. ({2})</target>
           <note from="MultilingualBuild" annotates="source" priority="2">2-enumerated descriptions</note>
         </trans-unit>
         <trans-unit id="TemplateEnumSelectMany" translate="yes" xml:space="preserve">
@@ -226,7 +227,7 @@
           <source>Choose what field to change.  Possible responses:
 {0}
 {1}</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Choisir le champ à modifier.  Réponses possibles: 
+          <target state="translated">Choisissez le champ à modifier.  Réponses possibles: 
 {0}
 {1}</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-recognizer help, 1-command help</note>
@@ -289,7 +290,7 @@
         </trans-unit>
         <trans-unit id="TemplateStringHelp" translate="yes" xml:space="preserve">
           <source>You can enter anything (use "'s to force string){?, {0}}{?, {1}}.</source>
-          <target state="translated">Vous pouvez taper tout ce que vous voulez (utilisation "de forcer string) {?, {0}} {?, {1}}.</target>
+          <target state="translated">Vous pouvez taper tout ce que vous voulez (utilisez des guillemets (") pour forcer l'usage litéral) {?, {0}} {?, {1}}.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-current choice, 1-no preference</note>
         </trans-unit>
         <trans-unit id="TemplateUnspecified" translate="yes" xml:space="preserve">
@@ -316,7 +317,7 @@
         </trans-unit>
         <trans-unit id="UnhandledExceptionToUser" translate="yes" xml:space="preserve">
           <source>Sorry, my bot code is having an issue.</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Désolé, que mon code bot est d’avoir un problème.</target>
+          <target state="translated">Désolé, mon code semble avoir quelques problèmes.</target>
         </trans-unit>
         <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
           <source>Confirmation</source>

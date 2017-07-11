@@ -1,32 +1,23 @@
-## Pre-flight checklist
-- [ ] I posted a question about this issue on [Stack Overflow](http://stackoverflow.com/search?q=%23botframework) using the tag `botframework`.
-- [ ] I have [searched the existing issues](https://github.com/Microsoft/BotBuilder/issues?utf8=%E2%9C%93&q=is%3Aissue) before logging a new one.
----------------------------
+<!-- Have a question? Please ask it on http://stackoverflow.com/questions/tagged/botframework -->
 
 ## System Information (Required)
-
-* SDK Pletform: .NET or Node?
-* SDK Version:
-* Development Environment: localhost | Azure Bot Service | Azure App Service | other
+* SDK Language: <!-- NODE OR .NET/C# -->
+* SDK Version: <!-- SDK VERSION -->
+* Development Environment: <!-- LOCALHOST, AZURE_BOT_SERVICE, AZURE_APP_SERVICE, OTHER -->
 
 ## Issue Description
+<!-- DESCRIBE YOUR ISSUE, QUESTION, OR FEATURE REQUEST HERE -->
 
-Describe the issue here.
+## Code Example
+<!-- PASTE COMPLETE CODE EXAMPLE THAT REPRODUCES THE ISSUE HERE -->
 
-## Example Code
-
-The code snippet or complete bot example (preferred) that demonstrates the issue.
-
-## Steps to Reproduce
+## Steps to Reproduce the Issue
 1.
 2.
 3.
 
 ## Expected Behavior
-
-What you expected to happen.
+<!-- What you expected to happen. -->
 
 ## Actual Results
-
-What actually happened. Please give examples and support it with screenshots, copied output or error messages.
-
+<!-- What actually happened. Please give examples and support it with screenshots, copied output or error messages. -->

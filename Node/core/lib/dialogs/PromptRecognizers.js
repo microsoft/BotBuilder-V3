@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var EntityRecognizer_1 = require("./EntityRecognizer");
 var consts = require("../consts");
-var simpleTokenizer = /\w+/ig;
+var breakingChars = " \n\r~`!@#$%^&*()-+={}|[]\\:\";'<>?,./";
 var PromptRecognizers = (function () {
     function PromptRecognizers() {
     }
@@ -164,7 +164,7 @@ var PromptRecognizers = (function () {
                     values.push(action.value);
                 }
             }
-            var match = PromptRecognizers.findTopEntity(PromptRecognizers.recognizeValues(utterance, values));
+            var match = PromptRecognizers.findTopEntity(PromptRecognizers.recognizeValues(utterance, values, options));
             if (match) {
                 entities.push({
                     type: consts.Entities.Match,
@@ -214,12 +214,12 @@ var PromptRecognizers = (function () {
         options = options || {};
         var entities = [];
         var text = utterance.trim().toLowerCase();
-        var tokens = matchAll(simpleTokenizer, text);
+        var tokens = tokenize(text);
         var maxDistance = options.hasOwnProperty('maxTokenDistance') ? options.maxTokenDistance : 2;
         values.forEach(function (value, index) {
             if (typeof value === 'string') {
                 var topScore = 0.0;
-                var vTokens = matchAll(simpleTokenizer, value.trim().toLowerCase());
+                var vTokens = tokenize(value.trim().toLowerCase());
                 for (var i = 0; i < tokens.length; i++) {
                     var score = matchValue(vTokens, i);
                     if (score > topScore) {
@@ -277,4 +277,26 @@ function matchAll(exp, text) {
         matches.push(match[0]);
     }
     return matches;
+}
+function tokenize(text) {
+    var tokens = [];
+    if (text && text.length > 0) {
+        var token = '';
+        for (var i = 0; i < text.length; i++) {
+            var chr = text[i];
+            if (breakingChars.indexOf(chr) >= 0) {
+                if (token.length > 0) {
+                    tokens.push(token);
+                }
+                token = '';
+            }
+            else {
+                token += chr;
+            }
+        }
+        if (token.length > 0) {
+            tokens.push(token);
+        }
+    }
+    return tokens;
 }

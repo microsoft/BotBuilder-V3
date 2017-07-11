@@ -19,7 +19,7 @@
     <value>Retourner à la question précédente.</value>
   </data>
   <data name="CommandBackTerms" xml:space="preserve">
-    <value>retour; retourner</value>
+    <value>retour;précédent</value>
   </data>
   <data name="CommandHelp" xml:space="preserve">
     <value>Assistance</value>
@@ -34,7 +34,7 @@
     <value>Abandonner</value>
   </data>
   <data name="CommandQuitHelp" xml:space="preserve">
-    <value>Abandonner: Abandonner sans finir</value>
+    <value>Abandonner: Quitter le formulaire sans le compléter.</value>
   </data>
   <data name="CommandQuitTerms" xml:space="preserve">
     <value>arrêter;finir;au revoir;salut;ciao;adios;abandonner</value>
@@ -43,7 +43,7 @@
     <value>Recommencer</value>
   </data>
   <data name="CommandResetHelp" xml:space="preserve">
-    <value>Recommencer remplir le formulaire.  (Vos réponses précédentes sont enregistrées.)</value>
+    <value>Remplir à nouveau le formulaire.  (Vos réponses précédentes sont enregistrées.)</value>
   </data>
   <data name="CommandResetTerms" xml:space="preserve">
     <value>recommencer;réinitialiser;</value>
@@ -78,7 +78,7 @@
     <value>, </value>
   </data>
   <data name="LanguageArticles" xml:space="preserve">
-    <value>un, une, la</value>
+    <value>un;une;la</value>
   </data>
   <data name="LanguageStopWords" xml:space="preserve">
     <value></value>
@@ -102,7 +102,7 @@
     <value>Voudriez-vous un {&amp;}? {||}</value>
   </data>
   <data name="TemplateBoolHelp" xml:space="preserve">
-    <value>Tapez « oui » ou «non» s'il vous plaît t {?, {0}}.</value>
+    <value>Tapez « oui » ou «non» s'il vous plaît {?, {0}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateClarify" xml:space="preserve">
@@ -132,7 +132,7 @@
     <comment>0-current choice, 1-no preference, 2-min, 3-max</comment>
   </data>
   <data name="TemplateEnumManyNumberHelp" xml:space="preserve">
-    <value>Vous pouvez saisir un ou plusieurs nombres {0}-{1} ou les mots de la description ({2})</value>
+    <value>Vous pouvez saisir un ou plusieurs nombres {0}-{1} ou des mots de la description. ({2})</value>
     <comment>0-min, 1-max and 2-enumerated descriptions</comment>
   </data>
   <data name="TemplateEnumManyWordHelp" xml:space="preserve">
@@ -144,7 +144,7 @@
     <comment>0-min, 1-max and 2-enumerated descriptions</comment>
   </data>
   <data name="TemplateEnumOneWordHelp" xml:space="preserve">
-    <value>Vous pouvez choisir parmi touts les mots de la descriptions ({2})</value>
+    <value>Vous pouvez choisir parmi touts les mots de la description. ({2})</value>
     <comment>2-enumerated descriptions</comment>
   </data>
   <data name="TemplateEnumSelectMany" xml:space="preserve">
@@ -176,7 +176,7 @@
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpNavigation" xml:space="preserve">
-    <value>Choisir le champ à modifier.  Réponses possibles: 
+    <value>Choisissez le champ à modifier.  Réponses possibles: 
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
@@ -226,7 +226,7 @@
     <comment>0-number, 1-description</comment>
   </data>
   <data name="TemplateStringHelp" xml:space="preserve">
-    <value>Vous pouvez taper tout ce que vous voulez (utilisation "de forcer string) {?, {0}} {?, {1}}.</value>
+    <value>Vous pouvez taper tout ce que vous voulez (utilisez des guillemets (") pour forcer l'usage litéral) {?, {0}} {?, {1}}.</value>
     <comment>0-current choice, 1-no preference</comment>
   </data>
   <data name="TemplateUnspecified" xml:space="preserve">
@@ -246,7 +246,7 @@
     <value>Profil de l’utilisateur supprimé !</value>
   </data>
   <data name="UnhandledExceptionToUser" xml:space="preserve">
-    <value>Désolé, que mon code bot est d’avoir un problème.</value>
+    <value>Désolé, mon code semble avoir quelques problèmes.</value>
   </data>
   <data name="NumberExpression" xml:space="preserve">
     <value>[+-]?(?:\d+\.?\d*|\d*\.?\d+)</value>

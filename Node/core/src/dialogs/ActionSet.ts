@@ -45,7 +45,7 @@ export interface IActionHandler {
 export interface IDialogActionOptions {
     matches?: RegExp|RegExp[]|string|string[];
     intentThreshold?: number;
-    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error, score: number, routeData?: IActionRouteData) => void) => void;
+    onFindAction?: (context: IFindActionRouteContext, callback: (err: Error | null, score: number, routeData?: IActionRouteData) => void) => void;
     onSelectAction?: (session: Session, args?: any, next?: Function) => void;
 }
 
@@ -91,7 +91,7 @@ export class ActionSet {
     public addDialogTrigger(actions: ActionSet, dialogId: string): void {
         if (this.trigger) {
             this.trigger.localizationNamespace = dialogId.split(':')[0];
-            actions.beginDialogAction('trigger(' + dialogId + ')', dialogId, this.trigger);
+            actions.beginDialogAction(dialogId, dialogId, this.trigger);
         }
     }
 

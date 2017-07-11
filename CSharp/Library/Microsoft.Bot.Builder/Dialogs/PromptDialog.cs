@@ -658,7 +658,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>   Prompt for a text string. </summary>
         /// <remarks>   Normally used through <see cref="PromptDialog.Text(IDialogContext, ResumeAfter{string}, string, string, int)"/>.</remarks>
         [Serializable]
-        public sealed class PromptString : Prompt<string, string>
+        public class PromptString : Prompt<string, string>
         {
             /// <summary>   Constructor for a prompt string dialog. </summary>
             /// <param name="prompt">   The prompt. </param>
@@ -701,7 +701,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>   Prompt for a confirmation. </summary>
         /// <remarks>   Normally used through <see cref="PromptDialog.Confirm(IDialogContext, ResumeAfter{bool}, string, string, int, PromptStyle, string[], string[][])"/>.</remarks>
         [Serializable]
-        public sealed class PromptConfirm : Prompt<bool, string>
+        public class PromptConfirm : Prompt<bool, string>
         {
             private PromptChoice<string> innerPromptChoice;
 
@@ -805,7 +805,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>   Prompt for a Int64 </summary>
         /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{long}, string, string, int, string, long?, long?)"/>.</remarks>
         [Serializable]
-        public sealed class PromptInt64 : Prompt<long, long>
+        public class PromptInt64 : Prompt<long, long>
         {
             /// <summary>
             /// (Optional) Minimum value allowed.
@@ -855,7 +855,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary>   Prompt for a double. </summary>
         /// <remarks>   Normally used through <see cref="PromptDialog.Number(IDialogContext, ResumeAfter{double}, string, string, int, string, double?, double?)"/>.</remarks>
         [Serializable]
-        public sealed class PromptDouble : Prompt<double, double>
+        public class PromptDouble : Prompt<double, double>
         {
             /// <summary>
             /// (Optional) Minimum value allowed.
@@ -1019,7 +1019,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <summary> Prompt for an attachment</summary>
         /// <remarks> Normally used through <see cref="PromptDialog.Attachment(IDialogContext, ResumeAfter{IEnumerable{Connector.Attachment}}, string, IEnumerable{string}, string, int)"/>.</remarks>
         [Serializable]
-        public sealed class PromptAttachment : Prompt<IEnumerable<Attachment>, Attachment>
+        public class PromptAttachment : Prompt<IEnumerable<Attachment>, Attachment>
         {
             public IEnumerable<string> ContentTypes
             {

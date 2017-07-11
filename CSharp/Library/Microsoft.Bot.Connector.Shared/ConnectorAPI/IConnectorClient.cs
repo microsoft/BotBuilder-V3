@@ -14,7 +14,7 @@ namespace Microsoft.Bot.Connector
     
 
     /// <summary>
-    /// ﻿The Bot Connector REST API allows your bot to send and receive
+    /// The Bot Connector REST API allows your bot to send and receive
     /// messages to channels configured in the
     /// [Bot Framework Developer Portal](https://dev.botframework.com). The
     /// Connector service uses industry-standard REST

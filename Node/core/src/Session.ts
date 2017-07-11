@@ -296,15 +296,6 @@ export class Session extends events.EventEmitter {
     }
 
     /** Inserts a delay between outgoing messages. */
-    public delay(delay: number): this {
-        this.msgSent = true;
-        var m = <any>{ type: 'delay', value: delay };
-        this.prepareMessage(m);
-        this.batch.push(m);
-        this.logger.log(this.dialogStack(), 'Session.delay(%d)', delay);
-        return this;        
-    }
-
     public delay(delay:number): this {
         this.msgSent = true;
         var m = <any>{ type: 'delay', value: delay.toString() };

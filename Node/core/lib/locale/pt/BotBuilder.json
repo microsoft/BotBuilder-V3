@@ -10,7 +10,7 @@
     "list_or_more": ", ou ",
     "confirm_yes": "sim",
     "confirm_no": "não",
-    "boolean_choices": "true=y,yes,sim,\u1F44D,\u1F44C|false=n,no,não,\u1F44E,\u270B,\u1F590",
+    "boolean_choices": "true=y,yes,sim,\uD83D\uDC4D,\uD83D\uDC4C|false=n,no,não,\uD83D\uDC4E,\u270B,\uD83D\uDD90",
     "yesExp": "^(1|sim)(\\W|$)",
     "noExp": "^(2|não)(\\W|$)"
 }

@@ -1,4 +1,4 @@
-// 
+﻿// 
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
 // 
@@ -31,29 +31,50 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-using System;
 
-using Microsoft.Bot.Builder.Dialogs;
-
-namespace Microsoft.Bot.Builder.Internals.Fibers
+namespace Microsoft.Bot.Builder.Luis
 {
-
-    public interface IStackStoreFactory<C>
+    /// <summary>
+    /// Interface containing optional parameters for a LUIS request.
+    /// </summary>
+    public interface ILuisOptions
     {
-        IStore<IFiberLoop<C>> StoreFrom(string taskId, IBotDataBag dataBag);
+        /// <summary>
+        /// Indicates if logging of queries to LUIS is allowed.
+        /// </summary>
+        bool? Log { get; set; }
+
+        /// <summary>
+        /// Turn on spell checking.
+        /// </summary>
+        bool? SpellCheck { get; set; }
+
+        /// <summary>
+        /// Use the staging endpoint.
+        /// </summary>
+        bool? Staging { get; set; }
+
+        /// <summary>
+        /// The time zone offset.
+        /// </summary>
+        double? TimezoneOffset { get; set; }
+
+        /// <summary>
+        /// The verbose flag.
+        /// </summary>
+        bool? Verbose { get; set; }
     }
 
-    public sealed class StoreFromStack<C> : IStackStoreFactory<C>
+    public static partial class Extensions
     {
-        private readonly Func<string, IBotDataBag, IStore<IFiberLoop<C>>> make;
-        
-        public StoreFromStack(Func<string, IBotDataBag, IStore<IFiberLoop<C>>> make)
+        public static void Apply(this ILuisOptions source, ILuisOptions target)
         {
-            SetField.NotNull(out this.make, nameof(make), make);
-        }
-        IStore<IFiberLoop<C>> IStackStoreFactory<C>.StoreFrom(string stackId, IBotDataBag dataBag)
-        {
-            return this.make(stackId, dataBag);
+            if (source.Log.HasValue) target.Log = source.Log.Value;
+            if (source.SpellCheck.HasValue) target.SpellCheck = source.SpellCheck.Value;
+            if (source.Staging.HasValue) target.Staging = source.Staging.Value;
+            if (source.TimezoneOffset.HasValue) target.TimezoneOffset = source.TimezoneOffset.Value;
+            if (source.Verbose.HasValue) target.Verbose = source.Verbose.Value;
         }
     }
 }
+

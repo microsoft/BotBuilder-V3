@@ -1,0 +1,16 @@
+{
+    "default_text": "Sizi anlayamadım. Lütfen tekrar deneyiniz.",
+    "default_number": "Bu bir sayı değil. Lütfen bir sayı giriniz.",
+    "default_confirm": "Sizi anlayamadım. Lütfen 'evet' veya 'hayır' olarak cevaplayınız.",
+    "default_choice": "Sizi anlayamadım. Lütfen listeden bir seçim yapınız.",
+    "default_time": "Girmiş olduğunuz tarih formatını tanıyamadım. Lütfen tekrar (DD/MM/YYYY HH:MM:SS) formatını kullanarak deneyiniz.",
+    "default_file": "Herhangi bir dosya alamadım. Lütfen tekrar deneyiniz.",
+    "default_error": "Beklenmeyen bir hata oluştu. Yeniden başlamalıyız.",
+    "list_or": " veya ",
+    "list_or_more": ", veya ",
+    "confirm_yes": "evet",
+    "confirm_no": "hayır",
+    "boolean_choices": "true=y,yes,evet,\uD83D\uDC4D,\uD83D\uDC4C|false=n,no,hayır,\uD83D\uDC4E,\u270B,\uD83D\uDD90",
+    "yesExp": "^(1|y|yes|evet)(\\W|$)",
+    "noExp": "^(2|n|no|hayır)(\\W|$)"
+}

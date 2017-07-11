@@ -142,6 +142,40 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
         }
 
+        /// <summary>
+        /// Disable a specific service type by replacing it with a pass through implementation.
+        /// </summary>
+        /// <param name="type">The service type.</param>
+        /// <param name="builder">The container builder.</param>
+        public static void Disable(Type type, ContainerBuilder builder)
+        {
+            if (typeof(IBotToUser).IsAssignableFrom(type))
+            {
+                builder
+                .RegisterType<PassBotToUser>()
+                .Keyed<IBotToUser>(type);
+            }
+
+            if (typeof(IPostToBot).IsAssignableFrom(type))
+            {
+                builder
+                .RegisterType<PassPostToBot>()
+                .Keyed<IPostToBot>(type);
+            }
+        }
+
+        /// <summary>
+        /// Disable a specific service type by replacing it with a pass through implementation.
+        /// </summary>
+        /// <param name="type">The service type.</param>
+        public static void Disable(Type type)
+        {
+            UpdateContainer(builder =>
+            {
+                Disable(type, builder);
+            });
+        }
+
         internal static async Task SendAsync(ILifetimeScope scope, IActivity toBot, CancellationToken token = default(CancellationToken))
         {
             var task = scope.Resolve<IPostToBot>();

@@ -71,7 +71,7 @@ export class CallConnector implements ucb.ICallConnector, bs.IBotStorage {
     private handler: (event: IEvent, cb?: (err: Error) => void) => void;
     private accessToken: string;
     private accessTokenExpires: number;
-    private responses: { [id:string]: (err: Error, repsonse?: any) => void; } = {};
+    private responses: { [id:string]: (err: Error, response?: any) => void; } = {};
 
     constructor(private settings: ICallConnectorSettings) {
         if (!this.settings.endpoint) {

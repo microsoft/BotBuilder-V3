@@ -233,14 +233,6 @@ var Session = (function (_super) {
     };
     Session.prototype.delay = function (delay) {
         this.msgSent = true;
-        var m = { type: 'delay', value: delay };
-        this.prepareMessage(m);
-        this.batch.push(m);
-        this.logger.log(this.dialogStack(), 'Session.delay(%d)', delay);
-        return this;
-    };
-    Session.prototype.delay = function (delay) {
-        this.msgSent = true;
         var m = { type: 'delay', value: delay.toString() };
         this.prepareMessage(m);
         this.batch.push(m);

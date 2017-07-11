@@ -209,34 +209,43 @@ namespace Microsoft.Bot.Builder.Dialogs
             var message = await item;
             var messageText = await GetLuisQueryTextAsync(context, message);
 
-            // Modify request by the service to add attributes and then by the dialog to reflect the particular query
-            var tasks = this.services.Select(s => s.QueryAsync(ModifyLuisRequest(s.ModifyRequest(new LuisRequest(messageText))), context.CancellationToken)).ToArray();
-            var results = await Task.WhenAll(tasks);
-
-            var winners = from result in results.Select((value, index) => new { value, index })
-                          let resultWinner = BestIntentFrom(result.value)
-                          where resultWinner != null
-                          select new LuisServiceResult(result.value, resultWinner, this.services[result.index]);
-
-            var winner = this.BestResultFrom(winners);
-
-            if (winner == null)
+            if (messageText != null)
             {
-                throw new InvalidOperationException("No winning intent selected from Luis results.");
-            }
+                // Modify request by the service to add attributes and then by the dialog to reflect the particular query
+                var tasks = this.services.Select(s => s.QueryAsync(ModifyLuisRequest(s.ModifyRequest(new LuisRequest(messageText))), context.CancellationToken)).ToArray();
+                var results = await Task.WhenAll(tasks);
 
-            if (winner.Result.Dialog?.Status == DialogResponse.DialogStatus.Question)
-            {
+                var winners = from result in results.Select((value, index) => new { value, index })
+                              let resultWinner = BestIntentFrom(result.value)
+                              where resultWinner != null
+                              select new LuisServiceResult(result.value, resultWinner, this.services[result.index]);
+
+                var winner = this.BestResultFrom(winners);
+
+                if (winner == null)
+                {
+                    throw new InvalidOperationException("No winning intent selected from Luis results.");
+                }
+
+                if (winner.Result.Dialog?.Status == DialogResponse.DialogStatus.Question)
+                {
 #pragma warning disable CS0618
-                var childDialog = await MakeLuisActionDialog(winner.LuisService,
-                                                             winner.Result.Dialog.ContextId,
-                                                             winner.Result.Dialog.Prompt);
+                    var childDialog = await MakeLuisActionDialog(winner.LuisService,
+                                                                 winner.Result.Dialog.ContextId,
+                                                                 winner.Result.Dialog.Prompt);
 #pragma warning restore CS0618
-                context.Call(childDialog, LuisActionDialogFinished);
+                    context.Call(childDialog, LuisActionDialogFinished);
+                }
+                else
+                {
+                    await DispatchToIntentHandler(context, item, winner.BestIntent, winner.Result);
+                }
             }
             else
             {
-                await DispatchToIntentHandler(context, item, winner.BestIntent, winner.Result);
+                var intent = new IntentRecommendation() { Intent = string.Empty, Score = 1.0 };
+                var result = new LuisResult() { TopScoringIntent = intent };
+                await DispatchToIntentHandler(context, item, intent, result);
             }
         }
 
@@ -327,7 +336,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         protected virtual async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> item)
         {
             var message = await item;
-            var luisRequest = new LuisRequest(query: message.Text, contextId: this.contextId);
+            var luisRequest = new LuisRequest(query: message.Text) { ContextId = this.contextId };
             var result = await luisService.QueryAsync(luisService.BuildUri(luisService.ModifyRequest(luisRequest)), context.CancellationToken);
             if (result.Dialog.Status != DialogResponse.DialogStatus.Finished)
             {

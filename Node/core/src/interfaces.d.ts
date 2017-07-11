@@ -259,5 +259,29 @@ interface IEntity<T> {
     startIndex?: number;
     endIndex?: number;
     score?: number;
+    resolution?: IEntityResolution<T>;
 }
 
+interface IEntityResolution<T> {
+    value?: string;
+    values?: string[]|ILuisValues[];
+}
+
+interface ILuisValues {
+    timex: string;
+    type: string;
+    value: string;
+    Start: string;
+    End: string;
+}
+
+interface ICompositeEntity<T> {
+    parentType: string;
+    value: string;
+    children: ICompositeEntityChild<T>[]
+}
+
+interface ICompositeEntityChild<T> {
+    type: string;
+    value: string;
+}
