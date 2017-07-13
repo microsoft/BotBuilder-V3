@@ -116,6 +116,11 @@ namespace Microsoft.Bot.Builder.Luis.Models
                     {
                         return children.First().ToObject<IDictionary<string, object>>();
                     }
+                    else if (children.Count() > 0)
+                    {
+                        return children.Select(c => c.ToObject<IDictionary<string, object>>())
+                            .ToList();
+                    }
 
                     return null;
                 }
