@@ -10,7 +10,7 @@
     "list_or_more": ", oder ",
     "confirm_yes": "ja",
     "confirm_no": "nein",
-    "boolean_choices": "true=y,yes,ja,richtig\u1F44D,\u1F44C|false=n,no,nein,falsch,\u1F44E,\u270B,\u1F590",
+    "boolean_choices": "true=y,yes,ja,richtig,\uD83D\uDC4D,\uD83D\uDC4C|false=n,no,nein,falsch,\uD83D\uDC4E,\u270B,\uD83D\uDD90",
     "number_exp": "[+-]?(?:\\d+\\.?\\d*|\\d*\\.?\\d+)",
     "number_terms": "0=null|1=eins|2=zwei|3=drei|4=vier|5=fünf|6=sechs|7=sieben|8=acht|9=neun|10=zehn|11=elf|12=zwölf|13=dreizehn|14=vierzehn|15=fünfzehn|16=sechzehn|17=siebzehn|18=achtzehn|19=neunzehn|20=zwanzig",
     "number_ordinals": "1=1st,erste|2=2nd,zweite|3=3rd,dritte|4=4th,vierte|5=5th,fünfte|6=6th,sechste|7=7th,siebte|8=8th,achte|9=9th,neunte|10=10th,zehnte",

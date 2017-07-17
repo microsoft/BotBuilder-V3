@@ -5,13 +5,14 @@ data to enable and disable two RegExpRecognizers.
 
 # RUN THE BOT:
 
-    Run `npm install` in BotBuilder/Node and BotBuilder/Node/core
+    Run `npm install` in BotBuilder/Node and BotBuilder/Node/core.
 
     Run the bot from the command line using "node app.js" and open the Bot 
     Framework Emulator. Enter into the address bar http://localhost:3978
-    /api/messages to open a conversation with the bot. Type anything to reach
-    the 'RecognizerMenu' dialog which will send a one-time message on how to use
-    the bot.
+    /api/messages to open a conversation with the bot. 
+    
+    Type anything to reach the 'RecognizerMenu' dialog which will send a 
+    one-time message on how to use the bot.
 
 -----------------------------------------------------------------------------*/
 
@@ -106,7 +107,6 @@ bot.dialog('RecognizerMenu', [
             case 0:
                 // Turn off 'greetings' recognizer
                 session.send('Turning off Greeting Recognizer. Anything matching the "Greeting" intent will redirect to the Recognizer Menu.');
-
                 session.conversationData.useGreetings = false;
                 break;
             case 1:

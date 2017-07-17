@@ -10,7 +10,7 @@
     "list_or_more": ", veya ",
     "confirm_yes": "evet",
     "confirm_no": "hayır",
-    "boolean_choices": "true=y,yes,evet,\u1F44D,\u1F44C|false=n,no,hayır,\u1F44E,\u270B,\u1F590",
+    "boolean_choices": "true=y,yes,evet,\uD83D\uDC4D,\uD83D\uDC4C|false=n,no,hayır,\uD83D\uDC4E,\u270B,\uD83D\uDD90",
     "yesExp": "^(1|y|yes|evet)(\\W|$)",
     "noExp": "^(2|n|no|hayır)(\\W|$)"
 }

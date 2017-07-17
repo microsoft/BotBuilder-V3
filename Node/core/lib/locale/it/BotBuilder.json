@@ -10,7 +10,7 @@
     "list_or_more": " o ",
     "confirm_yes": "sì",
     "confirm_no": "no",
-    "boolean_choices": "true=y,yes,sì,\u1F44D,\u1F44C|false=n,no,\u1F44E,\u270B,\u1F590",
+    "boolean_choices": "true=y,yes,sì,\uD83D\uDC4D,\uD83D\uDC4C|false=n,no,\uD83D\uDC4E,\u270B,\uD83D\uDD90",
     "yesExp": "^(1|sì)(\\W|$)",
     "noExp": "^(2|no)(\\W|$)"
 }   

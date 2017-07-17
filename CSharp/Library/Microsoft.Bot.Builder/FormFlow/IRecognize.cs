@@ -32,7 +32,7 @@
 //
 
 using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -200,9 +200,9 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// <summary>
         /// Return the matches found in the input.
         /// </summary>
-        /// <param name="input">The input string being matched.</param>
+        /// <param name="input">The input activity being matched.</param>
         /// <param name="defaultValue">The default value or null if none.</param>
         /// <returns>Match records.</returns>
-        IEnumerable<TermMatch> Matches(string input, object defaultValue = null);
+        IEnumerable<TermMatch> Matches(IMessageActivity input, object defaultValue = null);
     }
 }

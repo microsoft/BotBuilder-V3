@@ -77,8 +77,16 @@ namespace Microsoft.Bot.Connector
         {
             var appIdKey = appIdSettingName ?? MicrosoftAppCredentials.MicrosoftAppIdKey;
             var passwordKey = appPasswordSettingName ?? MicrosoftAppCredentials.MicrosoftAppPasswordKey;
-            this.AppId = ConfigurationManager.AppSettings[appIdKey] ?? Environment.GetEnvironmentVariable(appIdKey, EnvironmentVariableTarget.Process);
-            this.Password = ConfigurationManager.AppSettings[passwordKey] ?? Environment.GetEnvironmentVariable(passwordKey, EnvironmentVariableTarget.Process);
+            this.AppId = SettingsUtils.GetAppSettings(appIdKey);
+            this.Password = SettingsUtils.GetAppSettings(passwordKey);
+        }
+    }
+
+    public static class SettingsUtils
+    {
+        public static string GetAppSettings(string key)
+        {
+            return ConfigurationManager.AppSettings[key] ?? Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
         }
     }
 #else

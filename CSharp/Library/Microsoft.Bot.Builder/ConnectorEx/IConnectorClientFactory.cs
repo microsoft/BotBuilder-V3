@@ -87,8 +87,33 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
             else
             {
-                return new StateClient(this.credentials);
+                if (!string.IsNullOrEmpty(settingsStateApiUrl.Value))
+                {
+                    return new StateClient(new Uri(settingsStateApiUrl.Value), this.credentials);
+                }
+                else
+                {
+                    return new StateClient(this.credentials);
+                }
             }
         }
+
+        private readonly static Lazy<string> settingsStateApiUrl = new Lazy<string>(() => GetSettingsStateApiUrl());
+
+        /// <summary>
+        /// Get the state api endpoint from settings. 
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>The state api endpoint from settings.</returns>
+        private static string GetSettingsStateApiUrl(string key = "BotStateEndpoint")
+        {
+            var url = SettingsUtils.GetAppSettings(key);
+            if (!string.IsNullOrEmpty(url))
+            {
+                MicrosoftAppCredentials.TrustServiceUrl(url, DateTime.MaxValue);
+            }
+            return url;
+        }
+
     }
 }

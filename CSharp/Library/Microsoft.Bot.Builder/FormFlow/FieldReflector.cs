@@ -30,7 +30,6 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-using Microsoft.Bot.Builder.FormFlow.Advanced;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -372,7 +371,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 else
                 {
-                    _terms = new TermsAttribute(Language.GenerateTerms(Language.CamelCase(name), 3));
+                    _terms = new TermsAttribute(Language.GenerateTerms((string.IsNullOrWhiteSpace(_description.Description) ? Language.CamelCase(name) : _description.Description), 3));
                 }
 
                 if (prompt != null)

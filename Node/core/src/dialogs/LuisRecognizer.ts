@@ -59,11 +59,11 @@ export class LuisRecognizer extends IntentRecognizer {
             var locale = context.locale || '*';
             var model = this.models.hasOwnProperty(locale) ? this.models[locale] : this.models['*'];
             if (model) {
-                LuisRecognizer.recognize(utterance, model, (err, intents, entities) => {
+                LuisRecognizer.recognize(utterance, model, (err, intents, entities, compositeEntities) => {
                     if (!err) {
                         result.intents = intents;
                         result.entities = entities;
-
+                        result.compositeEntities = compositeEntities;
                         // Return top intent
                         var top: IIntent;
                         intents.forEach((intent) => {
@@ -118,7 +118,7 @@ export class LuisRecognizer extends IntentRecognizer {
                 // Parse results
                 var result: ILuisResults;
                 try {
-                    if (!err) {
+                    if (res && res.statusCode === 200) {
                         result = JSON.parse(body);
                         result.intents = result.intents || [];
                         result.entities = result.entities || [];
@@ -130,6 +130,8 @@ export class LuisRecognizer extends IntentRecognizer {
                             // Intents for the builtin Cortana app don't return a score.
                             result.intents[0].score = 1.0;
                         }
+                    } else {
+                        err = new Error(body);
                     }
                 } catch (e) {
                     err = e;

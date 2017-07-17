@@ -53,12 +53,10 @@ namespace Microsoft.Bot.Connector
 
         public virtual string OpenIdConfigurationUrl { get; set; } = JwtConfig.ToBotFromChannelOpenIdMetadataUrl;
 
-
-
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
             var provider = this.GetCredentialProvider();
-            var botAuthenticator = new BotAuthenticator(provider, OpenIdConfigurationUrl, DisableEmulatorTokens);
+            var botAuthenticator = new BotAuthenticator(provider, GetOpenIdConfigurationUrl(), DisableEmulatorTokens);
             try
             {
                 var identityToken = await botAuthenticator.AuthenticateAsync(actionContext.Request, GetActivities(actionContext), cancellationToken);
@@ -125,6 +123,13 @@ namespace Microsoft.Bot.Connector
                 credentialProvider = new SettingsCredentialProvider(MicrosoftAppIdSettingName, MicrosoftAppPasswordSettingName);
             }
             return credentialProvider;
+        }
+
+        private readonly static Lazy<string> settingsOpenIdConfigurationurl = new Lazy<string>(() => SettingsUtils.GetAppSettings("BotOpenIdMetadata"));
+
+        private string GetOpenIdConfigurationUrl()
+        {
+            return settingsOpenIdConfigurationurl.Value ?? this.OpenIdConfigurationUrl;
         }
     }
 }

@@ -75,6 +75,13 @@ export class ConsoleConnector implements IConnector {
         return this;
     }
 
+    public processEvent(event: IEvent): this {
+        if (this.onEventHandler) {
+            this.onEventHandler([event]);
+        }
+        return this;
+    }
+
     public onEvent(handler: (events: IEvent[], cb?: (err: Error) => void) => void): void {
         this.onEventHandler = handler;
     }

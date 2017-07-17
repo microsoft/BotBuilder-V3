@@ -362,7 +362,7 @@ Is this what you wanted? {||}")
         {
             var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
             await VerifyFormScript(pathScript,
-                "en-us", 
+                "en-us",
                 () => new FormBuilder<SimpleForm>()
                 .AddRemainingFields()
                 .Confirm(@"**Results**
@@ -372,7 +372,7 @@ Is this what you wanted? {||}")
 * SomeChoices: {SomeChoices}
 * Date: {Date}
 Is this what you wanted? {||}")
-                .Build(), 
+                .Build(),
                 FormOptions.None, new SimpleForm(), Array.Empty<EntityRecommendation>(),
                 "Hi",
                 "some text here",
@@ -420,13 +420,30 @@ Is this what you wanted? {||}")
                 // Test limits beyond double
                 (double.MaxValue).ToString().Replace("308", "309"),
                 (double.MinValue).ToString().Replace("308", "309"),
-                
+
                 // Min and max accepted values
                 float.MaxValue.ToString(),
                 "back",
                 float.MinValue.ToString(),
                 "quit");
-          }
+        }
+
+        [TestMethod]
+        [DeploymentItem(@"Scripts\SimpleForm-Skip.script")]
+        public async Task SimpleForm_Skip_Script()
+        {
+            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
+            await VerifyFormScript(pathScript,
+                "en-us",
+                () => new FormBuilder<SimpleForm>().Build(),
+                FormOptions.None, new SimpleForm() { Float = 4.3f }, Array.Empty<EntityRecommendation>(),
+                "hi",
+                "some text",
+                "99",
+                // Float should be skipped
+                "word",
+                "quit");
+        }
 
         [TestMethod]
         [DeploymentItem(@"Scripts\PizzaForm.script")]
@@ -496,7 +513,7 @@ Is this what you wanted? {||}")
                 "hi",
                 "1", // onions for topping clarification
                 "2", // address choice from validation
-                "med", 
+                "med",
                 // Kind "4",
                 "drink bread",
                 "thin",
@@ -744,7 +761,7 @@ Is this what you wanted? {||}")
 
                 "back",
                 "word that",
-                
+
                 "back",
                 "-word",
 
@@ -834,5 +851,99 @@ Is this what you wanted? {||}")
                     );
             }
         }
+
+
+        private class TestFormAttribute
+        {
+            public string FieldNameWithoutAttributes { get; set; }
+
+            [Describe(description: " ")]
+            public string FieldNameWithDescribeSpaceDescriptionAttributeOnly { get; set; }
+
+            [Describe(description: "")]
+            public string FieldNameWithDescribeEmptyDescriptionAttributeOnly { get; set; }
+
+            [Describe(description: "FieldDescribeDescription1")]
+            public string FieldNameWithDescribeDescriptionAttributeOnly { get; set; }
+
+            [Describe(title: "FieldDescribeNullDescription1")]
+            public string FieldNameWithDescribeNullDescriptionAttributeOnly { get; set; }
+
+            [Describe("FieldName2")]
+            [Terms("FieldName2")]
+            public string FieldNameWithDescribeTermsAttributesSame { get; set; }
+
+            [Describe("FieldDescribe3")]
+            [Terms("FieldTerms3")]
+            public string FieldNameWithDescribeTermsAttributesDiffer { get; set; }
+
+            [Terms("FieldTerms4")]
+            public string FieldNameWithTermsAttributeOnly { get; set; }
+
+            public IForm<TestFormAttribute> FormBuilder;
+            public TestFormAttribute()
+            {
+                FormBuilder = BuildForm();
+            }
+
+            public static IForm<TestFormAttribute> BuildForm()
+            {
+                return new FormBuilder<TestFormAttribute>()
+                    .Message("Provide test field name:")
+                    .Build();
+
+            }
+
+
+        }
+
+        [TestMethod]
+        public async Task VerifyFormBuilderDescribeTermsAttributes()
+        {
+            foreach (var field in (new TestFormAttribute()).FormBuilder.Fields)
+            {
+                if (field.Name == "FieldNameWithoutAttributes")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "Field Name Without Attributes");
+                    Assert.IsTrue(field.FieldTerms.Any(ft => ft.StartsWith(field.FieldDescription.Description.ToLower())));
+                }
+                else if (field.Name == "FieldNameWithDescribeSpaceDescriptionAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == " ");
+                    Assert.IsTrue(field.FieldTerms.Contains("field name with describe space description attribute only"));
+                }
+                else if (field.Name == "FieldNameWithDescribeEmptyDescriptionAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "");
+                    Assert.IsTrue(field.FieldTerms.Contains("field name with describe empty description attribute only"));
+                }
+                else if (field.Name == "FieldNameWithDescribeDescriptionAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "FieldDescribeDescription1");
+                    Assert.IsTrue(field.FieldTerms.Any(ft => ft.StartsWith(field.FieldDescription.Description.ToLower())));
+                }
+                else if (field.Name == "FieldNameWithDescribeNullDescriptionAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == null);
+                    Assert.IsTrue(field.FieldTerms.Contains("field name with describe null description attribute only"));
+                }
+                else if (field.Name == "FieldNameWithDescribeTermsAttributesSame")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "FieldName2");
+                    Assert.IsTrue(field.FieldTerms.Contains("FieldName2"));
+                }
+                else if (field.Name == "FieldNameWithDescribeTermsAttributesDiffer")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "FieldDescribe3");
+                    Assert.IsTrue(field.FieldTerms.Contains("FieldTerms3"));
+                }
+                else if (field.Name == "FieldNameWithTermsAttributeOnly")
+                {
+                    Assert.IsTrue(field.FieldDescription.Description == "Field Name With Terms Attribute Only");
+                    Assert.IsTrue(field.FieldTerms.Contains("FieldTerms4"));
+                }
+            }
+        }
+
     }
 }

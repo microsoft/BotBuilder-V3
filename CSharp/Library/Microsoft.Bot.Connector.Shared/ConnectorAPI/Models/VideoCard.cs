@@ -24,7 +24,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the VideoCard class.
         /// </summary>
-        public VideoCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?), string aspect = default(string))
+        public VideoCard(string title = default(string), string subtitle = default(string), string text = default(string), ThumbnailUrl image = default(ThumbnailUrl), IList<MediaUrl> media = default(IList<MediaUrl>), IList<CardAction> buttons = default(IList<CardAction>), bool? shareable = default(bool?), bool? autoloop = default(bool?), bool? autostart = default(bool?), string aspect = default(string), object value = default(object))
         {
             Aspect = aspect;
             Title = title;
@@ -36,6 +36,7 @@ namespace Microsoft.Bot.Connector
             Shareable = shareable;
             Autoloop = autoloop;
             Autostart = autostart;
+            Value = value;
         }
 
         /// <summary>
@@ -99,6 +100,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "autostart")]
         public bool? Autostart { get; set; }
+
+        /// <summary>
+        /// Supplementary parameter for this card
+        /// </summary>
+        [JsonProperty(PropertyName = "value")]
+        public object Value { get; set; }
 
     }
 }

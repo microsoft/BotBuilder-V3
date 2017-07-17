@@ -39,6 +39,12 @@ var ConsoleConnector = (function () {
         }
         return this;
     };
+    ConsoleConnector.prototype.processEvent = function (event) {
+        if (this.onEventHandler) {
+            this.onEventHandler([event]);
+        }
+        return this;
+    };
     ConsoleConnector.prototype.onEvent = function (handler) {
         this.onEventHandler = handler;
     };

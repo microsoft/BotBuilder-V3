@@ -105,7 +105,7 @@ var Prompt = (function (_super) {
         }
         var idx = 0;
         var handlers = this._onRecognize;
-        var result = context.intent || { score: 0.0, intent: null };
+        var result = { score: 0.0, intent: null };
         function next() {
             try {
                 if (idx < handlers.length) {

@@ -49,6 +49,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Fact.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\GeoCoordinates.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\HeroCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\MediaEventValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\MediaUrl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Place.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ReceiptCard.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JwtConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JwtTokenExtractor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JwtTokenRefresher.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Mention.cs" /> 
+    <Compile Include="$(MSBuildThisFileDirectory)Mention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MicrosoftAppCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachmentEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Payments\MicrosoftPayMethodDataEx.cs" />

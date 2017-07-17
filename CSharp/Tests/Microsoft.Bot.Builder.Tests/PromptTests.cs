@@ -314,6 +314,13 @@ namespace Microsoft.Bot.Builder.Tests
             await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "9", "9");
         }
 
+        [TestMethod]
+        public async Task PromptSuccess_Choice_PartialMatch()
+        {
+            var choices = new[] { "hotel resort", "hotel spa", "hotel premium" };
+            await PromptSuccessAsync((context, resume) => PromptDialog.Choice(context, resume, choices, PromptText, promptStyle: PromptStyle.None), "resort", "hotel resort");
+        }
+
         public TestContext TestContext { get; set; }
 
         [TestMethod]
