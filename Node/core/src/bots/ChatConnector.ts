@@ -71,7 +71,8 @@ export interface IChatConnectorEndpoint {
     msaIssuer: string;
     msaAudience: string;
     emulatorOpenIdMetadata: string;
-    emulatorIssuer: string;
+    emulatorIssuerV1: string;
+    emulatorIssuerV2: string;
     emulatorAudience: string;
     stateEndpoint: string;
 }
@@ -103,8 +104,9 @@ export class ChatConnector implements IConnector, IBotStorage {
                 msaIssuer: 'https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/',
                 msaAudience: 'https://graph.microsoft.com',
                 emulatorOpenIdMetadata: 'https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration',
-                emulatorAudience: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
-                emulatorIssuer: this.settings.appId,
+                emulatorAudience: this.settings.appId,
+                emulatorIssuerV1: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
+                emulatorIssuerV2: 'https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/v2.0',
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             }
         }
@@ -158,12 +160,21 @@ export class ChatConnector implements IConnector, IBotStorage {
                     audience: this.settings.endpoint.msaAudience,
                     clockTolerance: 300
                 };
-            } else if (isEmulator && decoded.payload.iss == this.settings.endpoint.emulatorIssuer) {
+            } else if (isEmulator && decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorIssuerV1) {
                 // This token came from the emulator, so check it via the emulator path
                 openIdMetadata = this.emulatorOpenIdMetadata;
                 verifyOptions = {
                     algorithms: algorithms,
-                    issuer: this.settings.endpoint.emulatorIssuer,
+                    issuer: this.settings.endpoint.emulatorIssuerV1,
+                    audience: this.settings.endpoint.emulatorAudience,
+                    clockTolerance: 300
+                };
+            } else if (isEmulator && decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorIssuerV2) {
+                // This token came from the emulator, so check it via the emulator path
+                openIdMetadata = this.emulatorOpenIdMetadata;
+                verifyOptions = {
+                    algorithms: algorithms,
+                    issuer: this.settings.endpoint.emulatorIssuerV2,
                     audience: this.settings.endpoint.emulatorAudience,
                     clockTolerance: 300
                 };
@@ -177,7 +188,8 @@ export class ChatConnector implements IConnector, IBotStorage {
                 };
             }
 
-            if (isEmulator && decoded.payload.appid != this.settings.appId) {
+            if (isEmulator && ((decoded.payload.ver === '2.0' && decoded.payload.azp !== this.settings.appId) ||
+                               (decoded.payload.ver !== '2.0' && decoded.payload.appid !== this.settings.appId))) {
                 logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
                 res.status(403);
                 res.end();

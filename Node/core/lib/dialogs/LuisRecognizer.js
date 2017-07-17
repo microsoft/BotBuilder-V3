@@ -86,6 +86,7 @@ var LuisRecognizer = (function (_super) {
                         result = JSON.parse(body);
                         result.intents = result.intents || [];
                         result.entities = result.entities || [];
+                        result.compositeEntities = result.compositeEntities || [];
                         if (result.topScoringIntent && result.intents.length == 0) {
                             result.intents.push(result.topScoringIntent);
                         }
@@ -99,7 +100,7 @@ var LuisRecognizer = (function (_super) {
                 }
                 try {
                     if (!err) {
-                        callback(null, result.intents, result.entities);
+                        callback(null, result.intents, result.entities, result.compositeEntities);
                     }
                     else {
                         var m = err.toString();

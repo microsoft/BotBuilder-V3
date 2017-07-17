@@ -166,7 +166,10 @@ namespace Microsoft.Bot.Connector
             if (identity == null)
                 return null;
 
-            Claim appIdClaim = identity.Claims.FirstOrDefault(c => _tokenValidationParameters.ValidIssuers.Contains(c.Issuer) && c.Type == "appid");
+            Claim versionClaim = identity.Claims.FirstOrDefault(c => c.Type == "ver");
+
+            Claim appIdClaim = identity.Claims.FirstOrDefault(c => _tokenValidationParameters.ValidIssuers.Contains(c.Issuer) && 
+                ((versionClaim != null && versionClaim.Value == "2.0" && c.Type == "azp") || c.Type == "appid"));
             if (appIdClaim == null)
                 return null;
 
