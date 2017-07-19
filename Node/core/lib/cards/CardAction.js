@@ -34,6 +34,26 @@ var CardAction = (function () {
         }
         return this;
     };
+    CardAction.prototype.text = function (text) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (text) {
+            this.data.text = Message_1.fmtText(this.session, text, args);
+        }
+        return this;
+    };
+    CardAction.prototype.displayText = function (text) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (text) {
+            this.data.text = Message_1.fmtText(this.session, text, args);
+        }
+        return this;
+    };
     CardAction.prototype.toAction = function () {
         return this.data;
     };
@@ -70,6 +90,9 @@ var CardAction = (function () {
             value += '=' + data;
         }
         return new CardAction(session).type('postBack').value(value).title(title || "Click to send response to bot");
+    };
+    CardAction.messageBack = function (session, msg, title) {
+        return new CardAction(session).type('messageBack').value(msg).title(title || "Click to send response to bot");
     };
     return CardAction;
 }());

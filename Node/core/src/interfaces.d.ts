@@ -63,6 +63,10 @@ interface IMessage extends IEvent {
     textFormat?: string;             // Format of text fields [plain|markdown|xml] default:markdown
     attachmentLayout?: string;       // AttachmentLayout - hint for how to deal with multiple attachments Values: [list|carousel] default:list
     inputHint?: string;              // Hint for clients to indicate if the bot is waiting for input or not.
+    value?: any;                     // Open-ended value.
+    name?: string;                   // Name of the operation to invoke or the name of the event.
+    relatesTo?: IAddress;            // Reference to another conversation or message.
+    code?: string;                   // Code indicating why the conversation has ended.
 }
 
 interface IIsMessage {
@@ -126,6 +130,7 @@ interface IMediaCard extends IKeyboard{
     autoloop: boolean;              // Should the media source reproduction run in a lool
     autostart: boolean;             // Should the media start automatically
     shareable: boolean;             // Should media be shareable
+    value: any;                     // Supplementary parameter for this card.
 }
 
 interface IVideoCard extends IMediaCard {
@@ -165,7 +170,7 @@ interface IReceiptItem {
     image: ICardImage;
     price: string;                  // Amount with currency 
     quantity: string;               // Number of items of given kind 
-    tap: ICardAction;                   // This action will be activated when user taps on the Item bubble. 
+    tap: ICardAction;               // This action will be activated when user taps on the Item bubble. 
 }
 
 interface IIsReceiptItem {
@@ -177,6 +182,8 @@ interface ICardAction {
     title: string;                  // Text description which appear on the button. 
     value: string;                  // Parameter for Action. Content of this property depends on Action type. 
     image?: string;                 // (Optional) Picture which will appear on the button, next to text label. 
+    text?: string;                  // (Optional) Text for this action.
+    displayText?: string;           // (Optional) text to display in the chat feed if the button is clicked.
 }
 
 interface IIsCardAction {

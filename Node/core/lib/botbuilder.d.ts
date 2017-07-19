@@ -174,6 +174,18 @@ export interface IMessage extends IEvent {
 
     /** Hint for clients letting them know if the bot is expecting further input or not. The built-in prompts will automatically populate this value for outgoing messages. */
     inputHint?: string;
+
+    /** Open-ended value. */
+    value?: any;
+
+    /** Name of the operation to invoke or the name of the event. */
+    name?: string;
+
+    /** Reference to another conversation or message. */
+    relatesTo?: IAddress;
+
+    /** Code indicating why the conversation has ended. */
+    code?: string;
 }
 
 /** 
@@ -398,7 +410,13 @@ export interface ICardAction {
     value: string;
 
     /** (Optional) Picture to display for button actions. Not all channels support button images. */  
-    image?: string;  
+    image?: string;
+
+    /** (Optional) Text for this action. */
+    text?: string;
+
+    /** (Optional) text to display in the chat feed if the button is clicked. */
+    diplayText?: string;
 }
 
 /** Implemented by classes that can be converted into a card action. */
@@ -1434,7 +1452,6 @@ export interface IAnimationCard extends IMediaCard {
 
 /** Interface definition of a generic MediaCard, which in its concrete form can be an Audio, Animation or Video card */
 export interface IMediaCard {
-
     /** Title of the Card */
     title: string; 
 
@@ -1461,6 +1478,9 @@ export interface IMediaCard {
     
     /** Should media be shareable */
     shareable: boolean; 
+
+    /** Supplementary parameter for this card. */
+    value: any;
 }
 
 /** Url information describing media for a card */
@@ -1471,6 +1491,12 @@ export interface ICardMediaUrl {
 
     /** Optional profile hint to the client to differentiate multiple MediaUrl objects from each other */
     profile: string ;
+}
+
+/** Supplementary parameter for media events. */
+export interface IMediaEventValue {
+    /** Callback parameter specified in the Value field of the MediaCard that originated this event. */
+    cardValue: any;
 }
 
 //=============================================================================
@@ -2088,6 +2114,18 @@ export class Message implements IIsMessage {
     /** For outgoing messages can be used to pass source specific event data like custom attachments. */  
     sourceEvent(map: ISourceEventMap): Message;
 
+    /** Open-ended value. */
+    value(param: any): Message;
+
+    /** Name of the operation to invoke or the name of the event. */
+    name(name: string): Message;
+
+    /** Reference to another conversation or message. */
+    relatesTo(adr: IAddress): Message;
+
+    /** Code indicating why the conversation has ended. */
+    code(value: string): Message;
+
     /** Returns the JSON for the message. */    
     toMessage(): IMessage;
 
@@ -2143,7 +2181,13 @@ export class CardAction implements IIsCardAction {
     
     /** For buttons an image to include next to the buttons label. Not supported by all channels. */
     image(url: string): CardAction;
-    
+
+    /** (Optional) Text for this action. */
+    text(text: TextType, ...args: any[]): CardAction;
+
+    /** (Optional) text to display in the chat feed if the button is clicked. */
+    displayText(text: TextType, ...args: any[]): CardAction;
+
     /** Returns the JSON for the action. */    
     toAction(): ICardAction;
 
@@ -2210,6 +2254,12 @@ export class CardAction implements IIsCardAction {
      * @param title (Optional) title to assign when binding the action to a button.  
      */
     static dialogAction(session: Session, action: string, data?: string, title?: TextType): CardAction;
+
+    /** 
+     * Sends a message to the bot for processing. A `messageBack` has the ability to act like both an [imBack](#imback) and a [postBack](#postBack). 
+     * @param session (Optional) Current session object for the conversation. If specified will be used to localize titles.
+     */
+    static messageBack(session: Session, msg: string, title?: TextType): CardAction;
 }
 
 /** Builder class to add suggested actions to a message */
@@ -2370,7 +2420,10 @@ export class MediaCard  implements IIsAttachment{
     autostart(choice: boolean): this;
 
     /** Should media be shareable */
-    shareable(choice: boolean): this;  
+    shareable(choice: boolean): this;
+
+    /** Supplementary parameter for this card. */
+    value(param: any): this;
 }
 
 /** Entities that can be converted to Media for cards */

@@ -230,6 +230,28 @@ export class Message implements IIsMessage {
         }
         return this;
     }
+
+    public value(param: any): this {
+        this.data.value = param;
+        return this;
+    }
+
+    public name(name: string): this {
+        this.data.name = name;
+        return this;
+    }
+
+    public relatesTo(adr: IAddress): this {
+        if (adr) {
+            this.data.relatesTo = adr;
+        }
+        return this;
+    }
+
+    public code(value: string): this {
+        this.data.code = value;
+        return this;
+    }
     
     public toMessage(): IMessage {
         // Return cloned message
