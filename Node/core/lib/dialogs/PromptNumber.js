@@ -43,7 +43,8 @@ var PromptNumber = (function (_super) {
             var hasMinValue = typeof options.minValue === 'number';
             var hasMaxValue = typeof options.maxValue === 'number';
             var hasIntegerOnly = options.integerOnly;
-            if (context.turns > 0 && (hasMinValue || hasMaxValue || hasIntegerOnly)) {
+            var turnZero = context.turns === 0 || context.isReprompt;
+            if (!turnZero && (hasMinValue || hasMaxValue || hasIntegerOnly)) {
                 var errorPrompt = void 0;
                 var context_1 = session.toRecognizeContext();
                 var top_2 = PromptRecognizers_1.PromptRecognizers.findTopEntity(PromptRecognizers_1.PromptRecognizers.recognizeNumbers(context_1));

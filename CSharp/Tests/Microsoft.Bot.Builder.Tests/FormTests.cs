@@ -683,7 +683,7 @@ Is this what you wanted? {||}")
         public async Task FormFlow_Localization()
         {
             // This ensures there are no bad templates in resources
-            foreach (var locale in new string[] { "ar", "cs", "de", "en", "es", "fa", "fr", "it", "ja", "ru", "zh-Hans", "cs", "de-DE" })
+            foreach (var locale in new string[] { "ar", "cs", "de", "en", "es", "fa", "fr", "it", "ja", "pt-BR", "ru", "zh-Hans", "cs", "de-DE" })
             {
                 var root = new FormDialog<PizzaOrder>(new PizzaOrder(), () => PizzaOrder.BuildForm(), cultureInfo: CultureInfo.GetCultureInfo(locale));
                 Assert.AreNotEqual(null, root);

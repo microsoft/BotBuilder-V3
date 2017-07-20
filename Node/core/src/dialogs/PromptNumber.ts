@@ -73,12 +73,13 @@ export class PromptNumber extends Prompt<IPromptFeatures> {
         });
 
         this.onFormatMessage((session, text, speak, callback) => {
-            let context = (<IPromptContext>session.dialogData);
-            let options = (<IPromptNumberOptions>context.options);
-            let hasMinValue = typeof options.minValue === 'number';
-            let hasMaxValue = typeof options.maxValue === 'number';
-            let hasIntegerOnly = options.integerOnly;
-            if (context.turns > 0 && (hasMinValue || hasMaxValue || hasIntegerOnly)) {
+            const context = (<IPromptContext>session.dialogData);
+            const options = (<IPromptNumberOptions>context.options);
+            const hasMinValue = typeof options.minValue === 'number';
+            const hasMaxValue = typeof options.maxValue === 'number';
+            const hasIntegerOnly = options.integerOnly;
+            const turnZero = context.turns === 0 || context.isReprompt;
+            if (!turnZero && (hasMinValue || hasMaxValue || hasIntegerOnly)) {
                 // Find error prompt
                 let errorPrompt: string;
                 let context = session.toRecognizeContext();

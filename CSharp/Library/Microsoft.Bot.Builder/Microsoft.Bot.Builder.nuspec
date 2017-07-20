@@ -54,6 +54,7 @@
     <file src="bin\release\ar\*.dll" target="lib\net46\ar"/>
     <file src="bin\release\cs\*.dll" target="lib\net46\cs"/>
     <file src="bin\release\de-dE\*.dll" target="lib\net46\de-dE"/>
+    <file src="bin\release\pt-BR\*.dll" target="lib\net46\pt-BR"/>
     <file src="bin\release\en\*.dll" target="lib\net46\en"/>
     <file src="bin\release\es\*.dll" target="lib\net46\es"/>
     <file src="bin\release\fa\*.dll" target="lib\net46\fa"/>

@@ -93,7 +93,7 @@ var PromptChoice = (function (_super) {
             _this.findChoices(session.toRecognizeContext(), false, function (err, choices) {
                 var msg;
                 if (!err && choices) {
-                    var sendChoices = context.turns === 0;
+                    var sendChoices = context.turns === 0 || context.isReprompt;
                     var listStyle = options.listStyle;
                     if (listStyle === undefined || listStyle === null || listStyle === Prompt_1.ListStyle.auto) {
                         var maxTitleLength_1 = 0;

@@ -75,6 +75,10 @@ var MediaCard = (function (_super) {
         }
         return this;
     };
+    MediaCard.prototype.value = function (param) {
+        this.data.content.value = param;
+        return this;
+    };
     return MediaCard;
 }(Keyboard_1.Keyboard));
 exports.MediaCard = MediaCard;

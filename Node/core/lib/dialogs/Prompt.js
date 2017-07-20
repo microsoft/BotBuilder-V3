@@ -168,13 +168,13 @@ var Prompt = (function (_super) {
     Prompt.prototype.sendPrompt = function (session) {
         var _that = this;
         function defaultSend() {
-            if (typeof options.maxRetries === 'number' && turns > options.maxRetries) {
+            if (typeof options.maxRetries === 'number' && context.turns > options.maxRetries) {
                 session.endDialogWithResult({ resumed: Dialog_1.ResumeReason.notCompleted });
             }
             else {
-                var prompt_1 = turns > 0 ? _that.getRetryPrompt(session) : options.prompt;
+                var prompt_1 = !turnZero ? _that.getRetryPrompt(session) : options.prompt;
                 if (Array.isArray(prompt_1) || typeof prompt_1 === 'string') {
-                    var speak = turns > 0 ? options.retrySpeak : options.speak;
+                    var speak = !turnZero ? options.retrySpeak : options.speak;
                     _that.formatMessage(session, prompt_1, speak, function (err, msg) {
                         if (!err) {
                             sendMsg(msg);
@@ -190,7 +190,7 @@ var Prompt = (function (_super) {
             }
         }
         function sendMsg(msg) {
-            if (turns == 0) {
+            if (turnZero) {
                 if (options.attachments) {
                     if (!msg.attachments) {
                         msg.attachments = [];
@@ -217,8 +217,9 @@ var Prompt = (function (_super) {
         }
         var idx = 0;
         var handlers = this._onPrompt;
-        var turns = session.dialogData.turns;
-        var options = session.dialogData.options;
+        var context = session.dialogData;
+        var options = context.options;
+        var turnZero = context.turns === 0 || context.isReprompt;
         function next() {
             try {
                 if (idx < handlers.length) {
