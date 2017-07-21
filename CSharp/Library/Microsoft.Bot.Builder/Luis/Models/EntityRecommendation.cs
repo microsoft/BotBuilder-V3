@@ -99,6 +99,8 @@ namespace Microsoft.Bot.Builder.Luis.Models
 
         internal class ResolutionConverter : JsonConverter
         {
+            private const string UnexpectedEndError = "Unexpected end when reading IDictionary<string, object>";
+
             public override bool CanConvert(Type objectType)
             {
                 return (objectType == typeof(IDictionary<string, object>));
@@ -106,30 +108,92 @@ namespace Microsoft.Bot.Builder.Luis.Models
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {
-                JToken token = JToken.Load(reader);
+                return ReadValue(reader);
+            }
 
-                if (token.Type == JTokenType.Array)
+            private static object ReadValue(JsonReader reader)
+            {
+                while (reader.TokenType == JsonToken.Comment)
                 {
-                    var children = token.Children();
-
-                    if (children.Count() == 1)
+                    if (!reader.Read())
                     {
-                        return children.First().ToObject<IDictionary<string, object>>();
+                        throw new JsonSerializationException("Unexpected token when converting IDictionary<string, object>");
                     }
-                    else if (children.Count() > 0)
-                    {
-                        return children.Select(c => c.ToObject<IDictionary<string, object>>())
-                            .ToList();
-                    }
-
-                    return null;
                 }
-                else
+
+                switch (reader.TokenType)
                 {
-                    return token.ToObject<object>();
+                    case JsonToken.StartObject:
+                        return ReadObject(reader);
+                    case JsonToken.StartArray:
+                        return ReadArray(reader);
+                    case JsonToken.Integer:
+                    case JsonToken.Float:
+                    case JsonToken.String:
+                    case JsonToken.Boolean:
+                    case JsonToken.Undefined:
+                    case JsonToken.Null:
+                    case JsonToken.Date:
+                    case JsonToken.Bytes:
+                        return reader.Value;
+                    default:
+                        throw new JsonSerializationException
+                            (string.Format("Unexpected token when converting IDictionary<string, object>: {0}", reader.TokenType));
                 }
             }
 
+            private static object ReadArray(JsonReader reader)
+            {
+                IList<object> list = new List<object>();
+
+                while (reader.Read())
+                {
+                    switch (reader.TokenType)
+                    {
+                        case JsonToken.Comment:
+                            break;
+                        default:
+                            var value = ReadValue(reader);
+
+                            list.Add(value);
+                            break;
+                        case JsonToken.EndArray:
+                            return list;
+                    }
+                }
+
+                throw new JsonSerializationException(UnexpectedEndError);
+            }
+
+            private static object ReadObject(JsonReader reader)
+            {
+                var dictionary = new Dictionary<string, object>();
+
+                while (reader.Read())
+                {
+                    switch (reader.TokenType)
+                    {
+                        case JsonToken.PropertyName:
+                            var propertyName = reader.Value.ToString();
+
+                            if (!reader.Read())
+                            {
+                                throw new JsonSerializationException(UnexpectedEndError);
+                            }
+
+                            var value = ReadValue(reader);
+
+                            dictionary[propertyName] = value;
+                            break;
+                        case JsonToken.Comment:
+                            break;
+                        case JsonToken.EndObject:
+                            return dictionary;
+                    }
+                }
+
+                throw new JsonSerializationException(UnexpectedEndError);
+            }
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
                 serializer.Serialize(writer, value);
