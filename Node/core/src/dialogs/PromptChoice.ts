@@ -159,7 +159,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
                 let msg: IMessage;
                 if (!err && choices) {
                     // Resolve list style
-                    let sendChoices = context.turns === 0;
+                    let sendChoices = context.turns === 0 || context.isReprompt;
                     let listStyle = options.listStyle;
                     if (listStyle === undefined || listStyle === null || listStyle === ListStyle.auto) {
                         // Find maximum title length

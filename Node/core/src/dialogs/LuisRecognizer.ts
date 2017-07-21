@@ -53,12 +53,15 @@ export class LuisRecognizer extends IntentRecognizer {
     }
 
     public onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void {
-        var result: IIntentRecognizerResult = { score: 0.0, intent: null };
+        let result: IIntentRecognizerResult = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
-            var utterance = context.message.text;
-            var locale = context.locale || '*';
-            var model = this.models.hasOwnProperty(locale) ? this.models[locale] : this.models['*'];
+            // Find model
+            const locale = context.locale || '*';
+            const dashPos = locale.indexOf('-');
+            const parentLocale = dashPos > 0 ? locale.substr(0, dashPos) : '*';
+            const model = this.models[locale] || this.models[parentLocale] || this.models['*'];
             if (model) {
+                const utterance = context.message.text;
                 LuisRecognizer.recognize(utterance, model, (err, intents, entities, compositeEntities) => {
                     if (!err) {
                         result.intents = intents;

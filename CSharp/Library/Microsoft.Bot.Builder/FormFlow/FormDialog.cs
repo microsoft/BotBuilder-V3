@@ -269,7 +269,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         {
             try
             {
-                var message = await toBot;
+                var message = toBot == null ? null : await toBot;
 
                 // Ensure we have initial definition for field steps
                 foreach (var step in _form.Steps)

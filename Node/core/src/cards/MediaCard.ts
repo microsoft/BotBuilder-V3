@@ -82,5 +82,10 @@ export class MediaCard extends Keyboard {
         }
         return this;
     }
+
+    public value(param: any): this {
+        (<IMediaCard>this.data.content).value = param;
+        return this;
+    } 
 }
 

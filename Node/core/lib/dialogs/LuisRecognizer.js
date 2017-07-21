@@ -28,10 +28,12 @@ var LuisRecognizer = (function (_super) {
     LuisRecognizer.prototype.onRecognize = function (context, callback) {
         var result = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
-            var utterance = context.message.text;
             var locale = context.locale || '*';
-            var model = this.models.hasOwnProperty(locale) ? this.models[locale] : this.models['*'];
+            var dashPos = locale.indexOf('-');
+            var parentLocale = dashPos > 0 ? locale.substr(0, dashPos) : '*';
+            var model = this.models[locale] || this.models[parentLocale] || this.models['*'];
             if (model) {
+                var utterance = context.message.text;
                 LuisRecognizer.recognize(utterance, model, function (err, intents, entities, compositeEntities) {
                     if (!err) {
                         result.intents = intents;

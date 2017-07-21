@@ -68,6 +68,20 @@ export class CardAction implements IIsCardAction {
         return this;
     }
 
+    public text(text: string|string[], ...args: any[]): this {
+        if (text) {
+            this.data.text = fmtText(this.session, text, args);
+        }
+        return this;
+    }
+
+    public displayText(text: string|string[], ...args: any[]): this {
+        if (text) {
+            this.data.text = fmtText(this.session, text, args);
+        }
+        return this;
+    }
+
     public toAction(): ICardAction {
         return this.data;
     }
@@ -114,5 +128,9 @@ export class CardAction implements IIsCardAction {
             value += '=' + data;
         }
         return new CardAction(session).type('postBack').value(value).title(title || "Click to send response to bot");
+    }
+
+    static messageBack(session: Session, msg: string, title?: string|string[]): CardAction {
+        return new CardAction(session).type('messageBack').value(msg).title(title || "Click to send response to bot");
     }
 }

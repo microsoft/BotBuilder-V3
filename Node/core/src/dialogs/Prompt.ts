@@ -232,12 +232,12 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
     public sendPrompt(session: Session): void {
         const _that = this;
         function defaultSend() {
-            if (typeof options.maxRetries === 'number' && turns > options.maxRetries) {
+            if (typeof options.maxRetries === 'number' && context.turns > options.maxRetries) {
                 session.endDialogWithResult({ resumed: ResumeReason.notCompleted });
             } else {
-                let prompt = turns > 0 ? _that.getRetryPrompt(session) : options.prompt;
+                let prompt = !turnZero ? _that.getRetryPrompt(session) : options.prompt;
                 if (Array.isArray(prompt) || typeof prompt === 'string') {
-                    let speak = turns > 0 ? options.retrySpeak : options.speak;
+                    let speak = !turnZero ? options.retrySpeak : options.speak;
                     _that.formatMessage(session, prompt, speak, (err, msg) => {
                         if (!err) {
                             sendMsg(msg);
@@ -253,7 +253,7 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
 
         function sendMsg(msg: IMessage) {
             // Apply additional fields
-            if (turns == 0) {
+            if (turnZero) {
                 if (options.attachments) {
                     if (!msg.attachments) {
                         msg.attachments = [];
@@ -282,8 +282,9 @@ export class Prompt<T extends IPromptFeatures>  extends Dialog {
 
         let idx = 0;
         const handlers = this._onPrompt;
-        const turns: number = session.dialogData.turns;
-        const options: IPromptOptions = session.dialogData.options;
+        const context = <IPromptContext>session.dialogData;
+        const options = context.options;
+        const turnZero = context.turns === 0 || context.isReprompt; 
         function next() {
             try {
                 if (idx < handlers.length) {

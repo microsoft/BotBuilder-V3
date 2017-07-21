@@ -185,6 +185,24 @@ var Message = (function () {
         }
         return this;
     };
+    Message.prototype.value = function (param) {
+        this.data.value = param;
+        return this;
+    };
+    Message.prototype.name = function (name) {
+        this.data.name = name;
+        return this;
+    };
+    Message.prototype.relatesTo = function (adr) {
+        if (adr) {
+            this.data.relatesTo = adr;
+        }
+        return this;
+    };
+    Message.prototype.code = function (value) {
+        this.data.code = value;
+        return this;
+    };
     Message.prototype.toMessage = function () {
         return utils.clone(this.data);
     };
