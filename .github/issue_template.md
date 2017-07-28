@@ -9,7 +9,7 @@
 * SDK Version: <!-- SDK version? -->
 * Development Environment: <!-- localhost, Auzure Bot Service, App Service, other -->
 
-## Bot Info
+## Bot Info <!-- As registered in the Bot Developer Portal at https://dev.botframework.com -->
 * Bot name: 
 * Bot handle: 
 * App ID: 
