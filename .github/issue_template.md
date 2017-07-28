@@ -1,15 +1,25 @@
-<!-- Have a question? Please ask it on http://stackoverflow.com/questions/tagged/botframework -->
+<!-- 
+    Have a question? 
+
+    Ask on http://stackoverflow.com/questions/tagged/botframework using the tag "botframework".
+-->
 
 ## System Information (Required)
-* SDK Language: <!-- NODE OR .NET/C# -->
-* SDK Version: <!-- SDK VERSION -->
-* Development Environment: <!-- LOCALHOST, AZURE_BOT_SERVICE, AZURE_APP_SERVICE, OTHER -->
+* SDK Language: <!-- .NET or Node.js? -->
+* SDK Version: <!-- SDK version? -->
+* Development Environment: <!-- localhost, Auzure Bot Service, App Service, other -->
+
+## Bot Info
+* Bot name: 
+* Bot handle: 
+* App ID: 
+* Connected channels: <!-- Skype, Slack, MS Teams, etc. -->
 
 ## Issue Description
-<!-- DESCRIBE YOUR ISSUE, QUESTION, OR FEATURE REQUEST HERE -->
+<!-- Describe your issue, question, or feature request -->
 
 ## Code Example
-<!-- PASTE COMPLETE CODE EXAMPLE THAT REPRODUCES THE ISSUE HERE -->
+<!-- Share your bot code that causes the problem. A complete working example is best. -->
 
 ## Steps to Reproduce the Issue
 1.
