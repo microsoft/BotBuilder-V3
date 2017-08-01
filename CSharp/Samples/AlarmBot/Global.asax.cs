@@ -1,13 +1,10 @@
-﻿using Autofac;
+﻿using System;
+using System.Reflection;
+using System.Web.Http;
+using Autofac;
 using Autofac.Integration.WebApi;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Sample.AlarmBot.Models;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
-using System.Web.Http;
 
 namespace Microsoft.Bot.Sample.AlarmBot
 {
@@ -32,6 +29,19 @@ namespace Microsoft.Bot.Sample.AlarmBot
 
                 // OPTIONAL: Register the Autofac filter provider.
                 builder.RegisterWebApiFilterProvider(config);
+
+                // Uncomment the block below to register the private state storage for your bot
+                // builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
+
+                //// Uncomment one of the lines below to choose your store
+                //// var store = new TableBotDataStore("...DataStorageConnectionString..."); // requires Microsoft.BotBuilder.Azure Nuget package 
+                //// var store = new DocumentDbBotDataStore("cosmos db uri", "cosmos db key"); // requires Microsoft.BotBuilder.Azure Nuget package 
+                //// var store = new InMemoryStore(); // volatile in-memory store
+
+                //builder.Register(c => store)
+                //    .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
+                //    .AsSelf()
+                //    .SingleInstance();
 
                 // Set the dependency resolver to be Autofac.
                 var container = builder.Build();
