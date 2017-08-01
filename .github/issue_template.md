@@ -4,7 +4,7 @@
     Ask on http://stackoverflow.com/questions/tagged/botframework using the tag "botframework".
 -->
 
-## System Information (Required)
+## System Information
 * SDK Language: <!-- .NET or Node.js? -->
 * SDK Version: <!-- SDK version? -->
 * Development Environment: <!-- localhost, Auzure Bot Service, App Service, other -->
