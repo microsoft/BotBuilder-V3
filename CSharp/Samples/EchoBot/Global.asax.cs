@@ -1,88 +1,36 @@
-﻿namespace Microsoft.Bot.Sample.EchoBot
+﻿using System.Web.Http;
+
+namespace Microsoft.Bot.Sample.EchoBot
 {
-    using System;
-    using System.Reflection;
-    using System.Web.Http;
-
-    using Autofac;
-    using Autofac.Integration.WebApi;
-
-    using Microsoft.Bot.Builder.Azure;
-    using Microsoft.Bot.Builder.Dialogs;
-    using Microsoft.Bot.Builder.Dialogs.Internals;
-    using Microsoft.Bot.Connector;
-    using Microsoft.WindowsAzure.Storage;
-
     public class WebApiApplication : System.Web.HttpApplication
     {
-        protected void Application_Start(object sender, EventArgs e)
+        protected void Application_Start()
         {
-            {
-                // http://docs.autofac.org/en/latest/integration/webapi.html#quick-start
-                var builder = new ContainerBuilder();
+            // Bot Storage: This is a great spot to register the private state storage for your bot. 
+            // We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+            // For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
 
-                // register the Bot Builder module
-                builder.RegisterModule(new DialogModule());
-                // register the alarm dependencies
-                builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
-
-                builder
-                    .RegisterInstance(new EchoDialog())
-                    .As<IDialog<object>>();
-
-                var store = new TableBotDataStore(CloudStorageAccount.DevelopmentStorageAccount);
-                builder.Register(c => store)
-                    .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
-                    .AsSelf()
-                    .SingleInstance();
+            // Uncomment the block below to register the private state storage for your bot
+            //Conversation.UpdateContainer(
+            //    builder =>
+            //        {
+            //            builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
 
 
-                builder.Register(c => new CachingBotDataStore(store,
-                                                              CachingBotDataStoreConsistencyPolicy.ETagBasedConsistency))
-                    .As<IBotDataStore<BotData>>()
-                    .AsSelf()
-                    .InstancePerLifetimeScope();
+            //            // Uncomment one of the lines below to choose your store
+            //            // var store = new TableBotDataStore("...DataStorageConnectionString..."); // requires Microsoft.BotBuilder.Azure Nuget package 
+            //            // var store = new DocumentDbBotDataStore("cosmos db uri", "cosmos db key"); // requires Microsoft.BotBuilder.Azure Nuget package 
+            //            // var store = new InMemoryStore(); // volatile in-memory store
 
-                // Get your HttpConfiguration.
-                var config = GlobalConfiguration.Configuration;
+            //            builder.Register(c => store)
+            //                .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
+            //                .AsSelf()
+            //                .SingleInstance();
 
-                // Register your Web API controllers.
-                builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
+            //            builder.Update(Conversation.Container);
+            //        });
 
-                // OPTIONAL: Register the Autofac filter provider.
-                builder.RegisterWebApiFilterProvider(config);
-
-
-                // Uncomment the block below to register the private state storage for your bot
-                // builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
-
-                //// Uncomment one of the lines below to choose your store
-                //// var store = new TableBotDataStore("...DataStorageConnectionString..."); // requires Microsoft.BotBuilder.Azure Nuget package 
-                //// var store = new DocumentDbBotDataStore("cosmos db uri", "cosmos db key"); // requires Microsoft.BotBuilder.Azure Nuget package 
-                //// var store = new InMemoryStore(); // volatile in-memory store
-
-                //builder.Register(c => store)
-                //    .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
-                //    .AsSelf()
-                //    .SingleInstance();
-
-                // Set the dependency resolver to be Autofac.
-                builder.Update(Conversation.Container);
-                config.DependencyResolver = new AutofacWebApiDependencyResolver(Conversation.Container);
-
-            }
-
-            // WebApiConfig stuff
-            GlobalConfiguration.Configure(config =>
-            {
-                config.MapHttpAttributeRoutes();
-
-                config.Routes.MapHttpRoute(
-                    name: "DefaultApi",
-                    routeTemplate: "api/{controller}/{id}",
-                    defaults: new { id = RouteParameter.Optional }
-                );
-            });
+            GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }
 }

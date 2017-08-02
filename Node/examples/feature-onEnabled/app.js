@@ -16,6 +16,12 @@ data to enable and disable two RegExpRecognizers.
 
 -----------------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------------------------
+* Bot Storage: This is a great spot to register the private state storage for your bot. 
+* We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+* For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+* ---------------------------------------------------------------------------------------- */
+
 var builder = require("../../core");
 var restify = require('../../node_modules/restify');
 

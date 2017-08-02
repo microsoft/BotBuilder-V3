@@ -30,6 +30,10 @@ namespace Microsoft.Bot.Sample.AlarmBot
                 // OPTIONAL: Register the Autofac filter provider.
                 builder.RegisterWebApiFilterProvider(config);
 
+                // Bot Storage: This is a great spot to register the private state storage for your bot. 
+                // We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+                // For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+
                 // Uncomment the block below to register the private state storage for your bot
                 // builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
 

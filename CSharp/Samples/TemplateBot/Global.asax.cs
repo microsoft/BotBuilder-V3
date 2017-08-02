@@ -6,12 +6,15 @@ namespace Microsoft.Bot.Sample.TemplateBot
     {
         protected void Application_Start()
         {
+            // Bot Storage: This is a great spot to register the private state storage for your bot. 
+            // We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+            // For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+
             // Uncomment the block below to register the private state storage for your bot
             //Conversation.UpdateContainer(
             //    builder =>
             //        {
             //            builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
-
 
             //            // Uncomment one of the lines below to choose your store
             //            // var store = new TableBotDataStore("...DataStorageConnectionString..."); // requires Microsoft.BotBuilder.Azure Nuget package 
@@ -25,6 +28,7 @@ namespace Microsoft.Bot.Sample.TemplateBot
 
             //            builder.Update(Conversation.Container);
             //        });
+
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }
