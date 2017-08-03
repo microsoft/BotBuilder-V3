@@ -232,7 +232,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
     }
 
     /** Returns a message containing a list of choices. */
-    static formatMessage(session: Session, listStyle: ListStyle|string, text: string|string[], speak?: string|string[], choices?: IChoice[]): IMessage {
+    static formatMessage(session: Session, listStyle: ListStyle, text: string|string[], speak?: string|string[], choices?: IChoice[]): IMessage {
         // Build message
         let options = <IPromptChoiceOptions>session.dialogData.options;
         let locale = session.preferredLocale();
@@ -248,7 +248,7 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
             let values: string[] = [];
             let actions: ICardAction[] = [];
             choices.forEach((choice) => {
-                if (listStyle == ListStyle.button || listStyle == 'button') {
+                if (listStyle == ListStyle.button) {
                     const ca = choice.action || <ICardAction>{};
                     let action: ICardAction = {
                         type: ca.type || 'imBack',
@@ -269,14 +269,12 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
             // Add list to message
             let connector = '';
             switch (listStyle) {
-                case 'button':
                 case ListStyle.button:
                     if (actions.length > 0) {
                         let keyboard = new Keyboard().buttons(actions);
                         msg.addAttachment(keyboard);
                     }
                     break;
-                case 'inline':
                 case ListStyle.inline:
                     txt += ' (';
                     values.forEach((v, index) => {
@@ -290,7 +288,6 @@ export class PromptChoice extends Prompt<IPromptChoiceFeatures> {
                     });
                     txt += ')';
                     break;
-                case 'list':
                 case ListStyle.list:
                     txt += '\n\n   ';
                     values.forEach((v, index) => {
