@@ -173,7 +173,7 @@ var PromptChoice = (function (_super) {
             var values_1 = [];
             var actions_1 = [];
             choices.forEach(function (choice) {
-                if (listStyle == Prompt_1.ListStyle.button) {
+                if (listStyle == Prompt_1.ListStyle.button || listStyle == 'button') {
                     var ca = choice.action || {};
                     var action = {
                         type: ca.type || 'imBack',
@@ -194,12 +194,14 @@ var PromptChoice = (function (_super) {
             });
             var connector_1 = '';
             switch (listStyle) {
+                case 'button':
                 case Prompt_1.ListStyle.button:
                     if (actions_1.length > 0) {
                         var keyboard = new Keyboard_1.Keyboard().buttons(actions_1);
                         msg.addAttachment(keyboard);
                     }
                     break;
+                case 'inline':
                 case Prompt_1.ListStyle.inline:
                     txt += ' (';
                     values_1.forEach(function (v, index) {
@@ -214,6 +216,7 @@ var PromptChoice = (function (_super) {
                     });
                     txt += ')';
                     break;
+                case 'list':
                 case Prompt_1.ListStyle.list:
                     txt += '\n\n   ';
                     values_1.forEach(function (v, index) {
