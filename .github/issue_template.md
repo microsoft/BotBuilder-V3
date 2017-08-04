@@ -1,9 +1,3 @@
-<!-- 
-    Have a question? 
-
-    Ask on http://stackoverflow.com/questions/tagged/botframework using the tag "botframework".
--->
-
 ## System Information
 * SDK Language: <!-- .NET or Node.js? -->
 * SDK Version: <!-- SDK version? -->
@@ -19,7 +13,7 @@
 <!-- Describe your issue, question, or feature request -->
 
 ## Code Example
-<!-- Share your bot code that causes the problem. A complete working example is best. -->
+<!-- Share the bot code that causes the problem. The complete working bot is best. -->
 
 ## Steps to Reproduce the Issue
 1.
