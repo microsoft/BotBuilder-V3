@@ -77,7 +77,7 @@ export class CardAction implements IIsCardAction {
 
     public displayText(text: string|string[], ...args: any[]): this {
         if (text) {
-            this.data.text = fmtText(this.session, text, args);
+            this.data.displayText = fmtText(this.session, text, args);
         }
         return this;
     }
