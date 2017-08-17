@@ -50,7 +50,7 @@ var CardAction = (function () {
             args[_i - 1] = arguments[_i];
         }
         if (text) {
-            this.data.text = Message_1.fmtText(this.session, text, args);
+            this.data.displayText = Message_1.fmtText(this.session, text, args);
         }
         return this;
     };

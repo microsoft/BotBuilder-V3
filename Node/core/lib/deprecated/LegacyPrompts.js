@@ -249,19 +249,19 @@ var LegacyPrompts = (function (_super) {
             }
         }
     };
+    LegacyPrompts.options = {
+        recognizer: new SimplePromptRecognizer(),
+        promptAfterAction: true
+    };
+    LegacyPrompts.defaultRetryPrompt = {
+        text: "default_text",
+        number: "default_number",
+        confirm: "default_confirm",
+        choice: "default_choice",
+        time: "default_time",
+        attachment: "default_file"
+    };
     return LegacyPrompts;
 }(Dialog_1.Dialog));
-LegacyPrompts.options = {
-    recognizer: new SimplePromptRecognizer(),
-    promptAfterAction: true
-};
-LegacyPrompts.defaultRetryPrompt = {
-    text: "default_text",
-    number: "default_number",
-    confirm: "default_confirm",
-    choice: "default_choice",
-    time: "default_time",
-    attachment: "default_file"
-};
 exports.LegacyPrompts = LegacyPrompts;
 Library_1.systemLib.dialog('BotBuilder:Prompts', new LegacyPrompts());

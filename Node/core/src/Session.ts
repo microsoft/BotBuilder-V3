@@ -263,7 +263,8 @@ export class Session extends events.EventEmitter {
 
     /** Sends a text, and optional SSML, message to the user. */
     public say(text: TextType, options?: IMessageOptions): this;
-    public say(text: TextType, speak?: TextType, options?: IMessageOptions): this {
+    public say(text: TextType, speak?: TextType, options?: IMessageOptions): this;
+    public say(text: TextType, speak?: any, options?: IMessageOptions): this {
         if (typeof speak === 'object') {
             options = <any>speak;
             speak = null;

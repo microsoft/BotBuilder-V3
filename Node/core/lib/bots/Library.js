@@ -471,13 +471,13 @@ var Library = (function (_super) {
     Library.prototype.logPrefix = function () {
         return 'Library("' + this.name + '")';
     };
+    Library.RouteTypes = {
+        GlobalAction: 'GlobalAction',
+        StackAction: 'StackAction',
+        ActiveDialog: 'ActiveDialog'
+    };
     return Library;
 }(events_1.EventEmitter));
-Library.RouteTypes = {
-    GlobalAction: 'GlobalAction',
-    StackAction: 'StackAction',
-    ActiveDialog: 'ActiveDialog'
-};
 exports.Library = Library;
 exports.systemLib = new Library(consts.Library.system);
 exports.systemLib.localePath(path.join(__dirname, '../locale/'));

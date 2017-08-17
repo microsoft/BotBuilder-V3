@@ -266,7 +266,7 @@ interface IEntity<T> {
     startIndex?: number;
     endIndex?: number;
     score?: number;
-    resolution?: IEntityResolution<T>;
+    //resolution?: IEntityResolution<T>;
 }
 
 interface IEntityResolution<T> {
