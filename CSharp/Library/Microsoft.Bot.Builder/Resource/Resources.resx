@@ -371,4 +371,34 @@
   <data name="NumberTerms" xml:space="preserve">
     <value>0=zero|1=one|2=two|3=three|4=four|5=five|6=six|7=seven|8=eight|9=nine|10=ten|11=eleven|12=twelve|13=thirteen|14=fourteen|15=fifteen|16=sixteen|17=seventeen|18=eighteen|19=nineteen|20=twenty</value>
   </data>
+  <data name="TemplateAttachmentCollection" xml:space="preserve">
+    <value>Please submit a collection of attachments for {&amp;}</value>
+  </data>
+  <data name="TemplateAttachmentCollectionHelp" xml:space="preserve">
+    <value>You can submit one or more attachments.{0}</value>
+    <comment>0-dynamic help from attachment class</comment>
+  </data>
+  <data name="TemplateAttachmentCollectionDescription" xml:space="preserve">
+    <value>{0} attachment/s linked.</value>
+    <comment>0-attachments count</comment>
+  </data>
+  <data name="TemplateAttachment" xml:space="preserve">
+    <value>Please submit an attachment for {&amp;}</value>
+  </data>
+  <data name="TemplateAttachmentHelp" xml:space="preserve">
+    <value>You can submit one attachment.{0}</value>
+    <comment>0-dynamic help from attachment class</comment>
+  </data>
+  <data name="TemplateAttachmentDescription" xml:space="preserve">
+    <value>Attachment named '{0}' with content-type '{1}'.</value>
+    <comment>0-attachment name, 1-attachment content-type</comment>
+  </data>
+  <data name="AttachmentContentTypeValidatorError" xml:space="preserve">
+    <value>Attachment '{0}' is invalid! The content-type should contain '{1}'.</value>
+    <comment>0-attachmnet name, 1-expected content-type</comment>
+  </data>
+  <data name="AttachmentContentTypeValidatorHelp" xml:space="preserve">
+    <value>You should provide an attachment where content-type has '{0}'.</value>
+    <comment>0-attachment content type</comment>
+  </data>
 </root>

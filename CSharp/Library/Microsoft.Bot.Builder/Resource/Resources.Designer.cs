@@ -61,6 +61,24 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attachment &apos;{0}&apos; is invalid! The content-type should contain &apos;{1}&apos;..
+        /// </summary>
+        public static string AttachmentContentTypeValidatorError {
+            get {
+                return ResourceManager.GetString("AttachmentContentTypeValidatorError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You should provide an attachment where content-type has &apos;{0}&apos;..
+        /// </summary>
+        public static string AttachmentContentTypeValidatorHelp {
+            get {
+                return ResourceManager.GetString("AttachmentContentTypeValidatorHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to true=y,yes,yep,sure,ok,\u1f44d,\u1f44c|false=n,no,nope,\u1f44e,\\u270b,\\u1f590.
         /// </summary>
         public static string BooleanChoices {
@@ -372,6 +390,60 @@ namespace Microsoft.Bot.Builder.Resource {
         public static string PromptRetry {
             get {
                 return ResourceManager.GetString("PromptRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please submit an attachment for {&amp;}.
+        /// </summary>
+        public static string TemplateAttachment {
+            get {
+                return ResourceManager.GetString("TemplateAttachment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please submit a collection of attachments for {&amp;}.
+        /// </summary>
+        public static string TemplateAttachmentCollection {
+            get {
+                return ResourceManager.GetString("TemplateAttachmentCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} attachment/s linked..
+        /// </summary>
+        public static string TemplateAttachmentCollectionDescription {
+            get {
+                return ResourceManager.GetString("TemplateAttachmentCollectionDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can submit one or more attachments.{0}.
+        /// </summary>
+        public static string TemplateAttachmentCollectionHelp {
+            get {
+                return ResourceManager.GetString("TemplateAttachmentCollectionHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attachment named &apos;{0}&apos; with content-type &apos;{1}&apos;..
+        /// </summary>
+        public static string TemplateAttachmentDescription {
+            get {
+                return ResourceManager.GetString("TemplateAttachmentDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can submit one attachment.{0}.
+        /// </summary>
+        public static string TemplateAttachmentHelp {
+            get {
+                return ResourceManager.GetString("TemplateAttachmentHelp", resourceCulture);
             }
         }
         

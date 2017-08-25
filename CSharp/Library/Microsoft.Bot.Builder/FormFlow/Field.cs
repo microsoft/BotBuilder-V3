@@ -368,7 +368,34 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
 
         public async virtual Task<ValidateResult> ValidateAsync(T state, object value)
         {
-            return await _validate(state, value);
+            var validateResult = await _validate(state, value);
+
+            if (validateResult.IsValid 
+                && value != null 
+                && (_type != null && (_type.IsAttachmentType() || _type.IsAttachmentCollection())))
+            {
+                if (_type.IsAttachmentType())
+                {
+                    validateResult = await (value as AwaitableAttachment).ValidateAsync(this, state);
+                }
+                else
+                {
+                    foreach (var awaitableAttachment in (value as IEnumerable<AwaitableAttachment>))
+                    {
+                        validateResult = await awaitableAttachment.ValidateAsync(this, state);
+
+                        if (!validateResult.IsValid)
+                        {
+                            break;
+                        }
+                    }
+
+                    // keeping original value (ie. IEnumerable<AwaitableAttachment>)
+                    validateResult.Value = value;
+                }
+            }
+
+            return validateResult;
         }
 
         public virtual IPrompt<T> Help
@@ -675,6 +702,14 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     usage = TemplateUsage.DateTime;
                 }
+                else if (_type.IsAttachmentType())
+                {
+                    usage = TemplateUsage.AttachmentField;
+                }
+                else if (_type.IsAttachmentCollection())
+                {
+                    usage = TemplateUsage.AttachmentCollection;
+                }
                 else
                 {
                     throw new ArgumentException($"{_name} is not a type FormFlow understands.");
@@ -716,6 +751,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 {
                     _recognizer = new RecognizeDateTime<T>(this);
                 }
+                else if (_type.IsAttachmentType() || _type.IsAttachmentCollection())
+                {
+                    _recognizer = new RecognizeAttachment<T>(this, _type.IsAttachmentCollection());
+                }
                 else if (_type.IsIEnumerable())
                 {
                     var elt = _type.GetGenericElementType();
@@ -726,6 +765,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 }
                 _buildPrompts = true;
             }
+
             if (_buildPrompts)
             {
                 var template = Template(TemplateUsage.Help);

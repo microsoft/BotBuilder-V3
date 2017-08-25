@@ -6,6 +6,14 @@
     </header>
     <body>
       <group id="MICROSOFT.BOT.BUILDER/RESOURCE/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="AttachmentContentTypeValidatorError" translate="yes" xml:space="preserve">
+          <source>Attachment '{0}' is invalid! The content-type should contain '{1}'.</source>
+          <target state="final">Вложение '{0}' недопустимо! Тип содержимого должен содержать '{1}'.</target>
+        </trans-unit>
+        <trans-unit id="AttachmentContentTypeValidatorHelp" translate="yes" xml:space="preserve">
+          <source>You should provide an attachment where content-type has '{0}'.</source>
+          <target state="final">Вы должны предоставить вложение, где content-type имеет '{0}'.</target>
+        </trans-unit>        
         <trans-unit id="CommandBack" translate="yes" xml:space="preserve">
           <source>Back</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Назад</target>
@@ -123,6 +131,30 @@
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>
           <target state="translated">Я не понимаю. Ответь что-нибудь.</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachment" translate="yes" xml:space="preserve">
+          <source>Please submit an attachment for {&amp;}</source>
+          <target state="final">Отправьте приложение для {&amp;}</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentCollection" translate="yes" xml:space="preserve">
+          <source>Please submit a collection of attachments for {&amp;}</source>
+          <target state="final">Отправьте коллекцию вложений для {&amp;}</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentCollectionDescription" translate="yes" xml:space="preserve">
+          <source>{0} attachment/s linked.</source>
+          <target state="final">{0} привязанных вложений.</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentCollectionHelp" translate="yes" xml:space="preserve">
+          <source>You can submit one or more attachments.{0}</source>
+          <target state="final">Вы можете отправить одно или несколько вложений.{0}</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentDescription" translate="yes" xml:space="preserve">
+          <source>Attachment named '{0}' with content-type '{1}'.</source>
+          <target state="final">Приложение с именем {0} с типом контента '{1}'.</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentHelp" translate="yes" xml:space="preserve">
+          <source>You can submit one attachment.{0}</source>
+          <target state="final">Вы можете отправить одно приложение.{0}</target>
         </trans-unit>
         <trans-unit id="TemplateBool" translate="yes" xml:space="preserve">
           <source>Would you like a {&amp;}? {||}</source>

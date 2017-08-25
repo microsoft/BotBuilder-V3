@@ -6,6 +6,14 @@
     </header>
     <body>
       <group id="MICROSOFT.BOT.BUILDER/RESOURCE/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="AttachmentContentTypeValidatorError" translate="yes" xml:space="preserve">
+          <source>Attachment '{0}' is invalid! The content-type should contain '{1}'.</source>
+          <target state="final">المرفق '{0}' غير صالح! يجب أن يحتوي نوع المحتوى على '{1}'.</target>
+        </trans-unit>
+        <trans-unit id="AttachmentContentTypeValidatorHelp" translate="yes" xml:space="preserve">
+          <source>You should provide an attachment where content-type has '{0}'.</source>
+          <target state="final">يجب تقديم مرفق حيث يكون نوع المحتوى '{0}'.</target>
+        </trans-unit>
         <trans-unit id="CommandBack" translate="yes" xml:space="preserve">
           <source>Back</source>
           <target state="final">ارجع</target>
@@ -119,6 +127,30 @@
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>
           <target state="final">لا أفهم, قل شيء</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachment" translate="yes" xml:space="preserve">
+          <source>Please submit an attachment for {&amp;}</source>
+          <target state="final">يرجى إرسال مرفق ل {&amp;}</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentCollection" translate="yes" xml:space="preserve">
+          <source>Please submit a collection of attachments for {&amp;}</source>
+          <target state="final">الرجاء إرسال مجموعة من المرفقات ل {&amp;}</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentCollectionDescription" translate="yes" xml:space="preserve">
+          <source>{0} attachment/s linked.</source>
+          <target state="final">تم ربط المرفقات {0}.</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentCollectionHelp" translate="yes" xml:space="preserve">
+          <source>You can submit one or more attachments.{0}</source>
+          <target state="final">يمكنك إرسال مرفق واحد أو أكثر.{0}</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentDescription" translate="yes" xml:space="preserve">
+          <source>Attachment named '{0}' with content-type '{1}'.</source>
+          <target state="final">مرفق باسم '{0}' مع نوع المحتوى '{1}'.</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentHelp" translate="yes" xml:space="preserve">
+          <source>You can submit one attachment.{0}</source>
+          <target state="final">يمكنك إرسال مرفق واحد.{0}</target>
         </trans-unit>
         <trans-unit id="TemplateBool" translate="yes" xml:space="preserve">
           <source>Would you like a {&amp;}? {||}</source>
