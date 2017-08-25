@@ -1,21 +1,18 @@
-## System Information
-* SDK Language: <!-- .NET or Node.js? -->
-* SDK Version: <!-- SDK version? -->
-* Development Environment: <!-- localhost, Auzure Bot Service, App Service, other -->
-
 ## Bot Info <!-- As registered in the Bot Developer Portal at https://dev.botframework.com -->
-* Bot name: 
 * Bot handle: 
 * App ID: 
-* Connected channels: <!-- Skype, Slack, MS Teams, etc. -->
+* SDK Platform: <!-- .NET or Node.js -->
+* SDK Version: <!-- SDK version -->
+* Active Channels: <!-- Skype, MS Teams, Slack, Direct Line, etc. -->
+* Deployment Environment: <!-- ngrok, Auzure Bot Service, Azure App Service, other -->
 
 ## Issue Description
 <!-- Describe your issue, question, or feature request -->
 
 ## Code Example
-<!-- Share the bot code that causes the problem. The complete working bot is best. -->
+<!-- The bot code that reproduces the issue -->
 
-## Steps to Reproduce the Issue
+## Reproduction Steps
 1.
 2.
 3.
