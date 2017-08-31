@@ -31,7 +31,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Activity class.
         /// </summary>
-        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), DateTime? localTimestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string speak = default(string), string inputHint = default(string), string summary = default(string), SuggestedActions suggestedActions = default(SuggestedActions), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference), string code = default(string)) : this()
+        public Activity(string type = default(string), string id = default(string), DateTime? timestamp = default(DateTime?), DateTime? localTimestamp = default(DateTime?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), IList<MessageReaction> reactionsAdded = default(IList<MessageReaction>), IList<MessageReaction> reactionsRemoved = default(IList<MessageReaction>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string speak = default(string), string inputHint = default(string), string summary = default(string), SuggestedActions suggestedActions = default(SuggestedActions), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference), string code = default(string))
         {
             Type = type;
             Id = id;
@@ -63,6 +63,8 @@ namespace Microsoft.Bot.Connector
             MembersRemoved = membersRemoved ?? new List<ChannelAccount>();
             Attachments = attachments ?? new List<Attachment>();
             Entities = entities ?? new List<Entity>();
+            ReactionsAdded = reactionsAdded ?? new List<MessageReaction>();
+            ReactionsRemoved = reactionsRemoved ?? new List<MessageReaction>();
         }
 
         /// <summary>
@@ -136,25 +138,37 @@ namespace Microsoft.Bot.Connector
         public string AttachmentLayout { get; set; }
 
         /// <summary>
-        /// Array of address added
+        /// Members added to the conversation
         /// </summary>
         [JsonProperty(PropertyName = "membersAdded")]
         public IList<ChannelAccount> MembersAdded { get; set; }
 
         /// <summary>
-        /// Array of addresses removed
+        /// Members removed from the conversation
         /// </summary>
         [JsonProperty(PropertyName = "membersRemoved")]
         public IList<ChannelAccount> MembersRemoved { get; set; }
 
         /// <summary>
-        /// Conversations new topic name
+        /// Reactions added to the activity
+        /// </summary>
+        [JsonProperty(PropertyName = "reactionsAdded")]
+        public IList<MessageReaction> ReactionsAdded { get; set; }
+
+        /// <summary>
+        /// Reactions removed from the activity
+        /// </summary>
+        [JsonProperty(PropertyName = "reactionsRemoved")]
+        public IList<MessageReaction> ReactionsRemoved { get; set; }
+
+        /// <summary>
+        /// The conversation's updated topic name
         /// </summary>
         [JsonProperty(PropertyName = "topicName")]
         public string TopicName { get; set; }
 
         /// <summary>
-        /// True if the previous history of the channel is disclosed
+        /// True if prior history of the channel is disclosed
         /// </summary>
         [JsonProperty(PropertyName = "historyDisclosed")]
         public bool? HistoryDisclosed { get; set; }

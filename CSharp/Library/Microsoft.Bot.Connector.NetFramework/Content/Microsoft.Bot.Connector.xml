@@ -227,7 +227,7 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference,System.String)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference,System.String)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
@@ -293,22 +293,32 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.MembersAdded">
             <summary>
-            Array of address added
+            Members added to the conversation
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.MembersRemoved">
             <summary>
-            Array of addresses removed
+            Members removed from the conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.ReactionsAdded">
+            <summary>
+            Reactions added to the activity
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.ReactionsRemoved">
+            <summary>
+            Reactions removed from the activity
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.TopicName">
             <summary>
-            Conversations new topic name
+            The conversation's updated topic name
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.HistoryDisclosed">
             <summary>
-            True if the previous history of the channel is disclosed
+            True if prior history of the channel is disclosed
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Locale">
@@ -524,6 +534,11 @@
         <member name="F:Microsoft.Bot.Connector.ActivityTypes.InstallationUpdate">
             <summary>
             Bot added or removed from channel
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityTypes.MessageReaction">
+            <summary>
+            Reaction added or removed from activity
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Attachments">
@@ -3165,6 +3180,26 @@
             MediaUrl objects from each other
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.MessageReaction">
+            <summary>
+            Message reaction object
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageReaction.#ctor">
+            <summary>
+            Initializes a new instance of the MessageReaction class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MessageReaction.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the MessageReaction class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.MessageReaction.Type">
+            <summary>
+            Message reaction type
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.Place">
             <summary>
             Place (entity type: "https://schema.org/Place")
@@ -3865,6 +3900,24 @@
         <member name="M:Microsoft.Bot.Connector.Mention.#ctor">
             <summary>
             Initializes a new instance of the Entity class.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.MessageReactionTypes">
+            <summary>
+            Message reaction types
+            </summary>
+            <remarks>
+            Message reactions are an open set. This class contains some common values.
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.MessageReactionTypes.Like">
+            <summary>
+            Like
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.MessageReactionTypes.PlusOne">
+            <summary>
+            +1
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.MicrosoftAppCredentials.MicrosoftAppIdKey">

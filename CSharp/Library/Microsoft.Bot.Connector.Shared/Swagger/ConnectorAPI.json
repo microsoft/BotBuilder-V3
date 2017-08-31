@@ -58,13 +58,25 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -137,13 +149,25 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -222,10 +246,16 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
@@ -235,6 +265,12 @@
           },
           "405": {
             "description": "The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -318,13 +354,25 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -415,10 +463,16 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
@@ -428,6 +482,12 @@
           },
           "405": {
             "description": "The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -516,13 +576,25 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -586,10 +658,16 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
@@ -599,6 +677,12 @@
           },
           "405": {
             "description": "The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -660,10 +744,16 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
@@ -673,6 +763,12 @@
           },
           "405": {
             "description": "The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -741,10 +837,16 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
@@ -754,6 +856,12 @@
           },
           "405": {
             "description": "The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -837,10 +945,16 @@
             }
           },
           "401": {
-            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App password. "
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "403": {
-            "description": "The request was a valid request, but the server is refusing to respond to it. The user might be logged in but does not have the necessary permissions for the resource."
+            "description": "The bot is not authorized to make this request. Please check your Microsoft App ID and Microsoft App Password.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           },
           "404": {
             "description": "The resource was not found.",
@@ -850,6 +964,12 @@
           },
           "405": {
             "description": "The method and URI you are trying to use is not allowed on this service.  For example, not all services support the DELETE or PUT verbs on an activity URI.  ",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "429": {
+            "description": "Too many requests have been submitted to this API. This error may be accompanied by a Retry-After header, which includes the suggested retry interval.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
@@ -1030,25 +1150,39 @@
           "type": "string"
         },
         "membersAdded": {
-          "description": "Array of address added",
+          "description": "Members added to the conversation",
           "type": "array",
           "items": {
             "$ref": "#/definitions/ChannelAccount"
           }
         },
         "membersRemoved": {
-          "description": "Array of addresses removed",
+          "description": "Members removed from the conversation",
           "type": "array",
           "items": {
             "$ref": "#/definitions/ChannelAccount"
           }
         },
+        "reactionsAdded": {
+          "description": "Reactions added to the activity",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageReaction"
+          }
+        },
+        "reactionsRemoved": {
+          "description": "Reactions removed from the activity",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MessageReaction"
+          }
+        },
         "topicName": {
-          "description": "Conversations new topic name",
+          "description": "The conversation's updated topic name",
           "type": "string"
         },
         "historyDisclosed": {
-          "description": "True if the previous history of the channel is disclosed",
+          "description": "True if prior history of the channel is disclosed",
           "type": "boolean"
         },
         "locale": {
@@ -1137,6 +1271,16 @@
         },
         "name": {
           "description": "Display friendly name",
+          "type": "string"
+        }
+      }
+    },
+    "MessageReaction": {
+      "description": "Message reaction object",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "Message reaction type",
           "type": "string"
         }
       }
