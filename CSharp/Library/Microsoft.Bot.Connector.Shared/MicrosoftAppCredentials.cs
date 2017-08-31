@@ -168,19 +168,37 @@ namespace Microsoft.Bot.Connector
 
         public async Task<string> GetTokenAsync(bool forceRefresh = false)
         {
-            string token;
             OAuthResponse oAuthToken;
-            if (cache.TryGetValue(TokenCacheKey, out oAuthToken) && !forceRefresh && TokenNotExpired(oAuthToken))
+            bool tokenInCache = cache.TryGetValue(TokenCacheKey, out oAuthToken);
+            string token = tokenInCache ? oAuthToken.access_token : null;
+            if (!tokenInCache || !TokenNotExpired(oAuthToken) || forceRefresh) 
             {
-                token = oAuthToken.access_token;
+                token = await RefreshAndStoreToken().ConfigureAwait(false);
             }
-            else
+            else if (!TokenWithinSafeTimeLimits(oAuthToken))
             {
-                oAuthToken = await RefreshTokenAsync().ConfigureAwait(false);
-                cache.AddOrUpdate(TokenCacheKey, oAuthToken, (key, oldToken) => oAuthToken);
-                token = oAuthToken.access_token;
+                string oldToken = token;
+                token = await RefreshAndStoreToken().ConfigureAwait(false);
+                if (string.IsNullOrEmpty(token))
+                {
+                    token = oldToken;
+                }
             }
             return token;
+        }
+
+        private async Task<string> RefreshAndStoreToken()
+        {
+            try
+            {
+                OAuthResponse oAuthToken = await RefreshTokenAsync().ConfigureAwait(false);
+                cache.AddOrUpdate(TokenCacheKey, oAuthToken, (key, oldToken) => oAuthToken);
+                return oAuthToken.access_token;
+            }
+            catch (OAuthException)
+            {
+                throw;
+            }
         }
 
         private bool ShouldSetToken(HttpRequestMessage request)
@@ -264,6 +282,13 @@ namespace Microsoft.Bot.Connector
         private bool TokenNotExpired(OAuthResponse token)
         {
             return token.expiration_time > DateTime.UtcNow;
+        }
+
+        private bool TokenWithinSafeTimeLimits(OAuthResponse token)
+        {
+            int secondsToHalfwayExpire = Math.Min(token.expires_in / 2, 1800);
+            TimeSpan TimeToExpiration = token.expiration_time - DateTime.UtcNow;
+            return TimeToExpiration.TotalSeconds > secondsToHalfwayExpire;
         }
 
         protected class OAuthResponse

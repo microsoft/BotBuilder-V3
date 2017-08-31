@@ -642,39 +642,66 @@ export class ChatConnector implements IConnector, IBotStorage {
         });
     }
 
-    public getAccessToken(cb: (err: Error, accessToken: string) => void): void {
-        if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
-            // Refresh access token
-            var opt: request.Options = {
-                method: 'POST',
-                url: this.settings.endpoint.refreshEndpoint,
-                form: {
-                    grant_type: 'client_credentials',
-                    client_id: this.settings.appId,
-                    client_secret: this.settings.appPassword,
-                    scope: this.settings.endpoint.refreshScope
-                }
-            };
-            this.addUserAgent(opt);
-            request(opt, (err, response, body) => {
-                if (!err) {
-                    if (body && response.statusCode < 300) {
-                        // Subtract 5 minutes from expires_in so they'll we'll get a
-                        // new token before it expires.
-                        var oauthResponse = JSON.parse(body);
-                        this.accessToken = oauthResponse.access_token;
-                        this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
-                        cb(null, this.accessToken);
-                    } else {
-                        cb(new Error('Refresh access token failed with status code: ' + response.statusCode), null);
-                    }
+    private tokenExpired(): boolean {
+        return Date.now() >= this.accessTokenExpires;
+    }
+
+    private tokenHalfWayExpired(secondstoHalfWayExpire: number = 1800, secondsToExpire: number = 300): boolean {
+        var timeToExpiration = (this.accessTokenExpires - Date.now())/1000;
+        return timeToExpiration < secondstoHalfWayExpire 
+            && timeToExpiration > secondsToExpire;
+    }
+
+    private refreshAccessToken(cb: (err: Error, accessToken: string) => void): void {
+        var opt: request.Options = {
+            method: 'POST',
+            url: this.settings.endpoint.refreshEndpoint,
+            form: {
+                grant_type: 'client_credentials',
+                client_id: this.settings.appId,
+                client_secret: this.settings.appPassword,
+                scope: this.settings.endpoint.refreshScope
+            }
+        };
+        this.addUserAgent(opt);
+        request(opt, (err, response, body) => {
+            if (!err) {
+                if (body && response.statusCode < 300) {
+                    // Subtract 5 minutes from expires_in so they'll we'll get a
+                    // new token before it expires.
+                    var oauthResponse = JSON.parse(body);
+                    this.accessToken = oauthResponse.access_token;
+                    this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
+                    cb(null, this.accessToken);
                 } else {
-                    cb(err, null);
+                    cb(new Error('Refresh access token failed with status code: ' + response.statusCode), null);
                 }
+            } else {
+                cb(err, null);
+            }
+        });
+    }
+
+    public getAccessToken(cb: (err: Error, accessToken: string) => void): void {
+        if (this.accessToken == null || this.tokenExpired()) {
+            // Refresh access token with error handling
+            this.refreshAccessToken((err, token) => {
+                cb(err, this.accessToken);
             });
-        } else {
-            cb(null, this.accessToken);
+         
         }
+        else if (this.tokenHalfWayExpired()) {
+            // Refresh access token without error handling
+            var oldToken = this.accessToken;
+            this.refreshAccessToken((err, token) => {
+                if (!err)
+                    cb(null, this.accessToken);
+                else
+                    cb(null, oldToken);
+            });
+        }
+        else
+            cb(null, this.accessToken);
     }
 
     private addUserAgent(options: request.Options): void {
