@@ -2,6 +2,23 @@
     "channel_name": "teams",
     "features": [
         {
+            "feature_name": "AdaptiveCards",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Microsoft Teams does not render Adaptive Cards.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
             "feature_name": "Buttons",
             "external_url": "",
             "facts": [
@@ -30,9 +47,9 @@
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",
                     "js_url": "example1.js"
-                }                
+                }
             ]
-        },        
+        },
         {
             "feature_name": "Carousel",
             "external_url": "",
@@ -461,6 +478,23 @@
                 {
                     "name": "Appearance",
                     "value": "Down-rendered.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "noexample"
+                }
+            ]
+        },
+        {
+            "feature_name": "SuggestedActions",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "",
+                    "value": "Teams does not render Suggested Actions.",
                     "detail": "",
                     "url": ""
                 }

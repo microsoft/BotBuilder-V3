@@ -60,7 +60,7 @@ function inspector(){
     var qp = new queryStringParams(window.location.search.substring(1));        
 
 	//Global variables
-	var channel = $('#channel_name').text();	
+	var channel = $('#channel_name').text();
     var feature =  qp["f"];
     var example = qp["e"];
 
@@ -76,6 +76,10 @@ function inspector(){
         }
         example = "example1";
     }
+
+	//Setting up channel and feature display names
+	var channel_display_name = 	$('#channel_display_name').text();
+	var feature_display_name = $('#' + feature + '_display_name').text();
 
 	//Channel-Feature variables
 	var channel_feature = "#channel_" + channel + "_feature_" + feature;
@@ -244,8 +248,8 @@ function inspector(){
 	$(channels_ul).children(temp + channel).children("a").attr("aria-checked", "true");
 	$(features_ul).children(temp + feature).children("a").attr("aria-checked", "true");
 	//Setting name of current Channel and Feature from unorder lists
-	$(select_channel).text(channel);
-	$(select_feature).text(feature);
+	$(select_channel).text(channel_display_name);
+	$(select_feature).text(feature_display_name); //feature
 
     //Getting value from current example
     $(current_example).text(example);
@@ -367,8 +371,8 @@ function inspector(){
 		$(channel_feature_no_example + index + "_facts").css("display", "block");
 		$(channel_feature_no_example + index + "_channels_ul").children(temp + channel).children("a").attr("aria-checked", "true");
 		$(channel_feature_no_example + index + "_features_ul").children(temp + feature).children("a").attr("aria-checked", "true");	
-		$(channel_feature_no_example + index + "_select_channel").text(channel);
-		$(channel_feature_no_example + index + "_select_feature").text(feature);			
+		$(channel_feature_no_example + index + "_select_channel").text(channel_display_name);
+		$(channel_feature_no_example + index + "_select_feature").text(feature_display_name);			
         $(channel_feature_no_example + index + "_samples").show();
         $(channel_feature_no_example + index + "_buttons").show();
 		$(channel_feature_no_example + index + "_channelslt").show();

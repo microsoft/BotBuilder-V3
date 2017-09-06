@@ -1,42 +1,72 @@
 [
     {
+        "id": "bing",
+        "name": "Bing",
+        "display_name": "Bing"
+    },    
+    {
+        "id": "cortana",
+        "name": "Cortana",
+        "display_name": "Cortana"
+    },
+    {
         "id": "email",
-        "name": "Email"
+        "name": "Email",
+        "display_name": "EMail"
     },
     {
         "id": "facebook",
-        "name": "Facebook"
+        "name": "Facebook",
+        "display_name": "Facebook"
     },
     {
         "id": "groupme",
-        "name": "GroupMe"
+        "name": "GroupMe",
+        "display_name": "GroupMe"
     },
     {
         "id": "kik",
-        "name": "Kik"
+        "name": "Kik",
+        "display_name": "Kik"
     },
     {
         "id": "skype",
-        "name": "Skype"
+        "name": "Skype",
+        "display_name": "Skype"
     },
     {
+        "id": "skypeforbusiness",
+        "name": "SkypeForBusiness",
+        "display_name": "Skype for Business"
+    },    
+    {
         "id": "slack",
-        "name": "Slack"
+        "name": "Slack",
+        "display_name": "Slack"
     },
     {
         "id": "sms",
-        "name": "SMS"
+        "name": "SMS",
+        "display_name": "SMS"
     },
     {
         "id": "teams",
-        "name": "Teams"
+        "name": "Teams",
+        "display_name": "Microsoft Teams"
     },
     {
         "id": "telegram",
-        "name": "Telegram"
+        "name": "Telegram",
+        "display_name": "Telegram"
     },
     {
         "id": "webchat",
-        "name": "WebChat"
+        "name": "WebChat",
+        "display_name": "Web Chat"
+    },
+    {
+        "id": "wechat",
+        "name": "WeChat",
+        "display_name": "WeChat"        
     }
 ]

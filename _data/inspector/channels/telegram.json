@@ -2,6 +2,74 @@
     "channel_name": "telegram",
     "features": [
         {
+            "feature_name": "AdaptiveCards",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Down-rendered.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of Adaptive Cards in Telegram.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example2",
+                    "resource": "example2",
+                    "example_description": "",
+                    "image_url": "example2.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example3",
+                    "resource": "example3",
+                    "example_description": "",
+                    "image_url": "example3.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example4",
+                    "resource": "example4",
+                    "example_description": "",
+                    "image_url": "example4.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example5",
+                    "resource": "example5",
+                    "example_description": "",
+                    "image_url": "example5.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                },
+                {
+                    "title": "example6",
+                    "resource": "example6",
+                    "example_description": "",
+                    "image_url": "example6.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
             "feature_name": "Buttons",
             "external_url": "https://core.telegram.org/bots#keyboards",
             "facts": [
@@ -23,7 +91,7 @@
                     "js_url": "example1.js"
                 }
             ]
-        },        
+        },
         {
             "feature_name": "Carousel",
             "external_url": "",
@@ -470,6 +538,29 @@
                     "title": "example1",
                     "resource": "example1",
                     "example_description": "General view of a Receipt Card in Telegram.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
+                }
+            ]
+        },
+        {
+            "feature_name": "SuggestedActions",
+            "external_url": "",
+            "facts": [
+                {
+                    "name": "Appearance",
+                    "value": "Native Control.",
+                    "detail": "",
+                    "url": ""
+                }
+            ],
+            "examples": [
+                {
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of Suggested Actions in Telegram.",
                     "image_url": "example1.png",
                     "json_url": "example1.json",
                     "cs_url": "example1.cs",

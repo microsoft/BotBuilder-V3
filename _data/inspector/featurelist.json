@@ -1,99 +1,127 @@
 {
+    "AdaptiveCards":{
+        "name": "AdaptiveCards",
+        "display_name": "Adaptive Cards",
+        "description": "Adaptive Cards are a new way for developers to exchange card content in a common and consistent way.",
+        "internal_url": "https://github.com/Microsoft/AdaptiveCards"
+    },
     "Buttons": {
         "name": "Buttons",
+        "display_name": "Buttons",        
         "description": "Buttons appear on the conversation canvas, with the message they belong to.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
     "Carousel": {
         "name": "Carousel",
+        "display_name": "Carousel",        
         "description": "A compact, scrollable, horizontal list of cards.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
     "Channeldata": {
         "name": "Channeldata",
+        "display_name": "Channel Data",        
         "description": "A way to access channel-specific features.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html"
     },
     "Codesample": {
         "name": "CodeSample",
+        "display_name": "Code Sample",        
         "description": "A multi-line, pre-formatted block of text.",
         "internal_url": ""
     },
     "DirectMessage": {
         "name": "DirectMessage",
+        "display_name": "Direct Message",        
         "description": "A message sent to a single member of a group conversation.",
         "internal_url": ""
     },
     "Document": {
         "name": "Document",
+        "display_name": "Document",        
         "description": "Send and receieve non-media attachments.",
         "internal_url": ""
     },
     "Emoji": {
         "name": "Emoji",
+        "display_name": "Emoji",        
         "description": "Display of emoji.",
         "internal_url": ""
     },
     "GroupChat": {
         "name": "GroupChat",
+        "display_name": "Group Chat",        
         "description": "Bot participation in group conversations.",
         "internal_url": ""
     },
     "HeroCard": {
         "name": "HeroCard",
+        "display_name": "Hero Card",        
         "description": "A multipurpose formatted attachment; it typically hosts a single image, optional buttons, and a 'tap action', along with text content to display on the card.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
     "Images": {
         "name": "Images",
+        "display_name": "Images",        
         "description": "Display of image attachments.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
     "List": {
         "name": "List Layout",
+        "display_name": "List Layout",        
         "description": "The List Layout is a vertical list of cards.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
     "Location": {
         "name": "Location",
+        "display_name": "Location",        
         "description": "Share the user's location with bots.",
         "internal_url": ""
     },
     "Markdown": {
         "name": "Markdown",
+        "display_name": "Markdown",        
         "description": "Rendering of Markdown-formatted text.",
         "internal_url": ""
     },
     "Members": {
         "name": "Members",
+        "display_name": "Members",        
         "description": "Sharing the conversation member list with the bot in group chat.",
         "internal_url": ""
     },
     "ReceiptCard": {
         "name": "ReceiptCard",
+        "display_name": "Receipt Card",        
         "description": "Display a receipt to the user.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
     "SigninCard": {
         "name": "SigninCard",
+        "display_name": "Signin Card",        
         "description": "A request for the user to authenticate.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
    "SuggestedActions": {
-        "name": ""
+        "name": "SuggestedActions",
+        "display_name": "Suggested Actions",        
+        "description": "A set of choices that disappears after the user makes a selection.",
+        "internal_url": ""
     },
     "ThumbnailCard": {
         "name": "ThumbnailCard",
+        "display_name": "Thumbnail Card",        
         "description": "A multipurpose formatted attachment; it hosts a small image, optional buttons, and a 'tap action', along with text content to display on the card.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
     "Typing": {
         "name": "Typing",
+        "display_name": "Typing",        
         "description":  "Show a typing indicator.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/activities.html"
     },
     "Video": {
         "name": "Video",
+        "display_name": "Videos",        
         "description": "Playing of video attachments.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     }

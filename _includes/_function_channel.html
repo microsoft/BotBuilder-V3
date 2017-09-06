@@ -5,11 +5,14 @@
     {% if channel.name == include.channel_selected %}
         <div id="channel_{{channel.name}}" class="inspector-channel">
             <div id="channel_name" class="inspector-hidden_control">{{channel.name}}</div>
-
+            <div id="channel_display_name" class="inspector-hidden_control">{{channel.display_name}}</div>
+            
             {% assign channel_json = site.data.inspector.channels.[{{channel.id}}] %}
             {% for feature in channel_json.features %}
                 <!-- Validating feature from channel JSON file and featurelist -->
                 {% if site.data.inspector.featurelist[{{feature.feature_name}}].name != "" %}
+                {% assign feat_display_name = site.data.inspector.featurelist[{{feature.feature_name}}].display_name %}
+                <div id="{{feature.feature_name}}_display_name" class="inspector-hidden_control">{{feat_display_name}}</div>
                 <!-- Feature Data -->
                 <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}" class="inspector-feature">
                     <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_examples_num" name="examples_num" class="inspector-hidden_control">{{feature.examples.size}}</div>
@@ -61,7 +64,8 @@
                         <div id="channel_{{channel.name}}_feature_{{feature.feature_name}}_example_{{extitle}}_inspector-description-info" class="inspector-description-info">
                             <hr>
                             {% assign feat_json = site.data.inspector.featurelist.[{{feature.feature_name}}] %}
-                            <div id="feature_name" class="inspector-feature-name" name="feature_name"><h3 class="inspector-title">{{feat_json.name}}</h3></div>
+                            {% assign feat_dis_name = site.data.inspector.featurelist[{{feature.feature_name}}].display_name %}
+                            <div id="feature_name" class="inspector-feature-name" name="feature_name"><h3 class="inspector-title">{{feat_dis_name}}</h3></div>
                             <div id="feature_description" class="inspector-feature-description" name="feature_description">
                                 {{feat_json.description}}
                                 {% if feat_json.internal_url != "" or feature.external_url != "" %}
