@@ -129,7 +129,8 @@ namespace Microsoft.Bot.Connector
 
         private string GetOpenIdConfigurationUrl()
         {
-            return settingsOpenIdConfigurationurl.Value ?? this.OpenIdConfigurationUrl;
+            var settingsUrl = settingsOpenIdConfigurationurl.Value;
+            return  string.IsNullOrEmpty(settingsUrl) ? this.OpenIdConfigurationUrl : settingsUrl;
         }
     }
 }
