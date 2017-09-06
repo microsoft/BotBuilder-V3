@@ -209,7 +209,7 @@ img.inspector-pop-out{
 }
 
 .post-content table.inspector-table{
-    background-color: #f7f7f7;
+    background-color: transparent;
     border-style: hidden;
     border-top-style: hidden;
     border-bottom: 1px solid #CCCCCC;

@@ -7,14 +7,20 @@
             "facts": [
                 {
                     "name": "Appearance",
-                    "value": "Email can render Adaptive Cards.",
+                    "value": "Email clients can render Adaptive Cards.",
                     "detail": "",
                     "url": ""
                 }
             ],
             "examples": [
                 {
-                    "title": "noexample"
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of Adaptive cards in Email.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
                 }
             ]
         },
