@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder", "Library\Microsoft.Bot.Builder\Microsoft.Bot.Builder.2017.csproj", "{CDFEC7D6-847E-4C13-956B-0A960AE3EB60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.2017", "Library\Microsoft.Bot.Builder\Microsoft.Bot.Builder.2017.csproj", "{CDFEC7D6-847E-4C13-956B-0A960AE3EB60}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{FAEFFF66-7944-48F4-972A-9A1C13A5C206}"
 	ProjectSection(SolutionItems) = preProject
@@ -74,11 +74,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Tests"
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleEchoBot", "Samples\SimpleEchoBot\Microsoft.Bot.Sample.SimpleEchoBot.2017.csproj", "{9C7E3A46-B60F-4052-9A21-DC8D1A942216}"
-	ProjectSection(ProjectDependencies) = postProject
-		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{797080F6-66BB-4B09-A202-1A0704E36503}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RView", "Tools\RView\RView.2017.csproj", "{12CAE029-7B8D-4928-8504-28746C36ADB3}"
@@ -90,9 +85,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Simple
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResXToXlf", "Tools\ResXToXlf\ResXToXlf.2017.csproj", "{D4902CFE-78ED-4BE7-898F-32ACAD46B4AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Connector", "Library\Microsoft.Bot.Connector\Microsoft.Bot.Connector.2017.csproj", "{DF397EFC-91DB-4911-9971-C509926FC288}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.2017", "Library\Microsoft.Bot.Connector\Microsoft.Bot.Connector.2017.csproj", "{DF397EFC-91DB-4911-9971-C509926FC288}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.FormFlow.Json", "Library\Microsoft.Bot.Builder.FormFlow.Json\Microsoft.Bot.Builder.FormFlow.Json.2017.csproj", "{8674F271-4437-4178-B4E2-15F91B322E5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.FormFlow.Json.2017", "Library\Microsoft.Bot.Builder.FormFlow.Json\Microsoft.Bot.Builder.FormFlow.Json.2017.csproj", "{8674F271-4437-4178-B4E2-15F91B322E5D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
@@ -110,11 +105,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Histo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleDispatchDialog", "Samples\SimpleDispatchDialog\Microsoft.Bot.Sample.SimpleDispatchDialog.2017.csproj", "{54B0706E-FE37-4387-A1C2-FD695A30CA92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Autofac", "Library\Microsoft.Bot.Builder.Autofac\Microsoft.Bot.Builder.Autofac.2017.csproj", "{2C145824-38DD-409C-AB52-B3538997726C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Autofac.2017", "Library\Microsoft.Bot.Builder.Autofac\Microsoft.Bot.Builder.Autofac.2017.csproj", "{2C145824-38DD-409C-AB52-B3538997726C}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.Bot.Sample.AspNetCore.EchoBot", "Samples\Microsoft.Bot.Sample.AspNetCore.Echo\Microsoft.Bot.Sample.AspNetCore.SimpleEchoBot.csproj", "{A91F876C-BC71-49A8-BD24-444F80DF62BB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.TemplateBot", "Samples\TemplateBot\Microsoft.Bot.Sample.TemplateBot.2017.csproj", "{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.AspNetCore.EchoBot", "Samples\Microsoft.Bot.Sample.AspNetCore.Echo\Microsoft.Bot.Sample.AspNetCore.EchoBot.csproj", "{4013035A-9987-4157-B42B-101B4A6D0A5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleEchoBot.2017", "Samples\SimpleEchoBot\Microsoft.Bot.Sample.SimpleEchoBot.2017.csproj", "{9C7E3A46-B60F-4052-9A21-DC8D1A942216}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -173,11 +172,6 @@ Global
 		{04DD63E9-0323-41B1-9949-EA6ABF005E86}.Documentation|Any CPU.ActiveCfg = Release|Any CPU
 		{04DD63E9-0323-41B1-9949-EA6ABF005E86}.Documentation|Any CPU.Build.0 = Release|Any CPU
 		{04DD63E9-0323-41B1-9949-EA6ABF005E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Documentation|Any CPU.ActiveCfg = Release|Any CPU
-		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Documentation|Any CPU.Build.0 = Release|Any CPU
-		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12CAE029-7B8D-4928-8504-28746C36ADB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{12CAE029-7B8D-4928-8504-28746C36ADB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12CAE029-7B8D-4928-8504-28746C36ADB3}.Documentation|Any CPU.ActiveCfg = Release|Any CPU
@@ -240,18 +234,6 @@ Global
 		{2C145824-38DD-409C-AB52-B3538997726C}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{2C145824-38DD-409C-AB52-B3538997726C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C145824-38DD-409C-AB52-B3538997726C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A91F876C-BC71-49A8-BD24-444F80DF62BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A91F876C-BC71-49A8-BD24-444F80DF62BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A91F876C-BC71-49A8-BD24-444F80DF62BB}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
@@ -262,6 +244,18 @@ Global
 		{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
 		{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4013035A-9987-4157-B42B-101B4A6D0A5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4013035A-9987-4157-B42B-101B4A6D0A5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4013035A-9987-4157-B42B-101B4A6D0A5C}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{4013035A-9987-4157-B42B-101B4A6D0A5C}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{4013035A-9987-4157-B42B-101B4A6D0A5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4013035A-9987-4157-B42B-101B4A6D0A5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -277,7 +271,6 @@ Global
 		{A8BA1066-5695-4D71-ABB4-65E5A5E0C3D4} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{D2253234-1279-486E-8A63-D8C3424E0525} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{04DD63E9-0323-41B1-9949-EA6ABF005E86} = {8E05398E-3CBE-4DCD-9382-072DC8859427}
-		{9C7E3A46-B60F-4052-9A21-DC8D1A942216} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{12CAE029-7B8D-4928-8504-28746C36ADB3} = {797080F6-66BB-4B09-A202-1A0704E36503}
 		{EA7E0647-B1FE-4813-B6FC-8DC518A4D2DF} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{D4902CFE-78ED-4BE7-898F-32ACAD46B4AC} = {797080F6-66BB-4B09-A202-1A0704E36503}
@@ -289,10 +282,12 @@ Global
 		{D2834D71-D7A2-451B-9A61-1488AF049526} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{54B0706E-FE37-4387-A1C2-FD695A30CA92} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{2C145824-38DD-409C-AB52-B3538997726C} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{A91F876C-BC71-49A8-BD24-444F80DF62BB} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
-		{133E6973-CF90-4691-8685-D42D79C8884B} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+		{4013035A-9987-4157-B42B-101B4A6D0A5C} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+		{9C7E3A46-B60F-4052-9A21-DC8D1A942216} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A75D8D33-F6C8-4ECB-BD2C-162154F5B8C1}
 	EndGlobalSection
 EndGlobal
