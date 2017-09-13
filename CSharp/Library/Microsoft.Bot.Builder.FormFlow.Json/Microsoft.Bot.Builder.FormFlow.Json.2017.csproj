@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
     <AssemblyName>Microsoft.Bot.Builder.FormFlow.Json</AssemblyName>
     <RootNamespace>Microsoft.Bot.Builder.FormFlow.Json</RootNamespace>
     <PackageId>CXuesong.Ported.Microsoft.Bot.Builder.FormFlow.Json</PackageId>
@@ -23,8 +23,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Builder.Standard\Microsoft.Bot.Builder.Standard.csproj" />
-    <ProjectReference Include="..\Microsoft.Bot.Connector.Standard\Microsoft.Bot.Connector.Standard.csproj" />
+    <ProjectReference Include="..\Microsoft.Bot.Builder\Microsoft.Bot.Builder.2017.csproj" />
+    <ProjectReference Include="..\Microsoft.Bot.Connector\Microsoft.Bot.Connector.2017.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\**\*" />
   </ItemGroup>
 
 </Project>
