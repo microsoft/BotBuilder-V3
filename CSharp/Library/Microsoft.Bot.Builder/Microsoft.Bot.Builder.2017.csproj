@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <NoWarn>1701;1702;1705;1998</NoWarn>
+    <NoWarn>0419;1591;1701;1702;1705;1998</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="CXuesong.Ported.Chronic" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.5" />
+    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.2" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
 
@@ -40,7 +40,7 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
     <Reference Include="System.Web" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <Compile Update="Resource\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
@@ -55,5 +55,5 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
-  
+
 </Project>

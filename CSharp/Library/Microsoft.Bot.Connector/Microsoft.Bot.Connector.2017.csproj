@@ -19,6 +19,10 @@
     <PackageReleaseNotes>See https://github.com/CXuesong/BotBuilder.Standard/releases .</PackageReleaseNotes>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <NoWarn>1591;1701;1702;1705;1998</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="..\Microsoft.Bot.Connector.Shared\*.cs" Link="%(Filename)%(Extension)" />
     <Compile Include="..\Microsoft.Bot.Connector.Shared\ConnectorAPI\**\*.cs" Link="ConnectorAPI\%(RecursiveDir)%(Filename)%(Extension)" />

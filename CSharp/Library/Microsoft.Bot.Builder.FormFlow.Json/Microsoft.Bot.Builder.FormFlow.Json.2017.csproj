@@ -18,6 +18,10 @@
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <NoWarn>1591;1701;1702;1705;1998</NoWarn>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Scripting" Version="2.0.0" />
   </ItemGroup>
