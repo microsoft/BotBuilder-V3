@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net46;netstandard2.0</TargetFrameworks>
+    <AssemblyName>Microsoft.Bot.Builder</AssemblyName>
+    <RootNamespace>Microsoft.Bot.Builder</RootNamespace>
+    <PackageId>CXuesong.Ported.Microsoft.Bot.Builder</PackageId>
+    <Version>3.9.0-int0</Version>
+    <Authors>Microsoft (Original), CXuesong (Ported)</Authors>
+    <Company />
+    <Product>Microsoft Bot Builder</Product>
+    <Description>This is part of an unofficial ported version of Microsoft's Microsoft.Bot.Builder package.</Description>
+    <PackageProjectUrl>https://github.com/CXuesong/BotBuilder.Standard</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CXuesong/BotBuilder.Standard</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageReleaseNotes>See https://github.com/CXuesong/BotBuilder.Standard/releases .</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1705;1998</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard1.4\Microsoft.Bot.Builder.Autofac.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Fibers\_private\**" />
+    <EmbeddedResource Remove="Fibers\_private\**" />
+    <None Remove="Fibers\_private\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CXuesong.Ported.Chronic" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Bot.Connector.Standard\Microsoft.Bot.Connector.Standard.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resource\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resource\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

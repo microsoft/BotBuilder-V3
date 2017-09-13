@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
+    <Version>3.9.0-int0</Version>
+    <Description>
+      This is an unofficial ported version of Microsoft's Microsoft.Bot.Connector package, to use it with Asp.Net Core, please install CXuesong.Ported.Microsoft.Bot.Connector.AspNetCore instead of this.
+      This library implements C# classes for using the Bot Framework Connector REST API.
+    </Description>
+    <PackageProjectUrl>https://github.com/CXuesong/BotBuilder.Standard</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CXuesong/BotBuilder.Standard</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Authors>Microsoft (Original), CXuesong (Ported)</Authors>
+    <PackageId>CXuesong.Ported.Microsoft.Bot.Connector</PackageId>
+    <Company></Company>
+    <Product>Microsoft Bot Framework</Product>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageReleaseNotes>See https://github.com/CXuesong/BotBuilder.Standard/releases .</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Microsoft.Bot.Connector.Shared\*.cs" Link="%(Filename)%(Extension)" />
+    <Compile Include="..\Microsoft.Bot.Connector.Shared\ConnectorAPI\**\*.cs" Link="ConnectorAPI\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\Microsoft.Bot.Connector.Shared\Payments\**\*.cs" Link="Payments\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\Microsoft.Bot.Connector.Shared\StateAPI\**\*.cs" Link="StateAPI\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\Microsoft.Bot.Connector.Shared\Swagger\**\*.cs" Link="Swagger\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Compile Include="..\Microsoft.Bot.Connector.NetFramework\*.cs" Link="%(Filename)%(Extension)" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.IdentityModel" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="4.0.4.403061554" />
+    <PackageReference Include="Microsoft.IdentityModel.Protocol.Extensions" Version="1.0.4.403061554" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <Compile Include="..\Microsoft.Bot.Connector.AspNetCore\*.cs" Link="%(Filename)%(Extension)" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.2" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Microsoft.Bot.Builder.Autofac</AssemblyName>
+    <RootNamespace>Microsoft.Bot.Builder.Autofac</RootNamespace>
+    <PackageId>CXuesong.Ported.Microsoft.Bot.Builder.Autofac</PackageId>
+    <Version>3.9.0-int0</Version>
+    <Product>Microsoft Bot Builder</Product>
+    <Company />
+    <Authors>Microsoft (Original), CXuesong (Ported)</Authors>
+    <Description>This is part of an unofficial ported version of Microsoft's Microsoft.Bot.Builder package.</Description>
+    <PackageProjectUrl>https://github.com/CXuesong/BotBuilder.Standard</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/CXuesong/BotBuilder.Standard</RepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Bot.Builder.Standard\Microsoft.Bot.Builder.Standard.csproj" />
+    <ProjectReference Include="..\Microsoft.Bot.Connector.Standard\Microsoft.Bot.Connector.Standard.csproj" />
+  </ItemGroup>
+
+</Project>
