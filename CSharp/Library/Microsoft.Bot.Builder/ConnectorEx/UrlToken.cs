@@ -41,6 +41,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+#if !NET46
+using Microsoft.AspNetCore.WebUtilities;
+#endif
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -70,7 +73,11 @@ namespace Microsoft.Bot.Builder.Dialogs
                     var serializer = JsonSerializer.CreateDefault();
                     serializer.Serialize(writer, item);
                 }
+#if NET46
                 var token = HttpServerUtility.UrlTokenEncode(memory.ToArray());
+#else
+                var token = WebEncoders.Base64UrlEncode(memory.GetBuffer(), 0, (int)memory.Length);
+#endif
                 return token;
             }
         }
@@ -83,7 +90,11 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <returns>The item instance.</returns>
         public static T Decode<T>(string token)
         {
+#if NET46
             var buffer = HttpServerUtility.UrlTokenDecode(token);
+#else
+            var buffer = WebEncoders.Base64UrlDecode(token);
+#endif
             using (var memory = new MemoryStream(buffer))
             using (var gzip = new GZipStream(memory, CompressionMode.Decompress))
             using (var reader = new BsonReader(gzip))

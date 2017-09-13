@@ -1,11 +1,11 @@
-﻿#if !NET45
-using Microsoft.Extensions.Configuration;
-#endif
-using System;
+﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 #if NET45
 using System.Configuration;
+#else
+using Microsoft.Extensions.Configuration;
 #endif 
 
 namespace Microsoft.Bot.Connector
@@ -67,7 +67,6 @@ namespace Microsoft.Bot.Connector
         }
     }
 
-#if NET45
     /// <summary>
     /// Credential provider which uses config settings to lookup appId and password
     /// </summary>
@@ -86,24 +85,30 @@ namespace Microsoft.Bot.Connector
     {
         public static string GetAppSettings(string key)
         {
+#if NET45
             return ConfigurationManager.AppSettings[key] ?? Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
-        }
-    }
 #else
-    /// <summary>
-    /// Credential provider which uses <see cref="Microsoft.Extensions.Configuration.IConfiguration"/> to lookup appId and password
-    /// </summary>
-    public sealed class ConfigurationCredentialProvider : SimpleCredentialProvider
-    {
-        public ConfigurationCredentialProvider(IConfiguration configuration,
-            string appIdSettingName = null,
-            string appPasswordSettingName = null)
-        {
-            var appIdKey = appIdSettingName ?? MicrosoftAppCredentials.MicrosoftAppIdKey;
-            var passwordKey = appPasswordSettingName ?? MicrosoftAppCredentials.MicrosoftAppPasswordKey;
-            this.AppId = configuration.GetSection(appIdKey)?.Value;
-            this.Password = configuration.GetSection(passwordKey)?.Value;
-        }
-    }
+            if (_config == null)
+            {
+                Debug.WriteLine("Warning: SettingsUtils._config == null. Did you forget to AttachConfiguration?");
+                return null;
+            }
+            return _config[key];
 #endif
+        }
+
+#if !NET45
+
+        // TODO Make SettingsUtils non-static to allow for DI
+
+        private static IConfiguration _config;
+
+        public static void AttachConfiguration(IConfiguration config)
+        {
+            _config = config;
+        }
+
+#endif
+    }
+
 }

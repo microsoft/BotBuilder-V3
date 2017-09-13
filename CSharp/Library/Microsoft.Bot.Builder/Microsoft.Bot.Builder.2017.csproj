@@ -15,21 +15,16 @@
     <RepositoryType>git</RepositoryType>
     <NeutralLanguage>en</NeutralLanguage>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PackageReleaseNotes>See https://github.com/CXuesong/BotBuilder.Standard/releases .</PackageReleaseNotes>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
     <NoWarn>1701;1702;1705;1998</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard1.4\Microsoft.Bot.Builder.Autofac.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup>
-    <Compile Remove="Fibers\_private\**" />
-    <EmbeddedResource Remove="Fibers\_private\**" />
-    <None Remove="Fibers\_private\**" />
+    <Compile Remove="Properties\**\*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,9 +34,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Connector.Standard\Microsoft.Bot.Connector.Standard.csproj" />
+    <ProjectReference Include="..\Microsoft.Bot.Connector\Microsoft.Bot.Connector.2017.csproj" />
   </ItemGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  
   <ItemGroup>
     <Compile Update="Resource\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
@@ -56,5 +55,5 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
-
+  
 </Project>
