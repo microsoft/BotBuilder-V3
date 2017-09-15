@@ -65,9 +65,8 @@ namespace Microsoft.Bot.Connector
 #else
         public MicrosoftAppCredentials(string appId = null, string password = null, ILogger logger = null)
         {
-            MicrosoftAppId = appId;
-            MicrosoftAppPassword = password;
-
+            MicrosoftAppId = appId ?? SettingsUtils.GetAppSettings(MicrosoftAppIdKey);
+            MicrosoftAppPassword = password ?? SettingsUtils.GetAppSettings(MicrosoftAppPasswordKey);
             TokenCacheKey = $"{MicrosoftAppId}-cache";
             this.logger = logger;
         }
@@ -171,7 +170,7 @@ namespace Microsoft.Bot.Connector
             OAuthResponse oAuthToken;
             bool tokenInCache = cache.TryGetValue(TokenCacheKey, out oAuthToken);
             string token = tokenInCache ? oAuthToken.access_token : null;
-            if (!tokenInCache || !TokenNotExpired(oAuthToken) || forceRefresh) 
+            if (!tokenInCache || !TokenNotExpired(oAuthToken) || forceRefresh)
             {
                 token = await RefreshAndStoreToken().ConfigureAwait(false);
             }

@@ -90,7 +90,9 @@ namespace Microsoft.Bot.Connector
 #else
             if (_config == null)
             {
-                Debug.WriteLine("Warning: SettingsUtils._config == null. Did you forget to AttachConfiguration?");
+                Debug.WriteLine(
+                    "Warning: SettingsUtils._config == null while trying to get setting value for: {0}. Did you forget to AttachConfiguration?",
+                    key, "");
                 return null;
             }
             return _config[key];
@@ -103,6 +105,10 @@ namespace Microsoft.Bot.Connector
 
         private static IConfiguration _config;
 
+        /// <summary>
+        /// .NET Core dedicated: Attach the specified <see cref="IConfiguration"/> instance to this static configuration provider.
+        /// </summary>
+        /// <remarks>This method should be called before the first request received on .NET Core platform.</remarks>
         public static void AttachConfiguration(IConfiguration config)
         {
             _config = config;

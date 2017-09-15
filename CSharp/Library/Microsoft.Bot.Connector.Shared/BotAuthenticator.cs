@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,12 +11,12 @@ using Microsoft.IdentityModel.Protocols;
 #if NET45
 using System.Diagnostics;
 using System.Web;
-#endif
-
-#if NET45
-    using System.IdentityModel.Tokens;
+using System.IdentityModel.Tokens;
 #else
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 #endif
 
 namespace Microsoft.Bot.Connector
@@ -56,9 +57,9 @@ namespace Microsoft.Bot.Connector
         {
         }
 
-        public BotAuthenticator(ICredentialProvider credentialProvider, 
+        public BotAuthenticator(ICredentialProvider credentialProvider,
             string openIdConfigurationUrl,
-            bool disableEmulatorTokens, 
+            bool disableEmulatorTokens,
             EndorsementsValidator validator = null)
         {
             if (credentialProvider == null)
@@ -77,21 +78,34 @@ namespace Microsoft.Bot.Connector
         /// <param name="request">The request.</param>
         /// <param name="reason">The reason phrase for unauthorized status code.</param>
         /// <returns>A response with status code unauthorized.</returns>
+#if NET45
         public static HttpResponseMessage GenerateUnauthorizedResponse(HttpRequestMessage request, string reason = "")
         {
-            string host = request.RequestUri.DnsSafeHost;
-#if NET45
+            var host = request.RequestUri.DnsSafeHost;
             var response = request.CreateResponse(HttpStatusCode.Unauthorized);
-#else
-            var response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
-#endif
-            response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
+                        response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
             if (!string.IsNullOrEmpty(reason))
             {
                 response.Content = new StringContent(reason, System.Text.Encoding.UTF8);
             }
             return response;
         }
+#else
+        public static IActionResult GenerateUnauthorizedResponse(HttpContext context, string reason = "")
+        {
+            var host = context.Request.Host.Value;
+            context.Response.Headers.Add("WWW-Authenticate", string.Format("Bearer realm=\"{0}\"", host));
+            if (!string.IsNullOrEmpty(reason))
+            {
+                return new ContentResult
+                {
+                    Content = reason, ContentType = "text/plain; charset=utf-8",
+                    StatusCode = (int) HttpStatusCode.Unauthorized
+                };
+            }
+            return new UnauthorizedResult();
+        }
+#endif
 
         /// <summary>
         /// Authenticates the incoming request and add the <see cref="IActivity.ServiceUrl"/> for each
@@ -101,14 +115,28 @@ namespace Microsoft.Bot.Connector
         /// <param name="activities"> The activities extracted from request.</param>
         /// <param name="token"> The cancellation token.</param>
         /// <returns></returns>
+#if NET45
         public async Task<bool> TryAuthenticateAsync(HttpRequestMessage request, IEnumerable<IActivity> activities,
            CancellationToken token)
         {
-            var identityToken = await this.TryAuthenticateAsyncWithActivity(request, activities, token);
+            var identityToken = await this.TryAuthenticateAsyncWithActivity(request.Headers.Authorization, activities, token);
             identityToken.ValidateServiceUrlClaim(activities);
             TrustServiceUrls(identityToken, activities);
             return identityToken.Authenticated;
         }
+#else
+        public async Task<bool> TryAuthenticateAsync(HttpRequest request, IEnumerable<IActivity> activities,
+            CancellationToken token)
+        {
+            var authorizationHeader = request.Headers.ContainsKey(HeaderNames.Authorization)
+                ? AuthenticationHeaderValue.Parse(request.Headers[HeaderNames.Authorization])
+                : null;
+            var identityToken = await this.TryAuthenticateAsyncWithActivity(authorizationHeader, activities, token);
+            identityToken.ValidateServiceUrlClaim(activities);
+            TrustServiceUrls(identityToken, activities);
+            return identityToken.Authenticated;
+        }
+#endif
 
         /// <summary>
         /// Authenticates the request and returns the IdentityToken.
@@ -117,15 +145,28 @@ namespace Microsoft.Bot.Connector
         /// <param name="activities"> The activities extracted from request.</param>
         /// <param name="token"> The cancellation token.</param>
         /// <returns> The <see cref="IdentityToken"/>.</returns>
+#if NET45
         public async Task<IdentityToken> AuthenticateAsync(HttpRequestMessage request, IEnumerable<IActivity> activities,
            CancellationToken token)
         {
-            var identityToken = await this.TryAuthenticateAsyncWithActivity(request, activities, token);
+            var identityToken = await this.TryAuthenticateAsyncWithActivity(request.Headers.Authorization, activities, token);
             identityToken.ValidateServiceUrlClaim(activities);
             TrustServiceUrls(identityToken, activities);
             return identityToken;
         }
-
+#else
+        public async Task<IdentityToken> AuthenticateAsync(HttpRequest request, IEnumerable<IActivity> activities,
+            CancellationToken token)
+        {
+            var authorizationHeader = request.Headers.ContainsKey(HeaderNames.Authorization)
+                ? AuthenticationHeaderValue.Parse(request.Headers[HeaderNames.Authorization])
+                : null;
+            var identityToken = await this.TryAuthenticateAsyncWithActivity(authorizationHeader, activities, token);
+            identityToken.ValidateServiceUrlClaim(activities);
+            TrustServiceUrls(identityToken, activities);
+            return identityToken;
+        }
+#endif
         public async Task<IdentityToken> TryAuthenticateAsync(string scheme, string token,
             CancellationToken cancellationToken)
         {
@@ -167,11 +208,10 @@ namespace Microsoft.Bot.Connector
             }
         }
 
-        private async Task<IdentityToken> TryAuthenticateAsyncWithActivity(HttpRequestMessage request,
+        private async Task<IdentityToken> TryAuthenticateAsyncWithActivity(AuthenticationHeaderValue authorizationHeader,
             IEnumerable<IActivity> activities,
             CancellationToken token)
         {
-            var authorizationHeader = request.Headers.Authorization;
             if (authorizationHeader != null)
             {
                 var toBotFromChannelExtractor = GetTokenExtractor(JwtConfig.ToBotFromChannelTokenValidationParameters, this.openIdConfigurationUrl, endorsements => this.validator(activities, endorsements));
