@@ -19,19 +19,19 @@
     },
     "Channeldata": {
         "name": "Channeldata",
-        "display_name": "Channel Data",        
+        "display_name": "Channel data",        
         "description": "A way to access channel-specific features.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/channels.html"
     },
     "Codesample": {
         "name": "CodeSample",
-        "display_name": "Code Sample",        
+        "display_name": "Code sample",        
         "description": "A multi-line, pre-formatted block of text.",
         "internal_url": ""
     },
     "DirectMessage": {
         "name": "DirectMessage",
-        "display_name": "Direct Message",        
+        "display_name": "Direct message",        
         "description": "A message sent to a single member of a group conversation.",
         "internal_url": ""
     },
@@ -49,13 +49,13 @@
     },
     "GroupChat": {
         "name": "GroupChat",
-        "display_name": "Group Chat",        
+        "display_name": "Group chat",        
         "description": "Bot participation in group conversations.",
         "internal_url": ""
     },
     "HeroCard": {
         "name": "HeroCard",
-        "display_name": "Hero Card",        
+        "display_name": "Hero card",        
         "description": "A multipurpose formatted attachment; it typically hosts a single image, optional buttons, and a 'tap action', along with text content to display on the card.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
@@ -67,7 +67,7 @@
     },
     "List": {
         "name": "List Layout",
-        "display_name": "List Layout",        
+        "display_name": "List layout",        
         "description": "The List Layout is a vertical list of cards.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
@@ -91,25 +91,25 @@
     },
     "ReceiptCard": {
         "name": "ReceiptCard",
-        "display_name": "Receipt Card",        
+        "display_name": "Receipt card",        
         "description": "Display a receipt to the user.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
     "SigninCard": {
         "name": "SigninCard",
-        "display_name": "Signin Card",        
+        "display_name": "Sign in card",        
         "description": "A request for the user to authenticate.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
    "SuggestedActions": {
         "name": "SuggestedActions",
-        "display_name": "Suggested Actions",        
+        "display_name": "Suggested actions",        
         "description": "A set of choices that disappears after the user makes a selection.",
         "internal_url": ""
     },
     "ThumbnailCard": {
         "name": "ThumbnailCard",
-        "display_name": "Thumbnail Card",        
+        "display_name": "Thumbnail card",        
         "description": "A multipurpose formatted attachment; it hosts a small image, optional buttons, and a 'tap action', along with text content to display on the card.",
         "internal_url": "https://docs.botframework.com/en-us/csharp/builder/sdkreference/attachments.html"
     },
