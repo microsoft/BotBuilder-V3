@@ -173,7 +173,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public static IForm<JObject> BuildJsonForm()
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AnnotatedSandwichBot.AnnotatedSandwich.json"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AspNetCore.AnnotatedSandwichBot.AnnotatedSandwich.json"))
             {
                 var schema = JObject.Parse(new StreamReader(stream).ReadToEnd());
                 return new FormBuilderJson(schema)
@@ -184,7 +184,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot
 
         public static IForm<JObject> BuildJsonFormExplicit()
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AnnotatedSandwichBot.AnnotatedSandwich.json"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AspNetCore.·AnnotatedSandwichBot.AnnotatedSandwich.json"))
             {
                 var schema = JObject.Parse(new StreamReader(stream).ReadToEnd());
                 OnCompletionAsyncDelegate<JObject> processOrder = async (context, state) =>

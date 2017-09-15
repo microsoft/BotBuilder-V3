@@ -49,7 +49,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Tests
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AnnotatedSandwichBot", "Samples\AnnotatedSandwichBot\Microsoft.Bot.Sample.AnnotatedSandwichBot.2017.csproj", "{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AnnotatedSandwichBot.2017", "Samples\AnnotatedSandwichBot\Microsoft.Bot.Sample.AnnotatedSandwichBot.2017.csproj", "{2E4D097F-8E3D-4223-9B39-1B29EA5E5E75}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2C145824-38DD-409C-AB52-B3538997726C} = {2C145824-38DD-409C-AB52-B3538997726C}
 		{8674F271-4437-4178-B4E2-15F91B322E5D} = {8674F271-4437-4178-B4E2-15F91B322E5D}
@@ -116,6 +116,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.AspNetCore.SimpleEchoBot", "Samples\Microsoft.Bot.Sample.AspNetCore.Echo\Microsoft.Bot.Sample.AspNetCore.SimpleEchoBot.csproj", "{1723F4C7-5AD5-4F6D-999D-41648277173F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.AspNetCore.PizzaBot", "Samples\Microsoft.Bot.Sample.AspNetCore.PizzaBot\Microsoft.Bot.Sample.AspNetCore.PizzaBot.csproj", "{6376AC58-70B2-4876-B154-1AA6862F24CD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.AspNetCore.AnnotatedSandwichBot", "Samples\Microsoft.Bot.Sample.AspNetCore.AnnotatedSandwichBot\Microsoft.Bot.Sample.AspNetCore.AnnotatedSandwichBot.csproj", "{145FB56D-9E3A-42EF-8391-D23AC7318FE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -265,6 +267,12 @@ Global
 		{6376AC58-70B2-4876-B154-1AA6862F24CD}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{6376AC58-70B2-4876-B154-1AA6862F24CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6376AC58-70B2-4876-B154-1AA6862F24CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{145FB56D-9E3A-42EF-8391-D23AC7318FE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{145FB56D-9E3A-42EF-8391-D23AC7318FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{145FB56D-9E3A-42EF-8391-D23AC7318FE4}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{145FB56D-9E3A-42EF-8391-D23AC7318FE4}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{145FB56D-9E3A-42EF-8391-D23AC7318FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{145FB56D-9E3A-42EF-8391-D23AC7318FE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -296,6 +304,7 @@ Global
 		{A1DE9FF1-2F62-49D8-A848-65C20EA41959} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{1723F4C7-5AD5-4F6D-999D-41648277173F} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{6376AC58-70B2-4876-B154-1AA6862F24CD} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+		{145FB56D-9E3A-42EF-8391-D23AC7318FE4} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A75D8D33-F6C8-4ECB-BD2C-162154F5B8C1}
