@@ -19,6 +19,7 @@ using Microsoft.Extensions.Logging;
 namespace Microsoft.Bot.Sample.AspNetCore.Echo.Controllers
 {
     [Route("api/[controller]")]
+    [BotAuthentication]
     public class MessagesController : Controller
     {
 
@@ -45,7 +46,6 @@ namespace Microsoft.Bot.Sample.AspNetCore.Echo.Controllers
             logger = loggerFactory.CreateLogger<MessagesController>();
         }
 
-        [Authorize(Roles = "Bot")]
         // POST api/values
         [HttpPost]
         public virtual async Task<IActionResult> Post([FromBody]Activity activity)

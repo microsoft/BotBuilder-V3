@@ -37,11 +37,7 @@ namespace Microsoft.Bot.Sample.AspNetCore.Echo
             services.AddSingleton(_ => Configuration);
 
             // Add framework services.
-            // Note: You may instead apply [BotAuthentication] to the controller classes.
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new BotAuthenticationAttribute());
-            });
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,11 +45,6 @@ namespace Microsoft.Bot.Sample.AspNetCore.Echo
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            //app.UseBotAuthentication(new StaticCredentialProvider(
-            //    Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value,
-            //    Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppPasswordKey)?.Value));
-            app.UseBotAuthentication(new SettingsCredentialProvider());
 
             app.UseStaticFiles();
             app.UseMvc();
