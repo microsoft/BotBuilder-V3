@@ -93,6 +93,25 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
                 .SingleInstance();
 
+            // .NET Standard support, making some built-in types serializable.
+#if !NET46
+            builder
+                .Register(c => new NetStandardSerialization.TypeSerializationSurrogate())
+                .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
+                .SingleInstance();
+            builder
+                .Register(c => new NetStandardSerialization.MemberInfoSerializationSurrogate())
+                .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
+                .SingleInstance();
+            builder
+                .Register(c => new NetStandardSerialization.DelegateSerializationSurrogate())
+                .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
+                .SingleInstance();
+            builder
+                .Register(c => new NetStandardSerialization.RegexSerializationSurrogate())
+                .Keyed<Serialization.ISurrogateProvider>(Key_SurrogateProvider)
+                .SingleInstance();
+
             builder
                 .RegisterDecorator<Serialization.ISurrogateProvider>((c, inner) => new Serialization.SurrogateLogDecorator(inner, c.Resolve<TraceListener>()), fromKey: Key_SurrogateProvider);
 
@@ -100,6 +119,7 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 .RegisterType<Serialization.SurrogateSelector>()
                 .As<ISurrogateSelector>()
                 .SingleInstance();
+#endif
 
             // per request, depends on resolution parameters through "p"
             builder
