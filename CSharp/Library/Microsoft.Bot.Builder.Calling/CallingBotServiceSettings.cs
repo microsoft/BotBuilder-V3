@@ -32,7 +32,6 @@
 
 using Microsoft.Bot.Builder.Calling.Exceptions;
 using System;
-using System.Configuration;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Calling
