@@ -195,6 +195,11 @@ namespace Microsoft.Bot.Builder.Calling
                 using (var reader = new StreamReader(Request.Body))
                     content = await reader.ReadToEndAsync();
 #endif
+                if (string.IsNullOrEmpty(content))
+                {
+                    Trace.TraceError("Empty content in the request");
+                    return GenerateParsedResults(HttpStatusCode.BadRequest);
+                }
                 return GenerateParsedResults(HttpStatusCode.OK, content);
             }
             catch (Exception e)

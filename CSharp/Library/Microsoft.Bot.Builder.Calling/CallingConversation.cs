@@ -133,7 +133,10 @@ namespace Microsoft.Bot.Builder.Calling
 #if NET46
                         return context.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
 #else
-                        return new ObjectResult(e) {StatusCode = 500};
+                        // TODO show exception in some more salient way e.g. in logs.
+                        // Because an exception will be thrown for invalid CallbackUrl.
+                        return new ObjectResult(new {Type = e.GetType().FullName, Message = e.Message})
+                            {StatusCode = 500};
 #endif
                     }
                 }
