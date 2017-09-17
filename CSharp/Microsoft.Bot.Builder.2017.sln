@@ -92,9 +92,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.FormF
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Calling", "Library\Microsoft.Bot.Builder.Calling\Microsoft.Bot.Builder.Calling.2017.csproj", "{CEBD91E9-CDBD-4CC2-ADC1-8A5B626CE0CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Calling.2017", "Library\Microsoft.Bot.Builder.Calling\Microsoft.Bot.Builder.Calling.2017.csproj", "{CEBD91E9-CDBD-4CC2-ADC1-8A5B626CE0CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleIVRBot", "Samples\SimpleIVRBot\Microsoft.Bot.Sample.SimpleIVRBot.2017.csproj", "{C4D4530F-3194-48D5-9A94-A5C068616471}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleIVRBot.2017", "Samples\SimpleIVRBot\Microsoft.Bot.Sample.SimpleIVRBot.2017.csproj", "{C4D4530F-3194-48D5-9A94-A5C068616471}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AlarmBot.2017", "Samples\AlarmBot\Microsoft.Bot.Sample.AlarmBot.2017.csproj", "{D414F82F-C102-45B1-979C-D905D278C34E}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -107,7 +107,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Simple
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Autofac.2017", "Library\Microsoft.Bot.Builder.Autofac\Microsoft.Bot.Builder.Autofac.2017.csproj", "{2C145824-38DD-409C-AB52-B3538997726C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.TemplateBot", "Samples\TemplateBot\Microsoft.Bot.Sample.TemplateBot.2017.csproj", "{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.TemplateBot.2017", "Samples\TemplateBot\Microsoft.Bot.Sample.TemplateBot.2017.csproj", "{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleEchoBot.2017", "Samples\SimpleEchoBot\Microsoft.Bot.Sample.SimpleEchoBot.2017.csproj", "{9C7E3A46-B60F-4052-9A21-DC8D1A942216}"
 EndProject
@@ -120,6 +120,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.AspNetCore.AnnotatedSandwichBot", "Samples\Microsoft.Bot.Sample.AspNetCore.AnnotatedSandwichBot\Microsoft.Bot.Sample.AspNetCore.AnnotatedSandwichBot.csproj", "{145FB56D-9E3A-42EF-8391-D23AC7318FE4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.AspNetCore.AlarmBot", "Samples\Microsoft.Bot.Sample.AspNetCore.AlarmBot\Microsoft.Bot.Sample.AspNetCore.AlarmBot.csproj", "{E7E8598D-DA55-4A8D-922F-50A25C6D1669}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.AspNetCore.SimpleIVRBot", "Samples\Microsoft.Bot.Sample.AspNetCore.SimpleIVRBot\Microsoft.Bot.Sample.AspNetCore.SimpleIVRBot.csproj", "{48C91969-F4A8-49E0-A7C3-79936F8F07BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -281,6 +283,12 @@ Global
 		{E7E8598D-DA55-4A8D-922F-50A25C6D1669}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{E7E8598D-DA55-4A8D-922F-50A25C6D1669}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7E8598D-DA55-4A8D-922F-50A25C6D1669}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48C91969-F4A8-49E0-A7C3-79936F8F07BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48C91969-F4A8-49E0-A7C3-79936F8F07BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48C91969-F4A8-49E0-A7C3-79936F8F07BC}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{48C91969-F4A8-49E0-A7C3-79936F8F07BC}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{48C91969-F4A8-49E0-A7C3-79936F8F07BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48C91969-F4A8-49E0-A7C3-79936F8F07BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -314,6 +322,7 @@ Global
 		{6376AC58-70B2-4876-B154-1AA6862F24CD} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{145FB56D-9E3A-42EF-8391-D23AC7318FE4} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{E7E8598D-DA55-4A8D-922F-50A25C6D1669} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+		{48C91969-F4A8-49E0-A7C3-79936F8F07BC} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A75D8D33-F6C8-4ECB-BD2C-162154F5B8C1}
