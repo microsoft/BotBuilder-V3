@@ -32,7 +32,11 @@
 
 using Autofac;
 using System;
+#if NET46
 using System.Net.Http;
+#else
+using Microsoft.AspNetCore.Http;
+#endif
 
 namespace Microsoft.Bot.Builder.Calling
 {
@@ -43,19 +47,32 @@ namespace Microsoft.Bot.Builder.Calling
     {
         public static readonly object LifetimeScopeTag = typeof(CallingModule);
 
+#if NET46
         public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, HttpRequestMessage request)
         {
             var inner = scope.BeginLifetimeScope(LifetimeScopeTag);
             inner.Resolve<HttpRequestMessage>(TypedParameter.From(request));
             return inner;
         }
+#else
+        public static ILifetimeScope BeginLifetimeScope(ILifetimeScope scope, HttpRequest request)
+        {
+            var inner = scope.BeginLifetimeScope(LifetimeScopeTag);
+            inner.Resolve<HttpRequest>(TypedParameter.From(request));
+            return inner;
+        }
+#endif
 
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
 
             builder
-               .Register((c, p) => p.TypedAs<HttpRequestMessage>())
+#if NET46
+                .Register((c, p) => p.TypedAs<HttpRequestMessage>())
+#else
+                .Register((c, p) => p.TypedAs<HttpRequest>())
+#endif
                .AsSelf()
                .InstancePerMatchingLifetimeScope(LifetimeScopeTag);
 

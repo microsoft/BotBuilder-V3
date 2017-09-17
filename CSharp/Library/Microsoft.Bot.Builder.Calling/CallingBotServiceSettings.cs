@@ -33,6 +33,7 @@
 using Microsoft.Bot.Builder.Calling.Exceptions;
 using System;
 using System.Configuration;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.Calling
 {
@@ -56,7 +57,7 @@ namespace Microsoft.Bot.Builder.Calling
             {
                 settings = new CallingBotServiceSettings
                 {
-                    CallbackUrl = ConfigurationManager.AppSettings.Get("Microsoft.Bot.Builder.Calling.CallbackUrl")
+                    CallbackUrl = SettingsUtils.GetAppSettings("Microsoft.Bot.Builder.Calling.CallbackUrl")
                 };
             }
             catch (Exception e)

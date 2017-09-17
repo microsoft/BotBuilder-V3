@@ -36,9 +36,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Internals.Fibers;
+#if NET46
+using System.Net.Http;
+#else
+using Microsoft.AspNetCore.Http;
+#endif
 
 namespace Microsoft.Bot.Builder.Calling
 {
@@ -97,15 +101,23 @@ namespace Microsoft.Bot.Builder.Calling
         /// <summary>
         /// The calling request.
         /// </summary>
+#if NET46
         public readonly HttpRequestMessage Request;
+#else
+        public readonly HttpRequest Request;
+#endif
 
         /// <summary>
         /// Creates a new instance of calling context. 
         /// </summary>
         /// <param name="request"> The calling request.</param>
+#if NET46
         public CallingContext(HttpRequestMessage request)
+#else
+        public CallingContext(HttpRequest request)
+#endif
         {
-            SetField.NotNull<HttpRequestMessage>(out this.Request, nameof(request), request);
+            SetField.NotNull(out this.Request, nameof(request), request);
         }
 
         /// <summary>
@@ -123,7 +135,7 @@ namespace Microsoft.Bot.Builder.Calling
                     break;
                 case CallRequestType.CallingEvent:
                     parsedRequest = await ProcessCallingEventAsync();
-                    break;              
+                    break;
                 default:
                     parsedRequest = GenerateParsedResults(HttpStatusCode.BadRequest, $"{callType} not accepted");
                     break;
@@ -131,18 +143,25 @@ namespace Microsoft.Bot.Builder.Calling
             parsedRequest.SkypeChainId = ExtractSkypeChainId(this.Request);
             return parsedRequest;
         }
-       
+
         protected virtual async Task<ParsedCallingRequest> ProcessIncomingCallAsync()
         {
             try
             {
+#if NET46
                 if (Request.Content == null)
                 {
                     Trace.TraceError("No content in the request");
                     return GenerateParsedResults(HttpStatusCode.BadRequest);
                 }
-
                 var content = await Request.Content.ReadAsStringAsync().ConfigureAwait(false);
+#else
+                string content ;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    content = await reader.ReadToEndAsync();
+                }
+#endif
                 return GenerateParsedResults(HttpStatusCode.OK, content);
             }
             catch (Exception e)
@@ -156,18 +175,26 @@ namespace Microsoft.Bot.Builder.Calling
         {
             try
             {
+#if NET46
                 if (Request.Content == null)
                 {
                     Trace.TraceError("No content in the request");
                     return GenerateParsedResults(HttpStatusCode.BadRequest);
                 }
-
                 if (Request.Content.IsMimeMultipartContent())
                 {
                     return await HandleMultipartRequest(Request).ConfigureAwait(false);
                 }
-
                 var content = await Request.Content.ReadAsStringAsync().ConfigureAwait(false);
+#else
+                if (Request.HasFormContentType)
+                {
+                    return await HandleMultipartRequest(Request).ConfigureAwait(false);
+                }
+                string content;
+                using (var reader = new StreamReader(Request.Body))
+                    content = await reader.ReadToEndAsync();
+#endif
                 return GenerateParsedResults(HttpStatusCode.OK, content);
             }
             catch (Exception e)
@@ -177,6 +204,7 @@ namespace Microsoft.Bot.Builder.Calling
             }
         }
 
+#if NET46
         private async Task<ParsedCallingRequest> HandleMultipartRequest(HttpRequestMessage request)
         {
             var streamProvider = await request.Content.ReadAsMultipartAsync().ConfigureAwait(false);
@@ -200,6 +228,34 @@ namespace Microsoft.Bot.Builder.Calling
             return GenerateParsedResults(HttpStatusCode.OK, json, otherContent.ReadAsStreamAsync());
         }
 
+#else
+        private async Task<ParsedCallingRequest> HandleMultipartRequest(HttpRequest request)
+        {
+            Debug.Assert(request.HasFormContentType);
+            var form = await request.ReadFormAsync().ConfigureAwait(false);
+            var jsonContent = form.Files.FirstOrDefault(file =>
+                file.ContentType.StartsWith("application/json", StringComparison.Ordinal));
+            if (jsonContent == null)
+            {
+                Trace.TraceError("No json content in MultiPart content");
+                return GenerateParsedResults(HttpStatusCode.BadRequest);
+            }
+            var otherContent = form.Files.FirstOrDefault(file =>
+                !file.ContentType.StartsWith("application/json", StringComparison.Ordinal));
+            string json;
+            using (var reader = new StreamReader(jsonContent.OpenReadStream()))
+            {
+                json = await reader.ReadToEndAsync();
+            }
+            if (otherContent == null)
+            {
+                Trace.TraceError("MultiPart content does not contain non json content");
+                return GenerateParsedResults(HttpStatusCode.BadRequest);
+            }
+            return GenerateParsedResults(HttpStatusCode.OK, json, Task.FromResult(otherContent.OpenReadStream()));
+        }
+#endif
+
         /// <summary>
         /// Generate the <see cref="ParsedCallingRequest"/> from the arguments
         /// </summary>
@@ -222,6 +278,7 @@ namespace Microsoft.Bot.Builder.Calling
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+#if NET46
         public static string ExtractSkypeChainId(HttpRequestMessage request)
         {
             string chainId = null;
@@ -232,5 +289,11 @@ namespace Microsoft.Bot.Builder.Calling
             }
             return chainId;
         }
+#else
+        public static string ExtractSkypeChainId(HttpRequest request)
+        {
+            return request.Headers["X-Microsoft-Skype-Chain-ID"].FirstOrDefault();
+        }
+#endif
     }
 }

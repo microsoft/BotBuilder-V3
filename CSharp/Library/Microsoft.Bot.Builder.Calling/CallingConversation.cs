@@ -34,9 +34,15 @@ using Autofac;
 using System;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Bot.Connector;
+#if NET46
+using System.Net.Http;
+#else
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+#endif
 
 namespace Microsoft.Bot.Builder.Calling
 {
@@ -77,7 +83,11 @@ namespace Microsoft.Bot.Builder.Calling
         /// <param name="toBot"> The calling request sent to the bot.</param>
         /// <param name="callRequestType"> The type of calling request.</param>
         /// <returns> The response from the bot.</returns>
+#if NET46
         public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage toBot, CallRequestType callRequestType)
+#else
+        public static async Task<IActionResult> SendAsync(HttpRequest toBot, CallRequestType callRequestType)
+#endif
         {
             using (var scope = CallingModule.BeginLifetimeScope(Container, toBot))
             {
@@ -87,7 +97,11 @@ namespace Microsoft.Bot.Builder.Calling
                 Trace.TraceInformation($"Processing X-Microsoft-Skype-Chain-ID: {parsedRequest.SkypeChainId}");
                 if (parsedRequest.Faulted())
                 {
+#if NET46
                     return context.Request.CreateResponse(parsedRequest.ParseStatusCode);
+#else
+                    return new StatusCodeResult((int) parsedRequest.ParseStatusCode);
+#endif
                 }
                 else
                 {
@@ -105,15 +119,22 @@ namespace Microsoft.Bot.Builder.Calling
                             default:
                                 throw new Exception($"Unsupported call request type: {callRequestType}");
                         }
-
+#if NET46
                         return new HttpResponseMessage(HttpStatusCode.OK)
                         {
                             Content = new StringContent(res, Encoding.UTF8, "application/json")
                         };
+#else
+                        return new ContentResult {Content = res, ContentType = "application/json", StatusCode = 200};
+#endif
                     }
                     catch (Exception e)
                     {
+#if NET46
                         return context.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
+#else
+                        return new ObjectResult(e) {StatusCode = 500};
+#endif
                     }
                 }
             }
