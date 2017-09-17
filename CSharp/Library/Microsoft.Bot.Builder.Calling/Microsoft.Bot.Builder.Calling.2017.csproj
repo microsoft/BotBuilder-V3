@@ -29,20 +29,5 @@
     <ProjectReference Include="..\Microsoft.Bot.Builder\Microsoft.Bot.Builder.2017.csproj" />
     <ProjectReference Include="..\Microsoft.Bot.Builder.Autofac\Microsoft.Bot.Builder.Autofac.2017.csproj" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Compile Update="Resource\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resource\Resources.resx">
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
 
 </Project>
