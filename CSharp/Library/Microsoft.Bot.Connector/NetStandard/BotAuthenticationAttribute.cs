@@ -1,6 +1,4 @@
-﻿#if !NET45
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -135,6 +133,3 @@ namespace Microsoft.Bot.Connector
         }
     }
 }
-
-
-#endif

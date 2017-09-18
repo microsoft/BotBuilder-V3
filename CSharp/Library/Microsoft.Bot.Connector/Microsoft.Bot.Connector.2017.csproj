@@ -28,6 +28,10 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
     <Compile Include="..\Microsoft.Bot.Connector.NetFramework\*.cs" Link="%(Filename)%(Extension)" />
+    <Compile Remove="NetStandard\**" />
+    <None Include="NetStandard\**">
+      <!-- This is a hack so that VS2017 will show "NetStandard" folder in project explorer. -->
+    </None>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web" />
     <Reference Include="System.IdentityModel" />
