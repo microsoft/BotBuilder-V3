@@ -76,14 +76,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Tests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{797080F6-66BB-4B09-A202-1A0704E36503}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RView", "Tools\RView\RView.2017.csproj", "{12CAE029-7B8D-4928-8504-28746C36ADB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RView", "Tools\RView\RView.csproj", "{12CAE029-7B8D-4928-8504-28746C36ADB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleFacebookAuthBot", "Samples\SimpleFacebookAuthBot\Microsoft.Bot.Sample.SimpleFacebookAuthBot.2017.csproj", "{EA7E0647-B1FE-4813-B6FC-8DC518A4D2DF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResXToXlf", "Tools\ResXToXlf\ResXToXlf.2017.csproj", "{D4902CFE-78ED-4BE7-898F-32ACAD46B4AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResXToXlf", "Tools\ResXToXlf\ResXToXlf.csproj", "{D4902CFE-78ED-4BE7-898F-32ACAD46B4AC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.2017", "Library\Microsoft.Bot.Connector\Microsoft.Bot.Connector.2017.csproj", "{DF397EFC-91DB-4911-9971-C509926FC288}"
 EndProject
