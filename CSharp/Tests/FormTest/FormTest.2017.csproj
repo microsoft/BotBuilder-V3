@@ -144,7 +144,7 @@
       <Name>Microsoft.Bot.Sample.SimpleSandwichBot</Name>
       <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
-    <ProjectReference Include="..\..\Tools\RView\RView.2017.csproj">
+    <ProjectReference Include="..\..\Tools\RView\RView.csproj">
       <Project>{12cae029-7b8d-4928-8504-28746c36adb3}</Project>
       <Name>RView</Name>
     </ProjectReference>
