@@ -22,7 +22,7 @@ namespace Microsoft.Bot.Sample.AspNetCore.SimpleFacebookAuthBot
         /// <remarks>
         /// Make sure to replace this with the appropriate website url registered for your Facebook app.
         /// </remarks>
-        public static readonly Uri FacebookOauthCallback = new Uri("http://localhost:4999/api/OAuthCallback");
+        public static readonly Uri FacebookOauthCallback = new Uri(SettingsUtils.GetAppSettings("FacebookOauthCallback"));
 
         /// <summary>
         /// The key that is used to keep the AccessToken in <see cref="Microsoft.Bot.Builder.Dialogs.Internals.IBotData.PrivateConversationData"/>

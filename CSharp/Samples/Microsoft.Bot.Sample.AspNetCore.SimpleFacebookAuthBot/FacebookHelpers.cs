@@ -42,11 +42,13 @@ namespace Microsoft.Bot.Sample.AspNetCore.SimpleFacebookAuthBot
     /// </summary>
     public static class FacebookHelpers
     {
+        // Here we use SettingsUtils. However, it would be better to use DI to get the IConfiguration.
+
         // The Facebook App Id
-        public static readonly string FacebookAppId = "YOUR_FACEBOOK_APP_ID";
+        public static readonly string FacebookAppId = SettingsUtils.GetAppSettings("FacebookAppId");
 
         // The Facebook App Secret
-        public static readonly string FacebookAppSecret = "YOUR_FACEBOOK_APP_SECRET";
+        public static readonly string FacebookAppSecret = SettingsUtils.GetAppSettings("FacebookAppSecret");
 
         public async static Task<FacebookAcessToken> ExchangeCodeForAccessToken(ConversationReference conversationReference, string code, string facebookOauthCallback)
         {
