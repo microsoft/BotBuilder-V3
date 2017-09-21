@@ -224,7 +224,7 @@ export class Library extends EventEmitter {
                     }
                 });
             } else {
-                ctx.logger.warn(ctx.dialogStack(), "Active dialog '" + entry.id + "' not found in library.");
+                context.logger.warn(context.dialogStack(), "Active dialog '" + entry.id + "' not found in library.");
                 callback(null, results);
             }
         } else {
