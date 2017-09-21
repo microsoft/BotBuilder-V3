@@ -273,7 +273,25 @@ export interface IChatConnectorAddress extends IAddress {
     id?: string;
 
     /** Specifies the URL to post messages back. */ 
-    serviceUrl?: string; 
+    serviceUrl?: string;
+}
+
+/** Additional properties that can be passed in with the address to [UniversalBot.beginDialog()](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.universalbot#begindialog). */
+export interface IStartConversationAddress extends IChatConnectorAddress {
+    /** (Optional) when creating a new conversation, use this activity as the initial message to the conversation. */
+    activity?: any;
+
+    /** (Optional) channel specific payload for creating the conversation. */
+    channelData?: any;
+
+    /** (Optional) if true the conversation should be a group conversation. */
+    isGroup?: boolean;
+
+    /** (Optional) members to add to the conversation. If missing, the conversation will be started with the [user](#user). */
+    members?: IIdentity[];
+
+    /** (Optional) topic of the conversation (if supported by the channel) */
+    topicName?: string;
 }
 
 /**  

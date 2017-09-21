@@ -80,7 +80,14 @@ export interface IChatConnectorEndpoint {
 export interface IChatConnectorAddress extends IAddress {
     id?: string;            // Incoming Message ID
     serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete
+}
+
+export interface IStartConversationAddress extends IChatConnectorAddress {
+    activity?: any;
     channelData?: any;
+    isGroup?: boolean;
+    members?: IIdentity[];
+    topicName?: string;
 }
 
 export class ChatConnector implements IConnector, IBotStorage {
@@ -274,7 +281,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         }, (err) => done(err, !err ? addresses : null));
     }
 
-    public startConversation(address: IChatConnectorAddress, done: (err: Error, address?: IAddress) => void): void {
+    public startConversation(address: IStartConversationAddress, done: (err: Error, address?: IAddress) => void): void {
         if (address && address.user && address.bot && address.serviceUrl) {
             // Issue request
             var options: request.Options = {
@@ -285,11 +292,14 @@ export class ChatConnector implements IConnector, IBotStorage {
                 url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
-                    members: [address.user],
-                    channelData: address.channelData
+                    members: address.members || [address.user]
                 },
                 json: true
             };
+            if (address.activity) { options.body.activity = address.activity }
+            if (address.channelData) { options.body.channelData = address.channelData }
+            if (address.isGroup !== undefined) { options.body.isGroup = address.isGroup }
+            if (address.topicName) { options.body.topicName = address.topicName }
             this.authenticatedRequest(options, (err, response, body) => {
                 var adr: IChatConnectorAddress;
                 if (!err) {
@@ -298,9 +308,8 @@ export class ChatConnector implements IConnector, IBotStorage {
                         if (obj && obj.hasOwnProperty('id')) {
                             adr = utils.clone(address);
                             adr.conversation = { id: obj['id'] };
-                            if (adr.id) {
-                                delete adr.id;
-                            }
+                            if (obj['serviceUrl']) { adr.serviceUrl = obj['serviceUrl'] }
+                            if (adr.id) { delete adr.id }
                         } else {
                             err = new Error('Failed to start conversation: no conversation ID returned.')
                         }

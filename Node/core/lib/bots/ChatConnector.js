@@ -195,11 +195,22 @@ var ChatConnector = (function () {
                 url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
-                    members: [address.user],
-                    channelData: address.channelData
+                    members: address.members || [address.user]
                 },
                 json: true
             };
+            if (address.activity) {
+                options.body.activity = address.activity;
+            }
+            if (address.channelData) {
+                options.body.channelData = address.channelData;
+            }
+            if (address.isGroup !== undefined) {
+                options.body.isGroup = address.isGroup;
+            }
+            if (address.topicName) {
+                options.body.topicName = address.topicName;
+            }
             this.authenticatedRequest(options, function (err, response, body) {
                 var adr;
                 if (!err) {
@@ -208,6 +219,9 @@ var ChatConnector = (function () {
                         if (obj && obj.hasOwnProperty('id')) {
                             adr = utils.clone(address);
                             adr.conversation = { id: obj['id'] };
+                            if (obj['serviceUrl']) {
+                                adr.serviceUrl = obj['serviceUrl'];
+                            }
                             if (adr.id) {
                                 delete adr.id;
                             }
@@ -535,40 +549,64 @@ var ChatConnector = (function () {
             }
         });
     };
-    ChatConnector.prototype.getAccessToken = function (cb) {
+    ChatConnector.prototype.tokenExpired = function () {
+        return Date.now() >= this.accessTokenExpires;
+    };
+    ChatConnector.prototype.tokenHalfWayExpired = function (secondstoHalfWayExpire, secondsToExpire) {
+        if (secondstoHalfWayExpire === void 0) { secondstoHalfWayExpire = 1800; }
+        if (secondsToExpire === void 0) { secondsToExpire = 300; }
+        var timeToExpiration = (this.accessTokenExpires - Date.now()) / 1000;
+        return timeToExpiration < secondstoHalfWayExpire
+            && timeToExpiration > secondsToExpire;
+    };
+    ChatConnector.prototype.refreshAccessToken = function (cb) {
         var _this = this;
-        if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
-            var opt = {
-                method: 'POST',
-                url: this.settings.endpoint.refreshEndpoint,
-                form: {
-                    grant_type: 'client_credentials',
-                    client_id: this.settings.appId,
-                    client_secret: this.settings.appPassword,
-                    scope: this.settings.endpoint.refreshScope
-                }
-            };
-            this.addUserAgent(opt);
-            request(opt, function (err, response, body) {
-                if (!err) {
-                    if (body && response.statusCode < 300) {
-                        var oauthResponse = JSON.parse(body);
-                        _this.accessToken = oauthResponse.access_token;
-                        _this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
-                        cb(null, _this.accessToken);
-                    }
-                    else {
-                        cb(new Error('Refresh access token failed with status code: ' + response.statusCode), null);
-                    }
+        var opt = {
+            method: 'POST',
+            url: this.settings.endpoint.refreshEndpoint,
+            form: {
+                grant_type: 'client_credentials',
+                client_id: this.settings.appId,
+                client_secret: this.settings.appPassword,
+                scope: this.settings.endpoint.refreshScope
+            }
+        };
+        this.addUserAgent(opt);
+        request(opt, function (err, response, body) {
+            if (!err) {
+                if (body && response.statusCode < 300) {
+                    var oauthResponse = JSON.parse(body);
+                    _this.accessToken = oauthResponse.access_token;
+                    _this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
+                    cb(null, _this.accessToken);
                 }
                 else {
-                    cb(err, null);
+                    cb(new Error('Refresh access token failed with status code: ' + response.statusCode), null);
                 }
+            }
+            else {
+                cb(err, null);
+            }
+        });
+    };
+    ChatConnector.prototype.getAccessToken = function (cb) {
+        var _this = this;
+        if (this.accessToken == null || this.tokenExpired()) {
+            this.refreshAccessToken(function (err, token) {
+                cb(err, _this.accessToken);
             });
         }
-        else {
-            cb(null, this.accessToken);
+        else if (this.tokenHalfWayExpired()) {
+            var oldToken = this.accessToken;
+            this.refreshAccessToken(function (err, token) {
+                if (!err)
+                    cb(null, _this.accessToken);
+                else
+                    cb(null, oldToken);
+            });
         }
+        else
+            cb(null, this.accessToken);
     };
     ChatConnector.prototype.addUserAgent = function (options) {
         if (!options.headers) {
