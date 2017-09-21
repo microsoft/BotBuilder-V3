@@ -31,7 +31,7 @@ var RegExpRecognizer = (function (_super) {
             var locale = context.locale || '*';
             var exp = this.expressions.hasOwnProperty(locale) ? this.expressions[locale] : this.expressions['*'];
             if (exp) {
-                var matches = exp.exec(context.message.text);
+                var matches = new RegExp(exp).exec(context.message.text);
                 if (matches && matches.length) {
                     var matched = matches[0];
                     result.score = 0.4 + ((matched.length / context.message.text.length) * 0.6);

@@ -57,7 +57,7 @@ export class RegExpRecognizer extends IntentRecognizer {
             var locale = context.locale || '*';
             var exp = this.expressions.hasOwnProperty(locale) ? this.expressions[locale] : this.expressions['*'];
             if (exp) {
-                var matches = exp.exec(context.message.text);
+                var matches = new RegExp(exp).exec(context.message.text);
                 if (matches && matches.length) {
                     // Score is coverage on a scale of 0.4 - 1.0.
                     var matched = matches[0];
