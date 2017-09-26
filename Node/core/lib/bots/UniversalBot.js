@@ -250,7 +250,7 @@ var UniversalBot = (function (_super) {
         this._onDisambiguateRoute = handler;
     };
     UniversalBot.prototype.loadSession = function (address, done) {
-        this.loadSessionWithOptionalDispatch(address, false, done);
+        this.loadSessionWithOptionalDispatch(address, true, done);
     };
     UniversalBot.prototype.loadSessionWithoutDispatching = function (address, done) {
         this.loadSessionWithOptionalDispatch(address, false, done);

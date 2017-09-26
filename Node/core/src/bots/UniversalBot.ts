@@ -335,7 +335,7 @@ export class UniversalBot extends Library {
     
     /** Loads a session object for an arbitrary address. */
     public loadSession(address: IAddress, done: (err: Error, session: Session) => void): void {
-        this.loadSessionWithOptionalDispatch(address, false, done);
+        this.loadSessionWithOptionalDispatch(address, true, done);
     }
 
     public loadSessionWithoutDispatching(address: IAddress, done: (err: Error, session: Session) => void): void {
