@@ -484,7 +484,13 @@
             ],
             "examples": [
                 {
-                    "title": "noexample"
+                    "title": "example1",
+                    "resource": "example1",
+                    "example_description": "General view of a Sign in card in Teams.",
+                    "image_url": "example1.png",
+                    "json_url": "example1.json",
+                    "cs_url": "example1.cs",
+                    "js_url": "example1.js"
                 }
             ]
         },
