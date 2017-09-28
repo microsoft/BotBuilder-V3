@@ -28,8 +28,10 @@ var ChatConnector = (function () {
                 msaAudience: 'https://graph.microsoft.com',
                 emulatorOpenIdMetadata: 'https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration',
                 emulatorAudience: this.settings.appId,
-                emulatorIssuerV1: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
-                emulatorIssuerV2: 'https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/v2.0',
+                emulatorAuthV31IssuerV1: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
+                emulatorAuthV31IssuerV2: 'https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/v2.0',
+                emulatorAuthV32IssuerV1: 'https://sts.windows.net/f8cdef31-a31e-4b4a-93e4-5f571e91255a/',
+                emulatorAuthV32IssuerV2: 'https://login.microsoftonline.com/f8cdef31-a31e-4b4a-93e4-5f571e91255a/v2.0',
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             };
         }
@@ -71,47 +73,55 @@ var ChatConnector = (function () {
             var verifyOptions;
             var openIdMetadata;
             var algorithms = ['RS256', 'RS384', 'RS512'];
-            if (isEmulator && decoded_1.payload.iss == this.settings.endpoint.msaIssuer) {
-                openIdMetadata = this.msaOpenIdMetadata;
-                verifyOptions = {
-                    algorithms: algorithms,
-                    issuer: this.settings.endpoint.msaIssuer,
-                    audience: this.settings.endpoint.msaAudience,
-                    clockTolerance: 300
-                };
+            if (isEmulator) {
+                if ((decoded_1.payload.ver === '2.0' && decoded_1.payload.azp !== this.settings.appId) ||
+                    (decoded_1.payload.ver !== '2.0' && decoded_1.payload.appid !== this.settings.appId)) {
+                    logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
+                    res.status(403);
+                    res.end();
+                    return;
+                }
+                if (decoded_1.payload.iss == this.settings.endpoint.msaIssuer) {
+                    openIdMetadata = this.msaOpenIdMetadata;
+                    verifyOptions = {
+                        algorithms: algorithms,
+                        issuer: this.settings.endpoint.msaIssuer,
+                        audience: this.settings.endpoint.msaAudience,
+                        clockTolerance: 300
+                    };
+                }
+                else {
+                    var issuer = void 0;
+                    if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
+                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
+                    }
+                    else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
+                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
+                    }
+                    else if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
+                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
+                    }
+                    else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
+                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
+                    }
+                    if (issuer) {
+                        openIdMetadata = this.emulatorOpenIdMetadata;
+                        verifyOptions = {
+                            algorithms: algorithms,
+                            issuer: issuer,
+                            audience: this.settings.endpoint.emulatorAudience,
+                            clockTolerance: 300
+                        };
+                    }
+                }
             }
-            else if (isEmulator && decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorIssuerV1) {
-                openIdMetadata = this.emulatorOpenIdMetadata;
-                verifyOptions = {
-                    algorithms: algorithms,
-                    issuer: this.settings.endpoint.emulatorIssuerV1,
-                    audience: this.settings.endpoint.emulatorAudience,
-                    clockTolerance: 300
-                };
-            }
-            else if (isEmulator && decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorIssuerV2) {
-                openIdMetadata = this.emulatorOpenIdMetadata;
-                verifyOptions = {
-                    algorithms: algorithms,
-                    issuer: this.settings.endpoint.emulatorIssuerV2,
-                    audience: this.settings.endpoint.emulatorAudience,
-                    clockTolerance: 300
-                };
-            }
-            else {
+            if (!verifyOptions) {
                 openIdMetadata = this.botConnectorOpenIdMetadata;
                 verifyOptions = {
                     issuer: this.settings.endpoint.botConnectorIssuer,
                     audience: this.settings.endpoint.botConnectorAudience,
                     clockTolerance: 300
                 };
-            }
-            if (isEmulator && ((decoded_1.payload.ver === '2.0' && decoded_1.payload.azp !== this.settings.appId) ||
-                (decoded_1.payload.ver !== '2.0' && decoded_1.payload.appid !== this.settings.appId))) {
-                logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
-                res.status(403);
-                res.end();
-                return;
             }
             openIdMetadata.getKey(decoded_1.header.kid, function (key) {
                 if (key) {
