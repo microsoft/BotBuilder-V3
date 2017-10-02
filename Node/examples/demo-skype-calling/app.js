@@ -73,6 +73,8 @@ var connector = new calling.CallConnector({
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
 var bot = new calling.UniversalCallBot(connector);
+// use memory storage per https://github.com/Microsoft/BotBuilder/issues/3547
+bot.set('storage', new builder.MemoryBotStorage());
 server.post('/api/calls', connector.listen());
 
 //=========================================================
