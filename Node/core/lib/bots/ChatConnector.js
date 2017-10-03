@@ -23,9 +23,6 @@ var ChatConnector = (function () {
                 botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://login.botframework.com/v1/.well-known/openidconfiguration',
                 botConnectorIssuer: 'https://api.botframework.com',
                 botConnectorAudience: this.settings.appId,
-                msaOpenIdMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
-                msaIssuer: 'https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/',
-                msaAudience: 'https://graph.microsoft.com',
                 emulatorOpenIdMetadata: 'https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration',
                 emulatorAudience: this.settings.appId,
                 emulatorAuthV31IssuerV1: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
@@ -36,7 +33,6 @@ var ChatConnector = (function () {
             };
         }
         this.botConnectorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
-        this.msaOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
     }
     ChatConnector.prototype.listen = function () {
@@ -81,38 +77,27 @@ var ChatConnector = (function () {
                     res.end();
                     return;
                 }
-                if (decoded_1.payload.iss == this.settings.endpoint.msaIssuer) {
-                    openIdMetadata = this.msaOpenIdMetadata;
+                var issuer = void 0;
+                if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
+                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
+                }
+                else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
+                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
+                }
+                else if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
+                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
+                }
+                else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
+                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
+                }
+                if (issuer) {
+                    openIdMetadata = this.emulatorOpenIdMetadata;
                     verifyOptions = {
                         algorithms: algorithms,
-                        issuer: this.settings.endpoint.msaIssuer,
-                        audience: this.settings.endpoint.msaAudience,
+                        issuer: issuer,
+                        audience: this.settings.endpoint.emulatorAudience,
                         clockTolerance: 300
                     };
-                }
-                else {
-                    var issuer = void 0;
-                    if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
-                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
-                    }
-                    else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
-                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
-                    }
-                    else if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
-                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
-                    }
-                    else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
-                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
-                    }
-                    if (issuer) {
-                        openIdMetadata = this.emulatorOpenIdMetadata;
-                        verifyOptions = {
-                            algorithms: algorithms,
-                            issuer: issuer,
-                            audience: this.settings.endpoint.emulatorAudience,
-                            clockTolerance: 300
-                        };
-                    }
                 }
             }
             if (!verifyOptions) {

@@ -67,9 +67,6 @@ export interface IChatConnectorEndpoint {
     botConnectorOpenIdMetadata: string;
     botConnectorIssuer: string;
     botConnectorAudience: string;
-    msaOpenIdMetadata: string;
-    msaIssuer: string;
-    msaAudience: string;
     emulatorOpenIdMetadata: string;
     emulatorAuthV31IssuerV1: string;
     emulatorAuthV31IssuerV2: string;
@@ -98,7 +95,6 @@ export class ChatConnector implements IConnector, IBotStorage {
     private accessToken: string;
     private accessTokenExpires: number;
     private botConnectorOpenIdMetadata: OpenIdMetadata;
-    private msaOpenIdMetadata: OpenIdMetadata;
     private emulatorOpenIdMetadata: OpenIdMetadata;
 
     constructor(protected settings: IChatConnectorSettings = {}) {
@@ -109,9 +105,6 @@ export class ChatConnector implements IConnector, IBotStorage {
                 botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://login.botframework.com/v1/.well-known/openidconfiguration',
                 botConnectorIssuer: 'https://api.botframework.com',
                 botConnectorAudience: this.settings.appId,
-                msaOpenIdMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
-                msaIssuer: 'https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/',
-                msaAudience: 'https://graph.microsoft.com',
                 emulatorOpenIdMetadata: 'https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration',
                 emulatorAudience: this.settings.appId,
                 emulatorAuthV31IssuerV1: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
@@ -123,7 +116,6 @@ export class ChatConnector implements IConnector, IBotStorage {
         }
 
         this.botConnectorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
-        this.msaOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
     }
 
@@ -173,41 +165,30 @@ export class ChatConnector implements IConnector, IBotStorage {
                     return;
                 }
 
-                if(decoded.payload.iss == this.settings.endpoint.msaIssuer) {
-                    // This token came from MSA, so check it via the emulator path
-                    openIdMetadata = this.msaOpenIdMetadata;
+                // the token came from the emulator, so ensure the correct issuer is used
+                let issuer: string;
+                if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
+                    // This token came from the emulator as a v1 token using the Auth v3.1 issuer
+                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
+                } else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
+                    // This token came from the emulator as a v2 token using the Auth v3.1 issuer
+                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
+                } else if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
+                    // This token came from the emulator as a v1 token using the Auth v3.2 issuer
+                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
+                } else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
+                    // This token came from the emulator as a v2 token using the Auth v3.2 issuer
+                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
+                }
+
+                if (issuer) {
+                    openIdMetadata = this.emulatorOpenIdMetadata;
                     verifyOptions = {
                         algorithms: algorithms,
-                        issuer: this.settings.endpoint.msaIssuer,
-                        audience: this.settings.endpoint.msaAudience,
+                        issuer: issuer,
+                        audience: this.settings.endpoint.emulatorAudience,
                         clockTolerance: 300
                     };
-                } else {
-                    // the token came from the emulator, so ensure the correct issuer is used
-                    let issuer: string;
-                    if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
-                        // This token came from the emulator as a v1 token using the Auth v3.1 issuer
-                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
-                    } else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
-                        // This token came from the emulator as a v2 token using the Auth v3.1 issuer
-                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
-                    } else if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
-                        // This token came from the emulator as a v1 token using the Auth v3.2 issuer
-                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
-                    } else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
-                        // This token came from the emulator as a v2 token using the Auth v3.2 issuer
-                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
-                    }
-
-                    if (issuer) {
-                        openIdMetadata = this.emulatorOpenIdMetadata;
-                        verifyOptions = {
-                            algorithms: algorithms,
-                            issuer: issuer,
-                            audience: this.settings.endpoint.emulatorAudience,
-                            clockTolerance: 300
-                        };
-                    }
                 }
             }
 
