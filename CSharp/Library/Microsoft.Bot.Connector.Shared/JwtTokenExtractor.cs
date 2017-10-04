@@ -173,7 +173,7 @@ namespace Microsoft.Bot.Connector
             if (appIdClaim == null)
                 return null;
 
-            // v3.1 emulator token
+            // v3.1 or v3.2 emulator token
             if (identity.Claims.Any(c => c.Type == "aud" && c.Value == appIdClaim.Value))
                 return appIdClaim.Value;
 
