@@ -263,11 +263,11 @@ var PromptRecognizers = (function () {
         if (min === void 0) { min = 0.5; }
         return Math.min(min + (entity.length / utterance.length), max);
     };
+    PromptRecognizers.numOrdinals = {};
+    PromptRecognizers.expCache = {};
+    PromptRecognizers.choiceCache = {};
     return PromptRecognizers;
 }());
-PromptRecognizers.numOrdinals = {};
-PromptRecognizers.expCache = {};
-PromptRecognizers.choiceCache = {};
 exports.PromptRecognizers = PromptRecognizers;
 function matchAll(exp, text) {
     exp.lastIndex = 0;
