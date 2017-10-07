@@ -99,11 +99,23 @@ export interface IConversationUpdate extends IEvent {
     /** Array of members removed from the conversation. */
     membersRemoved?: IIdentity[];
 
+    /** Array of reactions added to an activity. */
+    reactionsAdded?: IMessageReaction[];
+    
+    /** Array of reactions removed from an activity. */
+    reactionsRemoved?: IMessageReaction[];
+
     /** The conversations new topic name. */
     topicName?: string;
 
     /** If true then history was disclosed. */
     historyDisclosed?: boolean;
+}
+
+/** Message reaction object. */
+export interface IMessageReaction {
+    /** Message reaction type. */
+    type: string;
 }
 
 /** 
