@@ -10,3 +10,6 @@ popd
 pushd Microsoft.Bot.Builder.History
 call createpackage.cmd
 popd
+pushd Microsoft.Bot.Connector.NetFramework
+call createpackage.cmd
+popd

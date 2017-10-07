@@ -22,3 +22,6 @@ using System.Runtime.InteropServices;
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("2e2551ab-ea81-44fd-8d0e-89d55197ac76")]
+
+//[assembly: AssemblyKeyFileAttribute(@"..\\..\\buildtools\\35MSSharedLib1024.snk")] 
+//[assembly: AssemblyDelaySignAttribute(true)]

@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder", "Library\Microsoft.Bot.Builder\Microsoft.Bot.Builder.csproj", "{CDFEC7D6-847E-4C13-956B-0A960AE3EB60}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{FAEFFF66-7944-48F4-972A-9A1C13A5C206}"
 	ProjectSection(SolutionItems) = preProject
 		Samples\README.md = Samples\README.md
@@ -19,15 +17,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8E05398E-3CBE-4DCD-9382-072DC8859427}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{8B80380D-BA94-4257-842B-D8BC185EDEA5}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{797080F6-66BB-4B09-A202-1A0704E36503}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder", "Library\Microsoft.Bot.Builder\Microsoft.Bot.Builder.csproj", "{CDFEC7D6-847E-4C13-956B-0A960AE3EB60}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormTest", "Tests\FormTest\FormTest.csproj", "{77BD8C61-FB06-4BF7-A346-D2C87284390A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{8674F271-4437-4178-B4E2-15F91B322E5D} = {8674F271-4437-4178-B4E2-15F91B322E5D}
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{8B80380D-BA94-4257-842B-D8BC185EDEA5}"
-	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Documentation", "Documentation\Documentation.csproj", "{72C60ACB-4804-4584-AD49-00289A89F227}"
@@ -79,8 +81,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Simple
 		{DF397EFC-91DB-4911-9971-C509926FC288} = {DF397EFC-91DB-4911-9971-C509926FC288}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{797080F6-66BB-4B09-A202-1A0704E36503}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RView", "Tools\RView\RView.csproj", "{12CAE029-7B8D-4928-8504-28746C36ADB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleFacebookAuthBot", "Samples\SimpleFacebookAuthBot\Microsoft.Bot.Sample.SimpleFacebookAuthBot.csproj", "{EA7E0647-B1FE-4813-B6FC-8DC518A4D2DF}"
@@ -114,9 +114,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Autof
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Connector.NetCore", "Library\Microsoft.Bot.Connector.NetCore\Microsoft.Bot.Connector.NetCore.csproj", "{992F6A37-10D0-4676-A18E-8343A1F09FFF}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.Bot.Connector.AspNetCore", "Library\Microsoft.Bot.Connector.AspNetCore\Microsoft.Bot.Connector.AspNetCore.xproj", "{2E2551AB-EA81-44FD-8D0E-89D55197AC76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.AspNetCore", "Library\Microsoft.Bot.Connector.AspNetCore\Microsoft.Bot.Connector.AspNetCore.csproj", "{2E2551AB-EA81-44FD-8D0E-89D55197AC76}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Microsoft.Bot.Sample.AspNetCore.EchoBot", "Samples\Microsoft.Bot.Sample.AspNetCore.Echo\Microsoft.Bot.Sample.AspNetCore.EchoBot.xproj", "{A91F876C-BC71-49A8-BD24-444F80DF62BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.AspNetCore.Echo", "Samples\Microsoft.Bot.Sample.AspNetCore.Echo\Microsoft.Bot.Sample.AspNetCore.Echo.csproj", "{A91F876C-BC71-49A8-BD24-444F80DF62BB}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.Bot.Connector.Shared", "Library\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.shproj", "{133E6973-CF90-4691-8685-D42D79C8884B}"
 EndProject
@@ -305,5 +305,8 @@ Global
 		{A91F876C-BC71-49A8-BD24-444F80DF62BB} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{133E6973-CF90-4691-8685-D42D79C8884B} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F82D70DE-DC3B-4B04-97CD-3CFF66345798}
 	EndGlobalSection
 EndGlobal

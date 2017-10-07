@@ -34,3 +34,6 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+//[assembly: AssemblyKeyFileAttribute(@"\\cp1pd2cdscvlt01\Public\StrongNamePublicKeys\35MSSharedLib1024.snk")]
+//[assembly: AssemblyDelaySignAttribute(true)]
