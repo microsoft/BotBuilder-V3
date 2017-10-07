@@ -112,6 +112,26 @@ export interface IConversationUpdate extends IEvent {
     historyDisclosed?: boolean;
 }
 
+/** 
+ * The Properties of a message have changed.  
+ * @example
+ * <pre><code>
+ * bot.on('messageReaction', function (update) {
+ *     // ... process update ...
+ * });
+ * </code></pre>
+ */
+export interface IMessageUpdate extends IEvent {
+    /** Reference to another conversation or message. */
+    relatesTo?: IAddress;
+    
+    /** Array of reactions added to an activity. */
+    reactionsAdded?: IMessageReaction[];
+    
+    /** Array of reactions removed from an activity. */
+    reactionsRemoved?: IMessageReaction[];
+}
+
 /** Message reaction object. */
 export interface IMessageReaction {
     /** Message reaction type. */
