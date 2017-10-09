@@ -122,8 +122,8 @@ export interface IConversationUpdate extends IEvent {
  * </code></pre>
  */
 export interface IMessageUpdate extends IEvent {
-    /** Reference to another conversation or message. */
-    relatesTo?: IAddress;
+    /** The ID of the message this update is related to. */
+    replyToId?: string;
     
     /** Array of reactions added to an activity. */
     reactionsAdded?: IMessageReaction[];
