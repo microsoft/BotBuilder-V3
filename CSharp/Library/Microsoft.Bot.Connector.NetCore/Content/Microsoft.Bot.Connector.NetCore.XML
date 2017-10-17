@@ -3365,10 +3365,16 @@
             Static credential provider which has the appid and password static
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.ConfigurationCredentialProvider">
+        <member name="T:Microsoft.Bot.Connector.SettingsCredentialProvider">
             <summary>
-            Credential provider which uses <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> to lookup appId and password
+            Credential provider which uses config settings to lookup appId and password
             </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SettingsUtils.AttachConfiguration(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            .NET Core dedicated: Attach the specified <see cref="T:Microsoft.Extensions.Configuration.IConfiguration"/> instance to this static configuration provider.
+            </summary>
+            <remarks>This method should be called before the first request received on .NET Core platform.</remarks>
         </member>
         <member name="T:Microsoft.Bot.Connector.EndOfConversationCodes">
             <summary>
