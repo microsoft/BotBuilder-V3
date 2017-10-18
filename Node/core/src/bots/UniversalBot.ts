@@ -335,6 +335,16 @@ export class UniversalBot extends Library {
     
     /** Loads a session object for an arbitrary address. */
     public loadSession(address: IAddress, done: (err: Error, session: Session) => void): void {
+        this.loadSessionWithOptionalDispatch(address, true, done);
+    }
+
+    public loadSessionWithoutDispatching(address: IAddress, done: (err: Error, session: Session) => void): void {
+        this.loadSessionWithOptionalDispatch(address, false, done);
+    }
+
+    private loadSessionWithOptionalDispatch(address: IAddress, shouldDispatch: boolean, done: (err: Error, session: Session) => void): void {
+        const newStack = false;
+
         this.lookupUser(address, (user) => {
             var msg = <IMessage>{
                 type: consts.messageType,
@@ -355,11 +365,10 @@ export class UniversalBot extends Library {
                     persistUserData: this.settings.persistUserData,
                     persistConversationData: this.settings.persistConversationData 
                 };
-                this.createSession(storageCtx, msg, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, done);
+                this.createSession(storageCtx, msg, this.settings.defaultDialogId || '/', this.settings.defaultDialogArgs, done, newStack, shouldDispatch);
             }, this.errorLogger(<any>done));
         }, this.errorLogger(<any>done));
     }
-
     //-------------------------------------------------------------------------
     // Helpers
     //-------------------------------------------------------------------------
@@ -407,7 +416,7 @@ export class UniversalBot extends Library {
         }, newStack);
     }
 
-    private createSession(storageCtx: IBotStorageContext, message: IMessage, dialogId: string, dialogArgs: any, done: (err: Error, session: Session) => void, newStack = false): void {
+    private createSession(storageCtx: IBotStorageContext, message: IMessage, dialogId: string, dialogArgs: any, done: (err: Error, session: Session) => void, newStack = false, shouldDispatch = true): void {
         var loadedData: IBotStorageData;
         this.getStorageData(storageCtx, (data) => {
             // Create localizer on first access
@@ -464,8 +473,11 @@ export class UniversalBot extends Library {
             }
             loadedData = data;  // We'll clone it when saving data later
             
-            // Dispatch message
-            session.dispatch(sessionState, message, () => done(null, session));
+            if (shouldDispatch) {
+                session.dispatch(sessionState, message, () => done(null, session));
+            } else {
+                done(null, session);
+            }
         }, <any>done);
     }
 

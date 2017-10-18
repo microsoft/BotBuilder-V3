@@ -25,6 +25,7 @@
       <dependency id="Autofac" version="3.5.2"/>
       <dependency id="Chronic.Signed" version="0.3.2" />
       <dependency id="Microsoft.AspNet.WebAPI.Core" version="5.2.3" />
+      <dependency id="Microsoft.Bot.Connector" version="3.11.0" />
       <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.2" />
       <dependency id="Newtonsoft.Json" version="8.0.3" />
       <dependency id="System.IdentityModel.Tokens.Jwt" version="[4.0.4.403061554,5.0)" />
@@ -32,10 +33,6 @@
     </dependencies>
   </metadata>
   <files>
-    <!-- assembly Microsoft.Bot.Connector -->
-    <file src="..\Microsoft.Bot.Connector.NetFramework\bin\release\Microsoft.Bot.Connector.dll" target="lib\net46"/>
-    <file src="..\Microsoft.Bot.Connector.NetFramework\bin\release\Microsoft.Bot.Connector.xml" target="lib\net46" />
-    <file src="..\Microsoft.Bot.Connector.NetFramework\bin\release\Microsoft.Bot.Connector.pdb" target="lib\net46" />
     <!-- assembly Microsoft.Bot.Builder -->
     <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.dll" target="lib\net46"/>
     <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.xml" target="lib\net46" />

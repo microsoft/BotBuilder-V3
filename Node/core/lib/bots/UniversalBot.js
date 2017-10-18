@@ -250,7 +250,14 @@ var UniversalBot = (function (_super) {
         this._onDisambiguateRoute = handler;
     };
     UniversalBot.prototype.loadSession = function (address, done) {
+        this.loadSessionWithOptionalDispatch(address, true, done);
+    };
+    UniversalBot.prototype.loadSessionWithoutDispatching = function (address, done) {
+        this.loadSessionWithOptionalDispatch(address, false, done);
+    };
+    UniversalBot.prototype.loadSessionWithOptionalDispatch = function (address, shouldDispatch, done) {
         var _this = this;
+        var newStack = false;
         this.lookupUser(address, function (user) {
             var msg = {
                 type: consts.messageType,
@@ -271,7 +278,7 @@ var UniversalBot = (function (_super) {
                     persistUserData: _this.settings.persistUserData,
                     persistConversationData: _this.settings.persistConversationData
                 };
-                _this.createSession(storageCtx, msg, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, done);
+                _this.createSession(storageCtx, msg, _this.settings.defaultDialogId || '/', _this.settings.defaultDialogArgs, done, newStack, shouldDispatch);
             }, _this.errorLogger(done));
         }, this.errorLogger(done));
     };
@@ -288,9 +295,10 @@ var UniversalBot = (function (_super) {
             }
         }, newStack);
     };
-    UniversalBot.prototype.createSession = function (storageCtx, message, dialogId, dialogArgs, done, newStack) {
+    UniversalBot.prototype.createSession = function (storageCtx, message, dialogId, dialogArgs, done, newStack, shouldDispatch) {
         var _this = this;
         if (newStack === void 0) { newStack = false; }
+        if (shouldDispatch === void 0) { shouldDispatch = true; }
         var loadedData;
         this.getStorageData(storageCtx, function (data) {
             if (!_this.localizer) {
@@ -340,7 +348,12 @@ var UniversalBot = (function (_super) {
                 delete session.privateConversationData[consts.Data.SessionState];
             }
             loadedData = data;
-            session.dispatch(sessionState, message, function () { return done(null, session); });
+            if (shouldDispatch) {
+                session.dispatch(sessionState, message, function () { return done(null, session); });
+            }
+            else {
+                done(null, session);
+            }
         }, done);
     };
     UniversalBot.prototype.routeMessage = function (session, done) {

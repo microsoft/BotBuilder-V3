@@ -32,9 +32,11 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.9.1.0")]
-[assembly: AssemblyFileVersion("3.9.1.0")]
+[assembly: AssemblyVersion("3.10.5.0")]
+[assembly: AssemblyFileVersion("3.10.5.0")]
 
 [assembly: InternalsVisibleTo("Microsoft.Bot.Builder.Tests")]
 [assembly: InternalsVisibleTo("Microsoft.Bot.Sample.Tests")]
 
+//[assembly: AssemblyKeyFileAttribute(@"..\\..\\buildtools\\35MSSharedLib1024.snk")] 
+//[assembly: AssemblyDelaySignAttribute(true)]

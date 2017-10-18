@@ -23,18 +23,16 @@ var ChatConnector = (function () {
                 botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://login.botframework.com/v1/.well-known/openidconfiguration',
                 botConnectorIssuer: 'https://api.botframework.com',
                 botConnectorAudience: this.settings.appId,
-                msaOpenIdMetadata: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
-                msaIssuer: 'https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/',
-                msaAudience: 'https://graph.microsoft.com',
                 emulatorOpenIdMetadata: 'https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration',
                 emulatorAudience: this.settings.appId,
-                emulatorIssuerV1: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
-                emulatorIssuerV2: 'https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/v2.0',
+                emulatorAuthV31IssuerV1: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
+                emulatorAuthV31IssuerV2: 'https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/v2.0',
+                emulatorAuthV32IssuerV1: 'https://sts.windows.net/f8cdef31-a31e-4b4a-93e4-5f571e91255a/',
+                emulatorAuthV32IssuerV2: 'https://login.microsoftonline.com/f8cdef31-a31e-4b4a-93e4-5f571e91255a/v2.0',
                 stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
             };
         }
         this.botConnectorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
-        this.msaOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.msaOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
     }
     ChatConnector.prototype.listen = function () {
@@ -71,47 +69,44 @@ var ChatConnector = (function () {
             var verifyOptions;
             var openIdMetadata;
             var algorithms = ['RS256', 'RS384', 'RS512'];
-            if (isEmulator && decoded_1.payload.iss == this.settings.endpoint.msaIssuer) {
-                openIdMetadata = this.msaOpenIdMetadata;
-                verifyOptions = {
-                    algorithms: algorithms,
-                    issuer: this.settings.endpoint.msaIssuer,
-                    audience: this.settings.endpoint.msaAudience,
-                    clockTolerance: 300
-                };
+            if (isEmulator) {
+                if ((decoded_1.payload.ver === '2.0' && decoded_1.payload.azp !== this.settings.appId) ||
+                    (decoded_1.payload.ver !== '2.0' && decoded_1.payload.appid !== this.settings.appId)) {
+                    logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
+                    res.status(403);
+                    res.end();
+                    return;
+                }
+                var issuer = void 0;
+                if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
+                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
+                }
+                else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
+                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
+                }
+                else if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
+                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
+                }
+                else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
+                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
+                }
+                if (issuer) {
+                    openIdMetadata = this.emulatorOpenIdMetadata;
+                    verifyOptions = {
+                        algorithms: algorithms,
+                        issuer: issuer,
+                        audience: this.settings.endpoint.emulatorAudience,
+                        clockTolerance: 300
+                    };
+                }
             }
-            else if (isEmulator && decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorIssuerV1) {
-                openIdMetadata = this.emulatorOpenIdMetadata;
-                verifyOptions = {
-                    algorithms: algorithms,
-                    issuer: this.settings.endpoint.emulatorIssuerV1,
-                    audience: this.settings.endpoint.emulatorAudience,
-                    clockTolerance: 300
-                };
-            }
-            else if (isEmulator && decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorIssuerV2) {
-                openIdMetadata = this.emulatorOpenIdMetadata;
-                verifyOptions = {
-                    algorithms: algorithms,
-                    issuer: this.settings.endpoint.emulatorIssuerV2,
-                    audience: this.settings.endpoint.emulatorAudience,
-                    clockTolerance: 300
-                };
-            }
-            else {
+            if (!verifyOptions) {
                 openIdMetadata = this.botConnectorOpenIdMetadata;
                 verifyOptions = {
                     issuer: this.settings.endpoint.botConnectorIssuer,
                     audience: this.settings.endpoint.botConnectorAudience,
                     clockTolerance: 300
                 };
-            }
-            if (isEmulator && ((decoded_1.payload.ver === '2.0' && decoded_1.payload.azp !== this.settings.appId) ||
-                (decoded_1.payload.ver !== '2.0' && decoded_1.payload.appid !== this.settings.appId))) {
-                logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
-                res.status(403);
-                res.end();
-                return;
             }
             openIdMetadata.getKey(decoded_1.header.kid, function (key) {
                 if (key) {
@@ -195,11 +190,22 @@ var ChatConnector = (function () {
                 url: urlJoin(address.serviceUrl, '/v3/conversations'),
                 body: {
                     bot: address.bot,
-                    members: [address.user],
-                    channelData: address.channelData
+                    members: address.members || [address.user]
                 },
                 json: true
             };
+            if (address.activity) {
+                options.body.activity = address.activity;
+            }
+            if (address.channelData) {
+                options.body.channelData = address.channelData;
+            }
+            if (address.isGroup !== undefined) {
+                options.body.isGroup = address.isGroup;
+            }
+            if (address.topicName) {
+                options.body.topicName = address.topicName;
+            }
             this.authenticatedRequest(options, function (err, response, body) {
                 var adr;
                 if (!err) {
@@ -208,6 +214,9 @@ var ChatConnector = (function () {
                         if (obj && obj.hasOwnProperty('id')) {
                             adr = utils.clone(address);
                             adr.conversation = { id: obj['id'] };
+                            if (obj['serviceUrl']) {
+                                adr.serviceUrl = obj['serviceUrl'];
+                            }
                             if (adr.id) {
                                 delete adr.id;
                             }
@@ -535,40 +544,64 @@ var ChatConnector = (function () {
             }
         });
     };
-    ChatConnector.prototype.getAccessToken = function (cb) {
+    ChatConnector.prototype.tokenExpired = function () {
+        return Date.now() >= this.accessTokenExpires;
+    };
+    ChatConnector.prototype.tokenHalfWayExpired = function (secondstoHalfWayExpire, secondsToExpire) {
+        if (secondstoHalfWayExpire === void 0) { secondstoHalfWayExpire = 1800; }
+        if (secondsToExpire === void 0) { secondsToExpire = 300; }
+        var timeToExpiration = (this.accessTokenExpires - Date.now()) / 1000;
+        return timeToExpiration < secondstoHalfWayExpire
+            && timeToExpiration > secondsToExpire;
+    };
+    ChatConnector.prototype.refreshAccessToken = function (cb) {
         var _this = this;
-        if (!this.accessToken || new Date().getTime() >= this.accessTokenExpires) {
-            var opt = {
-                method: 'POST',
-                url: this.settings.endpoint.refreshEndpoint,
-                form: {
-                    grant_type: 'client_credentials',
-                    client_id: this.settings.appId,
-                    client_secret: this.settings.appPassword,
-                    scope: this.settings.endpoint.refreshScope
-                }
-            };
-            this.addUserAgent(opt);
-            request(opt, function (err, response, body) {
-                if (!err) {
-                    if (body && response.statusCode < 300) {
-                        var oauthResponse = JSON.parse(body);
-                        _this.accessToken = oauthResponse.access_token;
-                        _this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
-                        cb(null, _this.accessToken);
-                    }
-                    else {
-                        cb(new Error('Refresh access token failed with status code: ' + response.statusCode), null);
-                    }
+        var opt = {
+            method: 'POST',
+            url: this.settings.endpoint.refreshEndpoint,
+            form: {
+                grant_type: 'client_credentials',
+                client_id: this.settings.appId,
+                client_secret: this.settings.appPassword,
+                scope: this.settings.endpoint.refreshScope
+            }
+        };
+        this.addUserAgent(opt);
+        request(opt, function (err, response, body) {
+            if (!err) {
+                if (body && response.statusCode < 300) {
+                    var oauthResponse = JSON.parse(body);
+                    _this.accessToken = oauthResponse.access_token;
+                    _this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
+                    cb(null, _this.accessToken);
                 }
                 else {
-                    cb(err, null);
+                    cb(new Error('Refresh access token failed with status code: ' + response.statusCode), null);
                 }
+            }
+            else {
+                cb(err, null);
+            }
+        });
+    };
+    ChatConnector.prototype.getAccessToken = function (cb) {
+        var _this = this;
+        if (this.accessToken == null || this.tokenExpired()) {
+            this.refreshAccessToken(function (err, token) {
+                cb(err, _this.accessToken);
             });
         }
-        else {
-            cb(null, this.accessToken);
+        else if (this.tokenHalfWayExpired()) {
+            var oldToken = this.accessToken;
+            this.refreshAccessToken(function (err, token) {
+                if (!err)
+                    cb(null, _this.accessToken);
+                else
+                    cb(null, oldToken);
+            });
         }
+        else
+            cb(null, this.accessToken);
     };
     ChatConnector.prototype.addUserAgent = function (options) {
         if (!options.headers) {
