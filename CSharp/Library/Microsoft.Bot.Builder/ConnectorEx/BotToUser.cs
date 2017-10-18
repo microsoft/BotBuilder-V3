@@ -198,7 +198,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     {
                         var topOfStack = stack.Frames[0].Target;
                         // if there is a prompt dialog on top of stack, the InputHint will be set to Expecting
-                        if (topOfStack.GetType().DeclaringType == typeof(PromptDialog))
+                        if (topOfStack != null && topOfStack.GetType().DeclaringType == typeof(PromptDialog))
                         {
                             toUser.InputHint = InputHints.ExpectingInput;
                         }
