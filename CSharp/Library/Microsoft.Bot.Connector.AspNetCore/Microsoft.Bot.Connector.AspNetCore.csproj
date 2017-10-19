@@ -3,12 +3,11 @@
   <PropertyGroup>
     <AssemblyTitle>Microsoft.Bot.Connector</AssemblyTitle>
     <VersionPrefix>3.8.0</VersionPrefix>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>Microsoft.Bot.Connector</AssemblyName>
     <PackageId>Microsoft.Bot.Connector.AspNetCore</PackageId>
-    <NetStandardImplicitPackageVersion>1.6.0</NetStandardImplicitPackageVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
@@ -21,13 +20,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Connector.NetCore\Microsoft.Bot.Connector.NetCore.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="1.0.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
+    <ProjectReference Include="..\Microsoft.Bot.Connector.NetCore\Microsoft.Bot.Connector.NetCore.csproj" />
   </ItemGroup>
 
 </Project>

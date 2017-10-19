@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Connector
 
             return app.UseMiddleware<BotAuthenticationMiddleware>(Options.Create(options));
         }
-        
+
         public static IApplicationBuilder UseBotAuthentication(this IApplicationBuilder app, BotAuthenticationOptions options)
         {
             if (app == null)
@@ -66,7 +66,7 @@ namespace Microsoft.Bot.Connector
         }
     }
 
-    
+
     /// <summary>
     /// Bot authentication middleware. <see cref="AuthenticationMiddleware{TOptions}"/> for more information.
     /// </summary>

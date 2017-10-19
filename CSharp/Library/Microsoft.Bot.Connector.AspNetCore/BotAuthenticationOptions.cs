@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 
 namespace Microsoft.Bot.Connector
@@ -6,14 +7,17 @@ namespace Microsoft.Bot.Connector
     /// <summary>
     /// Options for <see cref="BotAuthenticationMiddleware"/>.
     /// </summary>
-    public sealed class BotAuthenticationOptions : AuthenticationOptions
+    public sealed class BotAuthenticationOptions : AuthenticationSchemeOptions /* THIS CHANGED? from AuthenticationOptions*/
     {
         public BotAuthenticationOptions() : base()
         {
             AuthenticationScheme = JwtBearerDefaults.AuthenticationScheme;
-            AutomaticAuthenticate = true;
-            AutomaticChallenge = false;
+            //AutomaticAuthenticate = true; NO LONGER EXISTS?
+            //AutomaticChallenge = false;
         }
+
+        // HAD TO ADD?
+        string AuthenticationScheme { get; set; }
 
         /// <summary>
         /// The <see cref="ICredentialProvider"/> used for authentication.
