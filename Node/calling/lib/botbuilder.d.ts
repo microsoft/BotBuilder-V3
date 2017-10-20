@@ -1403,7 +1403,7 @@ export class SimpleDialog extends Dialog {
 
 /** Default in memory storage implementation for storing user & session state data. */
 export class MemoryBotStorage implements IBotStorage {
-    /** Returns data from memmory for the given context. */
+    /** Returns data from memory for the given context. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
     
     /** Saves data to memory for the given context. */
