@@ -59,7 +59,7 @@ namespace Microsoft.Bot.Builder.FormFlowTest
     };
     public enum PizzaOptions
     {
-        Unkown, SignaturePizza, GourmetDelitePizza, StuffedPizza,
+        Unknown, SignaturePizza, GourmetDelitePizza, StuffedPizza,
 
         [Terms("byo", "build your own")]
         [Describe("Build your own")]

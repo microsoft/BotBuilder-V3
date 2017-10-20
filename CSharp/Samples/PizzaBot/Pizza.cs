@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
     };
     public enum PizzaOptions
     {
-        Unkown, SignaturePizza, GourmetDelitePizza, StuffedPizza,
+        Unknown, SignaturePizza, GourmetDelitePizza, StuffedPizza,
 
         [Terms(new string[] { "byo", "build your own" })]
         [Describe("Build your own")]

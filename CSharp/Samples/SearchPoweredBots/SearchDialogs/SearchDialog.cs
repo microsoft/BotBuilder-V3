@@ -200,7 +200,7 @@ namespace Microsoft.Bot.Sample.SearchDialogs
             SearchHit hit = found.Find(h => h.Key == selection);
             if (hit == null)
             {
-                await UnkownActionOnResults(context, selection);
+                await UnknownActionOnResults(context, selection);
             }
             else
             {
@@ -221,7 +221,7 @@ namespace Microsoft.Bot.Sample.SearchDialogs
             }
         }
 
-        protected virtual async Task UnkownActionOnResults(IDialogContext context, string action)
+        protected virtual async Task UnknownActionOnResults(IDialogContext context, string action)
         {
             await context.PostAsync("Not sure what you mean. You can search *again*, *refine*, *list* or select one of the items above. Or are you *done*?");
             context.Wait(ActOnSearchResults);
