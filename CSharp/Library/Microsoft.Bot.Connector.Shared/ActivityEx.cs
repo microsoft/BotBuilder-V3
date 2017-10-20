@@ -215,6 +215,7 @@ namespace Microsoft.Bot.Connector
         /// <param name="handlers"></param>
         /// <param name="activity"></param>
         /// <returns></returns>
+        [System.Obsolete("Deprecated: This method will only get the default state client, if you have implemented a custom state client it will not retrieve it")]
         public static StateClient GetStateClient(this IActivity activity, MicrosoftAppCredentials credentials, string serviceUrl = null, params DelegatingHandler[] handlers)
         {
             bool useServiceUrl = (activity.ChannelId == "emulator");
