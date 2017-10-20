@@ -87,13 +87,13 @@
     <value>Opção atual ('a');atual;a;opção atual;sem alteração;sem mudança;sem mudar;sem alterar</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>Não;n;errado;2</value>
+    <value>Não;nao;n;incorreto;errado;2</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>Sem preferência;não;qualquer um;qualquer uma;qualquer;tanto faz;Eu não me importo</value>
   </data>
   <data name="MatchYes" xml:space="preserve">
-    <value>Sim;s;correto;certo;ok;isso;1</value>
+    <value>Sim;s;correto;certo;claro;com certeza;ok;isso;1</value>
   </data>
   <data name="PromptRetry" xml:space="preserve">
     <value>Não entendi. Tente dizer de outra forma.</value>
