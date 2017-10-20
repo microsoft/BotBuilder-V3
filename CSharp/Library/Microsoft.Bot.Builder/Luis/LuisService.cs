@@ -289,7 +289,8 @@ namespace Microsoft.Bot.Builder.Luis
         /// <returns>The LUIS result.</returns>
         public static async Task<LuisResult> QueryAsync(this ILuisService service, string text, CancellationToken token)
         {
-            return await service.QueryAsync(new LuisRequest(query: text), token);
+            var luisRequest = service.ModifyRequest(new LuisRequest(query: text));
+            return await service.QueryAsync(luisRequest, token);
         }
 
         /// <summary>
@@ -301,6 +302,7 @@ namespace Microsoft.Bot.Builder.Luis
         /// <returns>LUIS result.</returns>
         public static async Task<LuisResult> QueryAsync(this ILuisService service, LuisRequest request, CancellationToken token)
         {
+            service.ModifyRequest(request);
             var uri = service.BuildUri(request);
             return await service.QueryAsync(uri, token);
         }
