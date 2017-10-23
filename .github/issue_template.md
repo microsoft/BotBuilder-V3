@@ -1,5 +1,4 @@
 ## Bot Info <!-- As registered in the Bot Developer Portal at https://dev.botframework.com -->
-* Bot handle: 
 * App ID: 
 * SDK Platform: <!-- .NET or Node.js -->
 * SDK Version: <!-- SDK version -->
