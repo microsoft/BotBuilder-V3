@@ -106,7 +106,7 @@
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
           <source>No;n;nope;2</source>
-          <target state="signed-off">Não;n;errado;2</target>
+          <target state="signed-off">Não;nao;n;incorreto;errado;2</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>
@@ -114,7 +114,7 @@
         </trans-unit>
         <trans-unit id="MatchYes" translate="yes" xml:space="preserve">
           <source>Yes;y;sure;ok;yep;1</source>
-          <target state="signed-off">Sim;s;correto;certo;ok;isso;1</target>
+          <target state="signed-off">Sim;s;correto;certo;claro;com certeza;ok;isso;1</target>
         </trans-unit>
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>

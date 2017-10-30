@@ -12,11 +12,8 @@ using System.Diagnostics;
 using System.Web;
 #endif
 
-#if NET45
-    using System.IdentityModel.Tokens;
-#else
 using Microsoft.IdentityModel.Tokens;
-#endif
+
 
 namespace Microsoft.Bot.Connector
 {
