@@ -33,9 +33,9 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\release\Microsoft.Bot.Connector.dll" target="lib\net45"/>
-    <file src="bin\release\Microsoft.Bot.Connector.xml" target="lib\net45" />
-    <file src="bin\release\Microsoft.Bot.Connector.pdb" target="lib\net45" />
+    <file src="bin\release\Microsoft.Bot.Connector.dll" target="lib\net461"/>
+    <file src="bin\release\Microsoft.Bot.Connector.xml" target="lib\net461" />
+    <file src="bin\release\Microsoft.Bot.Connector.pdb" target="lib\net461" />
     <!-- assembly Microsoft.Bot.Connector for AspNetCore -->
     <file src="..\Microsoft.Bot.Connector.AspNetCore\bin\release\netstandard1.6\Microsoft.Bot.Connector.dll" target="lib\netstandard1.6" />
     <file src="..\Microsoft.Bot.Connector.AspNetCore\bin\release\netstandard1.6\Microsoft.Bot.Connector.pdb" target="lib\netstandard1.6" />

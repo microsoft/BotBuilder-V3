@@ -8,11 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource
-{
+namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -20,106 +19,88 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class DynamicSandwich
-    {
-
+    public class DynamicSandwich {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal DynamicSandwich()
-        {
+        internal DynamicSandwich() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if (object.ReferenceEquals(resourceMan, null))
-                {
+        public static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource.DynamicSandwich", typeof(DynamicSandwich).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        public static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Address must start with a number..
         /// </summary>
-        public static string BadAddress
-        {
-            get
-            {
+        public static string BadAddress {
+            get {
                 return ResourceManager.GetString("BadAddress", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Total for your sandwich is {0:C2} is that ok?.
         /// </summary>
-        public static string Cost
-        {
-            get
-            {
+        public static string Cost {
+            get {
                 return ResourceManager.GetString("Cost", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Free cookie.
         /// </summary>
-        public static string FreeCookie
-        {
-            get
-            {
+        public static string FreeCookie {
+            get {
                 return ResourceManager.GetString("FreeCookie", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Free drink.
         /// </summary>
-        public static string FreeDrink
-        {
-            get
-            {
+        public static string FreeDrink {
+            get {
                 return ResourceManager.GetString("FreeDrink", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to We are currently processing your sandwich. We will message you the status..
         /// </summary>
-        public static string Processing
-        {
-            get
-            {
+        public static string Processing {
+            get {
                 return ResourceManager.GetString("Processing", resourceCulture);
             }
         }
