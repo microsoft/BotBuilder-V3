@@ -33,9 +33,10 @@ namespace Microsoft.Bot.Sample.AspNetCore2.Echo
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 }
-                ).AddBotAuthentication(Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value,
-                Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppPasswordKey)?.Value);
-
+                ).AddBotAuthentication(
+                    Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value,
+                    Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppPasswordKey)?.Value);
+            
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(TrustServiceUrlAttribute));

@@ -47,7 +47,7 @@ namespace Microsoft.Bot.Connector
             {
                 CredentialProvider = credentialProvider
             };
-
+            
             return app.UseMiddleware<BotAuthenticationMiddleware>(Options.Create(options));
         }
         

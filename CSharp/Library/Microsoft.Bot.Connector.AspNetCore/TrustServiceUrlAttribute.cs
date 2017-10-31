@@ -1,21 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Mvc.Filters;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Connector
 {
     public class TrustServiceUrlAttribute : ActionFilterAttribute
     {
+        private readonly ICredentialProvider Options;
+
+        public TrustServiceUrlAttribute(ICredentialProvider options)
+        {
+            this.Options = options;
+        }
+        
         public async override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var activities = GetActivities(context);
-
-            foreach (var activity in activities)
+            if (!await Options.IsAuthenticationDisabledAsync())
             {
-                MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl);
+                var activities = GetActivities(context);
+
+                foreach (var activity in activities)
+                {
+                    MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl);
+                }
             }
             await next();
         }
@@ -43,6 +52,5 @@ namespace Microsoft.Bot.Connector
             }
             return activties;
         }
-
     }
 }
