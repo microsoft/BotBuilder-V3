@@ -34,13 +34,13 @@
   </metadata>
   <files>
     <!-- assembly Microsoft.Bot.Builder -->
-    <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.dll" target="lib\net46"/>
-    <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.xml" target="lib\net46" />
-    <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.pdb" target="lib\net46" />
+    <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.dll" target="lib\net461"/>
+    <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.xml" target="lib\net461" />
+    <file src="..\Microsoft.Bot.Builder\bin\release\Microsoft.Bot.Builder.pdb" target="lib\net461" />
     <!-- assembly Microsoft.Bot.Builder.Autofac -->
-    <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.dll"  target="lib\net46" />
-    <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.xml"  target="lib\net46" />
-    <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.pdb"  target="lib\net46" />
+    <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.dll"  target="lib\net461" />
+    <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.xml"  target="lib\net461" />
+    <file src="..\Microsoft.Bot.Builder.Autofac\bin\release\Microsoft.Bot.Builder.Autofac.pdb"  target="lib\net461" />
     <!-- source -->
     <file src="..\**\*.cs"
           exclude="**\obj\**\*.cs;..\Microsoft.Bot.Builder.Azure\**;..\Microsoft.Bot.Builder.Calling\**;..\Microsoft.Bot.Builder.FormFlow.Json\**;..\Microsoft.Bot.Builder.History\**;..\Microsoft.Bot.Connector.AspNetCore\**;..\Microsoft.Bot.Connector.NetCore\**"
@@ -48,18 +48,18 @@
     <!-- tools -->
     <file src="..\..\tools\rview\bin\release\RView.exe" target="tools"/>
     <!-- resources -->
-    <file src="bin\release\ar\*.dll" target="lib\net46\ar"/>
-    <file src="bin\release\cs\*.dll" target="lib\net46\cs"/>
-    <file src="bin\release\de-dE\*.dll" target="lib\net46\de-dE"/>
-    <file src="bin\release\pt-BR\*.dll" target="lib\net46\pt-BR"/>
-    <file src="bin\release\en\*.dll" target="lib\net46\en"/>
-    <file src="bin\release\es\*.dll" target="lib\net46\es"/>
-    <file src="bin\release\fa\*.dll" target="lib\net46\fa"/>
-    <file src="bin\release\fr\*.dll" target="lib\net46\fr"/>
-    <file src="bin\release\it\*.dll" target="lib\net46\it"/>
-    <file src="bin\release\ja\*.dll" target="lib\net46\ja"/>
-    <file src="bin\release\nl\*.dll" target="lib\net46\nl"/>
-    <file src="bin\release\ru\*.dll" target="lib\net46\ru"/>
-    <file src="bin\release\zh-hans\*.dll" target="lib\net46\zh-hans"/>
+    <file src="bin\release\ar\*.dll" target="lib\net461\ar"/>
+    <file src="bin\release\cs\*.dll" target="lib\net461\cs"/>
+    <file src="bin\release\de-dE\*.dll" target="lib\net461\de-dE"/>
+    <file src="bin\release\pt-BR\*.dll" target="lib\net461\pt-BR"/>
+    <file src="bin\release\en\*.dll" target="lib\net461\en"/>
+    <file src="bin\release\es\*.dll" target="lib\net461\es"/>
+    <file src="bin\release\fa\*.dll" target="lib\net461\fa"/>
+    <file src="bin\release\fr\*.dll" target="lib\net461\fr"/>
+    <file src="bin\release\it\*.dll" target="lib\net461\it"/>
+    <file src="bin\release\ja\*.dll" target="lib\net461\ja"/>
+    <file src="bin\release\nl\*.dll" target="lib\net461\nl"/>
+    <file src="bin\release\ru\*.dll" target="lib\net461\ru"/>
+    <file src="bin\release\zh-hans\*.dll" target="lib\net461\zh-hans"/>
   </files>
 </package>
