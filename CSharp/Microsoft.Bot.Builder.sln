@@ -90,7 +90,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Simple
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResXToXlf", "Tools\ResXToXlf\ResXToXlf.csproj", "{D4902CFE-78ED-4BE7-898F-32ACAD46B4AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Connector", "Library\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.csproj", "{DF397EFC-91DB-4911-9971-C509926FC288}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Connector", "Library\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.NetFramework.csproj", "{DF397EFC-91DB-4911-9971-C509926FC288}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.FormFlow.Json", "Library\Microsoft.Bot.Builder.FormFlow.Json\Microsoft.Bot.Builder.FormFlow.Json.csproj", "{8674F271-4437-4178-B4E2-15F91B322E5D}"
 	ProjectSection(ProjectDependencies) = postProject

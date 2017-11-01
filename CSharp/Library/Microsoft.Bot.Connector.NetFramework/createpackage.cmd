@@ -5,7 +5,7 @@ setlocal enableextensions
 set errorlevel=0
 mkdir ..\nuget
 erase /s ..\nuget\Microsoft.Bot.Connector*nupkg
-msbuild /property:Configuration=release /p:DefineConstants="NET45" Microsoft.Bot.Connector.csproj 
+msbuild /property:Configuration=release /p:DefineConstants="NET45" Microsoft.Bot.Connector.NetFramework.csproj 
 @rem msbuild /property:Configuration=release ..\Microsoft.Bot.Connector.NetCore\Microsoft.Bot.Connector.NetCore.csproj 
 msbuild /property:Configuration=release ..\Microsoft.Bot.Connector.AspNetCore\Microsoft.Bot.Connector.AspNetCore.csproj 
 msbuild /property:Configuration=release ..\Microsoft.Bot.Connector.AspNetCore2\Microsoft.Bot.Connector.AspNetCore2.csproj 
