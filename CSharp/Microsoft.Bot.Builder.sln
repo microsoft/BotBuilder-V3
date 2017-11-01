@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{FAEFFF66-7944-48F4-972A-9A1C13A5C206}"
 	ProjectSection(SolutionItems) = preProject
@@ -90,7 +90,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.Simple
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResXToXlf", "Tools\ResXToXlf\ResXToXlf.csproj", "{D4902CFE-78ED-4BE7-898F-32ACAD46B4AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Connector", "Library\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.NetFramework.csproj", "{DF397EFC-91DB-4911-9971-C509926FC288}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Connector.NetFramework", "Library\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.NetFramework.csproj", "{DF397EFC-91DB-4911-9971-C509926FC288}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.FormFlow.Json", "Library\Microsoft.Bot.Builder.FormFlow.Json\Microsoft.Bot.Builder.FormFlow.Json.csproj", "{8674F271-4437-4178-B4E2-15F91B322E5D}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -122,9 +122,11 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.Bot.Connector.Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.TemplateBot", "Samples\TemplateBot\Microsoft.Bot.Sample.TemplateBot.csproj", "{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Connector.AspNetCore2", "Library\Microsoft.Bot.Connector.AspNetCore2\Microsoft.Bot.Connector.AspNetCore2.csproj", "{AA997154-61D1-49FA-A4C6-E6AC79A7508A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.AspNetCore2", "Library\Microsoft.Bot.Connector.AspNetCore2\Microsoft.Bot.Connector.AspNetCore2.csproj", "{AA997154-61D1-49FA-A4C6-E6AC79A7508A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AspNetCore2.Echo", "Samples\Microsoft.Bot.Sample.AspNetCore2.Echo\Microsoft.Bot.Sample.AspNetCore2.Echo.csproj", "{E47F0592-A28B-41AA-A977-3114DBCF9C30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.AspNetCore2.Echo", "Samples\Microsoft.Bot.Sample.AspNetCore2.Echo\Microsoft.Bot.Sample.AspNetCore2.Echo.csproj", "{E47F0592-A28B-41AA-A977-3114DBCF9C30}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.Standard", "Library\Microsoft.Bot.Connector.Standard\Microsoft.Bot.Connector.Standard.csproj", "{32013CA6-2B38-4B59-9093-538167DF31E1}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -289,6 +291,12 @@ Global
 		{E47F0592-A28B-41AA-A977-3114DBCF9C30}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{E47F0592-A28B-41AA-A977-3114DBCF9C30}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E47F0592-A28B-41AA-A977-3114DBCF9C30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32013CA6-2B38-4B59-9093-538167DF31E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32013CA6-2B38-4B59-9093-538167DF31E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32013CA6-2B38-4B59-9093-538167DF31E1}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{32013CA6-2B38-4B59-9093-538167DF31E1}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{32013CA6-2B38-4B59-9093-538167DF31E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32013CA6-2B38-4B59-9093-538167DF31E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -323,6 +331,7 @@ Global
 		{BFAB8046-9ABD-44C2-8992-9F3A5D28E5C7} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
 		{AA997154-61D1-49FA-A4C6-E6AC79A7508A} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{E47F0592-A28B-41AA-A977-3114DBCF9C30} = {FAEFFF66-7944-48F4-972A-9A1C13A5C206}
+		{32013CA6-2B38-4B59-9093-538167DF31E1} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F82D70DE-DC3B-4B04-97CD-3CFF66345798}
