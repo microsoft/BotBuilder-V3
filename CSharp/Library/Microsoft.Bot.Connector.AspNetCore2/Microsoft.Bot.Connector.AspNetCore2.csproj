@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.0.1</Version>
+    <AssemblyName>Microsoft.Bot.Connector.AspNetCore</AssemblyName>
+    <RootNamespace>Microsoft.Bot.Connector</RootNamespace>
     <Authors>Microsoft</Authors>
     <Company>Microsoft</Company>
     <Product>Microsoft Bot Framework</Product>
@@ -14,8 +15,9 @@
     <AssemblyName>Microsoft.Bot.Connector.AspNetCore</AssemblyName>
     <RootNamespace>Microsoft.Bot.Connector</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>2.0.0.1</AssemblyVersion>
-    <FileVersion>2.0.0.1</FileVersion>
+    <Version>2.0.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

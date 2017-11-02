@@ -3,8 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Microsoft.Bot.Connector</AssemblyName>
-    <AssemblyVersion>3.12.0.1</AssemblyVersion>
-    <FileVersion>3.12.0.1</FileVersion>
+    <Copyright>Copyright © Microsoft Corporation 2016</Copyright>
+    <Description>Microsoft Bot Builder</Description>
   </PropertyGroup>
 
   <Import Project="..\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.projitems" Label="Shared" />
