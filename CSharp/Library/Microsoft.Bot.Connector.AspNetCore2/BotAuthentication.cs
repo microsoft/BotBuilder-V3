@@ -14,6 +14,8 @@ namespace Microsoft.Bot.Connector
 
         public static AuthenticationBuilder AddBotAuthentication(this AuthenticationBuilder builder, ICredentialProvider credentialProvider)
         {
+            builder.Services.AddSingleton(typeof(ICredentialProvider), credentialProvider);
+
             builder.AddBotAuthentication(JwtBearerDefaults.AuthenticationScheme, displayName: "botAuthenticator", configureOptions: options =>
             {
                 options.CredentialProvider = credentialProvider;
