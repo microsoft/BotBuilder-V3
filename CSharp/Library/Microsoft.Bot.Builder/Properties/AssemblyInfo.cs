@@ -37,9 +37,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("3.12.2")]
 
 
-//[assembly: InternalsVisibleTo("Microsoft.Bot.Builder.Tests")]
-//[assembly: InternalsVisibleTo("Microsoft.Bot.Sample.Tests")]
+////[assembly: InternalsVisibleTo("Microsoft.Bot.Builder.Tests")]
+////[assembly: InternalsVisibleTo("Microsoft.Bot.Sample.Tests")]
 [assembly: NeutralResourcesLanguage("en")]
 
-//[assembly: AssemblyKeyFileAttribute(@"..\\..\\buildtools\\35MSSharedLib1024.snk")]
-//[assembly: AssemblyDelaySignAttribute(true)]
+[assembly: AssemblyKeyFileAttribute(@"..\\..\\buildtools\\35MSSharedLib1024.snk")]
+[assembly: AssemblyDelaySignAttribute(true)]
