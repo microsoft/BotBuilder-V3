@@ -15,9 +15,9 @@
     <AssemblyName>Microsoft.Bot.Connector.AspNetCore</AssemblyName>
     <RootNamespace>Microsoft.Bot.Connector</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.0.0</Version>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
-    <FileVersion>2.0.0.0</FileVersion>
+    <Version>2.0.1</Version>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -34,7 +34,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Bot.Connector.Standard\Microsoft.Bot.Connector.Standard.csproj" />
   </ItemGroup>
-
-  <!--<Import Project="..\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.projitems" Label="Shared" />-->
 
 </Project>
