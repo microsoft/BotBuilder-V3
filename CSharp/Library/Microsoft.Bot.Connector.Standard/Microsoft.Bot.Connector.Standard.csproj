@@ -6,6 +6,7 @@
     <Copyright>Copyright © Microsoft Corporation 2016</Copyright>
     <Description>Microsoft Bot Builder</Description>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <Import Project="..\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.projitems" Label="Shared" />

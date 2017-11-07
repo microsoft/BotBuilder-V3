@@ -1,3 +1,4 @@
+erase /y nuget\*.*
 pushd Microsoft.Bot.Builder
 call createpackage.cmd
 popd

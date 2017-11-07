@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using System.Resources;
+
 
 [assembly: AssemblyTitle("Microsoft.Bot.Connector.AspNetCore")]
 [assembly: AssemblyDescription("")]
@@ -10,8 +12,8 @@
 [assembly: AssemblyCulture("")]
 
 
-[assembly: AssemblyVersion("2.0.0.1")]
-[assembly: AssemblyFileVersion("2.0.0.1")]
+[assembly: AssemblyVersion("1.1.3.1")]
+[assembly: AssemblyFileVersion("1.1.3.1")]
 
 //[assembly: AssemblyKeyFileAttribute(@"..\\..\\buildtools\\35MSSharedLib1024.snk")] 
 //[assembly: AssemblyDelaySignAttribute(true)]

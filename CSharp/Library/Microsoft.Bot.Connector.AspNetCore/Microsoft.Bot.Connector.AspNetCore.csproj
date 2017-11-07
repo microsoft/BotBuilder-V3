@@ -13,7 +13,8 @@
     <FileVersion>1.1.3.0</FileVersion>
     <RootNamespace>Microsoft.Bot.Connector</RootNamespace>
     <Version>1.1.3.0</Version>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
