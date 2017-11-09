@@ -956,6 +956,19 @@ export interface IPromptNumberOptions extends IPromptOptions {
     integerOnly?: boolean;
 }
 
+/**
+ * Options passed to [Prompts.text()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts#text)
+ * or in a `session.beginDialog()` call to a custom prompt based on the [PromptText](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompttext)
+ * class.
+ */
+export interface IPromptTextOptions extends IPromptOptions {
+    /** (Optional) minimum length that can be recognized. */
+    minLength?: number;
+
+    /** (Optional) maximum length that can be recognized. */
+    maxLength?: number;
+}
+
 /** Optional features for [PromptText](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompttext) class. */
 export interface IPromptTextFeatures extends IPromptFeatures {
     /** 
@@ -3448,7 +3461,7 @@ declare global {
          * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        text(session: Session, prompt: TextOrMessageType, options?: IPromptOptions): void;
+        text(session: Session, prompt: TextOrMessageType, options?: IPromptTextOptions): void;
 
         /**
          * Prompts the user to enter a number.

@@ -22,11 +22,45 @@ var PromptText = (function (_super) {
         }) || this;
         _this.updateFeatures(features);
         _this.onRecognize(function (context, cb) {
-            if (context.message.text && !_this.features.disableRecognizer) {
-                cb(null, _this.features.recognizeScore, context.message.text);
+            var text = context.message.text;
+            if (text && !_this.features.disableRecognizer) {
+                var options = context.dialogData.options;
+                if ((options.minLength && text.length < Number(options.minLength)) ||
+                    (options.maxLength && text.length > Number(options.maxLength))) {
+                    cb(null, 0.0);
+                }
+                else {
+                    cb(null, _this.features.recognizeScore, text);
+                }
             }
             else {
                 cb(null, 0.0);
+            }
+        });
+        _this.onFormatMessage(function (session, text, speak, callback) {
+            var context = session.dialogData;
+            var options = context.options;
+            var turnZero = context.turns === 0 || context.isReprompt;
+            var message = session.message.text;
+            if (!turnZero && (options.minLength || options.maxLength)) {
+                var errorPrompt;
+                if (options.minLength && message.length < Number(options.minLength)) {
+                    errorPrompt = 'text_minLength_error';
+                }
+                else if (options.maxLength && message.length > Number(options.maxLength)) {
+                    errorPrompt = 'text_maxLength_error';
+                }
+                if (errorPrompt) {
+                    var text_1 = Prompt_1.Prompt.gettext(session, errorPrompt, consts.Library.system);
+                    var msg = { text: session.gettext(text_1, options) };
+                    callback(null, msg);
+                }
+                else {
+                    callback(null, null);
+                }
+            }
+            else {
+                callback(null, null);
             }
         });
         _this.matches(consts.Intents.Repeat, function (session) {
