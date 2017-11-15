@@ -38,9 +38,11 @@ namespace Microsoft.Bot.Connector
 
         protected static readonly ConcurrentDictionary<string, OAuthResponse> cache = new ConcurrentDictionary<string, OAuthResponse>();
 
+#if !NET45
         protected ILogger logger;
+#endif 
 
-        public MicrosoftAppCredentials(string appId = null, string password = null, ILogger logger = null)
+        public MicrosoftAppCredentials(string appId = null, string password = null)
         {
             MicrosoftAppId = appId;
             MicrosoftAppPassword = password;
@@ -56,14 +58,22 @@ namespace Microsoft.Bot.Connector
             }
 #endif
             TokenCacheKey = $"{MicrosoftAppId}-cache";
-            this.logger = logger;
         }
 
+#if !NET45
+        public MicrosoftAppCredentials(string appId, string password, ILogger logger)
+            : this(appId, password)
+        {
+            this.logger = logger;
+        }
+#endif
+
+#if !NET45
         public MicrosoftAppCredentials(IConfiguration configuration, ILogger logger = null)
             : this(configuration.GetSection(MicrosoftAppIdKey)?.Value, configuration.GetSection(MicrosoftAppPasswordKey)?.Value, logger)
         {
         }
-
+#endif
 
 
         public string MicrosoftAppId { get; set; }

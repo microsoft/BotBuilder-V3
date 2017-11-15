@@ -60,7 +60,7 @@ namespace Microsoft.Bot.Connector
         [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> GetUserDataAsync(this IBotState operations, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
-#if !NETSTANDARD1_4
+#if NET45
             Trace.TraceWarning(Messages.StateApiDeprecated);
 #endif
             using (var _result = await operations.GetUserDataWithHttpMessagesAsync(channelId, userId, null, cancellationToken).ConfigureAwait(false))
@@ -113,7 +113,7 @@ namespace Microsoft.Bot.Connector
         [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> SetUserDataAsync(this IBotState operations, string channelId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
-#if !NETSTANDARD1_4
+#if NET45
             Trace.TraceWarning(Messages.StateApiDeprecated);
 #endif
             using (var _result = await operations.SetUserDataWithHttpMessagesAsync(channelId, userId, botData, null, cancellationToken).ConfigureAwait(false))
@@ -162,7 +162,7 @@ namespace Microsoft.Bot.Connector
         [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<string[]> DeleteStateForUserAsync(this IBotState operations, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
-#if !NETSTANDARD1_4
+#if NET45
             Trace.TraceWarning(Messages.StateApiDeprecated);
 #endif
 
@@ -210,7 +210,7 @@ namespace Microsoft.Bot.Connector
         [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> GetConversationDataAsync(this IBotState operations, string channelId, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
         {
-#if !NETSTANDARD1_4
+#if NET45
             Trace.TraceWarning(Messages.StateApiDeprecated);
 #endif
             using (var _result = await operations.GetConversationDataWithHttpMessagesAsync(channelId, conversationId, null, cancellationToken).ConfigureAwait(false))
@@ -263,7 +263,7 @@ namespace Microsoft.Bot.Connector
         [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> SetConversationDataAsync(this IBotState operations, string channelId, string conversationId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
-#if !NETSTANDARD1_4
+#if NET45
             Trace.TraceWarning(Messages.StateApiDeprecated);
 #endif
             using (var _result = await operations.SetConversationDataWithHttpMessagesAsync(channelId, conversationId, botData, null, cancellationToken).ConfigureAwait(false))
@@ -316,7 +316,7 @@ namespace Microsoft.Bot.Connector
         [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> GetPrivateConversationDataAsync(this IBotState operations, string channelId, string conversationId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
-#if !NETSTANDARD1_4
+#if NET45
             Trace.TraceWarning(Messages.StateApiDeprecated);
 #endif
             using (var _result = await operations.GetPrivateConversationDataWithHttpMessagesAsync(channelId, conversationId, userId, null, cancellationToken).ConfigureAwait(false))
@@ -375,7 +375,7 @@ namespace Microsoft.Bot.Connector
         [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> SetPrivateConversationDataAsync(this IBotState operations, string channelId, string conversationId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
-#if !NETSTANDARD1_4
+#if NET45
             Trace.TraceWarning(Messages.StateApiDeprecated);
 #endif
             using (var _result = await operations.SetPrivateConversationDataWithHttpMessagesAsync(channelId, conversationId, userId, botData, null, cancellationToken).ConfigureAwait(false))
