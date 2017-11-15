@@ -2,7 +2,7 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>Microsoft.Bot.Connector</id>
-    <version>3.12.2.1</version>
+    <version>3.12.2.2</version>
     <authors>Microsoft</authors>
     <iconUrl>https://bots.botframework.com/Client/Images/bot-framework-default-7.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -10,7 +10,7 @@
     <summary>Client REST API library for Microsoft Bot Framework Connector</summary>
     <language>en-US</language>
     <dependencies>
-      <group targetFramework=".NETFramework4.6.1">
+      <group targetFramework=".NETFramework4.6">
         <dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3" />
         <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
         <dependency id="Microsoft.IdentityModel.Logging" version="1.1.4" />
@@ -40,9 +40,9 @@
   </metadata>
   <files>
     <!-- assembly Microsoft.Bot.Connector for .net framework 4.61 -->
-    <file src="bin\release\Microsoft.Bot.Connector.dll" target="lib\net461"/>
-    <file src="bin\release\Microsoft.Bot.Connector.xml" target="lib\net461" />
-    <file src="bin\release\Microsoft.Bot.Connector.pdb" target="lib\net461" />
+    <file src="bin\release\Microsoft.Bot.Connector.dll" target="lib\net46"/>
+    <file src="bin\release\Microsoft.Bot.Connector.xml" target="lib\net46" />
+    <file src="bin\release\Microsoft.Bot.Connector.pdb" target="lib\net46" />
     <!-- assembly Microsoft.Bot.Connector for .net standard 1.4-->
     <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.dll" target="lib\netstandard1.4" />
     <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.pdb" target="lib\netstandard1.4" />
