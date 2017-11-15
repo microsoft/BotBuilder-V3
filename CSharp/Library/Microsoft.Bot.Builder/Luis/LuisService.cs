@@ -252,6 +252,16 @@ namespace Microsoft.Bot.Builder.Luis
             }
         }
 
+        public void ApplyThreshold(LuisResult result)
+        {
+            if (result.TopScoringIntent.Score > model.Threshold)
+            {
+                return;
+            }
+            result.TopScoringIntent.Intent = "None";
+            result.TopScoringIntent.Score = 1.0d;
+        }
+
         async Task<LuisResult> ILuisService.QueryAsync(Uri uri, CancellationToken token)
         {
             string json;
@@ -266,6 +276,7 @@ namespace Microsoft.Bot.Builder.Luis
             {
                 var result = JsonConvert.DeserializeObject<LuisResult>(json);
                 Fix(result);
+                ApplyThreshold(result);
                 return result;
             }
             catch (JsonException ex)
