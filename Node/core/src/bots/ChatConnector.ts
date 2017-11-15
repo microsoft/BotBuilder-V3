@@ -52,6 +52,8 @@ var MAX_DATA_LENGTH = 65000;
 
 var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/" + pjson.version + ")";
 
+var StateApiDreprecatedMessage = "The Bot State API is deprecated.  Please refer to https://aka.ms/I6swrh for details on how to replace with your own storage.";
+
 export interface IChatConnectorSettings {
     appId?: string;
     appPassword?: string;
@@ -355,8 +357,11 @@ export class ChatConnector implements IConnector, IBotStorage {
         this.authenticatedRequest(options, (err, response, body) => done(err));
     }
 
+
     public getData(context: IBotStorageContext, callback: (err: Error, data: IChatConnectorStorageData) => void): void {
         try {
+            console.warn(StateApiDreprecatedMessage);
+
             // Build list of read commands
             var root = this.getStoragePath(context.address);
             var list: any[] = [];
@@ -437,6 +442,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
 
     public saveData(context: IBotStorageContext, data: IChatConnectorStorageData, callback?: (err: Error) => void): void {
+        console.warn(StateApiDreprecatedMessage);
         var list: any[] = [];
         function addWrite(field: string, botData: any, url: string) {
             var hashKey = field + 'Hash';
