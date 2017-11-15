@@ -81,6 +81,9 @@ export interface IEvent {
      * [lookupUser](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
      */
     user: IIdentity;
+
+    /** The ID of the event this update is related to. */
+    replyToId?: string;
 }
 
 /** 
@@ -122,9 +125,6 @@ export interface IConversationUpdate extends IEvent {
  * </code></pre>
  */
 export interface IMessageUpdate extends IEvent {
-    /** The ID of the message this update is related to. */
-    replyToId?: string;
-    
     /** Array of reactions added to an activity. */
     reactionsAdded?: IMessageReaction[];
     
