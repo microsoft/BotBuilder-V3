@@ -20,6 +20,11 @@ namespace Microsoft.Bot.Sample.AlarmBot
             Conversation.UpdateContainer(
                 builder =>
                 {
+                    // Register the Bot Builder module
+                    builder.RegisterModule(new DialogModule());
+                    // Register the alarm dependencies
+                    builder.RegisterModule(new AlarmModule());
+
                     builder.RegisterModule(new AzureModule(Assembly.GetExecutingAssembly()));
 
                     // Bot Storage: Here we register the state storage for your bot. 
