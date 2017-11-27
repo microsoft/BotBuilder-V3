@@ -234,19 +234,39 @@ export class EntityRecognizer {
         var tokens = utterance.split(' ');
         EntityRecognizer.expandChoices(choices).forEach((choice: string, index: number) => {
             var score = 0.0;
-            var value = choice.trim().toLowerCase();
+            var value = choice.trim().toLowerCase(); 
             if (value.indexOf(utterance) >= 0) {
                 score = utterance.length / value.length;
             } else if (utterance.indexOf(value) >= 0) {
                 score = Math.min(0.5 + (value.length / utterance.length), 0.9);
             } else {
-                var matched = '';
+                var matched: any = {};
                 tokens.forEach((token) => {
                     if (value.indexOf(token) >= 0) {
-                        matched += token;
+                        if (!matched[token]) {
+                            matched[token] = 1;
+                        }
                     }
                 });
-                score = matched.length / value.length;
+                let tokenizedValue: string[] = value.split(' ');
+                var tokenScore = 0;
+                for (var token in matched) {
+                    tokenizedValue.forEach(val => {
+                        if (val.indexOf(token) >= 0 && token.length <= val.length/2) {
+                            matched[token]--;
+                        } else if (val.indexOf(token) == -1) {
+                        } else {
+                            matched[token]++;
+                        }
+                    });
+                }
+                for (var token in matched) {
+                    if (matched[token] > 0) {
+                        tokenScore += token.length;
+                    }
+                }
+                score = tokenScore / value.length;
+                score = score > 1 ? 1 : score;
             }
             if (score >= threshold) {
                 matches.push({ index: index, entity: choice, score: score });

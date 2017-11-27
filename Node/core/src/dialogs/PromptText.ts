@@ -32,8 +32,16 @@
 //
 
 import { Session } from '../Session';
-import { Prompt, IPromptFeatures, IPromptContext } from './Prompt';
+import { Prompt, IPromptFeatures, IPromptOptions, IPromptContext } from './Prompt';
 import * as consts from '../consts';
+
+export interface IPromptTextOptions extends IPromptOptions {
+    /** (Optional) minimum value that can be recognized. */
+    minLength?: number;
+
+    /** (Optional) maximum value that can be recognized. */
+    maxLength?: number;
+}
 
 export interface IPromptTextFeatures extends IPromptFeatures {
     /** (Optional) The score that should be returned when the prompts `onRecognize()` handler is called. The default value is "0.5". */
@@ -51,10 +59,47 @@ export class PromptText extends Prompt<IPromptTextFeatures> {
 
         // Default recognizer logic
         this.onRecognize((context, cb) => {
-            if (context.message.text && !this.features.disableRecognizer) {
-                cb(null, this.features.recognizeScore, context.message.text);
+          const text = context.message.text;
+
+            if (text && !this.features.disableRecognizer) {
+                const options = context.dialogData.options
+
+                if ((options.minLength && text.length < Number(options.minLength)) ||
+                      (options.maxLength && text.length > Number(options.maxLength))) {
+                    cb(null, 0.0);
+                } else {
+                    cb(null, this.features.recognizeScore, text);
+                }
             } else {
                 cb(null, 0.0);
+            }
+        });
+
+        this.onFormatMessage((session, text, speak, callback) => {
+            const context = (<IPromptContext>session.dialogData);
+            const options = (<IPromptTextOptions>context.options);
+            const turnZero = context.turns === 0 || context.isReprompt;
+            const message = session.message.text
+
+            if (!turnZero && (options.minLength || options.maxLength)) {
+                var errorPrompt: string;
+
+                if (options.minLength && message.length < Number(options.minLength)) {
+                    errorPrompt = 'text_minLength_error';
+                } else if (options.maxLength && message.length > Number(options.maxLength)) {
+                    errorPrompt = 'text_maxLength_error';
+                }
+
+                if (errorPrompt) {
+                    let text = Prompt.gettext(session, errorPrompt, consts.Library.system);
+                    let msg = <IMessage>{ text: session.gettext(text, options) };
+
+                    callback(null, msg);
+                } else {
+                    callback(null, null);
+                }
+            } else {
+              callback(null, null);
             }
         });
 

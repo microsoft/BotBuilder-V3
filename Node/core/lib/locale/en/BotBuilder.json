@@ -19,6 +19,8 @@
     "number_maxValue_error": "The number you entered was above the maximum allowed value of %(maxValue)d. Please enter a valid number.",
     "number_range_error": "The number you entered was outside the allowed range of %(minValue)d to %(maxValue)d. Please enter a valid number.",
     "number_integer_error": "The number you entered was not an integer. Please enter a number without a decimal mark.",
+    "text_minLength_error": "The text you entered was below the minimum allowed length of %(minLength)d. Please enter a valid text.",
+    "text_maxLength_error": "The text you entered was above the maximum allowed length of %(maxLength)d. Please enter a valid text.",
     "yesExp": "^(1|y|yes|yep|sure|ok|true)(\\W|$)",
     "noExp": "^(2|n|no|nope|not|false)(\\W|$)"
 }

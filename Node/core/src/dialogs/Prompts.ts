@@ -41,7 +41,7 @@ import { PromptAttachment, IPromptAttachmentOptions } from './PromptAttachment';
 import { PromptChoice, IPromptChoiceOptions } from './PromptChoice';
 import { PromptConfirm } from './PromptConfirm';
 import { PromptNumber, IPromptNumberOptions } from './PromptNumber';
-import { PromptText } from './PromptText';
+import { PromptText, IPromptTextOptions } from './PromptText';
 import { PromptTime } from './PromptTime';
 import * as consts from '../consts';
 import * as utils from '../utils';
@@ -51,7 +51,7 @@ export interface IDisambiguateChoices {
 }
 
 interface IPrompts {
-    text(session: Session, prompt: TextOrMessageType, options?: IPromptOptions): void;
+    text(session: Session, prompt: TextOrMessageType, options?: IPromptTextOptions): void;
     number(session: Session, prompt: TextOrMessageType, options?: IPromptNumberOptions): void;
     confirm(session: Session, prompt: TextOrMessageType, options?: IPromptOptions): void;
     choice(session: Session, prompt: TextOrMessageType, choices: string|(string|IChoice)[]|Object, options?: IPromptChoiceOptions): void;
@@ -69,7 +69,7 @@ const promptPrefix = consts.Library.system + ':prompt-';
 export const Prompts = <IPrompts>{
     text: (session, prompt, options) => {
         validateSession(session);
-        let args: IPromptOptions = utils.clone(options || {});
+        let args: IPromptTextOptions = utils.clone(options || {});
         args.prompt = prompt || options.prompt;
         session.beginDialog(promptPrefix + 'text', args);
     },

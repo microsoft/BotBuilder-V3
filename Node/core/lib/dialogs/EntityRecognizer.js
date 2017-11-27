@@ -176,13 +176,35 @@ var EntityRecognizer = (function () {
                 score = Math.min(0.5 + (value.length / utterance.length), 0.9);
             }
             else {
-                var matched = '';
+                var matched = {};
                 tokens.forEach(function (token) {
                     if (value.indexOf(token) >= 0) {
-                        matched += token;
+                        if (!matched[token]) {
+                            matched[token] = 1;
+                        }
                     }
                 });
-                score = matched.length / value.length;
+                var tokenizedValue = value.split(' ');
+                var tokenScore = 0;
+                for (var token in matched) {
+                    tokenizedValue.forEach(function (val) {
+                        if (val.indexOf(token) >= 0 && token.length <= val.length / 2) {
+                            matched[token]--;
+                        }
+                        else if (val.indexOf(token) == -1) {
+                        }
+                        else {
+                            matched[token]++;
+                        }
+                    });
+                }
+                for (var token in matched) {
+                    if (matched[token] > 0) {
+                        tokenScore += token.length;
+                    }
+                }
+                score = tokenScore / value.length;
+                score = score > 1 ? 1 : score;
             }
             if (score >= threshold) {
                 matches.push({ index: index, entity: choice, score: score });

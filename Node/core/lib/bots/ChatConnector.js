@@ -12,6 +12,7 @@ var urlJoin = require("url-join");
 var pjson = require('../../package.json');
 var MAX_DATA_LENGTH = 65000;
 var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/" + pjson.version + ")";
+var StateApiDreprecatedMessage = "The Bot State API is deprecated.  Please refer to https://aka.ms/I6swrh for details on how to replace with your own storage.";
 var ChatConnector = (function () {
     function ChatConnector(settings) {
         if (settings === void 0) { settings = {}; }
@@ -264,6 +265,7 @@ var ChatConnector = (function () {
     ChatConnector.prototype.getData = function (context, callback) {
         var _this = this;
         try {
+            console.warn(StateApiDreprecatedMessage);
             var root = this.getStoragePath(context.address);
             var list = [];
             if (context.userId) {
@@ -343,6 +345,7 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.saveData = function (context, data, callback) {
         var _this = this;
+        console.warn(StateApiDreprecatedMessage);
         var list = [];
         function addWrite(field, botData, url) {
             var hashKey = field + 'Hash';

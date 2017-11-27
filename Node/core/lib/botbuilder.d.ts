@@ -81,6 +81,9 @@ export interface IEvent {
      * [lookupUser](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.iuniversalbotsettings.html#lookupuser) function that lets map the incoming user to an internal user id.
      */
     user: IIdentity;
+
+    /** The ID of the event this update is related to. */
+    replyToId?: string;
 }
 
 /** 
@@ -122,9 +125,6 @@ export interface IConversationUpdate extends IEvent {
  * </code></pre>
  */
 export interface IMessageUpdate extends IEvent {
-    /** The ID of the message this update is related to. */
-    replyToId?: string;
-    
     /** Array of reactions added to an activity. */
     reactionsAdded?: IMessageReaction[];
     
@@ -954,6 +954,19 @@ export interface IPromptNumberOptions extends IPromptOptions {
 
     /** (Optional) if true, then only integers will be recognized. The default value is false. */
     integerOnly?: boolean;
+}
+
+/**
+ * Options passed to [Prompts.text()](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.__global.iprompts#text)
+ * or in a `session.beginDialog()` call to a custom prompt based on the [PromptText](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompttext)
+ * class.
+ */
+export interface IPromptTextOptions extends IPromptOptions {
+    /** (Optional) minimum length that can be recognized. */
+    minLength?: number;
+
+    /** (Optional) maximum length that can be recognized. */
+    maxLength?: number;
 }
 
 /** Optional features for [PromptText](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.prompttext) class. */
@@ -3448,7 +3461,7 @@ declare global {
          * * __prompt:__ _{IMessage|IIsMessage}_ - Initial message to send the user. Message can contain attachments. 
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        text(session: Session, prompt: TextOrMessageType, options?: IPromptOptions): void;
+        text(session: Session, prompt: TextOrMessageType, options?: IPromptTextOptions): void;
 
         /**
          * Prompts the user to enter a number.
