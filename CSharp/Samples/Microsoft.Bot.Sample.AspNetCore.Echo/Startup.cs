@@ -31,6 +31,10 @@ namespace Microsoft.Bot.Sample.AspNetCore.Echo
         {
             services.AddSingleton(_ => Configuration);
 
+            services.AddSingleton(typeof(ICredentialProvider), new StaticCredentialProvider(
+                Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value,
+                Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppPasswordKey)?.Value));
+            
             // Add framework services.
             services.AddMvc(options =>
             {
@@ -39,16 +43,16 @@ namespace Microsoft.Bot.Sample.AspNetCore.Echo
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IServiceProvider serviceProvider, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseStaticFiles();
 
-            app.UseBotAuthentication(new StaticCredentialProvider(
-                Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value,
-                Configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppPasswordKey)?.Value));
+            ICredentialProvider credentialProvider = serviceProvider.GetService<ICredentialProvider>();
+            
+            app.UseBotAuthentication(credentialProvider);
 
             app.UseMvc();
         }

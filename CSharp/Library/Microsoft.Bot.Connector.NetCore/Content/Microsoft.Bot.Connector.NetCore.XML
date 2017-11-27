@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Microsoft.Bot.Connector.NetCore</name>
+        <name>Microsoft.Bot.Connector</name>
     </assembly>
     <members>
         <member name="F:Microsoft.Bot.Connector.ActionTypes.OpenUrl">
