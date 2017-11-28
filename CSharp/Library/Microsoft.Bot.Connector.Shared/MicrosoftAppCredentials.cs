@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Rest;
 using Newtonsoft.Json;
+using Helpers;
 
 #if NET45
 using System.Configuration;
@@ -79,7 +80,7 @@ namespace Microsoft.Bot.Connector
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppPassword { get; set; }
 
-        public virtual string OAuthEndpoint { get { return JwtConfig.ToChannelFromBotLoginUrl; } }
+        public static virtual string OAuthEndpoint { get { return JwtConfig.ToChannelFromBotLoginUrl; } }
         public virtual string OAuthScope { get { return JwtConfig.ToChannelFromBotOAuthScope; } }
 
         protected readonly string TokenCacheKey;
@@ -244,7 +245,7 @@ namespace Microsoft.Bot.Connector
 #endif
         }
 
-        private async Task<OAuthResponse> RefreshTokenAsync()
+        private AsyncLazy<OAuthResponse> RefreshTokenAsync = new AsyncLazy<OAuthResponse>(async () =>
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -273,7 +274,7 @@ namespace Microsoft.Bot.Connector
                     }
                 }
             }
-        }
+        });
 
         private bool TokenNotExpired(OAuthResponse token)
         {
