@@ -135,6 +135,10 @@ namespace Microsoft.Bot.Connector
                     Body = result.Body
                 };
             }
+
+            if (result.Body is ObjectT)
+                return (ObjectT)result.Body;
+
             if (typeof(ObjectT).IsArray)
             {
                 IList list = (IList)result.Body;
