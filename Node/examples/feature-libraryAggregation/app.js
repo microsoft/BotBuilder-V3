@@ -19,18 +19,18 @@ review the reference docs the Library.bestRouteResult() method.
     
 -----------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------------------
-* Bot Storage: This is a great spot to register the private state storage for your bot. 
-* We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
-* For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
-* ---------------------------------------------------------------------------------------- */
-
 var builder = require('../../core/');
 
 // Import child libraries
 var bot1 = require('./bot1');
 var bot2 = require('./bot2');
 var profile = require('./profileLib');
+
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
 
 // Setup your uber bot as you normally would 
 var connector = new builder.ConsoleConnector().listen();
@@ -46,7 +46,7 @@ var bot = new builder.UniversalBot(connector, [
     function (session, results) {
         session.send("Hi %s... Say either 'hello bot1', 'hi bot2', or 'change name'.", session.userData.name);
     }
-]);
+]).set('storage', inMemoryStorage); // Register in memory storage
 
 // Add libraries to bot
 bot.library(bot1.createLibrary());

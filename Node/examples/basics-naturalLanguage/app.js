@@ -11,11 +11,17 @@ For a complete walkthrough of creating this bot see the article below.
 
 var builder = require('../../core/');
 
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
 // Create bot and bind to console
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector, function (session) {
     session.send("Hi... I'm the alarm bot sample. I can set new alarms or delete existing ones.");
-});
+}).set('storage', inMemoryStorage); // Register in memory storage
 
 // Add global LUIS recognizer to bot
 var model = process.env.model || 'https://api.projectoxford.ai/luis/v2.0/apps/c413b2ef-382c-45bd-8ff0-f76d60e2a821?subscription-key=6d0966209c6e4f6b835ce34492f3e6d9';
