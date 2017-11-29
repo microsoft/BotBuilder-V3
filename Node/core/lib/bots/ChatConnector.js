@@ -540,7 +540,7 @@ var ChatConnector = (function () {
                                     callback(null, response, body);
                                 }
                                 else {
-                                    var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    var txt = options.method + " to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
                                     callback(new Error(txt), response, null);
                                 }
                                 break;
