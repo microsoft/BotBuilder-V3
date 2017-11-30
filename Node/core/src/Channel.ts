@@ -57,6 +57,8 @@ export function supportsKeyboards(session: Session, buttonCnt = 100) {
             return (buttonCnt <= 10);
         case channels.kik:
             return (buttonCnt <= 20);
+        case channels.msteams:
+            return (buttonCnt <= 5);
         case channels.slack:
         case channels.telegram:
             return (buttonCnt <= 100);

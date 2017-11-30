@@ -6,10 +6,8 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-#if !NET45
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-#endif
 using Microsoft.Rest;
 using Newtonsoft.Json;
 
@@ -42,14 +40,13 @@ namespace Microsoft.Bot.Connector
 
 #if !NET45
         protected ILogger logger;
-#endif
+#endif 
 
-#if NET45
         public MicrosoftAppCredentials(string appId = null, string password = null)
         {
             MicrosoftAppId = appId;
             MicrosoftAppPassword = password;
-
+#if NET45
             if(appId == null)
             {
                 MicrosoftAppId = ConfigurationManager.AppSettings[MicrosoftAppIdKey] ?? Environment.GetEnvironmentVariable(MicrosoftAppIdKey, EnvironmentVariableTarget.Process);
@@ -59,25 +56,24 @@ namespace Microsoft.Bot.Connector
             {
                 MicrosoftAppPassword = ConfigurationManager.AppSettings[MicrosoftAppPasswordKey] ?? Environment.GetEnvironmentVariable(MicrosoftAppPasswordKey, EnvironmentVariableTarget.Process);
             }
-
+#endif
             TokenCacheKey = $"{MicrosoftAppId}-cache";
         }
-#else
-        public MicrosoftAppCredentials(string appId = null, string password = null, ILogger logger = null)
-        {
-            MicrosoftAppId = appId;
-            MicrosoftAppPassword = password;
 
-            TokenCacheKey = $"{MicrosoftAppId}-cache";
+#if !NET45
+        public MicrosoftAppCredentials(string appId, string password, ILogger logger)
+            : this(appId, password)
+        {
             this.logger = logger;
         }
+#endif
 
+#if !NET45
         public MicrosoftAppCredentials(IConfiguration configuration, ILogger logger = null)
             : this(configuration.GetSection(MicrosoftAppIdKey)?.Value, configuration.GetSection(MicrosoftAppPasswordKey)?.Value, logger)
         {
         }
 #endif
-
 
 
         public string MicrosoftAppId { get; set; }
@@ -171,7 +167,7 @@ namespace Microsoft.Bot.Connector
             OAuthResponse oAuthToken;
             bool tokenInCache = cache.TryGetValue(TokenCacheKey, out oAuthToken);
             string token = tokenInCache ? oAuthToken.access_token : null;
-            if (!tokenInCache || !TokenNotExpired(oAuthToken) || forceRefresh) 
+            if (!tokenInCache || !TokenNotExpired(oAuthToken) || forceRefresh)
             {
                 token = await RefreshAndStoreToken().ConfigureAwait(false);
             }

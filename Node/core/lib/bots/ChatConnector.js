@@ -38,9 +38,9 @@ var ChatConnector = (function () {
     }
     ChatConnector.prototype.listen = function () {
         var _this = this;
-        return function (req, res) {
+        return function (req, res, next) {
             if (req.body) {
-                _this.verifyBotFramework(req, res);
+                _this.verifyBotFramework(req, res, next);
             }
             else {
                 var requestData = '';
@@ -49,12 +49,12 @@ var ChatConnector = (function () {
                 });
                 req.on('end', function () {
                     req.body = JSON.parse(requestData);
-                    _this.verifyBotFramework(req, res);
+                    _this.verifyBotFramework(req, res, next);
                 });
             }
         };
     };
-    ChatConnector.prototype.verifyBotFramework = function (req, res) {
+    ChatConnector.prototype.verifyBotFramework = function (req, res, next) {
         var _this = this;
         var token;
         var isEmulator = req.body['channelId'] === 'emulator';
@@ -76,6 +76,7 @@ var ChatConnector = (function () {
                     logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
                     res.status(403);
                     res.end();
+                    next();
                     return;
                 }
                 var issuer = void 0;
@@ -132,26 +133,29 @@ var ChatConnector = (function () {
                         logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
                         res.send(403, err);
                         res.end();
+                        next();
                         return;
                     }
-                    _this.dispatch(req.body, res);
+                    _this.dispatch(req.body, res, next);
                 }
                 else {
                     logger.error('ChatConnector: receive - invalid signing key or OpenId metadata document.');
                     res.status(500);
                     res.end();
+                    next();
                     return;
                 }
             });
         }
         else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
             logger.warn(req.body, 'ChatConnector: receive - emulator running without security enabled.');
-            this.dispatch(req.body, res);
+            this.dispatch(req.body, res, next);
         }
         else {
             logger.error('ChatConnector: receive - no security token sent.');
             res.status(401);
             res.end();
+            next();
         }
     };
     ChatConnector.prototype.onEvent = function (handler) {
@@ -440,7 +444,7 @@ var ChatConnector = (function () {
             }
         }
     };
-    ChatConnector.prototype.dispatch = function (msg, res) {
+    ChatConnector.prototype.dispatch = function (msg, res, next) {
         try {
             this.prepIncomingMessage(msg);
             logger.info(msg, 'ChatConnector: message received.');
@@ -448,14 +452,18 @@ var ChatConnector = (function () {
                 if (err) {
                     res.status(500);
                     res.end();
+                    next();
                     logger.error('ChatConnector: error dispatching event(s) - ', err.message || '');
                 }
                 else if (body) {
                     res.send(status || 200, body);
+                    res.end();
+                    next();
                 }
                 else {
                     res.status(status || 200);
                     res.end();
+                    next();
                 }
             });
         }
@@ -463,6 +471,7 @@ var ChatConnector = (function () {
             console.error(e instanceof Error ? e.stack : e.toString());
             res.status(500);
             res.end();
+            next();
         }
     };
     ChatConnector.prototype.isInvoke = function (event) {
@@ -531,7 +540,7 @@ var ChatConnector = (function () {
                                     callback(null, response, body);
                                 }
                                 else {
-                                    var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    var txt = options.method + " to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
                                     callback(new Error(txt), response, null);
                                 }
                                 break;

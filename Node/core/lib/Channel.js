@@ -23,6 +23,8 @@ function supportsKeyboards(session, buttonCnt) {
             return (buttonCnt <= 10);
         case exports.channels.kik:
             return (buttonCnt <= 20);
+        case exports.channels.msteams:
+            return (buttonCnt <= 5);
         case exports.channels.slack:
         case exports.channels.telegram:
             return (buttonCnt <= 100);

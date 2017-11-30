@@ -1,7 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Microsoft.Bot.Connector.AspNetCore</AssemblyName>
+    <RootNamespace>Microsoft.Bot.Connector</RootNamespace>
+    <Authors>Microsoft</Authors>
+    <Company>Microsoft</Company>
+    <Product>Microsoft Bot Framework</Product>
+    <PackageIconUrl>https://bots.botframework.com/Client/Images/bot-framework-default-7.png</PackageIconUrl>
+    <PackageProjectUrl>https://botframework.com</PackageProjectUrl>
+    <Description>This library implements C# classes for using the Bot Framework Connector REST API, using the ASP.NET Core 2.x</Description>
+    <Copyright>Microsoft</Copyright>
+    <RepositoryUrl>http://github.com/microsoft/BotBuilder</RepositoryUrl>
+    <AssemblyName>Microsoft.Bot.Connector.AspNetCore</AssemblyName>
+    <RootNamespace>Microsoft.Bot.Connector</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,12 +23,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Connector.NetCore\Microsoft.Bot.Connector.NetCore.csproj" />
+    <ProjectReference Include="..\Microsoft.Bot.Connector.Standard\Microsoft.Bot.Connector.Standard.csproj" />
   </ItemGroup>
 
 </Project>

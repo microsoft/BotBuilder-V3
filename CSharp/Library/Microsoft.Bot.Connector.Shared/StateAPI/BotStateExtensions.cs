@@ -10,7 +10,12 @@ namespace Microsoft.Bot.Connector
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Rest;
+    using System.Diagnostics;
 
+    internal static class Messages
+    {
+        public const string StateApiDeprecated = "The Bot State API is being deprecated.  Please refer to https://aka.ms/yr235k for details on how to replace with your own storage.";
+    }
 
     /// <summary>
     /// Extension methods for BotState.
@@ -30,6 +35,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='userId'>
         /// id for the user on the channel
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static BotData GetUserData(this IBotState operations, string channelId, string userId)
         {
             return Task.Factory.StartNew(s => ((IBotState)s).GetUserDataAsync(channelId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
@@ -51,8 +57,12 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> GetUserDataAsync(this IBotState operations, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
+#if NET45
+            Trace.TraceWarning(Messages.StateApiDeprecated);
+#endif
             using (var _result = await operations.GetUserDataWithHttpMessagesAsync(channelId, userId, null, cancellationToken).ConfigureAwait(false))
             {
                 return await _result.HandleErrorAsync<BotData>().ConfigureAwait(false);
@@ -75,6 +85,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='botData'>
         /// the new botdata
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static BotData SetUserData(this IBotState operations, string channelId, string userId, BotData botData)
         {
             return Task.Factory.StartNew(s => ((IBotState)s).SetUserDataAsync(channelId, userId, botData), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
@@ -99,8 +110,12 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> SetUserDataAsync(this IBotState operations, string channelId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
+#if NET45
+            Trace.TraceWarning(Messages.StateApiDeprecated);
+#endif
             using (var _result = await operations.SetUserDataWithHttpMessagesAsync(channelId, userId, botData, null, cancellationToken).ConfigureAwait(false))
             {
                 return await _result.HandleErrorAsync<BotData>().ConfigureAwait(false);
@@ -121,6 +136,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='userId'>
         /// id for the user on the channel
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static string[] DeleteStateForUser(this IBotState operations, string channelId, string userId)
         {
             return Task.Factory.StartNew(s => ((IBotState)s).DeleteStateForUserAsync(channelId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
@@ -143,8 +159,13 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<string[]> DeleteStateForUserAsync(this IBotState operations, string channelId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
+#if NET45
+            Trace.TraceWarning(Messages.StateApiDeprecated);
+#endif
+
             using (var _result = await operations.DeleteStateForUserWithHttpMessagesAsync(channelId, userId, null, cancellationToken).ConfigureAwait(false))
             {
                 return await _result.HandleErrorAsync<string[]>().ConfigureAwait(false);
@@ -164,6 +185,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='conversationId'>
         /// The id for the conversation on the channel
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static BotData GetConversationData(this IBotState operations, string channelId, string conversationId)
         {
             return Task.Factory.StartNew(s => ((IBotState)s).GetConversationDataAsync(channelId, conversationId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
@@ -185,8 +207,12 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> GetConversationDataAsync(this IBotState operations, string channelId, string conversationId, CancellationToken cancellationToken = default(CancellationToken))
         {
+#if NET45
+            Trace.TraceWarning(Messages.StateApiDeprecated);
+#endif
             using (var _result = await operations.GetConversationDataWithHttpMessagesAsync(channelId, conversationId, null, cancellationToken).ConfigureAwait(false))
             {
                 return await _result.HandleErrorAsync<BotData>().ConfigureAwait(false);
@@ -209,6 +235,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='botData'>
         /// the new botdata
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static BotData SetConversationData(this IBotState operations, string channelId, string conversationId, BotData botData)
         {
             return Task.Factory.StartNew(s => ((IBotState)s).SetConversationDataAsync(channelId, conversationId, botData), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
@@ -233,8 +260,12 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> SetConversationDataAsync(this IBotState operations, string channelId, string conversationId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
+#if NET45
+            Trace.TraceWarning(Messages.StateApiDeprecated);
+#endif
             using (var _result = await operations.SetConversationDataWithHttpMessagesAsync(channelId, conversationId, botData, null, cancellationToken).ConfigureAwait(false))
             {
                 return await _result.HandleErrorAsync<BotData>().ConfigureAwait(false);
@@ -257,6 +288,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='userId'>
         /// id for the user on the channel
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static BotData GetPrivateConversationData(this IBotState operations, string channelId, string conversationId, string userId)
         {
             return Task.Factory.StartNew(s => ((IBotState)s).GetPrivateConversationDataAsync(channelId, conversationId, userId), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
@@ -281,8 +313,12 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> GetPrivateConversationDataAsync(this IBotState operations, string channelId, string conversationId, string userId, CancellationToken cancellationToken = default(CancellationToken))
         {
+#if NET45
+            Trace.TraceWarning(Messages.StateApiDeprecated);
+#endif
             using (var _result = await operations.GetPrivateConversationDataWithHttpMessagesAsync(channelId, conversationId, userId, null, cancellationToken).ConfigureAwait(false))
             {
                 return await _result.HandleErrorAsync<BotData>().ConfigureAwait(false);
@@ -308,6 +344,7 @@ namespace Microsoft.Bot.Connector
         /// <param name='botData'>
         /// the new botdata
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static BotData SetPrivateConversationData(this IBotState operations, string channelId, string conversationId, string userId, BotData botData)
         {
             return Task.Factory.StartNew(s => ((IBotState)s).SetPrivateConversationDataAsync(channelId, conversationId, userId, botData), operations, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default).Unwrap().GetAwaiter().GetResult();
@@ -335,8 +372,12 @@ namespace Microsoft.Bot.Connector
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
+        [Obsolete(Messages.StateApiDeprecated, false)]
         public static async Task<BotData> SetPrivateConversationDataAsync(this IBotState operations, string channelId, string conversationId, string userId, BotData botData, CancellationToken cancellationToken = default(CancellationToken))
         {
+#if NET45
+            Trace.TraceWarning(Messages.StateApiDeprecated);
+#endif
             using (var _result = await operations.SetPrivateConversationDataWithHttpMessagesAsync(channelId, conversationId, userId, botData, null, cancellationToken).ConfigureAwait(false))
             {
                 return await _result.HandleErrorAsync<BotData>().ConfigureAwait(false);

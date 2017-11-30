@@ -13,15 +13,29 @@ namespace Microsoft.Bot.Connector
             => builder.AddBotAuthentication(new StaticCredentialProvider(microsoftAppId, microsoftAppPassword));
 
         public static AuthenticationBuilder AddBotAuthentication(this AuthenticationBuilder builder, ICredentialProvider credentialProvider)
-            => builder.AddBotAuthentication(JwtBearerDefaults.AuthenticationScheme, displayName: "botAuthenticator", configureOptions: options =>
+        {
+            builder.Services.AddSingleton(typeof(ICredentialProvider), credentialProvider);
+
+            builder.AddBotAuthentication(JwtBearerDefaults.AuthenticationScheme, displayName: "botAuthenticator", configureOptions: options =>
             {
                 options.CredentialProvider = credentialProvider;
                 options.Events = new JwtBearerEvents();
             });
+
+            return builder;
+        }
+
         public static AuthenticationBuilder AddBotAuthentication(this AuthenticationBuilder builder, string authenticationScheme, string displayName, Action<BotAuthenticationOptions> configureOptions)
         {
             builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IPostConfigureOptions<BotAuthenticationOptions>, JwtBearerPostConfigureOptions>());
-            return builder.AddScheme<BotAuthenticationOptions, BotAuthenticationHandler>(authenticationScheme, displayName, configureOptions);
+
+            Action<BotAuthenticationOptions> wrappedOptions = options =>
+            {
+                configureOptions(options);
+                builder.Services.AddSingleton(typeof(ICredentialProvider), options.CredentialProvider);
+            };
+
+            return builder.AddScheme<BotAuthenticationOptions, BotAuthenticationHandler>(authenticationScheme, displayName, wrappedOptions);
         }
     }
 }

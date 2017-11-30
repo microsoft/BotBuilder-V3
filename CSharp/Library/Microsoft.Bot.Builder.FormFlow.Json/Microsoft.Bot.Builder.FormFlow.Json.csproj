@@ -95,13 +95,15 @@
       <Project>{cdfec7d6-847e-4c13-956b-0a960ae3eb60}</Project>
       <Name>Microsoft.Bot.Builder</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.csproj">
+    <ProjectReference Include="..\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.NetFramework.csproj">
       <Project>{df397efc-91db-4911-9971-c509926fc288}</Project>
       <Name>Microsoft.Bot.Connector</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="createpackage.cmd" />
     <None Include="Microsoft.Bot.Builder.FormFlow.Json.nuspec" />
     <None Include="packages.config" />
