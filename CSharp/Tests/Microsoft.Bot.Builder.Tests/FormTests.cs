@@ -47,7 +47,6 @@ using Microsoft.Bot.Builder.FormFlowTest;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Sample.AnnotatedSandwichBot;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -614,35 +613,6 @@ Is this what you wanted? {||}")
                 "nappages",
                 "non epinards",
                 "oui"
-                );
-        }
-
-        [TestMethod]
-        [DeploymentItem(@"Scripts\JSON.script")]
-        public async Task JSON_Script()
-        {
-            var pathScript = TestFiles.DeploymentItemPathsForCaller(TestContext, this.GetType()).Single();
-            await VerifyFormScript(pathScript,
-                "en-us", () => SandwichOrder.BuildJsonForm(), FormOptions.None, new JObject(), Array.Empty<EntityRecommendation>(),
-                "hi",
-                "ham",
-                "six",
-                "nine grain",
-                "wheat",
-                "1",
-                "peppers",
-                "1",
-                "2",
-                "n",
-                "no",
-                "ok",
-                "abc",
-                "1 state st",
-                "",
-                "9/9/2016 1pm",
-                "status",
-                "y",
-                "2.5"
                 );
         }
 

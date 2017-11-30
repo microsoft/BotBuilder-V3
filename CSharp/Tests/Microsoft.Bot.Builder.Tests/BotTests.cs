@@ -753,7 +753,7 @@ namespace Microsoft.Bot.Builder.Tests
 
                 var settings = new JsonSerializerSettings()
                 {
-                    ContractResolver = new FormTests.OrderedContractResolver(),
+                    ContractResolver = new OrderedContractResolver(),
                     NullValueHandling = NullValueHandling.Ignore,
                 };
 
