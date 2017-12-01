@@ -134,16 +134,6 @@
       <Project>{8674f271-4437-4178-b4e2-15f91b322e5d}</Project>
       <Name>Microsoft.Bot.Builder.FormFlow.Json</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Samples\AnnotatedSandwichBot\Microsoft.Bot.Sample.AnnotatedSandwichBot.csproj">
-      <Project>{2e4d097f-8e3d-4223-9b39-1b29ea5e5e75}</Project>
-      <Name>Microsoft.Bot.Sample.AnnotatedSandwichBot</Name>
-      <Properties>SkipValidatePackageReferences=true</Properties>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Samples\SimpleSandwichBot\Microsoft.Bot.Sample.SimpleSandwichBot.csproj">
-      <Project>{d51f252d-4041-4440-a3f5-da515e50b7d3}</Project>
-      <Name>Microsoft.Bot.Sample.SimpleSandwichBot</Name>
-      <Properties>SkipValidatePackageReferences=true</Properties>
-    </ProjectReference>
     <ProjectReference Include="..\..\Tools\RView\RView.csproj">
       <Project>{12cae029-7b8d-4928-8504-28746c36adb3}</Project>
       <Name>RView</Name>
