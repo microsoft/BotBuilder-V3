@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var Library_1 = require("./bots/Library");
+var systemResources = require("./systemResources");
 var logger = require("./logger");
 var consts = require("./consts");
 var fs = require("fs");
@@ -195,24 +196,22 @@ var DefaultLocalizer = (function () {
     DefaultLocalizer.prototype.loadSystemResources = function (locale) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            var access = Promise.denodeify(fs.access);
-            var dir = path.join(Library_1.systemLib.localePath(), locale);
-            var filename = Library_1.systemLib.name + '.json';
-            var filepath = path.join(dir, filename);
-            access(filepath)
-                .then(function () {
-                return _this.parseFile(locale, dir, filename);
-            })
-                .done(function (count) { return resolve(count); }, function (err) {
-                if (err.code === 'ENOENT') {
-                    logger.debug("localizer.loadSystemResources(%s) - Couldn't find file: %s", locale, filepath);
-                    resolve(-1);
+            var entries = systemResources.locales[(locale || '').toLowerCase()];
+            if (entries) {
+                var cnt = 0;
+                var table = _this.locales[locale];
+                var ns = Library_1.systemLib.name.toLocaleLowerCase();
+                for (var key in entries) {
+                    var k = _this.createKey(ns, key);
+                    table.entries[k] = entries[key];
+                    ++cnt;
                 }
-                else {
-                    logger.error('localizer.loadSystemResources(%s) - Error: %s', locale, err.toString());
-                    reject(err);
-                }
-            });
+                resolve(cnt);
+            }
+            else {
+                logger.debug("localizer.loadSystemResources(%s) - Locale not supported.", locale);
+                resolve(-1);
+            }
         });
     };
     DefaultLocalizer.prototype.createKey = function (ns, msgid) {

@@ -32,6 +32,7 @@
 //
 
 import { Library, systemLib } from './bots/Library';
+import * as systemResources from './systemResources';
 import * as logger from './logger';
 import * as consts from './consts';
 import * as fs from 'fs';
@@ -259,24 +260,23 @@ export class DefaultLocalizer implements ILocalizer {
 
     private loadSystemResources(locale: string): Promise.IThenable<number> {
         return new Promise<number>((resolve, reject) => {
-            const access = Promise.denodeify(fs.access);
-            const dir = path.join(systemLib.localePath(), locale);
-            const filename = systemLib.name + '.json';
-            const filepath = path.join(dir, filename);
-            access(filepath)
-                .then(() => {
-                    return this.parseFile(locale, dir, filename);
-                })
-                .done((count) => resolve(count), (err) => {
-                    if (err.code === 'ENOENT') {
-                        // No local directory
-                        logger.debug("localizer.loadSystemResources(%s) - Couldn't find file: %s", locale, filepath);                                
-                        resolve(-1);
-                    } else {
-                        logger.error('localizer.loadSystemResources(%s) - Error: %s', locale, err.toString());
-                        reject(err);
-                    }                         
-                })
+            const entries = systemResources.locales[(locale || '').toLowerCase()];
+            if (entries) {
+                // Add system resource strings to table
+                let cnt = 0;
+                const table = this.locales[locale];
+                const ns = systemLib.name.toLocaleLowerCase();
+                for (const key in entries) {
+                    var k = this.createKey(ns, key);
+                    table.entries[k] = entries[key];
+                    ++cnt;
+                }
+                resolve(cnt);                        
+            } else {
+                // Locale not supported
+                logger.debug("localizer.loadSystemResources(%s) - Locale not supported.", locale);                                
+                resolve(-1);
+            }
         });
     }
 
