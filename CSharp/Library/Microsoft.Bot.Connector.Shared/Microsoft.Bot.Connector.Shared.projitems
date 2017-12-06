@@ -80,6 +80,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)IInstallationUpdateActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IInvokeActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IMessageActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Importance.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)InputHints.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ITypingActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JwtConfig.cs" />
