@@ -38,9 +38,10 @@ var ChatConnector = (function () {
     }
     ChatConnector.prototype.listen = function () {
         var _this = this;
+        function defaultNext() { }
         return function (req, res, next) {
             if (req.body) {
-                _this.verifyBotFramework(req, res, next);
+                _this.verifyBotFramework(req, res, next || defaultNext);
             }
             else {
                 var requestData = '';
@@ -49,7 +50,7 @@ var ChatConnector = (function () {
                 });
                 req.on('end', function () {
                     req.body = JSON.parse(requestData);
-                    _this.verifyBotFramework(req, res, next);
+                    _this.verifyBotFramework(req, res, next || defaultNext);
                 });
             }
         };
