@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Rest;
 using Newtonsoft.Json;
-using Helpers;
+using System.Runtime.CompilerServices;
 
 #if NET45
 using System.Configuration;
@@ -39,6 +39,8 @@ namespace Microsoft.Bot.Connector
 
         protected static readonly ConcurrentDictionary<string, OAuthResponse> cache = new ConcurrentDictionary<string, OAuthResponse>();
 
+        protected AsyncLazy<OAuthResponse> RefreshTokenAsync;
+
 #if !NET45
         protected ILogger logger;
 #endif 
@@ -59,6 +61,37 @@ namespace Microsoft.Bot.Connector
             }
 #endif
             TokenCacheKey = $"{MicrosoftAppId}-cache";
+
+            RefreshTokenAsync = new AsyncLazy<OAuthResponse>(async () =>
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    var content = new FormUrlEncodedContent(new Dictionary<string, string>()
+                {
+                    { "grant_type", "client_credentials" },
+                    { "client_id", MicrosoftAppId },
+                    { "client_secret", MicrosoftAppPassword },
+                    { "scope", OAuthScope }
+                });
+
+                    using (var response = await httpClient.PostAsync(OAuthEndpoint, content).ConfigureAwait(false))
+                    {
+                        string body = null;
+                        try
+                        {
+                            response.EnsureSuccessStatusCode();
+                            body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            var oauthResponse = JsonConvert.DeserializeObject<OAuthResponse>(body);
+                            oauthResponse.expiration_time = DateTime.UtcNow.AddSeconds(oauthResponse.expires_in).Subtract(TimeSpan.FromSeconds(60));
+                            return oauthResponse;
+                        }
+                        catch (Exception error)
+                        {
+                            throw new OAuthException(body ?? response.ReasonPhrase, error);
+                        }
+                    }
+                }
+            });
         }
 
 #if !NET45
@@ -80,7 +113,7 @@ namespace Microsoft.Bot.Connector
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppPassword { get; set; }
 
-        public static virtual string OAuthEndpoint { get { return JwtConfig.ToChannelFromBotLoginUrl; } }
+        public virtual string OAuthEndpoint { get { return JwtConfig.ToChannelFromBotLoginUrl; } }
         public virtual string OAuthScope { get { return JwtConfig.ToChannelFromBotOAuthScope; } }
 
         protected readonly string TokenCacheKey;
@@ -188,7 +221,7 @@ namespace Microsoft.Bot.Connector
         {
             try
             {
-                OAuthResponse oAuthToken = await RefreshTokenAsync().ConfigureAwait(false);
+                OAuthResponse oAuthToken = await RefreshTokenAsync.Value;
                 cache.AddOrUpdate(TokenCacheKey, oAuthToken, (key, oldToken) => oAuthToken);
                 return oAuthToken.access_token;
             }
@@ -245,36 +278,36 @@ namespace Microsoft.Bot.Connector
 #endif
         }
 
-        private AsyncLazy<OAuthResponse> RefreshTokenAsync = new AsyncLazy<OAuthResponse>(async () =>
-        {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                var content = new FormUrlEncodedContent(new Dictionary<string, string>()
-                {
-                    { "grant_type", "client_credentials" },
-                    { "client_id", MicrosoftAppId },
-                    { "client_secret", MicrosoftAppPassword },
-                    { "scope", OAuthScope }
-                });
+        //private AsyncLazy<OAuthResponse> RefreshTokenAsync = new AsyncLazy<OAuthResponse>(async () =>
+        //{
+        //    using (HttpClient httpClient = new HttpClient())
+        //    {
+        //        var content = new FormUrlEncodedContent(new Dictionary<string, string>()
+        //        {
+        //            { "grant_type", "client_credentials" },
+        //            { "client_id", MicrosoftAppId },
+        //            { "client_secret", MicrosoftAppPassword },
+        //            { "scope", OAuthScope }
+        //        });
 
-                using (var response = await httpClient.PostAsync(OAuthEndpoint, content).ConfigureAwait(false))
-                {
-                    string body = null;
-                    try
-                    {
-                        response.EnsureSuccessStatusCode();
-                        body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        var oauthResponse = JsonConvert.DeserializeObject<OAuthResponse>(body);
-                        oauthResponse.expiration_time = DateTime.UtcNow.AddSeconds(oauthResponse.expires_in).Subtract(TimeSpan.FromSeconds(60));
-                        return oauthResponse;
-                    }
-                    catch (Exception error)
-                    {
-                        throw new OAuthException(body ?? response.ReasonPhrase, error);
-                    }
-                }
-            }
-        });
+        //        using (var response = await httpClient.PostAsync(OAuthEndpoint, content).ConfigureAwait(false))
+        //        {
+        //            string body = null;
+        //            try
+        //            {
+        //                response.EnsureSuccessStatusCode();
+        //                body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+        //                var oauthResponse = JsonConvert.DeserializeObject<OAuthResponse>(body);
+        //                oauthResponse.expiration_time = DateTime.UtcNow.AddSeconds(oauthResponse.expires_in).Subtract(TimeSpan.FromSeconds(60));
+        //                return oauthResponse;
+        //            }
+        //            catch (Exception error)
+        //            {
+        //                throw new OAuthException(body ?? response.ReasonPhrase, error);
+        //            }
+        //        }
+        //    }
+        //});
 
         private bool TokenNotExpired(OAuthResponse token)
         {
@@ -294,6 +327,19 @@ namespace Microsoft.Bot.Connector
             public int expires_in { get; set; }
             public string access_token { get; set; }
             public DateTime expiration_time { get; set; }
+        }
+
+        public class AsyncLazy<T> : Lazy<Task<T>>
+        {
+            public AsyncLazy(Func<T> valueFactory) :
+                base(() => Task.Factory.StartNew(valueFactory))
+            { }
+
+            public AsyncLazy(Func<Task<T>> taskFactory) :
+                base(() => Task.Factory.StartNew(() => taskFactory()).Unwrap())
+            { }
+
+            public TaskAwaiter<T> GetAwaiter() { return Value.GetAwaiter(); }
         }
     }
 }
