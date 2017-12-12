@@ -122,9 +122,10 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
 
     public listen(): IWebMiddleware {
+        function defaultNext() { }
         return (req: IWebRequest, res: IWebResponse, next: Function) => {
             if (req.body) {
-                this.verifyBotFramework(req, res, next);
+                this.verifyBotFramework(req, res, next || defaultNext);
             } else {
                 var requestData = '';
                 req.on('data', (chunk: string) => {
@@ -132,7 +133,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                 });
                 req.on('end', () => {
                     req.body = JSON.parse(requestData);
-                    this.verifyBotFramework(req, res, next);
+                    this.verifyBotFramework(req, res, next || defaultNext);
                 });
             }
         };
