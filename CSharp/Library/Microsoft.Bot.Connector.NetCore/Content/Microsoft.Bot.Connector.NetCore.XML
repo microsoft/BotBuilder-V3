@@ -3740,6 +3740,26 @@
             Value provided with CardAction
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.ActivityImportance">
+            <summary>
+            Defines the importance of an Activity
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityImportance.Low">
+            <summary>
+            Low importance.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityImportance.Normal">
+            <summary>
+            Normal importance.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActivityImportance.High">
+            <summary>
+            High importance.
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.InputHints">
             <summary>
             Indicates whether the bot is accepting, expecting, or ignoring input
