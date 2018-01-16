@@ -70,12 +70,18 @@ var builder = require('../../core/');
 // Load company data (Sample data sourced from http://crunchbase.com on 3/18/2016)
 var companyData = require('./companyData.json');
 
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
 // Setup bot and root message handler
 var connector = new builder.ConsoleConnector().listen();
 var bot = new builder.UniversalBot(connector, function (session) {
     // Simply defer to help dialog for un-recognized intents
     session.beginDialog('helpDialog');
-});
+}).set('storage', inMemoryStorage); // Register in memory storage
 
 // Add global recognizer for LUIS model (run for every message)
 var model = process.env.model || 'https://api.projectoxford.ai/luis/v1/application?id=56c73d36-e6de-441f-b2c2-6ba7ea73a1bf&subscription-key=6d0966209c6e4f6b835ce34492f3e6d9&q=';

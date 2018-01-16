@@ -1,9 +1,8 @@
-## Bot Info <!-- As registered in the Bot Developer Portal at https://dev.botframework.com -->
-* App ID: 
+## Bot Info
 * SDK Platform: <!-- .NET or Node.js -->
 * SDK Version: <!-- SDK version -->
 * Active Channels: <!-- Skype, MS Teams, Slack, Direct Line, etc. -->
-* Deployment Environment: <!-- ngrok, Auzure Bot Service, Azure App Service, other -->
+* Deployment Environment: <!-- Auzure Bot Service, Azure App Service, local development with Emulator? -->
 
 ## Issue Description
 <!-- Describe your issue, question, or feature request -->

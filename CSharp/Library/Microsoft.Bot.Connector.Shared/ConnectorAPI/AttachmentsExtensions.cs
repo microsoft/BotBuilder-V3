@@ -91,10 +91,7 @@ namespace Microsoft.Bot.Connector
         {
             using (var _result = await operations.GetAttachmentWithHttpMessagesAsync(attachmentId, viewId, null, cancellationToken).ConfigureAwait(false))
             {
-                var stream = await _result.HandleErrorAsync<System.IO.Stream>().ConfigureAwait(false);
-                System.IO.MemoryStream memStream = new System.IO.MemoryStream();
-                await stream.CopyToAsync(memStream).ConfigureAwait(false);
-                return memStream.ToArray();
+                return await _result.HandleErrorAsync<byte[]>().ConfigureAwait(false);
             }
         }
 
@@ -136,7 +133,8 @@ namespace Microsoft.Bot.Connector
         {
             using (var _result = await operations.GetAttachmentWithHttpMessagesAsync(attachmentId, viewId, null, cancellationToken).ConfigureAwait(false))
             {
-                return await _result.HandleErrorAsync<System.IO.Stream>().ConfigureAwait(false);
+                var bytes = await _result.HandleErrorAsync<byte[]>().ConfigureAwait(false);
+                return new System.IO.MemoryStream(bytes);
             }
         }
 

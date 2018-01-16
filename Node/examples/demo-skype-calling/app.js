@@ -37,12 +37,6 @@ and even send a caller a chat message.
 
 -----------------------------------------------------------------------------*/
 
-/*----------------------------------------------------------------------------------------
-* Bot Storage: This is a great spot to register the private state storage for your bot. 
-* We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
-* For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
-* ---------------------------------------------------------------------------------------- */
-
 var restify = require('restify');
 var builder = require('../../core/');
 var calling = require('../../calling/');
@@ -58,12 +52,18 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
 
+// Bot Storage: Here we register the state storage for your bot. 
+// Default store: volatile in-memory store - Only for prototyping!
+// We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
+// For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
+var inMemoryStorage = new builder.MemoryBotStorage();
+
 // Create chat bot
 var chatConnector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD
 });
-var chatBot = new builder.UniversalBot(chatConnector);
+var chatBot = new builder.UniversalBot(chatConnector).set('storage', inMemoryStorage); // Register in memory storage;
 server.post('/api/messages', chatConnector.listen());
 
 // Create calling bot

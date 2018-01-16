@@ -122,9 +122,10 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
 
     public listen(): IWebMiddleware {
-        return (req: IWebRequest, res: IWebResponse) => {
+        function defaultNext() { }
+        return (req: IWebRequest, res: IWebResponse, next: Function) => {
             if (req.body) {
-                this.verifyBotFramework(req, res);
+                this.verifyBotFramework(req, res, next || defaultNext);
             } else {
                 var requestData = '';
                 req.on('data', (chunk: string) => {
@@ -132,13 +133,13 @@ export class ChatConnector implements IConnector, IBotStorage {
                 });
                 req.on('end', () => {
                     req.body = JSON.parse(requestData);
-                    this.verifyBotFramework(req, res);
+                    this.verifyBotFramework(req, res, next || defaultNext);
                 });
             }
         };
     }
 
-    private verifyBotFramework(req: IWebRequest, res: IWebResponse): void {
+    private verifyBotFramework(req: IWebRequest, res: IWebResponse, next: Function): void {
         var token: string;
         var isEmulator = req.body['channelId'] === 'emulator';
         var authHeaderValue = req.headers ? req.headers['authorization'] || req.headers['Authorization'] : null;
@@ -164,6 +165,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                     logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
                     res.status(403);
                     res.end();
+                    next();
                     return;
                 }
 
@@ -230,26 +232,29 @@ export class ChatConnector implements IConnector, IBotStorage {
                         logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
                         res.send(403, err);
                         res.end();
+                        next();
                         return;
                     }
 
-                    this.dispatch(req.body, res);
+                    this.dispatch(req.body, res, next);
                 } else {
                     logger.error('ChatConnector: receive - invalid signing key or OpenId metadata document.');
                     res.status(500);
                     res.end();
+                    next();
                     return;
                 }
             });
         } else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
             // Emulator running without auth enabled
             logger.warn(req.body, 'ChatConnector: receive - emulator running without security enabled.');
-            this.dispatch(req.body, res);
+            this.dispatch(req.body, res, next);
         } else {
             // Token not provided so
             logger.error('ChatConnector: receive - no security token sent.');
             res.status(401);
             res.end();
+            next();
         }
     }
 
@@ -287,7 +292,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             // Issue request
             var options: request.Options = {
                 method: 'POST',
-                // We use urlJoin to concatenate urls. url.resolve should not be used here, 
+                // We use urlJoin to concatenate urls. url.resolve should not be used here,
                 // since it resolves urls as hrefs are resolved, which could result in losing
                 // the last fragment of the serviceUrl
                 url: urlJoin(address.serviceUrl, '/v3/conversations'),
@@ -348,7 +353,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         // Issue request
         var options: request.Options = {
             method: 'DELETE',
-            // We use urlJoin to concatenate urls. url.resolve should not be used here, 
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
             // since it resolves urls as hrefs are resolved, which could result in losing
             // the last fragment of the serviceUrl
             url: urlJoin(address.serviceUrl, path),
@@ -543,7 +548,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         }
     }
 
-    private dispatch(msg: IMessage, res: IWebResponse) {
+    private dispatch(msg: IMessage, res: IWebResponse, next: Function) {
         // Dispatch message/activity
         try {
             this.prepIncomingMessage(msg);
@@ -553,18 +558,23 @@ export class ChatConnector implements IConnector, IBotStorage {
                 if (err) {
                     res.status(500);
                     res.end();
+                    next();
                     logger.error('ChatConnector: error dispatching event(s) - ', err.message || '');
                 } else if (body) {
                     res.send(status || 200, body);
+                    res.end();
+                    next();
                 } else {
                     res.status(status || 200);
                     res.end();
+                    next();
                 }
             })
         } catch (e) {
             console.error(e instanceof Error ? (<Error>e).stack : e.toString());
             res.status(500);
             res.end();
+            next();
         }
     }
 
@@ -596,7 +606,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         // Issue request
         var options: request.Options = {
             method: method,
-            // We use urlJoin to concatenate urls. url.resolve should not be used here, 
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
             // since it resolves urls as hrefs are resolved, which could result in losing
             // the last fragment of the serviceUrl
             url: urlJoin(address.serviceUrl, path),
@@ -641,7 +651,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                                 if (response.statusCode < 400) {
                                     callback(null, response, body);
                                 } else {
-                                    var txt = "Request to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    var txt = options.method + " to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
                                     callback(new Error(txt), response, null);
                                 }
                                 break;
@@ -662,7 +672,7 @@ export class ChatConnector implements IConnector, IBotStorage {
 
     private tokenHalfWayExpired(secondstoHalfWayExpire: number = 1800, secondsToExpire: number = 300): boolean {
         var timeToExpiration = (this.accessTokenExpires - Date.now())/1000;
-        return timeToExpiration < secondstoHalfWayExpire 
+        return timeToExpiration < secondstoHalfWayExpire
             && timeToExpiration > secondsToExpire;
     }
 
@@ -702,7 +712,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             this.refreshAccessToken((err, token) => {
                 cb(err, this.accessToken);
             });
-         
+
         }
         else if (this.tokenHalfWayExpired()) {
             // Refresh access token without error handling
@@ -731,7 +741,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                 if (!err && token) {
                     if (!options.headers) {
                         options.headers = {};
-                    } 
+                    }
                     options.headers['Authorization'] = 'Bearer ' + token
                     cb(null);
                 } else {
@@ -881,6 +891,5 @@ interface IWebResponse {
 
 /** Express or Restify Middleware Function. */
 interface IWebMiddleware {
-    (req: IWebRequest, res: IWebResponse, next?: Function): void;
+    (req: IWebRequest, res: IWebResponse, next: Function): void;
 }
-
