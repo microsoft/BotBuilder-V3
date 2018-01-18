@@ -18,5 +18,11 @@
     <PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.10" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />    
   </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Hosting">
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.aspnetcore.hosting\2.0.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.dll</HintPath>
+    </Reference>
+  </ItemGroup>
  
 </Project>
