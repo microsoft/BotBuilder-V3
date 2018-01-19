@@ -2,7 +2,7 @@
 * SDK Platform: <!-- .NET or Node.js -->
 * SDK Version: <!-- SDK version -->
 * Active Channels: <!-- Skype, MS Teams, Slack, Direct Line, etc. -->
-* Deployment Environment: <!-- Auzure Bot Service, Azure App Service, local development with Emulator? -->
+* Deployment Environment: <!-- Azure Bot Service, Azure App Service, local development with Emulator? -->
 
 ## Issue Description
 <!-- Describe your issue, question, or feature request -->
