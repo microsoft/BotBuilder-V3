@@ -63,6 +63,11 @@ namespace Microsoft.Bot.Builder.Luis
         /// The verbose flag.
         /// </summary>
         bool? Verbose { get; set; }
+
+        /// <summary>
+        /// The Bing Spell Check subscription key.
+        /// </summary>
+        string BingSpellCheckSubscriptionKey { get; set; }
     }
 
     public static partial class Extensions
@@ -74,6 +79,7 @@ namespace Microsoft.Bot.Builder.Luis
             if (source.Staging.HasValue) target.Staging = source.Staging.Value;
             if (source.TimezoneOffset.HasValue) target.TimezoneOffset = source.TimezoneOffset.Value;
             if (source.Verbose.HasValue) target.Verbose = source.Verbose.Value;
+            if (!string.IsNullOrWhiteSpace(source.BingSpellCheckSubscriptionKey)) target.BingSpellCheckSubscriptionKey = source.BingSpellCheckSubscriptionKey;
         }
     }
 }

@@ -155,11 +155,17 @@ namespace Microsoft.Bot.Builder.Luis
         /// </summary>
         public bool Verbose { get { return Options.Verbose.Value; } set { Options.Verbose = value; } }
 
+        /// <summary>
+        /// The Bing Spell Check subscription key.
+        /// </summary>
+        public string BingSpellCheckSubscriptionKey { get { return Options.BingSpellCheckSubscriptionKey; } set { Options.BingSpellCheckSubscriptionKey = value;  } }
+
         bool? ILuisOptions.Log { get; set; }
         bool? ILuisOptions.SpellCheck { get; set; }
         bool? ILuisOptions.Staging { get; set; }
         double? ILuisOptions.TimezoneOffset { get; set; }
         bool? ILuisOptions.Verbose { get; set; }
+        string ILuisOptions.BingSpellCheckSubscriptionKey { get; set; }
 
         public static Uri UriFor(LuisApiVersion apiVersion, string domain = null)
         {

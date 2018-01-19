@@ -79,6 +79,11 @@ namespace Microsoft.Bot.Builder.Luis
         public bool? Verbose { get; set; }
 
         /// <summary>
+        /// The Bing Spell Check subscription key.
+        /// </summary>
+        public string BingSpellCheckSubscriptionKey { get; set; }
+
+        /// <summary>
         /// Any extra query parameters for the URL.
         /// </summary>
         public string ExtraParameters { get; set; }
@@ -162,6 +167,10 @@ namespace Microsoft.Bot.Builder.Luis
             if (Verbose != null)
             {
                 queryParameters.Add($"verbose={Uri.EscapeDataString(Convert.ToString(Verbose))}");
+            }
+            if (!string.IsNullOrWhiteSpace(BingSpellCheckSubscriptionKey))
+            {
+                queryParameters.Add($"bing-spell-check-subscription-key={Uri.EscapeDataString(BingSpellCheckSubscriptionKey)}");
             }
 #pragma warning disable CS0618
             if (ContextId != null)
