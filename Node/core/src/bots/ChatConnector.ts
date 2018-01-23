@@ -44,6 +44,7 @@ import * as url from 'url';
 import * as http from 'http';
 import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
+import * as Promise from 'promise';
 import urlJoin = require('url-join');
 
 var pjson = require('../../package.json');
@@ -98,6 +99,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     private accessTokenExpires: number;
     private botConnectorOpenIdMetadata: OpenIdMetadata;
     private emulatorOpenIdMetadata: OpenIdMetadata;
+    private refreshingToken: Promise.IThenable<string>;
 
     constructor(protected settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
@@ -693,33 +695,40 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
 
     private refreshAccessToken(cb: (err: Error, accessToken: string) => void): void {
-        var opt: request.Options = {
-            method: 'POST',
-            url: this.settings.endpoint.refreshEndpoint,
-            form: {
-                grant_type: 'client_credentials',
-                client_id: this.settings.appId,
-                client_secret: this.settings.appPassword,
-                scope: this.settings.endpoint.refreshScope
-            }
-        };
-        this.addUserAgent(opt);
-        request(opt, (err, response, body) => {
-            if (!err) {
-                if (body && response.statusCode < 300) {
-                    // Subtract 5 minutes from expires_in so they'll we'll get a
-                    // new token before it expires.
-                    var oauthResponse = JSON.parse(body);
-                    this.accessToken = oauthResponse.access_token;
-                    this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
-                    cb(null, this.accessToken);
-                } else {
-                    cb(new Error('Refresh access token failed with status code: ' + response.statusCode), null);
-                }
-            } else {
-                cb(err, null);
-            }
-        });
+        // Get token only on first access. Other callers will block while waiting for token.
+        if (!this.refreshingToken) {
+            this.refreshingToken = new Promise<string>((resolve, reject) => {
+                var opt: request.Options = {
+                    method: 'POST',
+                    url: this.settings.endpoint.refreshEndpoint,
+                    form: {
+                        grant_type: 'client_credentials',
+                        client_id: this.settings.appId,
+                        client_secret: this.settings.appPassword,
+                        scope: this.settings.endpoint.refreshScope
+                    }
+                };
+                this.addUserAgent(opt);
+                request(opt, (err, response, body) => {
+                    if (!err) {
+                        if (body && response.statusCode < 300) {
+                            // Subtract 5 minutes from expires_in so they'll we'll get a
+                            // new token before it expires.
+                            var oauthResponse = JSON.parse(body);
+                            this.accessToken = oauthResponse.access_token;
+                            this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
+                            this.refreshingToken = undefined;
+                            resolve(this.accessToken);
+                        } else {
+                            reject(new Error('Refresh access token failed with status code: ' + response.statusCode));
+                        }
+                    } else {
+                        reject(err);
+                    }
+                });
+            })
+        }
+        this.refreshingToken.then((token) => cb(null, token), (err) => cb(err, null));
     }
 
     public getAccessToken(cb: (err: Error, accessToken: string) => void): void {
