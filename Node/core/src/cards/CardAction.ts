@@ -122,6 +122,14 @@ export class CardAction implements IIsCardAction {
         return new CardAction(session).type('downloadFile').value(url).title(title || "Click to download file");
     }
 
+    static invoke(session: Session, action: string, data: any, title: string) {
+        const value: { [key: string]: any }= {}
+
+        value[action] = data;
+
+        return new CardAction(session).type('invoke').value(JSON.stringify(value)).title(title || "Click to send response to bot");
+    };
+
     static dialogAction(session: Session, action: string, data?: string, title?: string|string[]): CardAction {
         var value = 'action?' + action;
         if (data) {

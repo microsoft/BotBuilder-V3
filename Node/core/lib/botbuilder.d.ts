@@ -2356,6 +2356,9 @@ export class CardAction implements IIsCardAction {
      */
     static downloadFile(session: Session, url: string, title?: TextType): CardAction;
 
+
+    static invoke(session: Session, action: string, data: any, title: string): CardAction;
+
     /**
      * Binds a button or tap action to a named action registered for a dialog or globally off the bot.
      *
