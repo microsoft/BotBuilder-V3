@@ -272,14 +272,22 @@ export class ChatConnector implements IConnector, IBotStorage {
             try {
                 if (msg.type == 'delay') {
                     setTimeout(cb, (<any>msg).value);
-                } else if (msg.address && (<IChatConnectorAddress>msg.address).serviceUrl) {
-                    this.postMessage(msg, (idx == messages.length - 1), (err, address) => {
-                        addresses.push(address);
-                        cb(err);
-                    });
                 } else {
-                    logger.error('ChatConnector: send - message is missing address or serviceUrl.')
-                    cb(new Error('Message missing address or serviceUrl.'));
+                    const addressExists = !!msg.address;
+                    const serviceUrlExists = addressExists && !!(<IChatConnectorAddress>msg.address).serviceUrl;
+
+                    // checking for address exists is redundant here, its part of the def of serviceUrlExists
+                    if(serviceUrlExists) {
+                        this.postMessage(msg, (idx == messages.length - 1), (err, address) => {
+                            addresses.push(address);
+                            cb(err);
+                        });
+                    } else {
+                        const msg = `Message is missing ${addressExists ? 'address and serviceUrl' : 'serviceUrl'} `;
+
+                        logger.error(`ChatConnector: send - ${msg}`)
+                        cb(new Error(msg));
+                    }
                 }
             } catch (e) {
                 cb(e);
