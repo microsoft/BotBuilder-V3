@@ -265,7 +265,7 @@ var ActionSet = (function () {
     ActionSet.prototype.action = function (name, handler, options) {
         if (options === void 0) { options = {}; }
         var key = this.uniqueActionName(name);
-        this.actions[name] = { handler: handler, options: options };
+        this.actions[key] = { handler: handler, options: options };
         return this;
     };
     ActionSet.prototype.uniqueActionName = function (name, cnt) {

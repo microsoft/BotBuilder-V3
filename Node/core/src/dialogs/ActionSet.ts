@@ -344,7 +344,7 @@ export class ActionSet {
 
     private action(name: string, handler: IActionHandler, options: IDialogActionOptions = {}): this {
         var key = this.uniqueActionName(name);
-        this.actions[name] = { handler: handler, options: options };
+        this.actions[key] = { handler: handler, options: options };
         return this;
     }
 
