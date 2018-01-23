@@ -132,7 +132,15 @@ export class ChatConnector implements IConnector, IBotStorage {
                     requestData += chunk
                 });
                 req.on('end', () => {
-                    req.body = JSON.parse(requestData);
+                    try {
+                        req.body = JSON.parse(requestData);
+                    } catch (err) {
+                        logger.error('ChatConnector: receive - invalid request data received.');
+                        res.send(400);
+                        res.end();
+                        return;
+                    }
+
                     this.verifyBotFramework(req, res, next || defaultNext);
                 });
             }
