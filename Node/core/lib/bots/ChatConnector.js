@@ -50,7 +50,15 @@ var ChatConnector = (function () {
                     requestData += chunk;
                 });
                 req.on('end', function () {
-                    req.body = JSON.parse(requestData);
+                    try {
+                        req.body = JSON.parse(requestData);
+                    }
+                    catch (err) {
+                        logger.error('ChatConnector: receive - invalid request data received.');
+                        res.send(400);
+                        res.end();
+                        return;
+                    }
                     _this.verifyBotFramework(req, res, next || defaultNext);
                 });
             }
@@ -174,15 +182,20 @@ var ChatConnector = (function () {
                 if (msg.type == 'delay') {
                     setTimeout(cb, msg.value);
                 }
-                else if (msg.address && msg.address.serviceUrl) {
-                    _this.postMessage(msg, (idx == messages.length - 1), function (err, address) {
-                        addresses.push(address);
-                        cb(err);
-                    });
-                }
                 else {
-                    logger.error('ChatConnector: send - message is missing address or serviceUrl.');
-                    cb(new Error('Message missing address or serviceUrl.'));
+                    var addressExists = !!msg.address;
+                    var serviceUrlExists = addressExists && !!msg.address.serviceUrl;
+                    if (serviceUrlExists) {
+                        _this.postMessage(msg, (idx == messages.length - 1), function (err, address) {
+                            addresses.push(address);
+                            cb(err);
+                        });
+                    }
+                    else {
+                        var msg_1 = "Message is missing " + (addressExists ? 'address and serviceUrl' : 'serviceUrl') + " ";
+                        logger.error("ChatConnector: send - " + msg_1);
+                        cb(new Error(msg_1));
+                    }
                 }
             }
             catch (e) {
