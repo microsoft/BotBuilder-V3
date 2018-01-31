@@ -90,9 +90,9 @@ namespace Microsoft.Bot.Builder.Tests
             );
             return address;
         }
-        protected async Task<HttpOperationResponse<object>> UpsertData(string channelId, string userId, string conversationId, BotStoreType storeType, BotData data)
+        protected async Task<HttpOperationResponse<BotData>> UpsertData(string channelId, string userId, string conversationId, BotStoreType storeType, BotData data)
         {
-            var _result = new HttpOperationResponse<object>();
+            var _result = new HttpOperationResponse<BotData>();
             _result.Request = new HttpRequestMessage();
             try
             {
@@ -101,24 +101,32 @@ namespace Microsoft.Bot.Builder.Tests
             }
             catch (HttpException e)
             {
-                _result.Body = e.Data;
+                _result.Body = null;
                 _result.Response = new HttpResponseMessage { StatusCode = HttpStatusCode.PreconditionFailed };
-                return _result;
+                var ex = new HttpOperationException(e?.Message, e);
+                ex.Request = new HttpRequestMessageWrapper(_result.Request, "");
+                ex.Response = new HttpResponseMessageWrapper(_result.Response, e?.Message);
+                throw ex;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                _result.Response = new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError };
-                return _result;
+                _result.Body = null;
+                _result.Response = new HttpResponseMessage { StatusCode = HttpStatusCode.InternalServerError};
+                var ex = new HttpOperationException(e?.Message, e);
+                ex.Request = new HttpRequestMessageWrapper(_result.Request, "");
+                ex.Response = new HttpResponseMessageWrapper(_result.Response, e?.Message);
+                throw ex;
             }
+
 
             _result.Body = data;
             _result.Response = new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
             return _result;
         }
 
-        protected async Task<HttpOperationResponse<object>> GetData(string channelId, string userId, string conversationId, BotStoreType storeType)
+        protected async Task<HttpOperationResponse<BotData>> GetData(string channelId, string userId, string conversationId, BotStoreType storeType)
         {
-            var _result = new HttpOperationResponse<object>();
+            var _result = new HttpOperationResponse<BotData>();
             _result.Request = new HttpRequestMessage();
             BotData data;
             var address = AddressFrom(channelId, userId, conversationId);

@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Bot.Connector.Payments
+﻿namespace Microsoft.Bot.Connector
 {
     /// <summary>
     /// Different shipping types. See http://www.w3.org/TR/payment-request/#dom-paymentoptions-shippingtype for more information.

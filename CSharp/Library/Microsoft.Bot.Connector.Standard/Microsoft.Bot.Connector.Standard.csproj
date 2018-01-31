@@ -3,7 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Microsoft.Bot.Connector</AssemblyName>
-    <Copyright>Copyright © Microsoft Corporation 2016</Copyright>
+    <Authors>Microsoft</Authors>
+    <Copywrite>© Microsoft Corporation. All rights reserved.</Copywrite>
+    <RequireLicenseAcceptance>true</RequireLicenseAcceptance>
+    <LicenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</LicenseUrl>
     <Description>Microsoft Bot Builder</Description>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

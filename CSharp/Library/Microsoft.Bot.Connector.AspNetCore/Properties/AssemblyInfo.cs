@@ -12,8 +12,8 @@ using System.Resources;
 [assembly: AssemblyCulture("")]
 
 
-[assembly: AssemblyVersion("1.1.3.2")]
-[assembly: AssemblyFileVersion("1.1.3.2")]
+[assembly: AssemblyVersion("1.1.3.8")]
+[assembly: AssemblyFileVersion("1.1.3.8")]
 
 //[assembly: AssemblyKeyFileAttribute(@"..\\..\\buildtools\\35MSSharedLib1024.snk")]
 //[assembly: AssemblyDelaySignAttribute(true)]

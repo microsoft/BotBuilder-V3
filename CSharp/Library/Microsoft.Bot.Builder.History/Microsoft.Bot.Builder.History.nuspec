@@ -4,7 +4,10 @@
     <id>Microsoft.Bot.Builder.History</id>
     <version>$version$</version>
     <authors>Microsoft</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <owners>microsoft, BotFramework, nugetbotbuilder </owners>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</licenseUrl>
     <description>
       Provide interfaces and classes for working with conversation histories in the Microsoft Bot Builder.  
 			In particular this includes facilities to walk across stored histories and replay them.

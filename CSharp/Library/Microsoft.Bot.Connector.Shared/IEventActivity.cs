@@ -1,5 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 
 namespace Microsoft.Bot.Connector
 {
@@ -22,13 +24,5 @@ namespace Microsoft.Bot.Connector
         /// Reference to another conversation or activity
         /// </summary>
         ConversationReference RelatesTo { get; set; }
-    }
-
-    /// <summary>
-    /// NOTE: Trigger activity has been renamed to Event activity
-    /// </summary>
-    [Obsolete]
-    public interface ITriggerActivity : IEventActivity
-    {
     }
 }

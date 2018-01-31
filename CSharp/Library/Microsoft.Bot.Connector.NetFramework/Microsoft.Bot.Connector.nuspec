@@ -2,10 +2,14 @@
 <package xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <metadata xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <id>Microsoft.Bot.Connector</id>
-    <version>3.12.2.4</version>
+    <version>3.13.0.3</version>
     <authors>Microsoft</authors>
+    <owners>microsoft, BotFramework, nugetbotbuilder </owners>
     <iconUrl>https://bots.botframework.com/Client/Images/bot-framework-default-7.png</iconUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Microsoft/BotBuilder</projectUrl>
     <description>This library implements C# classes for using the Bot Framework Connector REST API</description>
     <summary>Client REST API library for Microsoft Bot Framework Connector</summary>
     <language>en-US</language>

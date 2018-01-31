@@ -4,7 +4,10 @@
     <id>Microsoft.Bot.Builder.FormFlow.Json</id>
     <version>$version$</version>
     <authors>Microsoft</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <owners>microsoft, BotFramework, nugetbotbuilder </owners>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</licenseUrl>
     <description>
       Microsoft Bot Builder extension for specifying a guided FormFlow dialog using an extended JSON Schema. Most of the annotations are declarative but you can
       also include C# code fragments that are dynamically compiled.

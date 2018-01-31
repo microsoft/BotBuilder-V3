@@ -12,8 +12,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="3.12.2.4" />
-    <PackageReference Include="Microsoft.Bot.Connector.AspNetCore" Version="2.0.0.3" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="3.13.0.2" />
+    <PackageReference Include="Microsoft.Bot.Connector.AspNetCore" Version="2.0.0.7" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(NoTools)' != 'True'">

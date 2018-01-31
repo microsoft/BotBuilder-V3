@@ -4,7 +4,10 @@
     <id>Microsoft.Bot.Builder</id>
     <version>$version$</version>
     <authors>Microsoft</authors>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <owners>microsoft, BotFramework, nugetbotbuilder </owners>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Microsoft/BotBuilder/blob/master/LICENSE</licenseUrl>
     <description>
       Microsoft Bot Builder is a powerful framework for constructing bots that can handle both freeform interactions and more guided ones where the possibilities are explicitly shown to the user. It is easy to use and leverages C# to provide a natural way to write bots.
 
@@ -25,7 +28,7 @@
       <dependency id="Autofac" version="3.5.2"/>
       <dependency id="Chronic.Signed" version="0.3.2" />
       <dependency id="Microsoft.AspNet.WebAPI.Core" version="5.2.3" />
-      <dependency id="Microsoft.Bot.Connector" version="3.12.2.4" />
+      <dependency id="Microsoft.Bot.Connector" version="3.13.0.3" />
       <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.2" />
       <dependency id="Newtonsoft.Json" version="9.0.1" />
       <dependency id="System.IdentityModel.Tokens.Jwt" version="5.1.4" />

@@ -1,4 +1,4 @@
-﻿namespace Microsoft.Bot.Connector.Payments
+﻿namespace Microsoft.Bot.Connector
 {
     public partial class PaymentRequest
     {

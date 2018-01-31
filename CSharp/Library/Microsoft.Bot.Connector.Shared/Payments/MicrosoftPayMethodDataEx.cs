@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Connector.Payments
+namespace Microsoft.Bot.Connector
 {
     /// <summary>
     /// Pay method data for Microsoft Payment.

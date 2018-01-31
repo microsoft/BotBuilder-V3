@@ -807,6 +807,7 @@ namespace Microsoft.Bot.Builder.Tests
             return mock.Object;
         }
 
+        [Ignore]
         [TestMethod]
         [DeploymentItem(@"Scripts\BotDispatcher.script")]
         public async Task BotDispatcher()
