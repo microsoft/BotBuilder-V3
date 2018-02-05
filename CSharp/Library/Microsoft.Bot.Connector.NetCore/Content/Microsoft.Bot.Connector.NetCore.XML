@@ -16,7 +16,7 @@
         </member>
         <member name="F:Microsoft.Bot.Connector.ActionTypes.PostBack">
             <summary>
-            Client will post message to bot privately, so other participants inside conversation will not see that was posted. 
+            Client will post message to bot privately, so other participants inside conversation will not see that was posted.
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.ActionTypes.PlayAudio">
@@ -47,6 +47,11 @@
         <member name="F:Microsoft.Bot.Connector.ActionTypes.MessageBack">
             <summary>
             Post message to bot
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.ActionTypes.Invoke">
+            <summary>
+            Post invoke activity to bot
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Activity">

@@ -155,25 +155,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             {
                 await this.inner.PostAsync(activity, token);
             }
-            catch (Exception error)
+            catch
             {
                 try
                 {
-                    if (Debugger.IsAttached)
-                    {
-                        var message = this.botToUser.MakeMessage();
-                        message.Text = $"Exception: { error.Message}";
-                        message.Attachments = new[]
-                        {
-                            new Attachment(contentType: MediaTypeNames.Text.Plain, content: error.StackTrace)
-                        };
-
-                        await this.botToUser.PostAsync(message);
-                    }
-                    else
-                    {
-                        await this.botToUser.PostAsync(this.resources.GetString("UnhandledExceptionToUser"));
-                    }
+                    await this.botToUser.PostAsync(this.resources.GetString("UnhandledExceptionToUser"));
                 }
                 catch (Exception inner)
                 {
