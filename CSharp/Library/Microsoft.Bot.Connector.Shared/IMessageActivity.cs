@@ -60,6 +60,11 @@ namespace Microsoft.Bot.Connector
         SuggestedActions SuggestedActions { get; set; }
 
         /// <summary>
+        /// Collection of Entity objects, each of which contains metadata about this activity. Each Entity object is typed.
+        /// </summary>
+        new IList<Entity> Entities { get; set; }
+
+        /// <summary>
         /// Importance of the activity 
         /// Valid values are "low", "normal", and "high". Default value is "normal."
         /// </summary>

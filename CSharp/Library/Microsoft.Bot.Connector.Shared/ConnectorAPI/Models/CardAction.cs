@@ -36,7 +36,7 @@ namespace Microsoft.Bot.Connector
         /// feed if the button is clicked</param>
         /// <param name="value">Supplementary parameter for action. Content of
         /// this property depends on the ActionType</param>
-        public CardAction(string type = default(string), string title = default(string), string image = default(string), string text = default(string), string displayText = default(string), object value = default(object))
+        public CardAction(string type, string title = default(string), string image = default(string), object value = default(object), string text = default(string), string displayText = default(string)) : this()
         {
             Type = type;
             Title = title;
