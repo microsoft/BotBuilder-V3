@@ -406,8 +406,7 @@ namespace Microsoft.Bot.Builder.Dialogs
 
                     foreach (var intentName in intentNames)
                     {
-                        var key = string.IsNullOrWhiteSpace(intentName) ? string.Empty : intentName;
-                        yield return new KeyValuePair<string, IntentActivityHandler>(intentName, intentHandler);
+                        yield return new KeyValuePair<string, IntentActivityHandler>(intentName?.Trim() ?? string.Empty, intentHandler);
                     }
                 }
                 else
