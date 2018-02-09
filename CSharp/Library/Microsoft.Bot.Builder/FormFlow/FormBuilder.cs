@@ -454,7 +454,7 @@ namespace Microsoft.Bot.Builder.FormFlow
         private void FieldPaths(Type type, string path, List<string> paths)
         {
             var newPath = (path == "" ? path : path + ".");
-            foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance))
+            foreach (var field in type.GetFields(BindingFlags.Public | BindingFlags.Instance).Where(f => !f.IsDefined(typeof(IgnoreFieldAttribute))))
             {
                 TypePaths(field.FieldType, newPath + field.Name, paths);
             }
