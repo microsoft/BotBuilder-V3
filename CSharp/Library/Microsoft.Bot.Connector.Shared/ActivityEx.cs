@@ -40,12 +40,8 @@ namespace Microsoft.Bot.Connector
 
         partial void CustomInit()
         {
-            MembersAdded = MembersAdded ?? new List<ChannelAccount>();
-            MembersRemoved = MembersRemoved ?? new List<ChannelAccount>();
             Attachments = Attachments ?? new List<Attachment>();
             Entities = Entities ?? new List<Entity>();
-            ReactionsAdded = ReactionsAdded ?? new List<MessageReaction>();
-            ReactionsRemoved = ReactionsRemoved ?? new List<MessageReaction>();
         }
 
         /// <summary>
@@ -90,7 +86,14 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Create an instance of the Activity class with IConversationUpdateActivity masking
         /// </summary>
-        public static IConversationUpdateActivity CreateConversationUpdateActivity() { return new Activity(ActivityTypes.ConversationUpdate); }
+        public static IConversationUpdateActivity CreateConversationUpdateActivity()
+        {
+            return new Activity(ActivityTypes.ConversationUpdate)
+            {
+                MembersAdded = new List<ChannelAccount>(),
+                MembersRemoved = new List<ChannelAccount>()
+            };
+        }
 
         /// <summary>
         /// Create an instance of the Activity class with ITypingActivity masking
