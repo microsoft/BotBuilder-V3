@@ -3976,7 +3976,9 @@ export class UniversalBot extends Library  {
      * @param defaultDialog (Optional) default handler of received messages. This can either be an individual function or a waterfall sequence.
      * @param libraryName (Optional) library namespace for the bot.  The default value is '*'.
      */
-    constructor(connector?: IConnector, defaultDialog?: IDialogWaterfallStep|IDialogWaterfallStep[], libraryName?: string);
+    constructor(connector: IConnector, defaultDialog?: IDialogWaterfallStep|IDialogWaterfallStep[], libraryName?: string);
+    constructor(connector: IConnector, settings?: IUniversalBotSettings);
+    constructor(connector?: IConnector, defaultDialog?: any, libraryName?: string)
 
     /**
      * Returns a clone of an existing bot.
