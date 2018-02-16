@@ -462,7 +462,7 @@ export class Session extends events.EventEmitter {
         return this;
     }
 
-    /** Cancels a specific dialog on teh stack and optionally replaces it with a new one. */
+    /** Cancels a specific dialog on the stack and optionally replaces it with a new one. */
     public cancelDialog(dialogId: string|number, replaceWithId?: string, replaceWithArgs?: any): this {
         // Delete dialog(s)
         var childId = typeof dialogId === 'number' ? this.sessionState.callstack[<number>dialogId].id : <string>dialogId;
