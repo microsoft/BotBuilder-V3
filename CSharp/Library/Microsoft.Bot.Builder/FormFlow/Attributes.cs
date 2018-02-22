@@ -667,6 +667,23 @@ namespace Microsoft.Bot.Builder.FormFlow
             Pattern = pattern;
         }
     }
+
+    /// <summary>
+    /// Define a field or property as excluded.
+    /// </summary>
+    /// <remarks>
+    /// The ignored field is a field that is excluded from the list of fields.
+    /// </remarks>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public class IgnoreFieldAttribute : Attribute
+    {
+        /// <summary>
+        /// Mark a field or property as excluded.
+        /// </summary>
+        public IgnoreFieldAttribute()
+        { }
+    }
 }
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
