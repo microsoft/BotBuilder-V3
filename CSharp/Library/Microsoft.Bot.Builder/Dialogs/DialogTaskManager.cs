@@ -1,4 +1,4 @@
-﻿// 
+// 
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license.
 // 
@@ -125,7 +125,16 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         IReadOnlyList<IDialogTask> IDialogTasks.DialogTasks
         {
-            get { return this.dialogTasks; }
+            get { return CheckNull(nameof(this.dialogTasks), this.dialogTasks); }
+        }
+
+        private IReadOnlyList<IDialogTask> CheckNull(string name, IReadOnlyList<IDialogTask> value)
+        {
+            if (value == null)
+            {
+                throw new InvalidOperationException($"\"{name}\" cannot be null. Probably forgot to call {nameof(IDialogTaskManager)}.{nameof(IDialogTaskManager.LoadDialogTasks)}() first.");
+            }
+            return value;
         }
 
         IDialogTask IDialogTasks.CreateDialogTask()
