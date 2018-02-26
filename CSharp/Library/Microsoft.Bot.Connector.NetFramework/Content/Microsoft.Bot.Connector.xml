@@ -41,56 +41,6 @@
             Type which implements ICredentialProvider interface to allow multiple bot AppIds to be registered for the same endpoint
             </summary>
         </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.OpenUrl">
-            <summary>
-            Client will open given url in the built-in browser.
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.ImBack">
-            <summary>
-            Client will post message to bot, so all other participants will see that was posted to the bot and who posted this.
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.PostBack">
-            <summary>
-            Client will post message to bot privately, so other participants inside conversation will not see that was posted.
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.PlayAudio">
-            <summary>
-            playback audio container referenced by url
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.PlayVideo">
-            <summary>
-            playback video container referenced by url
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.ShowImage">
-            <summary>
-            show image referenced by url
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.DownloadFile">
-            <summary>
-            download file referenced by url
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.Signin">
-            <summary>
-            Signin button
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.MessageBack">
-            <summary>
-            Post message to bot
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActionTypes.Invoke">
-            <summary>
-            Post invoke activity to bot
-            </summary>
-        </member>
         <member name="T:Microsoft.Bot.Connector.Activity">
             <summary>
             An Activity is the basic communication type for the Bot Framework 3.0 protocol
@@ -279,8 +229,11 @@
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
-            <param name="type">The type of the activity
-            [message|contactRelationUpdate|converationUpdate|typing|endOfConversation|event|invoke]</param>
+            <param name="type">The type of the activity. Possible values
+            include: 'message', 'contactRelationUpdate', 'conversationUpdate',
+            'typing', 'ping', 'endOfConversation', 'event', 'invoke',
+            'deleteUserData', 'messageUpdate', 'messageDelete',
+            'installationUpdate', 'messageReaction', 'suggestion'</param>
             <param name="id">ID of this activity</param>
             <param name="timestamp">UTC Time when message was sent (set by
             service)</param>
@@ -294,10 +247,11 @@
             <param name="conversation">Conversation</param>
             <param name="recipient">(Outbound to bot only) Bot's address that
             received the message</param>
-            <param name="textFormat">Format of text fields [plain|markdown]
-            Default:markdown</param>
+            <param name="textFormat">Format of text fields Default:markdown.
+            Possible values include: 'markdown', 'plain', 'xml'</param>
             <param name="attachmentLayout">Hint for how to deal with multiple
-            attachments: [list|carousel] Default:list</param>
+            attachments. Default:list. Possible values include: 'list',
+            'carousel'</param>
             <param name="membersAdded">Members added to the
             conversation</param>
             <param name="membersRemoved">Members removed from the
@@ -313,8 +267,9 @@
             <param name="locale">The language code of the Text field</param>
             <param name="text">Content for the message</param>
             <param name="speak">SSML Speak for TTS audio response</param>
-            <param name="inputHint">Indicates whether the bot is accepting,
-            expecting, or ignoring input</param>
+            <param name="inputHint">Input hint to the channel on what the bot
+            is expecting. Possible values include: 'acceptingInput',
+            'ignoringInput', 'expectingInput'</param>
             <param name="summary">Text to display if the channel cannot render
             cards</param>
             <param name="suggestedActions">SuggestedActions are used to provide
@@ -332,8 +287,10 @@
             the event</param>
             <param name="relatesTo">Reference to another conversation or
             activity</param>
-            <param name="code">Code indicating why the conversation has
-            ended</param>
+            <param name="code">Code indicating why the conversation has ended.
+            Possible values include: 'unknown', 'completedSuccessfully',
+            'userCancelled', 'botTimedOut', 'botIssuedInvalidMessage',
+            'channelFailed'</param>
             <param name="expiration">DateTime to expire the activity as ISO
             8601 encoded datetime</param>
             <param name="importance">Importance of this activity
@@ -348,8 +305,11 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Type">
             <summary>
-            Gets or sets the type of the activity
-            [message|contactRelationUpdate|converationUpdate|typing|endOfConversation|event|invoke]
+            Gets or sets the type of the activity. Possible values include:
+            'message', 'contactRelationUpdate', 'conversationUpdate', 'typing',
+            'ping', 'endOfConversation', 'event', 'invoke', 'deleteUserData',
+            'messageUpdate', 'messageDelete', 'installationUpdate',
+            'messageReaction', 'suggestion'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Id">
@@ -397,14 +357,14 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.TextFormat">
             <summary>
-            Gets or sets format of text fields [plain|markdown]
-            Default:markdown
+            Gets or sets format of text fields Default:markdown. Possible
+            values include: 'markdown', 'plain', 'xml'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.AttachmentLayout">
             <summary>
-            Gets or sets hint for how to deal with multiple attachments:
-            [list|carousel] Default:list
+            Gets or sets hint for how to deal with multiple attachments.
+            Default:list. Possible values include: 'list', 'carousel'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.MembersAdded">
@@ -454,8 +414,9 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.InputHint">
             <summary>
-            Gets or sets indicates whether the bot is accepting, expecting, or
-            ignoring input
+            Gets or sets input hint to the channel on what the bot is
+            expecting. Possible values include: 'acceptingInput',
+            'ignoringInput', 'expectingInput'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Summary">
@@ -513,7 +474,10 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Code">
             <summary>
-            Gets or sets code indicating why the conversation has ended
+            Gets or sets code indicating why the conversation has ended.
+            Possible values include: 'unknown', 'completedSuccessfully',
+            'userCancelled', 'botTimedOut', 'botIssuedInvalidMessage',
+            'channelFailed'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Expiration">
@@ -619,81 +583,6 @@
             <param name="id">id to match</param>
             <param name="activity"></param>
             <returns>new .Text property value</returns>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.ActivityTypes">
-            <summary>
-            Types of Activities
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Message">
-            <summary>
-            Message from a user -> bot or bot -> User
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.ContactRelationUpdate">
-            <summary>
-            Bot added removed to contact list
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.ConversationUpdate">
-            <summary>
-            This notification is sent when the conversation's properties change, for example the topic name, or when user joins or leaves the group.
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Typing">
-            <summary>
-            a user is typing
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Ping">
-            <summary>
-            Bounce a message off of the server without replying or changing it's state
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.EndOfConversation">
-            <summary>
-            End a conversation
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Event">
-            <summary>
-            Asynchronous external event
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Invoke">
-            <summary>
-            Synchronous request to invoke a command
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.DeleteUserData">
-            <summary>
-            Delete user data
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.MessageUpdate">
-            <summary>
-            An update to an existing Message Activity
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.MessageDelete">
-            <summary>
-            Indicates a delete of an existing Message Activity
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.InstallationUpdate">
-            <summary>
-            Bot added or removed from channel
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.MessageReaction">
-            <summary>
-            Reaction added or removed from activity
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityTypes.Suggestion">
-            <summary>
-            Suggestion activity - private message 
-            </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Attachments">
             <summary>
@@ -1028,7 +917,9 @@
             <summary>
             GetAttachment
             </summary>
+            <remarks>
             Get the named view as binary content
+            </remarks>
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1043,40 +934,9 @@
             <summary>
             GetAttachment
             </summary>
+            <remarks>
             Get the named view as binary content
-            <param name='operations'>
-            The operations group for this extension method.
-            </param>
-            <param name='attachmentId'>
-            attachment id
-            </param>
-            <param name='viewId'>
-            View id from attachmentInfo
-            </param>
-            <param name='cancellationToken'>
-            The cancellation token.
-            </param>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentStream(Microsoft.Bot.Connector.IAttachments,System.String,System.String)">
-            <summary>
-            GetAttachmentStream
-            </summary>
-            Get the named view as binary stream
-            <param name='operations'>
-            The operations group for this extension method.
-            </param>
-            <param name='attachmentId'>
-            attachment id
-            </param>
-            <param name='viewId'>
-            View id from attachmentInfo
-            </param>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.AttachmentsExtensions.GetAttachmentStreamAsync(Microsoft.Bot.Connector.IAttachments,System.String,System.String,System.Threading.CancellationToken)">
-            <summary>
-            GetAttachmentStreamAsync
-            </summary>
-            Get the named view as binary content as a stream
+            </remarks>
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -1321,6 +1181,42 @@
             <summary>
             Gets a reference to the ConnectorClient
             </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.GetConversationsWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             GetConversations
+             </summary>
+             <remarks>
+             List the Conversations in which this bot has participated.
+            
+             GET from this method with a skip token
+            
+             The return value is a ConversationsResult, which contains an array of
+             ConversationMembers and a skip token.  If the skip token is not empty, then
+             there are further values to be returned. Call this method again with the
+             returned token to get more values.
+            
+             Each ConversationMembers object contains the ID of the conversation and an
+             array of ChannelAccounts that describe the members of the conversation.
+             </remarks>
+             <param name='continuationToken'>
+             skip or continuation token
+             </param>
+             <param name='customHeaders'>
+             Headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.SerializationException">
+             Thrown when unable to deserialize the response
+             </exception>
+             <return>
+             A response object containing the response body and response headers.
+             </return>
         </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.CreateConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.ConversationParameters,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
@@ -1587,6 +1483,43 @@
              A response object containing the response body and response headers.
              </return>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.DeleteConversationMemberWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             DeleteConversationMember
+             </summary>
+             <remarks>
+             Deletes a member from a converstion.
+            
+             This REST API takes a ConversationId and a memberId (of type string) and
+             removes that member from the conversation. If that member was the last
+             member
+             of the conversation, the conversation will also be deleted.
+             </remarks>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='memberId'>
+             ID of the member to delete from this conversation
+             </param>
+             <param name='customHeaders'>
+             Headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.ValidationException">
+             Thrown when a required parameter is null
+             </exception>
+             <exception cref="T:System.ArgumentNullException">
+             Thrown when a required parameter is null
+             </exception>
+             <return>
+             A response object containing the response body and response headers.
+             </return>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.GetActivityMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              GetActivityMembers
@@ -1671,6 +1604,57 @@
             <summary>
             Extension methods for Conversations.
             </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversations(Microsoft.Bot.Connector.IConversations,System.String)">
+             <summary>
+             GetConversations
+             </summary>
+             <remarks>
+             List the Conversations in which this bot has participated.
+            
+             GET from this method with a skip token
+            
+             The return value is a ConversationsResult, which contains an array of
+             ConversationMembers and a skip token.  If the skip token is not empty, then
+             there are further values to be returned. Call this method again with the
+             returned token to get more values.
+            
+             Each ConversationMembers object contains the ID of the conversation and an
+             array of ChannelAccounts that describe the members of the conversation.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='continuationToken'>
+             skip or continuation token
+             </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversationsAsync(Microsoft.Bot.Connector.IConversations,System.String,System.Threading.CancellationToken)">
+             <summary>
+             GetConversations
+             </summary>
+             <remarks>
+             List the Conversations in which this bot has participated.
+            
+             GET from this method with a skip token
+            
+             The return value is a ConversationsResult, which contains an array of
+             ConversationMembers and a skip token.  If the skip token is not empty, then
+             there are further values to be returned. Call this method again with the
+             returned token to get more values.
+            
+             Each ConversationMembers object contains the ID of the conversation and an
+             array of ChannelAccounts that describe the members of the conversation.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='continuationToken'>
+             skip or continuation token
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ConversationParameters)">
              <summary>
@@ -2010,6 +1994,53 @@
              The cancellation token.
              </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.DeleteConversationMember(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
+             <summary>
+             DeleteConversationMember
+             </summary>
+             <remarks>
+             Deletes a member from a converstion.
+            
+             This REST API takes a ConversationId and a memberId (of type string) and
+             removes that member from the conversation. If that member was the last
+             member
+             of the conversation, the conversation will also be deleted.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='memberId'>
+             ID of the member to delete from this conversation
+             </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.DeleteConversationMemberAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
+             <summary>
+             DeleteConversationMember
+             </summary>
+             <remarks>
+             Deletes a member from a converstion.
+            
+             This REST API takes a ConversationId and a memberId (of type string) and
+             removes that member from the conversation. If that member was the last
+             member
+             of the conversation, the conversation will also be deleted.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='memberId'>
+             ID of the member to delete from this conversation
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetActivityMembers(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
              <summary>
              GetActivityMembers
@@ -2343,6 +2374,41 @@
             Conversations operations.
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.GetConversationsWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             GetConversations
+             </summary>
+             <remarks>
+             List the Conversations in which this bot has participated.
+            
+             GET from this method with a skip token
+            
+             The return value is a ConversationsResult, which contains an array
+             of ConversationMembers and a skip token.  If the skip token is not
+             empty, then
+             there are further values to be returned. Call this method again
+             with the returned token to get more values.
+            
+             Each ConversationMembers object contains the ID of the conversation
+             and an array of ChannelAccounts that describe the members of the
+             conversation.
+             </remarks>
+             <param name='continuationToken'>
+             skip or continuation token
+             </param>
+             <param name='customHeaders'>
+             The headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.SerializationException">
+             Thrown when unable to deserialize the response
+             </exception>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.CreateConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.ConversationParameters,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              CreateConversation
@@ -2580,6 +2646,37 @@
              Thrown when a required parameter is null
              </exception>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.DeleteConversationMemberWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             DeleteConversationMember
+             </summary>
+             <remarks>
+             Deletes a member from a converstion.
+            
+             This REST API takes a ConversationId and a memberId (of type
+             string) and removes that member from the conversation. If that
+             member was the last member
+             of the conversation, the conversation will also be deleted.
+             </remarks>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='memberId'>
+             ID of the member to delete from this conversation
+             </param>
+             <param name='customHeaders'>
+             The headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.ValidationException">
+             Thrown when a required parameter is null
+             </exception>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.GetActivityMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              GetActivityMembers
@@ -2647,6 +2744,21 @@
              <exception cref="T:Microsoft.Rest.ValidationException">
              Thrown when a required parameter is null
              </exception>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ActionTypes">
+            <summary>
+            Defines values for ActionTypes.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ActivityImportance">
+            <summary>
+            Defines values for ActivityImportance.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ActivityTypes">
+            <summary>
+            Defines values for ActivityTypes.
+            </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.AnimationCard">
             <summary>
@@ -2865,6 +2977,11 @@
         <member name="P:Microsoft.Bot.Connector.AttachmentInfo.Views">
             <summary>
             Gets or sets attachment views
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.AttachmentLayoutTypes">
+            <summary>
+            Defines values for AttachmentLayoutTypes.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.AttachmentView">
@@ -3138,6 +3255,11 @@
             Gets or sets action assigned to specific Attachment
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes">
+            <summary>
+            Defines values for ContactRelationUpdateActionTypes.
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConversationAccount">
             <summary>
             Channel account information for a conversation
@@ -3176,6 +3298,33 @@
         <member name="P:Microsoft.Bot.Connector.ConversationAccount.Properties">
             <summary>
             Extension data for overflow of properties
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationMembers">
+            <summary>
+            Conversation and its members
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationMembers.#ctor">
+            <summary>
+            Initializes a new instance of the ConversationMembers class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationMembers.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount})">
+            <summary>
+            Initializes a new instance of the ConversationMembers class.
+            </summary>
+            <param name="id">Conversation ID</param>
+            <param name="members">List of members in this conversation</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationMembers.Id">
+            <summary>
+            Gets or sets conversation ID
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationMembers.Members">
+            <summary>
+            Gets or sets list of members in this conversation
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConversationParameters">
@@ -3334,6 +3483,38 @@
         <member name="P:Microsoft.Bot.Connector.ConversationResourceResponse.Id">
             <summary>
             Gets or sets id of the resource
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationsResult">
+            <summary>
+            Conversations result
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsResult.#ctor">
+            <summary>
+            Initializes a new instance of the ConversationsResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsResult.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ConversationMembers})">
+            <summary>
+            Initializes a new instance of the ConversationsResult class.
+            </summary>
+            <param name="skip">Paging token</param>
+            <param name="conversations">List of conversations</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationsResult.Skip">
+            <summary>
+            Gets or sets paging token
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationsResult.Conversations">
+            <summary>
+            Gets or sets list of conversations
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.EndOfConversationCodes">
+            <summary>
+            Defines values for EndOfConversationCodes.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Entity">
@@ -3599,6 +3780,16 @@
             card itself
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.InputHints">
+            <summary>
+            Defines values for InputHints.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.InstallationUpdateActionTypes">
+            <summary>
+            Defines values for InstallationUpdateActionTypes.
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.MediaCard">
             <summary>
             Media card
@@ -3807,11 +3998,18 @@
             <summary>
             Initializes a new instance of the MessageReaction class.
             </summary>
-            <param name="type">Message reaction type</param>
+            <param name="type">Message reaction type. Possible values include:
+            'like', 'plusOne'</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.MessageReaction.Type">
             <summary>
-            Gets or sets message reaction type
+            Gets or sets message reaction type. Possible values include:
+            'like', 'plusOne'
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.MessageReactionTypes">
+            <summary>
+            Defines values for MessageReactionTypes.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.MicrosoftPayMethodData">
@@ -4829,6 +5027,11 @@
             Gets or sets actions that can be shown to the user
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.TextFormatTypes">
+            <summary>
+            Defines values for TextFormatTypes.
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.TextHighlight.#ctor">
             <summary>
             Initializes a new instance of the TextHighlight class.
@@ -4970,6 +5173,65 @@
             Thrown if validation fails
             </exception>
         </member>
+        <member name="T:Microsoft.Bot.Connector.TokenRequest">
+            <summary>
+            A request to receive a user token
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.TokenRequest.#ctor">
+            <summary>
+            Initializes a new instance of the TokenRequest class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.TokenRequest.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the TokenRequest class.
+            </summary>
+            <param name="provider">The provider to request a user token
+            from</param>
+            <param name="settings">A collection of settings for the specific
+            provider for this request</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.TokenRequest.Provider">
+            <summary>
+            Gets or sets the provider to request a user token from
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.TokenRequest.Settings">
+            <summary>
+            Gets or sets a collection of settings for the specific provider for
+            this request
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.TokenResponse">
+            <summary>
+            A response that includes a user token
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.TokenResponse.#ctor">
+            <summary>
+            Initializes a new instance of the TokenResponse class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.TokenResponse.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the TokenResponse class.
+            </summary>
+            <param name="token">The user token</param>
+            <param name="expiration">Expiration for the token, in ISO 8601
+            format (e.g. "2007-04-05T14:30Z")</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.TokenResponse.Token">
+            <summary>
+            Gets or sets the user token
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.TokenResponse.Expiration">
+            <summary>
+            Gets or sets expiration for the token, in ISO 8601 format (e.g.
+            "2007-04-05T14:30Z")
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.VideoCard">
             <summary>
             Video card
@@ -5066,16 +5328,6 @@
             Thrown if validation fails
             </exception>
         </member>
-        <member name="F:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes.Add">
-            <summary>
-            Bot added to user contacts
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ContactRelationUpdateActionTypes.Remove">
-            <summary>
-            Bot removed from user contacts
-            </summary>
-        </member>
         <member name="M:Microsoft.Bot.Connector.ICredentialProvider.IsValidAppIdAsync(System.String)">
             <summary>
             Validate AppId
@@ -5104,41 +5356,6 @@
         <member name="T:Microsoft.Bot.Connector.SettingsCredentialProvider">
             <summary>
             Credential provider which uses config settings to lookup appId and password
-            </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.EndOfConversationCodes">
-            <summary>
-            Codes indicating why a conversation has ended
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.Unknown">
-            <summary>
-            The conversation was ended for unknown reasons
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.CompletedSuccessfully">
-            <summary>
-            The conversation completed successfully
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.UserCancelled">
-            <summary>
-            The user cancelled the conversation
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.BotTimedOut">
-            <summary>
-            The conversation was ended because requests sent to the bot timed out
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.BotIssuedInvalidMessage">
-            <summary>
-            The conversation was ended because the bot sent an invalid message
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.EndOfConversationCodes.ChannelFailed">
-            <summary>
-            The conversation ended because the channel experienced an internal failure
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ErrorCodes">
@@ -5549,47 +5766,6 @@
             An update to an existing Message Activity
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.ActivityImportance">
-            <summary>
-            Defines the importance of an Activity
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityImportance.Low">
-            <summary>
-            Low importance.
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityImportance.Normal">
-            <summary>
-            Normal importance.
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.ActivityImportance.High">
-            <summary>
-            High importance.
-            </summary>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.InputHints">
-            <summary>
-            Indicates whether the bot is accepting, expecting, or ignoring input
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.InputHints.AcceptingInput">
-            <summary> 
-            The sender is passively ready for input but is not waiting on a response.
-            </summary> 
-        </member>
-        <member name="F:Microsoft.Bot.Connector.InputHints.IgnoringInput">
-            <summary>
-            The sender is ignoring input. Bots may send this hint if they are actively processing a request and will ignore input
-            from users until the request is complete.
-            </summary> 
-        </member>
-        <member name="F:Microsoft.Bot.Connector.InputHints.ExpectingInput">
-            <summary>
-            The sender is actively expecting a response from the user.
-            </summary> 
-        </member>
         <member name="T:Microsoft.Bot.Connector.ISuggestionActivity">
             <summary>
             SuggestionActivity (Type="suggestion")
@@ -5697,24 +5873,6 @@
             <remarks>
             This makes sure that authorization headers stay intact between 307 redirects.
             </remarks>
-        </member>
-        <member name="T:Microsoft.Bot.Connector.MessageReactionTypes">
-            <summary>
-            Message reaction types
-            </summary>
-            <remarks>
-            Message reactions are an open set. This class contains some common values.
-            </remarks>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.MessageReactionTypes.Like">
-            <summary>
-            Like
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.MessageReactionTypes.PlusOne">
-            <summary>
-            +1
-            </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.MicrosoftAppCredentials.MicrosoftAppIdKey">
             <summary>
@@ -6089,6 +6247,42 @@
             A response object containing the response body and response headers.
             </return>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.ExportBotStateDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            ExportBotStateData
+            </summary>
+            <remarks>
+            get all the state data for a bot in this channel. This returns a list of
+            BotStateData and (possibly) a continuation token
+            </remarks>
+            <param name='channelId'>
+            the channelId
+            </param>
+            <param name='continuationToken'>
+            the skip token returned previously, or null
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
         <member name="T:Microsoft.Bot.Connector.BotStateExtensions">
             <summary>
             Extension methods for BotState.
@@ -6385,6 +6579,45 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.ExportBotStateData(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
+            <summary>
+            ExportBotStateData
+            </summary>
+            <remarks>
+            get all the state data for a bot in this channel. This returns a list of
+            BotStateData and (possibly) a continuation token
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='channelId'>
+            the channelId
+            </param>
+            <param name='continuationToken'>
+            the skip token returned previously, or null
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.ExportBotStateDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            ExportBotStateData
+            </summary>
+            <remarks>
+            get all the state data for a bot in this channel. This returns a list of
+            BotStateData and (possibly) a continuation token
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='channelId'>
+            the channelId
+            </param>
+            <param name='continuationToken'>
+            the skip token returned previously, or null
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="T:Microsoft.Bot.Connector.IBotState">
             <summary>
             BotState operations.
@@ -6609,6 +6842,36 @@
             Thrown when a required parameter is null
             </exception>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IBotState.ExportBotStateDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            ExportBotStateData
+            </summary>
+            <remarks>
+            get all the state data for a bot in this channel. This returns a
+            list of BotStateData and (possibly) a continuation token
+            </remarks>
+            <param name='channelId'>
+            the channelId
+            </param>
+            <param name='continuationToken'>
+            the skip token returned previously, or null
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
         <member name="T:Microsoft.Bot.Connector.IStateClient">
              <summary>
              The Bot State REST API allows your bot to store and retrieve state
@@ -6695,6 +6958,50 @@
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.APIResponse.Message">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateData.#ctor">
+            <summary>
+            Initializes a new instance of the BotStateData class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateData.#ctor(System.String,System.String,System.String,System.Nullable{System.DateTimeOffset})">
+            <summary>
+            Initializes a new instance of the BotStateData class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateData.ConversationId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateData.UserId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateData.Data">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateData.LastModified">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateDataResult.#ctor">
+            <summary>
+            Initializes a new instance of the BotStateDataResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateDataResult.#ctor(System.Collections.Generic.IList{Microsoft.Bot.Connector.BotStateData},System.String)">
+            <summary>
+            Initializes a new instance of the BotStateDataResult class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateDataResult.BotStateData">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateDataResult.ContinuationToken">
             <summary>
             </summary>
         </member>
@@ -6938,21 +7245,6 @@
             <param name="credentials">Credentials for the Connector service</param>
             <param name="addJwtTokenRefresher">(DEPRECATED)</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">
-            <summary>
-            Default- interpret text fields as markdown
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Plain">
-            <summary>
-            Plain text (do not interpret as anything)
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Xml">
-            <summary>
-            B, I, S, U, A NOTE: Only supported on Skype for now
-            </summary>
         </member>
     </members>
 </doc>

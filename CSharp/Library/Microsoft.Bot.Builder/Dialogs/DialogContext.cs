@@ -82,6 +82,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             }
         }
 
+
+
         async Task IBotToUser.PostAsync(IMessageActivity message, CancellationToken cancellationToken)
         {
             await this.botToUser.PostAsync(message, cancellationToken);
@@ -143,6 +145,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         async Task IBotData.FlushAsync(CancellationToken cancellationToken)
         {
             await this.botData.FlushAsync(cancellationToken);
+        }
+
+        public async Task<BotStateDataResult> ExportStateDataAsync(string continuationToken)
+        {
+           return await botData.ExportStateDataAsync(continuationToken);
         }
 
         CancellationToken IBotContext.CancellationToken => this.token;

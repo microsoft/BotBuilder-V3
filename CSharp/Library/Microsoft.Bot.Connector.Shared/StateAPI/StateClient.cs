@@ -291,7 +291,11 @@ namespace Microsoft.Bot.Connector
         private void Initialize()
         {
             BotState = new BotState(this);
-            BaseUri = new System.Uri("https://state.botframework.com");
+#if USE_HTTPS
+            BaseUri = new System.Uri("https://localhost:8000");
+#else
+            BaseUri = new System.Uri("http://localhost:8000");
+#endif
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,
