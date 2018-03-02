@@ -613,6 +613,9 @@ var ChatConnector = (function () {
                         reject(err);
                     }
                 });
+            }).catch(function (err) {
+                _this.refreshingToken = undefined;
+                throw err;
             });
         }
         this.refreshingToken.then(function (token) { return cb(null, token); }, function (err) { return cb(err, null); });
