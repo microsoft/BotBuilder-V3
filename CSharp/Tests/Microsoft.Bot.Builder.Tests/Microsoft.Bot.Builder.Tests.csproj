@@ -128,6 +128,7 @@
     <Compile Include="DataStoreTests.cs" />
     <Compile Include="DialogModuleTests.cs" />
     <Compile Include="TestFiles.cs" />
+    <Compile Include="GetTokenRefreshTests.cs" />
     <Compile Include="UrlTokenTests.cs" />
     <Compile Include="RangeTests.cs" />
     <Compile Include="ScopeTests.cs" />

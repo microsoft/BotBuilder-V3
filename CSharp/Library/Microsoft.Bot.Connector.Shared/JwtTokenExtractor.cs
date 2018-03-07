@@ -249,6 +249,8 @@ namespace Microsoft.Bot.Connector
 
     public sealed class EndorsementsRetriever : IDocumentRetriever, IConfigurationRetriever<IDictionary<string, string[]>>
     {
+        private static HttpClient g_httpClient = new HttpClient();
+
         public async Task<IDictionary<string, string[]>> GetConfigurationAsync(string address, IDocumentRetriever retriever, CancellationToken cancel)
         {
             var res = await retriever.GetDocumentAsync(address, cancel);
@@ -267,8 +269,7 @@ namespace Microsoft.Bot.Connector
 
         public async Task<string> GetDocumentAsync(string address, CancellationToken cancel)
         {
-            using (var client = new HttpClient())
-            using (var response = await client.GetAsync(address, cancel))
+            using (var response = await g_httpClient.GetAsync(address, cancel))
             {
                 response.EnsureSuccessStatusCode();
                 var json = await response.Content.ReadAsStringAsync();
@@ -276,7 +277,7 @@ namespace Microsoft.Bot.Connector
                 if (obj != null && obj.HasValues && obj["jwks_uri"] != null)
                 {
                     var keysUrl = obj.SelectToken("jwks_uri").Value<string>();
-                    using (var keysResponse = await client.GetAsync(keysUrl, cancel))
+                    using (var keysResponse = await g_httpClient.GetAsync(keysUrl, cancel))
                     {
                         keysResponse.EnsureSuccessStatusCode();
                         return await keysResponse.Content.ReadAsStringAsync();

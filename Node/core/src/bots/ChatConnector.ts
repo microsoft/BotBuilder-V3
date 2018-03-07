@@ -726,7 +726,10 @@ export class ChatConnector implements IConnector, IBotStorage {
                         reject(err);
                     }
                 });
-            })
+            }).catch((err) => {
+                this.refreshingToken = undefined;
+                throw err;
+            });
         }
         this.refreshingToken.then((token) => cb(null, token), (err) => cb(err, null));
     }

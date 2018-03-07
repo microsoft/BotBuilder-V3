@@ -31,7 +31,7 @@ namespace Microsoft.Bot.Connector
         /// <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
         /// <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         public ConnectorClient(Uri baseUri, MicrosoftAppCredentials credentials, bool addJwtTokenRefresher = true, params DelegatingHandler[] handlers)
-            : this(baseUri, addJwtTokenRefresher ? AddJwtTokenRefresher(handlers, credentials): handlers)
+            : this(baseUri, addJwtTokenRefresher ? AddJwtTokenRefresher(handlers, credentials) : handlers)
         {
             this.Credentials = credentials;
         }
@@ -49,25 +49,44 @@ namespace Microsoft.Bot.Connector
         {
             this.Credentials = credentials;
         }
-        
+
         private static DelegatingHandler[] AddJwtTokenRefresher(DelegatingHandler[] srcHandlers, MicrosoftAppCredentials credentials)
         {
             var handlers = new List<DelegatingHandler>(srcHandlers);
             handlers.Add(new JwtTokenRefresher(credentials));
             return handlers.ToArray();
         }
-        
-        // client defaults to sending the expect: continue header, which isn't very efficient, 
+
+        private HttpClient instanceClient;
+        protected static HttpClient g_httpClient = null;
+        protected static object syncObj = new object();
+
         partial void CustomInitialize()
         {
-            AddUserAgent(this);
-            HttpClient.DefaultRequestHeaders.ExpectContinue = false;
+            if (g_httpClient == null)
+            {
+                lock (syncObj)
+                {
+                    if (g_httpClient == null)
+                    {
+                        g_httpClient = new HttpClient();
+                        g_httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Microsoft-BotFramework", "3.1"));
+                        g_httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue($"(BotBuilder .Net/{GetClientVersion(this)})"));
+                        g_httpClient.DefaultRequestHeaders.ExpectContinue = false;
+                    }
+                }
+            }
+
+            // use global singleton for perf reasons
+            this.instanceClient = this.HttpClient;
+            this.HttpClient = g_httpClient;
         }
 
-        internal static void AddUserAgent<T>(T client) where T : ServiceClient<T>
+        protected override void Dispose(bool disposing)
         {
-            client.HttpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Microsoft-BotFramework", "3.1"));
-            client.HttpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue($"(BotBuilder .Net/{GetClientVersion(client)})"));
+            // replace global with original so dispose doesn't dispose the global
+            this.HttpClient = this.instanceClient;
+            base.Dispose(disposing);
         }
 
         internal static string GetClientVersion<T>(T client) where T : ServiceClient<T>

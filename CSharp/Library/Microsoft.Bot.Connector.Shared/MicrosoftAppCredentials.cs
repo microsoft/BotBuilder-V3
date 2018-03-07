@@ -36,7 +36,7 @@ namespace Microsoft.Bot.Connector
                                                                                             { "state.botframework.com", DateTime.MaxValue }
                                                                                         });
 
-        protected static readonly ConcurrentDictionary<string, OAuthResponse> cache = new ConcurrentDictionary<string, OAuthResponse>();
+        protected static readonly Dictionary<string, Task<OAuthResponse>> tokenCache = new Dictionary<string, Task<OAuthResponse>>();
 
 #if !NET45
         protected ILogger logger;
@@ -161,40 +161,59 @@ namespace Microsoft.Bot.Connector
         }
 
 
-
         public async Task<string> GetTokenAsync(bool forceRefresh = false)
         {
-            OAuthResponse oAuthToken;
-            bool tokenInCache = cache.TryGetValue(TokenCacheKey, out oAuthToken);
-            string token = tokenInCache ? oAuthToken.access_token : null;
-            if (!tokenInCache || !TokenNotExpired(oAuthToken) || forceRefresh)
+            Task<OAuthResponse> oAuthTokenTask;
+            OAuthResponse oAuthToken = null;
+            string token = null;
+            bool newAuthTokenTask = false;
+
+            // get tokenTask from cache (it's either null, pending or completed)
+            lock (tokenCache)
             {
-                token = await RefreshAndStoreToken().ConfigureAwait(false);
+                tokenCache.TryGetValue(TokenCacheKey, out oAuthTokenTask);
             }
-            else if (!TokenWithinSafeTimeLimits(oAuthToken))
+
+            // if we have a tokenTask
+            if (oAuthTokenTask != null)
             {
-                string oldToken = token;
-                token = await RefreshAndStoreToken().ConfigureAwait(false);
-                if (string.IsNullOrEmpty(token))
+                // resolve the task to get the token
+                oAuthToken = await oAuthTokenTask.ConfigureAwait(false);
+                token = oAuthToken.access_token;
+            }
+
+            // lock around evaluating getting a new token so only one updated task will be created at a time
+            lock (tokenCache)
+            {
+                // token is missing, expired or force refresh
+                if (token == null || 
+                    TokenNotExpired(oAuthToken) == false || 
+                    forceRefresh || 
+                    TokenWithinSafeTimeLimits(oAuthToken) == false)
                 {
-                    token = oldToken;
+                    // someone else could have already updated the task under their own lock before we got our lock, get the value again 
+                    tokenCache.TryGetValue(TokenCacheKey, out Task<OAuthResponse> oAuthTokenTask2);
+
+                    // if the cache value hasn't changed, then we are the one to do it.
+                    if (oAuthTokenTask == oAuthTokenTask2)
+                    {
+                        oAuthTokenTask = RefreshTokenAsync();
+                        tokenCache[TokenCacheKey] = oAuthTokenTask;
+
+                        // we can't await in a lock, so we will signal to await the new oAuthTokenTask
+                        newAuthTokenTask = true;
+                    }
                 }
             }
-            return token;
-        }
 
-        private async Task<string> RefreshAndStoreToken()
-        {
-            try
+            // if we have new token we need to pull it out again
+            if (newAuthTokenTask)
             {
-                OAuthResponse oAuthToken = await RefreshTokenAsync().ConfigureAwait(false);
-                cache.AddOrUpdate(TokenCacheKey, oAuthToken, (key, oldToken) => oAuthToken);
-                return oAuthToken.access_token;
+                oAuthToken = await oAuthTokenTask.ConfigureAwait(false);
+                token = oAuthToken.access_token;
             }
-            catch (OAuthException)
-            {
-                throw;
-            }
+
+            return token;
         }
 
         private bool ShouldSetToken(HttpRequestMessage request)
@@ -244,11 +263,11 @@ namespace Microsoft.Bot.Connector
 #endif
         }
 
+        private static HttpClient g_httpClient = new HttpClient();
+
         private async Task<OAuthResponse> RefreshTokenAsync()
         {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                var content = new FormUrlEncodedContent(new Dictionary<string, string>()
+            var content = new FormUrlEncodedContent(new Dictionary<string, string>()
                 {
                     { "grant_type", "client_credentials" },
                     { "client_id", MicrosoftAppId },
@@ -256,21 +275,20 @@ namespace Microsoft.Bot.Connector
                     { "scope", OAuthScope }
                 });
 
-                using (var response = await httpClient.PostAsync(OAuthEndpoint, content).ConfigureAwait(false))
+            using (var response = await g_httpClient.PostAsync(OAuthEndpoint, content).ConfigureAwait(false))
+            {
+                string body = null;
+                try
                 {
-                    string body = null;
-                    try
-                    {
-                        response.EnsureSuccessStatusCode();
-                        body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        var oauthResponse = JsonConvert.DeserializeObject<OAuthResponse>(body);
-                        oauthResponse.expiration_time = DateTime.UtcNow.AddSeconds(oauthResponse.expires_in).Subtract(TimeSpan.FromSeconds(60));
-                        return oauthResponse;
-                    }
-                    catch (Exception error)
-                    {
-                        throw new OAuthException(body ?? response.ReasonPhrase, error);
-                    }
+                    response.EnsureSuccessStatusCode();
+                    body = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var oauthResponse = JsonConvert.DeserializeObject<OAuthResponse>(body);
+                    oauthResponse.expiration_time = DateTime.UtcNow.AddSeconds(oauthResponse.expires_in).Subtract(TimeSpan.FromSeconds(60));
+                    return oauthResponse;
+                }
+                catch (Exception error)
+                {
+                    throw new OAuthException(body ?? response.ReasonPhrase, error);
                 }
             }
         }
