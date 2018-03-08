@@ -6,6 +6,14 @@
     </header>
     <body>
       <group id="MICROSOFT.BOT.BUILDER/RESOURCE/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="AttachmentContentTypeValidatorError" translate="yes" xml:space="preserve">
+          <source>Attachment '{0}' is invalid! The content-type should contain '{1}'.</source>
+          <target state="final">El adjunto '{0}' no es válido! El tipo de contenido debe contener '{1}'.</target>
+        </trans-unit>
+        <trans-unit id="AttachmentContentTypeValidatorHelp" translate="yes" xml:space="preserve">
+          <source>You should provide an attachment where content-type has '{0}'.</source>
+          <target state="final">Debe proporcionar un archivo adjunto que el tipo de contenido contenga '{0}'.</target>
+        </trans-unit>
         <trans-unit id="CommandBack" translate="yes" xml:space="preserve">
           <source>Back</source>
           <target state="translated">Regresar</target>
@@ -60,7 +68,7 @@
         </trans-unit>
         <trans-unit id="CommandStatusHelp" translate="yes" xml:space="preserve">
           <source>Status: Show your progress in filling in the form so far.</source>
-          <target state="translated">Estado: Muestra el progreso en el llenado de la forma hasta ahora.</target>
+          <target state="translated">Estado: Muestra el progreso en el llenado del formulario hasta ahora.</target>
         </trans-unit>
         <trans-unit id="CommandStatusTerms" translate="yes" xml:space="preserve">
           <source>status;progress;so far;results</source>
@@ -120,6 +128,30 @@
         <trans-unit id="PromptRetry" translate="yes" xml:space="preserve">
           <source>I didn't understand. Say something in reply.</source>
           <target state="translated">No entendí. Di algo como respuesta.</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachment" translate="yes" xml:space="preserve">
+          <source>Please submit an attachment for {&amp;}</source>
+          <target state="final">Envíe un archivo adjunto para {&amp;}</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentCollection" translate="yes" xml:space="preserve">
+          <source>Please submit a collection of attachments for {&amp;}</source>
+          <target state="final">Envíe una colección de archivos adjuntos para {&amp;}</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentCollectionDescription" translate="yes" xml:space="preserve">
+          <source>{0} attachment/s linked.</source>
+          <target state="final">{0} archivo/s adjunto vinculado.</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentCollectionHelp" translate="yes" xml:space="preserve">
+          <source>You can submit one or more attachments.{0}</source>
+          <target state="final">Puede enviar uno o más archivos adjuntos.{0}</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentDescription" translate="yes" xml:space="preserve">
+          <source>Attachment named '{0}' with content-type '{1}'.</source>
+          <target state="final">El archivo adjunto denominado '{0}' con el tipo de contenido '{1}'.</target>
+        </trans-unit>
+        <trans-unit id="TemplateAttachmentHelp" translate="yes" xml:space="preserve">
+          <source>You can submit one attachment.{0}</source>
+          <target state="final">Puede enviar un archivo adjunto.{0}</target>
         </trans-unit>
         <trans-unit id="TemplateBool" translate="yes" xml:space="preserve">
           <source>Would you like a {&amp;}? {||}</source>

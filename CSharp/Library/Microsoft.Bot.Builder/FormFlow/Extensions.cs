@@ -32,8 +32,12 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -196,6 +200,34 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public static bool IsNullable(this Type type)
         {
             return (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>));
+        }
+
+        /// <summary>
+        /// Type is enumerable of awaitable attachments.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if enumerable of awaitable attachments.</returns>
+        public static bool IsAttachmentCollection(this Type type)
+        {
+            var interfaces = type.GetInterfaces();
+
+            if (interfaces.Any(i => i == typeof(IEnumerable)) || Array.Exists(interfaces, IsGenericEnumerableType))
+            {
+                var elemType = type.IsGenericType ? type.GetGenericArguments()[0] : GetGenericElementType(type);
+                return typeof(AwaitableAttachment).IsAssignableFrom(elemType);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Type is AwaitableAttachment or descendant.
+        /// </summary>
+        /// <param name="type">Type to check.</param>
+        /// <returns>True if awaitable attachment or descendant.</returns>
+        public static bool IsAttachmentType(this Type type)
+        {
+            return typeof(AwaitableAttachment).IsAssignableFrom(type);
         }
 
         /// <summary>

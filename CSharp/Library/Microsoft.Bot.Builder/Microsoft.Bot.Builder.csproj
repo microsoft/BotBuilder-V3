@@ -111,6 +111,7 @@
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
     <Compile Include="Base\Tasks.cs" />
+    <Compile Include="FormFlow\AwaitableAttachment.cs" />
     <Compile Include="FormFlow\FieldReflector.cs" />
     <Compile Include="Base\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
