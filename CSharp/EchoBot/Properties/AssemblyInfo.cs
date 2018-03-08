@@ -1,17 +1,16 @@
 ﻿using System.Reflection;
-using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Bot.Builder")]
+[assembly: AssemblyTitle("EchoBot")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Microsoft Bot Builder")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("EchoBot")]
+[assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("cdfec7d6-847e-4c13-956b-0a960ae3eb60")]
+[assembly: Guid("bc07aed8-f885-4810-8c41-66c05d4c1ead")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -30,16 +29,7 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
+// You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.14.0.7")]
-[assembly: AssemblyFileVersion("3.14.0.7")]
-
-
-[assembly: InternalsVisibleTo("Microsoft.Bot.Builder.Tests")]
-[assembly: InternalsVisibleTo("Microsoft.Bot.Sample.Tests")]
-[assembly: NeutralResourcesLanguage("en")]
-
-//[assembly: AssemblyKeyFileAttribute(@"..\\..\\buildtools\\35MSSharedLib1024.snk")]
-//[assembly: AssemblyDelaySignAttribute(true)]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

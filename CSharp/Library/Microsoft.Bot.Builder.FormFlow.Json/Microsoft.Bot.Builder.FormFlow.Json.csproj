@@ -97,7 +97,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.NetFramework.csproj">
       <Project>{df397efc-91db-4911-9971-c509926fc288}</Project>
-      <Name>Microsoft.Bot.Connector</Name>
+      <Name>Microsoft.Bot.Connector.NetFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
