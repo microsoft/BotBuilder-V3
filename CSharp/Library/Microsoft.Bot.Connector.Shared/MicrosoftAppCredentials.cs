@@ -197,7 +197,8 @@ namespace Microsoft.Bot.Connector
                 else
                 {
                     // get the current autorefreshTime for this key
-                    if (autoRefreshTimes.TryGetValue(CacheKey, out DateTime refreshTime))
+                    DateTime refreshTime;
+                    if (autoRefreshTimes.TryGetValue(CacheKey, out refreshTime))
                     {
                         // if we are past the refresh time
                         if (DateTime.UtcNow > refreshTime)
