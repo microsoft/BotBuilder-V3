@@ -78,6 +78,7 @@ namespace Microsoft.Bot.Builder.Tests
             var result2 = await credentials.GetTokenAsync();
             Assert.AreEqual(result, result2);
             var result3 = await credentials.GetTokenAsync(true);
+            Assert.IsNotNull(result3);
             Assert.AreNotEqual(result2, result3);
         }
 
@@ -85,7 +86,6 @@ namespace Microsoft.Bot.Builder.Tests
         public async Task TokenTests_RefreshTestLoad()
         {
             MicrosoftAppCredentials credentials = new MicrosoftAppCredentials("10c55330-7945-4008-b2c5-9e91cb5e5d34", "cPVCp1|l!8T=>-Fz");
-
             List<Task<string>> tasks = new List<Task<string>>();
             for (int i = 0; i < 1000; i++)
             {
@@ -103,21 +103,33 @@ namespace Microsoft.Bot.Builder.Tests
             }
 
             tasks.Clear();
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 1000; i++)
             {
-                tasks.Add(credentials.GetTokenAsync());
+                if (i % 100 == 50)
+                    tasks.Add(credentials.GetTokenAsync(true));
+                else
+                    tasks.Add(credentials.GetTokenAsync());
             }
-            tasks.Add(credentials.GetTokenAsync(true));
-            for (int i = 0; i < 500; i++)
-            {
-                tasks.Add(credentials.GetTokenAsync());
-            }
+
             HashSet<string> results = new HashSet<string>();
-            foreach (var item in tasks)
+            for(int i=0; i < 1000; i++)
             {
-                results.Add(await item);
+                string result = await tasks[i];
+                if (i == 0)
+                    results.Add(result);
+                Assert.IsNotNull(result);
+                if (prevResult != null)
+                {
+                    if (i % 100 == 50)
+                    {
+                        Assert.IsTrue(!results.Contains(result));
+                        results.Add(result);
+                    }
+                    else
+                        Assert.IsTrue(results.Contains(result));
+                }
             }
-            Assert.AreEqual(2, results.Count);
+
         }
     }
 }

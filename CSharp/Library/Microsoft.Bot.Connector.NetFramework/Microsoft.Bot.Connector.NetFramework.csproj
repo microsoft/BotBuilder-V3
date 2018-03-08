@@ -25,6 +25,8 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>Content\Microsoft.Bot.Connector.xml</DocumentationFile>
     <NoWarn>CS1591</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

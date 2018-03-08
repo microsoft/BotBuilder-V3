@@ -110,7 +110,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ITypingActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JwtConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JwtTokenExtractor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JwtTokenRefresher.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CustomRedirectHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MessageReactionTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MicrosoftAppCredentials.cs" />
