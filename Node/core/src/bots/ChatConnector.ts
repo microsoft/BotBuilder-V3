@@ -697,8 +697,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     private refreshAccessToken(cb: (err: Error, accessToken: string) => void): void {
         // Get token only on first access. Other callers will block while waiting for token.
         if (!this.refreshingToken) {
-            let exception: Error;
-            const p = new Promise<string>((resolve, reject) => {
+            this.refreshingToken = new Promise<string>((resolve, reject) => {
                 var opt: request.Options = {
                     method: 'POST',
                     url: this.settings.endpoint.refreshEndpoint,
@@ -728,16 +727,9 @@ export class ChatConnector implements IConnector, IBotStorage {
                     }
                 });
             }).catch((err) => {
-                exception = err;
                 this.refreshingToken = undefined;
                 throw err;
             });
-
-            if (!exception) {
-                this.refreshingToken = p;
-            } else {
-                return cb(exception, null);
-            }
         }
         this.refreshingToken.then((token) => cb(null, token), (err) => cb(err, null));
     }

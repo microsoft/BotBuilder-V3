@@ -584,8 +584,7 @@ var ChatConnector = (function () {
     ChatConnector.prototype.refreshAccessToken = function (cb) {
         var _this = this;
         if (!this.refreshingToken) {
-            var exception_1;
-            var p = new Promise(function (resolve, reject) {
+            this.refreshingToken = new Promise(function (resolve, reject) {
                 var opt = {
                     method: 'POST',
                     url: _this.settings.endpoint.refreshEndpoint,
@@ -615,16 +614,9 @@ var ChatConnector = (function () {
                     }
                 });
             }).catch(function (err) {
-                exception_1 = err;
                 _this.refreshingToken = undefined;
                 throw err;
             });
-            if (!exception_1) {
-                this.refreshingToken = p;
-            }
-            else {
-                return cb(exception_1, null);
-            }
         }
         this.refreshingToken.then(function (token) { return cb(null, token); }, function (err) { return cb(err, null); });
     };
