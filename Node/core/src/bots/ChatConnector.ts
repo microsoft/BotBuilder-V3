@@ -697,7 +697,8 @@ export class ChatConnector implements IConnector, IBotStorage {
     private refreshAccessToken(cb: (err: Error, accessToken: string) => void): void {
         // Get token only on first access. Other callers will block while waiting for token.
         if (!this.refreshingToken) {
-            this.refreshingToken = new Promise<string>((resolve, reject) => {
+            let exception: Error;
+            const p = new Promise<string>((resolve, reject) => {
                 var opt: request.Options = {
                     method: 'POST',
                     url: this.settings.endpoint.refreshEndpoint,
@@ -710,6 +711,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                 };
                 this.addUserAgent(opt);
                 request(opt, (err, response, body) => {
+                    this.refreshingToken = undefined;
                     if (!err) {
                         if (body && response.statusCode < 300) {
                             // Subtract 5 minutes from expires_in so they'll we'll get a
@@ -717,7 +719,6 @@ export class ChatConnector implements IConnector, IBotStorage {
                             var oauthResponse = JSON.parse(body);
                             this.accessToken = oauthResponse.access_token;
                             this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
-                            this.refreshingToken = undefined;
                             resolve(this.accessToken);
                         } else {
                             reject(new Error('Refresh access token failed with status code: ' + response.statusCode));
@@ -727,9 +728,16 @@ export class ChatConnector implements IConnector, IBotStorage {
                     }
                 });
             }).catch((err) => {
+                exception = err;
                 this.refreshingToken = undefined;
                 throw err;
             });
+
+            if (!exception) {
+                this.refreshingToken = p;
+            } else {
+                return cb(exception, null);
+            }
         }
         this.refreshingToken.then((token) => cb(null, token), (err) => cb(err, null));
     }
@@ -921,3 +929,5 @@ interface IWebResponse {
 interface IWebMiddleware {
     (req: IWebRequest, res: IWebResponse, next: Function): void;
 }
+
+
