@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2010
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AlarmBot", "AlarmBot\Microsoft.Bot.Sample.AlarmBot.csproj", "{D414F82F-C102-45B1-979C-D905D278C34E}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.NetCore-AspNetCore1.1", "Microsoft.Bot.Sample.NetCore-AspNetCore1.1\Microsoft.Bot.Sample.NetCore-AspNetCore1.1.csproj", "{285D0D75-367F-4F51-ABC9-7B4CCB9AF382}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.NetFramework-ApsNetCore2.0", "Microsoft.Bot.Sample.NetFramework-ApsNetCore2.0\Microsoft.Bot.Sample.NetFramework-ApsNetCore2.0.csproj", "{8A850500-39D1-49F3-950F-2ACC98A5B850}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.FormFlowAttachmentsBot", "Microsoft.Bot.Sample.FormFlowAttachmentsBot\Microsoft.Bot.Sample.FormFlowAttachmentsBot.csproj", "{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{8A850500-39D1-49F3-950F-2ACC98A5B850}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A850500-39D1-49F3-950F-2ACC98A5B850}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A850500-39D1-49F3-950F-2ACC98A5B850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

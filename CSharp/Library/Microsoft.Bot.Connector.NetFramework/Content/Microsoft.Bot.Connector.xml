@@ -1288,7 +1288,7 @@
             </summary>
             <param name="baseUri">Base URI for the Connector service</param>
             <param name="credentials">Credentials for the Connector service</param>
-            <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
+            <param name="addJwtTokenRefresher">(DEPRECATED)</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Uri,Microsoft.Bot.Connector.MicrosoftAppCredentials,System.Net.Http.HttpClientHandler,System.Boolean,System.Net.Http.DelegatingHandler[])">
@@ -1298,7 +1298,7 @@
             <param name="baseUri">Base URI for the Connector service</param>
             <param name="credentials">Credentials for the Connector service</param>
             <param name="httpClientHandler">The httpClientHandler used by http client</param>
-            <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
+            <param name="addJwtTokenRefresher">(DEPRECATED)</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         </member>
         <member name="T:Microsoft.Bot.Connector.Conversations">
@@ -5726,6 +5726,11 @@
             The key for Microsoft app Password.
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Connector.MicrosoftAppCredentials.AutoTokenRefreshTimeSpan">
+            <summary>
+            TimeWindow which controlls how often the token will be automatically updated
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime)">
             <summary>
             Adds the host of service url to <see cref="T:Microsoft.Bot.Connector.MicrosoftAppCredentials"/> trusted hosts.
@@ -5746,6 +5751,12 @@
             Apply the credentials to the HTTP request.
             </summary>
             <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials._getCurrentTokenTask">
+            <summary>
+            Do not call this except from GetTokenRefreshAsync() 
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.PaymentOperations">
             <summary>
@@ -6899,7 +6910,7 @@
             </summary>
             <param name="baseUri">Base URI for the State service</param>
             <param name="credentials">Credentials for the Connector service</param>
-            <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
+            <param name="addJwtTokenRefresher">(DEPRECATED)</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         </member>
         <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Uri,Microsoft.Bot.Connector.ICredentialProvider,System.Security.Claims.ClaimsIdentity,System.Net.Http.DelegatingHandler[])">
@@ -6925,7 +6936,7 @@
             </summary>
             <remarks> This constructor will use https://state.botframework.com as the baseUri</remarks>
             <param name="credentials">Credentials for the Connector service</param>
-            <param name="addJwtTokenRefresher">True, if JwtTokenRefresher should be included; False otherwise.</param>
+            <param name="addJwtTokenRefresher">(DEPRECATED)</param>
             <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         </member>
         <member name="F:Microsoft.Bot.Connector.TextFormatTypes.Markdown">

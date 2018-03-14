@@ -32,13 +32,17 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using Chronic;
 using System.Threading;
+
+using Chronic;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
@@ -759,5 +763,94 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         }
 
         private Parser _parser;
+    }
+
+    /// <summary>
+    /// Recognize an attachment within the activity instance.
+    /// </summary>
+    /// <typeparam name="T">Form state.</typeparam>
+    public sealed class RecognizeAttachment<T> : RecognizePrimitive<T>
+        where T : class
+    {
+        private readonly bool multipleAttachments;
+
+        public RecognizeAttachment(IField<T> field, bool multipleAttachments = false)
+            : base(field)
+        {
+            this.multipleAttachments = multipleAttachments;
+        }
+
+        public override string Help(T state, object defaultValue)
+        {
+            var prompt = new Prompter<T>(
+                _field.Template(this.multipleAttachments ? TemplateUsage.AttachmentCollectionHelp : TemplateUsage.AttachmentFieldHelp),
+                _field.Form,
+                null);
+
+            // create instance just to call virtual method
+            var awaitableAttachment = Activator.CreateInstance(this.GetAttachmentTypeFromField(), default(Attachment)) as AwaitableAttachment;
+            return prompt.Prompt(state, _field, awaitableAttachment.ProvideHelp(_field)).Prompt;
+        }
+
+        public override TermMatch Parse(string input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override DescribeAttribute ValueDescription(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<string> ValidInputs(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<TermMatch> Matches(IMessageActivity input, object defaultValue = null)
+        {
+            var result = new List<TermMatch>();
+
+            // get awaitable attachment default or custom type
+            var awaitableAttachmentType = this.GetAttachmentTypeFromField();
+            if (string.IsNullOrWhiteSpace(input.Text))
+            {
+                input.Text = string.Empty;
+            }
+
+            // create attachment list
+            var attachments = Activator.CreateInstance(typeof(List<>).MakeGenericType(awaitableAttachmentType)) as IList;
+            foreach (var attachment in input.Attachments)
+            {
+                var awaitableAttachment = Activator.CreateInstance(awaitableAttachmentType, attachment) as AwaitableAttachment;
+                attachments.Add(awaitableAttachment);
+            }
+
+            // build result
+            if (attachments.Count > 0)
+            {
+                result.Add(new TermMatch(0, input.Text.Length, 1.0, this.multipleAttachments ? attachments : attachments[0]));
+            }
+            else if (_field.Optional)
+            {
+                var commandRecognizer = _field.Form.BuildCommandRecognizer();
+                var commands = (input.Text == null || input.Text.Trim().StartsWith("\""))                    
+                    ? new TermMatch[0]
+                    : MatchAnalyzer.Coalesce(commandRecognizer.Prompt.Recognizer.Matches(input), input.Text);
+
+                // if optional and no result at all then assign defaultValue
+                if (!commands.Any())
+                {
+                    result.Add(new TermMatch(0, input.Text.Length, 1.0, defaultValue));
+                }
+            }
+
+            return result;
+        }
+
+        private Type GetAttachmentTypeFromField()
+        {
+            return this._field.Type.IsAttachmentCollection() ? this._field.Type.GetGenericArguments()[0] : this._field.Type;
+        }
     }
 }

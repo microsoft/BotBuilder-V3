@@ -147,7 +147,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Library\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.NetFramework.csproj">
       <Project>{df397efc-91db-4911-9971-c509926fc288}</Project>
-      <Name>Microsoft.Bot.Connector</Name>
+      <Name>Microsoft.Bot.Connector.NetFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.FormFlow.Json\Microsoft.Bot.Builder.FormFlow.Json.csproj">
       <Project>{8674f271-4437-4178-b4e2-15f91b322e5d}</Project>

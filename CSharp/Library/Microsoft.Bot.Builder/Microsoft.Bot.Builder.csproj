@@ -111,6 +111,7 @@
     <Compile Include="Dialogs\IDialog.cs" />
     <Compile Include="Dialogs\IDialogContext.cs" />
     <Compile Include="Base\Tasks.cs" />
+    <Compile Include="FormFlow\AwaitableAttachment.cs" />
     <Compile Include="FormFlow\FieldReflector.cs" />
     <Compile Include="Base\Traits.cs" />
     <Compile Include="FormFlow\Localizer.cs" />
@@ -243,7 +244,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Bot.Connector.NetFramework\Microsoft.Bot.Connector.NetFramework.csproj">
       <Project>{df397efc-91db-4911-9971-c509926fc288}</Project>
-      <Name>Microsoft.Bot.Connector</Name>
+      <Name>Microsoft.Bot.Connector.NetFramework</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
