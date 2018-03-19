@@ -122,17 +122,17 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             builder
                 .Register(c => new ConnectorClientFactory(c.Resolve<IAddress>(), c.Resolve<MicrosoftAppCredentials>()))
                 .As<IConnectorClientFactory>()
-                .InstancePerLifetimeScope();
+                .ExternallyOwned();
 
             builder
                 .Register(c => c.Resolve<IConnectorClientFactory>().MakeConnectorClient())
                 .As<IConnectorClient>()
-                .InstancePerLifetimeScope();
+                .ExternallyOwned();
 
             builder
                 .Register(c => c.Resolve<IConnectorClientFactory>().MakeStateClient())
                 .As<IStateClient>()
-                .InstancePerLifetimeScope();
+                .ExternallyOwned();
 
             builder
                 .RegisterType<ChannelCapability>()

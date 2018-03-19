@@ -34,9 +34,11 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
+using System.Runtime.Caching;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
@@ -89,7 +91,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     /// </summary>
     public class InMemoryDataStore : IBotDataStore<BotData>
     {
-        internal readonly ConcurrentDictionary<string, string> store = new ConcurrentDictionary<string, string>();
+        // This should be moved to autofac registration
+        internal static readonly MemoryCache store = new MemoryCache(nameof(InMemoryDataStore), new NameValueCollection() { { "PhysicalMemoryLimitPercentage", "50" } });
+
+        private static CacheItemPolicy cacheItemPolicy = new CacheItemPolicy() { SlidingExpiration = TimeSpan.FromMinutes(15) };
+
         private readonly Dictionary<BotStoreType, object> locks = new Dictionary<BotStoreType, object>()
         {
             { BotStoreType.BotConversationData, new object() },
@@ -97,10 +103,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             { BotStoreType.BotUserData, new object() }
         };
 
+        public InMemoryDataStore()
+        {
+        }
+
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
-            string serializedData;
-            if (store.TryGetValue(GetKey(key, botStoreType), out serializedData))
+            string serializedData = (string)store.Get(GetKey(key, botStoreType));
+            if (serializedData != null)
                 return Deserialize(serializedData);
             return new BotData(eTag: String.Empty);
         }
@@ -109,27 +119,24 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             lock (locks[botStoreType])
             {
+                string storeKey = GetKey(key, botStoreType);
+                string oldValue = (string)store.Get(storeKey);
                 if (botData.Data != null)
                 {
-                    store.AddOrUpdate(GetKey(key, botStoreType), (dictionaryKey) =>
+                    if (oldValue != null)
                     {
-                        botData.ETag = Guid.NewGuid().ToString("n");
-                        return Serialize(botData);
-                    }, (dictionaryKey, value) =>
-                    {
-                        ValidateETag(botData, value);
-                        botData.ETag = Guid.NewGuid().ToString("n");
-                        return Serialize(botData);
-                    });
+                        ValidateETag(botData, oldValue);
+                    }
+                    botData.ETag = Guid.NewGuid().ToString("n");
+                    store.Set(GetKey(key, botStoreType), Serialize(botData), cacheItemPolicy);
                 }
                 else
                 {
                     // remove record on null
-                    string value;
-                    if (store.TryGetValue(GetKey(key, botStoreType), out value))
+                    if (oldValue != null)
                     {
-                        ValidateETag(botData, value);
-                        store.TryRemove(GetKey(key, botStoreType), out value);
+                        ValidateETag(botData, oldValue);
+                        store.Remove(storeKey);
                         return;
                     }
                 }
@@ -167,27 +174,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         private static string Serialize(BotData data)
         {
-            using (var cmpStream = new MemoryStream())
-            using (var stream = new GZipStream(cmpStream, CompressionMode.Compress))
-            using (var streamWriter = new StreamWriter(stream))
-            {
-                var serializedJSon = JsonConvert.SerializeObject(data);
-                streamWriter.Write(serializedJSon);
-                streamWriter.Close();
-                stream.Close();
-                return Convert.ToBase64String(cmpStream.ToArray());
-            }
+            return JsonConvert.SerializeObject(data);
         }
 
         private static BotData Deserialize(string str)
         {
-            byte[] bytes = Convert.FromBase64String(str);
-            using (var stream = new MemoryStream(bytes))
-            using (var gz = new GZipStream(stream, CompressionMode.Decompress))
-            using (var streamReader = new StreamReader(gz))
-            {
-                return JsonConvert.DeserializeObject<BotData>(streamReader.ReadToEnd());
-            }
+            return JsonConvert.DeserializeObject<BotData>(str);
         }
     }
 
@@ -271,7 +263,9 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     public class CachingBotDataStore : IBotDataStore<BotData>
     {
         private readonly IBotDataStore<BotData> inner;
-        internal readonly Dictionary<IAddress, CacheEntry> cache = new Dictionary<IAddress, CacheEntry>();
+        // this should be moved to autofac registration
+        internal static readonly MemoryCache cache = new MemoryCache(nameof(CachingBotDataStore), new NameValueCollection() { { "PhysicalMemoryLimitPercentage", "50" } });
+        internal static CacheItemPolicy cacheItemPolicy = new CacheItemPolicy() { SlidingExpiration = TimeSpan.FromMinutes(15) };
         private readonly CachingBotDataStoreConsistencyPolicy dataConsistencyPolicy;
 
         public CachingBotDataStore(IBotDataStore<BotData> inner, CachingBotDataStoreConsistencyPolicy dataConsistencyPolicy)
@@ -280,6 +274,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.dataConsistencyPolicy = dataConsistencyPolicy;
         }
 
+        public long GetCount() { return cache.GetCount(); }
+
         internal class CacheEntry
         {
             public BotData BotConversationData { set; get; }
@@ -287,16 +283,22 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             public BotData BotUserData { set; get; }
         }
 
+        private string GetCacheKey(IAddress key)
+        {
+            return $"{key.BotId}.{key.ChannelId}.{key.ConversationId}.{key.UserId}";
+        }
+
         async Task<bool> IBotDataStore<BotData>.FlushAsync(IAddress key, CancellationToken cancellationToken)
         {
-            CacheEntry entry;
-            if (cache.TryGetValue(key, out entry))
+            var cacheKey = GetCacheKey(key);
+            CacheEntry entry = (CacheEntry)cache.Get(GetCacheKey(key));
+            if (entry != null)
             {
                 // Removing the cached entry to make sure that we are not leaking 
                 // flushed entries when CachingBotDataStore is registered as a singleton object.
                 // Also since this store is not updating ETags on LoadAsync(...), there 
                 // will be a conflict if we reuse the cached entries after flush. 
-                cache.Remove(key);
+                cache.Remove(cacheKey);
                 await this.Save(key, entry, cancellationToken);
                 return true;
             }
@@ -308,12 +310,13 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
-            CacheEntry cacheEntry;
+            var cacheKey = GetCacheKey(key);
+            CacheEntry cacheEntry = (CacheEntry)cache.Get(GetCacheKey(key));
             BotData value = null;
-            if (!cache.TryGetValue(key, out cacheEntry))
+            if (cacheEntry == null)
             {
                 cacheEntry = new CacheEntry();
-                cache.Add(key, cacheEntry);
+                cache.Add(cacheKey, cacheEntry, cacheItemPolicy);
                 value = await LoadFromInnerAndCache(cacheEntry, botStoreType, key, cancellationToken);
             }
             else
@@ -353,14 +356,15 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IBotDataStore<BotData>.SaveAsync(IAddress key, BotStoreType botStoreType, BotData value, CancellationToken cancellationToken)
         {
-            CacheEntry entry;
-            if (!cache.TryGetValue(key, out entry))
+            var cacheKey = GetCacheKey(key);
+            CacheEntry cacheEntry = (CacheEntry)cache.Get(GetCacheKey(key));
+            if (cacheEntry == null)
             {
-                entry = new CacheEntry();
-                cache.Add(key, entry);
+                cacheEntry = new CacheEntry();
+                cache.Add(cacheKey, cacheEntry, cacheItemPolicy);
             }
 
-            SetCachedValue(entry, botStoreType, value);
+            SetCachedValue(cacheEntry, botStoreType, value);
         }
 
         private async Task<BotData> LoadFromInnerAndCache(CacheEntry cacheEntry, BotStoreType botStoreType, IAddress key, CancellationToken token)

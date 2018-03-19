@@ -97,19 +97,40 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                     IComponentRegistration registration;
                     if (registry.TryGetRegistration(service, out registration))
                     {
-                        // Autofac will still generate "implicit relationship types" (e.g. Func or IEnumerable)
-                        // and ignore the key in KeyedService
-                        bool generated = registry.IsRegistered(new KeyedService(new object(), serviceType));
-                        if (!generated)
+                        if (IsAutoFacImplicit(serviceType))
                         {
-                            value = this.context.ResolveComponent(registration, this.parameters);
-                            return true;
+                            continue;
                         }
+                        value = this.context.ResolveComponent(registration, this.parameters);
+                        return true;
                     }
                 }
             }
 
             value = null;
+            return false;
+        }
+
+        private bool IsAutoFacImplicit(Type serviceType)
+        {
+            if (typeof(Delegate).IsAssignableFrom(serviceType) || serviceType.IsArray)
+            {
+                // always serialize delagates
+                return true;
+            }
+            if (serviceType.IsGenericType)
+            {
+                var genericType = serviceType.GetGenericTypeDefinition();
+                if (genericType == typeof(IEnumerable<>) ||
+                    genericType == typeof(ICollection<>) ||
+                    genericType == typeof(IList<>) ||
+                    genericType == typeof(IReadOnlyCollection<>) ||
+                    genericType == typeof(IReadOnlyList<>))
+                {
+                    // always serialize collections
+                    return true;
+                }
+            }
             return false;
         }
     }
