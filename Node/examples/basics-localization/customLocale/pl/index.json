@@ -1,0 +1,17 @@
+{
+    "greeting": ["Witaj w przykładowym bocie lokalizacji.", "Cześć. Jestem przykładowym zlokalizowanym botem.", "Witaj... Jestem zlokalizowanym botem."],
+    "instructions": "To demo poprosi najpierw o wybranie preferowanego języka, a potem poprosi o dane używając wszystkich wbudowanych kontrolek w wybranym języku.",
+    "locale_prompt": "Który język preferujesz?",
+    "locale_updated": "Twój preferowany język został ustawiony na Polski.",
+    "text_prompt": "Prompts.text(): wpisany tekst będzie zwracany jako odpowiedź.",
+    "number_prompt": "Prompts.number(): wprowadź cyfrę. Spróbuj wpisać literę, aby zobaczyć wbudowany prompter powtórzenia.",
+    "listStyle_prompt": "Prompts.choice() wspiera wybór z ListStyles. Którego chcesz użyć?",
+    "choice_prompt": "Prompts.choice(): wybierz opcje.",
+    "choice_options": "Opcja A|Opcja B|Opcja C",
+    "confirm_prompt": "Prompts.confirm(): wpisz 'yes' lub 'no'.",
+    "time_prompt": "Prompts.time(): Wbudowany prompter czasu wspiera tylko Anglielski. Wpisz czas w stylu 'monday at 7am' i sprawdź zwrócony JSON.",
+    "input_response": "Wprowadzono '%s'",
+    "choice_response": "Wybrana opcja '%s'",
+    "time_response": "JSON dla wybranego czasu: %s",
+    "demo_finished": ["To koniec dema.", "Dziękuję. To już koniec dema."]
+}

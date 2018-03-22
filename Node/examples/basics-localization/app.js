@@ -72,7 +72,7 @@ bot.set('localizerSettings', {
 bot.dialog('localePickerDialog', [
     function (session) {
         // Prompt the user to select their preferred locale
-        builder.Prompts.choice(session, "locale_prompt", 'English|Español|Italiano');
+        builder.Prompts.choice(session, "locale_prompt", 'English|Español|Italiano|Polski');
     },
     function (session, results) {
         // Update preferred locale
@@ -86,6 +86,9 @@ bot.dialog('localePickerDialog', [
                 break;
             case 'Italiano':
                 locale = 'it';
+                break;
+            case 'Polski':
+                locale = 'pl';
                 break;
         }
         session.preferredLocale(locale, function (err) {
