@@ -1,28 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var CardMedia = (function () {
-    function CardMedia(session) {
+class CardMedia {
+    constructor(session) {
         this.session = session;
         this.data = {};
     }
-    CardMedia.prototype.url = function (u) {
+    url(u) {
         if (u) {
             this.data.url = u;
         }
         return this;
-    };
-    CardMedia.prototype.profile = function (text) {
+    }
+    profile(text) {
         if (text) {
             this.data.profile = text;
         }
         return this;
-    };
-    CardMedia.prototype.toMedia = function () {
+    }
+    toMedia() {
         return this.data;
-    };
-    CardMedia.create = function (session, url) {
+    }
+    static create(session, url) {
         return new CardMedia(session).url(url);
-    };
-    return CardMedia;
-}());
+    }
+}
 exports.CardMedia = CardMedia;

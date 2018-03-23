@@ -1,22 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var OpenIdMetadata_1 = require("./OpenIdMetadata");
-var utils = require("../utils");
-var logger = require("../logger");
-var consts = require("../consts");
-var request = require("request");
-var async = require("async");
-var jwt = require("jsonwebtoken");
-var zlib = require("zlib");
-var Promise = require("promise");
-var urlJoin = require("url-join");
+const OpenIdMetadata_1 = require("./OpenIdMetadata");
+const utils = require("../utils");
+const logger = require("../logger");
+const consts = require("../consts");
+const request = require("request");
+const async = require("async");
+const jwt = require("jsonwebtoken");
+const zlib = require("zlib");
+const urlJoin = require("url-join");
 var pjson = require('../../package.json');
 var MAX_DATA_LENGTH = 65000;
 var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/" + pjson.version + ")";
 var StateApiDreprecatedMessage = "The Bot State API is deprecated.  Please refer to https://aka.ms/I6swrh for details on how to replace with your own storage.";
-var ChatConnector = (function () {
-    function ChatConnector(settings) {
-        if (settings === void 0) { settings = {}; }
+class ChatConnector {
+    constructor(settings = {}) {
         this.settings = settings;
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
@@ -37,19 +35,18 @@ var ChatConnector = (function () {
         this.botConnectorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
     }
-    ChatConnector.prototype.listen = function () {
-        var _this = this;
+    listen() {
         function defaultNext() { }
-        return function (req, res, next) {
+        return (req, res, next) => {
             if (req.body) {
-                _this.verifyBotFramework(req, res, next || defaultNext);
+                this.verifyBotFramework(req, res, next || defaultNext);
             }
             else {
                 var requestData = '';
-                req.on('data', function (chunk) {
+                req.on('data', (chunk) => {
                     requestData += chunk;
                 });
-                req.on('end', function () {
+                req.on('end', () => {
                     try {
                         req.body = JSON.parse(requestData);
                     }
@@ -59,13 +56,12 @@ var ChatConnector = (function () {
                         res.end();
                         return;
                     }
-                    _this.verifyBotFramework(req, res, next || defaultNext);
+                    this.verifyBotFramework(req, res, next || defaultNext);
                 });
             }
         };
-    };
-    ChatConnector.prototype.verifyBotFramework = function (req, res, next) {
-        var _this = this;
+    }
+    verifyBotFramework(req, res, next) {
         var token;
         var isEmulator = req.body['channelId'] === 'emulator';
         var authHeaderValue = req.headers ? req.headers['authorization'] || req.headers['Authorization'] : null;
@@ -76,30 +72,30 @@ var ChatConnector = (function () {
             }
         }
         if (token) {
-            var decoded_1 = jwt.decode(token, { complete: true });
+            let decoded = jwt.decode(token, { complete: true });
             var verifyOptions;
             var openIdMetadata;
-            var algorithms = ['RS256', 'RS384', 'RS512'];
+            const algorithms = ['RS256', 'RS384', 'RS512'];
             if (isEmulator) {
-                if ((decoded_1.payload.ver === '2.0' && decoded_1.payload.azp !== this.settings.appId) ||
-                    (decoded_1.payload.ver !== '2.0' && decoded_1.payload.appid !== this.settings.appId)) {
+                if ((decoded.payload.ver === '2.0' && decoded.payload.azp !== this.settings.appId) ||
+                    (decoded.payload.ver !== '2.0' && decoded.payload.appid !== this.settings.appId)) {
                     logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
                     res.status(403);
                     res.end();
                     next();
                     return;
                 }
-                var issuer = void 0;
-                if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
+                let issuer;
+                if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
                     issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
                 }
-                else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
+                else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
                     issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
                 }
-                else if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
+                else if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
                     issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
                 }
-                else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
+                else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
                     issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
                 }
                 if (issuer) {
@@ -120,22 +116,22 @@ var ChatConnector = (function () {
                     clockTolerance: 300
                 };
             }
-            openIdMetadata.getKey(decoded_1.header.kid, function (key) {
+            openIdMetadata.getKey(decoded.header.kid, key => {
                 if (key) {
                     try {
                         jwt.verify(token, key.key, verifyOptions);
                         if (typeof req.body.channelId !== 'undefined' &&
                             typeof key.endorsements !== 'undefined' &&
                             key.endorsements.lastIndexOf(req.body.channelId) === -1) {
-                            var errorDescription = "channelId in req.body: " + req.body.channelId + " didn't match the endorsements: " + key.endorsements.join(',') + ".";
-                            logger.error("ChatConnector: receive - endorsements validation failure. " + errorDescription);
+                            const errorDescription = `channelId in req.body: ${req.body.channelId} didn't match the endorsements: ${key.endorsements.join(',')}.`;
+                            logger.error(`ChatConnector: receive - endorsements validation failure. ${errorDescription}`);
                             throw new Error(errorDescription);
                         }
-                        if (typeof decoded_1.payload.serviceurl !== 'undefined' &&
+                        if (typeof decoded.payload.serviceurl !== 'undefined' &&
                             typeof req.body.serviceUrl !== 'undefined' &&
-                            decoded_1.payload.serviceurl !== req.body.serviceUrl) {
-                            var errorDescription = "ServiceUrl in payload of token: " + decoded_1.payload.serviceurl + " didn't match the request's serviceurl: " + req.body.serviceUrl + ".";
-                            logger.error("ChatConnector: receive - serviceurl mismatch. " + errorDescription);
+                            decoded.payload.serviceurl !== req.body.serviceUrl) {
+                            const errorDescription = `ServiceUrl in payload of token: ${decoded.payload.serviceurl} didn't match the request's serviceurl: ${req.body.serviceUrl}.`;
+                            logger.error(`ChatConnector: receive - serviceurl mismatch. ${errorDescription}`);
                             throw new Error(errorDescription);
                         }
                     }
@@ -146,7 +142,7 @@ var ChatConnector = (function () {
                         next();
                         return;
                     }
-                    _this.dispatch(req.body, res, next);
+                    this.dispatch(req.body, res, next);
                 }
                 else {
                     logger.error('ChatConnector: receive - invalid signing key or OpenId metadata document.');
@@ -167,43 +163,42 @@ var ChatConnector = (function () {
             res.end();
             next();
         }
-    };
-    ChatConnector.prototype.onEvent = function (handler) {
+    }
+    onEvent(handler) {
         this.onEventHandler = handler;
-    };
-    ChatConnector.prototype.onInvoke = function (handler) {
+    }
+    onInvoke(handler) {
         this.onInvokeHandler = handler;
-    };
-    ChatConnector.prototype.send = function (messages, done) {
-        var _this = this;
-        var addresses = [];
-        async.forEachOfSeries(messages, function (msg, idx, cb) {
+    }
+    send(messages, done) {
+        let addresses = [];
+        async.forEachOfSeries(messages, (msg, idx, cb) => {
             try {
                 if (msg.type == 'delay') {
                     setTimeout(cb, msg.value);
                 }
                 else {
-                    var addressExists = !!msg.address;
-                    var serviceUrlExists = addressExists && !!msg.address.serviceUrl;
+                    const addressExists = !!msg.address;
+                    const serviceUrlExists = addressExists && !!msg.address.serviceUrl;
                     if (serviceUrlExists) {
-                        _this.postMessage(msg, (idx == messages.length - 1), function (err, address) {
+                        this.postMessage(msg, (idx == messages.length - 1), (err, address) => {
                             addresses.push(address);
                             cb(err);
                         });
                     }
                     else {
-                        var msg_1 = "Message is missing " + (addressExists ? 'address and serviceUrl' : 'serviceUrl') + " ";
-                        logger.error("ChatConnector: send - " + msg_1);
-                        cb(new Error(msg_1));
+                        const msg = `Message is missing ${addressExists ? 'address and serviceUrl' : 'serviceUrl'} `;
+                        logger.error(`ChatConnector: send - ${msg}`);
+                        cb(new Error(msg));
                     }
                 }
             }
             catch (e) {
                 cb(e);
             }
-        }, function (err) { return done(err, !err ? addresses : null); });
-    };
-    ChatConnector.prototype.startConversation = function (address, done) {
+        }, (err) => done(err, !err ? addresses : null));
+    }
+    startConversation(address, done) {
         if (address && address.user && address.bot && address.serviceUrl) {
             var options = {
                 method: 'POST',
@@ -226,7 +221,7 @@ var ChatConnector = (function () {
             if (address.topicName) {
                 options.body.topicName = address.topicName;
             }
-            this.authenticatedRequest(options, function (err, response, body) {
+            this.authenticatedRequest(options, (err, response, body) => {
                 var adr;
                 if (!err) {
                     try {
@@ -259,9 +254,9 @@ var ChatConnector = (function () {
             logger.error('ChatConnector: startConversation - address is invalid.');
             done(new Error('Invalid address.'));
         }
-    };
-    ChatConnector.prototype.update = function (message, done) {
-        var address = message.address;
+    }
+    update(message, done) {
+        let address = message.address;
         if (message.address && address.serviceUrl) {
             message.id = address.id;
             this.postMessage(message, true, done, 'PUT');
@@ -270,8 +265,8 @@ var ChatConnector = (function () {
             logger.error('ChatConnector: updateMessage - message is missing address or serviceUrl.');
             done(new Error('Message missing address or serviceUrl.'), null);
         }
-    };
-    ChatConnector.prototype.delete = function (address, done) {
+    }
+    delete(address, done) {
         var path = '/v3/conversations/' + encodeURIComponent(address.conversation.id) +
             '/activities/' + encodeURIComponent(address.id);
         var options = {
@@ -279,10 +274,9 @@ var ChatConnector = (function () {
             url: urlJoin(address.serviceUrl, path),
             json: true
         };
-        this.authenticatedRequest(options, function (err, response, body) { return done(err); });
-    };
-    ChatConnector.prototype.getData = function (context, callback) {
-        var _this = this;
+        this.authenticatedRequest(options, (err, response, body) => done(err));
+    }
+    getData(context, callback) {
         try {
             console.warn(StateApiDreprecatedMessage);
             var root = this.getStoragePath(context.address);
@@ -309,17 +303,17 @@ var ChatConnector = (function () {
                 });
             }
             var data = {};
-            async.each(list, function (entry, cb) {
+            async.each(list, (entry, cb) => {
                 var options = {
                     method: 'GET',
                     url: entry.url,
                     json: true
                 };
-                _this.authenticatedRequest(options, function (err, response, body) {
+                this.authenticatedRequest(options, (err, response, body) => {
                     if (!err && body) {
                         var botData = body.data ? body.data : {};
                         if (typeof botData === 'string') {
-                            zlib.gunzip(new Buffer(botData, 'base64'), function (err, result) {
+                            zlib.gunzip(new Buffer(botData, 'base64'), (err, result) => {
                                 if (!err) {
                                     try {
                                         var txt = result.toString();
@@ -348,7 +342,7 @@ var ChatConnector = (function () {
                         cb(err);
                     }
                 });
-            }, function (err) {
+            }, (err) => {
                 if (!err) {
                     callback(null, data);
                 }
@@ -361,9 +355,8 @@ var ChatConnector = (function () {
         catch (e) {
             callback(e instanceof Error ? e : new Error(e.toString()), null);
         }
-    };
-    ChatConnector.prototype.saveData = function (context, data, callback) {
-        var _this = this;
+    }
+    saveData(context, data, callback) {
         console.warn(StateApiDreprecatedMessage);
         var list = [];
         function addWrite(field, botData, url) {
@@ -389,9 +382,9 @@ var ChatConnector = (function () {
             if (context.persistConversationData && context.conversationId) {
                 addWrite('conversationData', data.conversationData || {}, root + '/conversations/' + encodeURIComponent(context.conversationId));
             }
-            async.each(list, function (entry, cb) {
-                if (_this.settings.gzipData) {
-                    zlib.gzip(entry.hash, function (err, result) {
+            async.each(list, (entry, cb) => {
+                if (this.settings.gzipData) {
+                    zlib.gzip(entry.hash, (err, result) => {
                         if (!err && result.length > MAX_DATA_LENGTH) {
                             err = new Error("Data of " + result.length + " bytes gzipped exceeds the " + MAX_DATA_LENGTH + " byte limit. Can't post to: " + entry.url);
                             err.code = consts.Errors.EMSGSIZE;
@@ -403,7 +396,7 @@ var ChatConnector = (function () {
                                 body: { eTag: '*', data: result.toString('base64') },
                                 json: true
                             };
-                            _this.authenticatedRequest(options, function (err, response, body) {
+                            this.authenticatedRequest(options, (err, response, body) => {
                                 cb(err);
                             });
                         }
@@ -419,7 +412,7 @@ var ChatConnector = (function () {
                         body: { eTag: '*', data: entry.botData },
                         json: true
                     };
-                    _this.authenticatedRequest(options, function (err, response, body) {
+                    this.authenticatedRequest(options, (err, response, body) => {
                         cb(err);
                     });
                 }
@@ -428,7 +421,7 @@ var ChatConnector = (function () {
                     err.code = consts.Errors.EMSGSIZE;
                     cb(err);
                 }
-            }, function (err) {
+            }, (err) => {
                 if (callback) {
                     if (!err) {
                         callback(null);
@@ -447,8 +440,8 @@ var ChatConnector = (function () {
                 callback(err);
             }
         }
-    };
-    ChatConnector.prototype.onDispatchEvents = function (events, callback) {
+    }
+    onDispatchEvents(events, callback) {
         if (events && events.length > 0) {
             if (this.isInvoke(events[0])) {
                 this.onInvokeHandler(events[0], callback);
@@ -458,12 +451,12 @@ var ChatConnector = (function () {
                 callback(null, null, 202);
             }
         }
-    };
-    ChatConnector.prototype.dispatch = function (msg, res, next) {
+    }
+    dispatch(msg, res, next) {
         try {
             this.prepIncomingMessage(msg);
             logger.info(msg, 'ChatConnector: message received.');
-            this.onDispatchEvents([msg], function (err, body, status) {
+            this.onDispatchEvents([msg], (err, body, status) => {
                 if (err) {
                     res.status(500);
                     res.end();
@@ -488,12 +481,11 @@ var ChatConnector = (function () {
             res.end();
             next();
         }
-    };
-    ChatConnector.prototype.isInvoke = function (event) {
+    }
+    isInvoke(event) {
         return (event && event.type && event.type.toLowerCase() == consts.invokeType);
-    };
-    ChatConnector.prototype.postMessage = function (msg, lastMsg, cb, method) {
-        if (method === void 0) { method = 'POST'; }
+    }
+    postMessage(msg, lastMsg, cb, method = 'POST') {
         logger.info(address, 'ChatConnector: sending message.');
         this.prepOutgoingMessage(msg);
         var address = msg.address;
@@ -513,10 +505,10 @@ var ChatConnector = (function () {
             body: msg,
             json: true
         };
-        this.authenticatedRequest(options, function (err, response, body) {
+        this.authenticatedRequest(options, (err, response, body) => {
             if (!err) {
                 if (body && body.id) {
-                    var newAddress = utils.clone(address);
+                    let newAddress = utils.clone(address);
                     newAddress.id = body.id;
                     cb(null, newAddress);
                 }
@@ -528,23 +520,21 @@ var ChatConnector = (function () {
                 cb(err, null);
             }
         });
-    };
-    ChatConnector.prototype.authenticatedRequest = function (options, callback, refresh) {
-        var _this = this;
-        if (refresh === void 0) { refresh = false; }
+    }
+    authenticatedRequest(options, callback, refresh = false) {
         if (refresh) {
             this.accessToken = null;
         }
         this.addUserAgent(options);
-        this.addAccessToken(options, function (err) {
+        this.addAccessToken(options, (err) => {
             if (!err) {
-                request(options, function (err, response, body) {
+                request(options, (err, response, body) => {
                     if (!err) {
                         switch (response.statusCode) {
                             case 401:
                             case 403:
-                                if (!refresh && _this.settings.appId && _this.settings.appPassword) {
-                                    _this.authenticatedRequest(options, callback, true);
+                                if (!refresh && this.settings.appId && this.settings.appPassword) {
+                                    this.authenticatedRequest(options, callback, true);
                                 }
                                 else {
                                     callback(null, response, body);
@@ -570,40 +560,37 @@ var ChatConnector = (function () {
                 callback(err, null, null);
             }
         });
-    };
-    ChatConnector.prototype.tokenExpired = function () {
+    }
+    tokenExpired() {
         return Date.now() >= this.accessTokenExpires;
-    };
-    ChatConnector.prototype.tokenHalfWayExpired = function (secondstoHalfWayExpire, secondsToExpire) {
-        if (secondstoHalfWayExpire === void 0) { secondstoHalfWayExpire = 1800; }
-        if (secondsToExpire === void 0) { secondsToExpire = 300; }
+    }
+    tokenHalfWayExpired(secondstoHalfWayExpire = 1800, secondsToExpire = 300) {
         var timeToExpiration = (this.accessTokenExpires - Date.now()) / 1000;
         return timeToExpiration < secondstoHalfWayExpire
             && timeToExpiration > secondsToExpire;
-    };
-    ChatConnector.prototype.refreshAccessToken = function (cb) {
-        var _this = this;
+    }
+    refreshAccessToken(cb) {
         if (!this.refreshingToken) {
-            this.refreshingToken = new Promise(function (resolve, reject) {
+            this.refreshingToken = new Promise((resolve, reject) => {
                 var opt = {
                     method: 'POST',
-                    url: _this.settings.endpoint.refreshEndpoint,
+                    url: this.settings.endpoint.refreshEndpoint,
                     form: {
                         grant_type: 'client_credentials',
-                        client_id: _this.settings.appId,
-                        client_secret: _this.settings.appPassword,
-                        scope: _this.settings.endpoint.refreshScope
+                        client_id: this.settings.appId,
+                        client_secret: this.settings.appPassword,
+                        scope: this.settings.endpoint.refreshScope
                     }
                 };
-                _this.addUserAgent(opt);
-                request(opt, function (err, response, body) {
-                    _this.refreshingToken = undefined;
+                this.addUserAgent(opt);
+                request(opt, (err, response, body) => {
+                    this.refreshingToken = undefined;
                     if (!err) {
                         if (body && response.statusCode < 300) {
                             var oauthResponse = JSON.parse(body);
-                            _this.accessToken = oauthResponse.access_token;
-                            _this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
-                            resolve(_this.accessToken);
+                            this.accessToken = oauthResponse.access_token;
+                            this.accessTokenExpires = new Date().getTime() + ((oauthResponse.expires_in - 300) * 1000);
+                            resolve(this.accessToken);
                         }
                         else {
                             reject(new Error('Refresh access token failed with status code: ' + response.statusCode));
@@ -613,41 +600,40 @@ var ChatConnector = (function () {
                         reject(err);
                     }
                 });
-            }).catch(function (err) {
-                _this.refreshingToken = undefined;
+            }).catch((err) => {
+                this.refreshingToken = undefined;
                 throw err;
             });
         }
-        this.refreshingToken.then(function (token) { return cb(null, token); }, function (err) { return cb(err, null); });
-    };
-    ChatConnector.prototype.getAccessToken = function (cb) {
-        var _this = this;
+        this.refreshingToken.then((token) => cb(null, token), (err) => cb(err, null));
+    }
+    getAccessToken(cb) {
         if (this.accessToken == null || this.tokenExpired()) {
-            this.refreshAccessToken(function (err, token) {
-                cb(err, _this.accessToken);
+            this.refreshAccessToken((err, token) => {
+                cb(err, this.accessToken);
             });
         }
         else if (this.tokenHalfWayExpired()) {
             var oldToken = this.accessToken;
-            this.refreshAccessToken(function (err, token) {
+            this.refreshAccessToken((err, token) => {
                 if (!err)
-                    cb(null, _this.accessToken);
+                    cb(null, this.accessToken);
                 else
                     cb(null, oldToken);
             });
         }
         else
             cb(null, this.accessToken);
-    };
-    ChatConnector.prototype.addUserAgent = function (options) {
+    }
+    addUserAgent(options) {
         if (!options.headers) {
             options.headers = {};
         }
         options.headers['User-Agent'] = USER_AGENT;
-    };
-    ChatConnector.prototype.addAccessToken = function (options, cb) {
+    }
+    addAccessToken(options, cb) {
         if (this.settings.appId && this.settings.appPassword) {
-            this.getAccessToken(function (err, token) {
+            this.getAccessToken((err, token) => {
                 if (!err && token) {
                     if (!options.headers) {
                         options.headers = {};
@@ -663,8 +649,8 @@ var ChatConnector = (function () {
         else {
             cb(null);
         }
-    };
-    ChatConnector.prototype.getStoragePath = function (address) {
+    }
+    getStoragePath(address) {
         var path;
         switch (address.channelId) {
             case 'emulator':
@@ -680,8 +666,8 @@ var ChatConnector = (function () {
                 break;
         }
         return path + '/v3/botstate/' + encodeURIComponent(address.channelId);
-    };
-    ChatConnector.prototype.prepIncomingMessage = function (msg) {
+    }
+    prepIncomingMessage(msg) {
         utils.moveFieldsTo(msg, msg, {
             'locale': 'textLocale',
             'channelData': 'sourceEvent'
@@ -696,8 +682,8 @@ var ChatConnector = (function () {
         if (msg.source == 'facebook' && msg.sourceEvent && msg.sourceEvent.message && msg.sourceEvent.message.quick_reply) {
             msg.text = msg.sourceEvent.message.quick_reply.payload;
         }
-    };
-    ChatConnector.prototype.prepOutgoingMessage = function (msg) {
+    }
+    prepOutgoingMessage(msg) {
         if (msg.attachments) {
             var attachments = [];
             for (var i = 0; i < msg.attachments.length; i++) {
@@ -706,7 +692,7 @@ var ChatConnector = (function () {
                     case 'application/vnd.microsoft.keyboard':
                         if (msg.address.channelId == 'facebook') {
                             msg.sourceEvent = { quick_replies: [] };
-                            a.content.buttons.forEach(function (action) {
+                            a.content.buttons.forEach((action) => {
                                 switch (action.type) {
                                     case 'imBack':
                                     case 'postBack':
@@ -743,9 +729,8 @@ var ChatConnector = (function () {
         if (!msg.localTimestamp) {
             msg.localTimestamp = new Date().toISOString();
         }
-    };
-    return ChatConnector;
-}());
+    }
+}
 exports.ChatConnector = ChatConnector;
 var toAddress = {
     'id': 'id',

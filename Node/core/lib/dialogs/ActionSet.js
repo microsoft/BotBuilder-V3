@@ -1,27 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var consts = require("../consts");
-var utils = require("../utils");
-var async = require("async");
-var ActionSet = (function () {
-    function ActionSet() {
+const consts = require("../consts");
+const utils = require("../utils");
+const async = require("async");
+class ActionSet {
+    constructor() {
         this.actions = {};
     }
-    ActionSet.prototype.clone = function (copyTo) {
+    clone(copyTo) {
         var obj = copyTo || new ActionSet();
         obj.trigger = this.trigger;
         for (var name in this.actions) {
             obj.actions[name] = this.actions[name];
         }
         return obj;
-    };
-    ActionSet.prototype.addDialogTrigger = function (actions, dialogId) {
+    }
+    addDialogTrigger(actions, dialogId) {
         if (this.trigger) {
             this.trigger.localizationNamespace = dialogId.split(':')[0];
             actions.beginDialogAction(dialogId, dialogId, this.trigger);
         }
-    };
-    ActionSet.prototype.findActionRoutes = function (context, callback) {
+    }
+    findActionRoutes(context, callback) {
         var results = [{ score: 0.0, libraryName: context.libraryName }];
         function addRoute(route) {
             if (route.score > 0 && route.routeData) {
@@ -39,7 +39,7 @@ var ActionSet = (function () {
                 var bestScore = 0.0;
                 var routeData;
                 var matches = Array.isArray(entry.options.matches) ? entry.options.matches : [entry.options.matches];
-                matches.forEach(function (exp) {
+                matches.forEach((exp) => {
                     if (typeof exp == 'string') {
                         if (context.intent && exp === context.intent.intent && context.intent.score > bestScore) {
                             bestScore = context.intent.score;
@@ -101,9 +101,9 @@ var ActionSet = (function () {
             callback(null, results);
         }
         else {
-            async.forEachOf(this.actions, function (entry, action, cb) {
+            async.forEachOf(this.actions, (entry, action, cb) => {
                 if (entry.options.onFindAction) {
-                    entry.options.onFindAction(context, function (err, score, routeData) {
+                    entry.options.onFindAction(context, (err, score, routeData) => {
                         if (!err) {
                             routeData = routeData || {};
                             routeData.action = action;
@@ -118,7 +118,7 @@ var ActionSet = (function () {
                     });
                 }
                 else {
-                    matchExpression(action, entry, function (err, score, routeData) {
+                    matchExpression(action, entry, (err, score, routeData) => {
                         if (!err && routeData) {
                             addRoute({
                                 score: score,
@@ -130,7 +130,7 @@ var ActionSet = (function () {
                         cb(err);
                     });
                 }
-            }, function (err) {
+            }, (err) => {
                 if (!err) {
                     callback(null, results);
                 }
@@ -139,8 +139,8 @@ var ActionSet = (function () {
                 }
             });
         }
-    };
-    ActionSet.prototype.selectActionRoute = function (session, route) {
+    }
+    selectActionRoute(session, route) {
         function next() {
             entry.handler(session, routeData);
         }
@@ -152,8 +152,8 @@ var ActionSet = (function () {
         else {
             next();
         }
-    };
-    ActionSet.prototype.dialogInterrupted = function (session, dialogId, dialogArgs) {
+    }
+    dialogInterrupted(session, dialogId, dialogArgs) {
         var trigger = this.trigger;
         function next() {
             if (trigger && trigger.confirmPrompt) {
@@ -175,9 +175,9 @@ var ActionSet = (function () {
         else {
             next();
         }
-    };
-    ActionSet.prototype.cancelAction = function (name, msg, options) {
-        return this.action(name, function (session, args) {
+    }
+    cancelAction(name, msg, options) {
+        return this.action(name, (session, args) => {
             if (options.confirmPrompt) {
                 session.beginDialog(consts.DialogId.ConfirmCancel, {
                     localizationNamespace: args.libraryName,
@@ -193,19 +193,17 @@ var ActionSet = (function () {
                 session.cancelDialog(args.dialogIndex);
             }
         }, options);
-    };
-    ActionSet.prototype.reloadAction = function (name, msg, options) {
-        if (options === void 0) { options = {}; }
-        return this.action(name, function (session, args) {
+    }
+    reloadAction(name, msg, options = {}) {
+        return this.action(name, (session, args) => {
             if (msg) {
                 session.sendLocalized(args.libraryName, msg);
             }
             session.cancelDialog(args.dialogIndex, args.dialogId, options.dialogArgs);
         }, options);
-    };
-    ActionSet.prototype.beginDialogAction = function (name, id, options) {
-        if (options === void 0) { options = {}; }
-        return this.action(name, function (session, args) {
+    }
+    beginDialogAction(name, id, options = {}) {
+        return this.action(name, (session, args) => {
             if (options.dialogArgs) {
                 utils.copyTo(options.dialogArgs, args);
             }
@@ -227,9 +225,9 @@ var ActionSet = (function () {
                 session.beginDialog(id, args);
             }
         }, options);
-    };
-    ActionSet.prototype.endConversationAction = function (name, msg, options) {
-        return this.action(name, function (session, args) {
+    }
+    endConversationAction(name, msg, options) {
+        return this.action(name, (session, args) => {
             if (options.confirmPrompt) {
                 session.beginDialog(consts.DialogId.ConfirmCancel, {
                     localizationNamespace: args.libraryName,
@@ -245,31 +243,29 @@ var ActionSet = (function () {
                 session.endConversation();
             }
         }, options);
-    };
-    ActionSet.prototype.triggerAction = function (options) {
+    }
+    triggerAction(options) {
         this.trigger = (options || {});
         this.trigger.isInterruption = true;
         ;
         return this;
-    };
-    ActionSet.prototype.customAction = function (options) {
+    }
+    customAction(options) {
         if (!options || !options.onSelectAction) {
             throw "An onSelectAction handler is required.";
         }
         var name = options.matches ? 'custom(' + options.matches.toString() + ')' : 'custom(onFindAction())';
-        return this.action(name, function (session, args) {
+        return this.action(name, (session, args) => {
             session.logger.warn(session.dialogStack(), "Shouldn't call next() in onSelectAction() for " + name);
             session.save().sendBatch();
         }, options);
-    };
-    ActionSet.prototype.action = function (name, handler, options) {
-        if (options === void 0) { options = {}; }
+    }
+    action(name, handler, options = {}) {
         var key = this.uniqueActionName(name);
         this.actions[key] = { handler: handler, options: options };
         return this;
-    };
-    ActionSet.prototype.uniqueActionName = function (name, cnt) {
-        if (cnt === void 0) { cnt = 1; }
+    }
+    uniqueActionName(name, cnt = 1) {
         var key = cnt > 1 ? name + cnt : name;
         if (this.actions.hasOwnProperty(key)) {
             return this.uniqueActionName(name, cnt + 1);
@@ -277,7 +273,6 @@ var ActionSet = (function () {
         else {
             return key;
         }
-    };
-    return ActionSet;
-}());
+    }
+}
 exports.ActionSet = ActionSet;

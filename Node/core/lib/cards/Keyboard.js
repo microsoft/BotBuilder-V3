@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Keyboard = (function () {
-    function Keyboard(session) {
+class Keyboard {
+    constructor(session) {
         this.session = session;
         this.data = {
             contentType: 'application/vnd.microsoft.keyboard',
             content: {}
         };
     }
-    Keyboard.prototype.buttons = function (list) {
+    buttons(list) {
         this.data.content.buttons = [];
         if (list) {
             for (var i = 0; i < list.length; i++) {
@@ -17,10 +17,9 @@ var Keyboard = (function () {
             }
         }
         return this;
-    };
-    Keyboard.prototype.toAttachment = function () {
+    }
+    toAttachment() {
         return this.data;
-    };
-    return Keyboard;
-}());
+    }
+}
 exports.Keyboard = Keyboard;

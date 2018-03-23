@@ -1,25 +1,21 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Message_1 = require("../Message");
-var SigninCard = (function () {
-    function SigninCard(session) {
+const Message_1 = require("../Message");
+class SigninCard {
+    constructor(session) {
         this.session = session;
         this.data = {
             contentType: 'application/vnd.microsoft.card.signin',
             content: {}
         };
     }
-    SigninCard.prototype.text = function (prompts) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    text(prompts, ...args) {
         if (prompts) {
             this.data.content.text = Message_1.fmtText(this.session, prompts, args);
         }
         return this;
-    };
-    SigninCard.prototype.button = function (title, url) {
+    }
+    button(title, url) {
         if (title && url) {
             this.data.content.buttons = [{
                     type: 'signin',
@@ -28,10 +24,9 @@ var SigninCard = (function () {
                 }];
         }
         return this;
-    };
-    SigninCard.prototype.toAttachment = function () {
+    }
+    toAttachment() {
         return this.data;
-    };
-    return SigninCard;
-}());
+    }
+}
 exports.SigninCard = SigninCard;

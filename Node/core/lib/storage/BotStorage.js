@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var MemoryBotStorage = (function () {
-    function MemoryBotStorage() {
+class MemoryBotStorage {
+    constructor() {
         this.userStore = {};
         this.conversationStore = {};
     }
-    MemoryBotStorage.prototype.getData = function (context, callback) {
+    getData(context, callback) {
         var data = {};
         if (context.userId) {
             if (context.persistUserData) {
@@ -35,8 +35,8 @@ var MemoryBotStorage = (function () {
             }
         }
         callback(null, data);
-    };
-    MemoryBotStorage.prototype.saveData = function (context, data, callback) {
+    }
+    saveData(context, data, callback) {
         if (context.userId) {
             if (context.persistUserData) {
                 this.userStore[context.userId] = JSON.stringify(data.userData || {});
@@ -50,8 +50,8 @@ var MemoryBotStorage = (function () {
             this.conversationStore[context.conversationId] = JSON.stringify(data.conversationData || {});
         }
         callback(null);
-    };
-    MemoryBotStorage.prototype.deleteData = function (context) {
+    }
+    deleteData(context) {
         if (context.userId && this.userStore.hasOwnProperty(context.userId)) {
             if (context.conversationId) {
                 if (this.conversationStore.hasOwnProperty(context.conversationId)) {
@@ -67,7 +67,6 @@ var MemoryBotStorage = (function () {
                 }
             }
         }
-    };
-    return MemoryBotStorage;
-}());
+    }
+}
 exports.MemoryBotStorage = MemoryBotStorage;

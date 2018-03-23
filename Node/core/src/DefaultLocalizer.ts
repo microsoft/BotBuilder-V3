@@ -37,8 +37,8 @@ import * as logger from './logger';
 import * as consts from './consts';
 import * as fs from 'fs';
 import * as async from 'async';
-import * as Promise from 'promise';
 import * as path from 'path';
+const denodeify = require('denodeify');
 
 export class DefaultLocalizer implements ILocalizer {
     private _defaultLocale: string;
@@ -105,7 +105,7 @@ export class DefaultLocalizer implements ILocalizer {
 
         // Load locales in parallel
         async.each(locales, (locale, cb) => {
-            this.loadLocale(locale).done(() => cb(), (err) => cb(err));
+            this.loadLocale(locale).then(() => cb(), (err) => cb(err));
         }, (err) => {
             if (done) {
                 done(err);
@@ -159,8 +159,8 @@ export class DefaultLocalizer implements ILocalizer {
         }
         return this.defaultLocale();
     }
-    private loadLocale(locale: string): Promise.IThenable<boolean> {
-        const asyncEachSeries = Promise.denodeify(async.eachSeries);
+    private loadLocale(locale: string): Promise<boolean> {
+        const asyncEachSeries = denodeify(async.eachSeries);
 
         // Load local on first access
         if (!this.locales.hasOwnProperty(locale)) {
@@ -170,21 +170,21 @@ export class DefaultLocalizer implements ILocalizer {
                 this.loadSystemResources(locale)
                     .then(() => {
                         return asyncEachSeries(this.localePaths, (localePath: string, cb: (err?: Error) => void) => {
-                            this.loadLocalePath(locale, localePath).done(() => cb(), (err) => cb(err));
+                            this.loadLocalePath(locale, localePath).then(() => cb(), (err) => cb(err));
                         });
-                    }).done(() => resolve(true), (err) => reject(err));
+                    }).then(() => resolve(true), (err) => reject(err));
             });
         } 
         return this.locales[locale].loaded;
     }
 
-    private loadLocalePath(locale: string, localePath: string): Promise.IThenable<number> {
+    private loadLocalePath(locale: string, localePath: string): Promise<number> {
         var dir = path.join(localePath, locale);
         var entryCount = 0;
         var p = new Promise<number>((resolve, reject) => {
-            var access = Promise.denodeify(fs.access);
-            var readdir = Promise.denodeify(fs.readdir);
-            var asyncEach = Promise.denodeify(async.each);
+            var access = denodeify(fs.access);
+            var readdir = denodeify(fs.readdir);
+            var asyncEach = denodeify(async.each);
             access(dir)
                 .then(() =>{
                     // Directory exists
@@ -211,7 +211,7 @@ export class DefaultLocalizer implements ILocalizer {
                 .then(() => {
                     // Files successfully added
                     resolve(entryCount);
-                }, (err) => {
+                }, (err: any) => {
                     if (err.code === 'ENOENT') {
                         // No local directory
                         logger.debug("localizer.load(%s) - Couldn't find directory: %s", locale, dir);                                
@@ -225,13 +225,13 @@ export class DefaultLocalizer implements ILocalizer {
         return p;
     }
 
-    private parseFile(locale: string, localeDir: string, filename: string): Promise.IThenable<number> {
+    private parseFile(locale: string, localeDir: string, filename: string): Promise<number> {
         var table = this.locales[locale];
         return new Promise<number>((resolve, reject) => {
             var filePath = path.join(localeDir, filename);
-            var readFile = Promise.denodeify(fs.readFile);
+            var readFile = denodeify(fs.readFile);
             readFile(filePath, 'utf8')
-                .then((data) => {
+                .then((data: any) => {
                     // Find namespace 
                     var ns = path.parse(filename).name.toLocaleLowerCase();
                     if (ns == 'index') {
@@ -252,13 +252,13 @@ export class DefaultLocalizer implements ILocalizer {
                     } catch (error) {
                         return reject(error);
                     }
-                }, (err) => {
+                }, (err: Error) => {
                     reject(err);
                 });
         });
     }
 
-    private loadSystemResources(locale: string): Promise.IThenable<number> {
+    private loadSystemResources(locale: string): Promise<number> {
         return new Promise<number>((resolve, reject) => {
             const entries = systemResources.locales[(locale || '').toLowerCase()];
             if (entries) {
@@ -308,7 +308,7 @@ export class DefaultLocalizer implements ILocalizer {
 }
 
 interface ILocaleEntry {
-    loaded: Promise.IThenable<boolean>;
+    loaded: Promise<boolean>;
     entries: {
         [key:string]: string|string[];
     };

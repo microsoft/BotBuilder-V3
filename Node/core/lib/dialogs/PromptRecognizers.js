@@ -1,25 +1,23 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var EntityRecognizer_1 = require("./EntityRecognizer");
-var consts = require("../consts");
-var breakingChars = " \n\r~`!@#$%^&*()-+={}|[]\\:\";'<>?,./";
-var PromptRecognizers = (function () {
-    function PromptRecognizers() {
-    }
-    PromptRecognizers.recognizeLocalizedRegExp = function (context, expId, namespace) {
-        var key = namespace + ':' + expId;
-        var entities = [];
-        var locale = context.preferredLocale();
-        var utterance = context.message.text ? context.message.text.trim() : '';
-        var cache = this.expCache[key];
+const EntityRecognizer_1 = require("./EntityRecognizer");
+const consts = require("../consts");
+const breakingChars = " \n\r~`!@#$%^&*()-+={}|[]\\:\";'<>?,./";
+class PromptRecognizers {
+    static recognizeLocalizedRegExp(context, expId, namespace) {
+        let key = namespace + ':' + expId;
+        let entities = [];
+        const locale = context.preferredLocale();
+        const utterance = context.message.text ? context.message.text.trim() : '';
+        let cache = this.expCache[key];
         if (!cache) {
             this.expCache[key] = cache = {};
         }
         if (!cache.hasOwnProperty(locale)) {
             cache[locale] = new RegExp(context.localizer.gettext(locale, expId, namespace), 'ig');
         }
-        var matches = matchAll(cache[locale], utterance);
-        matches.forEach(function (value) {
+        let matches = matchAll(cache[locale], utterance);
+        matches.forEach((value) => {
             entities.push({
                 type: consts.Entities.String,
                 entity: value,
@@ -27,27 +25,27 @@ var PromptRecognizers = (function () {
             });
         });
         return entities;
-    };
-    PromptRecognizers.recognizeLocalizedChoices = function (context, listId, namespace, options) {
-        var key = namespace + ':' + listId;
-        var entities = [];
-        var locale = context.preferredLocale();
-        var utterance = context.message.text ? context.message.text.trim() : '';
-        var cache = this.choiceCache[key];
+    }
+    static recognizeLocalizedChoices(context, listId, namespace, options) {
+        let key = namespace + ':' + listId;
+        let entities = [];
+        const locale = context.preferredLocale();
+        const utterance = context.message.text ? context.message.text.trim() : '';
+        let cache = this.choiceCache[key];
         if (!cache) {
             this.expCache[key] = cache = {};
         }
         if (!cache.hasOwnProperty(locale)) {
-            var list = context.localizer.gettext(locale, listId, namespace);
+            let list = context.localizer.gettext(locale, listId, namespace);
             cache[locale] = PromptRecognizers.toChoices(list);
         }
         return PromptRecognizers.recognizeChoices(context.message.text, cache[locale], options);
-    };
-    PromptRecognizers.toChoices = function (list) {
-        var choices = [];
+    }
+    static toChoices(list) {
+        let choices = [];
         if (list) {
-            list.split('|').forEach(function (value, index) {
-                var pos = value.indexOf('=');
+            list.split('|').forEach((value, index) => {
+                let pos = value.indexOf('=');
                 if (pos > 0) {
                     choices.push({
                         value: value.substr(0, pos),
@@ -63,13 +61,13 @@ var PromptRecognizers = (function () {
             });
         }
         return choices;
-    };
-    PromptRecognizers.recognizeBooleans = function (context) {
-        var entities = [];
-        var results = PromptRecognizers.recognizeLocalizedChoices(context, 'boolean_choices', consts.Library.system, { excludeValue: true });
+    }
+    static recognizeBooleans(context) {
+        let entities = [];
+        let results = PromptRecognizers.recognizeLocalizedChoices(context, 'boolean_choices', consts.Library.system, { excludeValue: true });
         if (results) {
-            results.forEach(function (result) {
-                var value = (result.entity.entity === 'true');
+            results.forEach((result) => {
+                let value = (result.entity.entity === 'true');
                 entities.push({
                     type: consts.Entities.Boolean,
                     entity: value,
@@ -78,8 +76,8 @@ var PromptRecognizers = (function () {
             });
         }
         return entities;
-    };
-    PromptRecognizers.recognizeNumbers = function (context, options) {
+    }
+    static recognizeNumbers(context, options) {
         function addEntity(n, score) {
             if ((typeof options.minValue !== 'number' || n >= options.minValue) &&
                 (typeof options.maxValue !== 'number' || n <= options.maxValue) &&
@@ -92,29 +90,29 @@ var PromptRecognizers = (function () {
             }
         }
         options = options || {};
-        var entities = [];
-        var matches = PromptRecognizers.recognizeLocalizedRegExp(context, 'number_exp', consts.Library.system);
+        let entities = [];
+        let matches = PromptRecognizers.recognizeLocalizedRegExp(context, 'number_exp', consts.Library.system);
         if (matches) {
-            matches.forEach(function (entity) {
-                var n = Number(entity.entity);
+            matches.forEach((entity) => {
+                let n = Number(entity.entity);
                 addEntity(n, entity.score);
             });
         }
-        var results = PromptRecognizers.recognizeLocalizedChoices(context, 'number_terms', consts.Library.system, { excludeValue: true });
+        let results = PromptRecognizers.recognizeLocalizedChoices(context, 'number_terms', consts.Library.system, { excludeValue: true });
         if (results) {
-            results.forEach(function (result) {
-                var n = Number(result.entity.entity);
+            results.forEach((result) => {
+                let n = Number(result.entity.entity);
                 addEntity(n, result.score);
             });
         }
         return entities;
-    };
-    PromptRecognizers.recognizeOrdinals = function (context) {
-        var entities = [];
-        var results = PromptRecognizers.recognizeLocalizedChoices(context, 'number_ordinals', consts.Library.system, { excludeValue: true });
+    }
+    static recognizeOrdinals(context) {
+        let entities = [];
+        let results = PromptRecognizers.recognizeLocalizedChoices(context, 'number_ordinals', consts.Library.system, { excludeValue: true });
         if (results) {
-            results.forEach(function (result) {
-                var n = Number(result.entity.entity);
+            results.forEach((result) => {
+                let n = Number(result.entity.entity);
                 entities.push({
                     type: consts.Entities.Number,
                     entity: n,
@@ -124,8 +122,8 @@ var PromptRecognizers = (function () {
         }
         results = PromptRecognizers.recognizeLocalizedChoices(context, 'number_reverse_ordinals', consts.Library.system, { excludeValue: true });
         if (results) {
-            results.forEach(function (result) {
-                var n = Number(result.entity.entity);
+            results.forEach((result) => {
+                let n = Number(result.entity.entity);
                 entities.push({
                     type: consts.Entities.Number,
                     entity: n,
@@ -134,29 +132,29 @@ var PromptRecognizers = (function () {
             });
         }
         return entities;
-    };
-    PromptRecognizers.recognizeTimes = function (context, options) {
+    }
+    static recognizeTimes(context, options) {
         options = options || {};
-        var refData = options.refDate ? new Date(options.refDate) : null;
-        var entities = [];
-        var utterance = context.message.text ? context.message.text.trim() : '';
-        var entity = EntityRecognizer_1.EntityRecognizer.recognizeTime(utterance, refData);
+        let refData = options.refDate ? new Date(options.refDate) : null;
+        let entities = [];
+        const utterance = context.message.text ? context.message.text.trim() : '';
+        let entity = EntityRecognizer_1.EntityRecognizer.recognizeTime(utterance, refData);
         if (entity) {
             entity.score = PromptRecognizers.calculateScore(utterance, entity.entity);
             entities.push(entity);
         }
         return entities;
-    };
-    PromptRecognizers.recognizeChoices = function (utterance, choices, options) {
+    }
+    static recognizeChoices(utterance, choices, options) {
         options = options || {};
-        var entities = [];
-        choices.forEach(function (choice, index) {
-            var values = Array.isArray(choice.synonyms) ? choice.synonyms : (choice.synonyms || '').split('|');
+        let entities = [];
+        choices.forEach((choice, index) => {
+            let values = Array.isArray(choice.synonyms) ? choice.synonyms : (choice.synonyms || '').split('|');
             if (!options.excludeValue) {
                 values.push(choice.value);
             }
             if (choice.action && !options.excludeAction) {
-                var action = choice.action;
+                let action = choice.action;
                 if (action.title && action.title !== choice.value) {
                     values.push(action.title);
                 }
@@ -164,7 +162,7 @@ var PromptRecognizers = (function () {
                     values.push(action.value);
                 }
             }
-            var match = PromptRecognizers.findTopEntity(PromptRecognizers.recognizeValues(utterance, values, options));
+            let match = PromptRecognizers.findTopEntity(PromptRecognizers.recognizeValues(utterance, values, options));
             if (match) {
                 entities.push({
                     type: consts.Entities.Match,
@@ -178,10 +176,10 @@ var PromptRecognizers = (function () {
             }
         });
         return entities;
-    };
-    PromptRecognizers.recognizeValues = function (utterance, values, options) {
+    }
+    static recognizeValues(utterance, values, options) {
         function indexOfToken(token, startPos) {
-            for (var i = startPos; i < tokens.length; i++) {
+            for (let i = startPos; i < tokens.length; i++) {
                 if (tokens[i] === token) {
                     return i;
                 }
@@ -189,12 +187,12 @@ var PromptRecognizers = (function () {
             return -1;
         }
         function matchValue(vTokens, startPos) {
-            var matched = 0;
-            var totalDeviation = 0;
-            vTokens.forEach(function (token) {
-                var pos = indexOfToken(token, startPos);
+            let matched = 0;
+            let totalDeviation = 0;
+            vTokens.forEach((token) => {
+                let pos = indexOfToken(token, startPos);
                 if (pos >= 0) {
-                    var distance = matched > 0 ? pos - startPos : 0;
+                    let distance = matched > 0 ? pos - startPos : 0;
                     if (distance <= maxDistance) {
                         matched++;
                         totalDeviation += distance;
@@ -202,26 +200,26 @@ var PromptRecognizers = (function () {
                     }
                 }
             });
-            var score = 0.0;
+            let score = 0.0;
             if (matched > 0 && (matched == vTokens.length || options.allowPartialMatches)) {
-                var completeness = matched / vTokens.length;
-                var accuracy = completeness * (matched / (matched + totalDeviation));
-                var initialScore = accuracy * (matched / tokens.length);
+                let completeness = matched / vTokens.length;
+                let accuracy = completeness * (matched / (matched + totalDeviation));
+                let initialScore = accuracy * (matched / tokens.length);
                 score = 0.4 + (0.6 * initialScore);
             }
             return score;
         }
         options = options || {};
-        var entities = [];
-        var text = utterance.trim().toLowerCase();
-        var tokens = tokenize(text);
-        var maxDistance = options.hasOwnProperty('maxTokenDistance') ? options.maxTokenDistance : 2;
-        values.forEach(function (value, index) {
+        let entities = [];
+        let text = utterance.trim().toLowerCase();
+        let tokens = tokenize(text);
+        let maxDistance = options.hasOwnProperty('maxTokenDistance') ? options.maxTokenDistance : 2;
+        values.forEach((value, index) => {
             if (typeof value === 'string') {
-                var topScore = 0.0;
-                var vTokens = tokenize(value.trim().toLowerCase());
-                for (var i = 0; i < tokens.length; i++) {
-                    var score = matchValue(vTokens, i);
+                let topScore = 0.0;
+                let vTokens = tokenize(value.trim().toLowerCase());
+                for (let i = 0; i < tokens.length; i++) {
+                    let score = matchValue(vTokens, i);
                     if (score > topScore) {
                         topScore = score;
                     }
@@ -235,7 +233,7 @@ var PromptRecognizers = (function () {
                 }
             }
             else {
-                var matches = value.exec(text) || [];
+                let matches = value.exec(text) || [];
                 if (matches.length > 0) {
                     entities.push({
                         type: consts.Entities.Number,
@@ -246,44 +244,41 @@ var PromptRecognizers = (function () {
             }
         });
         return entities;
-    };
-    PromptRecognizers.findTopEntity = function (entities) {
-        var top = null;
+    }
+    static findTopEntity(entities) {
+        let top = null;
         if (entities) {
-            entities.forEach(function (entity) {
+            entities.forEach((entity) => {
                 if (!top || entity.score > top.score) {
                     top = entity;
                 }
             });
         }
         return top;
-    };
-    PromptRecognizers.calculateScore = function (utterance, entity, max, min) {
-        if (max === void 0) { max = 1.0; }
-        if (min === void 0) { min = 0.5; }
+    }
+    static calculateScore(utterance, entity, max = 1.0, min = 0.5) {
         return Math.min(min + (entity.length / utterance.length), max);
-    };
-    PromptRecognizers.numOrdinals = {};
-    PromptRecognizers.expCache = {};
-    PromptRecognizers.choiceCache = {};
-    return PromptRecognizers;
-}());
+    }
+}
+PromptRecognizers.numOrdinals = {};
+PromptRecognizers.expCache = {};
+PromptRecognizers.choiceCache = {};
 exports.PromptRecognizers = PromptRecognizers;
 function matchAll(exp, text) {
     exp.lastIndex = 0;
-    var matches = [];
-    var match;
+    let matches = [];
+    let match;
     while ((match = exp.exec(text)) != null) {
         matches.push(match[0]);
     }
     return matches;
 }
 function tokenize(text) {
-    var tokens = [];
+    let tokens = [];
     if (text && text.length > 0) {
-        var token = '';
-        for (var i = 0; i < text.length; i++) {
-            var chr = text[i];
+        let token = '';
+        for (let i = 0; i < text.length; i++) {
+            const chr = text[i];
             if (breakingChars.indexOf(chr) >= 0) {
                 if (token.length > 0) {
                     tokens.push(token);

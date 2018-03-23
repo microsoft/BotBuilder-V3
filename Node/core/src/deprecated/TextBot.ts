@@ -99,7 +99,7 @@ export class TextBot  {
     }
 
     public on(event: string, listener: Function): this {
-        this.bot.on(event, listener);
+        this.bot.on(event, listener as any);
         return this;
     }
 

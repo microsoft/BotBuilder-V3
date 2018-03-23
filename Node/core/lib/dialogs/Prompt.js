@@ -1,22 +1,12 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var WaterfallDialog_1 = require("./WaterfallDialog");
-var DialogAction_1 = require("./DialogAction");
-var Dialog_1 = require("./Dialog");
-var IntentRecognizerSet_1 = require("./IntentRecognizerSet");
-var RegExpRecognizer_1 = require("./RegExpRecognizer");
-var Message_1 = require("../Message");
-var consts = require("../consts");
+const WaterfallDialog_1 = require("./WaterfallDialog");
+const DialogAction_1 = require("./DialogAction");
+const Dialog_1 = require("./Dialog");
+const IntentRecognizerSet_1 = require("./IntentRecognizerSet");
+const RegExpRecognizer_1 = require("./RegExpRecognizer");
+const Message_1 = require("../Message");
+const consts = require("../consts");
 var PromptType;
 (function (PromptType) {
     PromptType[PromptType["text"] = 0] = "text";
@@ -34,23 +24,21 @@ var ListStyle;
     ListStyle[ListStyle["button"] = 3] = "button";
     ListStyle[ListStyle["auto"] = 4] = "auto";
 })(ListStyle = exports.ListStyle || (exports.ListStyle = {}));
-var Prompt = (function (_super) {
-    __extends(Prompt, _super);
-    function Prompt(features) {
-        var _this = _super.call(this) || this;
-        _this.features = features;
-        _this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet();
-        _this.handlers = {};
-        _this._onPrompt = [];
-        _this._onFormatMessage = [];
-        _this._onRecognize = [];
-        if (!_this.features) {
-            _this.features = {};
+class Prompt extends Dialog_1.Dialog {
+    constructor(features) {
+        super();
+        this.features = features;
+        this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet();
+        this.handlers = {};
+        this._onPrompt = [];
+        this._onFormatMessage = [];
+        this._onRecognize = [];
+        if (!this.features) {
+            this.features = {};
         }
-        return _this;
     }
-    Prompt.prototype.begin = function (session, options) {
-        var dc = session.dialogData;
+    begin(session, options) {
+        let dc = session.dialogData;
         dc.options = options || {};
         dc.turns = 0;
         dc.lastTurn = new Date().getTime();
@@ -71,7 +59,7 @@ var Prompt = (function (_super) {
                 options.libraryNamespace = options.localizationNamespace;
             }
             else {
-                var stack = session.dialogStack();
+                const stack = session.dialogStack();
                 if (stack.length >= 2) {
                     options.libraryNamespace = stack[stack.length - 2].id.split(':')[0];
                 }
@@ -80,40 +68,40 @@ var Prompt = (function (_super) {
                 }
             }
         }
-        var attachments = options.attachments || [];
-        for (var i = 0; i < attachments.length; i++) {
+        let attachments = options.attachments || [];
+        for (let i = 0; i < attachments.length; i++) {
             if (attachments[i].toAttachment) {
                 attachments[i] = attachments[i].toAttachment();
             }
         }
         this.sendPrompt(session);
-    };
-    Prompt.prototype.recognize = function (context, cb) {
-        var dc = context.dialogData;
+    }
+    recognize(context, cb) {
+        let dc = context.dialogData;
         dc.turns++;
         dc.lastTurn = new Date().getTime();
         dc.isReprompt = false;
         dc.activeIntent = null;
-        var recognizers = this.recognizers;
+        let recognizers = this.recognizers;
         function finalRecognize() {
-            recognizers.recognize(context, function (err, r) {
+            recognizers.recognize(context, (err, r) => {
                 if (!err && r.score > result.score) {
                     result = r;
                 }
                 cb(err, result);
             });
         }
-        var idx = 0;
-        var handlers = this._onRecognize;
-        var result = { score: 0.0, intent: null };
+        let idx = 0;
+        const handlers = this._onRecognize;
+        let result = { score: 0.0, intent: null };
         function next() {
             try {
                 if (idx < handlers.length) {
-                    handlers[idx++](context, function (err, score, response) {
+                    handlers[idx++](context, (err, score, response) => {
                         if (err) {
                             return cb(err, null);
                         }
-                        var r = {
+                        let r = {
                             score: score,
                             intent: consts.Intents.Response,
                             entities: [{
@@ -141,17 +129,17 @@ var Prompt = (function (_super) {
             }
         }
         next();
-    };
-    Prompt.prototype.replyReceived = function (session, recognizeResult) {
+    }
+    replyReceived(session, recognizeResult) {
         if (recognizeResult && recognizeResult.score > 0.0) {
             this.invokeIntent(session, recognizeResult);
         }
         else {
             this.sendPrompt(session);
         }
-    };
-    Prompt.prototype.dialogResumed = function (session, result) {
-        var dc = session.dialogData;
+    }
+    dialogResumed(session, result) {
+        let dc = session.dialogData;
         if (dc.activeIntent && this.handlers.hasOwnProperty(dc.activeIntent)) {
             try {
                 this.handlers[dc.activeIntent](session, result);
@@ -164,18 +152,18 @@ var Prompt = (function (_super) {
             dc.isReprompt = (result.resumed === Dialog_1.ResumeReason.reprompt);
             this.sendPrompt(session);
         }
-    };
-    Prompt.prototype.sendPrompt = function (session) {
-        var _that = this;
+    }
+    sendPrompt(session) {
+        const _that = this;
         function defaultSend() {
             if (typeof options.maxRetries === 'number' && context.turns > options.maxRetries) {
                 session.endDialogWithResult({ resumed: Dialog_1.ResumeReason.notCompleted });
             }
             else {
-                var prompt_1 = !turnZero ? _that.getRetryPrompt(session) : options.prompt;
-                if (Array.isArray(prompt_1) || typeof prompt_1 === 'string') {
-                    var speak = !turnZero ? options.retrySpeak : options.speak;
-                    _that.formatMessage(session, prompt_1, speak, function (err, msg) {
+                let prompt = !turnZero ? _that.getRetryPrompt(session) : options.prompt;
+                if (Array.isArray(prompt) || typeof prompt === 'string') {
+                    let speak = !turnZero ? options.retrySpeak : options.speak;
+                    _that.formatMessage(session, prompt, speak, (err, msg) => {
                         if (!err) {
                             sendMsg(msg);
                         }
@@ -185,7 +173,7 @@ var Prompt = (function (_super) {
                     });
                 }
                 else {
-                    sendMsg(prompt_1);
+                    sendMsg(prompt);
                 }
             }
         }
@@ -195,7 +183,7 @@ var Prompt = (function (_super) {
                     if (!msg.attachments) {
                         msg.attachments = [];
                     }
-                    options.attachments.forEach(function (value) {
+                    options.attachments.forEach((value) => {
                         if (value.toAttachment) {
                             msg.attachments.push(value.toAttachment());
                         }
@@ -204,7 +192,7 @@ var Prompt = (function (_super) {
                         }
                     });
                 }
-                ['attachmentLayout', 'entities', 'textFormat', 'inputHint'].forEach(function (key) {
+                ['attachmentLayout', 'entities', 'textFormat', 'inputHint'].forEach((key) => {
                     if (!msg.hasOwnProperty(key)) {
                         msg[key] = options[key];
                     }
@@ -215,11 +203,11 @@ var Prompt = (function (_super) {
             }
             session.send(msg);
         }
-        var idx = 0;
-        var handlers = this._onPrompt;
-        var context = session.dialogData;
-        var options = context.options;
-        var turnZero = context.turns === 0 || context.isReprompt;
+        let idx = 0;
+        const handlers = this._onPrompt;
+        const context = session.dialogData;
+        const options = context.options;
+        const turnZero = context.turns === 0 || context.isReprompt;
         function next() {
             try {
                 if (idx < handlers.length) {
@@ -234,10 +222,10 @@ var Prompt = (function (_super) {
             }
         }
         next();
-    };
-    Prompt.prototype.formatMessage = function (session, text, speak, callback) {
-        var idx = 0;
-        var handlers = this._onFormatMessage;
+    }
+    formatMessage(session, text, speak, callback) {
+        let idx = 0;
+        const handlers = this._onFormatMessage;
         function next(err, msg) {
             if (err || msg) {
                 callback(err, msg);
@@ -261,21 +249,21 @@ var Prompt = (function (_super) {
             }
         }
         next(null, null);
-    };
-    Prompt.prototype.onPrompt = function (handler) {
+    }
+    onPrompt(handler) {
         this._onPrompt.unshift(handler);
         return this;
-    };
-    Prompt.prototype.onFormatMessage = function (handler) {
+    }
+    onFormatMessage(handler) {
         this._onFormatMessage.unshift(handler);
         return this;
-    };
-    Prompt.prototype.onRecognize = function (handler) {
+    }
+    onRecognize(handler) {
         this._onRecognize.unshift(handler);
         return this;
-    };
-    Prompt.prototype.matches = function (intent, dialogId, dialogArgs) {
-        var id;
+    }
+    matches(intent, dialogId, dialogArgs) {
+        let id;
         if (intent) {
             if (typeof intent === 'string') {
                 id = intent;
@@ -295,45 +283,45 @@ var Prompt = (function (_super) {
             this.handlers[id] = WaterfallDialog_1.WaterfallDialog.createHandler([dialogId]);
         }
         return this;
-    };
-    Prompt.prototype.matchesAny = function (intents, dialogId, dialogArgs) {
-        for (var i = 0; i < intents.length; i++) {
+    }
+    matchesAny(intents, dialogId, dialogArgs) {
+        for (let i = 0; i < intents.length; i++) {
             this.matches(intents[i], dialogId, dialogArgs);
         }
         return this;
-    };
-    Prompt.prototype.recognizer = function (plugin) {
+    }
+    recognizer(plugin) {
         this.recognizers.recognizer(plugin);
         return this;
-    };
-    Prompt.prototype.updateFeatures = function (features) {
+    }
+    updateFeatures(features) {
         if (features) {
-            for (var key in features) {
+            for (let key in features) {
                 if (features.hasOwnProperty(key)) {
                     this.features[key] = features[key];
                 }
             }
         }
         return this;
-    };
-    Prompt.gettext = function (session, text, namespace) {
-        var locale = session.preferredLocale();
-        var options = session.dialogData.options;
+    }
+    static gettext(session, text, namespace) {
+        let locale = session.preferredLocale();
+        let options = session.dialogData.options;
         if (!namespace && options && options.libraryNamespace) {
             namespace = options.libraryNamespace;
         }
         return session.localizer.gettext(locale, Message_1.Message.randomPrompt(text), namespace);
-    };
-    Prompt.prototype.invokeIntent = function (session, recognizeResult) {
+    }
+    invokeIntent(session, recognizeResult) {
         if (recognizeResult.intent === consts.Intents.Response) {
-            var response = recognizeResult.entities && recognizeResult.entities.length == 1 ? recognizeResult.entities[0].entity : null;
+            let response = recognizeResult.entities && recognizeResult.entities.length == 1 ? recognizeResult.entities[0].entity : null;
             session.logger.log(session.dialogStack(), 'Prompt.returning(' + response + ')');
             session.endDialogWithResult({ resumed: Dialog_1.ResumeReason.completed, response: response });
         }
         else if (this.handlers.hasOwnProperty(recognizeResult.intent)) {
             try {
                 session.logger.log(session.dialogStack(), 'Prompt.matches(' + recognizeResult.intent + ')');
-                var dc = session.dialogData;
+                let dc = session.dialogData;
                 dc.activeIntent = recognizeResult.intent;
                 this.handlers[dc.activeIntent](session, recognizeResult);
             }
@@ -345,27 +333,26 @@ var Prompt = (function (_super) {
             session.logger.warn(session.dialogStack(), 'Prompt - no intent handler found for ' + recognizeResult.intent);
             this.sendPrompt(session);
         }
-    };
-    Prompt.prototype.getRetryPrompt = function (session) {
-        var options = session.dialogData.options;
+    }
+    getRetryPrompt(session) {
+        let options = session.dialogData.options;
         if (options.retryPrompt) {
             return options.retryPrompt;
         }
         else if (this.features.defaultRetryPrompt) {
-            var prompt_2 = this.features.defaultRetryPrompt;
-            if (Array.isArray(prompt_2) || typeof prompt_2 === 'string') {
-                var locale = session.preferredLocale();
-                return session.localizer.gettext(locale, Message_1.Message.randomPrompt(prompt_2), this.features.defaultRetryNamespace || consts.Library.default);
+            let prompt = this.features.defaultRetryPrompt;
+            if (Array.isArray(prompt) || typeof prompt === 'string') {
+                let locale = session.preferredLocale();
+                return session.localizer.gettext(locale, Message_1.Message.randomPrompt(prompt), this.features.defaultRetryNamespace || consts.Library.default);
             }
             else {
-                return prompt_2;
+                return prompt;
             }
         }
         else {
             return options.prompt;
         }
-    };
-    return Prompt;
-}(Dialog_1.Dialog));
+    }
+}
 exports.Prompt = Prompt;
 var prompt = new Prompt({});

@@ -1,38 +1,26 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Dialog_1 = require("./Dialog");
-var consts = require("../consts");
-var WaterfallDialog = (function (_super) {
-    __extends(WaterfallDialog, _super);
-    function WaterfallDialog(steps) {
-        var _this = _super.call(this) || this;
-        _this._onBeforeStep = [];
+const Dialog_1 = require("./Dialog");
+const consts = require("../consts");
+class WaterfallDialog extends Dialog_1.Dialog {
+    constructor(steps) {
+        super();
+        this._onBeforeStep = [];
         if (steps) {
-            _this.steps = Array.isArray(steps) ? steps : [steps];
+            this.steps = Array.isArray(steps) ? steps : [steps];
         }
         else {
-            _this.steps = [];
+            this.steps = [];
         }
-        return _this;
     }
-    WaterfallDialog.prototype.begin = function (session, args) {
+    begin(session, args) {
         this.doStep(session, 0, args);
-    };
-    WaterfallDialog.prototype.replyReceived = function (session, recognizeResult) {
+    }
+    replyReceived(session, recognizeResult) {
         this.doStep(session, 0, recognizeResult.args);
-    };
-    WaterfallDialog.prototype.dialogResumed = function (session, result) {
-        var step = session.dialogData[consts.Data.WaterfallStep];
+    }
+    dialogResumed(session, result) {
+        let step = session.dialogData[consts.Data.WaterfallStep];
         switch (result.resumed) {
             case Dialog_1.ResumeReason.reprompt:
                 return;
@@ -44,27 +32,26 @@ var WaterfallDialog = (function (_super) {
                 break;
         }
         this.doStep(session, step, result);
-    };
-    WaterfallDialog.prototype.onBeforeStep = function (handler) {
+    }
+    onBeforeStep(handler) {
         this._onBeforeStep.unshift(handler);
         return this;
-    };
-    WaterfallDialog.prototype.doStep = function (session, step, args) {
-        var _this = this;
-        var skip = function (result) {
+    }
+    doStep(session, step, args) {
+        var skip = (result) => {
             result = result || {};
             if (result.resumed == null) {
                 result.resumed = Dialog_1.ResumeReason.forward;
             }
-            _this.dialogResumed(session, result);
+            this.dialogResumed(session, result);
         };
-        this.beforeStep(session, step, args, function (s, a) {
+        this.beforeStep(session, step, args, (s, a) => {
             if (s >= 0) {
-                if (s < _this.steps.length) {
+                if (s < this.steps.length) {
                     try {
-                        session.logger.log(session.dialogStack(), 'waterfall() step ' + (s + 1) + ' of ' + _this.steps.length);
+                        session.logger.log(session.dialogStack(), 'waterfall() step ' + (s + 1) + ' of ' + this.steps.length);
                         session.dialogData[consts.Data.WaterfallStep] = s;
-                        _this.steps[s](session, a, skip);
+                        this.steps[s](session, a, skip);
                     }
                     catch (e) {
                         session.error(e);
@@ -79,10 +66,10 @@ var WaterfallDialog = (function (_super) {
                 }
             }
         });
-    };
-    WaterfallDialog.prototype.beforeStep = function (session, step, args, final) {
-        var index = 0;
-        var handlers = this._onBeforeStep;
+    }
+    beforeStep(session, step, args, final) {
+        let index = 0;
+        let handlers = this._onBeforeStep;
         function next(s, a) {
             try {
                 if (index < handlers.length) {
@@ -97,10 +84,10 @@ var WaterfallDialog = (function (_super) {
             }
         }
         next(step, args);
-    };
-    WaterfallDialog.createHandler = function (steps) {
+    }
+    static createHandler(steps) {
         return function waterfallHandler(s, r) {
-            var skip = function (result) {
+            var skip = (result) => {
                 result = result || {};
                 if (result.resumed == null) {
                     result.resumed = Dialog_1.ResumeReason.forward;
@@ -147,7 +134,6 @@ var WaterfallDialog = (function (_super) {
                 s.endDialogWithResult({ resumed: Dialog_1.ResumeReason.notCompleted });
             }
         };
-    };
-    return WaterfallDialog;
-}(Dialog_1.Dialog));
+    }
+}
 exports.WaterfallDialog = WaterfallDialog;

@@ -1,28 +1,16 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Library_1 = require("../bots/Library");
-var Dialog_1 = require("../dialogs/Dialog");
-var Prompt_1 = require("../dialogs/Prompt");
-var EntityRecognizer_1 = require("../dialogs/EntityRecognizer");
-var CardAction_1 = require("../cards/CardAction");
-var Keyboard_1 = require("../cards/Keyboard");
-var Message_1 = require("../Message");
-var consts = require("../consts");
-var Channel = require("../Channel");
-var SimplePromptRecognizer = (function () {
-    function SimplePromptRecognizer() {
-    }
-    SimplePromptRecognizer.prototype.recognize = function (args, callback, session) {
+const Library_1 = require("../bots/Library");
+const Dialog_1 = require("../dialogs/Dialog");
+const Prompt_1 = require("../dialogs/Prompt");
+const EntityRecognizer_1 = require("../dialogs/EntityRecognizer");
+const CardAction_1 = require("../cards/CardAction");
+const Keyboard_1 = require("../cards/Keyboard");
+const Message_1 = require("../Message");
+const consts = require("../consts");
+const Channel = require("../Channel");
+class SimplePromptRecognizer {
+    recognize(args, callback, session) {
         function findChoice(args, text) {
             var best = EntityRecognizer_1.EntityRecognizer.findBestMatch(args.enumValues, text);
             if (!best) {
@@ -89,16 +77,11 @@ var SimplePromptRecognizer = (function () {
         else {
             callback({ score: score, resumed: Dialog_1.ResumeReason.notCompleted, promptType: args.promptType });
         }
-    };
-    return SimplePromptRecognizer;
-}());
-exports.SimplePromptRecognizer = SimplePromptRecognizer;
-var LegacyPrompts = (function (_super) {
-    __extends(LegacyPrompts, _super);
-    function LegacyPrompts() {
-        return _super !== null && _super.apply(this, arguments) || this;
     }
-    LegacyPrompts.prototype.begin = function (session, args) {
+}
+exports.SimplePromptRecognizer = SimplePromptRecognizer;
+class LegacyPrompts extends Dialog_1.Dialog {
+    begin(session, args) {
         args = args || {};
         args.promptAfterAction = args.hasOwnProperty('promptAfterAction') ? args.promptAfterAction : LegacyPrompts.options.promptAfterAction;
         args.retryCnt = 0;
@@ -108,8 +91,8 @@ var LegacyPrompts = (function (_super) {
             }
         }
         this.sendPrompt(session, args);
-    };
-    LegacyPrompts.prototype.replyReceived = function (session, result) {
+    }
+    replyReceived(session, result) {
         var args = session.dialogData;
         if (result.error || result.resumed == Dialog_1.ResumeReason.completed) {
             result.promptType = args.promptType;
@@ -124,14 +107,14 @@ var LegacyPrompts = (function (_super) {
             args.retryCnt++;
             this.sendPrompt(session, args, true);
         }
-    };
-    LegacyPrompts.prototype.dialogResumed = function (session, result) {
+    }
+    dialogResumed(session, result) {
         var args = session.dialogData;
         if (args.promptAfterAction) {
             this.sendPrompt(session, args);
         }
-    };
-    LegacyPrompts.prototype.recognize = function (context, cb) {
+    }
+    recognize(context, cb) {
         var args = context.dialogData;
         LegacyPrompts.options.recognizer.recognize({
             promptType: args.promptType,
@@ -140,7 +123,7 @@ var LegacyPrompts = (function (_super) {
             attachments: context.message.attachments,
             enumValues: args.enumValues,
             refDate: args.refDate
-        }, function (result) {
+        }, (result) => {
             if (result.error) {
                 cb(result.error, null);
             }
@@ -148,9 +131,8 @@ var LegacyPrompts = (function (_super) {
                 cb(null, result);
             }
         });
-    };
-    LegacyPrompts.prototype.sendPrompt = function (session, args, retry) {
-        if (retry === void 0) { retry = false; }
+    }
+    sendPrompt(session, args, retry = false) {
         var msg;
         if (retry && typeof args.retryPrompt === 'object' && !Array.isArray(args.retryPrompt)) {
             msg = args.retryPrompt;
@@ -163,8 +145,8 @@ var LegacyPrompts = (function (_super) {
         }
         session.send(msg);
         session.sendBatch();
-    };
-    LegacyPrompts.prototype.createPrompt = function (session, args, retry) {
+    }
+    createPrompt(session, args, retry) {
         var msg = new Message_1.Message(session);
         var locale = session.preferredLocale();
         var localizationNamespace = args.localizationNamespace;
@@ -212,7 +194,7 @@ var LegacyPrompts = (function (_super) {
                 break;
             case Prompt_1.ListStyle.inline:
                 list = ' (';
-                args.enumValues.forEach(function (v, index) {
+                args.enumValues.forEach((v, index) => {
                     var value = v.toString();
                     list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, consts.Library.system);
                     if (index == args.enumValues.length - 2) {
@@ -227,7 +209,7 @@ var LegacyPrompts = (function (_super) {
                 break;
             case Prompt_1.ListStyle.list:
                 list = '\n   ';
-                args.enumValues.forEach(function (v, index) {
+                args.enumValues.forEach((v, index) => {
                     var value = v.toString();
                     list += connector + (index + 1) + '. ' + session.localizer.gettext(locale, value, args.localizationNamespace);
                     connector = '\n   ';
@@ -239,8 +221,8 @@ var LegacyPrompts = (function (_super) {
                 break;
         }
         return msg;
-    };
-    LegacyPrompts.configure = function (options) {
+    }
+    static configure(options) {
         if (options) {
             for (var key in options) {
                 if (options.hasOwnProperty(key)) {
@@ -248,20 +230,19 @@ var LegacyPrompts = (function (_super) {
                 }
             }
         }
-    };
-    LegacyPrompts.options = {
-        recognizer: new SimplePromptRecognizer(),
-        promptAfterAction: true
-    };
-    LegacyPrompts.defaultRetryPrompt = {
-        text: "default_text",
-        number: "default_number",
-        confirm: "default_confirm",
-        choice: "default_choice",
-        time: "default_time",
-        attachment: "default_file"
-    };
-    return LegacyPrompts;
-}(Dialog_1.Dialog));
+    }
+}
+LegacyPrompts.options = {
+    recognizer: new SimplePromptRecognizer(),
+    promptAfterAction: true
+};
+LegacyPrompts.defaultRetryPrompt = {
+    text: "default_text",
+    number: "default_number",
+    confirm: "default_confirm",
+    choice: "default_choice",
+    time: "default_time",
+    attachment: "default_file"
+};
 exports.LegacyPrompts = LegacyPrompts;
 Library_1.systemLib.dialog('BotBuilder:Prompts', new LegacyPrompts());

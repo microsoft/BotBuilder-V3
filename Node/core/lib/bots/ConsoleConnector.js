@@ -1,32 +1,31 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Message_1 = require("../Message");
-var utils = require("../utils");
-var readline = require("readline");
-var async = require("async");
-var ConsoleConnector = (function () {
-    function ConsoleConnector() {
+const Message_1 = require("../Message");
+const utils = require("../utils");
+const readline = require("readline");
+const async = require("async");
+class ConsoleConnector {
+    constructor() {
         this.replyCnt = 0;
     }
-    ConsoleConnector.prototype.listen = function () {
-        var _this = this;
+    listen() {
         this.rl = readline.createInterface({ input: process.stdin, output: process.stdout, terminal: false });
-        this.rl.on('line', function (line) {
-            _this.replyCnt = 0;
+        this.rl.on('line', (line) => {
+            this.replyCnt = 0;
             line = line || '';
             if (line.toLowerCase() == 'quit') {
-                _this.rl.close();
+                this.rl.close();
                 process.exit();
             }
             else {
-                _this.processMessage(line);
+                this.processMessage(line);
             }
         });
         return this;
-    };
-    ConsoleConnector.prototype.processMessage = function (line) {
+    }
+    processMessage(line) {
         if (this.onEventHandler) {
-            var msg = new Message_1.Message()
+            let msg = new Message_1.Message()
                 .address({
                 channelId: 'console',
                 user: { id: 'user', name: 'User1' },
@@ -38,43 +37,42 @@ var ConsoleConnector = (function () {
             this.onEventHandler([msg.toMessage()]);
         }
         return this;
-    };
-    ConsoleConnector.prototype.processEvent = function (event) {
+    }
+    processEvent(event) {
         if (this.onEventHandler) {
             this.onEventHandler([event]);
         }
         return this;
-    };
-    ConsoleConnector.prototype.onEvent = function (handler) {
+    }
+    onEvent(handler) {
         this.onEventHandler = handler;
-    };
-    ConsoleConnector.prototype.onInvoke = function (handler) {
+    }
+    onInvoke(handler) {
         this.onInvokeHandler = handler;
-    };
-    ConsoleConnector.prototype.send = function (messages, done) {
-        var _this = this;
-        var addresses = [];
-        async.forEachOfSeries(messages, function (msg, idx, cb) {
+    }
+    send(messages, done) {
+        let addresses = [];
+        async.forEachOfSeries(messages, (msg, idx, cb) => {
             try {
                 if (msg.type == 'delay') {
                     setTimeout(cb, msg.value);
                 }
                 else if (msg.type == 'message') {
-                    if (_this.replyCnt++ > 0) {
+                    if (this.replyCnt++ > 0) {
                         console.log();
                     }
                     if (msg.text) {
                         log(msg.text);
                     }
                     if (msg.attachments && msg.attachments.length > 0) {
-                        for (var j = 0; j < msg.attachments.length; j++) {
+                        for (let j = 0; j < msg.attachments.length; j++) {
                             if (j > 0) {
                                 console.log();
                             }
                             renderAttachment(msg.attachments[j]);
                         }
                     }
-                    var adr = utils.clone(msg.address);
+                    let adr = utils.clone(msg.address);
                     adr.id = idx.toString();
                     addresses.push(adr);
                     cb(null);
@@ -86,21 +84,20 @@ var ConsoleConnector = (function () {
             catch (e) {
                 cb(e);
             }
-        }, function (err) { return done(err, !err ? addresses : null); });
-    };
-    ConsoleConnector.prototype.startConversation = function (address, cb) {
-        var adr = utils.clone(address);
+        }, (err) => done(err, !err ? addresses : null));
+    }
+    startConversation(address, cb) {
+        let adr = utils.clone(address);
         adr.conversation = { id: 'Convo1' };
         cb(null, adr);
-    };
-    return ConsoleConnector;
-}());
+    }
+}
 exports.ConsoleConnector = ConsoleConnector;
 function renderAttachment(a) {
     switch (a.contentType) {
         case 'application/vnd.microsoft.card.hero':
         case 'application/vnd.microsoft.card.thumbnail':
-            var tc = a.content;
+            let tc = a.content;
             if (tc.title) {
                 if (tc.title.length <= 40) {
                     line('=', 60, tc.title);
@@ -135,9 +132,9 @@ function renderAttachment(a) {
 function renderImages(images) {
     if (images && images.length) {
         line('.', 60, 'images');
-        var bullet = images.length > 1 ? '* ' : '';
-        for (var i = 0; i < images.length; i++) {
-            var img = images[i];
+        let bullet = images.length > 1 ? '* ' : '';
+        for (let i = 0; i < images.length; i++) {
+            let img = images[i];
             if (img.alt) {
                 wrap(bullet + img.alt + ': ' + img.url, 60, 3);
             }
@@ -150,9 +147,9 @@ function renderImages(images) {
 function renderButtons(actions) {
     if (actions && actions.length) {
         line('.', 60, 'buttons');
-        var bullet = actions.length > 1 ? '* ' : '';
-        for (var i = 0; i < actions.length; i++) {
-            var a = actions[i];
+        let bullet = actions.length > 1 ? '* ' : '';
+        for (let i = 0; i < actions.length; i++) {
+            let a = actions[i];
             if (a.title == a.value) {
                 wrap(bullet + a.title, 60, 3);
             }
@@ -164,7 +161,7 @@ function renderButtons(actions) {
 }
 function line(char, length, title) {
     if (title) {
-        var txt = repeat(char, 2);
+        let txt = repeat(char, 2);
         txt += '[' + title + ']';
         if (length > txt.length) {
             txt += repeat(char, length - txt.length);
@@ -175,14 +172,13 @@ function line(char, length, title) {
         log(repeat(char, length));
     }
 }
-function wrap(text, length, indent) {
-    if (indent === void 0) { indent = 0; }
-    var buffer = '';
-    var pad = indent ? repeat(' ', indent) : '';
-    var tokens = text.split(' ');
+function wrap(text, length, indent = 0) {
+    let buffer = '';
+    let pad = indent ? repeat(' ', indent) : '';
+    let tokens = text.split(' ');
     length -= pad.length;
-    for (var i = 0; i < tokens.length; i++) {
-        var t = tokens[i];
+    for (let i = 0; i < tokens.length; i++) {
+        let t = tokens[i];
         if (buffer.length) {
             if ((buffer.length + 1 + t.length) > length) {
                 log(pad + buffer);
@@ -204,8 +200,8 @@ function wrap(text, length, indent) {
     }
 }
 function repeat(char, length) {
-    var txt = '';
-    for (var i = 0; i < length; i++) {
+    let txt = '';
+    for (let i = 0; i < length; i++) {
         txt += char;
     }
     return txt;

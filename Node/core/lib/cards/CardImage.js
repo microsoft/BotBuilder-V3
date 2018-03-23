@@ -1,39 +1,34 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Message_1 = require("../Message");
-var CardImage = (function () {
-    function CardImage(session) {
+const Message_1 = require("../Message");
+class CardImage {
+    constructor(session) {
         this.session = session;
         this.data = {};
     }
-    CardImage.prototype.url = function (u) {
+    url(u) {
         if (u) {
             this.data.url = u;
         }
         return this;
-    };
-    CardImage.prototype.alt = function (text) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    }
+    alt(text, ...args) {
         if (text) {
             this.data.alt = Message_1.fmtText(this.session, text, args);
         }
         return this;
-    };
-    CardImage.prototype.tap = function (action) {
+    }
+    tap(action) {
         if (action) {
             this.data.tap = action.toAction ? action.toAction() : action;
         }
         return this;
-    };
-    CardImage.prototype.toImage = function () {
+    }
+    toImage() {
         return this.data;
-    };
-    CardImage.create = function (session, url) {
+    }
+    static create(session, url) {
         return new CardImage(session).url(url);
-    };
-    return CardImage;
-}());
+    }
+}
 exports.CardImage = CardImage;

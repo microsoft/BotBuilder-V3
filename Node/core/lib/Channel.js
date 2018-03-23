@@ -16,8 +16,7 @@ exports.channels = {
     console: 'console',
     cortana: 'cortana'
 };
-function supportsKeyboards(session, buttonCnt) {
-    if (buttonCnt === void 0) { buttonCnt = 100; }
+function supportsKeyboards(session, buttonCnt = 100) {
     switch (getChannelId(session)) {
         case exports.channels.facebook:
             return (buttonCnt <= 10);
@@ -33,8 +32,7 @@ function supportsKeyboards(session, buttonCnt) {
     }
 }
 exports.supportsKeyboards = supportsKeyboards;
-function supportsCardActions(session, buttonCnt) {
-    if (buttonCnt === void 0) { buttonCnt = 100; }
+function supportsCardActions(session, buttonCnt = 100) {
     switch (getChannelId(session)) {
         case exports.channels.facebook:
         case exports.channels.skype:

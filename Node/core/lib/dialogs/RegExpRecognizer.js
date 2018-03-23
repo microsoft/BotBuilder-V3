@@ -1,30 +1,18 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var IntentRecognizer_1 = require("./IntentRecognizer");
-var RegExpRecognizer = (function (_super) {
-    __extends(RegExpRecognizer, _super);
-    function RegExpRecognizer(intent, expressions) {
-        var _this = _super.call(this) || this;
-        _this.intent = intent;
+const IntentRecognizer_1 = require("./IntentRecognizer");
+class RegExpRecognizer extends IntentRecognizer_1.IntentRecognizer {
+    constructor(intent, expressions) {
+        super();
+        this.intent = intent;
         if (expressions instanceof RegExp || typeof expressions.exec === 'function') {
-            _this.expressions = { '*': expressions };
+            this.expressions = { '*': expressions };
         }
         else {
-            _this.expressions = (expressions || {});
+            this.expressions = (expressions || {});
         }
-        return _this;
     }
-    RegExpRecognizer.prototype.onRecognize = function (context, cb) {
+    onRecognize(context, cb) {
         var result = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
             var utterance = context.message.text;
@@ -48,7 +36,6 @@ var RegExpRecognizer = (function (_super) {
         else {
             cb(null, result);
         }
-    };
-    return RegExpRecognizer;
-}(IntentRecognizer_1.IntentRecognizer));
+    }
+}
 exports.RegExpRecognizer = RegExpRecognizer;

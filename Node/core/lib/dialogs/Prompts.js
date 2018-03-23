@@ -1,45 +1,45 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Dialog_1 = require("./Dialog");
-var Library_1 = require("../bots/Library");
-var LegacyPrompts_1 = require("../deprecated/LegacyPrompts");
-var Prompt_1 = require("./Prompt");
-var PromptAttachment_1 = require("./PromptAttachment");
-var PromptChoice_1 = require("./PromptChoice");
-var PromptConfirm_1 = require("./PromptConfirm");
-var PromptNumber_1 = require("./PromptNumber");
-var PromptText_1 = require("./PromptText");
-var PromptTime_1 = require("./PromptTime");
-var consts = require("../consts");
-var utils = require("../utils");
-var promptPrefix = consts.Library.system + ':prompt-';
+const Dialog_1 = require("./Dialog");
+const Library_1 = require("../bots/Library");
+const LegacyPrompts_1 = require("../deprecated/LegacyPrompts");
+const Prompt_1 = require("./Prompt");
+const PromptAttachment_1 = require("./PromptAttachment");
+const PromptChoice_1 = require("./PromptChoice");
+const PromptConfirm_1 = require("./PromptConfirm");
+const PromptNumber_1 = require("./PromptNumber");
+const PromptText_1 = require("./PromptText");
+const PromptTime_1 = require("./PromptTime");
+const consts = require("../consts");
+const utils = require("../utils");
+const promptPrefix = consts.Library.system + ':prompt-';
 exports.Prompts = {
-    text: function (session, prompt, options) {
+    text: (session, prompt, options) => {
         validateSession(session);
-        var args = utils.clone(options || {});
+        let args = utils.clone(options || {});
         args.prompt = prompt || options.prompt;
         session.beginDialog(promptPrefix + 'text', args);
     },
-    number: function (session, prompt, options) {
+    number: (session, prompt, options) => {
         validateSession(session);
-        var args = utils.clone(options || {});
+        let args = utils.clone(options || {});
         args.prompt = prompt || options.prompt;
         session.beginDialog(promptPrefix + 'number', args);
     },
-    confirm: function (session, prompt, options) {
+    confirm: (session, prompt, options) => {
         validateSession(session);
-        var args = utils.clone(options || {});
+        let args = utils.clone(options || {});
         args.prompt = prompt || options.prompt;
         session.beginDialog(promptPrefix + 'confirm', args);
     },
-    choice: function (session, prompt, choices, options) {
+    choice: (session, prompt, choices, options) => {
         validateSession(session);
-        var args = utils.clone(options || {});
+        let args = utils.clone(options || {});
         args.prompt = prompt || options.prompt;
         if (choices) {
             args.choices = [];
             if (Array.isArray(choices)) {
-                choices.forEach(function (value) {
+                choices.forEach((value) => {
                     if (typeof value === 'string') {
                         args.choices.push({ value: value });
                     }
@@ -49,12 +49,12 @@ exports.Prompts = {
                 });
             }
             else if (typeof choices === 'string') {
-                choices.split('|').forEach(function (value) {
+                choices.split('|').forEach((value) => {
                     args.choices.push({ value: value });
                 });
             }
             else {
-                for (var key in choices) {
+                for (let key in choices) {
                     if (choices.hasOwnProperty(key)) {
                         args.choices.push({ value: key });
                     }
@@ -63,19 +63,19 @@ exports.Prompts = {
         }
         session.beginDialog(promptPrefix + 'choice', args);
     },
-    time: function (session, prompt, options) {
+    time: (session, prompt, options) => {
         validateSession(session);
-        var args = utils.clone(options || {});
+        let args = utils.clone(options || {});
         args.prompt = prompt || options.prompt;
         session.beginDialog(promptPrefix + 'time', args);
     },
-    attachment: function (session, prompt, options) {
+    attachment: (session, prompt, options) => {
         validateSession(session);
-        var args = utils.clone(options || {});
+        let args = utils.clone(options || {});
         args.prompt = prompt || options.prompt;
         session.beginDialog(promptPrefix + 'attachment', args);
     },
-    disambiguate: function (session, prompt, choices, options) {
+    disambiguate: (session, prompt, choices, options) => {
         validateSession(session);
         session.beginDialog(consts.DialogId.Disambiguate, {
             prompt: prompt,
@@ -83,10 +83,10 @@ exports.Prompts = {
             options: options
         });
     },
-    customize: function (type, dialog) {
+    customize: (type, dialog) => {
         Library_1.systemLib.dialog(promptPrefix + Prompt_1.PromptType[type], dialog, true);
     },
-    configure: function (options) {
+    configure: (options) => {
         console.warn("Prompts.configure() has been deprecated as of version 3.8. Consider using custom prompts instead.");
         LegacyPrompts_1.LegacyPrompts.configure(options);
     }

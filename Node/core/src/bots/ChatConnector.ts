@@ -44,7 +44,6 @@ import * as url from 'url';
 import * as http from 'http';
 import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
-import * as Promise from 'promise';
 import urlJoin = require('url-join');
 
 var pjson = require('../../package.json');
@@ -99,7 +98,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     private accessTokenExpires: number;
     private botConnectorOpenIdMetadata: OpenIdMetadata;
     private emulatorOpenIdMetadata: OpenIdMetadata;
-    private refreshingToken: Promise.IThenable<string>;
+    private refreshingToken: Promise<string>;
 
     constructor(protected settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
@@ -162,7 +161,7 @@ export class ChatConnector implements IConnector, IBotStorage {
 
         // Verify token
         if (token) {
-            let decoded = jwt.decode(token, { complete: true });
+            let decoded = jwt.decode(token, { complete: true }) as any;
             var verifyOptions: jwt.VerifyOptions;
             var openIdMetadata: OpenIdMetadata;
             const algorithms: string[] = ['RS256', 'RS384', 'RS512'];
@@ -669,7 +668,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                                 if (response.statusCode < 400) {
                                     callback(null, response, body);
                                 } else {
-                                    var txt = options.method + " to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    var txt = options.method + " to '" + (options as any).url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
                                     callback(new Error(txt), response, null);
                                 }
                                 break;

@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var SuggestedActions = (function () {
-    function SuggestedActions(session) {
+class SuggestedActions {
+    constructor(session) {
         this.session = session;
         this.data = {};
     }
-    SuggestedActions.prototype.to = function (to) {
+    to(to) {
         this.data.to = [];
         if (to) {
             if (Array.isArray(to)) {
-                for (var i = 0; i < to.length; i++) {
+                for (let i = 0; i < to.length; i++) {
                     this.data.to.push(to[i]);
                 }
             }
@@ -18,8 +18,8 @@ var SuggestedActions = (function () {
             }
         }
         return this;
-    };
-    SuggestedActions.prototype.actions = function (list) {
+    }
+    actions(list) {
         this.data.actions = [];
         if (list) {
             for (var i = 0; i < list.length; i++) {
@@ -27,8 +27,8 @@ var SuggestedActions = (function () {
             }
         }
         return this;
-    };
-    SuggestedActions.prototype.addAction = function (action) {
+    }
+    addAction(action) {
         if (action) {
             var cardAction = action.toAction ? action.toAction() : action;
             if (!this.data.actions) {
@@ -39,15 +39,14 @@ var SuggestedActions = (function () {
             }
         }
         return this;
-    };
-    SuggestedActions.prototype.toSuggestedActions = function () {
+    }
+    toSuggestedActions() {
         return this.data;
-    };
-    SuggestedActions.create = function (session, actions, to) {
+    }
+    static create(session, actions, to) {
         return new SuggestedActions(session)
             .to(to)
             .actions(actions);
-    };
-    return SuggestedActions;
-}());
+    }
+}
 exports.SuggestedActions = SuggestedActions;

@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Library_1 = require("./bots/Library");
-var systemResources = require("./systemResources");
-var logger = require("./logger");
-var consts = require("./consts");
-var fs = require("fs");
-var async = require("async");
-var Promise = require("promise");
-var path = require("path");
-var DefaultLocalizer = (function () {
-    function DefaultLocalizer(root, defaultLocale) {
+const Library_1 = require("./bots/Library");
+const systemResources = require("./systemResources");
+const logger = require("./logger");
+const consts = require("./consts");
+const fs = require("fs");
+const async = require("async");
+const path = require("path");
+const denodeify = require('denodeify');
+class DefaultLocalizer {
+    constructor(root, defaultLocale) {
         this.localePaths = [];
         this.locales = {};
         this.defaultLocale(defaultLocale || 'en');
@@ -18,7 +18,7 @@ var DefaultLocalizer = (function () {
         function addPaths(library) {
             if (!libsSeen.hasOwnProperty(library.name)) {
                 libsSeen[library.name] = true;
-                library.forEachLibrary(function (child) {
+                library.forEachLibrary((child) => {
                     addPaths(child);
                 });
                 var path = library.localePath();
@@ -30,16 +30,15 @@ var DefaultLocalizer = (function () {
         libsSeen[Library_1.systemLib.name] = true;
         addPaths(root);
     }
-    DefaultLocalizer.prototype.defaultLocale = function (locale) {
+    defaultLocale(locale) {
         if (locale) {
             this._defaultLocale = locale;
         }
         else {
             return this._defaultLocale;
         }
-    };
-    DefaultLocalizer.prototype.load = function (locale, done) {
-        var _this = this;
+    }
+    load(locale, done) {
         logger.debug("localizer.load(%s)", locale);
         locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
@@ -57,15 +56,15 @@ var DefaultLocalizer = (function () {
         if (locale !== fbLocale && locale !== this._defaultLocale) {
             locales.push(locale);
         }
-        async.each(locales, function (locale, cb) {
-            _this.loadLocale(locale).done(function () { return cb(); }, function (err) { return cb(err); });
-        }, function (err) {
+        async.each(locales, (locale, cb) => {
+            this.loadLocale(locale).then(() => cb(), (err) => cb(err));
+        }, (err) => {
             if (done) {
                 done(err);
             }
         });
-    };
-    DefaultLocalizer.prototype.trygettext = function (locale, msgid, ns) {
+    }
+    trygettext(locale, msgid, ns) {
         locale = locale ? locale : this._defaultLocale;
         var fbDefault = this.getFallback(this._defaultLocale);
         var fbLocale = this.getFallback(locale);
@@ -85,14 +84,14 @@ var DefaultLocalizer = (function () {
             text = this.getEntry('en', key);
         }
         return text ? this.getValue(text) : null;
-    };
-    DefaultLocalizer.prototype.gettext = function (locale, msgid, ns) {
+    }
+    gettext(locale, msgid, ns) {
         return this.trygettext(locale, msgid, ns) || msgid;
-    };
-    DefaultLocalizer.prototype.ngettext = function (locale, msgid, msgid_plural, count, ns) {
+    }
+    ngettext(locale, msgid, msgid_plural, count, ns) {
         return count == 1 ? this.gettext(locale, msgid, ns) : this.gettext(locale, msgid_plural, ns);
-    };
-    DefaultLocalizer.prototype.getFallback = function (locale) {
+    }
+    getFallback(locale) {
         if (locale) {
             var split = locale.indexOf("-");
             if (split != -1) {
@@ -100,45 +99,43 @@ var DefaultLocalizer = (function () {
             }
         }
         return this.defaultLocale();
-    };
-    DefaultLocalizer.prototype.loadLocale = function (locale) {
-        var _this = this;
-        var asyncEachSeries = Promise.denodeify(async.eachSeries);
+    }
+    loadLocale(locale) {
+        const asyncEachSeries = denodeify(async.eachSeries);
         if (!this.locales.hasOwnProperty(locale)) {
             var entry;
             this.locales[locale] = entry = { loaded: null, entries: {} };
-            entry.loaded = new Promise(function (resolve, reject) {
-                _this.loadSystemResources(locale)
-                    .then(function () {
-                    return asyncEachSeries(_this.localePaths, function (localePath, cb) {
-                        _this.loadLocalePath(locale, localePath).done(function () { return cb(); }, function (err) { return cb(err); });
+            entry.loaded = new Promise((resolve, reject) => {
+                this.loadSystemResources(locale)
+                    .then(() => {
+                    return asyncEachSeries(this.localePaths, (localePath, cb) => {
+                        this.loadLocalePath(locale, localePath).then(() => cb(), (err) => cb(err));
                     });
-                }).done(function () { return resolve(true); }, function (err) { return reject(err); });
+                }).then(() => resolve(true), (err) => reject(err));
             });
         }
         return this.locales[locale].loaded;
-    };
-    DefaultLocalizer.prototype.loadLocalePath = function (locale, localePath) {
-        var _this = this;
+    }
+    loadLocalePath(locale, localePath) {
         var dir = path.join(localePath, locale);
         var entryCount = 0;
-        var p = new Promise(function (resolve, reject) {
-            var access = Promise.denodeify(fs.access);
-            var readdir = Promise.denodeify(fs.readdir);
-            var asyncEach = Promise.denodeify(async.each);
+        var p = new Promise((resolve, reject) => {
+            var access = denodeify(fs.access);
+            var readdir = denodeify(fs.readdir);
+            var asyncEach = denodeify(async.each);
             access(dir)
-                .then(function () {
+                .then(() => {
                 return readdir(dir);
             })
-                .then(function (files) {
-                return asyncEach(files, function (file, cb) {
+                .then((files) => {
+                return asyncEach(files, (file, cb) => {
                     if (file.substring(file.length - 5).toLowerCase() == ".json") {
                         logger.debug("localizer.load(%s) - Loading %s/%s", locale, dir, file);
-                        _this.parseFile(locale, dir, file)
-                            .then(function (count) {
+                        this.parseFile(locale, dir, file)
+                            .then((count) => {
                             entryCount += count;
                             cb();
-                        }, function (err) {
+                        }, (err) => {
                             logger.error("localizer.load(%s) - Error reading %s/%s: %s", locale, dir, file, err.toString());
                             cb();
                         });
@@ -148,9 +145,9 @@ var DefaultLocalizer = (function () {
                     }
                 });
             })
-                .then(function () {
+                .then(() => {
                 resolve(entryCount);
-            }, function (err) {
+            }, (err) => {
                 if (err.code === 'ENOENT') {
                     logger.debug("localizer.load(%s) - Couldn't find directory: %s", locale, dir);
                     resolve(-1);
@@ -162,15 +159,14 @@ var DefaultLocalizer = (function () {
             });
         });
         return p;
-    };
-    DefaultLocalizer.prototype.parseFile = function (locale, localeDir, filename) {
-        var _this = this;
+    }
+    parseFile(locale, localeDir, filename) {
         var table = this.locales[locale];
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             var filePath = path.join(localeDir, filename);
-            var readFile = Promise.denodeify(fs.readFile);
+            var readFile = denodeify(fs.readFile);
             readFile(filePath, 'utf8')
-                .then(function (data) {
+                .then((data) => {
                 var ns = path.parse(filename).name.toLocaleLowerCase();
                 if (ns == 'index') {
                     ns = null;
@@ -179,7 +175,7 @@ var DefaultLocalizer = (function () {
                     var cnt = 0;
                     var entries = JSON.parse(data);
                     for (var key in entries) {
-                        var k = _this.createKey(ns, key);
+                        var k = this.createKey(ns, key);
                         table.entries[k] = entries[key];
                         ++cnt;
                     }
@@ -188,21 +184,20 @@ var DefaultLocalizer = (function () {
                 catch (error) {
                     return reject(error);
                 }
-            }, function (err) {
+            }, (err) => {
                 reject(err);
             });
         });
-    };
-    DefaultLocalizer.prototype.loadSystemResources = function (locale) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            var entries = systemResources.locales[(locale || '').toLowerCase()];
+    }
+    loadSystemResources(locale) {
+        return new Promise((resolve, reject) => {
+            const entries = systemResources.locales[(locale || '').toLowerCase()];
             if (entries) {
-                var cnt = 0;
-                var table = _this.locales[locale];
-                var ns = Library_1.systemLib.name.toLocaleLowerCase();
-                for (var key in entries) {
-                    var k = _this.createKey(ns, key);
+                let cnt = 0;
+                const table = this.locales[locale];
+                const ns = Library_1.systemLib.name.toLocaleLowerCase();
+                for (const key in entries) {
+                    var k = this.createKey(ns, key);
                     table.entries[k] = entries[key];
                     ++cnt;
                 }
@@ -213,28 +208,27 @@ var DefaultLocalizer = (function () {
                 resolve(-1);
             }
         });
-    };
-    DefaultLocalizer.prototype.createKey = function (ns, msgid) {
+    }
+    createKey(ns, msgid) {
         var escapedMsgId = this.escapeKey(msgid);
         var prepend = "";
         if (ns && ns !== consts.Library.default) {
             prepend = ns + ":";
         }
         return prepend + msgid;
-    };
-    DefaultLocalizer.prototype.escapeKey = function (key) {
+    }
+    escapeKey(key) {
         return key.replace(/:/g, "--").toLowerCase();
-    };
-    DefaultLocalizer.prototype.getEntry = function (locale, key) {
+    }
+    getEntry(locale, key) {
         return this.locales.hasOwnProperty(locale) && this.locales[locale].entries.hasOwnProperty(key) ? this.locales[locale].entries[key] : null;
-    };
-    DefaultLocalizer.prototype.getValue = function (text) {
+    }
+    getValue(text) {
         return typeof text == "string" ? text : this.randomizeValue(text);
-    };
-    DefaultLocalizer.prototype.randomizeValue = function (a) {
+    }
+    randomizeValue(a) {
         var i = Math.floor(Math.random() * a.length);
         return this.getValue(a[i]);
-    };
-    return DefaultLocalizer;
-}());
+    }
+}
 exports.DefaultLocalizer = DefaultLocalizer;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var sprintf = require("sprintf-js");
+const sprintf = require("sprintf-js");
 function clone(obj) {
     var cpy = {};
     if (obj) {
@@ -30,7 +30,7 @@ function copyTo(frm, to) {
 exports.copyTo = copyTo;
 function copyFieldsTo(frm, to, fields) {
     if (frm && to) {
-        fields.split('|').forEach(function (f) {
+        fields.split('|').forEach((f) => {
             if (frm.hasOwnProperty(f)) {
                 if (typeof to[f] === 'function') {
                     to[f](frm[f]);

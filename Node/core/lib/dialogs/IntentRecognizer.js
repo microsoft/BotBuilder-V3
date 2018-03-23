@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var IntentRecognizer = (function () {
-    function IntentRecognizer() {
+class IntentRecognizer {
+    constructor() {
         this._onEnabled = [];
         this._onFilter = [];
     }
-    IntentRecognizer.prototype.recognize = function (context, callback) {
-        var _this = this;
-        this.isEnabled(context, function (err, enabled) {
+    recognize(context, callback) {
+        this.isEnabled(context, (err, enabled) => {
             if (err) {
                 callback(err, null);
             }
@@ -15,9 +14,9 @@ var IntentRecognizer = (function () {
                 callback(null, { score: 0.0, intent: null });
             }
             else {
-                _this.onRecognize(context, function (err, result) {
+                this.onRecognize(context, (err, result) => {
                     if (!err) {
-                        _this.filter(context, result, callback);
+                        this.filter(context, result, callback);
                     }
                     else {
                         callback(err, result);
@@ -25,18 +24,18 @@ var IntentRecognizer = (function () {
                 });
             }
         });
-    };
-    IntentRecognizer.prototype.onEnabled = function (handler) {
+    }
+    onEnabled(handler) {
         this._onEnabled.unshift(handler);
         return this;
-    };
-    IntentRecognizer.prototype.onFilter = function (handler) {
+    }
+    onFilter(handler) {
         this._onFilter.push(handler);
         return this;
-    };
-    IntentRecognizer.prototype.isEnabled = function (context, callback) {
-        var index = 0;
-        var _that = this;
+    }
+    isEnabled(context, callback) {
+        let index = 0;
+        let _that = this;
         function next(err, enabled) {
             if (index < _that._onEnabled.length && !err && enabled) {
                 try {
@@ -51,10 +50,10 @@ var IntentRecognizer = (function () {
             }
         }
         next(null, true);
-    };
-    IntentRecognizer.prototype.filter = function (context, result, callback) {
-        var index = 0;
-        var _that = this;
+    }
+    filter(context, result, callback) {
+        let index = 0;
+        let _that = this;
         function next(err, r) {
             if (index < _that._onFilter.length && !err) {
                 try {
@@ -69,7 +68,6 @@ var IntentRecognizer = (function () {
             }
         }
         next(null, result);
-    };
-    return IntentRecognizer;
-}());
+    }
+}
 exports.IntentRecognizer = IntentRecognizer;

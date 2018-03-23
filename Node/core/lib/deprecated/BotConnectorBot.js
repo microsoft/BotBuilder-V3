@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var UniversalBot_1 = require("../bots/UniversalBot");
-var ChatConnector_1 = require("../bots/ChatConnector");
-var BotConnectorBot = (function () {
-    function BotConnectorBot(options) {
+const UniversalBot_1 = require("../bots/UniversalBot");
+const ChatConnector_1 = require("../bots/ChatConnector");
+class BotConnectorBot {
+    constructor(options) {
         console.warn('BotConnectorBot class is deprecated. Use UniversalBot with a ChatConnector class.');
         var oConnector = {};
         var oBot = {};
@@ -40,36 +40,35 @@ var BotConnectorBot = (function () {
         this.connector = new ChatConnector_1.ChatConnector(oConnector);
         this.bot = new UniversalBot_1.UniversalBot(this.connector, oBot);
     }
-    BotConnectorBot.prototype.on = function (event, listener) {
+    on(event, listener) {
         this.bot.on(event, listener);
         return this;
-    };
-    BotConnectorBot.prototype.add = function (id, dialog) {
+    }
+    add(id, dialog) {
         this.bot.dialog(id, dialog);
         return this;
-    };
-    BotConnectorBot.prototype.configure = function (options) {
+    }
+    configure(options) {
         console.error("BotConnectorBot.configure() is no longer supported. You should either pass all options into the constructor or update code to use the new UniversalBot class.");
         throw new Error("BotConnectorBot.configure() is no longer supported.");
-    };
-    BotConnectorBot.prototype.verifyBotFramework = function (options) {
+    }
+    verifyBotFramework(options) {
         if (options) {
             console.error("Calling BotConnectorBot.verifyBotFramework() with options is no longer supported. You should either pass all options into the constructor or update code to use the new UniversalBot class.");
             throw new Error("Calling BotConnectorBot.verifyBotFramework() with options is no longer supported.");
         }
-        return function (req, res, next) { return next(); };
-    };
-    BotConnectorBot.prototype.listen = function (dialogId, dialogArgs) {
+        return (req, res, next) => next();
+    }
+    listen(dialogId, dialogArgs) {
         if (dialogId) {
             console.error("Calling BotConnectorBot.listen() with a custom dialogId is no longer supported. You should either pass as defaultDialogId into the constructor or update code to use the new UniversalBot class.");
             throw new Error("Calling BotConnectorBot.listen() with a custom dialogId is no longer supported.");
         }
         return this.connector.listen();
-    };
-    BotConnectorBot.prototype.beginDialog = function (address, dialogId, dialogArgs) {
+    }
+    beginDialog(address, dialogId, dialogArgs) {
         console.error("BotConnectorBot.beginDialog() is no longer supported. The schema for sending proactive messages has changed and you should update your code to use the new UniversalBot class.");
         throw new Error("BotConnectorBot.beginDialog() is no longer supported.");
-    };
-    return BotConnectorBot;
-}());
+    }
+}
 exports.BotConnectorBot = BotConnectorBot;

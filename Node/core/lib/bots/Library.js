@@ -1,37 +1,25 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var WaterfallDialog_1 = require("../dialogs/WaterfallDialog");
-var ActionSet_1 = require("../dialogs/ActionSet");
-var IntentRecognizerSet_1 = require("../dialogs/IntentRecognizerSet");
-var Session_1 = require("../Session");
-var consts = require("../consts");
-var utils = require("../utils");
-var events_1 = require("events");
-var path = require("path");
-var async = require("async");
-var Library = (function (_super) {
-    __extends(Library, _super);
-    function Library(name) {
-        var _this = _super.call(this) || this;
-        _this.name = name;
-        _this.dialogs = {};
-        _this.libraries = {};
-        _this.actions = new ActionSet_1.ActionSet();
-        _this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet();
-        _this.triggersAdded = false;
-        return _this;
+const WaterfallDialog_1 = require("../dialogs/WaterfallDialog");
+const ActionSet_1 = require("../dialogs/ActionSet");
+const IntentRecognizerSet_1 = require("../dialogs/IntentRecognizerSet");
+const Session_1 = require("../Session");
+const consts = require("../consts");
+const utils = require("../utils");
+const events_1 = require("events");
+const path = require("path");
+const async = require("async");
+class Library extends events_1.EventEmitter {
+    constructor(name) {
+        super();
+        this.name = name;
+        this.dialogs = {};
+        this.libraries = {};
+        this.actions = new ActionSet_1.ActionSet();
+        this.recognizers = new IntentRecognizerSet_1.IntentRecognizerSet();
+        this.triggersAdded = false;
     }
-    Library.prototype.clone = function (copyTo, newName) {
+    clone(copyTo, newName) {
         var obj = copyTo || new Library(newName || this.name);
         for (var id in this.dialogs) {
             obj.dialogs[id] = this.dialogs[id];
@@ -46,19 +34,18 @@ var Library = (function (_super) {
         obj._onSelectRoute = this._onSelectRoute;
         obj.triggersAdded = this.triggersAdded;
         return obj;
-    };
-    Library.prototype.localePath = function (path) {
+    }
+    localePath(path) {
         if (path) {
             this._localePath = path;
         }
         return this._localePath;
-    };
-    Library.prototype.recognize = function (context, callback) {
-        var _this = this;
+    }
+    recognize(context, callback) {
         if (this.recognizers.length > 0 && context.libraryName !== this.name) {
-            this.recognizers.recognize(context, function (err, result) {
+            this.recognizers.recognize(context, (err, result) => {
                 if (result && result.score > 0) {
-                    context.logger.log(null, _this.logPrefix() + 'recognize() recognized: ' +
+                    context.logger.log(null, this.logPrefix() + 'recognize() recognized: ' +
                         result.intent + '(' + result.score + ')');
                 }
                 callback(err, result);
@@ -67,15 +54,14 @@ var Library = (function (_super) {
         else {
             callback(null, context.intent || { intent: 'None', score: 0.0 });
         }
-    };
-    Library.prototype.recognizer = function (plugin) {
+    }
+    recognizer(plugin) {
         this.recognizers.recognizer(plugin);
         return this;
-    };
-    Library.prototype.findRoutes = function (context, callback) {
-        var _this = this;
+    }
+    findRoutes(context, callback) {
         if (!this.triggersAdded) {
-            this.forEachDialog(function (dialog, id) { return dialog.addDialogTrigger(_this.actions, _this.name + ':' + id); });
+            this.forEachDialog((dialog, id) => dialog.addDialogTrigger(this.actions, this.name + ':' + id));
             this.triggersAdded = true;
         }
         if (this._onFindRoutes) {
@@ -84,23 +70,22 @@ var Library = (function (_super) {
         else {
             this.defaultFindRoutes(context, callback);
         }
-    };
-    Library.prototype.onFindRoutes = function (handler) {
+    }
+    onFindRoutes(handler) {
         this._onFindRoutes = handler;
-    };
-    Library.prototype.selectRoute = function (session, route) {
+    }
+    selectRoute(session, route) {
         if (this._onSelectRoute) {
             this._onSelectRoute(session, route);
         }
         else {
             this.defaultSelectRoute(session, route);
         }
-    };
-    Library.prototype.onSelectRoute = function (handler) {
+    }
+    onSelectRoute(handler) {
         this._onSelectRoute = handler;
-    };
-    Library.prototype.findActiveDialogRoutes = function (context, callback, dialogStack) {
-        var _this = this;
+    }
+    findActiveDialogRoutes(context, callback, dialogStack) {
         if (!dialogStack) {
             dialogStack = context.dialogStack();
         }
@@ -114,14 +99,14 @@ var Library = (function (_super) {
                 ctx.libraryName = this.name;
                 ctx.dialogData = entry.state;
                 ctx.activeDialog = true;
-                dialog.recognize(ctx, function (err, result) {
+                dialog.recognize(ctx, (err, result) => {
                     if (!err) {
                         if (result.score < 0.1) {
                             result.score = 0.1;
                         }
                         callback(null, Library.addRouteResult({
                             score: result.score,
-                            libraryName: _this.name,
+                            libraryName: this.name,
                             routeType: Library.RouteTypes.ActiveDialog,
                             routeData: result
                         }, results));
@@ -139,8 +124,8 @@ var Library = (function (_super) {
         else {
             callback(null, results);
         }
-    };
-    Library.prototype.selectActiveDialogRoute = function (session, route, newStack) {
+    }
+    selectActiveDialogRoute(session, route, newStack) {
         if (!route || route.libraryName !== this.name || route.routeType !== Library.RouteTypes.ActiveDialog) {
             throw new Error('Invalid route type passed to Library.selectActiveDialogRoute().');
         }
@@ -148,9 +133,8 @@ var Library = (function (_super) {
             session.dialogStack(newStack);
         }
         session.routeToActiveDialog(route.routeData);
-    };
-    Library.prototype.findStackActionRoutes = function (context, callback, dialogStack) {
-        var _this = this;
+    }
+    findStackActionRoutes(context, callback, dialogStack) {
         if (!dialogStack) {
             dialogStack = context.dialogStack();
         }
@@ -158,12 +142,12 @@ var Library = (function (_super) {
         var ctx = utils.clone(context);
         ctx.libraryName = this.name;
         ctx.routeType = Library.RouteTypes.StackAction;
-        async.forEachOf(dialogStack || [], function (entry, index, next) {
+        async.forEachOf(dialogStack || [], (entry, index, next) => {
             var parts = entry.id.split(':');
-            if (parts[0] == _this.name) {
-                var dialog = _this.dialog(parts[1]);
+            if (parts[0] == this.name) {
+                var dialog = this.dialog(parts[1]);
                 if (dialog) {
-                    dialog.findActionRoutes(ctx, function (err, ra) {
+                    dialog.findActionRoutes(ctx, (err, ra) => {
                         if (!err) {
                             for (var i = 0; i < ra.length; i++) {
                                 var r = ra[i];
@@ -185,7 +169,7 @@ var Library = (function (_super) {
             else {
                 next(null);
             }
-        }, function (err) {
+        }, (err) => {
             if (!err) {
                 callback(null, results);
             }
@@ -193,8 +177,8 @@ var Library = (function (_super) {
                 callback(err, null);
             }
         });
-    };
-    Library.prototype.selectStackActionRoute = function (session, route, newStack) {
+    }
+    selectStackActionRoute(session, route, newStack) {
         if (!route || route.libraryName !== this.name || route.routeType !== Library.RouteTypes.StackAction) {
             throw new Error('Invalid route type passed to Library.selectStackActionRoute().');
         }
@@ -204,13 +188,13 @@ var Library = (function (_super) {
         var routeData = route.routeData;
         var parts = routeData.dialogId.split(':');
         this.dialog(parts[1]).selectActionRoute(session, route);
-    };
-    Library.prototype.findGlobalActionRoutes = function (context, callback) {
+    }
+    findGlobalActionRoutes(context, callback) {
         var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
         var ctx = utils.clone(context);
         ctx.libraryName = this.name;
         ctx.routeType = Library.RouteTypes.GlobalAction;
-        this.actions.findActionRoutes(ctx, function (err, ra) {
+        this.actions.findActionRoutes(ctx, (err, ra) => {
             if (!err) {
                 for (var i = 0; i < ra.length; i++) {
                     var r = ra[i];
@@ -222,27 +206,26 @@ var Library = (function (_super) {
                 callback(err, null);
             }
         });
-    };
-    Library.prototype.selectGlobalActionRoute = function (session, route) {
+    }
+    selectGlobalActionRoute(session, route) {
         if (!route || route.libraryName !== this.name || route.routeType !== Library.RouteTypes.GlobalAction) {
             throw new Error('Invalid route type passed to Library.selectGlobalActionRoute().');
         }
         this.actions.selectActionRoute(session, route);
-    };
-    Library.prototype.defaultFindRoutes = function (context, callback) {
-        var _this = this;
+    }
+    defaultFindRoutes(context, callback) {
         var explain = '';
         var results = Library.addRouteResult({ score: 0.0, libraryName: this.name });
-        this.recognize(context, function (err, topIntent) {
+        this.recognize(context, (err, topIntent) => {
             if (!err) {
                 var ctx = utils.clone(context);
                 ctx.intent = topIntent && topIntent.score > 0 ? topIntent : null;
-                ctx.libraryName = _this.name;
+                ctx.libraryName = this.name;
                 async.parallel([
-                    function (cb) {
-                        _this.findActiveDialogRoutes(ctx, function (err, routes) {
+                    (cb) => {
+                        this.findActiveDialogRoutes(ctx, (err, routes) => {
                             if (!err && routes) {
-                                routes.forEach(function (r) {
+                                routes.forEach((r) => {
                                     results = Library.addRouteResult(r, results);
                                     if (r.score > 0) {
                                         explain += '\n\tActiveDialog(' + r.score + ')';
@@ -252,10 +235,10 @@ var Library = (function (_super) {
                             cb(err);
                         });
                     },
-                    function (cb) {
-                        _this.findStackActionRoutes(ctx, function (err, routes) {
+                    (cb) => {
+                        this.findStackActionRoutes(ctx, (err, routes) => {
                             if (!err && routes) {
-                                routes.forEach(function (r) {
+                                routes.forEach((r) => {
                                     results = Library.addRouteResult(r, results);
                                     if (r.score > 0) {
                                         explain += '\n\tStackAction(' + r.score + ')';
@@ -265,10 +248,10 @@ var Library = (function (_super) {
                             cb(err);
                         });
                     },
-                    function (cb) {
-                        _this.findGlobalActionRoutes(ctx, function (err, routes) {
+                    (cb) => {
+                        this.findGlobalActionRoutes(ctx, (err, routes) => {
                             if (!err && routes) {
-                                routes.forEach(function (r) {
+                                routes.forEach((r) => {
                                     results = Library.addRouteResult(r, results);
                                     if (r.score > 0) {
                                         explain += '\n\tGlobalAction(' + r.score + ')';
@@ -278,10 +261,10 @@ var Library = (function (_super) {
                             cb(err);
                         });
                     }
-                ], function (err) {
+                ], (err) => {
                     if (!err) {
                         if (explain.length > 0) {
-                            context.logger.log(null, _this.logPrefix() + '.findRoutes() explanation:' + explain);
+                            context.logger.log(null, this.logPrefix() + '.findRoutes() explanation:' + explain);
                         }
                         callback(null, results);
                     }
@@ -294,8 +277,8 @@ var Library = (function (_super) {
                 callback(err, null);
             }
         });
-    };
-    Library.prototype.defaultSelectRoute = function (session, route) {
+    }
+    defaultSelectRoute(session, route) {
         switch (route.routeType || '') {
             case Library.RouteTypes.ActiveDialog:
                 this.selectActiveDialogRoute(session, route);
@@ -309,8 +292,8 @@ var Library = (function (_super) {
             default:
                 throw new Error('Invalid route type passed to Library.selectRoute().');
         }
-    };
-    Library.addRouteResult = function (route, current) {
+    }
+    static addRouteResult(route, current) {
         if (!current || current.length < 1 || route.score > current[0].score) {
             current = [route];
         }
@@ -318,11 +301,11 @@ var Library = (function (_super) {
             current.push(route);
         }
         return current;
-    };
-    Library.bestRouteResult = function (routes, dialogStack, rootLibraryName) {
+    }
+    static bestRouteResult(routes, dialogStack, rootLibraryName) {
         var bestLibrary = rootLibraryName;
         if (dialogStack) {
-            dialogStack.forEach(function (entry) {
+            dialogStack.forEach((entry) => {
                 var parts = entry.id.split(':');
                 for (var i = 0; i < routes.length; i++) {
                     if (routes[i].libraryName == parts[0]) {
@@ -373,8 +356,8 @@ var Library = (function (_super) {
             }
         }
         return best;
-    };
-    Library.prototype.dialog = function (id, dialog, replace) {
+    }
+    dialog(id, dialog, replace) {
         var d;
         if (dialog) {
             if (id.indexOf(':') >= 0) {
@@ -395,21 +378,21 @@ var Library = (function (_super) {
             d = this.dialogs[id];
         }
         return d;
-    };
-    Library.prototype.findDialog = function (libName, dialogId) {
+    }
+    findDialog(libName, dialogId) {
         var d;
         var lib = this.library(libName);
         if (lib) {
             d = lib.dialog(dialogId);
         }
         return d;
-    };
-    Library.prototype.forEachDialog = function (callback) {
+    }
+    forEachDialog(callback) {
         for (var id in this.dialogs) {
             callback(this.dialog(id), id);
         }
-    };
-    Library.prototype.library = function (lib) {
+    }
+    library(lib) {
         var l;
         if (typeof lib === 'string') {
             if (lib == this.name) {
@@ -431,14 +414,13 @@ var Library = (function (_super) {
             l = this.libraries[lib.name] = lib;
         }
         return l;
-    };
-    Library.prototype.forEachLibrary = function (callback) {
+    }
+    forEachLibrary(callback) {
         for (var lib in this.libraries) {
             callback(this.libraries[lib]);
         }
-    };
-    Library.prototype.libraryList = function (reverse) {
-        if (reverse === void 0) { reverse = false; }
+    }
+    libraryList(reverse = false) {
         var list = [];
         var added = {};
         function addChildren(lib) {
@@ -447,7 +429,7 @@ var Library = (function (_super) {
                 if (!reverse) {
                     list.push(lib);
                 }
-                lib.forEachLibrary(function (child) { return addChildren(child); });
+                lib.forEachLibrary((child) => addChildren(child));
                 if (reverse) {
                     list.push(lib);
                 }
@@ -455,29 +437,28 @@ var Library = (function (_super) {
         }
         addChildren(this);
         return list;
-    };
-    Library.prototype.beginDialogAction = function (name, id, options) {
+    }
+    beginDialogAction(name, id, options) {
         this.actions.beginDialogAction(name, id, options);
         return this;
-    };
-    Library.prototype.endConversationAction = function (name, msg, options) {
+    }
+    endConversationAction(name, msg, options) {
         this.actions.endConversationAction(name, msg, options);
         return this;
-    };
-    Library.prototype.customAction = function (options) {
+    }
+    customAction(options) {
         this.actions.customAction(options);
         return this;
-    };
-    Library.prototype.logPrefix = function () {
+    }
+    logPrefix() {
         return 'Library("' + this.name + '")';
-    };
-    Library.RouteTypes = {
-        GlobalAction: 'GlobalAction',
-        StackAction: 'StackAction',
-        ActiveDialog: 'ActiveDialog'
-    };
-    return Library;
-}(events_1.EventEmitter));
+    }
+}
+Library.RouteTypes = {
+    GlobalAction: 'GlobalAction',
+    StackAction: 'StackAction',
+    ActiveDialog: 'ActiveDialog'
+};
 exports.Library = Library;
 exports.systemLib = new Library(consts.Library.system);
 exports.systemLib.localePath(path.join(__dirname, '../locale/'));

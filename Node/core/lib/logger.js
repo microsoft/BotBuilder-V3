@@ -1,34 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Prompt_1 = require("./dialogs/Prompt");
-var Channel = require("./Channel");
-var consts = require("./consts");
-var sprintf = require("sprintf-js");
-var debugLoggingEnabled = new RegExp('\\bbotbuilder\\b', 'i').test(process.env.NODE_DEBUG || '');
-function error(fmt) {
-    var args = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        args[_i - 1] = arguments[_i];
-    }
+const Prompt_1 = require("./dialogs/Prompt");
+const Channel = require("./Channel");
+const consts = require("./consts");
+const sprintf = require("sprintf-js");
+const debugLoggingEnabled = new RegExp('\\bbotbuilder\\b', 'i').test(process.env.NODE_DEBUG || '');
+function error(fmt, ...args) {
     var msg = args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
     console.error('ERROR: ' + msg);
 }
 exports.error = error;
-function warn(addressable, fmt) {
-    var args = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        args[_i - 2] = arguments[_i];
-    }
+function warn(addressable, fmt, ...args) {
     var prefix = getPrefix(addressable);
     var msg = args.length > 0 ? sprintf.vsprintf(fmt, args) : fmt;
     console.warn(prefix + 'WARN: ' + msg);
 }
 exports.warn = warn;
-function info(addressable, fmt) {
-    var args = [];
-    for (var _i = 2; _i < arguments.length; _i++) {
-        args[_i - 2] = arguments[_i];
-    }
+function info(addressable, fmt, ...args) {
     var channelId = Channel.getChannelId(addressable);
     if (channelId === Channel.channels.emulator || debugLoggingEnabled) {
         var prefix = getPrefix(addressable);
@@ -37,19 +25,11 @@ function info(addressable, fmt) {
     }
 }
 exports.info = info;
-function debug(fmt) {
-    var args = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        args[_i - 1] = arguments[_i];
-    }
+function debug(fmt, ...args) {
     debugLog(false, fmt, args);
 }
 exports.debug = debug;
-function trace(fmt) {
-    var args = [];
-    for (var _i = 1; _i < arguments.length; _i++) {
-        args[_i - 1] = arguments[_i];
-    }
+function trace(fmt, ...args) {
     debugLog(true, fmt, args);
 }
 exports.trace = trace;

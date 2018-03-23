@@ -1,20 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var utils = require("../utils");
-var chrono = require("chrono-node");
-var consts = require("../consts");
-var EntityRecognizer = (function () {
-    function EntityRecognizer() {
-    }
-    EntityRecognizer.findEntity = function (entities, type) {
+const utils = require("../utils");
+const chrono = require("chrono-node");
+const consts = require("../consts");
+class EntityRecognizer {
+    static findEntity(entities, type) {
         for (var i = 0; entities && i < entities.length; i++) {
             if (entities[i].type == type) {
                 return entities[i];
             }
         }
         return null;
-    };
-    EntityRecognizer.findAllEntities = function (entities, type) {
+    }
+    static findAllEntities(entities, type) {
         var found = [];
         for (var i = 0; entities && i < entities.length; i++) {
             if (entities[i].type == type) {
@@ -22,27 +20,26 @@ var EntityRecognizer = (function () {
             }
         }
         return found;
-    };
-    EntityRecognizer.parseTime = function (entities) {
+    }
+    static parseTime(entities) {
         if (typeof entities == 'string') {
             entities = [EntityRecognizer.recognizeTime(entities)];
         }
         return EntityRecognizer.resolveTime(entities);
-    };
-    EntityRecognizer.resolveTime = function (entities) {
-        var _this = this;
+    }
+    static resolveTime(entities) {
         var now = new Date();
         var resolvedDate;
         var date;
         var time;
-        entities.forEach(function (entity) {
+        entities.forEach((entity) => {
             if (entity.resolution) {
                 switch (entity.resolution.resolution_type || entity.type) {
                     case 'builtin.datetime':
                     case 'builtin.datetime.date':
                     case 'builtin.datetime.time':
                         var parts = (entity.resolution.date || entity.resolution.time).split('T');
-                        if (!date && _this.dateExp.test(parts[0])) {
+                        if (!date && this.dateExp.test(parts[0])) {
                             date = parts[0];
                         }
                         if (!time && parts[1]) {
@@ -77,8 +74,8 @@ var EntityRecognizer = (function () {
             resolvedDate = new Date(date);
         }
         return resolvedDate;
-    };
-    EntityRecognizer.recognizeTime = function (utterance, refDate) {
+    }
+    static recognizeTime(utterance, refDate) {
         var response;
         try {
             var results = chrono.parse(utterance, refDate);
@@ -108,8 +105,8 @@ var EntityRecognizer = (function () {
             response = null;
         }
         return response;
-    };
-    EntityRecognizer.parseNumber = function (entities) {
+    }
+    static parseNumber(entities) {
         var entity;
         if (typeof entities == 'string') {
             entity = { type: 'text', entity: entities.trim() };
@@ -128,8 +125,8 @@ var EntityRecognizer = (function () {
             }
         }
         return Number.NaN;
-    };
-    EntityRecognizer.parseBoolean = function (utterance, context) {
+    }
+    static parseBoolean(utterance, context) {
         utterance = utterance.trim();
         if (context) {
             var locale = context.preferredLocale();
@@ -149,24 +146,22 @@ var EntityRecognizer = (function () {
             return false;
         }
         return undefined;
-    };
-    EntityRecognizer.findBestMatch = function (choices, utterance, threshold) {
-        if (threshold === void 0) { threshold = 0.6; }
+    }
+    static findBestMatch(choices, utterance, threshold = 0.6) {
         var best;
         var matches = EntityRecognizer.findAllMatches(choices, utterance, threshold);
-        matches.forEach(function (value) {
+        matches.forEach((value) => {
             if (!best || value.score > best.score) {
                 best = value;
             }
         });
         return best;
-    };
-    EntityRecognizer.findAllMatches = function (choices, utterance, threshold) {
-        if (threshold === void 0) { threshold = 0.6; }
+    }
+    static findAllMatches(choices, utterance, threshold = 0.6) {
         var matches = [];
         utterance = utterance.trim().toLowerCase();
         var tokens = utterance.split(' ');
-        EntityRecognizer.expandChoices(choices).forEach(function (choice, index) {
+        EntityRecognizer.expandChoices(choices).forEach((choice, index) => {
             var score = 0.0;
             var value = choice.trim().toLowerCase();
             if (value.indexOf(utterance) >= 0) {
@@ -177,17 +172,17 @@ var EntityRecognizer = (function () {
             }
             else {
                 var matched = {};
-                tokens.forEach(function (token) {
+                tokens.forEach((token) => {
                     if (value.indexOf(token) >= 0) {
                         if (!matched[token]) {
                             matched[token] = 1;
                         }
                     }
                 });
-                var tokenizedValue = value.split(' ');
+                let tokenizedValue = value.split(' ');
                 var tokenScore = 0;
                 for (var token in matched) {
-                    tokenizedValue.forEach(function (val) {
+                    tokenizedValue.forEach(val => {
                         if (val.indexOf(token) >= 0 && token.length <= val.length / 2) {
                             matched[token]--;
                         }
@@ -211,8 +206,8 @@ var EntityRecognizer = (function () {
             }
         });
         return matches;
-    };
-    EntityRecognizer.expandChoices = function (choices) {
+    }
+    static expandChoices(choices) {
         if (!choices) {
             return [];
         }
@@ -232,12 +227,11 @@ var EntityRecognizer = (function () {
         else {
             return [choices.toString()];
         }
-    };
-    EntityRecognizer.dateExp = /^\d{4}-\d{2}-\d{2}/i;
-    EntityRecognizer.yesExp = /^(1|y|yes|yep|sure|ok|true)(\W|$)/i;
-    EntityRecognizer.noExp = /^(2|n|no|nope|not|false)(\W|$)/i;
-    EntityRecognizer.numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
-    EntityRecognizer.ordinalWords = 'first|second|third|fourth|fifth|sixth|seventh|eigth|ninth|tenth';
-    return EntityRecognizer;
-}());
+    }
+}
+EntityRecognizer.dateExp = /^\d{4}-\d{2}-\d{2}/i;
+EntityRecognizer.yesExp = /^(1|y|yes|yep|sure|ok|true)(\W|$)/i;
+EntityRecognizer.noExp = /^(2|n|no|nope|not|false)(\W|$)/i;
+EntityRecognizer.numberExp = /[+-]?(?:\d+\.?\d*|\d*\.?\d+)/;
+EntityRecognizer.ordinalWords = 'first|second|third|fourth|fifth|sixth|seventh|eigth|ninth|tenth';
 exports.EntityRecognizer = EntityRecognizer;

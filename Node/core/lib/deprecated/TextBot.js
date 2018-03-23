@@ -1,10 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var UniversalBot_1 = require("../bots/UniversalBot");
-var ConsoleConnector_1 = require("../bots/ConsoleConnector");
-var TextBot = (function () {
-    function TextBot(options) {
-        if (options === void 0) { options = {}; }
+const UniversalBot_1 = require("../bots/UniversalBot");
+const ConsoleConnector_1 = require("../bots/ConsoleConnector");
+class TextBot {
+    constructor(options = {}) {
         console.warn('TextBot class is deprecated. Use UniversalBot with a ConsoleConnector class.');
         var oBot = {};
         for (var key in options) {
@@ -33,29 +32,28 @@ var TextBot = (function () {
         this.connector = new ConsoleConnector_1.ConsoleConnector();
         this.bot = new UniversalBot_1.UniversalBot(this.connector, oBot);
     }
-    TextBot.prototype.on = function (event, listener) {
+    on(event, listener) {
         this.bot.on(event, listener);
         return this;
-    };
-    TextBot.prototype.add = function (id, dialog) {
+    }
+    add(id, dialog) {
         this.bot.dialog(id, dialog);
         return this;
-    };
-    TextBot.prototype.configure = function (options) {
+    }
+    configure(options) {
         console.error("TextBot.configure() is no longer supported. You should either pass all options into the constructor or update code to use the new UniversalBot class.");
         throw new Error("TextBot.configure() is no longer supported.");
-    };
-    TextBot.prototype.listenStdin = function () {
+    }
+    listenStdin() {
         return this.connector.listen();
-    };
-    TextBot.prototype.beginDialog = function (address, dialogId, dialogArgs) {
+    }
+    beginDialog(address, dialogId, dialogArgs) {
         console.error("TextBot.beginDialog() is no longer supported. The schema for sending proactive messages has changed and you should update your code to use the new UniversalBot class.");
         throw new Error("TextBot.beginDialog() is no longer supported.");
-    };
-    TextBot.prototype.processMessage = function (message, callback) {
+    }
+    processMessage(message, callback) {
         console.error("TextBot.processMessage() is no longer supported. The schema for messages has changed and you should update your code to use the new UniversalBot class.");
         throw new Error("TextBot.processMessage() is no longer supported.");
-    };
-    return TextBot;
-}());
+    }
+}
 exports.TextBot = TextBot;

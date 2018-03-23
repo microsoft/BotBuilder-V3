@@ -1,105 +1,92 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Message_1 = require("../Message");
-var CardAction = (function () {
-    function CardAction(session) {
+const Message_1 = require("../Message");
+class CardAction {
+    constructor(session) {
         this.session = session;
         this.data = {};
     }
-    CardAction.prototype.type = function (t) {
+    type(t) {
         if (t) {
             this.data.type = t;
         }
         return this;
-    };
-    CardAction.prototype.title = function (text) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    }
+    title(text, ...args) {
         if (text) {
             this.data.title = Message_1.fmtText(this.session, text, args);
         }
         return this;
-    };
-    CardAction.prototype.value = function (v) {
+    }
+    value(v) {
         if (v) {
             this.data.value = v;
         }
         return this;
-    };
-    CardAction.prototype.image = function (url) {
+    }
+    image(url) {
         if (url) {
             this.data.image = url;
         }
         return this;
-    };
-    CardAction.prototype.text = function (text) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    }
+    text(text, ...args) {
         if (text) {
             this.data.text = Message_1.fmtText(this.session, text, args);
         }
         return this;
-    };
-    CardAction.prototype.displayText = function (text) {
-        var args = [];
-        for (var _i = 1; _i < arguments.length; _i++) {
-            args[_i - 1] = arguments[_i];
-        }
+    }
+    displayText(text, ...args) {
         if (text) {
             this.data.displayText = Message_1.fmtText(this.session, text, args);
         }
         return this;
-    };
-    CardAction.prototype.toAction = function () {
+    }
+    toAction() {
         return this.data;
-    };
-    CardAction.call = function (session, number, title) {
+    }
+    static call(session, number, title) {
         return new CardAction(session).type('call').value(number).title(title || "Click to call");
-    };
-    CardAction.openUrl = function (session, url, title) {
+    }
+    static openUrl(session, url, title) {
         return new CardAction(session).type('openUrl').value(url).title(title || "Click to open website in your browser");
-    };
-    CardAction.openApp = function (session, url, title) {
+    }
+    static openApp(session, url, title) {
         return new CardAction(session).type('openApp').value(url).title(title || "Click to open website in a webview");
-    };
-    CardAction.imBack = function (session, msg, title) {
+    }
+    static imBack(session, msg, title) {
         return new CardAction(session).type('imBack').value(msg).title(title || "Click to send response to bot");
-    };
-    CardAction.postBack = function (session, msg, title) {
+    }
+    static postBack(session, msg, title) {
         return new CardAction(session).type('postBack').value(msg).title(title || "Click to send response to bot");
-    };
-    CardAction.playAudio = function (session, url, title) {
+    }
+    static playAudio(session, url, title) {
         return new CardAction(session).type('playAudio').value(url).title(title || "Click to play audio file");
-    };
-    CardAction.playVideo = function (session, url, title) {
+    }
+    static playVideo(session, url, title) {
         return new CardAction(session).type('playVideo').value(url).title(title || "Click to play video");
-    };
-    CardAction.showImage = function (session, url, title) {
+    }
+    static showImage(session, url, title) {
         return new CardAction(session).type('showImage').value(url).title(title || "Click to view image");
-    };
-    CardAction.downloadFile = function (session, url, title) {
+    }
+    static downloadFile(session, url, title) {
         return new CardAction(session).type('downloadFile').value(url).title(title || "Click to download file");
-    };
-    CardAction.invoke = function (session, action, data, title) {
-        var value = {};
+    }
+    static invoke(session, action, data, title) {
+        const value = {};
         value[action] = data;
         return new CardAction(session).type('invoke').value(JSON.stringify(value)).title(title || "Click to send response to bot");
-    };
+    }
     ;
-    CardAction.dialogAction = function (session, action, data, title) {
+    static dialogAction(session, action, data, title) {
         var value = 'action?' + action;
         if (data) {
             value += '=' + data;
         }
         return new CardAction(session).type('postBack').value(value).title(title || "Click to send response to bot");
-    };
-    CardAction.messageBack = function (session, msg, title) {
+    }
+    static messageBack(session, msg, title) {
         return new CardAction(session).type('messageBack').value(msg).title(title || "Click to send response to bot");
-    };
-    return CardAction;
-}());
+    }
+}
 exports.CardAction = CardAction;

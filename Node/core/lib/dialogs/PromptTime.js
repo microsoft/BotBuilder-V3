@@ -1,33 +1,22 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var Prompt_1 = require("./Prompt");
-var PromptRecognizers_1 = require("./PromptRecognizers");
-var consts = require("../consts");
-var PromptTime = (function (_super) {
-    __extends(PromptTime, _super);
-    function PromptTime(features) {
-        var _this = _super.call(this, {
+const Prompt_1 = require("./Prompt");
+const PromptRecognizers_1 = require("./PromptRecognizers");
+const consts = require("../consts");
+class PromptTime extends Prompt_1.Prompt {
+    constructor(features) {
+        super({
             defaultRetryPrompt: 'default_time',
             defaultRetryNamespace: consts.Library.system
-        }) || this;
-        _this.updateFeatures(features);
-        _this.onRecognize(function (context, cb) {
-            if (context.message.text && !_this.features.disableRecognizer) {
-                var options = context.dialogData.options;
-                var entities = PromptRecognizers_1.PromptRecognizers.recognizeTimes(context, options);
-                var top_1 = PromptRecognizers_1.PromptRecognizers.findTopEntity(entities);
-                if (top_1) {
-                    cb(null, top_1.score, top_1);
+        });
+        this.updateFeatures(features);
+        this.onRecognize((context, cb) => {
+            if (context.message.text && !this.features.disableRecognizer) {
+                let options = context.dialogData.options;
+                let entities = PromptRecognizers_1.PromptRecognizers.recognizeTimes(context, options);
+                let top = PromptRecognizers_1.PromptRecognizers.findTopEntity(entities);
+                if (top) {
+                    cb(null, top.score, top);
                 }
                 else {
                     cb(null, 0.0);
@@ -37,12 +26,10 @@ var PromptTime = (function (_super) {
                 cb(null, 0.0);
             }
         });
-        _this.matches(consts.Intents.Repeat, function (session) {
+        this.matches(consts.Intents.Repeat, (session) => {
             session.dialogData.turns = 0;
-            _this.sendPrompt(session);
+            this.sendPrompt(session);
         });
-        return _this;
     }
-    return PromptTime;
-}(Prompt_1.Prompt));
+}
 exports.PromptTime = PromptTime;

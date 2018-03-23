@@ -1,15 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var Dialog_1 = require("../dialogs/Dialog");
-var Library_1 = require("../bots/Library");
-var SimpleDialog_1 = require("../dialogs/SimpleDialog");
-var consts = require("../consts");
-var Middleware = (function () {
-    function Middleware() {
-    }
-    Middleware.dialogVersion = function (options) {
+const Dialog_1 = require("../dialogs/Dialog");
+const Library_1 = require("../bots/Library");
+const SimpleDialog_1 = require("../dialogs/SimpleDialog");
+const consts = require("../consts");
+class Middleware {
+    static dialogVersion(options) {
         return {
-            botbuilder: function (session, next) {
+            botbuilder: (session, next) => {
                 var cur = session.sessionState.version || 0.0;
                 var curMajor = Math.floor(cur);
                 var major = Math.floor(options.version);
@@ -25,10 +23,10 @@ var Middleware = (function () {
                 }
             }
         };
-    };
-    Middleware.firstRun = function (options) {
+    }
+    static firstRun(options) {
         return {
-            botbuilder: function (session, next) {
+            botbuilder: (session, next) => {
                 if (session.sessionState.callstack.length == 0) {
                     var cur = session.userData[consts.Data.FirstRunVersion] || 0.0;
                     var curMajor = Math.floor(cur);
@@ -56,19 +54,18 @@ var Middleware = (function () {
                 }
             }
         };
-    };
-    Middleware.sendTyping = function () {
+    }
+    static sendTyping() {
         return {
-            botbuilder: function (session, next) {
+            botbuilder: (session, next) => {
                 session.sendTyping();
                 next();
             }
         };
-    };
-    return Middleware;
-}());
+    }
+}
 exports.Middleware = Middleware;
-Library_1.systemLib.dialog(consts.DialogId.FirstRun, new SimpleDialog_1.SimpleDialog(function (session, args) {
+Library_1.systemLib.dialog(consts.DialogId.FirstRun, new SimpleDialog_1.SimpleDialog((session, args) => {
     if (args && args.hasOwnProperty('resumed')) {
         var result = args;
         if (result.resumed == Dialog_1.ResumeReason.completed) {

@@ -37,6 +37,8 @@ export { ChatConnector } from './bots/ChatConnector';
 export { ConsoleConnector } from './bots/ConsoleConnector';
 export { Library } from './bots/Library';
 export { UniversalBot } from './bots/UniversalBot';
+export { UniversalBotLogic } from './bots/UniversalBotLogic';
+export { BotFrameworkAdapter } from './bots/BotFrameworkAdapter';
 export { AnimationCard } from './cards/AnimationCard';
 export { AudioCard } from './cards/AudioCard';
 export { CardAction } from './cards/CardAction';

@@ -1,46 +1,34 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
-var IntentRecognizer_1 = require("./IntentRecognizer");
-var request = require("request");
-var url = require("url");
-var LuisRecognizer = (function (_super) {
-    __extends(LuisRecognizer, _super);
-    function LuisRecognizer(models) {
-        var _this = _super.call(this) || this;
+const IntentRecognizer_1 = require("./IntentRecognizer");
+const request = require("request");
+const url = require("url");
+class LuisRecognizer extends IntentRecognizer_1.IntentRecognizer {
+    constructor(models) {
+        super();
         if (typeof models == 'string') {
-            _this.models = { '*': models };
+            this.models = { '*': models };
         }
         else {
-            _this.models = (models || {});
+            this.models = (models || {});
         }
-        return _this;
     }
-    LuisRecognizer.prototype.onRecognize = function (context, callback) {
-        var result = { score: 0.0, intent: null };
+    onRecognize(context, callback) {
+        let result = { score: 0.0, intent: null };
         if (context && context.message && context.message.text) {
-            var locale = context.locale || '*';
-            var dashPos = locale.indexOf('-');
-            var parentLocale = dashPos > 0 ? locale.substr(0, dashPos) : '*';
-            var model = this.models[locale] || this.models[parentLocale] || this.models['*'];
+            const locale = context.locale || '*';
+            const dashPos = locale.indexOf('-');
+            const parentLocale = dashPos > 0 ? locale.substr(0, dashPos) : '*';
+            const model = this.models[locale] || this.models[parentLocale] || this.models['*'];
             if (model) {
-                var utterance = context.message.text;
-                LuisRecognizer.recognize(utterance, model, function (err, intents, entities, compositeEntities) {
+                const utterance = context.message.text;
+                LuisRecognizer.recognize(utterance, model, (err, intents, entities, compositeEntities) => {
                     if (!err) {
                         result.intents = intents;
                         result.entities = entities;
                         result.compositeEntities = compositeEntities;
                         var top;
-                        intents.forEach(function (intent) {
+                        intents.forEach((intent) => {
                             if (top) {
                                 if (intent.score > top.score) {
                                     top = intent;
@@ -74,15 +62,15 @@ var LuisRecognizer = (function (_super) {
         else {
             callback(null, result);
         }
-    };
-    LuisRecognizer.recognize = function (utterance, modelUrl, callback) {
+    }
+    static recognize(utterance, modelUrl, callback) {
         try {
             var uri = url.parse(modelUrl, true);
             uri.query['q'] = utterance || '';
             if (uri.search) {
                 delete uri.search;
             }
-            request.get(url.format(uri), function (err, res, body) {
+            request.get(url.format(uri), (err, res, body) => {
                 var result;
                 try {
                     if (res && res.statusCode === 200) {
@@ -121,7 +109,6 @@ var LuisRecognizer = (function (_super) {
         catch (err) {
             callback(err instanceof Error ? err : new Error(err.toString()));
         }
-    };
-    return LuisRecognizer;
-}(IntentRecognizer_1.IntentRecognizer));
+    }
+}
 exports.LuisRecognizer = LuisRecognizer;
