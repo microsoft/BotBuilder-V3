@@ -278,7 +278,7 @@ namespace Microsoft.Bot.Connector
         {
             Attachments = new Attachments(this);
             Conversations = new Conversations(this);
-            BaseUri = new System.Uri("https://localhost:8001");
+            BaseUri = new System.Uri("https://api.botframework.com");
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,
