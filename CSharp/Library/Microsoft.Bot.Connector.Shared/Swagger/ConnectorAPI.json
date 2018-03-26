@@ -15,7 +15,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:8001",
+  "host": "api.botframework.com",
   "schemes": [
     "https"
   ],

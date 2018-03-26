@@ -253,7 +253,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public async Task<BotStateDataResult> ExportStateDataAsync(IAddress key, string continuationToken)
         {
-            return stateClient.BotState.ExportBotStateData(key.ChannelId, continuationToken);
+            return await stateClient.BotState.ExportBotStateDataAsync(key.ChannelId, continuationToken);
         }
     }
 
@@ -296,7 +296,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public async Task<BotStateDataResult> ExportStateDataAsync(IAddress key, string continuationToken)
         {
-            throw new NotImplementedException("ExportStateDataAsync is not supported for caching bot state store");
+            return await inner.ExportStateDataAsync(key, continuationToken);
         }
 
         internal class CacheEntry
@@ -514,7 +514,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public async Task<BotStateDataResult> ExportStateDataAsync(string continuationToken)
         {
-            throw new NotImplementedException("ExportStateDataAsync is not supported for DialogTaskManagerBotDataLoader");
+            return await this.inner.ExportStateDataAsync(continuationToken);
         }
     }
 
@@ -553,7 +553,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public async Task<BotStateDataResult> ExportStateDataAsync(string continuationToken)
         {
-            var channelId = botDataKey.ChannelId;
             return await botDataStore.ExportStateDataAsync(botDataKey, continuationToken);
         }
 
