@@ -780,8 +780,8 @@
       "type": "object",
       "properties": {
         "type": {
-          "$ref": "#/definitions/ActivityTypes",
-          "description": "The type of the activity"
+          "description": "The type of the activity [message|contactRelationUpdate|converationUpdate|typing|endOfConversation|event|invoke]",
+          "type": "string"
         },
         "id": {
           "description": "ID of this activity",
