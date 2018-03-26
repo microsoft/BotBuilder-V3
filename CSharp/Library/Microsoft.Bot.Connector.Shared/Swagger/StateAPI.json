@@ -15,7 +15,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "localhost:8000",
+  "host": "state.botframework.com",
   "schemes": [
     "https"
   ],
@@ -59,11 +59,12 @@
             }
           },
           "default": {
-            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "description": "ErrorResponse",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
-          }
+          },
+          "deprecated": true
         }
       },
       "post": {
@@ -119,12 +120,13 @@
             }
           },
           "default": {
-            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "description": "ErrorResponse",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "deprecated":  true
       },
       "delete": {
         "tags": [
@@ -167,12 +169,13 @@
             "description": "The operation succeeded but no content was returned."
           },
           "default": {
-            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "description": "ErroResponse",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/v3/botstate/{channelId}/conversations/{conversationId}": {
@@ -214,12 +217,13 @@
             }
           },
           "default": {
-            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "description": "ErrorResponse",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "deprecated": true
       },
       "post": {
         "tags": [
@@ -274,12 +278,13 @@
             }
           },
           "default": {
-            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "description": "ErrorResponse",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/v3/botstate/{channelId}/conversations/{conversationId}/users/{userId}": {
@@ -328,12 +333,13 @@
             }
           },
           "default": {
-            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "description": "ErrorResponse",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "deprecated": true
       },
       "post": {
         "tags": [
@@ -395,12 +401,13 @@
             }
           },
           "default": {
-            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "description": "ErrorResponse",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/v3/botstate/{channelId}/exportBotStateData": {
@@ -442,7 +449,7 @@
             }
           },
           "default": {
-            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "description": "ErrorResponse",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
