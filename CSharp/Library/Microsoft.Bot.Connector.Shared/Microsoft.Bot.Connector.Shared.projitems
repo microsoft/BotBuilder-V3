@@ -39,9 +39,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\CardImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ChannelAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationAccount.cs" />
+	<Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationMembers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationParameters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationResourceResponse.cs" />
+	<Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationsResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Error.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ErrorResponse.cs" />
@@ -126,6 +128,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\IStateClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\Models\APIResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\Models\BotData.cs" />
+	 <Compile Include="$(MSBuildThisFileDirectory)StateAPI\Models\BotStateData.cs" />
+	 <Compile Include="$(MSBuildThisFileDirectory)StateAPI\Models\BotStateDataResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\StateClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\StateClientExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateClientEx.cs" />

@@ -1,4 +1,4 @@
-﻿{
+{
   "swagger": "2.0",
   "info": {
     "version": "v3",
@@ -15,7 +15,7 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "host": "state.botframework.com",
+  "host": "localhost:8000",
   "schemes": [
     "https"
   ],
@@ -28,9 +28,7 @@
         "summary": "GetUserData",
         "description": "Get a bots data for the user across all conversations",
         "operationId": "BotState_GetUserData",
-        "consumes": [
-
-        ],
+        "consumes": [],
         "produces": [
           "application/json",
           "text/json",
@@ -61,13 +59,12 @@
             }
           },
           "default": {
-            "description": "ErrorResponse",
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        },
-        "deprecated": true
+        }
       },
       "post": {
         "tags": [
@@ -122,13 +119,12 @@
             }
           },
           "default": {
-            "description": "ErrorResponse",
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        },
-        "deprecated": true
+        }
       },
       "delete": {
         "tags": [
@@ -137,9 +133,7 @@
         "summary": "DeleteStateForUser",
         "description": "Delete all data for a user in a channel (UserData and PrivateConversationData)",
         "operationId": "BotState_DeleteStateForUser",
-        "consumes": [
-
-        ],
+        "consumes": [],
         "produces": [
           "application/json",
           "text/json",
@@ -164,25 +158,21 @@
         ],
         "responses": {
           "200": {
-            "description": "An array of IDs",
+            "description": "OK",
             "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+              "type": "object"
             }
           },
           "204": {
             "description": "The operation succeeded but no content was returned."
           },
           "default": {
-            "description": "ErrorResponse",
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        },
-        "deprecated": true
+        }
       }
     },
     "/v3/botstate/{channelId}/conversations/{conversationId}": {
@@ -193,9 +183,7 @@
         "summary": "GetConversationData",
         "description": "get the bots data for all users in a conversation",
         "operationId": "BotState_GetConversationData",
-        "consumes": [
-
-        ],
+        "consumes": [],
         "produces": [
           "application/json",
           "text/json",
@@ -226,13 +214,12 @@
             }
           },
           "default": {
-            "description": "ErrorResponse",
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        },
-        "deprecated": true
+        }
       },
       "post": {
         "tags": [
@@ -287,13 +274,12 @@
             }
           },
           "default": {
-            "description": "ErrorResponse",
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        },
-        "deprecated": true
+        }
       }
     },
     "/v3/botstate/{channelId}/conversations/{conversationId}/users/{userId}": {
@@ -304,9 +290,7 @@
         "summary": "GetPrivateConversationData",
         "description": "get bot's data for a single user in a conversation",
         "operationId": "BotState_GetPrivateConversationData",
-        "consumes": [
-
-        ],
+        "consumes": [],
         "produces": [
           "application/json",
           "text/json",
@@ -344,13 +328,12 @@
             }
           },
           "default": {
-            "description": "ErrorResponse",
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        },
-        "deprecated": true
+        }
       },
       "post": {
         "tags": [
@@ -412,13 +395,59 @@
             }
           },
           "default": {
-            "description": "ErrorResponse",
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
           }
-        },
-        "deprecated": true
+        }
+      }
+    },
+    "/v3/botstate/{channelId}/exportBotStateData": {
+      "get": {
+        "tags": [
+          "BotState"
+        ],
+        "summary": "ExportBotStateData",
+        "description": "get all the state data for a bot in this channel. This returns a list of BotStateData and (possibly) a continuation token",
+        "operationId": "BotState_ExportBotStateData",
+        "consumes": [],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "name": "channelId",
+            "in": "path",
+            "description": "the channelId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "continuationToken",
+            "in": "query",
+            "description": "the skip token returned previously, or null",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A bot state data object will be returned. It contains a (possibly empty) array of BotStateData objects and a continuation token.",
+            "schema": {
+              "$ref": "#/definitions/BotStateDataResult"
+            }
+          },
+          "default": {
+            "description": "The operation failed and the response is an error object describing the status code and failure.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
       }
     }
   },
@@ -452,12 +481,44 @@
           "type": "string"
         }
       }
+    },
+    "BotStateDataResult": {
+      "type": "object",
+      "properties": {
+        "botStateData": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BotStateData"
+          }
+        },
+        "continuationToken": {
+          "type": "string"
+        }
+      }
+    },
+    "BotStateData": {
+      "type": "object",
+      "properties": {
+        "conversationId": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "data": {
+          "type": "string"
+        },
+        "lastModified": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
     }
   },
   "securityDefinitions": {
     "bearer_auth": {
       "type": "apiKey",
-      "description": "Access Token to authenticate calls to the Bot Connector Service.",
+      "description": "Access token to authenticate calls to the Bot Connector Service.",
       "name": "Authorization",
       "in": "header"
     }

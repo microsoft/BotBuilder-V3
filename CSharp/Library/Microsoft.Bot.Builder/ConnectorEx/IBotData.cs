@@ -31,6 +31,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+using Microsoft.Bot.Connector;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -67,5 +68,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// </summary>
         /// <param name="cancellationToken">The cancellation token.</param>
         Task FlushAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// returns BotStateData for the bot. Repeat calls until the continuation token is empty. />
+        /// </summary>
+        /// <param name="continuationToken">The continuation token.</param>
+        Task<BotStateDataResult> ExportStateDataAsync(string continuationToken);
+
     }
 }

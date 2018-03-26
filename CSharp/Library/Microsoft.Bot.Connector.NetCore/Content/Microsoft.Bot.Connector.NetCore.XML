@@ -1285,6 +1285,42 @@
             Gets a reference to the ConnectorClient
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.GetConversationsWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             GetConversations
+             </summary>
+             <remarks>
+             List the Conversations in which this bot has participated.
+            
+             GET from this method with a skip token
+            
+             The return value is a ConversationsResult, which contains an array of
+             ConversationMembers and a skip token.  If the skip token is not empty, then
+             there are further values to be returned. Call this method again with the
+             returned token to get more values.
+            
+             Each ConversationMembers object contains the ID of the conversation and an
+             array of ChannelAccounts that describe the members of the conversation.
+             </remarks>
+             <param name='continuationToken'>
+             skip or continuation token
+             </param>
+             <param name='customHeaders'>
+             Headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.SerializationException">
+             Thrown when unable to deserialize the response
+             </exception>
+             <return>
+             A response object containing the response body and response headers.
+             </return>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.CreateConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.ConversationParameters,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              CreateConversation
@@ -1550,6 +1586,43 @@
              A response object containing the response body and response headers.
              </return>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.DeleteConversationMemberWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             DeleteConversationMember
+             </summary>
+             <remarks>
+             Deletes a member from a converstion.
+            
+             This REST API takes a ConversationId and a memberId (of type string) and
+             removes that member from the conversation. If that member was the last
+             member
+             of the conversation, the conversation will also be deleted.
+             </remarks>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='memberId'>
+             ID of the member to delete from this conversation
+             </param>
+             <param name='customHeaders'>
+             Headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.ValidationException">
+             Thrown when a required parameter is null
+             </exception>
+             <exception cref="T:System.ArgumentNullException">
+             Thrown when a required parameter is null
+             </exception>
+             <return>
+             A response object containing the response body and response headers.
+             </return>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.GetActivityMembersWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              GetActivityMembers
@@ -1634,6 +1707,57 @@
             <summary>
             Extension methods for Conversations.
             </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversations(Microsoft.Bot.Connector.IConversations,System.String)">
+             <summary>
+             GetConversations
+             </summary>
+             <remarks>
+             List the Conversations in which this bot has participated.
+            
+             GET from this method with a skip token
+            
+             The return value is a ConversationsResult, which contains an array of
+             ConversationMembers and a skip token.  If the skip token is not empty, then
+             there are further values to be returned. Call this method again with the
+             returned token to get more values.
+            
+             Each ConversationMembers object contains the ID of the conversation and an
+             array of ChannelAccounts that describe the members of the conversation.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='continuationToken'>
+             skip or continuation token
+             </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversationsAsync(Microsoft.Bot.Connector.IConversations,System.String,System.Threading.CancellationToken)">
+             <summary>
+             GetConversations
+             </summary>
+             <remarks>
+             List the Conversations in which this bot has participated.
+            
+             GET from this method with a skip token
+            
+             The return value is a ConversationsResult, which contains an array of
+             ConversationMembers and a skip token.  If the skip token is not empty, then
+             there are further values to be returned. Call this method again with the
+             returned token to get more values.
+            
+             Each ConversationMembers object contains the ID of the conversation and an
+             array of ChannelAccounts that describe the members of the conversation.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='continuationToken'>
+             skip or continuation token
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.CreateConversation(Microsoft.Bot.Connector.IConversations,Microsoft.Bot.Connector.ConversationParameters)">
              <summary>
@@ -1973,6 +2097,53 @@
              The cancellation token.
              </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.DeleteConversationMember(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
+             <summary>
+             DeleteConversationMember
+             </summary>
+             <remarks>
+             Deletes a member from a converstion.
+            
+             This REST API takes a ConversationId and a memberId (of type string) and
+             removes that member from the conversation. If that member was the last
+             member
+             of the conversation, the conversation will also be deleted.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='memberId'>
+             ID of the member to delete from this conversation
+             </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.DeleteConversationMemberAsync(Microsoft.Bot.Connector.IConversations,System.String,System.String,System.Threading.CancellationToken)">
+             <summary>
+             DeleteConversationMember
+             </summary>
+             <remarks>
+             Deletes a member from a converstion.
+            
+             This REST API takes a ConversationId and a memberId (of type string) and
+             removes that member from the conversation. If that member was the last
+             member
+             of the conversation, the conversation will also be deleted.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='memberId'>
+             ID of the member to delete from this conversation
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetActivityMembers(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
              <summary>
              GetActivityMembers
@@ -2306,6 +2477,41 @@
             Conversations operations.
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.GetConversationsWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             GetConversations
+             </summary>
+             <remarks>
+             List the Conversations in which this bot has participated.
+            
+             GET from this method with a skip token
+            
+             The return value is a ConversationsResult, which contains an array
+             of ConversationMembers and a skip token.  If the skip token is not
+             empty, then
+             there are further values to be returned. Call this method again
+             with the returned token to get more values.
+            
+             Each ConversationMembers object contains the ID of the conversation
+             and an array of ChannelAccounts that describe the members of the
+             conversation.
+             </remarks>
+             <param name='continuationToken'>
+             skip or continuation token
+             </param>
+             <param name='customHeaders'>
+             The headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.SerializationException">
+             Thrown when unable to deserialize the response
+             </exception>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.CreateConversationWithHttpMessagesAsync(Microsoft.Bot.Connector.ConversationParameters,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              CreateConversation
@@ -2538,6 +2744,37 @@
              </exception>
              <exception cref="T:Microsoft.Rest.SerializationException">
              Thrown when unable to deserialize the response
+             </exception>
+             <exception cref="T:Microsoft.Rest.ValidationException">
+             Thrown when a required parameter is null
+             </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.DeleteConversationMemberWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             DeleteConversationMember
+             </summary>
+             <remarks>
+             Deletes a member from a converstion.
+            
+             This REST API takes a ConversationId and a memberId (of type
+             string) and removes that member from the conversation. If that
+             member was the last member
+             of the conversation, the conversation will also be deleted.
+             </remarks>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='memberId'>
+             ID of the member to delete from this conversation
+             </param>
+             <param name='customHeaders'>
+             The headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
              </exception>
              <exception cref="T:Microsoft.Rest.ValidationException">
              Thrown when a required parameter is null
@@ -3141,6 +3378,33 @@
             Extension data for overflow of properties
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationMembers">
+            <summary>
+            Conversation and its members
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationMembers.#ctor">
+            <summary>
+            Initializes a new instance of the ConversationMembers class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationMembers.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount})">
+            <summary>
+            Initializes a new instance of the ConversationMembers class.
+            </summary>
+            <param name="id">Conversation ID</param>
+            <param name="members">List of members in this conversation</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationMembers.Id">
+            <summary>
+            Gets or sets conversation ID
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationMembers.Members">
+            <summary>
+            Gets or sets list of members in this conversation
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ConversationParameters">
             <summary>
             Parameters for creating a new conversation
@@ -3297,6 +3561,33 @@
         <member name="P:Microsoft.Bot.Connector.ConversationResourceResponse.Id">
             <summary>
             Gets or sets id of the resource
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationsResult">
+            <summary>
+            Conversations result
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsResult.#ctor">
+            <summary>
+            Initializes a new instance of the ConversationsResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsResult.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ConversationMembers})">
+            <summary>
+            Initializes a new instance of the ConversationsResult class.
+            </summary>
+            <param name="skip">Paging token</param>
+            <param name="conversations">List of conversations</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationsResult.Skip">
+            <summary>
+            Gets or sets paging token
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationsResult.Conversations">
+            <summary>
+            Gets or sets list of conversations
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Entity">
@@ -6052,6 +6343,42 @@
             A response object containing the response body and response headers.
             </return>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotState.ExportBotStateDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            ExportBotStateData
+            </summary>
+            <remarks>
+            get all the state data for a bot in this channel. This returns a list of
+            BotStateData and (possibly) a continuation token
+            </remarks>
+            <param name='channelId'>
+            the channelId
+            </param>
+            <param name='continuationToken'>
+            the skip token returned previously, or null
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
         <member name="T:Microsoft.Bot.Connector.BotStateExtensions">
             <summary>
             Extension methods for BotState.
@@ -6348,6 +6675,45 @@
             The cancellation token.
             </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.ExportBotStateData(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
+            <summary>
+            ExportBotStateData
+            </summary>
+            <remarks>
+            get all the state data for a bot in this channel. This returns a list of
+            BotStateData and (possibly) a continuation token
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='channelId'>
+            the channelId
+            </param>
+            <param name='continuationToken'>
+            the skip token returned previously, or null
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.ExportBotStateDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            ExportBotStateData
+            </summary>
+            <remarks>
+            get all the state data for a bot in this channel. This returns a list of
+            BotStateData and (possibly) a continuation token
+            </remarks>
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='channelId'>
+            the channelId
+            </param>
+            <param name='continuationToken'>
+            the skip token returned previously, or null
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
         <member name="T:Microsoft.Bot.Connector.IBotState">
             <summary>
             BotState operations.
@@ -6572,6 +6938,36 @@
             Thrown when a required parameter is null
             </exception>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IBotState.ExportBotStateDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <summary>
+            ExportBotStateData
+            </summary>
+            <remarks>
+            get all the state data for a bot in this channel. This returns a
+            list of BotStateData and (possibly) a continuation token
+            </remarks>
+            <param name='channelId'>
+            the channelId
+            </param>
+            <param name='continuationToken'>
+            the skip token returned previously, or null
+            </param>
+            <param name='customHeaders'>
+            The headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
         <member name="T:Microsoft.Bot.Connector.IStateClient">
              <summary>
              The Bot State REST API allows your bot to store and retrieve state
@@ -6658,6 +7054,50 @@
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.APIResponse.Message">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateData.#ctor">
+            <summary>
+            Initializes a new instance of the BotStateData class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateData.#ctor(System.String,System.String,System.String,System.Nullable{System.DateTimeOffset})">
+            <summary>
+            Initializes a new instance of the BotStateData class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateData.ConversationId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateData.UserId">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateData.Data">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateData.LastModified">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateDataResult.#ctor">
+            <summary>
+            Initializes a new instance of the BotStateDataResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotStateDataResult.#ctor(System.Collections.Generic.IList{Microsoft.Bot.Connector.BotStateData},System.String)">
+            <summary>
+            Initializes a new instance of the BotStateDataResult class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateDataResult.BotStateData">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.BotStateDataResult.ContinuationToken">
             <summary>
             </summary>
         </member>
