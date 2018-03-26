@@ -296,7 +296,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         public async Task<BotStateDataResult> ExportStateDataAsync(IAddress key, string continuationToken)
         {
-            throw new NotImplementedException("ExportStateDataAsync is not supported for caching bot state store");
+            return await inner.ExportStateDataAsync(key, continuationToken).ConfigureAwait(false);
         }
 
         internal class CacheEntry
