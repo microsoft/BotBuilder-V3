@@ -167,7 +167,7 @@
           },
           "204": {
             "description": "The operation succeeded but no content was returned."
-          },f
+          },
           "default": {
             "description": "ErrorResponse",
             "schema": {
