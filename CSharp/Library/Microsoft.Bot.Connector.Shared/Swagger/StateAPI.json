@@ -63,9 +63,9 @@
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
-          },
-          "deprecated": true
-        }
+          }
+        },
+        "deprecated": true
       },
       "post": {
         "tags": [
@@ -126,7 +126,7 @@
             }
           }
         },
-        "deprecated":  true
+        "deprecated": true
       },
       "delete": {
         "tags": [
@@ -167,9 +167,9 @@
           },
           "204": {
             "description": "The operation succeeded but no content was returned."
-          },
+          },f
           "default": {
-            "description": "ErroResponse",
+            "description": "ErrorResponse",
             "schema": {
               "$ref": "#/definitions/ErrorResponse"
             }
