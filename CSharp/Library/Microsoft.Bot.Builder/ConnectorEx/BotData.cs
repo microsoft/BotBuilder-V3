@@ -87,7 +87,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     }
 
     /// <summary>
-    /// Volitile in-memory implementation of <see cref="IBotDataStore{BotData}"/>
+    /// Volatile in-memory implementation of <see cref="IBotDataStore{BotData}"/>
     /// </summary>
     public class InMemoryDataStore : IBotDataStore<BotData>
     {
@@ -468,6 +468,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public IBotDataBag UserData { get { return inner.UserData; } }
         public IBotDataBag ConversationData { get { return inner.ConversationData; } }
         public IBotDataBag PrivateConversationData { get { return inner.PrivateConversationData; } }
+  
         public async Task LoadAsync(CancellationToken token)
         {
             await this.inner.LoadAsync(token);
