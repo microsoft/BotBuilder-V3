@@ -27,11 +27,11 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the ConversationsResult class.
         /// </summary>
-        /// <param name="skip">Paging token</param>
+        /// <param name="continuationToken">Paging token</param>
         /// <param name="conversations">List of conversations</param>
-        public ConversationsResult(string skip = default(string), IList<ConversationMembers> conversations = default(IList<ConversationMembers>))
+        public ConversationsResult(string continuationToken = default(string), IList<ConversationMembers> conversations = default(IList<ConversationMembers>))
         {
-            Skip = skip;
+            ContinuationToken = continuationToken;
             Conversations = conversations;
             CustomInit();
         }
@@ -44,8 +44,8 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Gets or sets paging token
         /// </summary>
-        [JsonProperty(PropertyName = "skip")]
-        public string Skip { get; set; }
+        [JsonProperty(PropertyName = "continuationToken")]
+        public string ContinuationToken { get; set; }
 
         /// <summary>
         /// Gets or sets list of conversations

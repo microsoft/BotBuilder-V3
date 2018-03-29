@@ -1130,7 +1130,7 @@
       "description": "Conversations result",
       "type": "object",
       "properties": {
-        "skip": {
+        "continuationToken": {
           "description": "Paging token",
           "type": "string"
         },

@@ -84,14 +84,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// <returns>throw HttpException(HttpStatusCode.PreconditionFailed) if update fails</returns>
         Task SaveAsync(IAddress key, BotStoreType botStoreType, T data, CancellationToken cancellationToken);
         Task<bool> FlushAsync(IAddress key, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Exports all bot state data stored for this bot for this channel
-        /// </summary>
-        /// <param name="key"> The key.</param>
-        /// <param name="continuationToken">The continuation token for this query. Repeat calls until the continuation token is empty.</param>
-        /// <returns>BotStateDataResult with an array of bot state data records and a new continuation token</returns>
-        Task<BotStateDataResult> ExportStateDataAsync(IAddress key, string continuationToken);
     }
 
     /// <summary>
@@ -149,11 +141,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                     }
                 }
             }
-        }
-
-        public async Task<BotStateDataResult> ExportStateDataAsync(IAddress key, string continuationToken)
-        {
-            throw new NotImplementedException("ExportStateDataAsync is not supported for in-memory bot state store");
         }
 
         private static void ValidateETag(BotData botData, string value)
@@ -250,11 +237,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             // Everything is saved. Flush is no-op
             return Task.FromResult(true);
         }
-
-        public async Task<BotStateDataResult> ExportStateDataAsync(IAddress key, string continuationToken)
-        {
-            return await stateClient.BotState.ExportBotStateDataAsync(key.ChannelId, continuationToken);
-        }
     }
 
     /// <summary>
@@ -293,11 +275,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         }
 
         public long GetCount() { return cache.GetCount(); }
-
-        public async Task<BotStateDataResult> ExportStateDataAsync(IAddress key, string continuationToken)
-        {
-            return await inner.ExportStateDataAsync(key, continuationToken);
-        }
 
         internal class CacheEntry
         {
@@ -389,7 +366,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             SetCachedValue(cacheEntry, botStoreType, value);
         }
-
 
         private async Task<BotData> LoadFromInnerAndCache(CacheEntry cacheEntry, BotStoreType botStoreType, IAddress key, CancellationToken token)
         {
@@ -492,7 +468,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public IBotDataBag UserData { get { return inner.UserData; } }
         public IBotDataBag ConversationData { get { return inner.ConversationData; } }
         public IBotDataBag PrivateConversationData { get { return inner.PrivateConversationData; } }
-
+  
         public async Task LoadAsync(CancellationToken token)
         {
             await this.inner.LoadAsync(token);
@@ -510,11 +486,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             await this.dialogTaskManager.FlushDialogTasks(token);
             await this.inner.FlushAsync(token);
-        }
-
-        public async Task<BotStateDataResult> ExportStateDataAsync(string continuationToken)
-        {
-            return await this.inner.ExportStateDataAsync(continuationToken);
         }
     }
 
@@ -549,11 +520,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         public async Task FlushAsync(CancellationToken cancellationToken)
         {
             await this.botDataStore.FlushAsync(botDataKey, cancellationToken);
-        }
-
-        public async Task<BotStateDataResult> ExportStateDataAsync(string continuationToken)
-        {
-            return await botDataStore.ExportStateDataAsync(botDataKey, continuationToken);
         }
 
         IBotDataBag IBotData.ConversationData

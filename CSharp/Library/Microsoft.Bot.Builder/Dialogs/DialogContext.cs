@@ -145,11 +145,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             await this.botData.FlushAsync(cancellationToken);
         }
 
-        async Task<BotStateDataResult> IBotData.ExportStateDataAsync(string continuationToken)
-        {
-           return await botData.ExportStateDataAsync(continuationToken);
-        }
-
         CancellationToken IBotContext.CancellationToken => this.token;
 
         IActivity IBotContext.Activity => this.activity;

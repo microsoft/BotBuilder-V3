@@ -292,7 +292,6 @@ namespace Microsoft.Bot.Connector
         {
             BotState = new BotState(this);
             BaseUri = new System.Uri("https://state.botframework.com");
-
             SerializationSettings = new JsonSerializerSettings
             {
                 Formatting = Newtonsoft.Json.Formatting.Indented,
