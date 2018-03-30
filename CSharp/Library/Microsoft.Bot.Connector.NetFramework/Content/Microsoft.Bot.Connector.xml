@@ -3614,10 +3614,10 @@
             <summary>
             Initializes a new instance of the ConversationsResult class.
             </summary>
-            <param name="skip">Paging token</param>
+            <param name="continuationToken">Paging token</param>
             <param name="conversations">List of conversations</param>
         </member>
-        <member name="P:Microsoft.Bot.Connector.ConversationsResult.Skip">
+        <member name="P:Microsoft.Bot.Connector.ConversationsResult.ContinuationToken">
             <summary>
             Gets or sets paging token
             </summary>
