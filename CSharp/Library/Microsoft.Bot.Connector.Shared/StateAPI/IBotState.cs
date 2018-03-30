@@ -108,7 +108,7 @@ namespace Microsoft.Bot.Connector
         /// Thrown when a required parameter is null
         /// </exception>
         [System.Obsolete()]
-        Task<HttpOperationResponse<object>> DeleteStateForUserWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HttpOperationResponse<IList<string>>> DeleteStateForUserWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken));
         /// <summary>
         /// GetConversationData
         /// </summary>
