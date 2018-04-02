@@ -317,39 +317,7 @@ namespace Microsoft.Bot.Connector
     }
 
     public static class ActivityExtensions
-    {
-        /// <summary>
-        /// Get StateClient appropriate for this activity
-        /// </summary>
-        /// <param name="credentials">credentials for bot to access state api</param>
-        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
-        /// <param name="handlers"></param>
-        /// <param name="activity"></param>
-        /// <returns></returns>
-        [System.Obsolete("Deprecated: This method will only get the default state client, if you have implemented a custom state client it will not retrieve it")]
-        public static StateClient GetStateClient(this IActivity activity, MicrosoftAppCredentials credentials, string serviceUrl = null, params DelegatingHandler[] handlers)
-        {
-            bool useServiceUrl = (activity.ChannelId == "emulator");
-            if (useServiceUrl)
-                return new StateClient(new Uri(activity.ServiceUrl), credentials: credentials, handlers: handlers);
-
-            if (serviceUrl != null)
-                return new StateClient(new Uri(serviceUrl), credentials: credentials, handlers: handlers);
-
-            return new StateClient(credentials, true, handlers);
-        }
-
-        /// <summary>
-        /// Get StateClient appropriate for this activity
-        /// </summary>
-        /// <param name="microsoftAppId"></param>
-        /// <param name="microsoftAppPassword"></param>
-        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
-        /// <param name="handlers"></param>
-        /// <param name="activity"></param>
-        /// <returns></returns>
-        public static StateClient GetStateClient(this IActivity activity, string microsoftAppId = null, string microsoftAppPassword = null, string serviceUrl = null, params DelegatingHandler[] handlers) => GetStateClient(activity, new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword), serviceUrl, handlers);
-
+    {       
         /// <summary>
         /// Return the "major" portion of the activity
         /// </summary>
