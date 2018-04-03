@@ -162,7 +162,7 @@ export class ChatConnector implements IConnector, IBotStorage {
 
         // Verify token
         if (token) {
-            let decoded = jwt.decode(token, { complete: true });
+            let decoded = jwt.decode(token, { complete: true }) as any;
             var verifyOptions: jwt.VerifyOptions;
             var openIdMetadata: OpenIdMetadata;
             const algorithms: string[] = ['RS256', 'RS384', 'RS512'];
@@ -302,7 +302,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             } catch (e) {
                 cb(e);
             }
-        }, (err) => done(err, !err ? addresses : null));
+        }, (err: Error) => done(err, !err ? addresses : null));
     }
 
     public startConversation(address: IStartConversationAddress, done: (err: Error, address?: IAddress) => void): void {
@@ -380,6 +380,39 @@ export class ChatConnector implements IConnector, IBotStorage {
         this.authenticatedRequest(options, (err, response, body) => done(err));
     }
 
+    public getConversations(serviceUrl: string, continuationToken: string|undefined, done: (err: Error, results: IConversationsResult) => void): void {
+        // Calculate path
+        var path = '/v3/conversations';
+        if (continuationToken) { path += '?contuationToken=' + encodeURIComponent(continuationToken) }
+
+        // Issue request
+        var options: request.Options = {
+            method: 'GET',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, (err, response, body) => done(err, body));
+    }
+
+    public deleteConversationMember(serviceUrl: string, conversationId: string, memberId: string, done: (err: Error) => void): void {
+        // Calculate path
+        var path = '/v3/conversations/' + encodeURIComponent(conversationId) + 
+            '/members/' + encodeURIComponent(memberId);
+
+        // Issue request
+        var options: request.Options = {
+            method: 'DELETE',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, (err, response, body) => done(err));
+    }
 
     public getData(context: IBotStorageContext, callback: (err: Error, data: IChatConnectorStorageData) => void): void {
         try {
@@ -647,7 +680,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         });
     }
 
-    private authenticatedRequest(options: request.Options, callback: (error: any, response: http.IncomingMessage, body: any) => void, refresh = false): void {
+    private authenticatedRequest(options: request.OptionsWithUrl, callback: (error: any, response: http.IncomingMessage, body: any) => void, refresh = false): void {
         if (refresh) {
             this.accessToken = null;
         }

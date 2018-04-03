@@ -189,7 +189,7 @@ export class Session extends events.EventEmitter {
     }
 
     /** Gets/sets the users preferred locale. */
-    public preferredLocale(locale?: string, callback?: ErrorCallback): string {
+    public preferredLocale(locale?: string, callback?: async.ErrorCallback<any>): string {
         if (locale) {
             this._locale = locale;
             if (this.userData) {
@@ -774,7 +774,7 @@ export class Session extends events.EventEmitter {
             } else {
                 cb(new Error("'" + variable + "' isn't watchable."));
             }
-        }, (err) => {
+        }, (err: Error) => {
             // Flush logs
             if (err) {
                 this.logger.error(this.dialogStack(), err);

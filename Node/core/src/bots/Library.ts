@@ -259,7 +259,7 @@ export class Library extends EventEmitter {
         var ctx = <IFindActionRouteContext>utils.clone(context);
         ctx.libraryName = this.name;
         ctx.routeType = Library.RouteTypes.StackAction;
-        async.forEachOf(dialogStack || [], (entry: IDialogState, index: number, next: ErrorCallback) => {
+        async.forEachOf(dialogStack || [], (entry: IDialogState, index: number, next: async.ErrorCallback<any>) => {
             // Filter to library.
             var parts = entry.id.split(':');
             if (parts[0] == this.name) {
@@ -393,7 +393,7 @@ export class Library extends EventEmitter {
                             cb(err);
                         });
                     }
-                ], (err) => {
+                ], (err: Error) => {
                     if (!err) {
                         if (explain.length > 0) {
                             context.logger.log(null, this.logPrefix() + '.findRoutes() explanation:' + explain);

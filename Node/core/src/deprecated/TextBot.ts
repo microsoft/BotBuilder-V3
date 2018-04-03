@@ -98,7 +98,7 @@ export class TextBot  {
         this.bot = new UniversalBot(this.connector, oBot);
     }
 
-    public on(event: string, listener: Function): this {
+    public on(event: string, listener: (...args: any[]) => void): this {
         this.bot.on(event, listener);
         return this;
     }

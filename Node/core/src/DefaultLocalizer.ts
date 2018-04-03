@@ -82,7 +82,7 @@ export class DefaultLocalizer implements ILocalizer {
         }
     }
 
-    public load(locale: string, done?: ErrorCallback): void {
+    public load(locale: string, done?: async.ErrorCallback<any>): void {
         logger.debug("localizer.load(%s)", locale);                                               
 
         // Build list of locales to load
@@ -192,7 +192,7 @@ export class DefaultLocalizer implements ILocalizer {
                 })
                 .then((files: string[]) => {
                     // List of files retreived
-                    return asyncEach(files, (file: string, cb: ErrorCallback) => {
+                    return asyncEach(files, (file: string, cb: async.ErrorCallback<any>) => {
                         if (file.substring(file.length - 5).toLowerCase() == ".json") {
                             logger.debug("localizer.load(%s) - Loading %s/%s", locale, dir, file);
                             this.parseFile(locale, dir, file)

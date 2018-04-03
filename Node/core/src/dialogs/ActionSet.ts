@@ -176,7 +176,7 @@ export class ActionSet {
             }
             callback(null, results);
         } else {
-            async.forEachOf(this.actions, (entry: IActionHandlerEntry, action: string, cb: ErrorCallback) => {
+            async.forEachOf(this.actions, (entry: IActionHandlerEntry, action: string, cb: async.ErrorCallback<any>) => {
                 if (entry.options.onFindAction) {
                     entry.options.onFindAction(context, (err, score, routeData) => {
                         if (!err) {
