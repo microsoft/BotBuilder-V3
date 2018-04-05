@@ -5512,7 +5512,13 @@
             The channel data essentially allows a bot to have access to native functionality on a per channel basis.
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:Microsoft.Bot.Connector.IActivity.GetChannelData``1" -->
+        <member name="M:Microsoft.Bot.Connector.IActivity.GetChannelData``1">
+            <summary>
+            Get the channel data as strongly typed object
+            </summary>
+            <typeparam name="TypeT"></typeparam>
+            <returns></returns>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IActivity.TryGetChannelData``1(``0@)">
             <summary>
             Try to get the channeldata as a strongly typed object 

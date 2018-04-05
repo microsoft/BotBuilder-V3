@@ -88,7 +88,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Get the channel data as strongly typed object
         /// </summary>
-        /// <typeparatm name="TypeT"></typeparam>
+        /// <typeparam name="TypeT"></typeparam>
         /// <returns></returns>
         TypeT GetChannelData<TypeT>();
 

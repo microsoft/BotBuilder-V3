@@ -95,9 +95,8 @@ namespace Microsoft.Bot.Connector
             using (var _result = await operations.GetAttachmentWithHttpMessagesAsync(attachmentId, viewId, null, cancellationToken).ConfigureAwait(false))
             {
                 MemoryStream memoryStream = new MemoryStream();
-                byte[] buffer = new byte[_result.Body.Length];
-                await _result.Body.ReadAsync(buffer, 0, (int)_result.Body.Length).ConfigureAwait(false);
-                return buffer;
+                await _result.Body.CopyToAsync(memoryStream).ConfigureAwait(false);
+                return memoryStream.ToArray();
             }
         }
 
