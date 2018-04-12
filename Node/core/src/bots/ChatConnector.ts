@@ -414,6 +414,23 @@ export class ChatConnector implements IConnector, IBotStorage {
         this.authenticatedRequest(options, (err, response, body) => done(err));
     }
 
+    public exportBotStateData(serviceUrl: string, channelId: string, continuationToken: string|undefined, done: (err: Error, results: IBotStateDataResult) => void): void {
+        // Calculate path
+        var path = '/v3/botstate/' + channelId + '/exportBotStateData';
+        if (continuationToken) { path += '?contuationToken=' + encodeURIComponent(continuationToken) }
+
+        // Issue request
+        var options: request.Options = {
+            method: 'GET',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, (err, response, body) => done(err, body));
+    }
+    
     public getData(context: IBotStorageContext, callback: (err: Error, data: IChatConnectorStorageData) => void): void {
         try {
             console.warn(StateApiDreprecatedMessage);

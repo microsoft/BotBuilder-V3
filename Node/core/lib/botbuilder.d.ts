@@ -283,13 +283,37 @@ export interface IConversationMembers {
     members: IIdentity[];
 }
 
-/** Result object returned from `ChatAdapter.getConversations()`. */
+/** Result object returned from `ChatConnector.getConversations()`. */
 export interface IConversationsResult {
     /** Paging token. */
     continuationToken: string;
 
     /** List of conversations. */
-    conversations: IConversationMembers;
+    conversations: IConversationMembers[];
+}
+
+/** Exported bot state data. */
+export interface IBotStateData {
+    /** ID of the conversation the data is for (if relevant.) */
+    conversationId?: string;
+
+    /** ID of the user the data is for (if relevant.) */
+    userId?: string;
+
+    /** Exported data. */
+    data: string;
+
+    /** Timestamp of when the data was last modified. */
+    lastModified: string;
+}
+
+/** Result object returned from `ChatConnector.exportBotStateData()`.  */
+export interface IBotStateDataResult {
+    /** Paging token. */
+    continuationToken: string;
+
+    /** Exported bot state records. */
+    botStateData: IBotStateData[];
 }
 
 /**
@@ -4176,6 +4200,15 @@ export class ChatConnector implements IConnector, IBotStorage {
      * @param done Callback invoked upon completion of the delete operation.
      */
     deleteConversationMember(serviceUrl: string, conversationId: string, memberId: string, done: (err: Error) => void): void;
+    
+    /**
+     * Exports bot state data persisted for a given channel.
+     * @param serviceUrl The service url for the channel being queried. This can be found in the `address.serviceUrl` for a message sent to the bot.
+     * @param channelId ID of the channel being exported. This can be found in the `address.channelId` for a message sent to the bot.
+     * @param continuationToken The continuation token for the next page of results to fetch.  This should be `undefined` for the first page requested.
+     * @param done Callback to recieve the next page of results.
+     */
+    exportBotStateData(serviceUrl: string, channelId: string, continuationToken: string|undefined, done: (err: Error, results: IBotStateDataResult) => void): void;
 
     /** Reads in data from the Bot Frameworks state service. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;
