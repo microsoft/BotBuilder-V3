@@ -383,7 +383,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     public getConversations(serviceUrl: string, continuationToken: string|undefined, done: (err: Error, results: IConversationsResult) => void): void {
         // Calculate path
         var path = '/v3/conversations';
-        if (continuationToken) { path += '?contuationToken=' + encodeURIComponent(continuationToken) }
+        if (continuationToken) { path += '?continuationToken=' + encodeURIComponent(continuationToken) }
 
         // Issue request
         var options: request.Options = {
@@ -417,7 +417,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     public exportBotStateData(serviceUrl: string, channelId: string, continuationToken: string|undefined, done: (err: Error, results: IBotStateDataResult) => void): void {
         // Calculate path
         var path = '/v3/botstate/' + channelId + '/exportBotStateData';
-        if (continuationToken) { path += '?contuationToken=' + encodeURIComponent(continuationToken) }
+        if (continuationToken) { path += '?continuationToken=' + encodeURIComponent(continuationToken) }
 
         // Issue request
         var options: request.Options = {

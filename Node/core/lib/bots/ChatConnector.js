@@ -284,7 +284,7 @@ var ChatConnector = (function () {
     ChatConnector.prototype.getConversations = function (serviceUrl, continuationToken, done) {
         var path = '/v3/conversations';
         if (continuationToken) {
-            path += '?contuationToken=' + encodeURIComponent(continuationToken);
+            path += '?continuationToken=' + encodeURIComponent(continuationToken);
         }
         var options = {
             method: 'GET',
@@ -306,7 +306,7 @@ var ChatConnector = (function () {
     ChatConnector.prototype.exportBotStateData = function (serviceUrl, channelId, continuationToken, done) {
         var path = '/v3/botstate/' + channelId + '/exportBotStateData';
         if (continuationToken) {
-            path += '?contuationToken=' + encodeURIComponent(continuationToken);
+            path += '?continuationToken=' + encodeURIComponent(continuationToken);
         }
         var options = {
             method: 'GET',
