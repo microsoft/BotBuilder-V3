@@ -6,7 +6,6 @@
 
 namespace Microsoft.Bot.Connector
 {
-    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -29,7 +28,7 @@ namespace Microsoft.Bot.Connector
         /// <param name="url">Url for the media</param>
         /// <param name="profile">Optional profile hint to the client to
         /// differentiate multiple MediaUrl objects from each other</param>
-        public MediaUrl(string url, string profile = default(string))
+        public MediaUrl(string url = default(string), string profile = default(string))
         {
             Url = url;
             Profile = profile;
@@ -54,18 +53,5 @@ namespace Microsoft.Bot.Connector
         [JsonProperty(PropertyName = "profile")]
         public string Profile { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Url == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Url");
-            }
-        }
     }
 }

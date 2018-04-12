@@ -307,9 +307,6 @@ namespace Microsoft.Bot.Builder.Tests
                     await Conversation.SendAsync(scope, msg);
                     var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                     Assert.AreEqual("1:test", reply.Text);
-                    var store = scope.Resolve<CachingBotDataStore>();
-                    Assert.AreEqual(0, store.GetCount());
-                    var dataStore = scope.Resolve<InMemoryDataStore>();
                 }
 
                 for (int i = 0; i < 10; i++)
@@ -321,12 +318,12 @@ namespace Microsoft.Bot.Builder.Tests
                         var reply = scope.Resolve<Queue<IMessageActivity>>().Dequeue();
                         Assert.AreEqual($"{i + 2}:test", reply.Text);
                         var store = scope.Resolve<CachingBotDataStore>();
-                        Assert.AreEqual(0, store.GetCount());
                         var dataStore = scope.Resolve<InMemoryDataStore>();
                         string val = string.Empty;
                         Assert.IsTrue(scope.Resolve<IBotData>().PrivateConversationData.TryGetValue(DialogModule.BlobKey, out val));
                         Assert.AreNotEqual(string.Empty, val);
                     }
+
                 }
             }
         }

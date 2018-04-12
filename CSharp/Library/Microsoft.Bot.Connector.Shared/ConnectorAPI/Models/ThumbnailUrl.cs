@@ -6,7 +6,6 @@
 
 namespace Microsoft.Bot.Connector
 {
-    using Microsoft.Rest;
     using Newtonsoft.Json;
     using System.Linq;
 
@@ -30,7 +29,7 @@ namespace Microsoft.Bot.Connector
         /// content</param>
         /// <param name="alt">HTML alt text to include on this thumbnail
         /// image</param>
-        public ThumbnailUrl(string url, string alt = default(string))
+        public ThumbnailUrl(string url = default(string), string alt = default(string))
         {
             Url = url;
             Alt = alt;
@@ -54,18 +53,5 @@ namespace Microsoft.Bot.Connector
         [JsonProperty(PropertyName = "alt")]
         public string Alt { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Url == null)
-            {
-                throw new ValidationException(ValidationRules.CannotBeNull, "Url");
-            }
-        }
     }
 }

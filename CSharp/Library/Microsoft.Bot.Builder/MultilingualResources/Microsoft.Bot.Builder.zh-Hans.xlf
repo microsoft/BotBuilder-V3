@@ -9,10 +9,12 @@
         <trans-unit id="AttachmentContentTypeValidatorError" translate="yes" xml:space="preserve">
           <source>Attachment '{0}' is invalid! The content-type should contain '{1}'.</source>
           <target state="final">附件“{0}”无效！ 内容类型应包含“{1}”。</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-attachmnet name, 1-expected content-type</note>
         </trans-unit>
         <trans-unit id="AttachmentContentTypeValidatorHelp" translate="yes" xml:space="preserve">
           <source>You should provide an attachment where content-type has '{0}'.</source>
           <target state="final">您应该提供内容类型为“{0}”的附件。</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-attachment content type</note>
         </trans-unit>
         <trans-unit id="CommandBack" translate="yes" xml:space="preserve">
           <source>Back</source>
@@ -139,19 +141,23 @@
         <trans-unit id="TemplateAttachmentCollectionDescription" translate="yes" xml:space="preserve">
           <source>{0} attachment/s linked.</source>
           <target state="final">{0}个连结的附件。</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-attachments count</note>
         </trans-unit>
         <trans-unit id="TemplateAttachmentCollectionHelp" translate="yes" xml:space="preserve">
           <source>You can submit one or more attachments.{0}</source>
           <target state="final">您可以提交一个或多个附件。{0}</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-dynamic help from attachment class</note>
         </trans-unit>
         <trans-unit id="TemplateAttachmentDescription" translate="yes" xml:space="preserve">
           <source>Attachment named '{0}' with content-type '{1}'.</source>
           <target state="final">附件名为“{0}”，内容类型为“{1}”。</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-attachment name, 1-attachment content-type</note>
         </trans-unit>
         <trans-unit id="TemplateAttachmentHelp" translate="yes" xml:space="preserve">
           <source>You can submit one attachment.{0}</source>
           <target state="final">您可以提交一个附件。{0}</target>
-        </trans-unit>        
+          <note from="MultilingualBuild" annotates="source" priority="2">0-dynamic help from attachment class</note>
+        </trans-unit>
         <trans-unit id="TemplateBool" translate="yes" xml:space="preserve">
           <source>Would you like a {&amp;}? {||}</source>
           <target state="final">您是需要 {&amp;}? {||}</target>

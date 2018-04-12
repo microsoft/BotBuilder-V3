@@ -132,28 +132,5 @@ namespace Microsoft.Bot.Connector
         [JsonProperty(PropertyName = "value")]
         public object Value { get; set; }
 
-        /// <summary>
-        /// Validate the object.
-        /// </summary>
-        /// <exception cref="Rest.ValidationException">
-        /// Thrown if validation fails
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (Image != null)
-            {
-                Image.Validate();
-            }
-            if (Media != null)
-            {
-                foreach (var element in Media)
-                {
-                    if (element != null)
-                    {
-                        element.Validate();
-                    }
-                }
-            }
-        }
     }
 }

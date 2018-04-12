@@ -28,6 +28,7 @@ namespace Microsoft.Bot.Connector
         IMessageDeleteActivity,
         IMessageReactionActivity,
         ISuggestionActivity,
+        ITraceActivity,
         ITypingActivity,
         IEndOfConversationActivity,
         IEventActivity,
@@ -144,6 +145,11 @@ namespace Microsoft.Bot.Connector
         /// Return an IConversationUpdateActivity mask if this is a conversation update activity
         /// </summary>
         public IConversationUpdateActivity AsConversationUpdateActivity() { return IsActivity(ActivityTypes.ConversationUpdate) ? this : null; }
+
+        /// <summary>
+        /// Returns ITraceActivity if this is a trace activity, null otherwise
+        /// </summary>
+        public ITraceActivity AsTraceActivity() { return IsActivity(ActivityTypes.Trace) ? this : null; }
 
         /// <summary>
         /// Return an ITypingActivity mask if this is a typing activity

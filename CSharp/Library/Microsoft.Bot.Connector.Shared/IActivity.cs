@@ -159,5 +159,11 @@ namespace Microsoft.Bot.Connector
         /// Returns IMessageDeleteActivity if this is a message delete activity, null otherwise
         /// </summary>
         ISuggestionActivity AsSuggestionActivity();
+
+        /// <summary>
+        /// Returns ITraceActivity if this is a trace activity, null otherwise
+        /// </summary>
+        ITraceActivity AsTraceActivity();
+
     }
 }

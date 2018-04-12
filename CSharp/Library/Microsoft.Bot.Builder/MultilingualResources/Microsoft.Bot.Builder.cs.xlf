@@ -9,11 +9,13 @@
         <trans-unit id="AttachmentContentTypeValidatorError" translate="yes" xml:space="preserve">
           <source>Attachment '{0}' is invalid! The content-type should contain '{1}'.</source>
           <target state="final">Příloha '{0}' je neplatná! Obsahový typ by měl obsahovat '{1}'.</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-attachmnet name, 1-expected content-type</note>
         </trans-unit>
         <trans-unit id="AttachmentContentTypeValidatorHelp" translate="yes" xml:space="preserve">
           <source>You should provide an attachment where content-type has '{0}'.</source>
           <target state="final">Měli byste zadat přílohu, kde má typ obsahu '{0}'.</target>
-        </trans-unit>        
+          <note from="MultilingualBuild" annotates="source" priority="2">0-attachment content type</note>
+        </trans-unit>
         <trans-unit id="CommandBack" translate="yes" xml:space="preserve">
           <source>Back</source>
           <target state="translated">Zpět</target>
@@ -144,18 +146,22 @@
         <trans-unit id="TemplateAttachmentCollectionDescription" translate="yes" xml:space="preserve">
           <source>{0} attachment/s linked.</source>
           <target state="final">{0} připojené přílohy.</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-attachments count</note>
         </trans-unit>
         <trans-unit id="TemplateAttachmentCollectionHelp" translate="yes" xml:space="preserve">
           <source>You can submit one or more attachments.{0}</source>
           <target state="final">Můžete odeslat jednu nebo více příloh.{0}</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-dynamic help from attachment class</note>
         </trans-unit>
         <trans-unit id="TemplateAttachmentDescription" translate="yes" xml:space="preserve">
           <source>Attachment named '{0}' with content-type '{1}'.</source>
           <target state="final">Příloha s názvem '{0}' typem obsahu'{1}'.</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-attachment name, 1-attachment content-type</note>
         </trans-unit>
         <trans-unit id="TemplateAttachmentHelp" translate="yes" xml:space="preserve">
           <source>You can submit one attachment.{0}</source>
           <target state="final">Můžete odeslat jednu přílohu.{0}</target>
+          <note from="MultilingualBuild" annotates="source" priority="2">0-dynamic help from attachment class</note>
         </trans-unit>
         <trans-unit id="TemplateBool" translate="yes" xml:space="preserve">
           <source>Would you like a {&amp;}? {||}</source>
