@@ -120,7 +120,7 @@ export class ConsoleConnector implements IConnector {
             } catch (e) {
                 cb(e);
             }
-        }, (err) => done(err, !err ? addresses : null));
+        }, (err: Error) => done(err, !err ? addresses : null));
     }
 
     public startConversation(address: IAddress, cb: (err: Error, address?: IAddress) => void): void {

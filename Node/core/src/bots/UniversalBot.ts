@@ -523,7 +523,7 @@ export class UniversalBot extends Library {
                     }
                     cb(err);
                 });
-            }, (err) => {
+            }, (err: Error) => {
                 if (!err) {
                     // Find disambiguation handler to use
                     var disambiguateRoute: IDisambiguateRouteHandler = (session, routes) => {

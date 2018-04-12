@@ -281,6 +281,40 @@ var ChatConnector = (function () {
         };
         this.authenticatedRequest(options, function (err, response, body) { return done(err); });
     };
+    ChatConnector.prototype.getConversations = function (serviceUrl, continuationToken, done) {
+        var path = '/v3/conversations';
+        if (continuationToken) {
+            path += '?contuationToken=' + encodeURIComponent(continuationToken);
+        }
+        var options = {
+            method: 'GET',
+            url: urlJoin(serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, function (err, response, body) { return done(err, body); });
+    };
+    ChatConnector.prototype.deleteConversationMember = function (serviceUrl, conversationId, memberId, done) {
+        var path = '/v3/conversations/' + encodeURIComponent(conversationId) +
+            '/members/' + encodeURIComponent(memberId);
+        var options = {
+            method: 'DELETE',
+            url: urlJoin(serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, function (err, response, body) { return done(err); });
+    };
+    ChatConnector.prototype.exportBotStateData = function (serviceUrl, channelId, continuationToken, done) {
+        var path = '/v3/botstate/' + channelId + '/exportBotStateData';
+        if (continuationToken) {
+            path += '?contuationToken=' + encodeURIComponent(continuationToken);
+        }
+        var options = {
+            method: 'GET',
+            url: urlJoin(serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, function (err, response, body) { return done(err, body); });
+    };
     ChatConnector.prototype.getData = function (context, callback) {
         var _this = this;
         try {

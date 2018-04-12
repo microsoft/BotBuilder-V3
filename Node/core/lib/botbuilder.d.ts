@@ -274,6 +274,48 @@ export interface IIdentity {
     isGroup?: boolean;
 }
 
+/** List of members within a conversation. */
+export interface IConversationMembers {
+    /** Conversation ID. */
+    id: string;
+
+    /** List of members in this conversation. */
+    members: IIdentity[];
+}
+
+/** Result object returned from `ChatConnector.getConversations()`. */
+export interface IConversationsResult {
+    /** Paging token. */
+    continuationToken: string;
+
+    /** List of conversations. */
+    conversations: IConversationMembers[];
+}
+
+/** Exported bot state data. */
+export interface IBotStateData {
+    /** ID of the conversation the data is for (if relevant.) */
+    conversationId?: string;
+
+    /** ID of the user the data is for (if relevant.) */
+    userId?: string;
+
+    /** Exported data. */
+    data: string;
+
+    /** Timestamp of when the data was last modified. */
+    lastModified: string;
+}
+
+/** Result object returned from `ChatConnector.exportBotStateData()`.  */
+export interface IBotStateDataResult {
+    /** Paging token. */
+    continuationToken: string;
+
+    /** Exported bot state records. */
+    botStateData: IBotStateData[];
+}
+
 /**
  * Address routing information for an [event](/en-us/node/builder/chat-reference/interfaces/_botbuilder_d_.ievent.html#address).
  * Addresses are bidirectional meaning they can be used to address both incoming and outgoing events.
@@ -4138,6 +4180,35 @@ export class ChatConnector implements IConnector, IBotStorage {
 
     /** Deletes an existing message. */
     delete(address: IAddress, done: (err: Error) => void): void;
+
+    /** 
+     * Retrieves a list of all the conversations the bot has on a given channel. Results will be 
+     * sent back to the bot in pages along with a `continuationToken` that can be used to fetch 
+     * the next page of conversations.  This data can be used to delete all of the conversation data
+     * for a user via the [deleteConversationMember()](#deleteconversationmember) method.
+     * @param serviceUrl The service url for the channel being queried. This can be found in the `address.serviceUrl` for a message sent to the bot.
+     * @param continuationToken The continuation token for the next page of results to fetch.  This should be `undefined` for the first page requested.
+     * @param done Callback to recieve the next page of results.
+     */
+    getConversations(serviceUrl: string, continuationToken: string|undefined, done: (err: Error, result?: IConversationsResult) => void): void;
+    
+    /**
+     * Deletes the data for an individual user within a conversation.
+     * @param serviceUrl The service url for the channel being updated. This can be found in the `address.serviceUrl` for a message sent to the bot.
+     * @param conversationId ID of the conversation with the member to delete.
+     * @param memberId ID of the member to delete.
+     * @param done Callback invoked upon completion of the delete operation.
+     */
+    deleteConversationMember(serviceUrl: string, conversationId: string, memberId: string, done: (err: Error) => void): void;
+    
+    /**
+     * Exports bot state data persisted for a given channel.
+     * @param serviceUrl The service url for the channel being queried. This can be found in the `address.serviceUrl` for a message sent to the bot.
+     * @param channelId ID of the channel being exported. This can be found in the `address.channelId` for a message sent to the bot.
+     * @param continuationToken The continuation token for the next page of results to fetch.  This should be `undefined` for the first page requested.
+     * @param done Callback to recieve the next page of results.
+     */
+    exportBotStateData(serviceUrl: string, channelId: string, continuationToken: string|undefined, done: (err: Error, results: IBotStateDataResult) => void): void;
 
     /** Reads in data from the Bot Frameworks state service. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;

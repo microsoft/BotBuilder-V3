@@ -87,6 +87,28 @@ interface IIdentity {
     isGroup?: boolean;              // If true the identity is a group.  
 }
 
+interface IConversationMembers {
+    id: string;                     // Conversation ID
+    members: IIdentity[];           // List of members in this conversation
+}
+
+interface IConversationsResult {
+    continuationToken: string;                // Paging token
+    conversations: IConversationMembers[];    // List of conversations
+}
+
+interface IBotStateData {
+    conversationId?: string;        // ID of the conversation the data is for (if relevant.)
+    userId?: string;                // ID of the user the data is for (if relevant.)
+    data: string;                   // Exported data.
+    lastModified: string;           // Timestamp of when the data was last modified.
+}
+
+interface IBotStateDataResult {
+    continuationToken: string;      // Paging token.
+    botStateData: IBotStateData[];  // Exported bot state records.
+}
+
 interface IAddress {
     channelId: string;              // Unique identifier for channel
     user: IIdentity;                // User that sent or should receive the message
@@ -232,7 +254,7 @@ interface ILocationV2 {
 }
 
 interface ILocalizer {
-    load(locale: string, callback?: ErrorCallback): void;     
+    load(locale: string, callback?: async.ErrorCallback<any>): void;     
     defaultLocale(locale?: string): string   
     gettext(locale: string, msgid: string, namespace?: string): string;
     trygettext(locale: string, msgid: string, namespace?: string): string;
