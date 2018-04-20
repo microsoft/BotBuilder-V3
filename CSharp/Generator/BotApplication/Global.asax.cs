@@ -32,7 +32,6 @@ namespace $safeprojectname$
                     .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
                     .AsSelf()
                     .SingleInstance();
-
             });
         }
     }
