@@ -119,11 +119,12 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// </summary>
     public class LuisServiceResult
     {
-        public LuisServiceResult(LuisResult result, IntentRecommendation intent, ILuisService service)
+        public LuisServiceResult(LuisResult result, IntentRecommendation intent, ILuisService service, ILuisOptions luisRequest)
         {
             this.Result = result;
             this.BestIntent = intent;
             this.LuisService = service;
+            this.LuisRequest = luisRequest;
         }
 
         public LuisResult Result { get; }
@@ -131,6 +132,8 @@ namespace Microsoft.Bot.Builder.Dialogs
         public IntentRecommendation BestIntent { get; }
 
         public ILuisService LuisService { get; }
+
+        public ILuisOptions LuisRequest { get; }
     }
 
     /// <summary>
@@ -140,6 +143,10 @@ namespace Microsoft.Bot.Builder.Dialogs
     [Serializable]
     public class LuisDialog<TResult> : IDialog<TResult>
     {
+        public const string LuisTraceType = "https://www.luis.ai/schemas/trace";
+        public const string LuisTraceLabel = "Luis Trace";
+        public const string Obfuscated = "****";
+
         protected readonly IReadOnlyList<ILuisService> services;
 
         /// <summary>   Mapping from intent string to the appropriate handler. </summary>
@@ -212,13 +219,21 @@ namespace Microsoft.Bot.Builder.Dialogs
             if (messageText != null)
             {
                 // Modify request by the service to add attributes and then by the dialog to reflect the particular query
-                var tasks = this.services.Select(s => s.QueryAsync(ModifyLuisRequest(s.ModifyRequest(new LuisRequest(messageText))), context.CancellationToken)).ToArray();
+                var tasks = this.services.Select(async s =>
+                {
+                    var request = ModifyLuisRequest(s.ModifyRequest(new LuisRequest(messageText)));
+                    var result = await s.QueryAsync(request, context.CancellationToken).ConfigureAwait(false);
+
+                    return Tuple.Create(request, result);
+                }).ToArray();
                 var results = await Task.WhenAll(tasks);
 
-                var winners = from result in results.Select((value, index) => new { value, index })
+                
+
+                var winners = from result in results.Select((value, index) => new { value = value.Item2, request = value.Item1, index })
                               let resultWinner = BestIntentFrom(result.value)
                               where resultWinner != null
-                              select new LuisServiceResult(result.value, resultWinner, this.services[result.index]);
+                              select new LuisServiceResult(result.value, resultWinner, this.services[result.index], result.request);
 
                 var winner = this.BestResultFrom(winners);
 
@@ -226,6 +241,8 @@ namespace Microsoft.Bot.Builder.Dialogs
                 {
                     throw new InvalidOperationException("No winning intent selected from Luis results.");
                 }
+
+                await EmitTraceInfo(context, winner.Result, winner.LuisRequest, winner.LuisService.LuisModel).ConfigureAwait(false);
 
                 if (winner.Result.Dialog?.Status == DialogResponse.DialogStatus.Question)
                 {
@@ -300,6 +317,25 @@ namespace Microsoft.Bot.Builder.Dialogs
             var messageActivity = (IMessageActivity)context.Activity;
             await DispatchToIntentHandler(context, Awaitable.FromItem(messageActivity), BestIntentFrom(result), result);
         }
+
+
+        private static async Task EmitTraceInfo(IBotContext context, LuisResult luisResult, ILuisOptions luisOptions, ILuisModel luisModel)
+        {
+            var luisTraceInfo = new LuisTraceInfo
+            {
+                LuisResult = luisResult,
+                LuisOptions = luisOptions,
+                LuisModel = RemoveSensitiveData(luisModel)
+            };
+            var activity = Activity.CreateTraceActivityReply(context.Activity as Activity, "LuisDialog", LuisTraceType, luisTraceInfo, LuisTraceLabel) as IMessageActivity;
+            await context.PostAsync(activity).ConfigureAwait(false);
+        }
+
+        public static ILuisModel RemoveSensitiveData(ILuisModel luisModel)
+        {
+            return new LuisModelAttribute(luisModel.ModelID, Obfuscated,luisModel.ApiVersion, luisModel.UriBase.Host, luisModel.Threshold);
+        }
+
     }
 
     /// <summary>

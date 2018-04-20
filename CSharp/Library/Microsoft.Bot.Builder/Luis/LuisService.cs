@@ -196,6 +196,8 @@ namespace Microsoft.Bot.Builder.Luis
     /// </summary>
     public interface ILuisService
     {
+        ILuisModel LuisModel { get; }
+
         /// <summary>
         /// Modify the incoming LUIS request.
         /// </summary>
@@ -226,6 +228,8 @@ namespace Microsoft.Bot.Builder.Luis
     public sealed class LuisService : ILuisService
     {
         private readonly ILuisModel model;
+
+        public ILuisModel LuisModel => model;
 
         /// <summary>
         /// Construct the LUIS service using the model information.

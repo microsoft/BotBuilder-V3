@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace Microsoft.Bot.Connector
@@ -120,6 +121,30 @@ namespace Microsoft.Bot.Connector
         /// Create an instance of the Activity class with IInvokeActivity masking
         /// </summary>
         public static IInvokeActivity CreateInvokeActivity() { return new Activity(ActivityTypes.Invoke); }
+
+        /// <summary>
+        /// Create an instance of the TraceActivity 
+        /// </summary>
+        /// <param name="activity">Activity to reply to</param>
+        /// <param name="name">Name of the operation</param>
+        /// <param name="value">value of the operation</param>
+        /// <param name="valueType">valueType if helpful to identify the value schema (default is value.GetType().Name)</param>
+        /// <param name="label">descritive label of context. (Default is calling function name)</param>
+        public static ITraceActivity CreateTraceActivityReply(
+            Activity activity, 
+            string name, 
+            string valueType = null, 
+            object value = null, 
+            [CallerMemberName] string label = null)
+        {
+            ITraceActivity traceActivity = activity == null ? new Activity() : activity.CreateReply();
+            traceActivity.Name = name;
+            traceActivity.Label = label;
+            traceActivity.ValueType = valueType ?? value?.GetType().Name;
+            traceActivity.Value = value;
+            traceActivity.Type = "trace";
+            return traceActivity;
+        }
 
         /// <summary>
         /// True if the Activity is of the specified activity type

@@ -91,6 +91,7 @@
     <Compile Include="ConnectorEx\IActivityLogger.cs" />
     <Compile Include="Dialogs\DispatchDialog.cs" />
     <Compile Include="ConnectorEx\ResumptionCookie.cs" />
+    <Compile Include="Dialogs\LuisTraceInfo.cs" />
     <Compile Include="Dialogs\PromptRecognizer.cs" />
     <Compile Include="Dialogs\ScoringEventLoop.cs" />
     <Compile Include="Dialogs\DialogTask.cs" />
