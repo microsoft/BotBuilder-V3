@@ -1,6 +1,6 @@
 # <%= botName %> Bot
 
-This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com), and scaffolded using the [Bot Builder Yeoman generator](https://github.com/GeekTrainer/generator-botbuilder).
+This bot has been created using [Microsoft Bot Framework](https://dev.botframework.com), 
 
 This bot is designed to do the following:
 

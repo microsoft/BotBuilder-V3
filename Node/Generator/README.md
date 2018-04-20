@@ -50,11 +50,3 @@ This will start a set of prompts that will guide the bot creation. The bot will 
 ## License
 
 MIT © Microsoft
-
-
-[npm-image]: https://badge.fury.io/js/generator-botbuilder.svg
-[npm-url]: https://npmjs.org/package/generator-botbuilder
-[travis-image]: https://travis-ci.org/geektrainer/generator-botbuilder.svg?branch=master
-[travis-url]: https://travis-ci.org/geektrainer/generator-botbuilder
-[daviddm-image]: https://david-dm.org/geektrainer/generator-botbuilder.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/geektrainer/generator-botbuilder
