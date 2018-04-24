@@ -23,6 +23,11 @@ namespace Microsoft.Bot.Connector
         public const string ContentType = "application/vnd.microsoft.card.signin";
     }
 
+    public partial class OAuthCard
+    {
+        public const string ContentType = "application/vnd.microsoft.card.oauth";
+    }
+
     public partial class AnimationCard
     {
         public const string ContentType = "application/vnd.microsoft.card.animation";

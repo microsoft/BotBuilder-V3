@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AlarmBot", "AlarmBot\Microsoft.Bot.Sample.AlarmBot.csproj", "{D414F82F-C102-45B1-979C-D905D278C34E}"
 EndProject
@@ -28,6 +28,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Sample.NetFramework-ApsNetCore2.0", "Microsoft.Bot.Sample.NetFramework-ApsNetCore2.0\Microsoft.Bot.Sample.NetFramework-ApsNetCore2.0.csproj", "{8A850500-39D1-49F3-950F-2ACC98A5B850}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.FormFlowAttachmentsBot", "Microsoft.Bot.Sample.FormFlowAttachmentsBot\Microsoft.Bot.Sample.FormFlowAttachmentsBot.csproj", "{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AadV1Bot", "AadV1Bot\Microsoft.Bot.Sample.AadV1Bot.csproj", "{5B1AD57B-A958-4593-9959-9C67C5D6EE3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.AadV2Bot", "AadV2Bot\Microsoft.Bot.Sample.AadV2Bot.csproj", "{02D0FDA0-799A-4747-B2C2-D4017F517A0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.GitHubBot", "GitHubBot\Microsoft.Bot.Sample.GitHubBot.csproj", "{4A966684-0A83-4265-A77E-A1AC3EED521F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +93,18 @@ Global
 		{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B1AD57B-A958-4593-9959-9C67C5D6EE3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B1AD57B-A958-4593-9959-9C67C5D6EE3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B1AD57B-A958-4593-9959-9C67C5D6EE3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B1AD57B-A958-4593-9959-9C67C5D6EE3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02D0FDA0-799A-4747-B2C2-D4017F517A0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02D0FDA0-799A-4747-B2C2-D4017F517A0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02D0FDA0-799A-4747-B2C2-D4017F517A0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02D0FDA0-799A-4747-B2C2-D4017F517A0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A966684-0A83-4265-A77E-A1AC3EED521F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A966684-0A83-4265-A77E-A1AC3EED521F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A966684-0A83-4265-A77E-A1AC3EED521F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A966684-0A83-4265-A77E-A1AC3EED521F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
