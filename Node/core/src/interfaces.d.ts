@@ -84,7 +84,8 @@ interface IMessageOptions {
 interface IIdentity {
     id: string;                     // Channel specific ID for this identity
     name?: string;                  // Friendly name for this identity
-    isGroup?: boolean;              // If true the identity is a group.  
+    isGroup?: boolean;              // If true the identity is a group. 
+    conversationType?: string;      // Indicates the type of the conversation in channels that distinguish  
 }
 
 interface IConversationMembers {

@@ -272,6 +272,9 @@ export interface IIdentity {
 
     /** If true the identity is a group. Typically only found on conversation identities. */
     isGroup?: boolean;
+
+    /** Indicates the type of the conversation in channels that distinguish. */
+    conversationType?: string;
 }
 
 /** List of members within a conversation. */
