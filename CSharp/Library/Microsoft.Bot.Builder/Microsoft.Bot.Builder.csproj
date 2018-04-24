@@ -91,6 +91,7 @@
     <Compile Include="ConnectorEx\IActivityLogger.cs" />
     <Compile Include="Dialogs\DispatchDialog.cs" />
     <Compile Include="ConnectorEx\ResumptionCookie.cs" />
+    <Compile Include="Dialogs\LuisTraceInfo.cs" />
     <Compile Include="Dialogs\PromptRecognizer.cs" />
     <Compile Include="Dialogs\ScoringEventLoop.cs" />
     <Compile Include="Dialogs\DialogTask.cs" />
@@ -205,6 +206,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resource\Resources.de-DE.resx" />
     <EmbeddedResource Include="Resource\Resources.cs.resx" />
+    <EmbeddedResource Include="Resource\Resources.el.resx" />
     <EmbeddedResource Include="Resource\Resources.pt-BR.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -227,6 +229,9 @@
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.ar.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.de-DE.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.cs.xlf" />
+    <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.el.xlf">
+      <SubType>Designer</SubType>
+    </XliffResource>
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.pt-BR.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.en.xlf" />
     <XliffResource Include="MultilingualResources\Microsoft.Bot.Builder.es.xlf">

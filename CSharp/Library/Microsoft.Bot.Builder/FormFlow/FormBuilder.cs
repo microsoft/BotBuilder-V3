@@ -99,7 +99,7 @@ namespace Microsoft.Bot.Builder.FormFlow
                     _form.Localize(rs.GetEnumerator(), out missing, out extra);
                     if (missing.Any())
                     {
-                        throw new MissingManifestResourceException($"Missing resources {missing}");
+                        throw new MissingManifestResourceException($"Missing {missing.Count()} resources {string.Join(", ", missing)}");
                     }
                 }
             }

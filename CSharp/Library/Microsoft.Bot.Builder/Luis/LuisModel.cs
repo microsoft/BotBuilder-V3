@@ -133,27 +133,27 @@ namespace Microsoft.Bot.Builder.Luis
         /// <summary>
         /// Indicates if logging of queries to LUIS is allowed.
         /// </summary>
-        public bool Log { get { return Options.Log.Value; } set { Options.Log = value; } }
+        public bool Log { get { return Options.Log ?? default(bool); } set { Options.Log = value; } }
 
         /// <summary>
         /// Turn on spell checking.
         /// </summary>
-        public bool SpellCheck { get { return Options.SpellCheck.Value; } set { Options.SpellCheck = value; } }
+        public bool SpellCheck { get { return Options.SpellCheck ?? default(bool); } set { Options.SpellCheck = value; } }
 
         /// <summary>
         /// Use the staging endpoint.
         /// </summary>
-        public bool Staging { get { return Options.Staging.Value; } set { Options.Staging = value; } }
+        public bool Staging { get { return Options.Staging ?? default(bool); } set { Options.Staging = value; } }
 
         /// <summary>
         /// The time zone offset.
         /// </summary>
-        public double TimezoneOffset { get { return Options.TimezoneOffset.Value; } set { Options.TimezoneOffset = value; } }
+        public double TimezoneOffset { get { return Options.TimezoneOffset ?? default(double); } set { Options.TimezoneOffset = value; } }
 
         /// <summary>
         /// The verbose flag.
         /// </summary>
-        public bool Verbose { get { return Options.Verbose.Value; } set { Options.Verbose = value; } }
+        public bool Verbose { get { return Options.Verbose ?? default(bool); } set { Options.Verbose = value; } }
 
         /// <summary>
         /// The Bing Spell Check subscription key.
