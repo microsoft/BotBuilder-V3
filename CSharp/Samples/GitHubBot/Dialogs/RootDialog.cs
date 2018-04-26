@@ -16,9 +16,17 @@ using System.Threading;
 
 namespace Microsoft.Bot.Sample.GitHubBot.Dialogs
 {
+    /// <summary>
+    /// This Dialog enables the user to issue a set of commands against GitHub
+    /// to do things like list repostories, list notifications, and identify the user
+    /// This Dialog also makes use of the GetTokenDialog to help the user login
+    /// </summary>
     [Serializable]
     public class RootDialog : IDialog<object>
     {
+        /// <summary>
+        /// This is the name of the OAuth Connection Setting that is configured for this bot
+        /// </summary>
         private static string ConnectionName = ConfigurationManager.AppSettings["ConnectionName"];
 
         public async Task StartAsync(IDialogContext context)
@@ -26,6 +34,9 @@ namespace Microsoft.Bot.Sample.GitHubBot.Dialogs
             context.Wait(MessageReceivedAsync);
         }
 
+        /// <summary>
+        /// Supports the commands repos, notes, who, and signout against GitHub
+        /// </summary>
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
@@ -34,18 +45,22 @@ namespace Microsoft.Bot.Sample.GitHubBot.Dialogs
 
             if (message.ToLowerInvariant().Equals("repos"))
             {
+                // Get a token for GitHub and then list repositories
                 context.Call(CreateGetTokenDialog(), ListRepositories);
             }
             else if (message.ToLowerInvariant().Equals("notes"))
             {
+                // Get a token for GitHub and then list notifications
                 context.Call(CreateGetTokenDialog(), ListNotifications);
             }
             else if (message.ToLowerInvariant().Equals("who"))
             {
+                // Get a token for GitHub and then display the GitHub profile
                 context.Call(CreateGetTokenDialog(), ListUser);
             }
             else if (message.ToLowerInvariant().Equals("signout"))
             {
+                // Signout is an important intent
                 await Signout(context);
             }
             else
@@ -55,12 +70,19 @@ namespace Microsoft.Bot.Sample.GitHubBot.Dialogs
             }
         }
 
+        /// <summary>
+        /// Signs the user out of the connection and notifies the user
+        /// </summary>
         public static async Task Signout(IDialogContext context)
         {
             await context.SignOutUserAsync(ConnectionName);
             await context.PostAsync($"You have been signed out from GitHub.");
         }
         
+        /// <summary>
+        /// Creates a GetTokenDialog
+        /// You can pass in localized strings for the label, button text, and retry response
+        /// </summary>
         private GetTokenDialog CreateGetTokenDialog()
         {
             return new GetTokenDialog(
@@ -75,10 +97,12 @@ namespace Microsoft.Bot.Sample.GitHubBot.Dialogs
 
         private async Task ListRepositories(IDialogContext context, IAwaitable<GetTokenResponse> tokenResponse)
         {
+            // The GetTokenDialog returns a GetTokenResponse object containing the token
             var token = await tokenResponse;
 
             var gitHub = new GitHubClient(token.Token);
 
+            // Get repositories and create a card with them
             var card = new AdaptiveCard();
             var container = new Container();
             card.Body.Add(container);
@@ -142,10 +166,12 @@ namespace Microsoft.Bot.Sample.GitHubBot.Dialogs
 
         private async Task ListNotifications(IDialogContext context, IAwaitable<GetTokenResponse> tokenResponse)
         {
+            // The GetTokenDialog returns a GetTokenResponse object containing the token
             var token = await tokenResponse;
 
             var gitHub = new GitHubClient(token.Token);
 
+            // Get all recent notifications and create a card with them
             var card = new AdaptiveCard();
             var container = new Container();
             card.Body.Add(container);
@@ -204,10 +230,12 @@ namespace Microsoft.Bot.Sample.GitHubBot.Dialogs
         
         private async Task ListUser(IDialogContext context, IAwaitable<GetTokenResponse> tokenResponse)
         {
+            // The GetTokenDialog returns a GetTokenResponse object containing the token
             var token = await tokenResponse;
-
+            
             var gitHub = new GitHubClient(token.Token);
 
+            // Get the user and create a card with the user's profile
             var user = await gitHub.GetUser();
             string email = "<none>";
             if (user.email == null)

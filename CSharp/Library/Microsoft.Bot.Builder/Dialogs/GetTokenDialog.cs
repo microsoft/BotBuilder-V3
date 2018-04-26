@@ -35,6 +35,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder.Dialogs
 {
@@ -77,7 +78,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             else
             {
                 // If Bot Service does not have a token, send an OAuth card to sign in
-                await SendOAuthCardAsync(context, (Activity)context.Activity);
+                await SendOAuthCardAsync(context, (Activity)context.Activity).ConfigureAwait(false);
             }
         }
 
@@ -93,34 +94,42 @@ namespace Microsoft.Bot.Builder.Dialogs
             var activity = await result as Activity;
 
             var tokenResponse = activity.ReadTokenResponseContent();
+            string verificationCode = null;
             if (tokenResponse != null)
             {
                 context.Done(new GetTokenResponse() { Token = tokenResponse.Token });
             }
+            else if(activity.IsTeamsVerificationInvoke())
+            {
+                JObject value = activity.Value as JObject;
+                if (value != null)
+                {
+                    verificationCode = (string)(value["state"]);
+                }
+            }
+            else if (!string.IsNullOrEmpty(activity.Text))
+            {
+                verificationCode = activity.Text;
+            }
+
+            tokenResponse = await context.GetUserTokenAsync(_connectionName, verificationCode).ConfigureAwait(false);
+            if (tokenResponse != null)
+            {
+                context.Done(new GetTokenResponse() { Token = tokenResponse.Token });
+                return;
+            }
+            
+            // decide whether to retry or not
+            if (_reties > 0)
+            {
+                _reties--;
+                await context.PostAsync(_retryMessage).ConfigureAwait(false);
+                await SendOAuthCardAsync(context, activity).ConfigureAwait(false);
+            }
             else
             {
-                if (!string.IsNullOrEmpty(activity.Text))
-                {
-                    tokenResponse = await context.GetUserTokenAsync(_connectionName, activity.Text);
-                    if (tokenResponse != null)
-                    {
-                        context.Done(new GetTokenResponse() { Token = tokenResponse.Token });
-                        return;
-                    }
-                }
-
-                // decide whether to retry or not
-                if (_reties > 0)
-                {
-                    _reties--;
-                    await context.PostAsync(_retryMessage);
-                    await SendOAuthCardAsync(context, activity);
-                }
-                else
-                {
-                    context.Done(new GetTokenResponse() { NonTokenResponse = activity.Text });
-                    return;
-                }
+                context.Done(new GetTokenResponse() { NonTokenResponse = activity.Text });
+                return;
             }
         }
     }

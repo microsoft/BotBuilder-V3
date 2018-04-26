@@ -6195,6 +6195,11 @@
             This event operation represents the TokenResponse object
             </remarks>
         </member>
+        <member name="F:Microsoft.Bot.Connector.TokenOperations.TeamsVerificationCode">
+            <summary>
+            The name of an Invoke activity that MS Teams uses to send a verification code back to the bot
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Connector.OAuthClient.BaseUri">
             <summary>
             The base URI of the service.

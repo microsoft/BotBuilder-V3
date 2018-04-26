@@ -25,6 +25,7 @@ There are several samples in this directory.
 * [Microsoft.Bot.Sample.AadV1Bot](AadV1Bot/) -- Bot example that uses an OAuthCard to log a user into an AAD v1 application and uses the  [Microsoft Graph Api](https://graph.microsoft.io)
 * [Microsoft.Bot.Sample.AadV2Bot](AadV2Bot/) -- Bot example that uses an OAuthCard to log a user into an AAD v2 application and uses the  [Microsoft Graph Api](https://graph.microsoft.io)
 * [Microsoft.Bot.Sample.GitHubBot](GitHubBot/) -- Bot example that uses an OAuthCard to log a user into GitHub
+* [Microsoft.Bot.Sample.BasicOAuth](Microsoft.Bot.Sample.BasicOAuth/) -- Bot example that uses an OAuthCard to sign-in using the OAuthClient
 * [Stock_Bot](Stock_Bot/) -- Samples that show calling a web service, LUIS, and LUIS Dialog.
 * [SearchPoweredBots](SearchPoweredBots) -- Samples that show integration of [Azure Search](https://azure.microsoft.com/en-us/services/search/) with dialogs.
 

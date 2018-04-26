@@ -56,6 +56,7 @@ namespace Microsoft.Bot.Sample.AadV2Bot.Controllers
             }
             else if(message.Type == ActivityTypes.Event)
             {
+                // Send TokenResponse Events along to the Dialog stack
                 if(message.IsTokenResponseEvent())
                 {
                     await Conversation.SendAsync(message, () => new Dialogs.RootDialog());

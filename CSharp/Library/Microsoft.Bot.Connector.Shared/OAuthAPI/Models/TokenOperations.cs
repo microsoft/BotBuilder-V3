@@ -20,5 +20,10 @@
         /// This event operation represents the TokenResponse object
         /// </remarks>
         public const string TokenResponseOperationName = "tokens/response";
+
+        /// <summary>
+        /// The name of an Invoke activity that MS Teams uses to send a verification code back to the bot
+        /// </summary>
+        public const string TeamsVerificationCode = "signin/verifyState";
     }
 }

@@ -16,9 +16,17 @@ using System.Threading;
 
 namespace Microsoft.Bot.Sample.AadV2Bot.Dialogs
 {
+    /// <summary>
+    /// This Dialog enables the user to issue a set of commands against AAD
+    /// to do things like list recent email, send an email, and identify the user
+    /// This Dialog also makes use of the GetTokenDialog to help the user login
+    /// </summary>
     [Serializable]
     public class RootDialog : IDialog<object>
     {
+        /// <summary>
+        /// This is the name of the OAuth Connection Setting that is configured for this bot
+        /// </summary>
         private static string ConnectionName = ConfigurationManager.AppSettings["ConnectionName"];
 
         public async Task StartAsync(IDialogContext context)
@@ -26,6 +34,9 @@ namespace Microsoft.Bot.Sample.AadV2Bot.Dialogs
             context.Wait(MessageReceivedAsync);
         }
 
+        /// <summary>
+        /// Supports the commands recents, send, me, and signout against the Graph API
+        /// </summary>
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
@@ -34,10 +45,12 @@ namespace Microsoft.Bot.Sample.AadV2Bot.Dialogs
             
             if (message.ToLowerInvariant().Equals("recents"))
             {
+                // Display recent emails from the Graph API
                 context.Call(CreateGetTokenDialog(), ListRecentMail);
             }
             else if (message.ToLowerInvariant().StartsWith("send"))
             {
+                // Send an email using the Graph API from the logged in user
                 var recipient = message.ToLowerInvariant().Split(' ');
                 if (recipient.Length == 2)
                 {
@@ -52,10 +65,12 @@ namespace Microsoft.Bot.Sample.AadV2Bot.Dialogs
             }
             else if (message.ToLowerInvariant().Equals("me"))
             {
+                // Display information about the logged in user
                 context.Call(CreateGetTokenDialog(), ListMe);
             }
             else if (message.ToLowerInvariant().Equals("signout"))
             {
+                // Sign the user out from AAD
                 await Signout(context);
             }
             else
@@ -65,12 +80,18 @@ namespace Microsoft.Bot.Sample.AadV2Bot.Dialogs
             }
         }
 
+        /// <summary>
+        /// Signs the user out from AAD
+        /// </summary>
         public static async Task Signout(IDialogContext context)
         {
             await context.SignOutUserAsync(ConnectionName);
             await context.PostAsync($"You have been signed out.");
         }
 
+        /// <summary>
+        /// Creates a GetTokenDialog using custom strings
+        /// </summary>
         private GetTokenDialog CreateGetTokenDialog()
         {
             return new GetTokenDialog(

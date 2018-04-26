@@ -490,6 +490,11 @@ namespace Microsoft.Bot.Connector
             return activity.Type == ActivityTypes.Event && ((IEventActivity)activity).Name == TokenOperations.TokenResponseOperationName;
         }
 
+        public static bool IsTeamsVerificationInvoke(this IActivity activity)
+        {
+            return activity.Type == ActivityTypes.Invoke && ((IInvokeActivity)activity).Name == TokenOperations.TeamsVerificationCode;
+        }
+
         public static TokenResponse ReadTokenResponseContent(this IActivity activity)
         {
             if (IsTokenResponseEvent(activity))
