@@ -604,6 +604,27 @@
             <param name="activity"></param>
             <returns>new .Text property value</returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.GetOAuthClient(Microsoft.Bot.Connector.IActivity,Microsoft.Bot.Connector.MicrosoftAppCredentials,System.String,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Get OAuthClient appropriate for this activity
+            </summary>
+            <param name="credentials">credentials for bot to access OAuth api</param>
+            <param name="serviceUrl">alternate serviceurl to use for OAuth service</param>
+            <param name="handlers"></param>
+            <param name="activity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ActivityExtensions.GetOAuthClient(Microsoft.Bot.Connector.IActivity,System.String,System.String,System.String,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Get OAuthClient appropriate for this activity
+            </summary>
+            <param name="microsoftAppId"></param>
+            <param name="microsoftAppPassword"></param>
+            <param name="serviceUrl">alternate serviceurl to use for state service</param>
+            <param name="handlers"></param>
+            <param name="activity"></param>
+            <returns></returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.AnimationCard">
             <summary>
             An animation card (Ex: gif or short video clip)
@@ -6080,6 +6101,296 @@
             Do not call this except from GetTokenRefreshAsync() 
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.OAuthApi">
+            <summary>
+            OAuthClient operations.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthApi.#ctor(Microsoft.Bot.Connector.OAuthClient)">
+            <summary>
+            Initializes a new instance of the OAuthApi class.
+            </summary>
+            <param name='client'>
+            Reference to the service client.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.OAuthApi.Client">
+            <summary>
+            Gets a reference to the OAuthClient
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IOAuthApi">
+            <summary>
+            OAuth API operations.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IOAuthClient.BaseUri">
+            <summary>
+            The base URI of the service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IOAuthClient.SerializationSettings">
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IOAuthClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IOAuthClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client
+            subscription.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.IOAuthClient.OAuthApi">
+            <summary>
+            Gets the IOAuthApi.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.TokenExchangeState.ConnectionName">
+            <summary>
+            The connection name that was used
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.TokenExchangeState.Conversation">
+            <summary>
+            A reference to the conversation
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.TokenExchangeState.BotUrl">
+            <summary>
+            The URL of the bot messaging endpoint
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.TokenExchangeState.MsAppId">
+            <summary>
+            The bot's registered application ID
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.TokenOperations">
+            <summary>
+            Names for event operations in the token protocol
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.TokenOperations.TokenRequestOperationName">
+            <summary>
+            Name for the Token Request operation event
+            </summary>
+            <remarks>
+            This event operation includes a TokenRequest object and returns a TokenResponse object
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.TokenOperations.TokenResponseOperationName">
+            <summary>
+            Name for the Token Response operation event
+            </summary>
+            <remarks>
+            This event operation represents the TokenResponse object
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.TokenOperations.TeamsVerificationCode">
+            <summary>
+            The name of an Invoke activity that MS Teams uses to send a verification code back to the bot
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.OAuthClient.BaseUri">
+            <summary>
+            The base URI of the service.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.OAuthClient.SerializationSettings">
+            <summary>
+            Gets or sets json serialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.OAuthClient.DeserializationSettings">
+            <summary>
+            Gets or sets json deserialization settings.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.OAuthClient.Credentials">
+            <summary>
+            Subscription credentials which uniquely identify client subscription.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.OAuthClient.OAuthApi">
+            <summary>
+            Gets the IOAuthApi.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the OAuthClient class.
+            </summary>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the OAuthClient class.
+            </summary>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Uri,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the OAuthClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Uri,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the OAuthClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the OAuthClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the OAuthClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Uri,Microsoft.Rest.ServiceClientCredentials,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the OAuthClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Uri,Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClientHandler,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Initializes a new instance of the OAuthClient class.
+            </summary>
+            <param name='baseUri'>
+            Optional. The base URI of the service.
+            </param>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='rootHandler'>
+            Optional. The http client handler used to handle http transport.
+            </param>
+            <param name='handlers'>
+            Optional. The delegating handlers to add to the http client pipeline.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.Initialize">
+            <summary>
+            Initializes client properties.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Uri,System.String,System.String,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the OAuthClient class
+            </summary>
+            <param name="baseUri">Base URI for the OAuth API service</param>
+            <param name="microsoftAppId">Optional. Your Microsoft app id. If null, this setting is read from settings["MicrosoftAppId"]</param>
+            <param name="microsoftAppPassword">Optional. Your Microsoft app password. If null, this setting is read from settings["MicrosoftAppPassword"]</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Uri,Microsoft.Bot.Connector.MicrosoftAppCredentials,System.Boolean,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the OAuthClient class
+            </summary>
+            <param name="baseUri">Base URI for the OAuth API service</param>
+            <param name="credentials">Credentials for the Connector service</param>
+            <param name="addJwtTokenRefresher">(DEPRECATED)</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Uri,Microsoft.Bot.Connector.ICredentialProvider,System.Security.Claims.ClaimsIdentity,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the OAuthClient class using Credential source
+            </summary>
+            <param name="baseUri">Base URI for the OAuth API service</param>
+            <param name="credentialProvider">Credential source to use</param>
+            <param name="claimsIdentity">ClaimsIDentity to create the client for</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(Microsoft.Bot.Connector.ICredentialProvider,System.Security.Claims.ClaimsIdentity,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the OAuthClient class using Credential source
+            </summary>
+            <param name="credentialProvider">Credential source to use</param>
+            <param name="claimsIdentity">ClaimsIDentity to create the client for</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(Microsoft.Bot.Connector.MicrosoftAppCredentials,System.Boolean,System.Net.Http.DelegatingHandler[])">
+            <summary>
+            Create a new instance of the OAuthClient class
+            </summary>
+            <remarks> This constructor will use https://state.botframework.com as the baseUri</remarks>
+            <param name="credentials">Credentials for the Connector service</param>
+            <param name="addJwtTokenRefresher">(DEPRECATED)</param>
+            <param name="handlers">Optional. The delegating handlers to add to the http client pipeline.</param>
         </member>
         <member name="T:Microsoft.Bot.Connector.PaymentOperations">
             <summary>

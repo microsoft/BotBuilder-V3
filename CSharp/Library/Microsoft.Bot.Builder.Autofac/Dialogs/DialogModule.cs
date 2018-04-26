@@ -135,6 +135,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 .ExternallyOwned();
 
             builder
+                .Register(c => c.Resolve<IConnectorClientFactory>().MakeOAuthClient())
+                .As<IOAuthClient>()
+                .ExternallyOwned();
+
+            builder
                 .RegisterType<ChannelCapability>()
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();
