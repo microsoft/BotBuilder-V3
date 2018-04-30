@@ -98,6 +98,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             if (tokenResponse != null)
             {
                 context.Done(new GetTokenResponse() { Token = tokenResponse.Token });
+                return;
             }
             else if(activity.IsTeamsVerificationInvoke())
             {
