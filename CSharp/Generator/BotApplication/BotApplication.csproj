@@ -177,7 +177,6 @@
     <None Include="ProjectTemplate.csproj" />
     <Content Include="default.htm" />
     <Content Include="Web.config" />
-    <Content Include="TestBot.bot" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -188,6 +187,7 @@
   <ItemGroup>
     <VSTemplate Include="BotApplication.vstemplate">
       <OutputSubPath>Bot Framework</OutputSubPath>
+      <SubType>Designer</SubType>
     </VSTemplate>
   </ItemGroup>
   <PropertyGroup>
