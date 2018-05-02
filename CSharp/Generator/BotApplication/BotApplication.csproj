@@ -161,6 +161,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="%24safeprojectname%24.bot" />
     <None Include="App_Start\WebApiConfig.cs" />
     <None Include="Controllers\MessagesController.cs" />
     <None Include="Dialogs\RootDialog.cs" />
@@ -174,10 +175,11 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="ProjectTemplate.csproj" />
+    <None Include="ProjectTemplate.csproj">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="default.htm" />
     <Content Include="Web.config" />
-    <Content Include="TestBot.bot" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

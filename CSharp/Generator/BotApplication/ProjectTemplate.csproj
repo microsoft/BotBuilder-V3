@@ -146,7 +146,7 @@
   <ItemGroup>
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
-    <Content Include="TestBot.bot" />
+    <Content Include="$safeprojectname$.bot" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
