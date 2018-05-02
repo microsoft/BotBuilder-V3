@@ -12,17 +12,17 @@ The Microsoft Bot Builder SDK is a powerful, easy-to-use framework that provides
 
 ### Helpful links:
 
-* Review the documentation to get started with the Bot Builder SDK!
-* Bot Builder samples GitHub repo
-* More samples are available within the SDK C#, Node.js
-* Create a bot using SDK, Azure portal, or use CLI tools
-* Bot framework emulator
-* Bot Builder tools
+* [Review the documentation](http://docs.microsoft.com/en-us/bot-framework) to get started with the Bot Builder SDK!
+* Bot Builder samples [GitHub repo](https://github.com/Microsoft/BotBuilder-Samples)
+* More samples are available within the SDK [C#](https://github.com/Microsoft/BotBuilder/tree/master/CSharp/Samples), [Node.js](https://github.com/Microsoft/BotBuilder/tree/master/Node/examples)
+* Create a bot using SDK, [Azure portal](https://docs.microsoft.com/azure/bot-service/bot-service-quickstart), or use [CLI tools](https://docs.microsoft.com/azure/bot-service/bot-service-build-botbuilder-templates)
+* [Bot framework emulator](http://github.com/microsoft/botframework-emaultor)
+* [Bot Builder tools](http://github.com/microsoft/botbuilder-tools)
 * Add components:
-  * Add language understanding model LUIS
-  * Add QnA Maker knowledge base to answer questions users ask
-* If you are using more than model, for example QnA with LUIS or multiple LUIS models, your bot will need to know which one to use when. See how to use the dispatch tool to manage multiple models
+  * Add language understanding model [LUIS](http://luis.ai/)
+  * Add [QnA Maker](http://qnamaker.ai/) knowledge base to answer questions users ask
+* If you are using more than model, for example QnA with LUIS or multiple LUIS models, your bot will need to know which one to use when. See how to use the [dispatch tool](https://github.com/Microsoft/botbuilder-tools/tree/master/Dispatch) to manage multiple models
 
-Join the conversation on Gitter.
+Join the conversation on [Gitter](https://gitter.im/Microsoft/BotBuilder).
 
-See all the support options here.
+See all the support options [here](https://docs.microsoft.com/en-us/bot-framework/resources-support).
