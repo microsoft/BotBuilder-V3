@@ -99,5 +99,32 @@ namespace Microsoft.Bot.Builder.Dialogs
             var activity = new Activity(ActivityTypes.Event) { Value = new EndConversationEvent(code) };
             context.Post(activity, AfterReset);
         }
+
+        public static Task<TokenResponse> GetUserTokenAsync(this IDialogContext context, string connectionName)
+        {
+            var userId = context.Activity.From.Id;
+            IConnectorClientFactory factory = new ConnectorClientFactory(Address.FromActivity(context.Activity), new MicrosoftAppCredentials());
+            return factory.MakeOAuthClient().OAuthApi.GetUserTokenAsync(userId, connectionName);
+        }
+
+        public static Task<TokenResponse> GetUserTokenAsync(this IDialogContext context, string connectionName, string magicCode)
+        {
+            var userId = context.Activity.From.Id;
+            IConnectorClientFactory factory = new ConnectorClientFactory(Address.FromActivity(context.Activity), new MicrosoftAppCredentials());
+            return factory.MakeOAuthClient().OAuthApi.GetUserTokenAsync(userId, connectionName, magicCode);
+        }
+
+        public static Task<bool> SignOutUserAsync(this IDialogContext context, string connectionName)
+        {
+            var userId = context.Activity.From.Id;
+            IConnectorClientFactory factory = new ConnectorClientFactory(Address.FromActivity(context.Activity), new MicrosoftAppCredentials());
+            return factory.MakeOAuthClient().OAuthApi.SignOutUserAsync(userId, connectionName);
+        }
+
+        public static Task<string> GetSignInUrlAsync(this IDialogContext context, string connectionName)
+        {
+            IConnectorClientFactory factory = new ConnectorClientFactory(Address.FromActivity(context.Activity), new MicrosoftAppCredentials());
+            return factory.MakeOAuthClient().OAuthApi.GetSignInLinkAsync(context.Activity, connectionName);
+        }
     }
 }

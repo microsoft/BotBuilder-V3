@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Connector
 {
@@ -480,6 +481,112 @@ namespace Microsoft.Bot.Connector
                 activity.Text = Regex.Replace(activity.Text, mention.Text, "", RegexOptions.IgnoreCase);
             }
             return activity.Text;
+        }
+
+        /// <summary>
+        /// Get OAuthClient appropriate for this activity
+        /// </summary>
+        /// <param name="credentials">credentials for bot to access OAuth api</param>
+        /// <param name="serviceUrl">alternate serviceurl to use for OAuth service</param>
+        /// <param name="handlers"></param>
+        /// <param name="activity"></param>
+        /// <returns></returns>
+        public static OAuthClient GetOAuthClient(this IActivity activity, MicrosoftAppCredentials credentials, string serviceUrl = null, params DelegatingHandler[] handlers)
+        {
+            if (serviceUrl != null)
+                return new OAuthClient(new Uri(serviceUrl), credentials: credentials, handlers: handlers);
+
+            return new OAuthClient(credentials, true, handlers);
+        }
+
+        /// <summary>
+        /// Get OAuthClient appropriate for this activity
+        /// </summary>
+        /// <param name="microsoftAppId"></param>
+        /// <param name="microsoftAppPassword"></param>
+        /// <param name="serviceUrl">alternate serviceurl to use for state service</param>
+        /// <param name="handlers"></param>
+        /// <param name="activity"></param>
+        /// <returns></returns>
+        public static OAuthClient GetOAuthClient(this IActivity activity, string microsoftAppId = null, string microsoftAppPassword = null, string serviceUrl = null, params DelegatingHandler[] handlers) => GetOAuthClient(activity, new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword), serviceUrl, handlers);
+
+        public static bool IsTokenResponseEvent(this IActivity activity)
+        {
+            return activity.Type == ActivityTypes.Event && ((IEventActivity)activity).Name == TokenOperations.TokenResponseOperationName;
+        }
+
+        public static bool IsTeamsVerificationInvoke(this IActivity activity)
+        {
+            return activity.Type == ActivityTypes.Invoke && ((IInvokeActivity)activity).Name == TokenOperations.TeamsVerificationCode;
+        }
+
+        public static TokenResponse ReadTokenResponseContent(this IActivity activity)
+        {
+            if (IsTokenResponseEvent(activity))
+            {
+                var content = ((IEventActivity)activity).Value as JObject;
+                if (content != null)
+                {
+                    var tokenResponse = content.ToObject<TokenResponse>();
+                    return tokenResponse;
+                }
+            }
+            return null;
+        }
+
+        public static async Task<Activity> CreateOAuthReplyAsync(this IActivity activity, string connectionName, string text, string buttonLabel, bool asSignInCard = false)
+        {
+            var reply = ((Activity)activity).CreateReply();
+
+            switch (activity.ChannelId)
+            {
+                case "msteams":
+                case "cortana":
+                case "skype":
+                case "skypeforbusiness":
+                    asSignInCard = true;
+                    break;
+            }
+
+            if (asSignInCard)
+            {
+                var client = GetOAuthClient(activity);
+                var link = await client.OAuthApi.GetSignInLinkAsync(activity, connectionName);
+                reply.Attachments = new List<Attachment>() {
+                    new Attachment()
+                    {
+                        ContentType = SigninCard.ContentType,
+                        Content = new SigninCard()
+                        {
+                            Text = text,
+                            Buttons = new CardAction[]
+                            {
+                                new CardAction() { Title = buttonLabel, Value = link, Type = ActionTypes.Signin }
+                            },
+                        }
+                    }
+                };
+            }
+            else
+            {
+                reply.Attachments = new List<Attachment>() {
+                    new Attachment()
+                    {
+                        ContentType = OAuthCard.ContentType,
+                        Content = new OAuthCard()
+                        {
+                            Text = text,
+                            ConnectionName = connectionName,
+                            Buttons = new CardAction[]
+                            {
+                                new CardAction() { Title = buttonLabel, Type = ActionTypes.Signin }
+                            },
+                        }
+                    }
+                };
+            }
+
+            return reply;
         }
     }
 }

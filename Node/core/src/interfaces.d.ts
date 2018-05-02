@@ -84,7 +84,8 @@ interface IMessageOptions {
 interface IIdentity {
     id: string;                     // Channel specific ID for this identity
     name?: string;                  // Friendly name for this identity
-    isGroup?: boolean;              // If true the identity is a group.  
+    isGroup?: boolean;              // If true the identity is a group. 
+    conversationType?: string;      // Indicates the type of the conversation in channels that distinguish  
 }
 
 interface IConversationMembers {
@@ -109,6 +110,12 @@ interface IBotStateDataResult {
     botStateData: IBotStateData[];  // Exported bot state records.
 }
 
+interface ITokenResponse {
+    connectionName: string;         // The connection name.
+    token: string;                  // The user token.
+    expiration: string;             // Expiration for the token, in ISO 8601 format.
+}
+
 interface IAddress {
     channelId: string;              // Unique identifier for channel
     user: IIdentity;                // User that sent or should receive the message
@@ -129,6 +136,12 @@ interface IIsAttachment {
 interface ISigninCard {
     text: string;                   // Title of the Card 
     buttons: ICardAction[];         // Sign in action 
+}
+
+interface IOAuthCard {
+    text: string;
+    connectionName: string;
+    buttons: ICardAction[];
 }
 
 interface IKeyboard {

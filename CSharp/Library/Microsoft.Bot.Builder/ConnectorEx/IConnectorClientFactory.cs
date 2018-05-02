@@ -34,6 +34,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Internals.Fibers;
 using Microsoft.Bot.Connector;
 
@@ -55,6 +56,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         /// </summary>
         /// <returns>The <see cref="IStateClient"/> implementation.</returns>
         IStateClient MakeStateClient();
+
+        /// <summary>
+        /// Make the <see cref="IOAuthClient"/> implementation.
+        /// </summary>
+        /// <returns>The <see cref="IOAuthClient"/> implementation.</returns>
+        IOAuthClient MakeOAuthClient();
     }
 
     public sealed class ConnectorClientFactory : IConnectorClientFactory
@@ -64,10 +71,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         private readonly MicrosoftAppCredentials credentials;
         private readonly ConnectorClient connectorClient;
         private readonly StateClient stateClient;
+        private readonly OAuthClient oauthClient;
 
         // NOTE: These should be moved to autofac registration
         private static readonly ConcurrentDictionary<string, ConnectorClient> connectorClients = new ConcurrentDictionary<string, ConnectorClient>();
         private static readonly ConcurrentDictionary<string, StateClient> stateClients = new ConcurrentDictionary<string, StateClient>();
+        private static readonly ConcurrentDictionary<string, OAuthClient> oauthClients = new ConcurrentDictionary<string, OAuthClient>();
 
         public ConnectorClientFactory(IAddress address, MicrosoftAppCredentials credentials)
         {
@@ -102,6 +111,34 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 }
                 stateClients[key] = stateClient;
             }
+
+            if (!oauthClients.TryGetValue(key, out oauthClient))
+            {
+                if (IsEmulator(this.address) && emulateOAuthCards.Value)
+                {
+                    // for emulator using emulated OAuthCards we should use serviceUri of the emulator
+                    oauthClient = new OAuthClient(this.serviceUri, this.credentials);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(settingsOAuthApiUrl.Value))
+                    {
+                        oauthClient = new OAuthClient(new Uri(settingsOAuthApiUrl.Value), this.credentials);
+                    }
+                    else
+                    {
+                        oauthClient = new OAuthClient(this.credentials);
+                    }
+                }
+
+                if (IsEmulator(this.address))
+                {
+                    // Send the mode notification (emulated OAuthCards or not) to the emulator
+                    Task.WaitAll(oauthClient.OAuthApi.SendEmulateOAuthCardsAsync(emulateOAuthCards.Value));
+                }
+
+                oauthClients[key] = oauthClient;
+            }
         }
 
         public static bool IsEmulator(IAddress address)
@@ -117,6 +154,11 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         IStateClient IConnectorClientFactory.MakeStateClient()
         {
             return stateClient;
+        }
+
+        IOAuthClient IConnectorClientFactory.MakeOAuthClient()
+        {
+            return oauthClient;
         }
 
         private readonly static Lazy<string> settingsStateApiUrl = new Lazy<string>(() => GetSettingsStateApiUrl());
@@ -136,5 +178,37 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             return url;
         }
 
+        private readonly static Lazy<string> settingsOAuthApiUrl = new Lazy<string>(() => GetOAuthApiFromSettingsUrl());
+
+        /// <summary>
+        /// Get the OAuth API endpoint from settings. 
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>The OAuth API endpoint from settings.</returns>
+        private static string GetOAuthApiFromSettingsUrl(string key = "OAuthApiEndpoint")
+        {
+            var url = SettingsUtils.GetAppSettings(key);
+            if (!string.IsNullOrEmpty(url))
+            {
+                MicrosoftAppCredentials.TrustServiceUrl(url, DateTime.MaxValue);
+            }
+            return url;
+        }
+
+        private readonly static Lazy<bool> emulateOAuthCards = new Lazy<bool>(() => GetEmulateOAuthCardsSetting());
+
+        private static bool GetEmulateOAuthCardsSetting(string key = "EmulateOAuthCards")
+        {
+            var value = SettingsUtils.GetAppSettings(key);
+
+            bool result = false;
+            if (!string.IsNullOrEmpty(value) && !bool.TryParse(value, out result))
+            {
+                // default back to false
+                result = false;
+            }
+            
+            return result;
+        }
     }
 }

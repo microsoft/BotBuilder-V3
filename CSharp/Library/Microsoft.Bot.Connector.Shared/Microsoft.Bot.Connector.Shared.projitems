@@ -128,6 +128,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MicrosoftAppCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachmentEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\OAuthApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\IOAuthApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\IOAuthClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\Models\TokenExchangeState.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\Models\TokenOperations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\OAuthClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Payments\MicrosoftPayMethodDataEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentOperations.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentRequestEx.cs" />
@@ -143,6 +149,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\Models\BotStateDataResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\StateClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\StateClientExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthClientEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateClientEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThumbnailUrlEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VideoCardEx.cs" />
