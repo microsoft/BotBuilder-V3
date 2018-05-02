@@ -295,6 +295,28 @@ export interface IConversationsResult {
     conversations: IConversationMembers[];
 }
 
+/**
+ * An interface representing TokenResponse.
+ * A response that includes a user token
+ *
+ */
+export interface ITokenResponse {
+    /**
+     * The connection name
+     */
+    connectionName: string;
+    /**
+     * The user token
+     */
+    token: string;
+    /**
+     * Expiration for the token, in ISO 8601 format
+     * (e.g. "2007-04-05T14:30Z")
+     */
+    expiration: string;
+}
+
+
 /** Exported bot state data. */
 export interface IBotStateData {
     /** ID of the conversation the data is for (if relevant.) */
@@ -411,6 +433,26 @@ export interface ISigninCard {
     title: string;
 
     /** Sign in action. */
+    buttons: ICardAction[];
+}
+
+/**
+ * An interface representing OAuthCard.
+ * A card representing a request to peform a sign in via OAuth
+ *
+ */
+export interface IOAuthCard {
+    /**
+     * Text for signin request
+     */
+    text: string;
+    /**
+     * The name of the registered connection
+     */
+    connectionName: string;
+    /**
+     * Action to use to perform signin
+     */
     buttons: ICardAction[];
 }
 
@@ -2649,6 +2691,28 @@ export class SigninCard implements IIsAttachment {
     toAttachment(): IAttachment;
 }
 
+/** Card builder class that simplifies building oauth cards. */
+export class OAuthCard implements IIsAttachment {
+
+    /**
+     * Creates a new OAuthCard.
+     * @param session (Optional) will be used to localize any text.
+     */
+    constructor(session?: Session);
+
+    /** The name of the OAuth connection to use. */
+    connectionName(name: string): SigninCard;
+
+    /** Title of the Card. */
+    text(prompts: TextType, ...args: any[]): SigninCard;
+
+    /** Signin button label. */
+    button(title: TextType): SigninCard;
+
+    /** Returns the JSON for the card, */
+    toAttachment(): IAttachment;
+}
+
 /** Card builder class that simplifies building receipt cards. */
 export class ReceiptCard implements IIsAttachment {
 
@@ -4212,6 +4276,39 @@ export class ChatConnector implements IConnector, IBotStorage {
      * @param done Callback to recieve the next page of results.
      */
     exportBotStateData(serviceUrl: string, channelId: string, continuationToken: string|undefined, done: (err: Error, results: IBotStateDataResult) => void): void;
+
+    /**
+     * Attempts to retrieve the token for a user that's in a signin flow.
+     * @param address Address of the user and channel to login.
+     * @param connectionName Name of the auth connection to use.
+     * @param magicCode (Optional) Optional user entered code to validate.
+     * @param done Callback to retrieve the users token.
+     */
+    getUserToken(address: IChatConnectorAddress, connectionName: string, magicCode: string|undefined, done: (err: Error, results: ITokenResponse) => void): void;
+
+    /**
+     * Signs the user out with the token server.
+     * @param address Address of the user and channel to signout.
+     * @param connectionName Name of the auth connection to use.
+     * @param done Callback to retrieve the users token.
+     */
+    signOutUser(address: IChatConnectorAddress, connectionName: string, magicCode: string|undefined, done: (err: Error, results: ITokenResponse) => void): void;
+    
+    /**
+     * Gets a signin link from the token server that can be sent as part of a SigninCard. 
+     * @param address Address of the user and channel to get signin link for.
+     * @param connectionName Name of the auth connection to use.
+     * @param done Callback to retrieve the link.
+     */
+    getSignInLink(address: IChatConnectorAddress, connectionName: string, done: (err: Error, link: string) => void): void;
+
+    /**
+     * Tells the token service to emulate the sending of OAuthCards.
+     * @param serviceUrl The service url for the channel being queried. This can be found in the `address.serviceUrl` for a message sent to the bot.
+     * @param emulate If `true` the token service will emulate the sending of OAuthCards.
+     * @param done Callback invoked upon completion of the operation.
+     */
+    emulateOAuthCards(serviceUrl: string, emulate: boolean, done: (err: Error) => void): void;
 
     /** Reads in data from the Bot Frameworks state service. */
     getData(context: IBotStorageContext, callback: (err: Error, data: IBotStorageData) => void): void;

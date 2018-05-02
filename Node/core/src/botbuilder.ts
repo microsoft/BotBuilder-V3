@@ -47,6 +47,7 @@ export { Keyboard } from './cards/Keyboard';
 export { MediaCard } from './cards/MediaCard';
 export { ReceiptCard, ReceiptItem, Fact } from './cards/ReceiptCard';
 export { SigninCard } from './cards/SigninCard';
+export { OAuthCard } from './cards/OAuthCard';
 export { SuggestedActions } from './cards/SuggestedActions';
 export { ThumbnailCard } from './cards/ThumbnailCard';
 export { VideoCard } from './cards/VideoCard';

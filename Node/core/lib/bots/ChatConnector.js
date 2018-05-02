@@ -315,6 +315,59 @@ var ChatConnector = (function () {
         };
         this.authenticatedRequest(options, function (err, response, body) { return done(err, body); });
     };
+    ChatConnector.prototype.getUserToken = function (address, connectionName, magicCode, done) {
+        var path = 'api/usertoken/GetToken?userId=' + encodeURIComponent(address.user.id);
+        path += '&connectionName=' + encodeURIComponent(connectionName);
+        if (magicCode) {
+            path += '&code=' + encodeURIComponent(magicCode);
+        }
+        var options = {
+            method: 'GET',
+            url: urlJoin(address.serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, function (err, response, body) { return done(err, body); });
+    };
+    ChatConnector.prototype.signOutUser = function (address, connectionName, done) {
+        var path = 'api/usertoken/SignOut?userId=' + encodeURIComponent(address.user.id);
+        path += '&connectionName=' + encodeURIComponent(connectionName);
+        var options = {
+            method: 'DELETE',
+            url: urlJoin(address.serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, function (err, response, body) { return done(err); });
+    };
+    ChatConnector.prototype.getSignInLink = function (address, connectionName, done) {
+        var state = {
+            ConnectionName: connectionName,
+            Conversation: {
+                activityId: address.id,
+                bot: address.bot,
+                channelId: address.channelId,
+                conversation: address.conversation,
+                serviceUrl: address.serviceUrl,
+                user: address.user
+            },
+            MsAppId: this.settings.appId
+        };
+        var finalState = Buffer.from(JSON.stringify(state)).toString('base64');
+        var path = 'api/botsignin/getsigninurl?state=' + encodeURIComponent(finalState);
+        var options = {
+            method: 'GET',
+            url: urlJoin(address.serviceUrl, path)
+        };
+        this.authenticatedRequest(options, function (err, response, body) { return done(err, body); });
+    };
+    ChatConnector.prototype.emulateOAuthCards = function (serviceUrl, emulate, done) {
+        var path = 'api/usertoken/emulateOAuthCards?emulate=' + (!!emulate).toString();
+        var options = {
+            method: 'POST',
+            url: urlJoin(serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, function (err, response, body) { return done(err); });
+    };
     ChatConnector.prototype.getData = function (context, callback) {
         var _this = this;
         try {

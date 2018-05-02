@@ -430,6 +430,87 @@ export class ChatConnector implements IConnector, IBotStorage {
         };
         this.authenticatedRequest(options, (err, response, body) => done(err, body));
     }
+
+    public getUserToken(address: IChatConnectorAddress, connectionName: string, magicCode: string|undefined, done: (err: Error, results: ITokenResponse) => void): void {
+        // Calculate path
+        var path = 'api/usertoken/GetToken?userId=' + encodeURIComponent(address.user.id);
+        path += '&connectionName=' + encodeURIComponent(connectionName);
+        if (magicCode) { path += '&code=' + encodeURIComponent(magicCode) }
+
+        // Issue request
+        var options: request.Options = {
+            method: 'GET',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(address.serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, (err, response, body) => done(err, body));
+    }
+
+    public signOutUser(address: IChatConnectorAddress, connectionName: string, done: (err: Error) => void): void {
+        // Calculate path
+        var path = 'api/usertoken/SignOut?userId=' + encodeURIComponent(address.user.id);
+        path += '&connectionName=' + encodeURIComponent(connectionName);
+
+        // Issue request
+        var options: request.Options = {
+            method: 'DELETE',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(address.serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, (err, response, body) => done(err));
+    }
+
+    public getSignInLink(address: IChatConnectorAddress, connectionName: string, done: (err: Error, link: string) => void): void {
+        // Construct state object
+        const state = {
+            ConnectionName: connectionName,
+            Conversation: {
+                activityId: address.id,
+                bot: address.bot,
+                channelId: address.channelId,
+                conversation: address.conversation,
+                serviceUrl: address.serviceUrl,
+                user: address.user   
+            },
+            MsAppId: this.settings.appId
+        };
+        const finalState = Buffer.from(JSON.stringify(state)).toString('base64');
+  
+        // Calculate path
+        var path = 'api/botsignin/getsigninurl?state=' + encodeURIComponent(finalState);
+
+        // Issue request
+        var options: request.Options = {
+            method: 'GET',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(address.serviceUrl, path)
+        };
+        this.authenticatedRequest(options, (err, response, body) => done(err, body));
+    }
+
+    public emulateOAuthCards(serviceUrl: string, emulate: boolean, done: (err: Error) => void): void {
+        // Calculate path
+        var path = 'api/usertoken/emulateOAuthCards?emulate=' + (!!emulate).toString();
+
+        // Issue request
+        var options: request.Options = {
+            method: 'POST',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, (err, response, body) => done(err));
+    }
     
     public getData(context: IBotStorageContext, callback: (err: Error, data: IChatConnectorStorageData) => void): void {
         try {
