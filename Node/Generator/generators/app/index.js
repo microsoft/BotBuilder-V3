@@ -39,8 +39,7 @@ module.exports = class extends Generator {
     this.fs.copy(this.templatePath(`botName.bot`), this.destinationPath(`${this.props.botName}.bot`), {
       process: function(content) {
         var pattern = new RegExp('<%= botName %>','g');
-        var newData = content.toString().replace(pattern, botName.toString()); 
-        return newData;
+        return content.toString().replace(pattern, botName.toString()); 
     }});
 
     this.fs.copy(this.templatePath(`app.${extension}`), this.destinationPath(`app.${extension}`));
