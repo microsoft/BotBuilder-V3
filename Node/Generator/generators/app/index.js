@@ -21,6 +21,7 @@ module.exports = class extends Generator {
   }
   writing() {
     const directoryName = _.kebabCase(this.props.botName);
+    const botName = this.props.botName;
     const extension = this.props.language === 'JavaScript' ? 'js' : 'ts';
     const launchSteps = extension === 'js' ? `node app.js` : `tsc\nnode app.js`;
     const defaultDialog = this.props.dialog.split(' ')[0].toLowerCase();
@@ -35,7 +36,12 @@ module.exports = class extends Generator {
     this.fs.copyTpl(this.templatePath('package.json'), this.destinationPath('package.json'), { botName: directoryName });
     this.fs.copy(this.templatePath('_gitignore'), this.destinationPath('.gitignore'));
     this.fs.copy(this.templatePath('_env'), this.destinationPath('.env'));
-
+    this.fs.copy(this.templatePath(`botName.bot`), this.destinationPath(`${this.props.botName}.bot`), {
+      process: function(content) {
+        var pattern = new RegExp('<%= botName %>','g');
+        var newData = content.toString().replace(pattern, botName.toString()); 
+        return newData;
+    }});
 
     this.fs.copy(this.templatePath(`app.${extension}`), this.destinationPath(`app.${extension}`));
     this.fs.copyTpl(this.templatePath(`bot.${extension}`), this.destinationPath(`bot.${extension}`), {
