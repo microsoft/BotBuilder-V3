@@ -32,7 +32,9 @@
 //
 
 import { Session } from '../Session';
-import { fmtText } from '../Message';
+import { ChatConnector } from '../bots/ChatConnector';
+import { fmtText, Message } from '../Message';
+import { SigninCard } from './SigninCard';
 
 export class OAuthCard implements IIsAttachment {
     private data = {
@@ -70,5 +72,42 @@ export class OAuthCard implements IIsAttachment {
     
     public toAttachment(): IAttachment {
         return this.data;
+    }
+
+    public static create(connector: ChatConnector, session: Session, connectionName: string, text: string, buttonTitle: string, done: (err: Error, message: Message) => void): void {
+        var msg = new Message(session);
+
+        var asSignInCard: boolean = false;
+        switch (session.message.address.channelId) {
+            case 'msteams':
+            case 'cortana':
+            case 'skype':
+            case 'slypeforbusiness':
+                asSignInCard = true;
+                break;
+        }
+
+        if (asSignInCard) {
+            connector.getSignInLink(session.message.address, connectionName, (getSignInLinkErr: Error, link: string) => {
+                if (getSignInLinkErr) {
+                    done(getSignInLinkErr, undefined);
+                } else {
+                    msg.attachments([
+                        new SigninCard(session)
+                        .text(text)
+                        .button(buttonTitle, link)
+                    ]);
+                    done(undefined, msg);
+                }
+            });
+        } else {
+            msg.attachments([ 
+                new OAuthCard(session) 
+                    .text(text) 
+                    .connectionName(connectionName)
+                    .button(buttonTitle) 
+            ]);
+            done(undefined, msg);
+        }
     }
 }

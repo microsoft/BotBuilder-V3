@@ -61,6 +61,7 @@ export interface IChatConnectorSettings {
     gzipData?: boolean;
     endpoint?: IChatConnectorEndpoint;
     stateEndpoint?: string;
+    oAuthEndpoint?: string;
     openIdMetadata?: string;
 }
 
@@ -77,6 +78,7 @@ export interface IChatConnectorEndpoint {
     emulatorAuthV32IssuerV2: string;
     emulatorAudience: string;
     stateEndpoint: string;
+    oAuthEndpoint: string;
 }
 
 export interface IChatConnectorAddress extends IAddress {
@@ -115,7 +117,8 @@ export class ChatConnector implements IConnector, IBotStorage {
                 emulatorAuthV31IssuerV2: 'https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/v2.0',
                 emulatorAuthV32IssuerV1: 'https://sts.windows.net/f8cdef31-a31e-4b4a-93e4-5f571e91255a/',
                 emulatorAuthV32IssuerV2: 'https://login.microsoftonline.com/f8cdef31-a31e-4b4a-93e4-5f571e91255a/v2.0',
-                stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
+                stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com',
+                oAuthEndpoint: this.settings.oAuthEndpoint || 'https://api.botframework.com',
             }
         }
 
@@ -443,7 +446,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             // We use urlJoin to concatenate urls. url.resolve should not be used here,
             // since it resolves urls as hrefs are resolved, which could result in losing
             // the last fragment of the serviceUrl
-            url: urlJoin(address.serviceUrl, path),
+            url: urlJoin(this.getOAuthPath(address), path),
             json: true
         };
         this.authenticatedRequest(options, (err, response, body) => done(err, body));
@@ -460,7 +463,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             // We use urlJoin to concatenate urls. url.resolve should not be used here,
             // since it resolves urls as hrefs are resolved, which could result in losing
             // the last fragment of the serviceUrl
-            url: urlJoin(address.serviceUrl, path),
+            url: urlJoin(this.getOAuthPath(address), path),
             json: true
         };
         this.authenticatedRequest(options, (err, response, body) => done(err));
@@ -491,7 +494,7 @@ export class ChatConnector implements IConnector, IBotStorage {
             // We use urlJoin to concatenate urls. url.resolve should not be used here,
             // since it resolves urls as hrefs are resolved, which could result in losing
             // the last fragment of the serviceUrl
-            url: urlJoin(address.serviceUrl, path)
+            url: urlJoin(this.getOAuthPath(address), path)
         };
         this.authenticatedRequest(options, (err, response, body) => done(err, body));
     }
@@ -931,6 +934,10 @@ export class ChatConnector implements IConnector, IBotStorage {
 
         // Append base path info.
         return path + '/v3/botstate/' + encodeURIComponent(address.channelId);
+    }
+
+    private getOAuthPath(address: IChatConnectorAddress): string {
+        return this.settings.endpoint.oAuthEndpoint;
     }
 
     private prepIncomingMessage(msg: IMessage): void {
