@@ -2,11 +2,11 @@
   "name": "generator-botbuilder",
   "version": "3.0.0",
   "description": "A yeoman generator for creating bots using Microsoft Bot Framework",
-  "homepage": "",
+  "homepage": "https://github.com/Microsoft/BotBuilder",
   "author": {
     "name": "Microsoft",
-    "email": "",
-    "url": ""
+    "email": "botframework@microsoft.com",
+    "url": "http://dev.botframework.com"
   },
   "files": [
     "generators"
