@@ -330,7 +330,7 @@ namespace Microsoft.Bot.Builder.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(InvalidNeedException))]
         public async Task Fiber_OneCall_ThenDone_Throws()
         {
             // arrange
