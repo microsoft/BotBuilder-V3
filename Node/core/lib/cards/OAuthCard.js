@@ -46,7 +46,7 @@ var OAuthCard = (function () {
             case 'msteams':
             case 'cortana':
             case 'skype':
-            case 'slypeforbusiness':
+            case 'skypeforbusiness':
                 asSignInCard = true;
                 break;
         }

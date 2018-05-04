@@ -82,7 +82,7 @@ export class OAuthCard implements IIsAttachment {
             case 'msteams':
             case 'cortana':
             case 'skype':
-            case 'slypeforbusiness':
+            case 'skypeforbusiness':
                 asSignInCard = true;
                 break;
         }
