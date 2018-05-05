@@ -360,11 +360,16 @@ namespace Microsoft.Bot.Builder.Tests
             var intent = "IntentOne";
             var prompt = "ParamOne?";
             var action = "IntentOneAction";
+            var model = new LuisModelAttribute("model", "subs", LuisApiVersion.V2);
+
+            service
+                .Setup(l => l.LuisModel)
+                .Returns(model);
 
             service
                 .Setup(l => l.BuildUri(It.IsAny<LuisRequest>()))
                 .Returns<LuisRequest>(request =>
-                        request.BuildUri(new LuisModelAttribute("model", "subs", LuisApiVersion.V2))
+                        request.BuildUri(model)
                 );
 
             service

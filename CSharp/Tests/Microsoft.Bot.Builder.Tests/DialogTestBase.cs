@@ -172,24 +172,26 @@ namespace Microsoft.Bot.Builder.Tests
 
                 while (queue.Count > 0)
                 {
-                    ++index;
-
                     var toUser = queue.Dequeue();
-                    string actual;
                     switch (toUser.Type)
                     {
                         case ActivityTypes.Message:
-                            actual = toUser.Text;
+                            Assert.AreEqual(pairs[++index], toUser.Text);
                             break;
                         case ActivityTypes.EndOfConversation:
-                            actual = toUser.AsEndOfConversationActivity().Code;
+                            Assert.AreEqual(pairs[++index], toUser.AsEndOfConversationActivity().Code);
+                            break;
+                        case ActivityTypes.Trace:
+                            var trace  = toUser.AsTraceActivity();
+                            Assert.IsNotNull(trace.Value);
+                            Assert.AreEqual(LuisDialog<object>.LuisTraceLabel, trace.Label);
+                            Assert.AreEqual(LuisDialog<object>.LuisTraceType, trace.ValueType);
+                            Assert.AreEqual(LuisDialog<object>.LuisTraceName, trace.Name);
                             break;
                         default:
                             throw new NotImplementedException();
                     }
-                    var expected = pairs[index];
-
-                    Assert.AreEqual(expected, actual);
+                    
                 }
             }
         }

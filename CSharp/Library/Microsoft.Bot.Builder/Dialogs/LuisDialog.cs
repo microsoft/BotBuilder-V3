@@ -119,7 +119,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     /// </summary>
     public class LuisServiceResult
     {
-        public LuisServiceResult(LuisResult result, IntentRecommendation intent, ILuisService service, ILuisOptions luisRequest)
+        public LuisServiceResult(LuisResult result, IntentRecommendation intent, ILuisService service, ILuisOptions luisRequest = null)
         {
             this.Result = result;
             this.BestIntent = intent;
@@ -145,6 +145,7 @@ namespace Microsoft.Bot.Builder.Dialogs
     {
         public const string LuisTraceType = "https://www.luis.ai/schemas/trace";
         public const string LuisTraceLabel = "Luis Trace";
+        public const string LuisTraceName = "LuisDialog";
         public const string Obfuscated = "****";
 
         protected readonly IReadOnlyList<ILuisService> services;
@@ -327,12 +328,16 @@ namespace Microsoft.Bot.Builder.Dialogs
                 LuisOptions = luisOptions,
                 LuisModel = RemoveSensitiveData(luisModel)
             };
-            var activity = Activity.CreateTraceActivityReply(context.Activity as Activity, "LuisDialog", LuisTraceType, luisTraceInfo, LuisTraceLabel) as IMessageActivity;
+            var activity = Activity.CreateTraceActivityReply(context.Activity as Activity, LuisTraceName, LuisTraceType, luisTraceInfo, LuisTraceLabel) as IMessageActivity;
             await context.PostAsync(activity).ConfigureAwait(false);
         }
 
         public static ILuisModel RemoveSensitiveData(ILuisModel luisModel)
         {
+            if (luisModel == null)
+            {
+                return null;
+            }
             return new LuisModelAttribute(luisModel.ModelID, Obfuscated,luisModel.ApiVersion, luisModel.UriBase.Host, luisModel.Threshold);
         }
 
