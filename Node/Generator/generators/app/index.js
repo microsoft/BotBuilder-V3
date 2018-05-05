@@ -25,7 +25,6 @@ module.exports = class extends Generator {
     const extension = this.props.language === 'JavaScript' ? 'js' : 'ts';
     const launchSteps = extension === 'js' ? `node app.js` : `tsc\nnode app.js`;
     const defaultDialog = this.props.dialog.split(' ')[0].toLowerCase();
-    const luisRegistration = (defaultDialog === 'luis') ? '\nbot.recognizer(new builder.LuisRecognizer(process.env.LUIS_MODEL_URL));\n' : '\n';
 
     if (path.basename(this.destinationPath()) !== directoryName) {
       this.log(`Your bot should be in a directory named ${directoryName}\nI'll automatically create this folder.`);
@@ -43,12 +42,6 @@ module.exports = class extends Generator {
     }});
 
     this.fs.copy(this.templatePath(`app.${extension}`), this.destinationPath(`app.${extension}`));
-    this.fs.copyTpl(this.templatePath(`bot.${extension}`), this.destinationPath(`bot.${extension}`), {
-      defaultDialog, luisRegistration
-    });
-    this.fs.copyTpl(this.templatePath(`dialogs-${extension}`), this.destinationPath(`dialogs`), {
-      botName: this.props.botName, botDescription: this.props.description
-    });
   
     if(extension === 'ts') {
       this.fs.copy(this.templatePath('tsconfig.json'), this.destinationPath('tsconfig.json'));
