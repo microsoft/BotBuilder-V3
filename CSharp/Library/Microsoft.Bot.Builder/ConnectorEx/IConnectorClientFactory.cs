@@ -134,7 +134,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 if (IsEmulator(this.address))
                 {
                     // Send the mode notification (emulated OAuthCards or not) to the emulator
-                    Task.WaitAll(oauthClient.OAuthApi.SendEmulateOAuthCardsAsync(emulateOAuthCards.Value));
+                    Task.Run(async () => await oauthClient.OAuthApi.SendEmulateOAuthCardsAsync(emulateOAuthCards.Value).ConfigureAwait(false)).Wait();
                 }
 
                 oauthClients[key] = oauthClient;
