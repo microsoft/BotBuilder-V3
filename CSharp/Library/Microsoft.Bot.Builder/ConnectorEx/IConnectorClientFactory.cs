@@ -114,30 +114,34 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             if (!oauthClients.TryGetValue(key, out oauthClient))
             {
-                if (IsEmulator(this.address) && emulateOAuthCards.Value)
+                // only create the oauthclient if we have credentials
+                if (!String.IsNullOrEmpty(credentials?.MicrosoftAppId) && !String.IsNullOrEmpty(credentials?.MicrosoftAppPassword))
                 {
-                    // for emulator using emulated OAuthCards we should use serviceUri of the emulator
-                    oauthClient = new OAuthClient(this.serviceUri, this.credentials);
-                }
-                else
-                {
-                    if (!string.IsNullOrEmpty(settingsOAuthApiUrl.Value))
+                    if (IsEmulator(this.address) && emulateOAuthCards.Value)
                     {
-                        oauthClient = new OAuthClient(new Uri(settingsOAuthApiUrl.Value), this.credentials);
+                        // for emulator using emulated OAuthCards we should use serviceUri of the emulator
+                        oauthClient = new OAuthClient(this.serviceUri, this.credentials);
                     }
                     else
                     {
-                        oauthClient = new OAuthClient(this.credentials);
+                        if (!string.IsNullOrEmpty(settingsOAuthApiUrl.Value))
+                        {
+                            oauthClient = new OAuthClient(new Uri(settingsOAuthApiUrl.Value), this.credentials);
+                        }
+                        else
+                        {
+                            oauthClient = new OAuthClient(this.credentials);
+                        }
                     }
-                }
 
-                if (IsEmulator(this.address))
-                {
-                    // Send the mode notification (emulated OAuthCards or not) to the emulator
-                    Task.Run(async () => await oauthClient.OAuthApi.SendEmulateOAuthCardsAsync(emulateOAuthCards.Value).ConfigureAwait(false)).Wait();
-                }
+                    if (IsEmulator(this.address))
+                    {
+                        // Send the mode notification (emulated OAuthCards or not) to the emulator
+                        Task.Run(async () => await oauthClient.OAuthApi.SendEmulateOAuthCardsAsync(emulateOAuthCards.Value).ConfigureAwait(false)).Wait();
+                    }
 
-                oauthClients[key] = oauthClient;
+                    oauthClients[key] = oauthClient;
+                }
             }
         }
 
@@ -207,7 +211,7 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 // default back to false
                 result = false;
             }
-            
+
             return result;
         }
     }
