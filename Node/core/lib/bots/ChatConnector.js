@@ -31,7 +31,8 @@ var ChatConnector = (function () {
                 emulatorAuthV31IssuerV2: 'https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/v2.0',
                 emulatorAuthV32IssuerV1: 'https://sts.windows.net/f8cdef31-a31e-4b4a-93e4-5f571e91255a/',
                 emulatorAuthV32IssuerV2: 'https://login.microsoftonline.com/f8cdef31-a31e-4b4a-93e4-5f571e91255a/v2.0',
-                stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com'
+                stateEndpoint: this.settings.stateEndpoint || 'https://state.botframework.com',
+                oAuthEndpoint: this.settings.oAuthEndpoint || 'https://api.botframework.com',
             };
         }
         this.botConnectorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
@@ -323,7 +324,7 @@ var ChatConnector = (function () {
         }
         var options = {
             method: 'GET',
-            url: urlJoin(address.serviceUrl, path),
+            url: urlJoin(this.getOAuthPath(address), path),
             json: true
         };
         this.authenticatedRequest(options, function (err, response, body) { return done(err, body); });
@@ -333,7 +334,7 @@ var ChatConnector = (function () {
         path += '&connectionName=' + encodeURIComponent(connectionName);
         var options = {
             method: 'DELETE',
-            url: urlJoin(address.serviceUrl, path),
+            url: urlJoin(this.getOAuthPath(address), path),
             json: true
         };
         this.authenticatedRequest(options, function (err, response, body) { return done(err); });
@@ -355,7 +356,7 @@ var ChatConnector = (function () {
         var path = 'api/botsignin/getsigninurl?state=' + encodeURIComponent(finalState);
         var options = {
             method: 'GET',
-            url: urlJoin(address.serviceUrl, path)
+            url: urlJoin(this.getOAuthPath(address), path)
         };
         this.authenticatedRequest(options, function (err, response, body) { return done(err, body); });
     };
@@ -767,6 +768,9 @@ var ChatConnector = (function () {
                 break;
         }
         return path + '/v3/botstate/' + encodeURIComponent(address.channelId);
+    };
+    ChatConnector.prototype.getOAuthPath = function (address) {
+        return this.settings.endpoint.oAuthEndpoint;
     };
     ChatConnector.prototype.prepIncomingMessage = function (msg) {
         utils.moveFieldsTo(msg, msg, {

@@ -234,7 +234,11 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 }
                 catch (Exception error)
                 {
-                    this.stack.Pop();
+                    if (this.stack.Count != 0)
+                    {
+                        this.stack.Pop();
+                    }
+
                     if (this.stack.Count == 0)
                     {
                         throw;

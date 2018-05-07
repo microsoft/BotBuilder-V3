@@ -13,13 +13,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CommandBack" xml:space="preserve">
-    <value>Πίσω</value>
+    <value>Προηγούμενη</value>
   </data>
   <data name="CommandBackHelp" xml:space="preserve">
-    <value>Πίσω: Πίσω στην προηγούμενη ερώτηση.</value>
+    <value>Προηγούμενη: Πίσω στην προηγούμενη ερώτηση.</value>
   </data>
   <data name="CommandBackTerms" xml:space="preserve">
-    <value>backup;go back;back;πίσω;πισω</value>
+    <value>backup;go back;back;πίσω;πισω;προηγουμενη;προηγούμενη;προηγουμενο;προηγούμενο</value>
   </data>
   <data name="CommandHelp" xml:space="preserve">
     <value>Βοήθεια</value>
@@ -76,7 +76,7 @@
     <value>Προεπιλογή ('π');προεπιλογή;π;προεπιλογη</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>όχι;ο;νο;2;no;No</value>
+    <value>όχι;ο;νο;2;no;No;οχι</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>Καμία επιλογή;όχι;καμία;οχι;τίποτα;καμια;τιποτα;δε με νοιάζει;δε με νοιαζει;αδιαφορο;αδιάφορο</value>
@@ -133,7 +133,7 @@
     <comment>2-enumerated descriptions</comment>
   </data>
   <data name="TemplateEnumOneNumberHelp" xml:space="preserve">
-    <value>Μπορείτε να εισάγετε ένα αριθμό {0}-{1} ή λέξης από τις περιγραφές. ({2})</value>
+    <value>Μπορείτε να εισάγετε ένα αριθμό {0}-{1} ή κάτι από τις περιγραφές. ({2})</value>
     <comment>0-min, 1-max and 2-enumerated descriptions</comment>
   </data>
   <data name="TemplateEnumOneWordHelp" xml:space="preserve">
@@ -157,7 +157,7 @@
     <comment>0-recognizer help, 1-command help</comment>
   </data>
   <data name="TemplateHelpClarify" xml:space="preserve">
-    <value>Προσδιορίζετε την τιμή {&amp;}.  Possible responses:
+    <value>Προσδιορίζετε την τιμή {&amp;}.  Πιθανές απαντήσεις:
 {0}
 {1}</value>
     <comment>0-recognizer help, 1-command help</comment>
@@ -197,7 +197,7 @@
     <value>Καμία επιλογή</value>
   </data>
   <data name="TemplateNotUnderstood" xml:space="preserve">
-    <value>"{0}" δεν είναι επιλογή για {&amp;}.</value>
+    <value>"{0}" δεν είναι επιλογή για το πεδίο "{&amp;}".</value>
     <comment>0-is not understood term</comment>
   </data>
   <data name="TemplateString" xml:space="preserve">

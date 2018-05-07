@@ -1372,6 +1372,9 @@ export interface IChatConnectorEndpoint {
 
     /** Default value is https://state.botframework.com. Configurable via IChatConnectorSettings.stateEndpoint. */
     stateEndpoint: string;
+
+    /** Default value is https://api.botframework.com. Configurable via IChatConnectorSettings.oAuthEndpoint. */
+    oAuthEndpoint: string;
 }
 
 /** Options used to initialize a UniversalBot instance. */
@@ -2701,16 +2704,19 @@ export class OAuthCard implements IIsAttachment {
     constructor(session?: Session);
 
     /** The name of the OAuth connection to use. */
-    connectionName(name: string): SigninCard;
+    connectionName(name: string): OAuthCard;
 
     /** Title of the Card. */
-    text(prompts: TextType, ...args: any[]): SigninCard;
+    text(prompts: TextType, ...args: any[]): OAuthCard;
 
     /** Signin button label. */
-    button(title: TextType): SigninCard;
+    button(title: TextType): OAuthCard;
 
     /** Returns the JSON for the card, */
     toAttachment(): IAttachment;
+
+    /** Factory method for returning a message with the proper signin attachment */
+    static create(connector: ChatConnector, session: Session, connectionName: string, text: string, buttonTitle: string, done: (err: Error, message: Message) => void): void;
 }
 
 /** Card builder class that simplifies building receipt cards. */
@@ -4292,7 +4298,7 @@ export class ChatConnector implements IConnector, IBotStorage {
      * @param connectionName Name of the auth connection to use.
      * @param done Callback to retrieve the users token.
      */
-    signOutUser(address: IChatConnectorAddress, connectionName: string, magicCode: string|undefined, done: (err: Error, results: ITokenResponse) => void): void;
+    signOutUser(address: IChatConnectorAddress, connectionName: string, done: (err: Error, results: ITokenResponse) => void): void;
     
     /**
      * Gets a signin link from the token server that can be sent as part of a SigninCard. 

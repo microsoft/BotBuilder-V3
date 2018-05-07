@@ -76,6 +76,16 @@
             Create an instance of the Activity class with IInvokeActivity masking
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreateTraceActivityReply(Microsoft.Bot.Connector.Activity,System.String,System.String,System.Object,System.String)">
+            <summary>
+            Create an instance of the TraceActivity 
+            </summary>
+            <param name="activity">Activity to reply to</param>
+            <param name="name">Name of the operation</param>
+            <param name="value">value of the operation</param>
+            <param name="valueType">valueType if helpful to identify the value schema (default is value.GetType().Name)</param>
+            <param name="label">descritive label of context. (Default is calling function name)</param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.IsActivity(System.String)">
             <summary>
             True if the Activity is of the specified activity type
