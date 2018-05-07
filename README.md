@@ -29,7 +29,7 @@ Visit azure.com for the primary [Azure Bot Service documentation page](https://d
 ## Samples
 Bot builder SDK v4 (preview) includes samples for all supported languages:
 -  [.NET](https://github.com/Microsoft/botbuilder-dotnet/tree/master/samples-final)
--  [JaveScript](https://github.com/Microsoft/botbuilder-js/tree/master/samples)
+-  [JavaScript](https://github.com/Microsoft/botbuilder-js/tree/master/samples)
  - [Python](https://github.com/Microsoft/botbuilder-python/tree/master/samples)
 - [Java](https://github.com/Microsoft/botbuilder-java/tree/master/samples)
 
