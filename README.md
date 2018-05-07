@@ -1,6 +1,6 @@
 # Bot Builder SDK 
 
-Bot Builder SDK v4 is the latest SDK for building bot applications.  Production bots should continue to be developed using the [v3 SDK](https://github.com/Microsoft/BotBuilder/tree/master/CSharp).
+Bot Builder SDK v4 is the latest SDK for building bot applications. It is in **Preview** state. Production bots should continue to be developed using the [v3 SDK](https://github.com/Microsoft/BotBuilder/tree/master/CSharp).
 
 The Bot Builder SDK enables you to build bots that support different types of interactions with users. You can design conversations in your bot to be freeform. Your bot can also have more guided interactions where it provides the user choices or actions. The conversation can use simple text or more complex rich cards that contain text, images, and action buttons. You can add natural language interactions and questions and answers, which let your users interact with your bots in a natural way.
 
