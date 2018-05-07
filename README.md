@@ -1,6 +1,6 @@
 # Bot Builder SDK 
 
-Bot Builder SDK v4 is the latest SDK for building bot applications. It is in **Preview** state. Production bots should continue to be developed using the [v3 SDK](https://github.com/Microsoft/BotBuilder/tree/master/CSharp).
+Bot Builder SDK v4 is the latest SDK for building bot applications. It is in **Preview** state. Production bots should continue to be developed using the **v3 SDK** - [csharp](CSharp), [node](Node).
 
 The Bot Builder SDK enables you to build bots that support different types of interactions with users. You can design conversations in your bot to be freeform. Your bot can also have more guided interactions where it provides the user choices or actions. The conversation can use simple text or more complex rich cards that contain text, images, and action buttons. You can add natural language interactions and questions and answers, which let your users interact with your bots in a natural way.
 
@@ -8,7 +8,7 @@ The Bot Builder SDK enables you to build bots that support different types of in
 
 Bot Builder SDK v4 support four programming languages, each managed in a separate repo: .NET, JavaScript, Python, and java.
 
-The Bot Builder includes a set of command line tools to streamline end-to-end conversation centric development experience, and an emulator for debugging your bot locally or in the cloud. 
+The Bot Builder includes a set of [command line tools](https://github.com/microsoft/botbuilder-tools) to streamline end-to-end conversation centric development experience, and an [emulator](https://github.com/microsoft/botframework-emulator) for debugging your bot locally or in the cloud. 
 
 ## Get started with Bot Builder v4 (Preview) 
 It is easy to build your first Bot. You can create a bot with [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart?view=azure-bot-service-4.0). Click [here](https://account.azure.com/signup) if you need a trial Azure subscription. 
@@ -45,12 +45,12 @@ We track functional issues and features asks for and Bot Builder and Azure Bot S
 
 |Item|Description|Link|
 |----|-----|-----|
-|SDK v3 (.NET and JS)| core bot runtime, abstractions, prompts, dialogs, FormFlow, etc. | [File and issue](https://github.com/Microsoft/BotBuilder/issues) |
-|SDK v4 .net| core bot runtime for .NET, connectors, middleware, dialogs, prompts, LUIS and QnA| [File and issue](https://github.com/Microsoft/botbuilder-dotnet/tree/master/libraries) |
-|SDK v4 JavaScript| core bot runtime for JavaScript, connectors, middleware, dialogs, prompts, LUIS and QnA | [File and issue](https://github.com/Microsoft/botbuilder-js/issues) |
-|SDK v4 Python| core bot runtime for Python, connectors, middleware, dialogs, prompts, LUIS and QnA | [File and issue](https://github.com/Microsoft/botbuilder-python/issues) |
-|SDK v4 Java| core bot runtime for Java, connectors, middleware, dialogs, prompts, LUIS and QnA | [File and issue]( https://github.com/Microsoft/botbuilder-java/issues)|
-|Documentation | Docs for Bot Builder and Azure Bot Service | [File and issue](https://github.com/Microsoft/BotBuilder/issues)|
+|SDK v3 (.NET and JS)| core bot runtime, abstractions, prompts, dialogs, FormFlow, etc. | [File an issue](https://github.com/Microsoft/BotBuilder/issues) |
+|SDK v4 .net| core bot runtime for .NET, connectors, middleware, dialogs, prompts, LUIS and QnA| [File an issue](https://github.com/Microsoft/botbuilder-dotnet/tree/master/libraries) |
+|SDK v4 JavaScript| core bot runtime for JavaScript, connectors, middleware, dialogs, prompts, LUIS and QnA | [File an issue](https://github.com/Microsoft/botbuilder-js/issues) |
+|SDK v4 Python| core bot runtime for Python, connectors, middleware, dialogs, prompts, LUIS and QnA | [File an issue](https://github.com/Microsoft/botbuilder-python/issues) |
+|SDK v4 Java| core bot runtime for Java, connectors, middleware, dialogs, prompts, LUIS and QnA | [File an issue]( https://github.com/Microsoft/botbuilder-java/issues)|
+|Documentation | Docs for Bot Builder and Azure Bot Service | [File an issue](https://github.com/Microsoft/BotBuilder/issues)|
 |CLI tools| MSBot, chatdown, ludown, LUIS, LUISGen, QnA Maker, dispatch  | [File an issue](https://github.com/microsoft/botbuilder-tools/issues)|
 |Emulator| view transcripts, connect to services, debug your bot | [File an issue](https://github.com/Microsoft/BotFramework-Emulator/issues)| 
 
