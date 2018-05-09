@@ -17,14 +17,13 @@ Scaffolds a bot using [Microsoft Bot Framework](https://dev.botframework.com), a
 
 First, install [Yeoman](http://yeoman.io) and generator-botbuilder using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
-Since we are developing the generator locally, it’s not yet available as a global npm module. A global module may be created and symlinked to a local one, using npm. 
-In order to do that, we need to navigate to the generator-botbuilder folder and type:
+Once Node.js is installed we can just type:
 
 ```bash
-npm link
+npm i -g generator-botbuilder
 ```
 
-That will install the project dependencies and symlink a global module to your local file. After npm is done, we need to type:
+That will install the project dependencies. After npm is done, we need to type:
 
 ```bash
 yo botbuilder
