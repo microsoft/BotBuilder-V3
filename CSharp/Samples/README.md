@@ -19,7 +19,6 @@ There are several samples in this directory.
 * [Microsoft.Bot.Sample.SimpleAlarmBot](SimpleAlarmBot/) -- Integration of http://luis.ai with the dialog system to set alarms.
 * [Microsoft.Bot.Sample.AlarmBot](AlarmBot/) -- Add alarm logic to previous bot and send alarms proactively
 * [Microsoft.Bot.Sample.PizzaBot](PizzaBot/) -- Integration of http://luis.ai with FormFlow.
-* [Microsoft.Bot.Sample.GraphBot](GraphBot/Microsoft.Bot.Sample.GraphBot) -- Integration of [Microsoft Graph Api](https://graph.microsoft.io) with dialog system.
 * [Microsoft.Bot.Sample.SimpleFacebookAuthBot](SimpleFacebookAuthBot/) -- A bot showcasing OAuth authentication using Facebook graph API.
 * [Microsoft.Bot.Sample.SimpleIVRBot](SimpleIVRBot/) -- A sample IVR bot using Skype calling API.
 * [Microsoft.Bot.Sample.AadV1Bot](AadV1Bot/) -- Bot example that uses an OAuthCard to log a user into an AAD v1 application and uses the  [Microsoft Graph Api](https://graph.microsoft.io)
