@@ -70,7 +70,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         public async Task StartAsync(IDialogContext context)
         {
             // First ask Bot Service if it already has a token for this user
-            var token = await context.GetUserTokenAsync(_connectionName).ConfigureAwait(false);
+            var token = await context.GetUserTokenAsync(_connectionName);
             if (token != null)
             {
                 context.Done(new GetTokenResponse() { Token = token.Token });
@@ -78,14 +78,14 @@ namespace Microsoft.Bot.Builder.Dialogs
             else
             {
                 // If Bot Service does not have a token, send an OAuth card to sign in
-                await SendOAuthCardAsync(context, (Activity)context.Activity).ConfigureAwait(false);
+                await SendOAuthCardAsync(context, (Activity)context.Activity);
             }
         }
 
         private async Task SendOAuthCardAsync(IDialogContext context, Activity activity)
         {
-            var reply = await activity.CreateOAuthReplyAsync(_connectionName, _signInMessage, _buttonLabel).ConfigureAwait(false);
-            await context.PostAsync(reply).ConfigureAwait(false);
+            var reply = await activity.CreateOAuthReplyAsync(_connectionName, _signInMessage, _buttonLabel);
+            await context.PostAsync(reply);
             context.Wait(WaitForToken);
         }
 
@@ -113,7 +113,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 verificationCode = activity.Text;
             }
 
-            tokenResponse = await context.GetUserTokenAsync(_connectionName, verificationCode).ConfigureAwait(false);
+            tokenResponse = await context.GetUserTokenAsync(_connectionName, verificationCode);
             if (tokenResponse != null)
             {
                 context.Done(new GetTokenResponse() { Token = tokenResponse.Token });
@@ -124,8 +124,8 @@ namespace Microsoft.Bot.Builder.Dialogs
             if (_reties > 0)
             {
                 _reties--;
-                await context.PostAsync(_retryMessage).ConfigureAwait(false);
-                await SendOAuthCardAsync(context, activity).ConfigureAwait(false);
+                await context.PostAsync(_retryMessage);
+                await SendOAuthCardAsync(context, activity);
             }
             else
             {
