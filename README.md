@@ -1,16 +1,15 @@
 # Bot Builder SDK 
 
-Bot Builder SDK v4 is the latest SDK for building bot applications. It is in **Preview** state. Production bots should continue to be developed using the **v3 SDK** - [csharp](CSharp), [node](Node).
-
 The Bot Builder SDK enables you to build bots that support different types of interactions with users. You can design conversations in your bot to be freeform. Your bot can also have more guided interactions where it provides the user choices or actions. The conversation can use simple text or more complex rich cards that contain text, images, and action buttons. You can add natural language interactions and questions and answers, which let your users interact with your bots in a natural way.
 
 ![Bot Framework](https://botframework.blob.core.windows.net/web/images/bot-framework.png)
 
-Bot Builder SDK v4 support four programming languages, each managed in a separate repo: .NET, JavaScript, Python, and java.
-
 The Bot Builder includes a set of [command line tools](https://github.com/microsoft/botbuilder-tools) to streamline end-to-end conversation centric development experience, and an [emulator](https://github.com/microsoft/botframework-emulator) for debugging your bot locally or in the cloud. 
 
 ## Get started with Bot Builder v4 (Preview) 
+
+*Bot Builder SDK v4 is the latest SDK for building bot applications. It is in **Preview** state. Production bots should continue to be developed using the **v3 SDK** - [csharp](CSharp), [node](Node).*
+
 It is easy to build your first Bot. You can create a bot with [Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart?view=azure-bot-service-4.0). Click [here](https://account.azure.com/signup) if you need a trial Azure subscription. 
 
 You can create a bot with Bot Builder SDK using your favorite language: 
