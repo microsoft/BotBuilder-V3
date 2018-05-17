@@ -23,8 +23,11 @@ namespace Microsoft.Bot.Sample.AlarmBot.Models
 
             builder.Register(c => new LuisModelAttribute("c413b2ef-382c-45bd-8ff0-f76d60e2a821", "6d0966209c6e4f6b835ce34492f3e6d9")).AsSelf().AsImplementedInterfaces().SingleInstance();
 
-            // register the top level dialog
+            // register the top level dialog, choosing either one of these
             builder.RegisterType<AlarmDispatchDialog>().As<IDialog<object>>().InstancePerDependency();
+            /*
+            builder.RegisterType<AlarmLuisDialog>().As<IDialog<object>>().InstancePerDependency();
+            */
 
             // register other dialogs we use
             builder.Register((c, p) => new AlarmRingDialog(p.TypedAs<string>(), c.Resolve<IAlarmService>(), c.Resolve<IAlarmRenderer>())).AsSelf().InstancePerDependency();
