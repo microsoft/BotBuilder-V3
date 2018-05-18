@@ -1,4 +1,4 @@
-﻿# generator-botbuilder [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+﻿# generator-botbuilder
 > Yeoman generator for Microsoft Bot Framework
 
 ## Features
