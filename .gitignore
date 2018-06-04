@@ -3,3 +3,4 @@ _site
 .jekyll-metadata
 debug.log
 .vscode
+Gemfile.lock
