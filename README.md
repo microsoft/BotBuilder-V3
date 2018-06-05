@@ -33,7 +33,7 @@ Bot builder SDK v4 (preview) includes samples for all supported languages:
 - [Java](https://github.com/Microsoft/botbuilder-java/tree/master/samples)
 
 ## Questions and Help 
-If you have questions about Bot Builder SDK v3 or v4 Preview or using Azure Bos Service, we encourage you to reach out to the community and Azure Bot Service dev team for help.
+If you have questions about Bot Builder SDK v3 or v4 Preview or using Azure Bot Service, we encourage you to reach out to the community and Azure Bot Service dev team for help.
 - For questions which fit the Stack Overflow format ("how does this work?"), we monitor the both [Azure-bot-service](https://stackoverflow.com/questions/tagged/azure-bot-service) and [bot framework](https://stackoverflow.com/questions/tagged/botframework) tags (search [both](https://stackoverflow.com/questions/tagged/azure-bot-service+or+botframework))
 - You can also tweet/follow [@msbotframework](https://twitter.com/msbotframework) 
 
