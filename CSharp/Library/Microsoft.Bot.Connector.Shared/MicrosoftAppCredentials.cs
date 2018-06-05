@@ -192,7 +192,7 @@ namespace Microsoft.Bot.Connector
 
                         // if the task is completed and is the expired token, then we need to force a new one 
                         // (This happens if bot has been 100% idle past the expiration point)
-                        if (oAuthTokenTask.IsCompleted && oAuthTokenTask.Result.access_token == oAuthToken.access_token)
+                        if (oAuthTokenTask.Status == TaskStatus.RanToCompletion && oAuthTokenTask.Result.access_token == oAuthToken.access_token)
                         {
                             oAuthTokenTask = _getCurrentTokenTask(forceRefresh: true);
                         }
@@ -232,7 +232,7 @@ namespace Microsoft.Bot.Connector
                         .ContinueWith(task =>
                         {
                             // observe the background task and put in cache when done
-                            if (task.IsCompleted)
+                            if (task.Status == TaskStatus.RanToCompletion)
                             {
                                 // update the cache with completed task so all new requests will get it
                                 tokenTaskCache[CacheKey] = task;
