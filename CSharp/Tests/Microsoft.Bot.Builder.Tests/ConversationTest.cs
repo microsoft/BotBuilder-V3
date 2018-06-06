@@ -204,7 +204,7 @@ namespace Microsoft.Bot.Builder.Tests
                     return new TokenResponse() { Token = "HappyToken", ConnectionName = connectionName };
                 });
 
-            botsClient.Setup(d => d.OAuthApi.SendEmulateOAuthCardsAsync(It.IsAny<string>(), It.IsAny<bool>()))
+            botsClient.Setup(d => d.OAuthApi.SendEmulateOAuthCardsAsync(It.IsAny<bool>()))
                 .Returns<bool>(async (value) =>
                 {
                 });
