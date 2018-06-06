@@ -33,7 +33,9 @@ namespace Microsoft.Bot.Connector
 
         protected static ConcurrentDictionary<string, DateTime> TrustedHostNames = new ConcurrentDictionary<string, DateTime>(
                                                                                         new Dictionary<string, DateTime>() {
-                                                                                            { "state.botframework.com", DateTime.MaxValue }
+                                                                                            { "state.botframework.com", DateTime.MaxValue },
+                                                                                            { "api.botframework.com", DateTime.MaxValue },
+                                                                                            { "token.botframework.com", DateTime.MaxValue }
                                                                                         });
 
         protected static readonly Dictionary<string, Task<OAuthResponse>> tokenTaskCache = new Dictionary<string, Task<OAuthResponse>>();

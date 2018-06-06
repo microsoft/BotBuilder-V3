@@ -114,32 +114,52 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
             if (!oauthClients.TryGetValue(key, out oauthClient))
             {
-                // only create the oauthclient if we have credentials
-                if (!String.IsNullOrEmpty(credentials?.MicrosoftAppId) && !String.IsNullOrEmpty(credentials?.MicrosoftAppPassword))
-                {
-                    if (IsEmulator(this.address) && emulateOAuthCards.Value)
-                    {
-                        // for emulator using emulated OAuthCards we should use serviceUri of the emulator
-                        oauthClient = new OAuthClient(this.serviceUri, this.credentials);
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(settingsOAuthApiUrl.Value))
-                        {
-                            oauthClient = new OAuthClient(new Uri(settingsOAuthApiUrl.Value), this.credentials);
-                        }
-                        else
-                        {
-                            oauthClient = new OAuthClient(this.credentials);
-                        }
-                    }
+                bool isEmulatingOAuthCards = false;                             // whether to emulate 
+                MicrosoftAppCredentials msAppCredentials = this.credentials;    // credentials to use for oauth APIs
+                Uri oauthEndpoint = null;                                       // denotes the default endpoint
 
+                if (String.IsNullOrEmpty(credentials?.MicrosoftAppId) || String.IsNullOrEmpty(credentials?.MicrosoftAppPassword))
+                {
+                    // if there is no AppId or Password, do not use credentials with the OAuthClient
+                    msAppCredentials = null;
                     if (IsEmulator(this.address))
                     {
-                        // Send the mode notification (emulated OAuthCards or not) to the emulator
-                        Task.Run(async () => await oauthClient.OAuthApi.SendEmulateOAuthCardsAsync(emulateOAuthCards.Value).ConfigureAwait(false)).Wait();
+                        // if using the emulator, this forces the mode to be "emulating OAuthCards"
+                        isEmulatingOAuthCards = true;
+                        oauthEndpoint = this.serviceUri;
                     }
+                }
+                else if (IsEmulator(this.address) && emulateOAuthCards.Value)
+                {
+                    // if the config is asking for the mode of "emulating OAuthCards"
+                    isEmulatingOAuthCards = true;
+                    oauthEndpoint = this.serviceUri;
+                }
+                else if(!string.IsNullOrEmpty(settingsOAuthApiUrl.Value))
+                {
+                    // if there is a custom OAuth API URI
+                    oauthEndpoint = new Uri(settingsOAuthApiUrl.Value);
+                }
 
+                // create the client
+                if (oauthEndpoint != null)
+                {
+                    oauthClient = new OAuthClient(oauthEndpoint, msAppCredentials);
+                }
+                else
+                {
+                    oauthClient = new OAuthClient(msAppCredentials);
+                }
+                
+                // if using the emulator, then tell it whether to emulate OAuthCards or not
+                if(IsEmulator(this.address))
+                {
+                    var emulatorOAuthClient = new OAuthClient(this.serviceUri, msAppCredentials);
+                    Task.Run(async () => await emulatorOAuthClient.OAuthApi.SendEmulateOAuthCardsAsync(isEmulatingOAuthCards).ConfigureAwait(false)).Wait();
+                }
+
+                if (oauthClient != null)
+                {
                     oauthClients[key] = oauthClient;
                 }
             }
