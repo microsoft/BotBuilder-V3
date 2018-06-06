@@ -19,7 +19,7 @@
     <value>Προηγούμενη: Πίσω στην προηγούμενη ερώτηση.</value>
   </data>
   <data name="CommandBackTerms" xml:space="preserve">
-    <value>backup;go back;back;πίσω;πισω;προηγουμενη;προηγούμενη;προηγουμενο;προηγούμενο</value>
+    <value>backup;go back;back;πισω;προηγουμενη;προηγουμενο</value>
   </data>
   <data name="CommandHelp" xml:space="preserve">
     <value>Βοήθεια</value>
@@ -28,7 +28,7 @@
     <value>Βοήθεια: Εμφανίζει τον τύπο των απαντήσεων που μπορείτε να δώσετε.</value>
   </data>
   <data name="CommandHelpTerms" xml:space="preserve">
-    <value>help;choices;\?;βοήθεια;βοηθεια</value>
+    <value>help;choices;\?;βοηθεια</value>
   </data>
   <data name="CommandQuit" xml:space="preserve">
     <value>Ακύρωση</value>
@@ -37,7 +37,7 @@
     <value>Ακύρωση: Ακυρώση συμπλήρωσης της φόρμας</value>
   </data>
   <data name="CommandQuitTerms" xml:space="preserve">
-    <value>quit;stop;finish;goodby?;good bye?;bye;ciao;adios;bye-bye;so long;cheers;άκυρο;ακύρωση;ακυρο;ακυρωση</value>
+    <value>quit;stop;finish;goodby?;good bye?;bye;ciao;adios;bye-bye;so long;cheers;ακυρο;ακυρωση</value>
   </data>
   <data name="CommandReset" xml:space="preserve">
     <value>Ξανάρχισε</value>
@@ -46,7 +46,7 @@
     <value>Ξανάρχισε: Ξεκινά από την αρχή τη συμπλήρωση της φόρμας.  (Με προσυμπληρωμένες τις προηγούμενες επιλογές.)</value>
   </data>
   <data name="CommandResetTerms" xml:space="preserve">
-    <value>start over;reset;clear;πάμε ξανά;παμε ξανα;παμε ξανά;πάμε ξανα;ξανάρχισε;ξαναρχισε</value>
+    <value>start over;reset;clear;παμε ξανα;ξαναρχισε;παμε;ξανα</value>
   </data>
   <data name="CommandStatus" xml:space="preserve">
     <value>Κατάσταση</value>
@@ -55,7 +55,7 @@
     <value>Κατάσταση: Εμφανίζει την μέχρι τώρα πρόοδο στην συμπλήρωση της φόρμας.</value>
   </data>
   <data name="CommandStatusTerms" xml:space="preserve">
-    <value>status;progress;so far;results;κατάσταση;κατασταση</value>
+    <value>status;progress;so far;results;κατασταση</value>
   </data>
   <data name="Confirmation" xml:space="preserve">
     <value>Επιβεβαίωση</value>

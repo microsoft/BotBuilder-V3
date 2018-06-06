@@ -32,6 +32,9 @@
 //
 
 using Microsoft.Bot.Connector;
+using System.Globalization;
+using System.Linq;
+using System.Text;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
@@ -61,6 +64,16 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                 Type = ActivityTypes.Message,
                 Text = text
             };
+        }
+
+        internal static string RemoveDiacritics(string text)
+        {
+            if (string.IsNullOrWhiteSpace(text))
+                return text;
+
+            text = text.Normalize(NormalizationForm.FormD);
+            var chars = text.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark).ToArray();
+            return new string(chars).Normalize(NormalizationForm.FormC);
         }
     }
 }

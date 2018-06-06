@@ -16,7 +16,7 @@
         </trans-unit>
         <trans-unit id="CommandBackTerms" translate="yes" xml:space="preserve">
           <source>backup;go back;back</source>
-          <target state="translated">backup;go back;back;πίσω;πισω;προηγουμενη;προηγούμενη;προηγουμενο;προηγούμενο</target>
+          <target state="translated">backup;go back;back;πισω;προηγουμενη;προηγουμενο</target>
         </trans-unit>
         <trans-unit id="CommandHelp" translate="yes" xml:space="preserve">
           <source>Help</source>
@@ -28,7 +28,7 @@
         </trans-unit>
         <trans-unit id="CommandHelpTerms" translate="yes" xml:space="preserve">
           <source>help;choices;\?</source>
-          <target state="translated">help;choices;\?;βοήθεια;βοηθεια</target>
+          <target state="translated">help;choices;\?;βοηθεια</target>
         </trans-unit>
         <trans-unit id="CommandQuit" translate="yes" xml:space="preserve">
           <source>Quit</source>
@@ -40,7 +40,7 @@
         </trans-unit>
         <trans-unit id="CommandQuitTerms" translate="yes" xml:space="preserve">
           <source>quit;stop;finish;goodby?;good bye?;bye;ciao;adios;bye-bye;so long;cheers</source>
-          <target state="translated">quit;stop;finish;goodby?;good bye?;bye;ciao;adios;bye-bye;so long;cheers;άκυρο;ακύρωση;ακυρο;ακυρωση</target>
+          <target state="translated">quit;stop;finish;goodby?;good bye?;bye;ciao;adios;bye-bye;so long;cheers;ακυρο;ακυρωση</target>
         </trans-unit>
         <trans-unit id="CommandReset" translate="yes" xml:space="preserve">
           <source>Start over</source>
@@ -52,7 +52,7 @@
         </trans-unit>
         <trans-unit id="CommandResetTerms" translate="yes" xml:space="preserve">
           <source>start over;reset;clear</source>
-          <target state="translated">start over;reset;clear;πάμε ξανά;παμε ξανα;παμε ξανά;πάμε ξανα;ξανάρχισε;ξαναρχισε</target>
+          <target state="translated">start over;reset;clear;παμε ξανα;ξαναρχισε;παμε;ξανα</target>
         </trans-unit>
         <trans-unit id="CommandStatus" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -64,7 +64,7 @@
         </trans-unit>
         <trans-unit id="CommandStatusTerms" translate="yes" xml:space="preserve">
           <source>status;progress;so far;results</source>
-          <target state="translated">status;progress;so far;results;κατάσταση;κατασταση</target>
+          <target state="translated">status;progress;so far;results;κατασταση</target>
         </trans-unit>
         <trans-unit id="Confirmation" translate="yes" xml:space="preserve">
           <source>Confirmation</source>
