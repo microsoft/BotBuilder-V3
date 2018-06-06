@@ -291,7 +291,7 @@ namespace Microsoft.Bot.Connector
             return String.Empty;
         }
 
-        public async Task SendEmulateOAuthCardsAsync(string emulatorUri, bool emulateOAuthCards)
+        public async Task SendEmulateOAuthCardsAsync(bool emulateOAuthCards)
         {
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
             string _invocationId = null;
@@ -305,7 +305,7 @@ namespace Microsoft.Bot.Connector
 
             var cancellationToken = default(CancellationToken);
             // Construct URL
-            var _baseUrl = emulatorUri;
+            var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/usertoken/emulateOAuthCards?emulate={emulate}").ToString();
             _url = _url.Replace("{emulate}", emulateOAuthCards.ToString());
 

@@ -154,7 +154,8 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
                 // if using the emulator, then tell it whether to emulate OAuthCards or not
                 if(IsEmulator(this.address))
                 {
-                    Task.Run(async () => await oauthClient.OAuthApi.SendEmulateOAuthCardsAsync(this.serviceUri.ToString(), isEmulatingOAuthCards).ConfigureAwait(false)).Wait();
+                    var emulatorOAuthClient = new OAuthClient(this.serviceUri, msAppCredentials);
+                    Task.Run(async () => await emulatorOAuthClient.OAuthApi.SendEmulateOAuthCardsAsync(isEmulatingOAuthCards).ConfigureAwait(false)).Wait();
                 }
 
                 if (oauthClient != null)

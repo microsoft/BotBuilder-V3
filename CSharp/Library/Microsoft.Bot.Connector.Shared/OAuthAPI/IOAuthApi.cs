@@ -21,6 +21,6 @@ namespace Microsoft.Bot.Connector
 
         Task<string> GetSignInLinkAsync(IActivity activity, string connectionName, CancellationToken cancellationToken = default(CancellationToken));
 
-        Task SendEmulateOAuthCardsAsync(string emulatorUri, bool emulateOAuthCards);
+        Task SendEmulateOAuthCardsAsync(bool emulateOAuthCards);
     }
 }
