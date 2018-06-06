@@ -72,6 +72,7 @@ Your bot can provide a great conversational experience without using any Azure C
 - [LUIS](https://www.luis.ai)
 - [QnA Maker](https://www.qnamaker.ai/)
 - [Speech](https://azure.microsoft.com/services/cognitive-services/directory/speech/)
+- [Personality Chat](https://github.com/Microsoft/BotBuilder-PersonalityChat) - Handles Small-Talk/Chitchat for any bot, in line with a distinct personality.
 - all [Azure Cognitive Services](https://azure.microsoft.com/services/cognitive-services/)
 
 ## Bot Builder SDK v3
