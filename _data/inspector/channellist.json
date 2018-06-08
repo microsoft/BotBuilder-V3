@@ -63,10 +63,5 @@
         "id": "webchat",
         "name": "WebChat",
         "display_name": "Web Chat"
-    },
-    {
-        "id": "wechat",
-        "name": "WeChat",
-        "display_name": "WeChat"        
     }
 ]
