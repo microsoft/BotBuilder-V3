@@ -104,6 +104,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AnnotatedSandwichOrder.cs" />
+    <Compile Include="Models\SandwichOrder.cs" />
     <Compile Include="pizza.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,6 +114,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DynamicPizza.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resource\DynamicSandwich.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -142,6 +145,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Resource\DynamicPizza.en.resx" />
     <EmbeddedResource Include="Resource\DynamicPizza.fr.resx" />
+    <EmbeddedResource Include="Resource\DynamicSandwich.en.resx" />
+    <EmbeddedResource Include="Resource\DynamicSandwich.fr.resx" />
+    <EmbeddedResource Include="Resource\DynamicSandwich.resx" />
     <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.en.resx" />
     <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.fr.resx" />
     <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.resx" />

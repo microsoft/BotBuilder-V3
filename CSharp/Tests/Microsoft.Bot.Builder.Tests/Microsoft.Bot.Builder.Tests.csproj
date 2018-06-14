@@ -101,6 +101,7 @@
     <Compile Include="DialogTaskManagerTests.cs" />
     <Compile Include="DialogTaskTests.cs" />
     <Compile Include="DialogTestBase.cs" />
+    <Compile Include="FormTests.cs" />
     <Compile Include="OrderedContractResolver.cs" />
     <Compile Include="PromptRecognizerTests.cs" />
     <Compile Include="RaceCondition\RaceConditionTests.cs" />
@@ -153,6 +154,10 @@
     <ProjectReference Include="..\..\Library\Microsoft.Bot.Builder.FormFlow.Json\Microsoft.Bot.Builder.FormFlow.Json.csproj">
       <Project>{8674f271-4437-4178-b4e2-15f91b322e5d}</Project>
       <Name>Microsoft.Bot.Builder.FormFlow.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FormTest\FormTest.csproj">
+      <Project>{77bd8c61-fb06-4bf7-a346-d2c87284390a}</Project>
+      <Name>FormTest</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

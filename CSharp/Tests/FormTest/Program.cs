@@ -48,9 +48,6 @@ using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.History;
-
-using AnnotatedSandwichOrder = Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder;
-using SimpleSandwichOrder = Microsoft.Bot.Sample.SimpleSandwichBot.SandwichOrder;
 using System.Resources;
 using System.Text;
 using Newtonsoft.Json.Linq;
@@ -284,11 +281,11 @@ namespace Microsoft.Bot.Builder.FormFlowTest
                                 return MakeForm(() => PizzaOrder.BuildForm(false, false, true));
                             }
                         case DebugOptions.SimpleSandwichBot:
-                            return MakeForm(() => SimpleSandwichOrder.BuildForm());
+                            return MakeForm(() => FormTest.Models.SimpleSandwich.SandwichOrder.BuildForm());
                         case DebugOptions.AnnotatedSandwichBot:
-                            return MakeForm(() => AnnotatedSandwichOrder.BuildLocalizedForm());
+                            return MakeForm(() => FormTest.Models.AnnotatedSandwich.AnnotatedSandwichOrder.BuildLocalizedForm());
                         case DebugOptions.JSONSandwichBot:
-                            return MakeForm(() => AnnotatedSandwichOrder.BuildJsonForm());
+                            return MakeForm(() => FormTest.Models.AnnotatedSandwich.AnnotatedSandwichOrder.BuildJsonForm());
                         default:
                             throw new NotImplementedException();
                     }
