@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}"
 	ProjectSection(SolutionItems) = preProject
@@ -61,6 +61,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.FormFlowAttachmentsBot", "Samples\Microsoft.Bot.Sample.FormFlowAttachmentsBot\Microsoft.Bot.Sample.FormFlowAttachmentsBot.csproj", "{48E4B834-49A5-48EB-BBA7-20A7CD9690D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoBot", "EchoBot\EchoBot.csproj", "{BC07AED8-F885-4810-8C41-66C05D4C1EAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormTest", "Tests\FormTest\FormTest.csproj", "{77BD8C61-FB06-4BF7-A346-D2C87284390A}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -174,6 +176,12 @@ Global
 		{BC07AED8-F885-4810-8C41-66C05D4C1EAD}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{BC07AED8-F885-4810-8C41-66C05D4C1EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC07AED8-F885-4810-8C41-66C05D4C1EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77BD8C61-FB06-4BF7-A346-D2C87284390A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77BD8C61-FB06-4BF7-A346-D2C87284390A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77BD8C61-FB06-4BF7-A346-D2C87284390A}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
+		{77BD8C61-FB06-4BF7-A346-D2C87284390A}.Documentation|Any CPU.Build.0 = Debug|Any CPU
+		{77BD8C61-FB06-4BF7-A346-D2C87284390A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77BD8C61-FB06-4BF7-A346-D2C87284390A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -197,6 +205,7 @@ Global
 		{09C14EF5-F94A-480F-82CA-4D934A977C7F} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{48E4B834-49A5-48EB-BBA7-20A7CD9690D2} = {8E05398E-3CBE-4DCD-9382-072DC8859427}
 		{BC07AED8-F885-4810-8C41-66C05D4C1EAD} = {8E05398E-3CBE-4DCD-9382-072DC8859427}
+		{77BD8C61-FB06-4BF7-A346-D2C87284390A} = {8E05398E-3CBE-4DCD-9382-072DC8859427}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F82D70DE-DC3B-4B04-97CD-3CFF66345798}
