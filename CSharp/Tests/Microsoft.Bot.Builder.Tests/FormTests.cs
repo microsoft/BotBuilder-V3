@@ -51,8 +51,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using FormTest.Models.SimpleSandwich;
-using FormTest.Models.AnnotatedSandwich;
 
 namespace Microsoft.Bot.Builder.Tests
 {
