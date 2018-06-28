@@ -76,7 +76,7 @@
     <value>Προεπιλογή ('π');προεπιλογή;π;προεπιλογη</value>
   </data>
   <data name="MatchNo" xml:space="preserve">
-    <value>όχι;ο;νο;2;no;No;οχι</value>
+    <value>Όχι;ο;νο;2;no;No;οχι</value>
   </data>
   <data name="MatchNoPreference" xml:space="preserve">
     <value>Καμία επιλογή;όχι;καμία;οχι;τίποτα;καμια;τιποτα;δε με νοιάζει;δε με νοιαζει;αδιαφορο;αδιάφορο</value>
