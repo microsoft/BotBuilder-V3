@@ -35,7 +35,6 @@ using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.FormFlow.Advanced;
 using Microsoft.Bot.Builder.FormFlow.Json;
 using Microsoft.Bot.Connector;
-using Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
@@ -47,6 +46,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FormTest.Resource;
 
 namespace FormTest.Models.AnnotatedSandwich
 {
@@ -134,7 +134,7 @@ namespace FormTest.Models.AnnotatedSandwich
         public static IForm<AnnotatedSandwichOrder> BuildForm()
         {
             OnCompletionAsyncDelegate<AnnotatedSandwichOrder> processOrder = async (context, state) =>
-            { 
+            {
                 await context.PostAsync(new Activity() { Type = ActivityTypes.Message, Text = "We are currently processing your sandwich. We will message you the status." });
             };
 
@@ -203,7 +203,10 @@ namespace FormTest.Models.AnnotatedSandwich
 
         public static IForm<JObject> BuildJsonForm()
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AnnotatedSandwichBot.AnnotatedSandwich.json"))
+            // TODO: Remove
+            var ass = Assembly.GetExecutingAssembly();
+            var names = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FormTest.Resource.AnnotatedSandwich.json"))
             {
                 var schema = JObject.Parse(new StreamReader(stream).ReadToEnd());
                 return new FormBuilderJson(schema)
@@ -214,7 +217,7 @@ namespace FormTest.Models.AnnotatedSandwich
 
         public static IForm<JObject> BuildJsonFormExplicit()
         {
-            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Microsoft.Bot.Sample.AnnotatedSandwichBot.AnnotatedSandwich.json"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("FormTest.Resource.AnnotatedSandwich.json"))
             {
                 var schema = JObject.Parse(new StreamReader(stream).ReadToEnd());
                 OnCompletionAsyncDelegate<JObject> processOrder = async (context, state) =>

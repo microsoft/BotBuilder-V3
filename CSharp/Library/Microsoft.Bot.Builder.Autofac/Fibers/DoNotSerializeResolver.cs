@@ -82,6 +82,10 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
 
         public static readonly ConcurrentDictionary<Type, IReadOnlyList<Type>> ServicesByType = new ConcurrentDictionary<Type, IReadOnlyList<Type>>();
 
+        // cache KeyedService to avoid Autofac memory leak
+        private static readonly ConcurrentDictionary<Type, KeyedService> ItemKeyedServiceByType = new ConcurrentDictionary<Type, KeyedService>();
+        private static readonly ConcurrentDictionary<Type, KeyedService> NullKeyedServiceByType = new ConcurrentDictionary<Type, KeyedService>();
+
         bool IResolver.TryResolve(Type type, object tag, out object value)
         {
             if (tag == null)
@@ -90,17 +94,29 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
                 for (int index = 0; index < services.Count; ++index)
                 {
                     var serviceType = services[index];
-                    var service = new KeyedService(FiberModule.Key_DoNotSerialize, serviceType);
+                    var service = ItemKeyedServiceByType.GetOrAdd(serviceType, t => new KeyedService(FiberModule.Key_DoNotSerialize, t));
 
                     var registry = this.context.ComponentRegistry;
 
                     IComponentRegistration registration;
                     if (registry.TryGetRegistration(service, out registration))
                     {
-                        if (IsAutoFacImplicit(serviceType))
+                        // Autofac will still generate "implicit relationship types" (e.g. Func or IEnumerable)
+                        // and ignore the key in KeyedService
+                        if (IsFunc(serviceType))
+                        {
+                            var keyedService = NullKeyedServiceByType.GetOrAdd(serviceType, t => new KeyedService(new object(), t));
+                            bool generated = registry.IsRegistered(keyedService);
+                            if (generated)
+                            {
+                                continue;
+                            }
+                        }
+                        else if (IsAutoFacImplicit(serviceType))
                         {
                             continue;
                         }
+
                         value = this.context.ResolveComponent(registration, this.parameters);
                         return true;
                     }
@@ -111,11 +127,32 @@ namespace Microsoft.Bot.Builder.Internals.Fibers
             return false;
         }
 
-        private bool IsAutoFacImplicit(Type serviceType)
+        private static bool IsFunc(Type serviceType)
         {
-            if (typeof(Delegate).IsAssignableFrom(serviceType) || serviceType.IsArray)
+            if (typeof(Delegate).IsAssignableFrom(serviceType))
             {
-                // always serialize delagates
+                if (serviceType.IsGenericType)
+                {
+                    var definition = serviceType.GetGenericTypeDefinition();
+                    if (definition.Namespace == typeof(Func<>).Namespace && definition.Name.StartsWith("Func"))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
+        private static bool IsAutoFacImplicit(Type serviceType)
+        {
+            if (IsFunc(serviceType))
+            {
+                return true;
+            }
+            if (serviceType.IsArray)
+            {
                 return true;
             }
             if (serviceType.IsGenericType)

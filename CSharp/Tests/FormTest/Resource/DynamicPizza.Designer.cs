@@ -22,7 +22,7 @@ namespace FormTest.Resource {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class DynamicPizza {
+    public class DynamicPizza {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace FormTest.Resource {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FormTest.Resource.DynamicPizza", typeof(DynamicPizza).Assembly);
@@ -51,7 +51,7 @@ namespace FormTest.Resource {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Your address is fine..
         /// </summary>
-        internal static string AddressFine {
+        public static string AddressFine {
             get {
                 return ResourceManager.GetString("AddressFine", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Address must start with a number..
         /// </summary>
-        internal static string AddressHelp {
+        public static string AddressHelp {
             get {
                 return ResourceManager.GetString("AddressHelp", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Your pizza will cost {0:C}.
         /// </summary>
-        internal static string Cost {
+        public static string Cost {
             get {
                 return ResourceManager.GetString("Cost", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Your pizza will cost {0:C} is that OK?.
         /// </summary>
-        internal static string CostConfirm {
+        public static string CostConfirm {
             get {
                 return ResourceManager.GetString("CostConfirm", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Specials.
         /// </summary>
-        internal static string Special {
+        public static string Special {
             get {
                 return ResourceManager.GetString("Special", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Free drink.
         /// </summary>
-        internal static string Special1 {
+        public static string Special1 {
             get {
                 return ResourceManager.GetString("Special1", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to drink; free drink.
         /// </summary>
-        internal static string Special1Terms {
+        public static string Special1Terms {
             get {
                 return ResourceManager.GetString("Special1Terms", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to Free garlic bread.
         /// </summary>
-        internal static string Special2 {
+        public static string Special2 {
             get {
                 return ResourceManager.GetString("Special2", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to bread; garlic; garlic bread; free garlic bread.
         /// </summary>
-        internal static string Special2Terms {
+        public static string Special2Terms {
             get {
                 return ResourceManager.GetString("Special2Terms", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace FormTest.Resource {
         /// <summary>
         ///   Looks up a localized string similar to specials.
         /// </summary>
-        internal static string SpecialTerms {
+        public static string SpecialTerms {
             get {
                 return ResourceManager.GetString("SpecialTerms", resourceCulture);
             }
