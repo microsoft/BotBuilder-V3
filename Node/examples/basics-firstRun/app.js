@@ -31,7 +31,7 @@ var bot = new builder.UniversalBot(connector, function (session) {
 // Add first run dialog
 bot.dialog('firstRun', [
     function (session) {
-        // Update versio number and start Prompts
+        // Update version number and start Prompts
         // - The version number needs to be updated first to prevent re-triggering 
         //   the dialog. 
         session.userData.version = 1.0; 
