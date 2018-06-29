@@ -529,7 +529,16 @@ namespace Microsoft.Bot.Builder.Dialogs
         /// <param name="attempts"> The number of times to retry. </param>
         public static void Text(IDialogContext context, ResumeAfter<string> resume, string prompt, string retry = null, int attempts = 3)
         {
-            var child = new PromptString(prompt, retry, attempts);
+            Text(context, resume, new PromptOptions<string>(prompt, retry, attempts: attempts));
+        }
+
+        /// <summary>   Prompt for a string. </summary>
+        /// <param name="context">  The context. </param>
+        /// <param name="resume">   Resume handler. </param>
+        /// <param name="promptOptions"> The options for the prompt, <see cref="IPromptOptions{T}"/>.</param>
+        public static void Text(IDialogContext context, ResumeAfter<string> resume, IPromptOptions<string> promptOptions)
+        {
+            var child = new PromptString(promptOptions);
             context.Call<string>(child, resume);
         }
 
