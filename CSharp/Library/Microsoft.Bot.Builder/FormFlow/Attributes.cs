@@ -726,6 +726,30 @@ namespace Microsoft.Bot.Builder.FormFlow
         public IgnoreFieldAttribute()
         { }
     }
+
+    /// <summary>
+    /// Define a order weight of the field or property.
+    /// </summary>
+    /// <remarks>
+    /// By default the order weight is 0.
+    /// </remarks>
+    [Serializable]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public class OrderAttribute : Attribute
+    {
+        private readonly int _order;
+
+        /// <summary>
+        /// Sets the order weight of the field or property
+        /// </summary>
+        /// <param name="order">The order weight</param>
+        public OrderAttribute(int order = 0)
+        {
+            _order = order;
+        }
+
+        public int Order => _order;
+    }
 }
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
