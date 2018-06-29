@@ -110,7 +110,7 @@
         </trans-unit>
         <trans-unit id="MatchNo" translate="yes" xml:space="preserve">
           <source>No;n;nope;2</source>
-          <target state="translated">όχι;ο;νο;2;no;No;οχι</target>
+          <target state="translated">Όχι;ο;νο;2;no;No;οχι</target>
         </trans-unit>
         <trans-unit id="MatchNoPreference" translate="yes" xml:space="preserve">
           <source>No Preference;no;none;I don'?t care</source>

@@ -32,7 +32,9 @@
 //
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -41,20 +43,38 @@ using Microsoft.Bot.Builder.Resource;
 
 namespace Microsoft.Bot.Builder.FormFlow.Advanced
 {
+    public class LanguageResources
+    {
+        public readonly HashSet<string> StopWords;
+        public readonly HashSet<string> Articles;
+
+        public LanguageResources()
+        {
+            StopWords = new HashSet<string>(Resources.LanguageStopWords.SplitList());
+            Articles = new HashSet<string>(Resources.LanguageArticles.SplitList());
+        }
+    }
+
     /// <summary>
     /// Language related utilities.
     /// </summary>
     public class Language
     {
-        /// <summary>
-        /// Language stop words.
-        /// </summary>
-        public static HashSet<string> StopWords = new HashSet<string>(Resources.LanguageStopWords.SplitList());
+        private static ConcurrentDictionary<CultureInfo, LanguageResources> _resources = new ConcurrentDictionary<CultureInfo, LanguageResources>();
 
         /// <summary>
-        /// Language articles.
+        /// Return language specific resources for the current culture.
         /// </summary>
-        public static HashSet<string> Articles = new HashSet<string>(Resources.LanguageArticles.SplitList());
+        /// <returns>Language resources.</returns>
+        public static LanguageResources Resources()
+        {
+            if (!_resources.TryGetValue(CultureInfo.CurrentUICulture, out LanguageResources resources))
+            {
+                resources = new LanguageResources();
+                _resources[CultureInfo.CurrentUICulture] = resources;
+            }
+            return resources;
+        }
 
         /// <summary>
         /// Test to see if word is all punctuation or white space.
@@ -79,13 +99,13 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Test to see if a word is all noise.
         /// </summary>
         /// <param name="word">Word to test.</param>
-        /// <returns>True if word is a number, a <see cref="NonWord(string)"/> or a <see cref="StopWords"/>.</returns>
+        /// <returns>True if word is a number, a <see cref="NonWord(string)"/> or a stop word."/>.</returns>
         public static bool NoiseWord(string word)
         {
             double number;
             bool noiseWord = double.TryParse(word, out number);
             if (!noiseWord) noiseWord = NonWord(word);
-            if (!noiseWord) noiseWord = StopWords.Contains(word.ToLower());
+            if (!noiseWord) noiseWord = Resources().StopWords.Contains(word.ToLower());
             return noiseWord;
         }
 
@@ -93,11 +113,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Test to see if a word can be ignored in a resposne.
         /// </summary>
         /// <param name="word">Word to test.</param>
-        /// <returns>True if word is a <see cref="NonWord(string)"/> or a <see cref="StopWords"/>.</returns>
+        /// <returns>True if word is a <see cref="NonWord(string)"/> or stop words.</returns>
         public static bool NoiseResponse(string word)
         {
             bool noiseWord = NonWord(word);
-            if (!noiseWord) noiseWord = StopWords.Contains(word.ToLower());
+            if (!noiseWord) noiseWord = Resources().StopWords.Contains(word.ToLower());
             return noiseWord;
         }
 
@@ -105,10 +125,10 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         /// Test a word for articles or noise.
         /// </summary>
         /// <param name="word">Word to test.</param>
-        /// <returns>True if word is <see cref="NonWord(string)"/> or <see cref="Articles"/>.</returns>
+        /// <returns>True if word is <see cref="NonWord(string)"/> or an article.</returns>
         public static bool ArticleOrNone(string word)
         {
-            return NonWord(word) || Articles.Contains(word);
+            return NonWord(word) || Resources().Articles.Contains(word);
         }
 
         /// <summary>

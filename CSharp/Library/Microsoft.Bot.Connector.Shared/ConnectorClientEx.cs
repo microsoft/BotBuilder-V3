@@ -52,7 +52,17 @@ namespace Microsoft.Bot.Connector
             this.Credentials = credentials;
         }
 
-
+        partial void CustomInitialize()
+        {
+            AddUserAgent(this);
+        }
+        
+        internal static void AddUserAgent<T>(T client) where T : ServiceClient<T>
+        {
+            client.HttpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Microsoft-BotFramework", "3.1"));
+            client.HttpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue($"(BotBuilder .Net/{GetClientVersion(client)})"));
+        }
+        
         internal static string GetClientVersion<T>(T client) where T : ServiceClient<T>
         {
             var type = client.GetType();

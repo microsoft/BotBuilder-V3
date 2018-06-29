@@ -462,7 +462,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
         protected DescribeAttribute ProcessDescription(JObject schema, string defaultDesc)
         {
             // Simple string or object
-            // {Description=, Image=, Title=, SubTitle=}
+            // {Description=, Image=, Title=, SubTitle=, Message=, Match=}
             var desc = new DescribeAttribute();
             JToken jdesc;
             if (schema.TryGetValue("Describe", out jdesc))
@@ -499,6 +499,12 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
                     if (jsubTitle != null)
                     {
                         desc.SubTitle = jsubTitle.Value<string>();
+                    }
+
+                    var jmessage = jdesc["Message"];
+                    if (jmessage != null)
+                    {
+                        desc.Message = jmessage.Value<string>();
                     }
                 }
             }

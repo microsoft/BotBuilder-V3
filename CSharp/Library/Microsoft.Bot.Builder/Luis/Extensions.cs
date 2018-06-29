@@ -53,7 +53,16 @@ namespace Microsoft.Bot.Builder.Luis
         /// <returns>True if the entity was found, false otherwise.</returns>
         public static bool TryFindEntity(this LuisResult result, string type, out EntityRecommendation entity)
         {
-            entity = result.Entities?.FirstOrDefault(e => e.Type == type);
+            Func<EntityRecommendation, IList<EntityRecommendation>, bool> doesNotOverlapRange = (current, recommendations) =>
+            {
+                return !recommendations.Where(r => current != r)
+                            .Any(r => r.StartIndex.HasValue && r.EndIndex.HasValue && current.StartIndex.HasValue && 
+                                 r.StartIndex.Value <= current.StartIndex.Value && r.EndIndex.Value >= current.EndIndex.Value);
+            };
+
+
+            // find the recommended entity that does not overlap start and end ranges with other result entities
+            entity = result.Entities?.Where(e => e.Type == type && doesNotOverlapRange(e, result.Entities)).FirstOrDefault();
             return entity != null;
         }
 

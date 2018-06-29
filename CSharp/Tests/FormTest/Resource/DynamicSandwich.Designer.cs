@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
+namespace FormTest.Resource {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Bot.Sample.AnnotatedSandwichBot.Resource.DynamicSandwich", typeof(DynamicSandwich).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FormTest.Resource.DynamicSandwich", typeof(DynamicSandwich).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

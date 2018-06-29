@@ -5,7 +5,7 @@ something and then wants to ask a series of follow-up questions. To support this
 the bot needs to track the current context or topic of the conversation. This
 sample shows a simple way to use session.dialogState to do just that.
 
-In this specific sample we're using a global LuisRecognizer to to give 
+In this specific sample we're using a global LuisRecognizer to give 
 the bot a more natural language interface but there's nothing specific about 
 multi-turn that requires the use of LUIS.
 

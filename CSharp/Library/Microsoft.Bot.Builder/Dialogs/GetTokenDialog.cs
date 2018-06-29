@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         private string _connectionName;
         private string _buttonLabel;
         private string _signInMessage;
-        private int _reties;
+        private int _retries;
         private string _retryMessage;
 
         public GetTokenDialog(string connectionName, string signInMessage, string buttonLabel, int retries = 0, string retryMessage = null)
@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Builder.Dialogs
             _connectionName = connectionName;
             _signInMessage = signInMessage;
             _buttonLabel = buttonLabel;
-            _reties = retries;
+            _retries = retries;
             _retryMessage = retryMessage;
         }
 
@@ -121,9 +121,9 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
             
             // decide whether to retry or not
-            if (_reties > 0)
+            if (_retries > 0)
             {
-                _reties--;
+                _retries--;
                 await context.PostAsync(_retryMessage);
                 await SendOAuthCardAsync(context, activity);
             }

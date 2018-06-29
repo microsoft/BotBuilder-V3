@@ -15,8 +15,6 @@ One thing to note is it's not possible to completely generate a bot or dialog, a
 ### Dialogs
 
 This generator provides the following dialogs:
-- LUIS Dialog, for use with [LUIS](https://luis.ai)
-- QnA Maker Dialog, for use with [QnA Maker](https://qnamaker.ai)
 - Echo Dialog, for simple bots
 
 Each class has three properties to help simplify addition to an existing bot:
@@ -58,7 +56,6 @@ In the case of LUIS, you will need to update the dialog in `dialogs.<%= extensio
 ### The dialogs
 
 - Echo dialog is designed for simple Hello, World demos and to get you started.
-- LUIS dialog has the basic code to retrieve an entity
 
 ### Running the bot
 

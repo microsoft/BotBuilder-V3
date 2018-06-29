@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
-    <Name>Simple Echo Bot Application</Name>
-    <Description>Template to create a simple echo Bot that counts the number of characters inserted.</Description>
+    <Name>Bot Builder Echo Bot</Name>
+    <Description>Template to create a simple echo Bot using Microsoft Bot Framework.</Description>
     <Icon>__TemplateIcon.png</Icon>
     <ProjectType>CSharp</ProjectType>
     <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
