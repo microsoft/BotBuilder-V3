@@ -87,15 +87,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     }
 
     /// <summary>
-    /// Volatile in-memory implementation of <see cref="IBotDataStore{BotData}"/>
+    /// Volitile in-memory implementation of <see cref="IBotDataStore{BotData}"/>
     /// </summary>
+    /// <remarks>
+    /// NOTE: This uses an internal dictionary with no culling so it should not be used for production code at all, as it will eventually just use all of your memory.
+    /// </remarks>
     public class InMemoryDataStore : IBotDataStore<BotData>
     {
-        // This should be moved to autofac registration
-        internal static readonly MemoryCache store = new MemoryCache(nameof(InMemoryDataStore), new NameValueCollection() { { "PhysicalMemoryLimitPercentage", "50" } });
-
-        private static CacheItemPolicy cacheItemPolicy = new CacheItemPolicy() { SlidingExpiration = TimeSpan.FromMinutes(15) };
-
+        internal readonly ConcurrentDictionary<string, string> store = new ConcurrentDictionary<string, string>();
         private readonly Dictionary<BotStoreType, object> locks = new Dictionary<BotStoreType, object>()
         {
             { BotStoreType.BotConversationData, new object() },
@@ -103,14 +102,10 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             { BotStoreType.BotUserData, new object() }
         };
 
-        public InMemoryDataStore()
-        {
-        }
-
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
-            string serializedData = (string)store.Get(GetKey(key, botStoreType));
-            if (serializedData != null)
+            string serializedData;
+            if (store.TryGetValue(GetKey(key, botStoreType), out serializedData))
                 return Deserialize(serializedData);
             return new BotData(eTag: String.Empty);
         }
@@ -119,24 +114,27 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
         {
             lock (locks[botStoreType])
             {
-                string storeKey = GetKey(key, botStoreType);
-                string oldValue = (string)store.Get(storeKey);
                 if (botData.Data != null)
                 {
-                    if (oldValue != null)
+                    store.AddOrUpdate(GetKey(key, botStoreType), (dictionaryKey) =>
                     {
-                        ValidateETag(botData, oldValue);
-                    }
-                    botData.ETag = Guid.NewGuid().ToString("n");
-                    store.Set(GetKey(key, botStoreType), Serialize(botData), cacheItemPolicy);
+                        botData.ETag = Guid.NewGuid().ToString("n");
+                        return Serialize(botData);
+                    }, (dictionaryKey, value) =>
+                    {
+                        ValidateETag(botData, value);
+                        botData.ETag = Guid.NewGuid().ToString("n");
+                        return Serialize(botData);
+                    });
                 }
                 else
                 {
                     // remove record on null
-                    if (oldValue != null)
+                    string value;
+                    if (store.TryGetValue(GetKey(key, botStoreType), out value))
                     {
-                        ValidateETag(botData, oldValue);
-                        store.Remove(storeKey);
+                        ValidateETag(botData, value);
+                        store.TryRemove(GetKey(key, botStoreType), out value);
                         return;
                     }
                 }
@@ -258,14 +256,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
     }
 
     /// <summary>
-    /// Caches data for <see cref="BotDataBase{T}"/> and wraps the data in <see cref="BotData"/> to be stored in <see cref="CachingBotDataStore.inner"/>
+    /// Caches changes until FlushAsync() is called 
+    /// NOTE: Despite the name, this is NOT a cache of access of the inner store, but is a change cache of changes that will be pushed to 
+    /// inner store.
     /// </summary>
     public class CachingBotDataStore : IBotDataStore<BotData>
     {
         private readonly IBotDataStore<BotData> inner;
-        // this should be moved to autofac registration
-        internal static readonly MemoryCache cache = new MemoryCache(nameof(CachingBotDataStore), new NameValueCollection() { { "PhysicalMemoryLimitPercentage", "50" } });
-        internal static CacheItemPolicy cacheItemPolicy = new CacheItemPolicy() { SlidingExpiration = TimeSpan.FromMinutes(15) };
+        internal readonly Dictionary<IAddress, CacheEntry> cache = new Dictionary<IAddress, CacheEntry>();
         private readonly CachingBotDataStoreConsistencyPolicy dataConsistencyPolicy;
 
         public CachingBotDataStore(IBotDataStore<BotData> inner, CachingBotDataStoreConsistencyPolicy dataConsistencyPolicy)
@@ -274,8 +272,6 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             this.dataConsistencyPolicy = dataConsistencyPolicy;
         }
 
-        public long GetCount() { return cache.GetCount(); }
-
         internal class CacheEntry
         {
             public BotData BotConversationData { set; get; }
@@ -283,22 +279,16 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
             public BotData BotUserData { set; get; }
         }
 
-        private string GetCacheKey(IAddress key)
-        {
-            return $"{key.BotId}.{key.ChannelId}.{key.ConversationId}.{key.UserId}";
-        }
-
         async Task<bool> IBotDataStore<BotData>.FlushAsync(IAddress key, CancellationToken cancellationToken)
         {
-            var cacheKey = GetCacheKey(key);
-            CacheEntry entry = (CacheEntry)cache.Get(GetCacheKey(key));
-            if (entry != null)
+            CacheEntry entry;
+            if (cache.TryGetValue(key, out entry))
             {
                 // Removing the cached entry to make sure that we are not leaking 
                 // flushed entries when CachingBotDataStore is registered as a singleton object.
                 // Also since this store is not updating ETags on LoadAsync(...), there 
                 // will be a conflict if we reuse the cached entries after flush. 
-                cache.Remove(cacheKey);
+                cache.Remove(key);
                 await this.Save(key, entry, cancellationToken);
                 return true;
             }
@@ -310,13 +300,12 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task<BotData> IBotDataStore<BotData>.LoadAsync(IAddress key, BotStoreType botStoreType, CancellationToken cancellationToken)
         {
-            var cacheKey = GetCacheKey(key);
-            CacheEntry cacheEntry = (CacheEntry)cache.Get(GetCacheKey(key));
+            CacheEntry cacheEntry;
             BotData value = null;
-            if (cacheEntry == null)
+            if (!cache.TryGetValue(key, out cacheEntry))
             {
                 cacheEntry = new CacheEntry();
-                cache.Add(cacheKey, cacheEntry, cacheItemPolicy);
+                cache.Add(key, cacheEntry);
                 value = await LoadFromInnerAndCache(cacheEntry, botStoreType, key, cancellationToken);
             }
             else
@@ -356,15 +345,14 @@ namespace Microsoft.Bot.Builder.Dialogs.Internals
 
         async Task IBotDataStore<BotData>.SaveAsync(IAddress key, BotStoreType botStoreType, BotData value, CancellationToken cancellationToken)
         {
-            var cacheKey = GetCacheKey(key);
-            CacheEntry cacheEntry = (CacheEntry)cache.Get(GetCacheKey(key));
-            if (cacheEntry == null)
+            CacheEntry entry;
+            if (!cache.TryGetValue(key, out entry))
             {
-                cacheEntry = new CacheEntry();
-                cache.Add(cacheKey, cacheEntry, cacheItemPolicy);
+                entry = new CacheEntry();
+                cache.Add(key, entry);
             }
 
-            SetCachedValue(cacheEntry, botStoreType, value);
+            SetCachedValue(entry, botStoreType, value);
         }
 
         private async Task<BotData> LoadFromInnerAndCache(CacheEntry cacheEntry, BotStoreType botStoreType, IAddress key, CancellationToken token)
