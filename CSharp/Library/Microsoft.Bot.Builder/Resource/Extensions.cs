@@ -48,8 +48,15 @@ namespace Microsoft.Bot.Builder.Resource
         #endregion
         public static string[] SplitList(this string str, string separator = SEPARATOR, string escape = ESCAPED_SEPARATOR)
         {
-            var elements = str.Split(separator[0]);
-            return (from elt in elements select elt.Replace(escape, separator)).ToArray();
+            if (String.IsNullOrWhiteSpace(str))
+            {
+                return new string[0];
+            }
+            else
+            {
+                var elements = str.Split(separator[0]);
+                return (from elt in elements select elt.Replace(escape, separator)).ToArray();
+            }
         }
     }
 }

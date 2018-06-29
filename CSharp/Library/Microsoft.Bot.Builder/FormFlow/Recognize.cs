@@ -155,7 +155,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
             {
                 yield return new TermMatch(0, inputText.Length, 1.0, defaultValue);
             }
-
+            inputText = MessageActivityHelper.RemoveDiacritics(inputText);
             foreach (var expression in _expressions)
             {
                 double maxWords = expression.MaxWords;
@@ -244,7 +244,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         private const string NOMATCH = "__qqqq__";
         private int AddExpression(int n, object value, IEnumerable<string> terms, bool allowNumbers)
         {
-            var orderedTerms = (from term in terms orderby term.Length descending select term).ToArray();
+            var orderedTerms = (from term in terms orderby term.Length descending select MessageActivityHelper.RemoveDiacritics(term)).ToArray();
             var words = new StringBuilder();
             var first = true;
             int maxWords = 0;

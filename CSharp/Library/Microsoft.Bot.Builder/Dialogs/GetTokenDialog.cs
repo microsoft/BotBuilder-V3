@@ -55,7 +55,7 @@ namespace Microsoft.Bot.Builder.Dialogs
         private string _connectionName;
         private string _buttonLabel;
         private string _signInMessage;
-        private int _reties;
+        private int _retries;
         private string _retryMessage;
 
         public GetTokenDialog(string connectionName, string signInMessage, string buttonLabel, int retries = 0, string retryMessage = null)
@@ -63,14 +63,14 @@ namespace Microsoft.Bot.Builder.Dialogs
             _connectionName = connectionName;
             _signInMessage = signInMessage;
             _buttonLabel = buttonLabel;
-            _reties = retries;
+            _retries = retries;
             _retryMessage = retryMessage;
         }
 
         public async Task StartAsync(IDialogContext context)
         {
             // First ask Bot Service if it already has a token for this user
-            var token = await context.GetUserTokenAsync(_connectionName).ConfigureAwait(false);
+            var token = await context.GetUserTokenAsync(_connectionName);
             if (token != null)
             {
                 context.Done(new GetTokenResponse() { Token = token.Token });
@@ -78,14 +78,14 @@ namespace Microsoft.Bot.Builder.Dialogs
             else
             {
                 // If Bot Service does not have a token, send an OAuth card to sign in
-                await SendOAuthCardAsync(context, (Activity)context.Activity).ConfigureAwait(false);
+                await SendOAuthCardAsync(context, (Activity)context.Activity);
             }
         }
 
         private async Task SendOAuthCardAsync(IDialogContext context, Activity activity)
         {
-            var reply = await activity.CreateOAuthReplyAsync(_connectionName, _signInMessage, _buttonLabel).ConfigureAwait(false);
-            await context.PostAsync(reply).ConfigureAwait(false);
+            var reply = await activity.CreateOAuthReplyAsync(_connectionName, _signInMessage, _buttonLabel);
+            await context.PostAsync(reply);
             context.Wait(WaitForToken);
         }
 
@@ -113,7 +113,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 verificationCode = activity.Text;
             }
 
-            tokenResponse = await context.GetUserTokenAsync(_connectionName, verificationCode).ConfigureAwait(false);
+            tokenResponse = await context.GetUserTokenAsync(_connectionName, verificationCode);
             if (tokenResponse != null)
             {
                 context.Done(new GetTokenResponse() { Token = tokenResponse.Token });
@@ -121,11 +121,11 @@ namespace Microsoft.Bot.Builder.Dialogs
             }
             
             // decide whether to retry or not
-            if (_reties > 0)
+            if (_retries > 0)
             {
-                _reties--;
-                await context.PostAsync(_retryMessage).ConfigureAwait(false);
-                await SendOAuthCardAsync(context, activity).ConfigureAwait(false);
+                _retries--;
+                await context.PostAsync(_retryMessage);
+                await SendOAuthCardAsync(context, activity);
             }
             else
             {

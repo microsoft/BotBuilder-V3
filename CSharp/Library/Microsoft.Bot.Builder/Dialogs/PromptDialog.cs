@@ -533,6 +533,16 @@ namespace Microsoft.Bot.Builder.Dialogs
             context.Call<string>(child, resume);
         }
 
+        /// <summary>   Prompt for a string. </summary>
+        /// <param name="context">  The context. </param>
+        /// <param name="resume">   Resume handler. </param>
+        /// <param name="promptOptions"> The options for the prompt, <see cref="IPromptOptions{T}"/>.</param>
+        public static void Text(IDialogContext context, ResumeAfter<string> resume, IPromptOptions<string> promptOptions)
+        {
+            var child = new PromptString(promptOptions);
+            context.Call<string>(child, resume);
+        }
+        
         /// <summary>   Ask a yes/no question. </summary>
         /// <param name="context">  The context. </param>
         /// <param name="resume">   Resume handler. </param>

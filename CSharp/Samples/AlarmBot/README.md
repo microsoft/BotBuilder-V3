@@ -9,7 +9,7 @@ The alarm bot sample illustrates several concepts:
 
 The top "composition root" of the alarm code is the Autofac [Alarm Module](Models/AlarmModule.cs).  In this module, you can see how we specify the dialog  and supporting services for our bot.  There are two dialogs:
 
-* [AlarmLuisDialog](Dialogs/AlarmLuisDialog.cs) is the root dialog for the conversation, and it leverages the LUIS built-in model for alarms
+* [AlarmLuisDialog](Dialogs/AlarmLuisDialog.cs) and [AlarmDispatchDialog](Dialogs/AlarmDispatchDialog.cs) are two available root dialogs for the conversation, both leveraging the LUIS built-in model for alarms. The former is based on `LuisDialog<T>`, while the latter is based on `DispatchDialog<T>`. Either one of the two should be registered as dependency in Autofac composition root
 * [AlarmRingDialog](Dialogs/AlarmRingDialog.cs) will ask the user if they want to snooze the alarm when it rings
 
 These two dialogs are supported by a series of other classes.

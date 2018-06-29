@@ -92,7 +92,12 @@ namespace Microsoft.Bot.Connector
         {
             this.Credentials = credentials;
         }
-
+        
+        partial void CustomInitialize()
+        {
+            ConnectorClient.AddUserAgent(this);
+        }
+        
         internal static string GetClientVersion<T>(T client) where T : ServiceClient<T>
         {
             var type = client.GetType();

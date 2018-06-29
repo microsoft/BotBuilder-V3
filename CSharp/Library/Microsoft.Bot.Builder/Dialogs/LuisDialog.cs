@@ -223,7 +223,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 var tasks = this.services.Select(async s =>
                 {
                     var request = ModifyLuisRequest(s.ModifyRequest(new LuisRequest(messageText)));
-                    var result = await s.QueryAsync(request, context.CancellationToken).ConfigureAwait(false);
+                    var result = await s.QueryAsync(request, context.CancellationToken);
 
                     return Tuple.Create(request, result);
                 }).ToArray();
@@ -243,7 +243,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                     throw new InvalidOperationException("No winning intent selected from Luis results.");
                 }
 
-                await EmitTraceInfo(context, winner.Result, winner.LuisRequest, winner.LuisService.LuisModel).ConfigureAwait(false);
+                await EmitTraceInfo(context, winner.Result, winner.LuisRequest, winner.LuisService.LuisModel);
 
                 if (winner.Result.Dialog?.Status == DialogResponse.DialogStatus.Question)
                 {
@@ -329,7 +329,7 @@ namespace Microsoft.Bot.Builder.Dialogs
                 LuisModel = RemoveSensitiveData(luisModel)
             };
             var activity = Activity.CreateTraceActivityReply(context.Activity as Activity, LuisTraceName, LuisTraceType, luisTraceInfo, LuisTraceLabel) as IMessageActivity;
-            await context.PostAsync(activity).ConfigureAwait(false);
+            await context.PostAsync(activity);
         }
 
         public static ILuisModel RemoveSensitiveData(ILuisModel luisModel)

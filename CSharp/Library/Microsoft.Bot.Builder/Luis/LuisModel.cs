@@ -91,74 +91,116 @@ namespace Microsoft.Bot.Builder.Luis
     [Serializable]
     public class LuisModelAttribute : Attribute, ILuisModel, ILuisOptions, IEquatable<ILuisModel>
     {
-        private readonly string modelID;
+        private string _modelId;
         /// <summary>
         /// The GUID for the LUIS model.
         /// </summary>
-        public string ModelID => modelID;
+        public string ModelID
+        {
+            get => _modelId;
+            set => _modelId = value;
+        }
 
-        private readonly string subscriptionKey;
+        private string _subscriptionKey;
         /// <summary>
         /// The subscription key for LUIS.
         /// </summary>
-        public string SubscriptionKey => subscriptionKey;
+        public string SubscriptionKey
+        {
+            get => _subscriptionKey;
+            set => _subscriptionKey = value;
+        }
 
-        private readonly string domain;
+        private string _domain;
         /// <summary>
         /// Domain where LUIS application is located.
         /// </summary>
         /// <remarks>Null means default which is api.projectoxford.ai for V1 API and westus.api.cognitive.microsoft.com for V2 api.</remarks>
-        public string Domain => domain;
+        public string Domain
+        {
+            get => _domain;
+            set => _domain = value;
+        }
 
-        private readonly Uri uriBase;
+        private Uri _uriBase;
         /// <summary>
         /// Base URI for LUIS calls.
         /// </summary>
-        public Uri UriBase => uriBase;
+        public Uri UriBase
+        {
+            get => _uriBase;
+            set => _uriBase = value;
+        }
 
-        private readonly LuisApiVersion apiVersion;
+        private LuisApiVersion _apiVersion;
         /// <summary>
         /// Version of query API to call.
         /// </summary>
-        public LuisApiVersion ApiVersion => apiVersion;
+        public LuisApiVersion ApiVersion
+        {
+            get => _apiVersion;
+            set => _apiVersion = value;
+        }
 
-	    private readonly double threshold;
+        private double _threshold;
         /// <summary>
         /// Threshold for top scoring intent
         /// </summary>
-        public double Threshold => threshold;
+        public double Threshold
+        {
+            get => _threshold;
+            set => _threshold = value;
+        }
 
         private ILuisOptions Options => (ILuisOptions)this;
 
         /// <summary>
         /// Indicates if logging of queries to LUIS is allowed.
         /// </summary>
-        public bool Log { get { return Options.Log ?? default(bool); } set { Options.Log = value; } }
+        public bool Log {
+            get => Options.Log ?? default(bool);
+            set => Options.Log = value;
+        }
 
         /// <summary>
         /// Turn on spell checking.
         /// </summary>
-        public bool SpellCheck { get { return Options.SpellCheck ?? default(bool); } set { Options.SpellCheck = value; } }
+        public bool SpellCheck {
+            get => Options.SpellCheck ?? default(bool);
+            set => Options.SpellCheck = value;
+        }
 
         /// <summary>
         /// Use the staging endpoint.
         /// </summary>
-        public bool Staging { get { return Options.Staging ?? default(bool); } set { Options.Staging = value; } }
+        public bool Staging {
+            get => Options.Staging ?? default(bool);
+            set => Options.Staging = value;
+        }
 
         /// <summary>
         /// The time zone offset.
         /// </summary>
-        public double TimezoneOffset { get { return Options.TimezoneOffset ?? default(double); } set { Options.TimezoneOffset = value; } }
+        public double TimezoneOffset {
+            get => Options.TimezoneOffset ?? default(double);
+            set => Options.TimezoneOffset = value;
+        }
 
         /// <summary>
         /// The verbose flag.
         /// </summary>
-        public bool Verbose { get { return Options.Verbose ?? default(bool); } set { Options.Verbose = value; } }
+        public bool Verbose {
+            get => Options.Verbose ?? default(bool);
+            set => Options.Verbose = value;
+        }
 
         /// <summary>
         /// The Bing Spell Check subscription key.
         /// </summary>
-        public string BingSpellCheckSubscriptionKey { get { return Options.BingSpellCheckSubscriptionKey; } set { Options.BingSpellCheckSubscriptionKey = value;  } }
+        public string BingSpellCheckSubscriptionKey {
+            get => Options.BingSpellCheckSubscriptionKey;
+            set => Options.BingSpellCheckSubscriptionKey = value;
+        }
 
         bool? ILuisOptions.Log { get; set; }
         bool? ILuisOptions.SpellCheck { get; set; }
@@ -188,12 +230,12 @@ namespace Microsoft.Bot.Builder.Luis
 	    public LuisModelAttribute(string modelID, string subscriptionKey,
             LuisApiVersion apiVersion = LuisApiVersion.V2, string domain = null, double threshold = 0.0d)
         {
-            SetField.NotNull(out this.modelID, nameof(modelID), modelID);
-            SetField.NotNull(out this.subscriptionKey, nameof(subscriptionKey), subscriptionKey);
-            this.apiVersion = apiVersion;
-            this.domain = domain;
-            this.uriBase = UriFor(apiVersion, domain);
-            this.threshold = threshold;
+            SetField.NotNull(out this._modelId, nameof(modelID), modelID);
+            SetField.NotNull(out this._subscriptionKey, nameof(subscriptionKey), subscriptionKey);
+            this._apiVersion = apiVersion;
+            this._domain = domain;
+            this._uriBase = UriFor(apiVersion, domain);
+            this._threshold = threshold;
 
             this.Log = true;
         }

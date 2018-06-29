@@ -51,6 +51,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using FormTest.Models.SimpleSandwich;
+using FormTest.Models.AnnotatedSandwich;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -616,7 +618,7 @@ Is this what you wanted? {||}")
                 );
         }
 
-        public class MyClass
+    public class MyClass
         {
             [Prompt("I didn't get you")]
             public string xxx { get; set; }

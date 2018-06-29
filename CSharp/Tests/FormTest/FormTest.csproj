@@ -104,6 +104,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\AnnotatedSandwichOrder.cs" />
+    <Compile Include="Models\SandwichOrder.cs" />
     <Compile Include="pizza.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -112,6 +114,32 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DynamicPizza.resx</DependentUpon>
     </Compile>
+    <Compile Include="Resource\DynamicSandwich.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DynamicSandwich.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource\DynamicSandwich.en.resx" />
+    <EmbeddedResource Include="Resource\DynamicSandwich.fr.resx" />
+    <EmbeddedResource Include="Resource\DynamicSandwich.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DynamicSandwich.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.en.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.fr.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.AnnotatedSandwichBot.SandwichOrder.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.JsonSandwichBot.SandwichOrder.en.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.JsonSandwichBot.SandwichOrder.fr.resx" />
+    <EmbeddedResource Include="Resource\Microsoft.Bot.Sample.JsonSandwichBot.SandwichOrder.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource\AnnotatedSandwich.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -142,13 +170,13 @@
   <ItemGroup>
     <EmbeddedResource Include="Resource\DynamicPizza.en.resx" />
     <EmbeddedResource Include="Resource\DynamicPizza.fr.resx" />
+    <EmbeddedResource Include="Resource\DynamicPizza.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>DynamicPizza.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.en.resx" />
     <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.fr.resx" />
     <EmbeddedResource Include="Resource\Microsoft.Bot.Builder.FormFlowTest.PizzaOrder.resx" />
-    <EmbeddedResource Include="Resource\DynamicPizza.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>DynamicPizza.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <XliffResource Include="MultilingualResources\FormTest.en.xlf" />

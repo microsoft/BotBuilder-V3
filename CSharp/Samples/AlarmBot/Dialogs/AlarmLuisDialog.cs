@@ -31,7 +31,8 @@ namespace Microsoft.Bot.Sample.AlarmBot.Dialogs
     }
 
     /// <summary>
-    /// The top-level natural language dialog for the alarm sample.
+    /// The top-level natural language dialog for the alarm sample,
+    /// based on <see cref="LuisDialog"/>.
     /// </summary>
     [Serializable]
     public sealed class AlarmLuisDialog : LuisDialog<object>
