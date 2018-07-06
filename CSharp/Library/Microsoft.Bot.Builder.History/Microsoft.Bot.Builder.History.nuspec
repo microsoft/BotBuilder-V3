@@ -17,7 +17,7 @@
 		<summary>Microsoft History extensions for Microsoft.Bot.Builder.</summary>
 		<language>en-US</language>
 		<dependencies>
-			<dependency id="Microsoft.Bot.Builder" version="$builder$"/>
+			<dependency id="Microsoft.Bot.Builder" version="$version$"/>
 			<dependency id="Newtonsoft.Json" version="9.0.1" />
 		</dependencies>
 	</metadata>

@@ -1,0 +1,10 @@
+<Project>
+
+  <PropertyGroup>
+    <Version Condition=" '$(PackageVersion)' == '' ">3.15.3.0-local</Version>
+    <Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
+    <PackageVersion Condition=" '$(PackageVersion)' == '' ">3.15.3.0-local</PackageVersion>
+    <PackageVersion Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</PackageVersion>
+  </PropertyGroup>
+
+</Project>

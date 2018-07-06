@@ -1,3 +1,4 @@
+# Modify AssemblyInfo.cs files for delay signing: Remove InternalsVisibleTo attributes and add delay signing attributes.
 Param ([string]$rootFolder = $(get-location).Path, 
 	[string]$filePattern
 )

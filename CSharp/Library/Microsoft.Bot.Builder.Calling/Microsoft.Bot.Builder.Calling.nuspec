@@ -19,7 +19,7 @@
 			<dependency id="Autofac" version="3.5.2"/>
 			<dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3" />
 			<dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
-			<dependency id="Microsoft.Bot.Builder" version="$builder$" />
+			<dependency id="Microsoft.Bot.Builder" version="$version$" />
 			<dependency id="Newtonsoft.Json" version="9.0.1" />
 		</dependencies>
 	</metadata>
