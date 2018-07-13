@@ -75,6 +75,9 @@
   </data>
   <data name="DefaultChoiceLastSeparator" xml:space="preserve">
     <value>, ou </value>
+  </data>  
+  <data name="DefaultContentTypesSeparator" xml:space="preserve">
+    <value>ou</value>
   </data>
   <data name="DefaultChoiceSeparator" xml:space="preserve">
     <value>, </value>

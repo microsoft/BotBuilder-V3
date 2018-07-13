@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Attachment &apos;{0}&apos; is invalid! The content-type should contain &apos;{1}&apos;..
+        ///   Looks up a localized string similar to Attachment &apos;{0}&apos; is invalid! The content-type should contain {1}..
         /// </summary>
         public static string AttachmentContentTypeValidatorError {
             get {
@@ -70,7 +70,7 @@ namespace Microsoft.Bot.Builder.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You should provide an attachment where content-type has &apos;{0}&apos;..
+        ///   Looks up a localized string similar to You should provide an attachment where content-type has {0}..
         /// </summary>
         public static string AttachmentContentTypeValidatorHelp {
             get {
@@ -264,6 +264,15 @@ namespace Microsoft.Bot.Builder.Resource {
         public static string DefaultChoiceSeparator {
             get {
                 return ResourceManager.GetString("DefaultChoiceSeparator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to or.
+        /// </summary>
+        public static string DefaultContentTypesSeparator {
+            get {
+                return ResourceManager.GetString("DefaultContentTypesSeparator", resourceCulture);
             }
         }
         

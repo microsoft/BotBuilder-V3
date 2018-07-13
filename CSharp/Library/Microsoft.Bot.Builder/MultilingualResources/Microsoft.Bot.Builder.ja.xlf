@@ -89,6 +89,10 @@
         <trans-unit id="DefaultChoiceLastSeparator" translate="yes" xml:space="preserve">
           <source>, or </source>
           <target state="final" state-qualifier="mt-suggestion">、または</target>
+        </trans-unit>        
+        <trans-unit id="DefaultContentTypesSeparator" translate="yes" xml:space="preserve">
+          <source>or</source>
+          <target state="final" state-qualifier="mt-suggestion">または</target>
         </trans-unit>
         <trans-unit id="DefaultChoiceSeparator" translate="yes" xml:space="preserve">
           <source>, </source>

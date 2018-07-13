@@ -36,6 +36,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Builder.FormFlow.Advanced;
+using Microsoft.Bot.Builder.Resource;
 using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Builder.FormFlow
@@ -950,7 +951,11 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         public override Task<bool> IsValidAsync(Attachment attachment, out string errorMessage)
         {
             errorMessage = default(string);
-            var result = attachment.ContentType.ToLowerInvariant().Contains(this.ContentType.ToLowerInvariant());
+
+            string[] contentTypes = GetAllowedTypes(this.ContentType);
+
+            var result = contentTypes != null && contentTypes.Any() ? contentTypes.FirstOrDefault(t=> attachment.ContentType.ToLowerInvariant().Contains(t)) != null 
+                                                                              : attachment.ContentType.ToLowerInvariant().Contains(this.ContentType.ToLowerInvariant());
 
             if (!result)
             {
@@ -961,7 +966,7 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
                     : string.Format(
                         template.Pattern(),
                         attachment.Name,
-                        string.IsNullOrWhiteSpace(this.ContentType) ? string.Empty : this.ContentType.ToLowerInvariant());
+                        contentTypes != null ? GetAllowedTypesString(contentTypes) : string.IsNullOrWhiteSpace(this.ContentType) ? string.Empty : $"'{this.ContentType.ToLowerInvariant()}'");
             }
 
             return Task.FromResult(result);
@@ -971,9 +976,26 @@ namespace Microsoft.Bot.Builder.FormFlow.Advanced
         {
             var template = this.Configuration.Template(TemplateUsage.AttachmentContentTypeValidatorHelp);
 
-            var contentType = string.IsNullOrWhiteSpace(this.ContentType) ? string.Empty : this.ContentType.ToLowerInvariant();
+            string[] contentTypes = GetAllowedTypes(this.ContentType);
+
+            var contentType = contentTypes != null ? GetAllowedTypesString(contentTypes) : string.IsNullOrWhiteSpace(this.ContentType) ? string.Empty : $"'{this.ContentType.ToLowerInvariant()}'";
 
             return string.Format(template.Pattern(), contentType);
+        }
+
+        private string GetAllowedTypesString(string[] contentTypes)
+        {
+            return string.Join($" {Resources.DefaultContentTypesSeparator} ", contentTypes.Select(t => t.ToLowerInvariant()).Select(t=> $"'{t}'"));
+        }
+
+        private string[] GetAllowedTypes(string contentTypes)
+        {
+            if (this.ContentType.Contains("|"))
+            {
+                return contentTypes.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+            }
+
+            return null;
         }
     }
 }

@@ -90,6 +90,11 @@
           <source>, or </source>
           <target state="needs-review-translation">nebo</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+        </trans-unit>        
+        <trans-unit id="DefaultContentTypesSeparator" translate="yes" xml:space="preserve">
+          <source>or</source>
+          <target state="needs-review-translation">nebo</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DefaultChoiceSeparator" translate="yes" xml:space="preserve">
           <source>, </source>

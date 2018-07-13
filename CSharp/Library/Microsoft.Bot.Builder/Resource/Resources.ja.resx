@@ -75,6 +75,9 @@
   </data>
   <data name="DefaultChoiceLastSeparator" xml:space="preserve">
     <value>、または</value>
+  </data>  
+  <data name="DefaultChoiceLastSeparator" xml:space="preserve">
+    <value>または</value>
   </data>
   <data name="DefaultChoiceSeparator" xml:space="preserve">
     <value>、</value>

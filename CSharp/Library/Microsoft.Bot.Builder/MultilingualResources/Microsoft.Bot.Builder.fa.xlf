@@ -7,12 +7,12 @@
     <body>
       <group id="MICROSOFT.BOT.BUILDER/RESOURCE/RESOURCES.RESX" datatype="resx">
         <trans-unit id="AttachmentContentTypeValidatorError" translate="yes" xml:space="preserve">
-          <source>Attachment '{0}' is invalid! The content-type should contain '{1}'.</source>
+          <source>Attachment '{0}' is invalid! The content-type should contain {1}.</source>
           <target state="final">پیوست '{0}' نامعتبر است! نوع محتوا باید حاوی '{1}'.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-attachmnet name, 1-expected content-type</note>
         </trans-unit>
         <trans-unit id="AttachmentContentTypeValidatorHelp" translate="yes" xml:space="preserve">
-          <source>You should provide an attachment where content-type has '{0}'.</source>
+          <source>You should provide an attachment where content-type has {0}.</source>
           <target state="final">شما باید یک پیوست ارائه که در آن نوع محتوا است '{0}.</target>
           <note from="MultilingualBuild" annotates="source" priority="2">0-attachment content type</note>
         </trans-unit>
@@ -89,6 +89,10 @@
         <trans-unit id="DefaultChoiceLastSeparator" translate="yes" xml:space="preserve">
           <source>, or </source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">، یا </target>
+        </trans-unit>        
+        <trans-unit id="DefaultContentTypesSeparator" translate="yes" xml:space="preserve">
+          <source>or</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">یا</target>
         </trans-unit>
         <trans-unit id="DefaultChoiceSeparator" translate="yes" xml:space="preserve">
           <source>, </source>

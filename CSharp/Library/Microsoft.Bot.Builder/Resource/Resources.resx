@@ -394,11 +394,14 @@
     <comment>0-attachment name, 1-attachment content-type</comment>
   </data>
   <data name="AttachmentContentTypeValidatorError" xml:space="preserve">
-    <value>Attachment '{0}' is invalid! The content-type should contain '{1}'.</value>
+    <value>Attachment '{0}' is invalid! The content-type should contain {1}.</value>
     <comment>0-attachmnet name, 1-expected content-type</comment>
   </data>
   <data name="AttachmentContentTypeValidatorHelp" xml:space="preserve">
-    <value>You should provide an attachment where content-type has '{0}'.</value>
+    <value>You should provide an attachment where content-type has {0}.</value>
     <comment>0-attachment content type</comment>
+  </data>
+  <data name="DefaultContentTypesSeparator" xml:space="preserve">
+    <value>or</value>
   </data>
 </root>
