@@ -4,7 +4,6 @@ user=user
 bot:before message
 bot:conversationUpdate
 bot:after message
-bot:using middleware
 user:use middleware
 bot:before message
 bot:using middleware
