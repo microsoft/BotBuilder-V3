@@ -2,7 +2,7 @@ bot=bot
 user=user
 
 bot:before message
-bot:conversation update
+bot:conversationUpdate
 bot:using middleware
 user:use middleware
 bot:before message
