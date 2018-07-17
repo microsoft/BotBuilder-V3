@@ -12,4 +12,4 @@ user:catch exception
 bot:before message
 bot:generating exception
 bot:Caught: exception to catch
-bot:after message
+
