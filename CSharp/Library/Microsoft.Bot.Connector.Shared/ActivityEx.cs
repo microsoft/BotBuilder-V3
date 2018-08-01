@@ -34,7 +34,8 @@ namespace Microsoft.Bot.Connector
         ITypingActivity,
         IEndOfConversationActivity,
         IEventActivity,
-        IInvokeActivity
+        IInvokeActivity, 
+        IHandoffActivity
     {
         /// <summary>
         /// Content-type for an Activity
@@ -104,11 +105,6 @@ namespace Microsoft.Bot.Connector
         public static ITypingActivity CreateTypingActivity() { return new Activity(ActivityTypes.Typing); }
 
         /// <summary>
-        /// Create an instance of the Activity class with IActivity masking
-        /// </summary>
-        public static IActivity CreatePingActivity() { return new Activity(ActivityTypes.Ping); }
-
-        /// <summary>
         /// Create an instance of the Activity class with IEndOfConversationActivity masking
         /// </summary>
         public static IEndOfConversationActivity CreateEndOfConversationActivity() { return new Activity(ActivityTypes.EndOfConversation); }
@@ -122,6 +118,11 @@ namespace Microsoft.Bot.Connector
         /// Create an instance of the Activity class with IInvokeActivity masking
         /// </summary>
         public static IInvokeActivity CreateInvokeActivity() { return new Activity(ActivityTypes.Invoke); }
+
+        /// <summary>
+        /// Create an instance of the Activity class with IActivity masking
+        /// </summary>
+        public static IHandoffActivity CreateHandoffActivity() { return new Activity(ActivityTypes.Handoff); }
 
         /// <summary>
         /// Create an instance of the TraceActivity 
@@ -243,8 +244,8 @@ namespace Microsoft.Bot.Connector
             if (String.Equals(type, ActivityTypes.Typing, StringComparison.OrdinalIgnoreCase))
                 return ActivityTypes.Typing;
 
-            if (String.Equals(type, ActivityTypes.Ping, StringComparison.OrdinalIgnoreCase))
-                return ActivityTypes.Ping;
+            if (String.Equals(type, ActivityTypes.Handoff, StringComparison.OrdinalIgnoreCase))
+                return ActivityTypes.Handoff;
 
             if (String.Equals(type, ActivityTypes.EndOfConversation, StringComparison.OrdinalIgnoreCase))
                 return ActivityTypes.EndOfConversation;
