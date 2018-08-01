@@ -4,6 +4,18 @@
     "id": "BugFilingBot",
     "msaAppId": "e7401b5c-c097-4f0c-9d8d-0e94ad9acdab",
     "iconUrl": "https://example.com/bots/BugFilingBot/icons.png",
+    "authenticationConnections": [
+        {
+            "id": "bugServiceConnection",
+            "serviceProviderId": "bugPlatform",
+            "clientId": "2d4d7f49-efb8-405f-9733-359936922b3b",
+            "clientSecret": "d725482a-ad23-44b4-bb5f-073b5e2d3d7d",
+            "scopes": "bug-read,bug-write",
+            "properties": {
+                "signin": "interactive"
+            }
+        }
+    ],
     "actions": [
         {
             "id": "https://example.org/global/bugs/file"
@@ -28,18 +40,6 @@
                         "endPosition": 22
                     }]
                 }]
-            }
-        }
-    ],
-    "authenticationConnections": [
-        {
-            "id": "bugServiceConnection",
-            "serviceProviderId": "bugPlatform",
-            "clientId": "2d4d7f49-efb8-405f-9733-359936922b3b",
-            "clientSecret": "d725482a-ad23-44b4-bb5f-073b5e2d3d7d",
-            "scopes": "bug-read,bug-write",
-            "properties": {
-                "signin": "interactive"
             }
         }
     ]

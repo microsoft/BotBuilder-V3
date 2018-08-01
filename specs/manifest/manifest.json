@@ -7,10 +7,20 @@
         "msaAppId": { "type": "string" },
         "endpoint": { "type": "string", "format": "uri" },
         "iconUrl": { "type": "string", "format": "uri" },
-        "actions": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/action" } },
-        "authenticationConnections": { "type": "array", "items:": { "$ref": "https://botframework.com/schemas/manifest/authenticationConnectionDefinition" }}
+        "authenticationConnections": { "type": "array", "items:": { "$ref": "https://botframework.com/schemas/manifest/authenticationConnectionDefinition" } },
+        "actions": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/action" } }
     },
     "definitions": {
+        "authenticationConnectionDefinition": {
+            "properties": {
+                "id": { "type": "string" },
+                "serviceProviderId": { "type": "string" },
+                "clientId": { "type": "string" },
+                "clientSecret": { "type": "string" },
+                "scopes": { "type": "string" },
+                "properties": { "type": "object" }
+            }
+        },
         "action": {
             "properties": {
                 "id": { "type": "string" },
@@ -43,16 +53,6 @@
                 "name": { "type": "string" },
                 "startPosition": { "type": "number" },
                 "endPosition": { "type": "number" }
-            }
-        },
-        "authenticationConnectionDefinition": {
-            "properties": {
-                "id": { "type": "string" },
-                "serviceProviderId": { "type": "string" },
-                "clientId": { "type": "string" },
-                "clientSecret": { "type": "string" },
-                "scopes": { "type": "string" },
-                "properties": { "type": "object" }
             }
         }
     }

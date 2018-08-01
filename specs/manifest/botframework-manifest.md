@@ -10,9 +10,11 @@ The Bot Framework Manifest format describes a service capable of sending and rec
 2. [Basic manifest structure](#Basic-manifest-structure)
 3. [Serialization](#Serialization)
 4. [Use in APIs](#Use-in-APIs)
-5. [Fields](#Fields)
-6. [Complex types](#Complex-types)
-7. [References](#References)
+5. [Identity fields](#Identity-fields)
+6. [Action fields](#Action-fields)
+7. [Publishing fields](#Publishing-fields)
+8. [Complex types](#Complex-types)
+9. [References](#References)
 
 ## Introduction
 
@@ -20,7 +22,7 @@ The Bot Framework Manifest format describes a service capable of sending and rec
 
 The Bot Framework Protocol [[1](#References)] and corresponding Activity schema [[2](#References)] describe a language for sending and receiving conversational messages between humans and automated software. Software that implements the "bot" side of this protocol are frequently registered so they can be contacted by users.
 
-The Bot Framework Manifest format, defined here, describes how to contact this bot, what capabilities it offers, and information about how it should be published. 
+The Bot Framework Manifest format, defined here, describes how to contact this bot, what capabilities it offers, and information about how it should be published. Fields in the manifest appear flat at the root level but are organized within this document according to each goal.
 
 This format is intended to support initial development of the bot, where tools can be used to automate source code templates based on manifest contents; testing of the bot, by providing information about its configuration; and finally, registering the bot so it can be used in production. During the development process, tools such as [msbot](https://github.com/Microsoft/botbuilder-tools/tree/master/MSBot) [[3](#References)] may be used in conjunction with or as a precursor to the manifest.
 
@@ -124,7 +126,9 @@ Frequently, registries accept manifests in order to list bots for a directory or
 
 `M3011`: Registries MAY allow manifests with empty or missing IDs. If IDs are assigned, the registry SHOULD communicate these IDs back to the submitter.
 
-## Fields
+## Identity fields
+
+The fields in this description describe what the bot is and where to contact it. Typically these fields are used to assign stable identifiers (for later operations, like updates and deletes) and contact the bot once a channel or orchestrator has decided to route traffic there. Fields in this section appear at the root of the manifest alongside [action fields](#Action-fields) and [publishing fields](#Publishing-fields).
 
 ### Id
 
@@ -154,6 +158,14 @@ Registries typically expect icon URLs with HTTP or HTTPS schemes, and some regis
 
 `M4100`: Registries SHOULD accept `iconUrl` values of HTTPS scheme.
 
+### Authentication connections
+
+Some registars accept definitions for authentication providers that bots can use at runtime to collect sign-in and access consent from users. The configuration for this information is stored in the `authenticationConnections` field. The `authenticationConnections` field is an array of type [`authenticationConnection`](#Authentication-connection)
+
+## Action fields
+
+There is only one field in the actions section: [`actions`](#Actions). This field describes the capabilities that the bot advertises.
+
 ### Actions
 
 The `actions` field contains a list of actions the bot advertises it can accept. The `actions` field is an array of type ['action'](#Action).
@@ -166,9 +178,11 @@ In cases where the action is defined by the bot, the definition may be included 
 
 An action advertisement is not a guarantee that the bot can successfully service a request that meets the syntactical requirements for the action. Instead, it merely indicates that the bot *might* be able to handle requests for that action. Correspondingly, a bot advertising an action is not guaranteed to receive all fields and all entities defined for an action.
 
-### Authentication connections
+### Publishing fields
 
-Some registars accept definitions for authentication providers that bots can use at runtime to collect sign-in and access consent from users. The configuration for this information is stored in the `authenticationConnections` field. The `authenticationConnections` field is an array of type [`authenticationConnection`](#Authentication-connection)
+The publishing section contains information about how the bot is published into a registry, typically for discovery by users. The name, structure, and meaning of the fields are established by the registry.
+
+`M4800`: Writers SHOULD only include publishing fields applicable to the registry where the manifest is intended to be consumed. If the manifest is not intended for consumption within a registry, writers SHOULD NOT include any publishing fields.
 
 ## Complex types
 
@@ -286,7 +300,7 @@ The `endPosition` field identifies the position within the [`text`](#Text) field
 
 `M5434`: Readers SHOULD reject any `entityReference` objects that do not meet the above criteria.
 
-### Authenticatino connection
+### Authentication connection
 
 An authentication connection represents a sign-in service, and contains parameters describing how to use this service to request user sign-in and consent.
 
@@ -329,6 +343,10 @@ The `properties` field contains additional properties to be supplied to the serv
 7. [RFC 2397](https://tools.ietf.org/html/rfc2397)
 
 # Appendix I - Changes
+
+## 2018-07-31 - dandris@microsoft.com
+
+* Move identity/actions/publishing into distinct sections
 
 ## 2018-07-29 - dandris@microsoft.com
 
