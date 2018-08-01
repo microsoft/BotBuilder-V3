@@ -460,7 +460,7 @@ The `value` field contains the objective component of the fact. The value of the
 ## References
 
 1. [Bot Framework Activity](botframework-activity.md)
-2. [Bot Framework Protocol](botframework-protocol.md)
+2. [Bot Framework Protocol](../botframework-protocol/botframework-protocol.md)
 3. [Adaptive Cards](https://adaptivecards.io)
 4. [RFC 2119](https://tools.ietf.org/html/rfc2119)
 5. [MIME media types](https://www.iana.org/assignments/media-types/media-types.xhtml)

@@ -23,12 +23,13 @@ This schema is used within the Bot Framework protocol and is implemented by Micr
 13. [Suggestion activity](#Suggestion-activity)
 13. [Trace activity](#Trace-activity)
 14. [Typing activity](#Typing-activity)
-15. [Complex types](#Complex-types)
-16. [References](#References)
-17. [Appendix I - Changes](#Appendix-I---Changes)
-18. [Appendix II - Non-IRI entity types](#Appendix-II---Non-IRI-entity-types)
-19. [Appendix III - Protocols using the Invoke activity](#Appendix-III---Protocols-using-the-Invoke-activity)
-20. [Appendix IV - Priming format](#Appendix-IV---Priming-format)
+15. [Handoff activity](#Handoff-activity)
+16. [Complex types](#Complex-types)
+17. [References](#References)
+18. [Appendix I - Changes](#Appendix-I---Changes)
+19. [Appendix II - Non-IRI entity types](#Appendix-II---Non-IRI-entity-types)
+20. [Appendix III - Protocols using the Invoke activity](#Appendix-III---Protocols-using-the-Invoke-activity)
+21. [Appendix IV - Priming format](#Appendix-IV---Priming-format)
 
 ## Introduction
 
@@ -409,6 +410,32 @@ A missing `listenFor` field indicates default priming behavior should be used. T
 
 `A3121`: Bots SHOULD send `listenFor` contents that reflect the complete set of utterances expected from users, not just the utterances in response to the content in the message in which the `listenFor` is included.
 
+### Semantic action
+
+The `semanticAction` field contains an optional programmatic action accompanying the user request. The semantic action field is populated by the channel based on some understanding of what the user is trying to accomplish; this understanding may be achieved with natural language processing, additional user interface elements tied specifically to these actions, or contextually via other means. The meaning and structure of the semantic action is agreed ahead of time between the channel and the bot.
+
+The value of the `semanticAction` field is a complex object of the [semantic action](#Semantic-action-type) type.
+
+`A3130`: Channels MAY populate the `semanticAction` field. Other senders SHOULD NOT populate this field.
+
+Information within the semantic action field is meant to augment, not replace, existing content within the activity. A well-formed semantic action has a defined name, corresponding well-formed entities, and matches the user's intent in generating the activity.
+
+`A3131`: Senders SHOULD NOT remove any content used to generate the `semanticAction` field.
+
+`A3132`: Receivers MAY ignore parts or all of the `semanticAction` field.
+
+`A3133`: Receivers MUST ignore `semanticAction` fields they cannot parse or do not understand.
+
+Semantic actions are populated only on the first message activity representing the user input that triggered the action. Subsequent semantic actions indicate the user initiated a distinct action.
+
+`A3134`: Senders MUST NOT populate the `semanticAction` beyond the first message activity if those activities do not indicate the user triggered the corresponding semantic action again.
+
+Semantic actions are sometimes used to indicate a change in which participant controls the conversation. For example, a channel may use an action at the beginning of an exchange with a skill. When so defined, skills can relinquish control through the [handoff activity](#Handoff-activity).
+
+`A3135`: Channels MAY define the use of [handoff activity](#Handoff-activity) in conjunction with semantic actions.
+
+`A3136`: Bots MAY use semantic action and [handoff activity](#Handoff-activity) internally to coordinate conversational focus between components of the bot.
+
 ## Contact relation update activity
 
 Contact relation update activities signal a change in the relationship between the recipient and a user within the channel. Contact relation update activities generally do not contain user-generated content. The relationship update described by a contact relation update activity exists between the user in the `from` field (often, but not always, the user initiating the update) and the user or bot in the `recipient` field.
@@ -613,7 +640,7 @@ All `textHighlight` objects are relative to the activity specified by the `reply
 
 The `textHighlights` field contains a list of text to highlight in the `text` field of the activity referred to by `replyToId`. The value of the `textHighlights` field is an array of type [`textHighlight`](#Text-highlight).
 
-## Trace  activity
+## Trace activity
 
 The Trace activity is an activity which the developer inserts in to the stream of activities to represent a point in the developers bot logic. The trace activity typically is logged by transcript history components to become part of a transcript  history.  In remote debugging scenarios the Trace activity can be sent to the client so that the activity can be inspected as part of the debug flow. 
 
@@ -672,6 +699,14 @@ Typing activities are identified by a `type` value of `typing`.
 `A6002`: If a channel assigns an [`id`](#Id) to a typing activity, it MAY allow bots and clients to delete the typing activity before its expiration.
 
 `A6003`: If able, channels SHOULD send typing activities to bots.
+
+## Handoff activity
+
+Handoff activities are used to request or signal a change in focus between elements inside a bot. They are not intended to be used in wire communication (besides internal communication that occurs between services in a distributed bot).
+
+Handoff activities are identified by a `type` value of `handoff`.
+
+`A6200`: Channels SHOULD drop handoff activities if they are not supported.
 
 ## Complex types
 
@@ -1073,9 +1108,33 @@ The `occurrence` field is optional. It gives the sender the ability to specify w
 
 `A7722`: Senders SHOULD NOT include the `occurrence` field if its value is `0` or `1`.
 
-### References
+### Semantic action type
 
-1. [Bot Framework Protocol](botframework-protocol.md)
+The semantic action type represents a programmatic reference. It is used within the [`semanticAction`](#Semantic-action) field in [message activities](#Message-activity). Actions are defined and registered externally to this protocol, typically as part of the [Bot Framework Manifest](botframework-manifest.md) [[14](#References)]. The action definition declares the ID for the action and associates it with named entities, each of which has a corresponding type. Senders are receivers of actions use these names and types to create and parse actions that conform to the action definition.
+
+#### Semantic action ID
+
+The `id` field establishes the identity for the action, and is associated with a definition for the meaning and structure of the action (typically communicated via a registration system). The value of the `id` field is of type string.
+
+`A7730`: Senders MUST NOT generate semantic actions with missing or empty `id` fields.
+
+`A7731`: Two `id` values are equivalent only if they are ordinally identical.
+
+#### Semantic action entities
+
+The `entities` field contains entities associated with this action. The value of the `entities` field is a complex object; the keys of this object are entity names and the values of each key is the corresponding entity value. The types of each value are defined by the enclosing action.
+
+`A7740`: Unless otherwise specified, senders MAY omit some or all entities associated with an action definition.
+
+`A7741`: Senders SHOULD preserve the order of entities as defined for the action, even if entities early in the list are omitted.
+
+`A7742`: Senders MAY add entities with unknown keys if they have special knowledge that the bot supports them. These extended entities MUST be added after entities defined for the action.
+
+`A7743`: Senders SHOULD only send complex objects as entity values. They SHOULD NOT send primitives or arrays.
+
+## References
+
+1. [Bot Framework Protocol](../botframework-protocol/botframework-protocol.md)
 2. [RFC 2119](https://tools.ietf.org/html/rfc2119)
 3. [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html)
 4. [RFC 3987](https://tools.ietf.org/html/rfc3987)
@@ -1088,8 +1147,14 @@ The `occurrence` field is optional. It gives the sender the ability to specify w
 11. [ISO 3166-1](https://www.iso.org/iso-3166-country-codes.html)
 12. [Bot Framework Cards](botframework-cards.md)
 13. [Adaptive Cards](https://adaptivecards.io)
+14. [Bot Framework Manifest](../botframework-manifest/botframework-manifest.md)
 
 # Appendix I - Changes
+
+## 2018-07-17 - dandris@microsoft.com
+
+* Added [`semanticAction`](#Semantic-action)
+* Added [handoff activity](#Handoff-activity)
 
 ## 2018-07-05 - dandris@microsoft.com
 
