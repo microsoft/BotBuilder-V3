@@ -766,7 +766,12 @@ namespace Microsoft.Bot.Builder.FormFlow
                     break;
                 case StepDirection.Reset:
                     _formState.Reset();
-                    // Because we redo phase they can go through everything again but with defaults.
+                    foreach (var step in _form.Steps)
+                    {
+                        if (step.Type == StepType.Field) {
+                            step.Field.SetValue(_state, null);
+                        }
+                    }
                     found = true;
                     break;
             }
