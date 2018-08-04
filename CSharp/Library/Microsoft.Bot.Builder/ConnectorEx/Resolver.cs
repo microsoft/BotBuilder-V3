@@ -53,7 +53,9 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             { ActivityTypes.ConversationUpdate, typeof(IConversationUpdateActivity) },
             { ActivityTypes.DeleteUserData, typeof(IActivity) },
             { ActivityTypes.Message, typeof(IMessageActivity) },
+#pragma warning disable CS0618 // Type or member is obsolete
             { ActivityTypes.Ping, typeof(IActivity) },
+#pragma warning restore CS0618 // Type or member is obsolete
             { ActivityTypes.Event, typeof(IEventActivity) },
             { ActivityTypes.Invoke, typeof(IInvokeActivity) },
             { ActivityTypes.Typing, typeof(ITypingActivity) },
