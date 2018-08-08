@@ -19,8 +19,8 @@ var inMemoryStorage = new builder.MemoryBotStorage();
 
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
-    appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appId: process.env.MicrosoftAppId,
+    appPassword: process.env.MicrosoftAppPassword
 });
 
 var connectionName = process.env.CONNECTION_NAME;
