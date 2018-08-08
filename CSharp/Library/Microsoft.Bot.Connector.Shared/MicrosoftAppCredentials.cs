@@ -241,7 +241,7 @@ namespace Microsoft.Bot.Connector
                 // set initial refresh time
                 autoRefreshTimes[CacheKey] = DateTime.UtcNow + AutoTokenRefreshTimeSpan;
             }
-            
+
             // if task is in faulted or canceled state then replace it with another attempt
             if (oAuthTokenTask.IsFaulted || oAuthTokenTask.IsCanceled)
             {
@@ -333,9 +333,14 @@ namespace Microsoft.Bot.Connector
                     }
                     catch (Exception)
                     {
+#if NET45
                         System.Diagnostics.Trace.TraceError(body ?? response.ReasonPhrase);
+#else
+                        logger?.LogWarning($"RefreshTokenAsync() Exception) {body ?? response.ReasonPhrase}");
+#endif
+
                     }
-                    
+
                     // try again in a bit to prevent hammering a service if it's not working
                     await Task.Delay((int)TimeSpan.FromSeconds(1).TotalMilliseconds);
                 }

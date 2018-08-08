@@ -6397,6 +6397,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.RefreshTokenAsync">
+            <summary>
+            Return task which will try multiple times until it gets a valid token
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.OAuthApi">
             <summary>
             OAuthClient operations.
