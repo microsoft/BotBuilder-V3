@@ -20,10 +20,10 @@
   "typings": "./lib/botbuilder.d.ts",
   "dependencies": {
     "async": "^1.5.2",
-    "base64url": "^1.0.6",
+    "base64url": "^3.0.0",
     "busboy": "^0.2.13",
     "chrono-node": "^1.1.3",
-    "jsonwebtoken": "^7.0.1",
+    "jsonwebtoken": "^8.2.2",
     "node-uuid": "^1.4.7",
     "request": "^2.69.0",
     "rsa-pem-from-mod-exp": "^0.8.4",

@@ -6,10 +6,10 @@
   "license": "MIT",
   "dependencies": {
     "async": "^1.5.2",
-    "base64url": "^1.0.6",
+    "base64url": "^3.0.0",
     "busboy": "^0.2.13",
     "chrono-node": "^1.2.5",
-    "jsonwebtoken": "^7.1.9",
+    "jsonwebtoken": "^8.2.2",
     "node-uuid": "^1.4.7",
     "promise": "^7.1.1",
     "request": "^2.78.0",
