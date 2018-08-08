@@ -555,7 +555,7 @@ export interface ICardAction {
     text?: string;
 
     /** (Optional) text to display in the chat feed if the button is clicked. */
-    diplayText?: string;
+    displayText?: string;
 }
 
 /** Implemented by classes that can be converted into a card action. */
