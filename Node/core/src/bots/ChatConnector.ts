@@ -400,6 +400,29 @@ export class ChatConnector implements IConnector, IBotStorage {
         this.authenticatedRequest(options, (err, response, body) => done(err, body));
     }
 
+    public getConversationPagedMembers(serviceUrl: string, conversationId: string, pageSize: number|undefined, continuationToken: string|undefined, done: (err: Error, results: IPagedMembersResult) => void): void {
+        pageSize = pageSize || 20;
+
+        // Calculate path
+        var path = '/v3/conversations/' + encodeURIComponent(conversationId) + `/pagedmembers`;
+        let connector = '?';
+        if (pageSize) {
+            path += `?pageSize=${pageSize}`;
+            connector = '&';
+        }
+        if (continuationToken) {
+            path += `${connector}continuationToken=` + encodeURIComponent(continuationToken);
+        }
+
+        // Issue request
+        var options = {
+            method: 'GET',
+            url: urlJoin(serviceUrl, path),
+            json: true
+        };
+        this.authenticatedRequest(options, (err, response, body) => done(err, body));
+    }
+
     public deleteConversationMember(serviceUrl: string, conversationId: string, memberId: string, done: (err: Error) => void): void {
         // Calculate path
         var path = '/v3/conversations/' + encodeURIComponent(conversationId) + 

@@ -98,6 +98,11 @@ interface IConversationsResult {
     conversations: IConversationMembers[];    // List of conversations
 }
 
+interface IPagedMembersResult {
+    continuationToken: string;      // Paging token.
+    members: IIdentity[];           // List of members in this conversation.
+}
+
 interface IBotStateData {
     conversationId?: string;        // ID of the conversation the data is for (if relevant.)
     userId?: string;                // ID of the user the data is for (if relevant.)

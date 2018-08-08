@@ -9,14 +9,14 @@
  * * _{string}_ - A simple message to send the user.
  * * _{string[]}_ - Array of possible messages to send the user. One will be chosen at random.
  */
-export type TextType = string|string[];
+export type TextType = string | string[];
 
 /**
  * Message based prompts that can be sent to a user.
  * * _{IMessage}_ - Message to send the user expressed using JSON. The message can contain attachments and suggested actions. Not all channels natively support all message properties but most channels will down render unsupported fields.
  * * _{IIsMessage}_ - An instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. This class helps to localize your messages and provides helpers to aid with formatting the text portions of your message.
  */
-export type MessageType = IMessage|IIsMessage;
+export type MessageType = IMessage | IIsMessage;
 
 /**
  * Flexible range of possible prompts that can be sent to a user.
@@ -25,13 +25,13 @@ export type MessageType = IMessage|IIsMessage;
  * * _{IMessage}_ - Message to send the user expressed using JSON. The message can contain attachments and suggested actions. Not all channels natively support all message properties but most channels will down render unsupported fields.
  * * _{IIsMessage}_ - An instance of the [Message](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.message.html) builder class. This class helps to localize your messages and provides helpers to aid with formatting the text portions of your message.
  */
-export type TextOrMessageType = string|string[]|IMessage|IIsMessage;
+export type TextOrMessageType = string | string[] | IMessage | IIsMessage;
 
 /**
  * Some methods can take either an `IAttachment` in JSON form or one the various card builder classes
  * that implement `IIsAttachment`.
  */
-export type AttachmentType = IAttachment|IIsAttachment;
+export type AttachmentType = IAttachment | IIsAttachment;
 
 /**
  * Supported rules for matching a users utterance.
@@ -39,13 +39,13 @@ export type AttachmentType = IAttachment|IIsAttachment;
  * * _{string}_ - A named intent returned from a recognizer will be used to match the users utterance.
  * * _{(RegExp|string)[]}_ - An array of either regular expressions or named intents can be passed to match the users utterance in a number of possible ways. The rule generating the highest score (best match) will be used for scoring purposes.
  */
-export type MatchType = RegExp|string|(RegExp|string)[];
+export type MatchType = RegExp | string | (RegExp | string)[];
 
 /**
  * List of text values. The values can be expressed as a pipe delimited string like "value1|value2|value3"
  * or simple array of values.
  */
-export type ValueListType = string|string[];
+export type ValueListType = string | string[];
 
 //=============================================================================
 //
@@ -293,6 +293,15 @@ export interface IConversationsResult {
 
     /** List of conversations. */
     conversations: IConversationMembers[];
+}
+
+/** Result object returned from `ChatConnector.getConversationPagedMembers()`. */
+export interface IPagedMembersResult {
+    /** Paging token. */
+    continuationToken: string;
+
+    /** List of members in this conversation. */
+    members: IIdentity[];
 }
 
 /**
@@ -1077,7 +1086,7 @@ export interface IPromptAttachmentOptions extends IPromptOptions {
      * (Optional) list of content types the prompt is waiting for. Types ending with '*' will be
      * prefixed matched again the received attachment(s).
      */
-    contentTypes?: string|string[];
+    contentTypes?: string | string[];
 }
 
 /** Optional features for [PromptAttachment](/en-us/node/builder/chat-reference/classes/_botbuilder_d_.promptattachment) class. */
@@ -1490,13 +1499,13 @@ export interface ISessionMiddleware {
  */
 export interface IMiddlewareMap {
     /** Called in series when an incoming event is received. */
-    receive?: IEventMiddleware|IEventMiddleware[];
+    receive?: IEventMiddleware | IEventMiddleware[];
 
     /** Called in series before an outgoing event is sent. */
-    send?: IEventMiddleware|IEventMiddleware[];
+    send?: IEventMiddleware | IEventMiddleware[];
 
     /** Called in series once an incoming message has been bound to a session. Executed after [receive](#receive) middleware.  */
-    botbuilder?: ISessionMiddleware|ISessionMiddleware[];
+    botbuilder?: ISessionMiddleware | ISessionMiddleware[];
 }
 
 /**
@@ -1697,7 +1706,7 @@ export interface ICardMediaUrl {
     url: string;
 
     /** Optional profile hint to the client to differentiate multiple MediaUrl objects from each other */
-    profile: string ;
+    profile: string;
 }
 
 /** Supplementary parameter for media events. */
@@ -1896,7 +1905,7 @@ export class Session {
     dialogData: any;
 
     /** The localizer for the current session. */
-    localizer: ILocalizer ;
+    localizer: ILocalizer;
 
     /**
      * Signals that an error occured. The bot will signal the error via an on('error', err) event.
@@ -2064,7 +2073,7 @@ export class Session {
      * @param replaceWithId (Optional) specifies an ID to start in the canceled dialogs place. This prevents the dialogs parent from being resumed.
      * @param replaceWithArgs (Optional) arguments to pass to the new dialog.
      */
-    cancelDialog(dialogId: string|number, replaceWithId?: string, replaceWithArgs?: any): Session;
+    cancelDialog(dialogId: string | number, replaceWithId?: string, replaceWithArgs?: any): Session;
 
     /**
      * Clears the sessions callstack and restarts the conversation with the configured dialogId.
@@ -2295,7 +2304,7 @@ export class Message implements IIsMessage {
     addAttachment(attachment: AttachmentType): Message;
 
     /** Optional suggested actions to send to the user. Suggested actions will be displayed only on the channels that support suggested actions. */
-    suggestedActions(suggestedActions: ISuggestedActions|IIsSuggestedActions): Message;
+    suggestedActions(suggestedActions: ISuggestedActions | IIsSuggestedActions): Message;
 
     /** Structured objects passed to the bot or user. */
     entities(list: Object[]): Message;
@@ -2485,16 +2494,16 @@ export class SuggestedActions implements IIsSuggestedActions {
     to(text: TextType): SuggestedActions;
 
     /** Collection of actions to be displayed as suggested actions. */
-    actions(list: ICardAction[]|IIsCardAction[]): SuggestedActions;
+    actions(list: ICardAction[] | IIsCardAction[]): SuggestedActions;
 
     /** Adds an action to be displayed as a suggested action */
-    addAction(action: ICardAction|IIsCardAction): SuggestedActions;
+    addAction(action: ICardAction | IIsCardAction): SuggestedActions;
 
     /** Returns the JSON object for the suggested actions */
     toSuggestedActions(): ISuggestedActions;
 
     /** Creates a new SuggestedActions */
-    static create(session: Session, actions: ICardAction[]|IIsCardAction[], to?: string|string[]): SuggestedActions;
+    static create(session: Session, actions: ICardAction[] | IIsCardAction[], to?: string | string[]): SuggestedActions;
 }
 /** Builder class to simplify adding images to a card. */
 export class CardImage implements IIsCardImage {
@@ -2512,7 +2521,7 @@ export class CardImage implements IIsCardImage {
     alt(text: TextType, ...args: any[]): CardImage;
 
     /** Action to take when the image is tapped. */
-    tap(action: ICardAction|IIsCardAction): CardImage;
+    tap(action: ICardAction | IIsCardAction): CardImage;
 
     /** Returns the JSON for the image. */
     toImage(): ICardImage;
@@ -2534,7 +2543,7 @@ export class Keyboard implements IIsAttachment {
     protected session?: Session;
 
     /** Set of actions applicable to the current card. Not all channels support buttons or cards with buttons. Some channels may choose to render the buttons using a custom keyboard. */
-    buttons(list: ICardAction[]|IIsCardAction[]): ThumbnailCard;
+    buttons(list: ICardAction[] | IIsCardAction[]): ThumbnailCard;
 
     /** Returns the JSON for the card */
     toAttachment(): IAttachment;
@@ -2559,10 +2568,10 @@ export class ThumbnailCard extends Keyboard {
     text(text: TextType, ...args: any[]): ThumbnailCard;
 
     /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download. */
-    images(list: ICardImage[]|IIsCardImage[]): ThumbnailCard;
+    images(list: ICardImage[] | IIsCardImage[]): ThumbnailCard;
 
     /** This action will be activated when user taps on the card. Not all channels support tap actions and some channels may choose to render the tap action as the titles link. */
-    tap(action: ICardAction|IIsCardAction): ThumbnailCard;
+    tap(action: ICardAction | IIsCardAction): ThumbnailCard;
 }
 
 /** Card builder class that simplifies building Video cards. */
@@ -2587,7 +2596,7 @@ export class AnimationCard extends MediaCard implements IIsAttachment {
 }
 
 /** Card builder class that simplifies building Media cards. */
-export class AudioCard extends MediaCard implements IIsAttachment{
+export class AudioCard extends MediaCard implements IIsAttachment {
 
     /**
      * Creates a new Audio.
@@ -2597,7 +2606,7 @@ export class AudioCard extends MediaCard implements IIsAttachment{
 }
 
 /** Card builder class that simplifies building Media cards. */
-export class MediaCard  implements IIsAttachment{
+export class MediaCard implements IIsAttachment {
 
     /**
      * Creates a new MediaCard.
@@ -2615,7 +2624,7 @@ export class MediaCard  implements IIsAttachment{
     text(text: TextType, ...args: any[]): this;
 
     /** Messaging supports all media formats: audio, video, images and thumbnails as well to optimize content download.*/
-    image(image: ICardImage|IIsCardImage): this;
+    image(image: ICardImage | IIsCardImage): this;
 
     /** Media source for video, audio or animations */
     media(list: ICardMediaUrl[]): this;
@@ -2637,14 +2646,14 @@ export class MediaCard  implements IIsAttachment{
 }
 
 /** Entities that can be converted to Media for cards */
-export interface IIsCardMedia{
+export interface IIsCardMedia {
 
     /** Returns the url definition for a Media entity for a card */
     toMedia(): ICardMediaUrl;
 }
 
 /** Definition of a media entity for a card */
-export class CardMedia implements IIsCardMedia{
+export class CardMedia implements IIsCardMedia {
 
     /**
      * Creates a new CardMedia, which defines a media entity for a card.
@@ -2732,13 +2741,13 @@ export class ReceiptCard implements IIsAttachment {
     title(text: TextType, ...args: any[]): ReceiptCard;
 
     /** Array of receipt items. */
-    items(list: IReceiptItem[]|IIsReceiptItem[]): ReceiptCard;
+    items(list: IReceiptItem[] | IIsReceiptItem[]): ReceiptCard;
 
     /** Array of additional facts to display to user (shipping charges and such.) Not all facts will be displayed on all channels. */
-    facts(list: IFact[]|IIsFact[]): ReceiptCard;
+    facts(list: IFact[] | IIsFact[]): ReceiptCard;
 
     /** This action will be activated when user taps on the card. Not all channels support tap actions. */
-    tap(action: ICardAction|IIsCardAction): ReceiptCard;
+    tap(action: ICardAction | IIsCardAction): ReceiptCard;
 
     /** Total amount of money paid (or should be paid.) */
     total(v: string): ReceiptCard;
@@ -2750,7 +2759,7 @@ export class ReceiptCard implements IIsAttachment {
     vat(v: string): ReceiptCard;
 
     /** Set of actions applicable to the current card. Not all channels support buttons and the number of allowed buttons varies by channel. */
-    buttons(list: ICardAction[]|IIsCardAction[]): ReceiptCard;
+    buttons(list: ICardAction[] | IIsCardAction[]): ReceiptCard;
 
     /** Returns the JSON for the card. */
     toAttachment(): IAttachment;
@@ -2775,7 +2784,7 @@ export class ReceiptItem implements IIsReceiptItem {
     text(text: TextType, ...args: any[]): ReceiptItem;
 
     /** Image to display on the card. Some channels may either send the image as a seperate message or simply include a link to the image. */
-    image(img: ICardImage|IIsCardImage): ReceiptItem;
+    image(img: ICardImage | IIsCardImage): ReceiptItem;
 
     /** Amount with currency. */
     price(v: string): ReceiptItem;
@@ -2784,7 +2793,7 @@ export class ReceiptItem implements IIsReceiptItem {
     quantity(v: string): ReceiptItem;
 
     /** This action will be activated when user taps on the Item bubble. Not all channels support tap actions. */
-    tap(action: ICardAction|IIsCardAction): ReceiptItem;
+    tap(action: ICardAction | IIsCardAction): ReceiptItem;
 
     /** Returns the JSON for the item. */
     toItem(): IReceiptItem;
@@ -3221,7 +3230,7 @@ export class Library {
      * * __dialog:__ _{IDialogWaterfallStep}_ - Single step waterfall. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog.
      * @param replace (Optional) if true, the dialog should replace the existing dialog if already registered.
      */
-    dialog(id: string, dialog?: Dialog|IDialogWaterfallStep[]|IDialogWaterfallStep, replace?:boolean): Dialog;
+    dialog(id: string, dialog?: Dialog | IDialogWaterfallStep[] | IDialogWaterfallStep, replace?: boolean): Dialog;
 
     /**
      * Searches the library and all of its dependencies for a specific dialog. Returns the dialog
@@ -3245,7 +3254,7 @@ export class Library {
      * * __lib:__ _{Library}_ - Library to register as a dependency.
      * * __lib:__ _{string}_ - Unique name of the library to lookup. All dependencies will be searched as well.
      */
-    library(lib: Library|string): Library;
+    library(lib: Library | string): Library;
 
     /**
      * Enumerates all of the libraries child libraries. The caller should take appropriate steps to
@@ -3391,7 +3400,7 @@ export class Prompt<T extends IPromptFeatures> extends Dialog {
      * in the chain.
      * @param handler Function that will be called to create an `IMessage` for the current prompt. Call `callback()` with either a message or `null` to continue processing.
      */
-    onFormatMessage(handler: (session: Session, text: TextType, speak: TextType, callback: (err: Error, message?: IMessage) => void)=> void): Prompt<any>;
+    onFormatMessage(handler: (session: Session, text: TextType, speak: TextType, callback: (err: Error, message?: IMessage) => void) => void): Prompt<any>;
 
     /**
      * Registers a handler that will be called everytime the prompt receives a reply from the user.
@@ -3428,7 +3437,7 @@ export class Prompt<T extends IPromptFeatures> extends Dialog {
      * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute when the intent is matched. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog.
      * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
      */
-    matches(intent: RegExp|string, dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+    matches(intent: RegExp | string, dialogId: string | IDialogWaterfallStep[] | IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
 
     /**
      * Invokes a handler when any of the given intents are detected in the users utterance. For `string` based
@@ -3445,7 +3454,7 @@ export class Prompt<T extends IPromptFeatures> extends Dialog {
      * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute when the intent is matched. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog.
      * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
      */
-    matchesAny(intent: RegExp[]|string[], dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+    matchesAny(intent: RegExp[] | string[], dialogId: string | IDialogWaterfallStep[] | IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
 
     /**
      * Adds a new recognizer plugin to the Prompt which will be run everytime the user replies
@@ -3619,7 +3628,7 @@ declare global {
          * * __choices:__ _{IChoice[]}_ - List of choices as an array of IChoice objects.
          * @param options (Optional) parameters to control the behaviour of the prompt.
          */
-        choice(session: Session, prompt: TextOrMessageType, choices: string|Object|string[]|IChoice[], options?: IPromptChoiceOptions): void;
+        choice(session: Session, prompt: TextOrMessageType, choices: string | Object | string[] | IChoice[], options?: IPromptChoiceOptions): void;
 
         /**
          * Prompts the user to enter a time.
@@ -3769,7 +3778,7 @@ export class IntentDialog extends Dialog {
      * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute when the intent is matched. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog.
      * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
      */
-    matches(intent: RegExp|string, dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+    matches(intent: RegExp | string, dialogId: string | IDialogWaterfallStep[] | IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
 
     /**
      * Invokes a handler when any of the given intents are detected in the users utterance.
@@ -3784,7 +3793,7 @@ export class IntentDialog extends Dialog {
      * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute when the intent is matched. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog.
      * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
      */
-    matchesAny(intent: RegExp[]|string[], dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+    matchesAny(intent: RegExp[] | string[], dialogId: string | IDialogWaterfallStep[] | IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
 
     /**
      * The default handler to invoke when there are no handlers that match the users intent.
@@ -3796,7 +3805,7 @@ export class IntentDialog extends Dialog {
      * * __dialogId:__ _{IDialogWaterfallStep}_ - Single step waterfall to execute. Calling a built-in prompt or starting a new dialog will result in the current dialog ending upon completion of the child prompt/dialog.
      * @param dialogArgs (Optional) arguments to pass the dialog that started when `dialogId` is a _{string}_.
      */
-    onDefault(dialogId: string|IDialogWaterfallStep[]|IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
+    onDefault(dialogId: string | IDialogWaterfallStep[] | IDialogWaterfallStep, dialogArgs?: any): IntentDialog;
 
     /**
      * Adds a new recognizer plugin to the intent dialog.
@@ -3852,7 +3861,7 @@ export class RegExpRecognizer extends IntentRecognizer {
      * @param intent The name of the intent to return when the expression is matched.
      * @param expressions Either an individual expression used for all utterances or a map of per/locale expressions conditionally used depending on the locale of the utterance.
      */
-    constructor(intent: string, expressions: RegExp|IRegExpMap);
+    constructor(intent: string, expressions: RegExp | IRegExpMap);
 
     /** Implements the actual recognition logic. */
     onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
@@ -3892,7 +3901,7 @@ export class LuisRecognizer extends IntentRecognizer {
      * Constructs a new instance of the recognizer.
      * @param models Either an individual LUIS model used for all utterances or a map of per/locale models conditionally used depending on the locale of the utterance.
      */
-    constructor(models: string|ILuisModelMap);
+    constructor(models: string | ILuisModelMap);
 
     /** Implements the actual recognition logic. */
     onRecognize(context: IRecognizeContext, callback: (err: Error, result: IIntentRecognizerResult) => void): void;
@@ -4036,7 +4045,7 @@ export class WaterfallDialog extends Dialog {
      * Creates a new waterfall dialog.
      * @param steps Sequence of function(s) that should be called in order.
      */
-    constructor(steps: IDialogWaterfallStep|IDialogWaterfallStep[]);
+    constructor(steps: IDialogWaterfallStep | IDialogWaterfallStep[]);
 
     /**
      * Processes messages received from the user. Called by the dialog system.
@@ -4084,14 +4093,14 @@ export class MemoryBotStorage implements IBotStorage {
 }
 
 /** Manages your bots conversations with users across multiple channels. */
-export class UniversalBot extends Library  {
+export class UniversalBot extends Library {
     /**
      * Creates a new instance of the UniversalBot.
      * @param connector (Optional) the default connector to use for requests. If there's not a more specific connector registered for a channel then this connector will be used./**
      * @param defaultDialog (Optional) default handler of received messages. This can either be an individual function or a waterfall sequence.
      * @param libraryName (Optional) library namespace for the bot.  The default value is '*'.
      */
-    constructor(connector: IConnector, defaultDialog?: IDialogWaterfallStep|IDialogWaterfallStep[], libraryName?: string);
+    constructor(connector: IConnector, defaultDialog?: IDialogWaterfallStep | IDialogWaterfallStep[], libraryName?: string);
     constructor(connector: IConnector, settings?: IUniversalBotSettings);
     constructor(connector?: IConnector, defaultDialog?: any, libraryName?: string)
 
@@ -4181,7 +4190,7 @@ export class UniversalBot extends Library  {
      * @param events Event or (array of events) received.
      * @param done (Optional) function to invoke once the operation is completed.
      */
-    receive(events: IEvent|IEvent[], done?: (err: Error) => void): void;
+    receive(events: IEvent | IEvent[], done?: (err: Error) => void): void;
 
     /**
      * Proactively starts a new dialog with the user. Any current conversation between the bot and user will be replaced with a new dialog stack.
@@ -4199,7 +4208,7 @@ export class UniversalBot extends Library  {
      * @param done.err Any error that occured during the send.
      * @param done.addresses An array of address objects returned for each individual message within the batch. These address objects contain the ID of the posted messages so can be used to update or delete a message in the future.
      */
-    send(messages: IIsMessage|IMessage|IMessage[], done?: (err: Error, addresses?: IAddress[]) => void): void;
+    send(messages: IIsMessage | IMessage | IMessage[], done?: (err: Error, addresses?: IAddress[]) => void): void;
 
     /**
      * Returns information about when the last turn between the user and a bot occured. This can be called
@@ -4263,8 +4272,32 @@ export class ChatConnector implements IConnector, IBotStorage {
      * @param continuationToken The continuation token for the next page of results to fetch.  This should be `undefined` for the first page requested.
      * @param done Callback to recieve the next page of results.
      */
-    getConversations(serviceUrl: string, continuationToken: string|undefined, done: (err: Error, result?: IConversationsResult) => void): void;
-    
+    getConversations(serviceUrl: string, continuationToken: string | undefined, done: (err: Error, result?: IConversationsResult) => void): void;
+
+    /**
+     * Enumerate the members of a conversation one page at a time.
+     *
+     * This REST API takes a ConversationId. Optionally a pageSize and/or
+     * continuationToken can be provided. It returns a PagedMembersResult, which
+     * contains an array of ChannelAccounts representing the members of the conversation and a
+     * continuation token that can be used to get more values.
+     *
+     * One page of ChannelAccounts records are returned with each call. The number 
+     * of records in a page may vary between channels and calls. The pageSize
+     * parameter can be used as a suggestion. If there are no additional results the response will not
+     * contain a continuation token. If there are no members in the conversation
+     * the Members will be empty or not present in the response.
+     * 
+     * A response to a request that has a continuation token from a prior request
+     * may rarely return members from a previous request.
+     * @param serviceUrl The service url for the channel being queried. This can be found in the `address.serviceUrl` for a message sent to the bot.
+     * @param conversationId The conversationId
+     * @param pageSize The number of results to get (default is 20)
+     * @param continuationToken The continuation token for the next page of results to fetch.  This should be `undefined` for the first page requested.
+     * @param done Callback to recieve the next page of results.
+     */
+    getConversationPagedMembers(serviceUrl: string, conversationId: string, pageSize: number | undefined, continuationToken: string | undefined, done: (err: Error, result?: IPagedMembersResult) => void): void;
+
     /**
      * Deletes the data for an individual user within a conversation.
      * @param serviceUrl The service url for the channel being updated. This can be found in the `address.serviceUrl` for a message sent to the bot.
@@ -4273,7 +4306,7 @@ export class ChatConnector implements IConnector, IBotStorage {
      * @param done Callback invoked upon completion of the delete operation.
      */
     deleteConversationMember(serviceUrl: string, conversationId: string, memberId: string, done: (err: Error) => void): void;
-    
+
     /**
      * Exports bot state data persisted for a given channel.
      * @param serviceUrl The service url for the channel being queried. This can be found in the `address.serviceUrl` for a message sent to the bot.
@@ -4281,7 +4314,7 @@ export class ChatConnector implements IConnector, IBotStorage {
      * @param continuationToken The continuation token for the next page of results to fetch.  This should be `undefined` for the first page requested.
      * @param done Callback to recieve the next page of results.
      */
-    exportBotStateData(serviceUrl: string, channelId: string, continuationToken: string|undefined, done: (err: Error, results: IBotStateDataResult) => void): void;
+    exportBotStateData(serviceUrl: string, channelId: string, continuationToken: string | undefined, done: (err: Error, results: IBotStateDataResult) => void): void;
 
     /**
      * Attempts to retrieve the token for a user that's in a signin flow.
@@ -4290,7 +4323,7 @@ export class ChatConnector implements IConnector, IBotStorage {
      * @param magicCode (Optional) Optional user entered code to validate.
      * @param done Callback to retrieve the users token.
      */
-    getUserToken(address: IChatConnectorAddress, connectionName: string, magicCode: string|undefined, done: (err: Error, results: ITokenResponse) => void): void;
+    getUserToken(address: IChatConnectorAddress, connectionName: string, magicCode: string | undefined, done: (err: Error, results: ITokenResponse) => void): void;
 
     /**
      * Signs the user out with the token server.
@@ -4299,7 +4332,7 @@ export class ChatConnector implements IConnector, IBotStorage {
      * @param done Callback to retrieve the users token.
      */
     signOutUser(address: IChatConnectorAddress, connectionName: string, done: (err: Error, results: ITokenResponse) => void): void;
-    
+
     /**
      * Gets a signin link from the token server that can be sent as part of a SigninCard. 
      * @param address Address of the user and channel to get signin link for.
