@@ -23,7 +23,7 @@ This schema is used within the Bot Framework protocol and is implemented by Micr
 13. [Suggestion activity](#Suggestion-activity)
 13. [Trace activity](#Trace-activity)
 14. [Typing activity](#Typing-activity)
-15. [Handoff activity](#Handoff-activity)
+15. [Handoff activity](#handoff-activity)
 16. [Complex types](#Complex-types)
 17. [References](#References)
 18. [Appendix I - Changes](#Appendix-I---Changes)
@@ -414,7 +414,7 @@ A missing `listenFor` field indicates default priming behavior should be used. T
 
 The `semanticAction` field contains an optional programmatic action accompanying the user request. The semantic action field is populated by the channel based on some understanding of what the user is trying to accomplish; this understanding may be achieved with natural language processing, additional user interface elements tied specifically to these actions, or contextually via other means. The meaning and structure of the semantic action is agreed ahead of time between the channel and the bot.
 
-The value of the `semanticAction` field is a complex object of the [semantic action](#Semantic-action-type) type.
+The value of the `semanticAction` field is a complex object of the [semantic action](#semantic-action-type) type.
 
 `A3130`: Channels MAY populate the `semanticAction` field. Other senders SHOULD NOT populate this field.
 
@@ -430,11 +430,11 @@ Semantic actions are populated only on the first message activity representing t
 
 `A3134`: Senders MUST NOT populate the `semanticAction` beyond the first message activity if those activities do not indicate the user triggered the corresponding semantic action again.
 
-Semantic actions are sometimes used to indicate a change in which participant controls the conversation. For example, a channel may use an action at the beginning of an exchange with a skill. When so defined, skills can relinquish control through the [handoff activity](#Handoff-activity).
+Semantic actions are sometimes used to indicate a change in which participant controls the conversation. For example, a channel may use an action at the beginning of an exchange with a skill. When so defined, skills can relinquish control through the [handoff activity](#handoff-activity).
 
-`A3135`: Channels MAY define the use of [handoff activity](#Handoff-activity) in conjunction with semantic actions.
+`A3135`: Channels MAY define the use of [handoff activity](#handoff-activity) in conjunction with semantic actions.
 
-`A3136`: Bots MAY use semantic action and [handoff activity](#Handoff-activity) internally to coordinate conversational focus between components of the bot.
+`A3136`: Bots MAY use semantic action and [handoff activity](#handoff-activity) internally to coordinate conversational focus between components of the bot.
 
 ## Contact relation update activity
 
@@ -1153,8 +1153,8 @@ The `entities` field contains entities associated with this action. The value of
 
 ## 2018-07-17 - dandris@microsoft.com
 
-* Added [`semanticAction`](#Semantic-action)
-* Added [handoff activity](#Handoff-activity)
+* Added [`semanticAction`](#semantic-action)
+* Added [handoff activity](#handoff-activity)
 
 ## 2018-07-05 - dandris@microsoft.com
 
