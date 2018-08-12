@@ -1,3 +1,13 @@
+***
+
+**NOTE**
+
+These samples are now **deprecated** and will no longer be maintained.
+
+If you are looking for the most updated Bot Builder SDK V3 samples for both C# and JavaScript (node), 
+go to [BotBuilder-Samples](https://github.com/Microsoft/botbuilder-samples)
+
+***
 
 ## Overview
 Bot Builder for Node.js examples are organized into groups and designed to illustrate the techniques needed to build great bots. To use the samples clone our GitHub repository using Git.
