@@ -71,10 +71,12 @@ The manifest format is a flat list of name/value pairs, some of which are primit
 Most fields within the manifest are optional. Developers may wish to use all features of the manifest format to describe their bot, and others will choose to use parts of the format. The format does not put guidelines on the completeness of a manifest, and a manifest that contains only a small number of fields may still be useful for readers.
 
 Even though the manifest is flat, its fields are organized into three categories:
-1. What the bot is and where it can be contacted
-2. What the bot can do
-3. Where the bot is published
-The ordering of fields 
+1. What the bot is and where it can be contacted ([identity fields](#Identity-fields)])
+2. What the bot can do ([action fields](#Action-fields))
+3. Where the bot is published ([publishing fields](#Publishing-fields))
+The ordering of fields within this document is intended to place similar concepts in the same place in the document.
+
+The document is intended to be extensible except where specifically noted. To preserve interoperability, writers are encouraged to retain the meaning of existing fields so that a generic reader can make sense of their contents even when extensions are added.
 
 ## Basic manifest structure
 
@@ -204,7 +206,7 @@ The `definition` field contains the definition for an action. In many cases, the
 
 ### Action definition
 
-The `actionDefinition` type declares the shape and meaning of an action. Actions may be triggered by utterance, direct binding (via a button), physical gesture, regex, and many other schemes. Some of these triggering techniques are expressed directly within the cation definition: for example, the [`utterances`](#Utterances) field contains examples that could be used to train an NLP dispatching system. Some triggering systems are outside the scope of this specification, but may be used by readers and writers of the Action.
+The `actionDefinition` type declares the shape and meaning of an action. Actions may be triggered by utterance, direct binding (via a button), physical gesture, regex, and many other schemes. Some of these triggering techniques are expressed directly within the action definition: for example, the [`utterances`](#Utterances) field contains examples that could be used to train an NLP dispatching system. Some triggering systems are outside the scope of this specification, but may be used by readers and writers of the Action.
 
 #### ID
 
@@ -292,7 +294,7 @@ The `endPosition` field identifies the position within the [`text`](#Text) field
 
 `M5430`: Writers MUST include `name`, `startPosition`, and `endPosition` in all `entityReference` objects.
 
-`M5431`: Writers MUST only use positive integer numbers for the value of `startPosition` and `endPosition`.
+`M5431`: Writers MUST only use non-negative integer numbers for the value of `startPosition` and `endPosition`.
 
 `M5432`: Writers MUST include `startPosition` and `endPosition` values between 0 and the length of the [`text`](#Text) field.
 
@@ -306,9 +308,13 @@ An authentication connection represents a sign-in service, and contains paramete
 
 #### Authentication connection ID
 
-The `id` field contains the unique identifier for this setting. The value of the `id` field is of type string.
+The `id` field contains the unique internal identifier for this setting. The value of the `id` field is of type string.
 
 `M5510`: Two `id` values are equivalent only if they are ordinally identical.
+
+#### Authentication connection name
+
+The `name` field contains a name used to identify the authentication connection when invoked 
 
 #### Authentication connection service provider ID
 
@@ -343,6 +349,11 @@ The `properties` field contains additional properties to be supplied to the serv
 7. [RFC 2397](https://tools.ietf.org/html/rfc2397)
 
 # Appendix I - Changes
+
+## 2018-08-13 - dandris@microsoft.com
+
+* Add omitted text in overview descriptions
+* Revise `M5431` to allow zero
 
 ## 2018-07-31 - dandris@microsoft.com
 
