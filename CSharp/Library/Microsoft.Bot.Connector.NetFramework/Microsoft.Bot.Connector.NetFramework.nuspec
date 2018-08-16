@@ -72,7 +72,6 @@
     <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.pdb" target="lib\netstandard1.4" />
     <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.dll" target="lib\netcoreapp1.1" />
     <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.pdb" target="lib\netcoreapp1.1" />
-
     <file src="**\*.cs" exclude="**\obj\**\*.cs" target="src" />
   </files>
 </package>
