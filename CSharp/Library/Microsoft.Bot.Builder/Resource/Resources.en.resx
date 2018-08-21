@@ -70,6 +70,9 @@
     <value>{0}. {1}</value>
     <comment>0-number, 1-description</comment>
   </data>
+  <data name="DefaultChoiceLastSeparator" xml:space="preserve">
+    <value>, or </value>
+  </data>
   <data name="DefaultContentTypesSeparator" xml:space="preserve">
     <value>or</value>
   </data>
