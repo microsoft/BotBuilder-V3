@@ -98,10 +98,7 @@ namespace Microsoft.Bot.Sample.FormFlowAttachmentsBot
             {
                 // Handle knowing tha the user is typing
             }
-            else if (message.Type == ActivityTypes.Ping)
-            {
-            }
-
+            
             return null;
         }
     }

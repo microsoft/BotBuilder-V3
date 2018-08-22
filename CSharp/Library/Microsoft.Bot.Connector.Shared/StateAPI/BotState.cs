@@ -47,10 +47,10 @@ namespace Microsoft.Bot.Connector
         public StateClient Client { get; private set; }
 
         /// <summary>
-        /// GetUserData
+        /// Get user data. This API is deprecated, see https://aka.ms/AA1vm7i
         /// </summary>
         /// <remarks>
-        /// Get a bots data for the user across all conversations
+        /// Get the bot's data for the user across all conversations
         /// </remarks>
         /// <param name='channelId'>
         /// channelId
@@ -79,7 +79,7 @@ namespace Microsoft.Bot.Connector
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        [System.Obsolete()]
+        [System.Obsolete("This operation is deprecated. Please do not use it any longer.")]
         public async Task<HttpOperationResponse<BotData>> GetUserDataWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (channelId == null)
@@ -208,7 +208,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// SetUserData
+        /// Set user data. This API is deprecated, see https://aka.ms/AA1vm7i
         /// </summary>
         /// <remarks>
         /// Update the bot's data for a user
@@ -243,7 +243,7 @@ namespace Microsoft.Bot.Connector
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        [System.Obsolete()]
+        [System.Obsolete("This operation is deprecated. Please do not use it any longer.")]
         public async Task<HttpOperationResponse<BotData>> SetUserDataWithHttpMessagesAsync(string channelId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (channelId == null)
@@ -383,7 +383,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// DeleteStateForUser
+        /// Delete state for user. This API is deprecated, see https://aka.ms/AA1vm7i
         /// </summary>
         /// <remarks>
         /// Delete all data for a user in a channel (UserData and
@@ -416,8 +416,8 @@ namespace Microsoft.Bot.Connector
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        [System.Obsolete()]
-        public async Task<HttpOperationResponse<IList<string>>> DeleteStateForUserWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        [System.Obsolete("This operation is deprecated. Please do not use it any longer.")]
+        public async Task<HttpOperationResponse<object>> DeleteStateForUserWithHttpMessagesAsync(string channelId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (channelId == null)
             {
@@ -516,7 +516,7 @@ namespace Microsoft.Bot.Connector
                 throw ex;
             }
             // Create Result
-            var _result = new HttpOperationResponse<IList<string>>();
+            var _result = new HttpOperationResponse<object>();
             _result.Request = _httpRequest;
             _result.Response = _httpResponse;
             // Deserialize Response
@@ -525,7 +525,7 @@ namespace Microsoft.Bot.Connector
                 _responseContent = await _httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
                 try
                 {
-                    _result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<IList<string>>(_responseContent, Client.DeserializationSettings);
+                    _result.Body = Rest.Serialization.SafeJsonConvert.DeserializeObject<object>(_responseContent, Client.DeserializationSettings);
                 }
                 catch (JsonException ex)
                 {
@@ -545,10 +545,10 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// GetConversationData
+        /// Get conversation data. This API is deprecated, see https://aka.ms/AA1vm7i
         /// </summary>
         /// <remarks>
-        /// get the bots data for all users in a conversation
+        /// Get the bot's data for all users in a conversation
         /// </remarks>
         /// <param name='channelId'>
         /// the channelId
@@ -577,7 +577,7 @@ namespace Microsoft.Bot.Connector
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        [System.Obsolete()]
+        [System.Obsolete("This operation is deprecated. Please do not use it any longer.")]
         public async Task<HttpOperationResponse<BotData>> GetConversationDataWithHttpMessagesAsync(string channelId, string conversationId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (channelId == null)
@@ -706,7 +706,7 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// SetConversationData
+        /// Set conversation data. This API is deprecated, see https://aka.ms/AA1vm7i
         /// </summary>
         /// <remarks>
         /// Update the bot's data for all users in a conversation
@@ -741,7 +741,7 @@ namespace Microsoft.Bot.Connector
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        [System.Obsolete()]
+        [System.Obsolete("This operation is deprecated. Please do not use it any longer.")]
         public async Task<HttpOperationResponse<BotData>> SetConversationDataWithHttpMessagesAsync(string channelId, string conversationId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (channelId == null)
@@ -881,10 +881,11 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// GetPrivateConversationData
+        /// Get private conversation data. This API is deprecated, see
+        /// https://aka.ms/AA1vm7i
         /// </summary>
         /// <remarks>
-        /// get bot's data for a single user in a conversation
+        /// Get the bot's data for a single user in a conversation
         /// </remarks>
         /// <param name='channelId'>
         /// channelId
@@ -916,7 +917,7 @@ namespace Microsoft.Bot.Connector
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        [System.Obsolete()]
+        [System.Obsolete("This operation is deprecated. Please do not use it any longer.")]
         public async Task<HttpOperationResponse<BotData>> GetPrivateConversationDataWithHttpMessagesAsync(string channelId, string conversationId, string userId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (channelId == null)
@@ -1051,7 +1052,8 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// SetPrivateConversationData
+        /// Set private conversation data. This API is deprecated, see
+        /// https://aka.ms/AA1vm7i
         /// </summary>
         /// <remarks>
         /// Update the bot's data for a single user in a conversation
@@ -1089,7 +1091,7 @@ namespace Microsoft.Bot.Connector
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        [System.Obsolete()]
+        [System.Obsolete("This operation is deprecated. Please do not use it any longer.")]
         public async Task<HttpOperationResponse<BotData>> SetPrivateConversationDataWithHttpMessagesAsync(string channelId, string conversationId, string userId, BotData botData, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (channelId == null)
@@ -1235,17 +1237,14 @@ namespace Microsoft.Bot.Connector
         }
 
         /// <summary>
-        /// ExportBotStateData
+        /// Export bot state data. This API is deprecated, see https://aka.ms/AA1vm7i
         /// </summary>
         /// <remarks>
-        /// get all the state data for a bot in this channel. This returns a list of
+        /// Get all the state data for a bot in this channel. This returns a list of
         /// BotStateData and (possibly) a continuation token
         /// </remarks>
         /// <param name='channelId'>
         /// the channelId
-        /// </param>
-        /// <param name='continuationToken'>
-        /// the skip token returned previously, or null
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -1268,7 +1267,8 @@ namespace Microsoft.Bot.Connector
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<BotStateDataResult>> ExportBotStateDataWithHttpMessagesAsync(string channelId, string continuationToken = default(string), Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        [System.Obsolete("This operation is deprecated. Please do not use it any longer.")]
+        public async Task<HttpOperationResponse<BotStateDataResult>> ExportBotStateDataWithHttpMessagesAsync(string channelId, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (channelId == null)
             {
@@ -1282,7 +1282,6 @@ namespace Microsoft.Bot.Connector
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("channelId", channelId);
-                tracingParameters.Add("continuationToken", continuationToken);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "ExportBotStateData", tracingParameters);
             }
@@ -1290,15 +1289,6 @@ namespace Microsoft.Bot.Connector
             var _baseUrl = Client.BaseUri.AbsoluteUri;
             var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "v3/botstate/{channelId}/exportBotStateData").ToString();
             _url = _url.Replace("{channelId}", System.Uri.EscapeDataString(channelId));
-            List<string> _queryParameters = new List<string>();
-            if (continuationToken != null)
-            {
-                _queryParameters.Add(string.Format("continuationToken={0}", System.Uri.EscapeDataString(continuationToken)));
-            }
-            if (_queryParameters.Count > 0)
-            {
-                _url += "?" + string.Join("&", _queryParameters);
-            }
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;

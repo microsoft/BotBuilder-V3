@@ -51,7 +51,7 @@
             </remarks>
             <summary>
             An Activity is the basic communication type for the Bot Framework 3.0
-            protocol
+            protocol.
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.Activity.ContentType">
@@ -93,11 +93,6 @@
             Create an instance of the Activity class with ITypingActivity masking
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.CreatePingActivity">
-            <summary>
-            Create an instance of the Activity class with IActivity masking
-            </summary>
-        </member>
         <member name="M:Microsoft.Bot.Connector.Activity.CreateEndOfConversationActivity">
             <summary>
             Create an instance of the Activity class with IEndOfConversationActivity masking
@@ -111,6 +106,11 @@
         <member name="M:Microsoft.Bot.Connector.Activity.CreateInvokeActivity">
             <summary>
             Create an instance of the Activity class with IInvokeActivity masking
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.Activity.CreateHandoffActivity">
+            <summary>
+            Create an instance of the Activity class with IActivity masking
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Activity.CreateTraceActivityReply(Microsoft.Bot.Connector.Activity,System.String,System.String,System.Object,System.String)">
@@ -240,138 +240,160 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTimeOffset},System.Nullable{System.DateTimeOffset},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference,System.String,System.Nullable{System.DateTimeOffset},System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.TextHighlight})">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTimeOffset},System.Nullable{System.DateTimeOffset},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference,System.String,System.Nullable{System.DateTimeOffset},System.String,System.String,System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{Microsoft.Bot.Connector.TextHighlight},Microsoft.Bot.Connector.SemanticAction)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
-            <param name="type">The type of the activity. Possible values
+            <param name="type">Contains the activity type. Possible values
             include: 'message', 'contactRelationUpdate', 'conversationUpdate',
-            'typing', 'ping', 'endOfConversation', 'event', 'invoke',
-            'deleteUserData', 'messageUpdate', 'messageDelete',
-            'installationUpdate', 'messageReaction', 'suggestion',
-            'trace'</param>
-            <param name="id">ID of this activity</param>
-            <param name="timestamp">UTC Time when message was sent (set by
-            service)</param>
-            <param name="localTimestamp">Local time when message was sent (set
-            by client, Ex: 2016-09-23T13:07:49.4714686-07:00)</param>
-            <param name="serviceUrl">Service endpoint where operations
-            concerning the activity may be performed</param>
-            <param name="channelId">ID of the channel where the activity was
-            sent</param>
-            <param name="from">Sender address</param>
-            <param name="conversation">Conversation</param>
-            <param name="recipient">(Outbound to bot only) Bot's address that
-            received the message</param>
+            'typing', 'endOfConversation', 'event', 'invoke', 'deleteUserData',
+            'messageUpdate', 'messageDelete', 'installationUpdate',
+            'messageReaction', 'suggestion', 'trace', 'handoff'</param>
+            <param name="id">Contains an ID that uniquely identifies the
+            activity on the channel.</param>
+            <param name="timestamp">Contains the date and time that the message
+            was sent, in UTC, expressed in ISO-8601 format.</param>
+            <param name="localTimestamp">Contains the date and time that the
+            message was sent, in local time, expressed in ISO-8601 format.
+            For example, 2016-09-23T13:07:49.4714686-07:00.</param>
+            <param name="serviceUrl">Contains the URL that specifies the
+            channel's service endpoint. Set by the channel.</param>
+            <param name="channelId">Contains an ID that uniquely identifies the
+            channel. Set by the channel.</param>
+            <param name="from">Identifies the sender of the
+            message.</param>
+            <param name="conversation">Identifies the conversation to which the
+            activity belongs.</param>
+            <param name="recipient">Identifies the recipient of the
+            message.</param>
             <param name="textFormat">Format of text fields Default:markdown.
             Possible values include: 'markdown', 'plain', 'xml'</param>
-            <param name="attachmentLayout">Hint for how to deal with multiple
-            attachments. Default:list. Possible values include: 'list',
+            <param name="attachmentLayout">The layout hint for multiple
+            attachments. Default: list. Possible values include: 'list',
             'carousel'</param>
-            <param name="membersAdded">Members added to the
-            conversation</param>
-            <param name="membersRemoved">Members removed from the
-            conversation</param>
-            <param name="reactionsAdded">Reactions added to the
-            activity</param>
-            <param name="reactionsRemoved">Reactions removed from the
-            activity</param>
-            <param name="topicName">The conversation's updated topic
-            name</param>
-            <param name="historyDisclosed">True if prior history of the channel
-            is disclosed</param>
-            <param name="locale">The language code of the Text field</param>
-            <param name="text">Content for the message</param>
-            <param name="speak">SSML Speak for TTS audio response</param>
-            <param name="inputHint">Input hint to the channel on what the bot
-            is expecting. Possible values include: 'acceptingInput',
+            <param name="membersAdded">The collection of members added to the
+            conversation.</param>
+            <param name="membersRemoved">The collection of members removed from
+            the conversation.</param>
+            <param name="reactionsAdded">The collection of reactions added to
+            the conversation.</param>
+            <param name="reactionsRemoved">The collection of reactions removed
+            from the conversation.</param>
+            <param name="topicName">The updated topic name of the
+            conversation.</param>
+            <param name="historyDisclosed">Indicates whether the prior history
+            of the channel is disclosed.</param>
+            <param name="locale">A locale name for the contents of the text
+            field.
+            The locale name is a combination of an ISO 639 two- or three-letter
+            culture code associated with a language
+            and an ISO 3166 two-letter subculture code associated with a
+            country or region.
+            The locale name can also correspond to a valid BCP-47 language
+            tag.</param>
+            <param name="text">The text content of the message.</param>
+            <param name="speak">The text to speak.</param>
+            <param name="inputHint">Indicates whether your bot is accepting,
+            expecting, or ignoring user input after the message is delivered to
+            the client. Possible values include: 'acceptingInput',
             'ignoringInput', 'expectingInput'</param>
-            <param name="summary">Text to display if the channel cannot render
-            cards</param>
-            <param name="suggestedActions">SuggestedActions are used to provide
-            keyboard/quickreply like behavior in many clients</param>
+            <param name="summary">The text to display if the channel cannot
+            render cards.</param>
+            <param name="suggestedActions">The suggested actions for the
+            activity.</param>
             <param name="attachments">Attachments</param>
-            <param name="entities">Collection of Entity objects, each of which
-            contains metadata about this activity. Each Entity object is
-            typed.</param>
-            <param name="channelData">Channel-specific payload</param>
-            <param name="action">ContactAdded/Removed action</param>
-            <param name="replyToId">The original ID this message is a response
-            to</param>
-            <param name="label">Descriptive label</param>
-            <param name="valueType">Unique string which identifies the shape of
-            the value object</param>
-            <param name="value">Open-ended value</param>
-            <param name="name">Name of the operation to invoke or the name of
-            the event</param>
-            <param name="relatesTo">Reference to another conversation or
-            activity</param>
-            <param name="code">Code indicating why the conversation has ended.
-            Possible values include: 'unknown', 'completedSuccessfully',
-            'userCancelled', 'botTimedOut', 'botIssuedInvalidMessage',
-            'channelFailed'</param>
-            <param name="expiration">DateTime to expire the activity as ISO
-            8601 encoded datetime</param>
-            <param name="importance">Importance of this activity
-            {Low|Normal|High}, null value indicates Normal importance see
-            ActivityImportance)</param>
-            <param name="deliveryMode">Hint to describe how this activity
-            should be delivered.
-            Currently: null or "Default" = default delivery
-            "Notification" = notification semantics</param>
-            <param name="textHighlights">TextHighlight in the activity
-            represented in the ReplyToId property</param>
+            <param name="entities">Represents the entities that were mentioned
+            in the message.</param>
+            <param name="channelData">Contains channel-specific
+            content.</param>
+            <param name="action">Indicates whether the recipient of a
+            contactRelationUpdate was added or removed from the sender's
+            contact list.</param>
+            <param name="replyToId">Contains the ID of the message to which
+            this message is a reply.</param>
+            <param name="label">A descriptive label for the activity.</param>
+            <param name="valueType">The type of the activity's value
+            object.</param>
+            <param name="value">A value that is associated with the
+            activity.</param>
+            <param name="name">The name of the operation associated with an
+            invoke or event activity.</param>
+            <param name="relatesTo">A reference to another conversation or
+            activity.</param>
+            <param name="code">The a code for endOfConversation activities that
+            indicates why the conversation ended. Possible values include:
+            'unknown', 'completedSuccessfully', 'userCancelled', 'botTimedOut',
+            'botIssuedInvalidMessage', 'channelFailed'</param>
+            <param name="expiration">The time at which the activity should be
+            considered to be "expired" and should not be presented to the
+            recipient.</param>
+            <param name="importance">The importance of the activity. Possible
+            values include: 'low', 'normal', 'high'</param>
+            <param name="deliveryMode">A delivery hint to  signal to the
+            recipient alternate delivery paths for the activity.
+            The default delivery mode is "default". Possible values include:
+            'normal', 'notification'</param>
+            <param name="listenFor">List of phrases and references that speech
+            and language priming systems should listen for</param>
+            <param name="textHighlights">The collection of text fragments to
+            highlight when the activity contains a ReplyToId value.</param>
+            <param name="semanticAction">An optional programmatic action
+            accompanying this request</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Type">
             <summary>
-            Gets or sets the type of the activity. Possible values include:
+            Gets or sets contains the activity type. Possible values include:
             'message', 'contactRelationUpdate', 'conversationUpdate', 'typing',
-            'ping', 'endOfConversation', 'event', 'invoke', 'deleteUserData',
+            'endOfConversation', 'event', 'invoke', 'deleteUserData',
             'messageUpdate', 'messageDelete', 'installationUpdate',
-            'messageReaction', 'suggestion', 'trace'
+            'messageReaction', 'suggestion', 'trace', 'handoff'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Id">
             <summary>
-            Gets or sets ID of this activity
+            Gets or sets contains an ID that uniquely identifies the activity
+            on the channel.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Timestamp">
             <summary>
-            Gets or sets UTC Time when message was sent (set by service)
+            Gets or sets contains the date and time that the message was sent,
+            in UTC, expressed in ISO-8601 format.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.LocalTimestamp">
             <summary>
-            Gets or sets local time when message was sent (set by client, Ex:
-            2016-09-23T13:07:49.4714686-07:00)
+            Gets or sets contains the date and time that the message was sent,
+            in local time, expressed in ISO-8601 format.
+            For example, 2016-09-23T13:07:49.4714686-07:00.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ServiceUrl">
             <summary>
-            Gets or sets service endpoint where operations concerning the
-            activity may be performed
+            Gets or sets contains the URL that specifies the channel's service
+            endpoint. Set by the channel.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ChannelId">
             <summary>
-            Gets or sets ID of the channel where the activity was sent
+            Gets or sets contains an ID that uniquely identifies the channel.
+            Set by the channel.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.From">
             <summary>
-            Gets or sets sender address
+            Gets or sets identifies the sender of the message.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Conversation">
             <summary>
-            Gets or sets conversation
+            Gets or sets identifies the conversation to which the activity
+            belongs.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Recipient">
             <summary>
-            Gets or sets (Outbound to bot only) Bot's address that received the
-            message
+            Gets or sets identifies the recipient of the message.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.TextFormat">
@@ -382,71 +404,80 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.AttachmentLayout">
             <summary>
-            Gets or sets hint for how to deal with multiple attachments.
-            Default:list. Possible values include: 'list', 'carousel'
+            Gets or sets the layout hint for multiple attachments. Default:
+            list. Possible values include: 'list', 'carousel'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.MembersAdded">
             <summary>
-            Gets or sets members added to the conversation
+            Gets or sets the collection of members added to the conversation.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.MembersRemoved">
             <summary>
-            Gets or sets members removed from the conversation
+            Gets or sets the collection of members removed from the
+            conversation.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ReactionsAdded">
             <summary>
-            Gets or sets reactions added to the activity
+            Gets or sets the collection of reactions added to the conversation.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ReactionsRemoved">
             <summary>
-            Gets or sets reactions removed from the activity
+            Gets or sets the collection of reactions removed from the
+            conversation.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.TopicName">
             <summary>
-            Gets or sets the conversation's updated topic name
+            Gets or sets the updated topic name of the conversation.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.HistoryDisclosed">
             <summary>
-            Gets or sets true if prior history of the channel is disclosed
+            Gets or sets indicates whether the prior history of the channel is
+            disclosed.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Locale">
             <summary>
-            Gets or sets the language code of the Text field
+            Gets or sets a locale name for the contents of the text field.
+            The locale name is a combination of an ISO 639 two- or three-letter
+            culture code associated with a language
+            and an ISO 3166 two-letter subculture code associated with a
+            country or region.
+            The locale name can also correspond to a valid BCP-47 language tag.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Text">
             <summary>
-            Gets or sets content for the message
+            Gets or sets the text content of the message.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Speak">
             <summary>
-            Gets or sets SSML Speak for TTS audio response
+            Gets or sets the text to speak.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.InputHint">
             <summary>
-            Gets or sets input hint to the channel on what the bot is
-            expecting. Possible values include: 'acceptingInput',
+            Gets or sets indicates whether your bot is accepting,
+            expecting, or ignoring user input after the message is delivered to
+            the client. Possible values include: 'acceptingInput',
             'ignoringInput', 'expectingInput'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Summary">
             <summary>
-            Gets or sets text to display if the channel cannot render cards
+            Gets or sets the text to display if the channel cannot render
+            cards.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.SuggestedActions">
             <summary>
-            Gets or sets suggestedActions are used to provide
-            keyboard/quickreply like behavior in many clients
+            Gets or sets the suggested actions for the activity.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Attachments">
@@ -456,85 +487,98 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Entities">
             <summary>
-            Gets or sets collection of Entity objects, each of which contains
-            metadata about this activity. Each Entity object is typed.
+            Gets or sets represents the entities that were mentioned in the
+            message.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ChannelData">
             <summary>
-            Gets or sets channel-specific payload
+            Gets or sets contains channel-specific content.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Action">
             <summary>
-            Gets or sets contactAdded/Removed action
+            Gets or sets indicates whether the recipient of a
+            contactRelationUpdate was added or removed from the sender's
+            contact list.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ReplyToId">
             <summary>
-            Gets or sets the original ID this message is a response to
+            Gets or sets contains the ID of the message to which this message
+            is a reply.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Label">
             <summary>
-            Gets or sets descriptive label
+            Gets or sets a descriptive label for the activity.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ValueType">
             <summary>
-            Gets or sets unique string which identifies the shape of the value
-            object
+            Gets or sets the type of the activity's value object.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Value">
             <summary>
-            Gets or sets open-ended value
+            Gets or sets a value that is associated with the activity.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Name">
             <summary>
-            Gets or sets name of the operation to invoke or the name of the
-            event
+            Gets or sets the name of the operation associated with an invoke or
+            event activity.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.RelatesTo">
             <summary>
-            Gets or sets reference to another conversation or activity
+            Gets or sets a reference to another conversation or activity.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Code">
             <summary>
-            Gets or sets code indicating why the conversation has ended.
-            Possible values include: 'unknown', 'completedSuccessfully',
-            'userCancelled', 'botTimedOut', 'botIssuedInvalidMessage',
-            'channelFailed'
+            Gets or sets the a code for endOfConversation activities that
+            indicates why the conversation ended. Possible values include:
+            'unknown', 'completedSuccessfully', 'userCancelled', 'botTimedOut',
+            'botIssuedInvalidMessage', 'channelFailed'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Expiration">
             <summary>
-            Gets or sets dateTime to expire the activity as ISO 8601 encoded
-            datetime
+            Gets or sets the time at which the activity should be considered to
+            be "expired" and should not be presented to the recipient.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.Importance">
             <summary>
-            Gets or sets importance of this activity
-            {Low|Normal|High}, null value indicates Normal importance see
-            ActivityImportance)
+            Gets or sets the importance of the activity. Possible values
+            include: 'low', 'normal', 'high'
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.DeliveryMode">
             <summary>
-            Gets or sets hint to describe how this activity should be
-            delivered.
-            Currently: null or "Default" = default delivery
-            "Notification" = notification semantics
+            Gets or sets a delivery hint to  signal to the recipient alternate
+            delivery paths for the activity.
+            The default delivery mode is "default". Possible values include:
+            'normal', 'notification'
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.ListenFor">
+            <summary>
+            Gets or sets list of phrases and references that speech and
+            language priming systems should listen for
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.TextHighlights">
             <summary>
-            Gets or sets textHighlight in the activity represented in the
-            ReplyToId property
+            Gets or sets the collection of text fragments to highlight when the
+            activity contains a ReplyToId value.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.SemanticAction">
+            <summary>
+            Gets or sets an optional programmatic action accompanying this
+            request
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ActivityExtensions.GetStateClient(Microsoft.Bot.Connector.IActivity,Microsoft.Bot.Connector.MicrosoftAppCredentials,System.String,System.Net.Http.DelegatingHandler[])">
@@ -1508,8 +1552,7 @@
              POST to this method with a
              * Bot being the bot creating the conversation
              * IsGroup set to true if this is not a direct message (default is false)
-             * Members array contining the members you want to have be in the
-             conversation.
+             * Array containing the members to include in the conversation
             
              The return value is a ResourceResponse which contains a conversation id
              which is suitable for use
@@ -1560,7 +1603,7 @@
              This method allows you to send an activity to the end of a conversation.
             
              This is slightly different from ReplyToActivity().
-             * SendToConverstion(conversationId) - will append the activity to the end
+             * SendToConversation(conversationId) - will append the activity to the end
              of the conversation according to the timestamp or semantics of the channel.
              * ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply
              to another activity, if the channel supports it. If the channel does not
@@ -1651,7 +1694,7 @@
              This method allows you to reply to an activity.
             
              This is slightly different from SendToConversation().
-             * SendToConverstion(conversationId) - will append the activity to the end
+             * SendToConversation(conversationId) - will append the activity to the end
              of the conversation according to the timestamp or semantics of the channel.
              * ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply
              to another activity, if the channel supports it. If the channel does not
@@ -1733,7 +1776,7 @@
              GetConversationMembers
              </summary>
              <remarks>
-             Enumerate the members of a converstion.
+             Enumerate the members of a conversation.
             
              This REST API takes a ConversationId and returns an array of ChannelAccount
              objects representing the members of the conversation.
@@ -1763,12 +1806,66 @@
              A response object containing the response body and response headers.
              </return>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.GetConversationPagedMembersWithHttpMessagesAsync(System.String,System.Nullable{System.Int32},System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             GetConversationPagedMembers
+             </summary>
+             <remarks>
+             Enumerate the members of a conversation one page at a time.
+            
+             This REST API takes a ConversationId. Optionally a pageSize and/or
+             continuationToken can be provided. It returns a PagedMembersResult, which
+             contains an array
+             of ChannelAccounts representing the members of the conversation and a
+             continuation token that can be used to get more values.
+            
+             One page of ChannelAccounts records are returned with each call. The number
+             of records in a page may vary between channels and calls. The pageSize
+             parameter can be used as
+             a suggestion. If there are no additional results the response will not
+             contain a continuation token. If there are no members in the conversation
+             the Members will be empty or not present in the response.
+            
+             A response to a request that has a continuation token from a prior request
+             may rarely return members from a previous request.
+             </remarks>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='pageSize'>
+             Suggested page size
+             </param>
+             <param name='continuationToken'>
+             Continuation Token
+             </param>
+             <param name='customHeaders'>
+             Headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Rest.HttpOperationException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.SerializationException">
+             Thrown when unable to deserialize the response
+             </exception>
+             <exception cref="T:Microsoft.Rest.ValidationException">
+             Thrown when a required parameter is null
+             </exception>
+             <exception cref="T:System.ArgumentNullException">
+             Thrown when a required parameter is null
+             </exception>
+             <return>
+             A response object containing the response body and response headers.
+             </return>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.DeleteConversationMemberWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              DeleteConversationMember
              </summary>
              <remarks>
-             Deletes a member from a converstion.
+             Deletes a member from a conversation.
             
              This REST API takes a ConversationId and a memberId (of type string) and
              removes that member from the conversation. If that member was the last
@@ -1946,8 +2043,7 @@
              POST to this method with a
              * Bot being the bot creating the conversation
              * IsGroup set to true if this is not a direct message (default is false)
-             * Members array contining the members you want to have be in the
-             conversation.
+             * Array containing the members to include in the conversation
             
              The return value is a ResourceResponse which contains a conversation id
              which is suitable for use
@@ -1982,8 +2078,7 @@
              POST to this method with a
              * Bot being the bot creating the conversation
              * IsGroup set to true if this is not a direct message (default is false)
-             * Members array contining the members you want to have be in the
-             conversation.
+             * Array containing the members to include in the conversation
             
              The return value is a ResourceResponse which contains a conversation id
              which is suitable for use
@@ -2019,7 +2114,7 @@
              This method allows you to send an activity to the end of a conversation.
             
              This is slightly different from ReplyToActivity().
-             * SendToConverstion(conversationId) - will append the activity to the end
+             * SendToConversation(conversationId) - will append the activity to the end
              of the conversation according to the timestamp or semantics of the channel.
              * ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply
              to another activity, if the channel supports it. If the channel does not
@@ -2048,7 +2143,7 @@
              This method allows you to send an activity to the end of a conversation.
             
              This is slightly different from ReplyToActivity().
-             * SendToConverstion(conversationId) - will append the activity to the end
+             * SendToConversation(conversationId) - will append the activity to the end
              of the conversation according to the timestamp or semantics of the channel.
              * ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply
              to another activity, if the channel supports it. If the channel does not
@@ -2135,7 +2230,7 @@
              This method allows you to reply to an activity.
             
              This is slightly different from SendToConversation().
-             * SendToConverstion(conversationId) - will append the activity to the end
+             * SendToConversation(conversationId) - will append the activity to the end
              of the conversation according to the timestamp or semantics of the channel.
              * ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply
              to another activity, if the channel supports it. If the channel does not
@@ -2167,7 +2262,7 @@
              This method allows you to reply to an activity.
             
              This is slightly different from SendToConversation().
-             * SendToConverstion(conversationId) - will append the activity to the end
+             * SendToConversation(conversationId) - will append the activity to the end
              of the conversation according to the timestamp or semantics of the channel.
              * ReplyToActivity(conversationId,ActivityId) - adds the activity as a reply
              to another activity, if the channel supports it. If the channel does not
@@ -2242,7 +2337,7 @@
              GetConversationMembers
              </summary>
              <remarks>
-             Enumerate the members of a converstion.
+             Enumerate the members of a conversation.
             
              This REST API takes a ConversationId and returns an array of ChannelAccount
              objects representing the members of the conversation.
@@ -2259,7 +2354,7 @@
              GetConversationMembers
              </summary>
              <remarks>
-             Enumerate the members of a converstion.
+             Enumerate the members of a conversation.
             
              This REST API takes a ConversationId and returns an array of ChannelAccount
              objects representing the members of the conversation.
@@ -2274,12 +2369,87 @@
              The cancellation token.
              </param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversationPagedMembers(Microsoft.Bot.Connector.IConversations,System.String,System.Nullable{System.Int32},System.String)">
+             <summary>
+             GetConversationPagedMembers
+             </summary>
+             <remarks>
+             Enumerate the members of a conversation one page at a time.
+            
+             This REST API takes a ConversationId. Optionally a pageSize and/or
+             continuationToken can be provided. It returns a PagedMembersResult, which
+             contains an array
+             of ChannelAccounts representing the members of the conversation and a
+             continuation token that can be used to get more values.
+            
+             One page of ChannelAccounts records are returned with each call. The number
+             of records in a page may vary between channels and calls. The pageSize
+             parameter can be used as
+             a suggestion. If there are no additional results the response will not
+             contain a continuation token. If there are no members in the conversation
+             the Members will be empty or not present in the response.
+            
+             A response to a request that has a continuation token from a prior request
+             may rarely return members from a previous request.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='pageSize'>
+             Suggested page size
+             </param>
+             <param name='continuationToken'>
+             Continuation Token
+             </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.GetConversationPagedMembersAsync(Microsoft.Bot.Connector.IConversations,System.String,System.Nullable{System.Int32},System.String,System.Threading.CancellationToken)">
+             <summary>
+             GetConversationPagedMembers
+             </summary>
+             <remarks>
+             Enumerate the members of a conversation one page at a time.
+            
+             This REST API takes a ConversationId. Optionally a pageSize and/or
+             continuationToken can be provided. It returns a PagedMembersResult, which
+             contains an array
+             of ChannelAccounts representing the members of the conversation and a
+             continuation token that can be used to get more values.
+            
+             One page of ChannelAccounts records are returned with each call. The number
+             of records in a page may vary between channels and calls. The pageSize
+             parameter can be used as
+             a suggestion. If there are no additional results the response will not
+             contain a continuation token. If there are no members in the conversation
+             the Members will be empty or not present in the response.
+            
+             A response to a request that has a continuation token from a prior request
+             may rarely return members from a previous request.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='pageSize'>
+             Suggested page size
+             </param>
+             <param name='continuationToken'>
+             Continuation Token
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.DeleteConversationMember(Microsoft.Bot.Connector.IConversations,System.String,System.String)">
              <summary>
              DeleteConversationMember
              </summary>
              <remarks>
-             Deletes a member from a converstion.
+             Deletes a member from a conversation.
             
              This REST API takes a ConversationId and a memberId (of type string) and
              removes that member from the conversation. If that member was the last
@@ -2301,7 +2471,7 @@
              DeleteConversationMember
              </summary>
              <remarks>
-             Deletes a member from a converstion.
+             Deletes a member from a conversation.
             
              This REST API takes a ConversationId and a memberId (of type string) and
              removes that member from the conversation. If that member was the last
@@ -2700,8 +2870,7 @@
              * Bot being the bot creating the conversation
              * IsGroup set to true if this is not a direct message (default is
              false)
-             * Members array contining the members you want to have be in the
-             conversation.
+             * Array containing the members to include in the conversation
             
              The return value is a ResourceResponse which contains a
              conversation id which is suitable for use
@@ -2748,7 +2917,7 @@
              conversation.
             
              This is slightly different from ReplyToActivity().
-             * SendToConverstion(conversationId) - will append the activity to
+             * SendToConversation(conversationId) - will append the activity to
              the end of the conversation according to the timestamp or semantics
              of the channel.
              * ReplyToActivity(conversationId,ActivityId) - adds the activity as
@@ -2829,7 +2998,7 @@
              This method allows you to reply to an activity.
             
              This is slightly different from SendToConversation().
-             * SendToConverstion(conversationId) - will append the activity to
+             * SendToConversation(conversationId) - will append the activity to
              the end of the conversation according to the timestamp or semantics
              of the channel.
              * ReplyToActivity(conversationId,ActivityId) - adds the activity as
@@ -2901,7 +3070,7 @@
              GetConversationMembers
              </summary>
              <remarks>
-             Enumerate the members of a converstion.
+             Enumerate the members of a conversation.
             
              This REST API takes a ConversationId and returns an array of
              ChannelAccount objects representing the members of the
@@ -2926,12 +3095,61 @@
              Thrown when a required parameter is null
              </exception>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.GetConversationPagedMembersWithHttpMessagesAsync(System.String,System.Nullable{System.Int32},System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             GetConversationPagedMembers
+             </summary>
+             <remarks>
+             Enumerate the members of a conversation one page at a time.
+            
+             This REST API takes a ConversationId. Optionally a pageSize and/or
+             continuationToken can be provided. It returns a PagedMembersResult,
+             which contains an array
+             of ChannelAccounts representing the members of the conversation and
+             a continuation token that can be used to get more values.
+            
+             One page of ChannelAccounts records are returned with each call.
+             The number of records in a page may vary between channels and
+             calls. The pageSize parameter can be used as
+             a suggestion. If there are no additional results the response will
+             not contain a continuation token. If there are no members in the
+             conversation the Members will be empty or not present in the
+             response.
+            
+             A response to a request that has a continuation token from a prior
+             request may rarely return members from a previous request.
+             </remarks>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='pageSize'>
+             Suggested page size
+             </param>
+             <param name='continuationToken'>
+             Continuation Token
+             </param>
+             <param name='customHeaders'>
+             The headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Rest.HttpOperationException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.SerializationException">
+             Thrown when unable to deserialize the response
+             </exception>
+             <exception cref="T:Microsoft.Rest.ValidationException">
+             Thrown when a required parameter is null
+             </exception>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.DeleteConversationMemberWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              DeleteConversationMember
              </summary>
              <remarks>
-             Deletes a member from a converstion.
+             Deletes a member from a conversation.
             
              This REST API takes a ConversationId and a memberId (of type
              string) and removes that member from the conversation. If that
@@ -3132,7 +3350,7 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.AttachmentInfo">
             <summary>
-            Metdata for an attachment
+            Metadata for an attachment
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.AttachmentInfo.#ctor">
@@ -3460,7 +3678,8 @@
             <param name="topicName">(Optional) Topic of the conversation (if
             supported by the channel)</param>
             <param name="activity">(Optional) When creating a new conversation,
-            use this activity as the intial message to the conversation</param>
+            use this activity as the initial message to the
+            conversation</param>
             <param name="channelData">Channel specific payload for creating the
             conversation</param>
         </member>
@@ -3488,7 +3707,7 @@
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.Activity">
             <summary>
             Gets or sets (Optional) When creating a new conversation, use this
-            activity as the intial message to the conversation
+            activity as the initial message to the conversation
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.ChannelData">
@@ -3625,6 +3844,11 @@
             Gets or sets list of conversations
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.DeliveryModes">
+            <summary>
+            Defines values for DeliveryModes.
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.EndOfConversationCodes">
             <summary>
             Defines values for EndOfConversationCodes.
@@ -3681,12 +3905,13 @@
             Initializes a new instance of the Error class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Error.#ctor(System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.Error.#ctor(System.String,System.String,Microsoft.Bot.Connector.InnerHttpError)">
             <summary>
             Initializes a new instance of the Error class.
             </summary>
             <param name="code">Error code</param>
             <param name="message">Error message</param>
+            <param name="innerHttpError">Error from inner http call</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.Error.Code">
             <summary>
@@ -3696,6 +3921,11 @@
         <member name="P:Microsoft.Bot.Connector.Error.Message">
             <summary>
             Gets or sets error message
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Error.InnerHttpError">
+            <summary>
+            Gets or sets error from inner http call
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ErrorResponse">
@@ -3893,6 +4123,33 @@
             card itself
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.InnerHttpError">
+            <summary>
+            Object representing inner http error
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.InnerHttpError.#ctor">
+            <summary>
+            Initializes a new instance of the InnerHttpError class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.InnerHttpError.#ctor(System.Nullable{System.Int32},System.Object)">
+            <summary>
+            Initializes a new instance of the InnerHttpError class.
+            </summary>
+            <param name="statusCode">HttpStatusCode from failed request</param>
+            <param name="body">Body from failed request</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.InnerHttpError.StatusCode">
+            <summary>
+            Gets or sets httpStatusCode from failed request
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.InnerHttpError.Body">
+            <summary>
+            Gets or sets body from failed request
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.InputHints">
             <summary>
             Defines values for InputHints.
@@ -4059,6 +4316,60 @@
             Thrown if validation fails
             </exception>
         </member>
+        <member name="T:Microsoft.Bot.Connector.PagedMembersResult">
+            <summary>
+            Page of members.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.PagedMembersResult.#ctor">
+            <summary>
+            Initializes a new instance of the PagedMembersResult class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.PagedMembersResult.#ctor(System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount})">
+            <summary>
+            Initializes a new instance of the PagedMembersResult class.
+            </summary>
+            <param name="continuationToken">Paging token</param>
+            <param name="members">The Channel Accounts.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.PagedMembersResult.ContinuationToken">
+            <summary>
+            Gets or sets paging token
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.PagedMembersResult.Members">
+            <summary>
+            Gets or sets the Channel Accounts.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SemanticAction">
+            <summary>
+            Represents a reference to a programmatic action
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SemanticAction.#ctor">
+            <summary>
+            Initializes a new instance of the SemanticAction class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SemanticAction.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Initializes a new instance of the SemanticAction class.
+            </summary>
+            <param name="id">ID of this action</param>
+            <param name="entities">Entities associated with this action</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SemanticAction.Id">
+            <summary>
+            Gets or sets ID of this action
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SemanticAction.Entities">
+            <summary>
+            Gets or sets entities associated with this action
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.ITraceActivity">
             <summary>
             An activity by which a bot can log internal information into a logged conversation transcript
@@ -4087,6 +4398,11 @@
         <member name="P:Microsoft.Bot.Connector.ITraceActivity.RelatesTo">
             <summary>
             Reference to another conversation or activity
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.IHandoffActivity">
+            <summary>
+            Control of the conversation has been transferred, or a request to transfer control of the conversation
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Mention">
@@ -4172,13 +4488,13 @@
             <summary>
             Initializes a new instance of the MicrosoftPayMethodData class.
             </summary>
-            <param name="mechantId">Microsoft Pay Merchant ID</param>
+            <param name="merchantId">Microsoft Pay Merchant ID</param>
             <param name="supportedNetworks">Supported payment networks (e.g.,
             "visa" and "mastercard")</param>
             <param name="supportedTypes">Supported payment types (e.g.,
             "credit")</param>
         </member>
-        <member name="P:Microsoft.Bot.Connector.MicrosoftPayMethodData.MechantId">
+        <member name="P:Microsoft.Bot.Connector.MicrosoftPayMethodData.MerchantId">
             <summary>
             Gets or sets microsoft Pay Merchant ID
             </summary>
@@ -4217,7 +4533,7 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.OAuthCard">
             <summary>
-            A card representing a request to peform a sign in via OAuth
+            A card representing a request to perform a sign in via OAuth
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.OAuthCard.#ctor">
@@ -5211,6 +5527,11 @@
             Defines values for TextFormatTypes.
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Connector.TextHighlight">
+            <summary>
+            Refers to a substring of content within another field
+            </summary>
+        </member>
         <member name="M:Microsoft.Bot.Connector.TextHighlight.#ctor">
             <summary>
             Initializes a new instance of the TextHighlight class.
@@ -5220,18 +5541,19 @@
             <summary>
             Initializes a new instance of the TextHighlight class.
             </summary>
-            <param name="text">plain text fragment to highlight</param>
-            <param name="occurence">index of occurence of the Text (Starting at
-            1)</param>
+            <param name="text">Defines the snippet of text to highlight</param>
+            <param name="occurrence">Occurrence of the text field within the
+            referenced text, if multiple exist.</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.TextHighlight.Text">
             <summary>
-            Gets or sets plain text fragment to highlight
+            Gets or sets defines the snippet of text to highlight
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.TextHighlight.Occurence">
+        <member name="P:Microsoft.Bot.Connector.TextHighlight.Occurrence">
             <summary>
-            Gets or sets index of occurence of the Text (Starting at 1)
+            Gets or sets occurrence of the text field within the referenced
+            text, if multiple exist.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.Thing">
@@ -6112,6 +6434,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.RefreshTokenAsync">
+            <summary>
+            Return task which will try multiple times until it gets a valid token
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.OAuthApi">
             <summary>
             OAuthClient operations.
@@ -6474,10 +6802,10 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.GetUserDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            GetUserData
+            Get user data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            Get a bots data for the user across all conversations
+            Get the bot's data for the user across all conversations
             </remarks>
             <param name='channelId'>
             channelId
@@ -6509,7 +6837,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.SetUserDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            SetUserData
+            Set user data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for a user
@@ -6547,7 +6875,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.DeleteStateForUserWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            DeleteStateForUser
+            Delete state for user. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Delete all data for a user in a channel (UserData and
@@ -6583,10 +6911,10 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            GetConversationData
+            Get conversation data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get the bots data for all users in a conversation
+            Get the bot's data for all users in a conversation
             </remarks>
             <param name='channelId'>
             the channelId
@@ -6618,7 +6946,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.SetConversationDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            SetConversationData
+            Set conversation data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for all users in a conversation
@@ -6656,10 +6984,11 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.GetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            GetPrivateConversationData
+            Get private conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get bot's data for a single user in a conversation
+            Get the bot's data for a single user in a conversation
             </remarks>
             <param name='channelId'>
             channelId
@@ -6694,7 +7023,8 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotState.SetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            SetPrivateConversationData
+            Set private conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for a single user in a conversation
@@ -6733,19 +7063,16 @@
             A response object containing the response body and response headers.
             </return>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotState.ExportBotStateDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotState.ExportBotStateDataWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            ExportBotStateData
+            Export bot state data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get all the state data for a bot in this channel. This returns a list of
+            Get all the state data for a bot in this channel. This returns a list of
             BotStateData and (possibly) a continuation token
             </remarks>
             <param name='channelId'>
             the channelId
-            </param>
-            <param name='continuationToken'>
-            the skip token returned previously, or null
             </param>
             <param name='customHeaders'>
             Headers that will be added to request.
@@ -6776,10 +7103,10 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetUserData(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
             <summary>
-            GetUserData
+            Get user data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            Get a bots data for the user across all conversations
+            Get the bot's data for the user across all conversations
             </remarks>
             <param name='operations'>
             The operations group for this extension method.
@@ -6793,10 +7120,10 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetUserDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            GetUserData
+            Get user data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            Get a bots data for the user across all conversations
+            Get the bot's data for the user across all conversations
             </remarks>
             <param name='operations'>
             The operations group for this extension method.
@@ -6813,7 +7140,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetUserData(Microsoft.Bot.Connector.IBotState,System.String,System.String,Microsoft.Bot.Connector.BotData)">
             <summary>
-            SetUserData
+            Set user data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for a user
@@ -6833,7 +7160,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetUserDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
             <summary>
-            SetUserData
+            Set user data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for a user
@@ -6856,7 +7183,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteStateForUser(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
             <summary>
-            DeleteStateForUser
+            Delete state for user. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Delete all data for a user in a channel (UserData and
@@ -6874,7 +7201,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.DeleteStateForUserAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            DeleteStateForUser
+            Delete state for user. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Delete all data for a user in a channel (UserData and
@@ -6895,10 +7222,10 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
             <summary>
-            GetConversationData
+            Get conversation data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get the bots data for all users in a conversation
+            Get the bot's data for all users in a conversation
             </remarks>
             <param name='operations'>
             The operations group for this extension method.
@@ -6912,10 +7239,10 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            GetConversationData
+            Get conversation data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get the bots data for all users in a conversation
+            Get the bot's data for all users in a conversation
             </remarks>
             <param name='operations'>
             The operations group for this extension method.
@@ -6932,7 +7259,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,Microsoft.Bot.Connector.BotData)">
             <summary>
-            SetConversationData
+            Set conversation data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for all users in a conversation
@@ -6952,7 +7279,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
             <summary>
-            SetConversationData
+            Set conversation data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for all users in a conversation
@@ -6975,10 +7302,11 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPrivateConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String)">
             <summary>
-            GetPrivateConversationData
+            Get private conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get bot's data for a single user in a conversation
+            Get the bot's data for a single user in a conversation
             </remarks>
             <param name='operations'>
             The operations group for this extension method.
@@ -6995,10 +7323,11 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.GetPrivateConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            GetPrivateConversationData
+            Get private conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get bot's data for a single user in a conversation
+            Get the bot's data for a single user in a conversation
             </remarks>
             <param name='operations'>
             The operations group for this extension method.
@@ -7018,7 +7347,8 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPrivateConversationData(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData)">
             <summary>
-            SetPrivateConversationData
+            Set private conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for a single user in a conversation
@@ -7041,7 +7371,8 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.BotStateExtensions.SetPrivateConversationDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Threading.CancellationToken)">
             <summary>
-            SetPrivateConversationData
+            Set private conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for a single user in a conversation
@@ -7065,12 +7396,12 @@
             The cancellation token.
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.ExportBotStateData(Microsoft.Bot.Connector.IBotState,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.ExportBotStateData(Microsoft.Bot.Connector.IBotState,System.String)">
             <summary>
-            ExportBotStateData
+            Export bot state data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get all the state data for a bot in this channel. This returns a list of
+            Get all the state data for a bot in this channel. This returns a list of
             BotStateData and (possibly) a continuation token
             </remarks>
             <param name='operations'>
@@ -7078,17 +7409,14 @@
             </param>
             <param name='channelId'>
             the channelId
-            </param>
-            <param name='continuationToken'>
-            the skip token returned previously, or null
             </param>
         </member>
-        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.ExportBotStateDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.BotStateExtensions.ExportBotStateDataAsync(Microsoft.Bot.Connector.IBotState,System.String,System.Threading.CancellationToken)">
             <summary>
-            ExportBotStateData
+            Export bot state data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get all the state data for a bot in this channel. This returns a list of
+            Get all the state data for a bot in this channel. This returns a list of
             BotStateData and (possibly) a continuation token
             </remarks>
             <param name='operations'>
@@ -7096,9 +7424,6 @@
             </param>
             <param name='channelId'>
             the channelId
-            </param>
-            <param name='continuationToken'>
-            the skip token returned previously, or null
             </param>
             <param name='cancellationToken'>
             The cancellation token.
@@ -7111,10 +7436,10 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IBotState.GetUserDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            GetUserData
+            Get user data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            Get a bots data for the user across all conversations
+            Get the bot's data for the user across all conversations
             </remarks>
             <param name='channelId'>
             channelId
@@ -7140,7 +7465,7 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IBotState.SetUserDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            SetUserData
+            Set user data. This API is deprecated, see https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for a user
@@ -7172,7 +7497,8 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IBotState.DeleteStateForUserWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            DeleteStateForUser
+            Delete state for user. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Delete all data for a user in a channel (UserData and
@@ -7202,10 +7528,11 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IBotState.GetConversationDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            GetConversationData
+            Get conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get the bots data for all users in a conversation
+            Get the bot's data for all users in a conversation
             </remarks>
             <param name='channelId'>
             the channelId
@@ -7231,7 +7558,8 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IBotState.SetConversationDataWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            SetConversationData
+            Set conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for all users in a conversation
@@ -7263,10 +7591,11 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IBotState.GetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            GetPrivateConversationData
+            Get private conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get bot's data for a single user in a conversation
+            Get the bot's data for a single user in a conversation
             </remarks>
             <param name='channelId'>
             channelId
@@ -7295,7 +7624,8 @@
         </member>
         <member name="M:Microsoft.Bot.Connector.IBotState.SetPrivateConversationDataWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Connector.BotData,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            SetPrivateConversationData
+            Set private conversation data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
             Update the bot's data for a single user in a conversation
@@ -7328,19 +7658,17 @@
             Thrown when a required parameter is null
             </exception>
         </member>
-        <member name="M:Microsoft.Bot.Connector.IBotState.ExportBotStateDataWithHttpMessagesAsync(System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Connector.IBotState.ExportBotStateDataWithHttpMessagesAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
             <summary>
-            ExportBotStateData
+            Export bot state data. This API is deprecated, see
+            https://aka.ms/AA1vm7i
             </summary>
             <remarks>
-            get all the state data for a bot in this channel. This returns a
+            Get all the state data for a bot in this channel. This returns a
             list of BotStateData and (possibly) a continuation token
             </remarks>
             <param name='channelId'>
             the channelId
-            </param>
-            <param name='continuationToken'>
-            the skip token returned previously, or null
             </param>
             <param name='customHeaders'>
             The headers that will be added to request.

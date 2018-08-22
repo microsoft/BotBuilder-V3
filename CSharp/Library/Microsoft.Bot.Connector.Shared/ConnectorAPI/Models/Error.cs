@@ -27,10 +27,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         /// <param name="code">Error code</param>
         /// <param name="message">Error message</param>
-        public Error(string code = default(string), string message = default(string))
+        /// <param name="innerHttpError">Error from inner http call</param>
+        public Error(string code = default(string), string message = default(string), InnerHttpError innerHttpError = default(InnerHttpError))
         {
             Code = code;
             Message = message;
+            InnerHttpError = innerHttpError;
             CustomInit();
         }
 
@@ -50,6 +52,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "message")]
         public string Message { get; set; }
+
+        /// <summary>
+        /// Gets or sets error from inner http call
+        /// </summary>
+        [JsonProperty(PropertyName = "innerHttpError")]
+        public InnerHttpError InnerHttpError { get; set; }
 
     }
 }

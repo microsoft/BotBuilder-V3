@@ -48,6 +48,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationReference.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationResourceResponse.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\ConversationsResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\DeliveryModes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\EndOfConversationCodes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Entity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Error.cs" />
@@ -56,12 +57,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Fact.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\GeoCoordinates.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\HeroCard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\InnerHttpError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\InputHints.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\InstallationUpdateActionTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\MediaCard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\MediaEventValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\MediaUrl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\PagedMembersResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\SemanticAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ITraceActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IHandoffActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaUrlEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Mention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\MessageReaction.cs" />

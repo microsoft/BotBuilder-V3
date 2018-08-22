@@ -53,10 +53,20 @@ namespace Microsoft.Bot.Builder.Scorables.Internals
             { ActivityTypes.ConversationUpdate, typeof(IConversationUpdateActivity) },
             { ActivityTypes.DeleteUserData, typeof(IActivity) },
             { ActivityTypes.Message, typeof(IMessageActivity) },
+#pragma warning disable CS0618 // Type or member is obsolete
             { ActivityTypes.Ping, typeof(IActivity) },
+#pragma warning restore CS0618 // Type or member is obsolete
             { ActivityTypes.Event, typeof(IEventActivity) },
             { ActivityTypes.Invoke, typeof(IInvokeActivity) },
             { ActivityTypes.Typing, typeof(ITypingActivity) },
+            { ActivityTypes.EndOfConversation, typeof(IEndOfConversationActivity) },
+            { ActivityTypes.MessageUpdate, typeof(IMessageUpdateActivity) },
+            { ActivityTypes.MessageDelete, typeof(IMessageDeleteActivity) },
+            { ActivityTypes.InstallationUpdate, typeof(IInstallationUpdateActivity) },
+            { ActivityTypes.MessageReaction, typeof(IMessageReactionActivity) },
+            { ActivityTypes.Suggestion, typeof(ISuggestionActivity) },
+            { ActivityTypes.Trace, typeof(ITraceActivity) },
+            { ActivityTypes.Handoff, typeof(IHandoffActivity) },
         };
 
         public override bool TryResolve(Type type, object tag, out object value)

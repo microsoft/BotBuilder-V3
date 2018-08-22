@@ -16,6 +16,7 @@ namespace Microsoft.Bot.Connector
         public const string ContactRelationUpdate = "contactRelationUpdate";
         public const string ConversationUpdate = "conversationUpdate";
         public const string Typing = "typing";
+        [System.Obsolete("The ping activity is not used any more and can be removed from your code")]
         public const string Ping = "ping";
         public const string EndOfConversation = "endOfConversation";
         public const string Event = "event";
@@ -27,5 +28,6 @@ namespace Microsoft.Bot.Connector
         public const string MessageReaction = "messageReaction";
         public const string Suggestion = "suggestion";
         public const string Trace = "trace";
+        public const string Handoff = "handoff";
     }
 }

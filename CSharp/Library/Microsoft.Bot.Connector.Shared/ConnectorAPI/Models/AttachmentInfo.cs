@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Connector
     using System.Linq;
 
     /// <summary>
-    /// Metdata for an attachment
+    /// Metadata for an attachment
     /// </summary>
     public partial class AttachmentInfo
     {
