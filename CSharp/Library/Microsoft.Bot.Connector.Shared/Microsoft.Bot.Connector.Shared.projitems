@@ -65,6 +65,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\MediaUrl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\PagedMembersResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\SemanticAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Transcript.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ITraceActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IHandoffActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaUrlEx.cs" />

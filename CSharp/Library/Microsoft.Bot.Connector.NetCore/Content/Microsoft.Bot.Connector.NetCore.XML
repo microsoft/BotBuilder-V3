@@ -1605,6 +1605,47 @@
              A response object containing the response body and response headers.
              </return>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Conversations.SendHistoryToConversationWithHttpMessagesAsync(System.String,Microsoft.Bot.Connector.ConversationHistory,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             SendHistoryToConversation
+             </summary>
+             <remarks>
+             This method allows you to upload the historic activities to the
+             conversation.
+            
+             Sender must ensure that the historic activities have unique ids and
+             appropriate timestamps. The ids are used by the client to deal with
+             duplicate activities and the timestamps are used by the client to render
+             the activities in the right order.
+             </remarks>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='history'>
+             Historic activities
+             </param>
+             <param name='customHeaders'>
+             Headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.SerializationException">
+             Thrown when unable to deserialize the response
+             </exception>
+             <exception cref="T:Microsoft.Rest.ValidationException">
+             Thrown when a required parameter is null
+             </exception>
+             <exception cref="T:System.ArgumentNullException">
+             Thrown when a required parameter is null
+             </exception>
+             <return>
+             A response object containing the response body and response headers.
+             </return>
+        </member>
         <member name="M:Microsoft.Bot.Connector.Conversations.UpdateActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              UpdateActivity
@@ -2125,6 +2166,55 @@
              </param>
              <param name='activity'>
              Activity to send
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendHistoryToConversation(Microsoft.Bot.Connector.IConversations,System.String,Microsoft.Bot.Connector.ConversationHistory)">
+             <summary>
+             SendHistoryToConversation
+             </summary>
+             <remarks>
+             This method allows you to upload the historic activities to the
+             conversation.
+            
+             Sender must ensure that the historic activities have unique ids and
+             appropriate timestamps. The ids are used by the client to deal with
+             duplicate activities and the timestamps are used by the client to render
+             the activities in the right order.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='history'>
+             Historic activities
+             </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendHistoryToConversationAsync(Microsoft.Bot.Connector.IConversations,System.String,Microsoft.Bot.Connector.ConversationHistory,System.Threading.CancellationToken)">
+             <summary>
+             SendHistoryToConversation
+             </summary>
+             <remarks>
+             This method allows you to upload the historic activities to the
+             conversation.
+            
+             Sender must ensure that the historic activities have unique ids and
+             appropriate timestamps. The ids are used by the client to deal with
+             duplicate activities and the timestamps are used by the client to render
+             the activities in the right order.
+             </remarks>
+             <param name='operations'>
+             The operations group for this extension method.
+             </param>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='history'>
+             Historic activities
              </param>
              <param name='cancellationToken'>
              The cancellation token.
@@ -2915,6 +3005,41 @@
              Thrown when a required parameter is null
              </exception>
         </member>
+        <member name="M:Microsoft.Bot.Connector.IConversations.SendHistoryToConversationWithHttpMessagesAsync(System.String,Microsoft.Bot.Connector.ConversationHistory,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+             <summary>
+             SendHistoryToConversation
+             </summary>
+             <remarks>
+             This method allows you to upload the historic activities to the
+             conversation.
+            
+             Sender must ensure that the historic activities have unique ids and
+             appropriate timestamps. The ids are used by the client to deal with
+             duplicate activities and the timestamps are used by the client to
+             render the activities in the right order.
+             </remarks>
+             <param name='conversationId'>
+             Conversation ID
+             </param>
+             <param name='history'>
+             Historic activities
+             </param>
+             <param name='customHeaders'>
+             The headers that will be added to request.
+             </param>
+             <param name='cancellationToken'>
+             The cancellation token.
+             </param>
+             <exception cref="T:Microsoft.Bot.Connector.ErrorResponseException">
+             Thrown when the operation returned an invalid status code
+             </exception>
+             <exception cref="T:Microsoft.Rest.SerializationException">
+             Thrown when unable to deserialize the response
+             </exception>
+             <exception cref="T:Microsoft.Rest.ValidationException">
+             Thrown when a required parameter is null
+             </exception>
+        </member>
         <member name="M:Microsoft.Bot.Connector.IConversations.UpdateActivityWithHttpMessagesAsync(System.String,System.String,Microsoft.Bot.Connector.Activity,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
              <summary>
              UpdateActivity
@@ -3592,6 +3717,27 @@
         <member name="P:Microsoft.Bot.Connector.ConversationAccount.Properties">
             <summary>
             Extension data for overflow of properties
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.ConversationHistory">
+            <summary>
+            Conversation History
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationHistory.#ctor">
+            <summary>
+            Initializes a new instance of the ConversationHistory class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConversationHistory.#ctor(System.Collections.Generic.IList{Microsoft.Bot.Connector.Activity})">
+            <summary>
+            Initializes a new instance of the ConversationHistory class.
+            </summary>
+            <param name="activities">Array of historic activities.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationHistory.Activities">
+            <summary>
+            Gets or sets array of historic activities.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ConversationMembers">
