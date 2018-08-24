@@ -32,13 +32,19 @@
                 "id": { "type": "string" },
                 "description": { "type": "string" },
                 "entities": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/entityDefinition" } },
-                "utterances": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/utteranceDefinition" } }
+                "triggers": { "$ref": "https://botframework.com/schemas/manifest/triggerSet" }
             }
         },
         "entityDefinition": {
             "properties": {
                 "name": { "type": "string" },
                 "type": { "type": "string" }
+            }
+        },
+        "triggerSet": {
+            "properties": {
+                "utterances": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/utteranceDefinition" } },
+                "utteranceSources": { "type": "array", "items": { "type": "string" } }
             }
         },
         "utteranceDefinition": {

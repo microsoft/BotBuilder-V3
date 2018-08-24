@@ -224,9 +224,9 @@ The `entities` field contains a list of entity definitions for the action. The v
 
 `M5130`: Readers and writers SHOULD preserve the order of entity definitions.
 
-#### Utterances
+#### Triggers
 
-The `utterances` field contains a list of text utterances which may trigger this action. The value of the `utterances` field is an array of type [`utteranceDefinition`](#Utterance-definition).
+The `triggers` field contains triggers that orchestrators may use to activate the action. The value of the `triggers` field is of type [`triggerSet`](#Trigger-set).
 
 ### Entity definition
 
@@ -249,6 +249,28 @@ The `type` field defines the entity's type. The value of the `type` field is a U
 `M5220`: Writers MUST include a `type` for each entity definition.
 
 `M5221`: Readers SHOULD use ordinal comparison to establish equivalency of the value of the `type` field. Readers SHOULD NOT use URI ladder comparisons.
+
+### Trigger set
+
+The `triggerSet` type describes a set of conditions for activation, typically in the context of an [action definition](#Action-definition). The conditions for activation are the union (i.e., the logical "OR") of all available triggers.
+
+#### Utterances
+
+The `utterances` field contains a list of text utterances which may trigger this action. The value of the `utterances` field is an array of type [`utteranceDefinition`](#Utterance-definition).
+
+#### Utterance sources
+
+The `utteranceSources` field contains a list of URIs identifying utterance sources. Utterance sources are designed to be interoperable with priming sources as defined in [Bot Framework Activity Schema Appendix IV](../botframework-activity/botframework-activity.md#Appendix-IV---Priming-format) [[2](#References)] but are defined as bare URI strings. The value of the `utteranceSources` field is an array of URIs [[5](#References)] within strings.
+
+`M5300`: Writers MUST NOT use enclosing braces to specify URIs as described in [Bot Framework Activity Schema Appendix IV](../botframework-activity/botframework-activity.md#Appendix-IV---Priming-format).
+
+`M5303`: Readers SHOULD ignore utterance sources they do not understand.
+
+`M5304`: Readers MAY upgrade utterance source URIs to URLs when they have knowledge that the source supports utterance retrieval.
+
+`M5305`: Readers SHOULD use plain ordinal hostname comparisons when determining whether they recognize a source URI.
+
+`M5306`: Readers MAY ingore any resolved URLs that are not HTTPS.
 
 ### Utterance definition
 
@@ -349,6 +371,10 @@ The `properties` field contains additional properties to be supplied to the serv
 7. [RFC 2397](https://tools.ietf.org/html/rfc2397)
 
 # Appendix I - Changes
+
+## 2018-08-19 - dandris@microsoft.com
+* Added utterance sources
+* Rearranged triggers into own section
 
 ## 2018-08-13 - dandris@microsoft.com
 

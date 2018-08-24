@@ -28,18 +28,23 @@
                     "name": "bugId",
                     "type": "number"
                 }],
-                "utterances": [{
-                    "text": "I'd like to resolve a bug"
-                }, {
-                    "text": "resolve bug"
-                }, {
-                    "text": "resolve bug number 1234",
-                    "entities": [{
-                        "name": "bugId",
-                        "startPosition": 19,
-                        "endPosition": 22
-                    }]
-                }]
+                "triggers":{
+                    "utterances": [{
+                        "text": "I'd like to resolve a bug"
+                    }, {
+                        "text": "resolve bug"
+                    }, {
+                        "text": "resolve bug number 1234",
+                        "entities": [{
+                            "name": "bugId",
+                            "startPosition": 19,
+                            "endPosition": 22
+                        }]
+                    }],
+                    "utteranceSources": [
+                        "https://luis.ai/apps/12345"
+                    ]
+                }
             }
         }
     ]
