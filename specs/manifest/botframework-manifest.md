@@ -242,13 +242,13 @@ The `name` field uniquely defines the slot within this action. The value of the 
 
 `M5212`: Writers MUST NOT emit entities for two slots with the same name.
 
-#### Type
+#### Desired type
 
-The `type` field defines the slot's desired type. The value of the `type` field is a URI [[5](#References)] within a string.
+The `desiredType` field defines the slot's desired type. The value of the `desiredType` field is a URI [[5](#References)] within a string.
 
-`M5220`: Writers MUST include a `type` for each slot definition.
+`M5220`: Writers MUST include a `desiredType` for each slot definition.
 
-`M5221`: Readers SHOULD use ordinal comparison to establish equivalency of the value of the `type` field. Readers SHOULD NOT use URI ladder comparisons.
+`M5221`: Readers SHOULD use ordinal comparison to establish equivalency of the value of the `desiredType` field. Readers SHOULD NOT use URI ladder comparisons.
 
 ### Utterance definition
 
