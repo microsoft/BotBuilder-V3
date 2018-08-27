@@ -1016,6 +1016,14 @@ The `name` field is an optional, friendly name within the channel. The value of 
 
 The `aadObjectId` field is an optional ID corresponding to the account's object ID within Azure Active Directory (AAD). The value of the `aadObjectId` field is a string.
 
+#### Channel account Role
+
+The `role` field indicates whether entity behind the account is a user or bot. 
+
+`A7511`: Channels and Receivers SHOULD ignore this field.  It's metadata intended for transcripts to distinguish if a message is from the user or bot.
+
+
+
 ### Conversation account
 
 Conversation accounts represent the identity of conversations within a channel. In channels that support only a single conversation between two accounts (e.g. SMS), the conversation account is persistent and does not have a predetermined start or end. In channels that support multiple parallel conversations (e.g. email), each conversation will likely have a unique ID.
@@ -1041,6 +1049,14 @@ The `isGroup` field indicates whether the conversation contains more than two pa
 #### Conversation account Conversation Type
 
 If the channel distinguishes between types of conversations (e.g. group vs. personal), the `conversationType` field indicates the type of the conversation. This field augments the lower-fidelity [`isGroup`](#Conversation-account-is-group) field. The value of the `conversationType` field is a string and its meaning is defined by the channel in which the type occurs.
+
+#### Conversation account Role
+
+The `role` field indicates whether entity behind the account is a user or bot.
+
+`A7512`: Channels and Receivers SHOULD ignore this field.  It's metadata intended for transcripts to distinguish if a message is from the user or bot.
+
+### 
 
 ### Entity
 
@@ -1150,6 +1166,11 @@ The `entities` field contains entities associated with this action. The value of
 14. [Bot Framework Manifest](../botframework-manifest/botframework-manifest.md)
 
 # Appendix I - Changes
+
+## 2018-08-27 - daveta@microsoft.com
+
+* Added Channel Account Role property
+* Added Conversation Account Role property
 
 ## 2018-07-17 - dandris@microsoft.com
 
