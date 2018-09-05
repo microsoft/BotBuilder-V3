@@ -310,7 +310,9 @@ namespace Microsoft.Bot.Connector
         /// <returns></returns>
         private async Task<OAuthResponse> RefreshTokenAsync()
         {
-            var content = new FormUrlEncodedContent(new Dictionary<string, string>()
+            while (true)
+            {
+                var content = new FormUrlEncodedContent(new Dictionary<string, string>()
                 {
                     { "grant_type", "client_credentials" },
                     { "client_id", MicrosoftAppId },
@@ -318,8 +320,6 @@ namespace Microsoft.Bot.Connector
                     { "scope", OAuthScope }
                 });
 
-            while (true)
-            {
                 using (var response = await g_httpClient.PostAsync(OAuthEndpoint, content).ConfigureAwait(false))
                 {
                     string body = null;
@@ -336,13 +336,13 @@ namespace Microsoft.Bot.Connector
 #if NET45
                         System.Diagnostics.Trace.TraceError(body ?? response.ReasonPhrase);
 #else
-                        logger?.LogWarning($"RefreshTokenAsync() Exception) {body ?? response.ReasonPhrase}");
+                        logger?.LogWarning($"RefreshTokenAsync() Exception {body ?? response.ReasonPhrase}");
 #endif
 
                     }
 
                     // try again in a bit to prevent hammering a service if it's not working
-                    await Task.Delay((int)TimeSpan.FromSeconds(1).TotalMilliseconds);
+                    await Task.Delay(TimeSpan.FromSeconds(30));
                 }
             }
         }
