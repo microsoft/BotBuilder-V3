@@ -24,9 +24,9 @@
             "definition": {
                 "id": "https://bugfilingbot.example.org/resolve",
                 "description": "Resolve a bug",
-                "entities": [{
+                "slots": [{
                     "name": "bugId",
-                    "type": "number"
+                    "desiredType": "number"
                 }],
                 "triggers":{
                     "utterances": [{

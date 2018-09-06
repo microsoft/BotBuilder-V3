@@ -218,37 +218,37 @@ The `id` field contains the unique ID of the action within the system in which i
 
 The `description` field contains a textual description of the action. The value of the `description` field is of type string.
 
-#### Entities
+#### Slots
 
-The `entities` field contains a list of entity definitions for the action. The value of the `entities` field is an array of type [`entityDefinition`](#Entity-definition).
+The `slots` field contains a list of slot definitions for the action. Slots are places defining the meaning and desired type of entities. The value of the `slots` field is an array of type [`slotDefinition`](#Slot-definition).
 
-`M5130`: Readers and writers SHOULD preserve the order of entity definitions.
+`M5130`: Readers and writers SHOULD preserve the order of slot definitions.
 
 #### Triggers
 
 The `triggers` field contains triggers that orchestrators may use to activate the action. The value of the `triggers` field is of type [`triggerSet`](#Trigger-set).
 
-### Entity definition
+### Slot definition
 
-The `entityDefinition` type declares the shape of entities to be submitted within the action.
+The `slotDefinition` type declares slots, which in turn define the meaning and shape of entities to be submitted with the action.
 
 #### Name
 
-The `name` field uniquely defines the entity within this action. The value of the `name` field is of type string.
+The `name` field uniquely defines the slot within this action. The value of the `name` field is of type string.
 
-`M2510`: Writers MUST include a unique `name` for each entity definition within an action definition.
+`M2510`: Writers MUST include a unique `name` for each slot definition within an action definition.
 
 `M5211`: Readers SHOULD use ordinal comparison to establish equivalency of the value of the `name` field within an action.
 
-`M5212`: Writers MUST NOT emit two entities with the same name.
+`M5212`: Writers MUST NOT emit entities for two slots with the same name.
 
-#### Type
+#### Desired type
 
-The `type` field defines the entity's type. The value of the `type` field is a URI [[5](#References)] within a string.
+The `desiredType` field defines the slot's desired type. The value of the `desiredType` field is a URI [[5](#References)] within a string.
 
-`M5220`: Writers MUST include a `type` for each entity definition.
+`M5220`: Writers MUST include a `desiredType` for each slot definition.
 
-`M5221`: Readers SHOULD use ordinal comparison to establish equivalency of the value of the `type` field. Readers SHOULD NOT use URI ladder comparisons.
+`M5221`: Readers SHOULD use ordinal comparison to establish equivalency of the value of the `desiredType` field. Readers SHOULD NOT use URI ladder comparisons.
 
 ### Trigger set
 
@@ -358,8 +358,11 @@ The `properties` field contains additional properties to be supplied to the serv
 
 # Appendix I - Changes
 
-## 2018-08-19 - dandris@microsoft.com
+## 2018-09-06 - dandris@microsoft.com
 * Rearranged triggers into own section
+
+## 2018-08-24 - dandris@microsoft.com
+* Renamed action entities to action slots
 
 ## 2018-08-13 - dandris@microsoft.com
 

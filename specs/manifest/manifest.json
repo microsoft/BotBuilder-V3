@@ -31,14 +31,14 @@
             "properties": {
                 "id": { "type": "string" },
                 "description": { "type": "string" },
-                "entities": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/entityDefinition" } },
+                "slots": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/slotDefinition" } },
                 "triggers": { "$ref": "https://botframework.com/schemas/manifest/triggerSet" }
             }
         },
-        "entityDefinition": {
+        "slotDefinition": {
             "properties": {
                 "name": { "type": "string" },
-                "type": { "type": "string" }
+                "desiredType": { "type": "string" }
             }
         },
         "triggerSet": {
