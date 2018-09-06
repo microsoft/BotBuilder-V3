@@ -43,8 +43,7 @@
         },
         "triggerSet": {
             "properties": {
-                "utterances": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/utteranceDefinition" } },
-                "utteranceSources": { "type": "array", "items": { "type": "string" } }
+                "utterances": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/utteranceDefinition" } }
             }
         },
         "utteranceDefinition": {

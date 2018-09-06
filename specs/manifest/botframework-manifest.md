@@ -258,20 +258,6 @@ The `triggerSet` type describes a set of conditions for activation, typically in
 
 The `utterances` field contains a list of text utterances which may trigger this action. The value of the `utterances` field is an array of type [`utteranceDefinition`](#Utterance-definition).
 
-#### Utterance sources
-
-The `utteranceSources` field contains a list of URIs identifying utterance sources. Utterance sources are designed to be interoperable with priming sources as defined in [Bot Framework Activity Schema Appendix IV](../botframework-activity/botframework-activity.md#Appendix-IV---Priming-format) [[2](#References)] but are defined as bare URI strings. The value of the `utteranceSources` field is an array of URIs [[5](#References)] within strings.
-
-`M5300`: Writers MUST NOT use enclosing braces to specify URIs as described in [Bot Framework Activity Schema Appendix IV](../botframework-activity/botframework-activity.md#Appendix-IV---Priming-format).
-
-`M5303`: Readers SHOULD ignore utterance sources they do not understand.
-
-`M5304`: Readers MAY upgrade utterance source URIs to URLs when they have knowledge that the source supports utterance retrieval.
-
-`M5305`: Readers SHOULD use plain ordinal hostname comparisons when determining whether they recognize a source URI.
-
-`M5306`: Readers MAY ingore any resolved URLs that are not HTTPS.
-
 ### Utterance definition
 
 An utterance contains raw data that can be used to identify when, for example, a user's request should trigger this action. The implementation of the system that learns, extracts, and matches text against these utterances is expected to vary across systems.
@@ -373,7 +359,6 @@ The `properties` field contains additional properties to be supplied to the serv
 # Appendix I - Changes
 
 ## 2018-08-19 - dandris@microsoft.com
-* Added utterance sources
 * Rearranged triggers into own section
 
 ## 2018-08-13 - dandris@microsoft.com
