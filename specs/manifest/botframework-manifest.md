@@ -224,9 +224,9 @@ The `slots` field contains a list of slot definitions for the action. Slots are 
 
 `M5130`: Readers and writers SHOULD preserve the order of slot definitions.
 
-#### Utterances
+#### Triggers
 
-The `utterances` field contains a list of text utterances which may trigger this action. The value of the `utterances` field is an array of type [`utteranceDefinition`](#Utterance-definition).
+The `triggers` field contains triggers that orchestrators may use to activate the action. The value of the `triggers` field is of type [`triggerSet`](#Trigger-set).
 
 ### Slot definition
 
@@ -249,6 +249,14 @@ The `desiredType` field defines the slot's desired type. The value of the `desir
 `M5220`: Writers MUST include a `desiredType` for each slot definition.
 
 `M5221`: Readers SHOULD use ordinal comparison to establish equivalency of the value of the `desiredType` field. Readers SHOULD NOT use URI ladder comparisons.
+
+### Trigger set
+
+The `triggerSet` type describes a set of conditions for activation, typically in the context of an [action definition](#Action-definition). The conditions for activation are the union (i.e., the logical "OR") of all available triggers.
+
+#### Utterances
+
+The `utterances` field contains a list of text utterances which may trigger this action. The value of the `utterances` field is an array of type [`utteranceDefinition`](#Utterance-definition).
 
 ### Utterance definition
 
@@ -349,6 +357,9 @@ The `properties` field contains additional properties to be supplied to the serv
 7. [RFC 2397](https://tools.ietf.org/html/rfc2397)
 
 # Appendix I - Changes
+
+## 2018-09-06 - dandris@microsoft.com
+* Rearranged triggers into own section
 
 ## 2018-08-24 - dandris@microsoft.com
 * Renamed action entities to action slots

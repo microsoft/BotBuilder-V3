@@ -32,13 +32,18 @@
                 "id": { "type": "string" },
                 "description": { "type": "string" },
                 "slots": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/slotDefinition" } },
-                "utterances": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/utteranceDefinition" } }
+                "triggers": { "$ref": "https://botframework.com/schemas/manifest/triggerSet" }
             }
         },
         "slotDefinition": {
             "properties": {
                 "name": { "type": "string" },
                 "desiredType": { "type": "string" }
+            }
+        },
+        "triggerSet": {
+            "properties": {
+                "utterances": { "type": "array", "items": { "$ref": "https://botframework.com/schemas/manifest/utteranceDefinition" } }
             }
         },
         "utteranceDefinition": {
