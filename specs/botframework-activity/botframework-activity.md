@@ -176,9 +176,18 @@ The `timestamp` field records the exact UTC time when the activity occurred. Due
 
 `A2043`: Senders SHOULD always use encode the value of `timestamp` fields as UTC, and they SHOULD always include Z as an explicit UTC mark within the value.
 
+### Local timezone
+The `localTimezone` field expresses the timezone where the activity was generated. The value of the `localTimezone` field SHOULD be a time zone name (zone entry) per the IANA Time Zone database. [[15](#References)]
+
+`A2055`: Clients and bots MAY include the `localTimezone` in their activities. If they do so, they SHOULD also include a `localTimestamp` field.
+
+`A2056`: Channels SHOULD preserve `localTimezone` when forwarding activities from a sender to recipient(s).
+
 ### Local timestamp
 
 The `localTimestamp` field expresses the datetime and timezone offset where the activity was generated. This may be different from the UTC `timestamp` where the activity was recorded. The value of the `localTimestamp` field is an ISO 8601 [[3](#References)] encoded datetime within a string.
+
+When both the 'localTimezone' and 'localTimestamp' fields are included in an activity, the interpretation is to first convert the value of the localTimestamp to UTC and then apply a conversion to the local timezone.
 
 `A2050`: Clients and bots MAY include the `localTimestamp` field in their activities. They SHOULD explicitly list the timezone offset within the encoded value.
 
@@ -1164,6 +1173,7 @@ The `entities` field contains entities associated with this action. The value of
 12. [Bot Framework Cards](botframework-cards.md)
 13. [Adaptive Cards](https://adaptivecards.io)
 14. [Bot Framework Manifest](../botframework-manifest/botframework-manifest.md)
+15. [RFC 6557] (https://tools.ietf.org/html/rfc6557)
 
 # Appendix I - Changes
 
