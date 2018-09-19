@@ -1,7 +1,6 @@
 ---
 name: 'V3 Javascript SDK Bug '
-about: 'Create a bug report for a bug you found in the **V3** Bot Builder Javascript
-  SDK '
+about: 'Create a bug report for a bug you found in the V3 Bot Builder Javascript SDK '
 
 ---
 

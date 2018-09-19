@@ -1,6 +1,6 @@
 ---
 name: V3 .NET SDK Bug
-about: Create a bug report for a bug you found in the **V3** Bot Builder .NET SDK
+about: Create a bug report for a bug you found in the V3 Bot Builder .NET SDK
 
 ---
 
