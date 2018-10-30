@@ -83,7 +83,17 @@ namespace Microsoft.Bot.Connector
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppPassword { get; set; }
 
-        public virtual string OAuthEndpoint { get { return JwtConfig.ToChannelFromBotLoginUrl; } }
+        public virtual string OAuthEndpoint
+        {
+            get
+            {
+                string tenant = null;
+#if NET45
+                tenant = SettingsUtils.GetAppSettings("ChannelAuthTenant");
+#endif
+                return string.Format(JwtConfig.ToChannelFromBotLoginUrlFormat, tenant ?? "botframework.com");
+            }
+        }
         public virtual string OAuthScope { get { return JwtConfig.ToChannelFromBotOAuthScope; } }
 
         protected readonly string CacheKey;

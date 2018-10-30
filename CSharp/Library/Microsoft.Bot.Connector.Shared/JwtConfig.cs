@@ -11,7 +11,7 @@
         /// <summary>
         /// TO CHANNEL FROM BOT: Login URL
         /// </summary>
-        public const string ToChannelFromBotLoginUrl = "https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token";
+        public const string ToChannelFromBotLoginUrlFormat = "https://login.microsoftonline.com/{0}/oauth2/v2.0/token";
 
         /// <summary>
         /// TO CHANNEL FROM BOT: OAuth scope to request

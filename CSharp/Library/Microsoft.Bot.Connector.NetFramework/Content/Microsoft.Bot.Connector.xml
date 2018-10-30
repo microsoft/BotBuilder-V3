@@ -6453,7 +6453,7 @@
             Configuration for JWT tokens
             </summary>
         </member>
-        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotLoginUrl">
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotLoginUrlFormat">
             <summary>
             TO CHANNEL FROM BOT: Login URL
             </summary>
