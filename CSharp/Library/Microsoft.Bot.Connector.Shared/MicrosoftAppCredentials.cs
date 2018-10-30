@@ -89,7 +89,8 @@ namespace Microsoft.Bot.Connector
             {
                 string tenant = null;
 #if NET45
-                tenant = SettingsUtils.GetAppSettings("ChannelAuthTenant");
+                // Advanced user only. TODO: add doc link.
+                tenant = SettingsUtils.GetAppSettings("ChannelAuthTenant").NullIfEmpty();
 #endif
                 return string.Format(JwtConfig.ToChannelFromBotLoginUrlFormat, tenant ?? "botframework.com");
             }

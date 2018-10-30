@@ -88,6 +88,11 @@ namespace Microsoft.Bot.Connector
         {
             return ConfigurationManager.AppSettings[key] ?? Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
         }
+
+        public static string NullIfEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value) ? null : value;
+        }
     }
 #else
     /// <summary>
