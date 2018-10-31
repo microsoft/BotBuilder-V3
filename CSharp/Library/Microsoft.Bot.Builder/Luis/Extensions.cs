@@ -63,6 +63,12 @@ namespace Microsoft.Bot.Builder.Luis
 
             // find the recommended entity that does not overlap start and end ranges with other result entities
             entity = result.Entities?.Where(e => e.Type == type && doesNotOverlapRange(e, result.Entities)).FirstOrDefault();
+            
+            //if missing a non overlapping entity, find the first entity of the given type
+            if (entity == null)
+            {
+                entity = result.Entities?.FirstOrDefault(e => e.Type == type);
+            }
             return entity != null;
         }
 

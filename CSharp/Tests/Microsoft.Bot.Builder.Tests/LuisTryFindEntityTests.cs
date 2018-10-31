@@ -8,6 +8,33 @@ namespace Microsoft.Bot.Builder.Tests
     [TestClass]
     public class LuisTryFindEntityTests
     {
+        [TestMethod]
+        public void Luis_TryFindEntity_Foo_Where_Built_In_Number_Overlaps()
+        {
+            // assemble
+
+            var recommendations = new List<EntityRecommendation>
+            {
+                new EntityRecommendation { Type = "foo", Entity = "3", StartIndex=12, EndIndex=12},
+                new EntityRecommendation { Type = "builtin.number", Entity = "3", StartIndex=12, EndIndex=12}
+            };
+
+            var result = new LuisResult("total miles 3", recommendations);
+
+            // act
+
+            EntityRecommendation recommendation;
+            result.TryFindEntity("builtin.number", out recommendation);
+            EntityRecommendation recommendationFoo;
+            result.TryFindEntity("foo", out recommendationFoo);
+
+            // assert
+            Assert.IsNotNull(recommendation, "builtin.number entity recommendation not found");
+            Assert.AreEqual("3", recommendation.Entity, "wrong builtin.number entity recommendation selected");
+
+            Assert.IsNotNull(recommendationFoo, "foo entity recommendation not found");
+            Assert.AreEqual("3", recommendationFoo.Entity, "wrong foo entity recommendation selected");
+        }
 
         [TestMethod]
         public void Luis_TryFindEntity_Date_And_Multiple_Numbers_Where_One_Number_Overlaps()
