@@ -169,7 +169,7 @@ export class WaterfallDialog extends Dialog {
                     if (step >= 0 && step < steps.length) {
                         // Execute next step of the waterfall
                         try {
-                            s.logger.log(s.dialogStack(), 'waterfall() step ' + step + 1 + ' of ' + steps.length);
+                            s.logger.log(s.dialogStack(), 'waterfall() step ' + (step + 1) + ' of ' + steps.length);
                             s.dialogData[consts.Data.WaterfallStep] = step;
                             steps[step](s, r, skip);
                         } catch (e) {

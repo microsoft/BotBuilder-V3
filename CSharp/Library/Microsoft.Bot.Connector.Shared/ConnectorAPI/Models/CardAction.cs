@@ -38,7 +38,9 @@ namespace Microsoft.Bot.Connector
         /// feed if the button is clicked</param>
         /// <param name="value">Supplementary parameter for action. Content of
         /// this property depends on the ActionType</param>
-        public CardAction(string type, string title = default(string), string image = default(string), object value = default(object), string text = default(string), string displayText = default(string)) : this()
+        /// <param name="channelData">Channel-specific data associated with
+        /// this action</param>
+        public CardAction(string type = default(string), string title = default(string), string image = default(string), object value = default(object), string text = default(string), string displayText = default(string), object channelData = default(object))
         {
             Type = type;
             Title = title;
@@ -46,6 +48,7 @@ namespace Microsoft.Bot.Connector
             Text = text;
             DisplayText = displayText;
             Value = value;
+            ChannelData = channelData;
             CustomInit();
         }
 
@@ -95,6 +98,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "value")]
         public object Value { get; set; }
+
+        /// <summary>
+        /// Gets or sets channel-specific data associated with this action
+        /// </summary>
+        [JsonProperty(PropertyName = "channelData")]
+        public object ChannelData { get; set; }
 
     }
 }

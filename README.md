@@ -1,6 +1,6 @@
 # Bot Builder SDK 
 
-If you are new to the Bot Builder SDK, we strongly encourage you to build you bot using the [v4 SDK](https://github.com/Microsoft/botbuilder).  
+If you are new to the Bot Builder SDK, we strongly encourage you to build your bot using the [v4 SDK](https://github.com/Microsoft/botbuilder).  
 
 This repo contains version 3.
 

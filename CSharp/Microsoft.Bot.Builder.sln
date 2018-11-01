@@ -46,10 +46,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Histo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Builder.Autofac", "Library\Microsoft.Bot.Builder.Autofac\Microsoft.Bot.Builder.Autofac.csproj", "{2C145824-38DD-409C-AB52-B3538997726C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Connector.NetCore", "Library\Microsoft.Bot.Connector.NetCore\Microsoft.Bot.Connector.NetCore.csproj", "{992F6A37-10D0-4676-A18E-8343A1F09FFF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.AspNetCore", "Library\Microsoft.Bot.Connector.AspNetCore\Microsoft.Bot.Connector.AspNetCore.csproj", "{2E2551AB-EA81-44FD-8D0E-89D55197AC76}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Microsoft.Bot.Connector.Shared", "Library\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.shproj", "{133E6973-CF90-4691-8685-D42D79C8884B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.AspNetCore2", "Library\Microsoft.Bot.Connector.AspNetCore2\Microsoft.Bot.Connector.AspNetCore2.csproj", "{AA997154-61D1-49FA-A4C6-E6AC79A7508A}"
@@ -71,7 +67,6 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.projitems*{09c14ef5-f94a-480f-82ca-4d934a977c7f}*SharedItemsImports = 4
 		Library\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.projitems*{133e6973-cf90-4691-8685-d42d79c8884b}*SharedItemsImports = 13
-		Library\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.projitems*{992f6a37-10d0-4676-a18e-8343a1f09fff}*SharedItemsImports = 4
 		Library\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.projitems*{df397efc-91db-4911-9971-c509926fc288}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -156,22 +151,6 @@ Global
 		{2C145824-38DD-409C-AB52-B3538997726C}.Documentation|Any CPU.Build.0 = Debug|Any CPU
 		{2C145824-38DD-409C-AB52-B3538997726C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C145824-38DD-409C-AB52-B3538997726C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.DailyRelease|Any CPU.ActiveCfg = Release|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.DailyRelease|Any CPU.Build.0 = Release|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.DailyRelease|Any CPU.ActiveCfg = Release|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.DailyRelease|Any CPU.Build.0 = Release|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Documentation|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Documentation|Any CPU.Build.0 = Debug|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AA997154-61D1-49FA-A4C6-E6AC79A7508A}.DailyRelease|Any CPU.ActiveCfg = Release|Any CPU
 		{AA997154-61D1-49FA-A4C6-E6AC79A7508A}.DailyRelease|Any CPU.Build.0 = Release|Any CPU
 		{AA997154-61D1-49FA-A4C6-E6AC79A7508A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -227,8 +206,6 @@ Global
 		{CEBD91E9-CDBD-4CC2-ADC1-8A5B626CE0CE} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{D2834D71-D7A2-451B-9A61-1488AF049526} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{2C145824-38DD-409C-AB52-B3538997726C} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
-		{992F6A37-10D0-4676-A18E-8343A1F09FFF} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
-		{2E2551AB-EA81-44FD-8D0E-89D55197AC76} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{133E6973-CF90-4691-8685-D42D79C8884B} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{AA997154-61D1-49FA-A4C6-E6AC79A7508A} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
 		{32013CA6-2B38-4B59-9093-538167DF31E1} = {28BCEB2C-F4BE-416D-A4FD-A311E99A9EB5}
