@@ -13,6 +13,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)AnimationCardEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachmentsEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AudioCardEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\AdalAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\Retry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\RetryParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BotAuthenticator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BotDataEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CardEx.cs" />
