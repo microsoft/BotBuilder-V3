@@ -646,8 +646,8 @@ namespace Microsoft.Bot.Connector
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
-        /// <param name='transcript'>
-        /// Transcript of activities
+        /// <param name='history'>
+        /// Historic activities
         /// </param>
         /// <param name='customHeaders'>
         /// Headers that will be added to request.
@@ -670,15 +670,15 @@ namespace Microsoft.Bot.Connector
         /// <return>
         /// A response object containing the response body and response headers.
         /// </return>
-        public async Task<HttpOperationResponse<ResourceResponse>> SendConversationHistoryWithHttpMessagesAsync(string conversationId, Transcript transcript, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HttpOperationResponse<ResourceResponse>> SendConversationHistoryWithHttpMessagesAsync(string conversationId, Transcript history, Dictionary<string, List<string>> customHeaders = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (conversationId == null)
             {
                 throw new ValidationException(ValidationRules.CannotBeNull, "conversationId");
             }
-            if (transcript == null)
+            if (history == null)
             {
-                throw new ValidationException(ValidationRules.CannotBeNull, "transcript");
+                throw new ValidationException(ValidationRules.CannotBeNull, "history");
             }
             // Tracing
             bool _shouldTrace = ServiceClientTracing.IsEnabled;
@@ -688,7 +688,7 @@ namespace Microsoft.Bot.Connector
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
                 tracingParameters.Add("conversationId", conversationId);
-                tracingParameters.Add("transcript", transcript);
+                tracingParameters.Add("history", history);
                 tracingParameters.Add("cancellationToken", cancellationToken);
                 ServiceClientTracing.Enter(_invocationId, this, "SendConversationHistory", tracingParameters);
             }
@@ -718,9 +718,9 @@ namespace Microsoft.Bot.Connector
 
             // Serialize Request
             string _requestContent = null;
-            if(transcript != null)
+            if(history != null)
             {
-                _requestContent = Rest.Serialization.SafeJsonConvert.SerializeObject(transcript, Client.SerializationSettings);
+                _requestContent = Rest.Serialization.SafeJsonConvert.SerializeObject(history, Client.SerializationSettings);
                 _httpRequest.Content = new StringContent(_requestContent, System.Text.Encoding.UTF8);
                 _httpRequest.Content.Headers.ContentType =System.Net.Http.Headers.MediaTypeHeaderValue.Parse("application/json; charset=utf-8");
             }

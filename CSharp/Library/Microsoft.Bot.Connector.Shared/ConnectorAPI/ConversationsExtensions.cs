@@ -221,6 +221,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<ResourceResponse> SendToConversationAsync(this IConversations operations, string conversationId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
+            // don't send trace activities unless the channel is emulator
             if (activity.Type == ActivityTypes.Trace && activity.ChannelId != "emulator")
             {
                 return new ResourceResponse(activity.Id ?? string.Empty);
@@ -250,12 +251,12 @@ namespace Microsoft.Bot.Connector
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
-        /// <param name='transcript'>
-        /// Transcript of activities
+        /// <param name='history'>
+        /// Historic activities
         /// </param>
-        public static ResourceResponse SendConversationHistory(this IConversations operations, string conversationId, Transcript transcript)
+        public static ResourceResponse SendConversationHistory(this IConversations operations, string conversationId, Transcript history)
         {
-            return operations.SendConversationHistoryAsync(conversationId, transcript).GetAwaiter().GetResult();
+            return operations.SendConversationHistoryAsync(conversationId, history).GetAwaiter().GetResult();
         }
 
         /// <summary>
@@ -276,15 +277,15 @@ namespace Microsoft.Bot.Connector
         /// <param name='conversationId'>
         /// Conversation ID
         /// </param>
-        /// <param name='transcript'>
-        /// Transcript of activities
+        /// <param name='history'>
+        /// Historic activities
         /// </param>
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        public static async Task<ResourceResponse> SendConversationHistoryAsync(this IConversations operations, string conversationId, Transcript transcript, CancellationToken cancellationToken = default(CancellationToken))
+        public static async Task<ResourceResponse> SendConversationHistoryAsync(this IConversations operations, string conversationId, Transcript history, CancellationToken cancellationToken = default(CancellationToken))
         {
-            using (var _result = await operations.SendConversationHistoryWithHttpMessagesAsync(conversationId, transcript, null, cancellationToken).ConfigureAwait(false))
+            using (var _result = await operations.SendConversationHistoryWithHttpMessagesAsync(conversationId, history, null, cancellationToken).ConfigureAwait(false))
             {
                 return _result.Body;
             }
@@ -424,6 +425,7 @@ namespace Microsoft.Bot.Connector
         /// </param>
         public static async Task<ResourceResponse> ReplyToActivityAsync(this IConversations operations, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
         {
+            // don't send trace activities unless the channel is emulator
             if (activity.Type == ActivityTypes.Trace && activity.ChannelId != "emulator")
             {
                 return new ResourceResponse(activity.Id ?? string.Empty);

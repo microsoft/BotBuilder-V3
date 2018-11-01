@@ -12,7 +12,7 @@ namespace Microsoft.Bot.Connector
     using System.Linq;
 
     /// <summary>
-    /// Conversation Transcript
+    /// Transcript
     /// </summary>
     public partial class Transcript
     {
@@ -27,7 +27,8 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Transcript class.
         /// </summary>
-        /// <param name="activities">Array of conversation activities.</param>
+        /// <param name="activities">A collection of Activities that conforms
+        /// to the Transcript schema.</param>
         public Transcript(IList<Activity> activities = default(IList<Activity>))
         {
             Activities = activities;
@@ -40,7 +41,8 @@ namespace Microsoft.Bot.Connector
         partial void CustomInit();
 
         /// <summary>
-        /// Gets or sets array of conversation activities.
+        /// Gets or sets a collection of Activities that conforms to the
+        /// Transcript schema.
         /// </summary>
         [JsonProperty(PropertyName = "activities")]
         public IList<Activity> Activities { get; set; }
