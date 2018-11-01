@@ -18,14 +18,14 @@
         <dependency id="Microsoft.Extensions.Configuration" version="2.0.0" />
         <dependency id="Microsoft.Extensions.Logging" version="2.0.0" />
         <dependency id="Microsoft.IdentityModel.Protocols.OpenIdConnect" version="2.1.4" />
-        <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.10" />
+        <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.11" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
       </group>
       <group targetFramework=".NETCoreApp2.0">
         <dependency id="Microsoft.Extensions.Configuration" version="2.0.0" />
         <dependency id="Microsoft.Extensions.Logging" version="2.0.0" />
         <dependency id="Microsoft.IdentityModel.Protocols.OpenIdConnect" version="2.1.4" />
-        <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.10" />
+        <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.11" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
       </group>
       <group targetFramework=".NETFramework4.6">
@@ -37,22 +37,6 @@
         <dependency id="Microsoft.IdentityModel.Tokens" version="5.1.4" />
         <dependency id="System.IdentityModel.Tokens.Jwt" version="5.1.4" />
         <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.2" />
-        <dependency id="Newtonsoft.Json" version="9.0.1" />
-      </group>
-      <group targetFramework=".NETStandard1.4">
-        <dependency id="System.IdentityModel.Tokens.Jwt" version="5.1.4" />
-        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.0" />
-        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.0" />
-        <dependency id="Microsoft.IdentityModel.Protocols.OpenIdConnect" version="2.1.4" />
-        <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.10" />
-        <dependency id="Newtonsoft.Json" version="9.0.1" />
-      </group>
-      <group targetFramework=".NETCoreApp1.1">
-        <dependency id="System.IdentityModel.Tokens.Jwt" version="5.1.4" />
-        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.0.0" />
-        <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.0.0" />
-        <dependency id="Microsoft.IdentityModel.Protocols.OpenIdConnect" version="2.1.4" />
-        <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.10" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
       </group>
     </dependencies>
@@ -67,11 +51,6 @@
     <file src="bin\release\Microsoft.Bot.Connector.dll" target="lib\net46"/>
     <file src="bin\release\Microsoft.Bot.Connector.xml" target="lib\net46" />
     <file src="bin\release\Microsoft.Bot.Connector.pdb" target="lib\net46" />
-    <!-- assembly Microsoft.Bot.Connector for .net standard 1.4-->
-    <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.dll" target="lib\netstandard1.4" />
-    <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.pdb" target="lib\netstandard1.4" />
-    <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.dll" target="lib\netcoreapp1.1" />
-    <file src="..\Microsoft.Bot.Connector.NetCore\bin\release\Microsoft.Bot.Connector.pdb" target="lib\netcoreapp1.1" />
     <file src="**\*.cs" exclude="**\obj\**\*.cs" target="src" />
   </files>
 </package>
