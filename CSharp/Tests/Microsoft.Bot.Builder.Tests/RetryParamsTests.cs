@@ -1,4 +1,7 @@
-﻿using Microsoft.Bot.Connector.Shared.Authentication;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Connector.Shared.Authentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -49,15 +52,17 @@ namespace Microsoft.Bot.Builder.Tests
         [TestMethod]
         public async Task RetryParams_DefaultBackOffShouldNotRetryAfter5Retries()
         {
-            RetryParams retryParams = RetryParams.DefaultBackOff(5);
+            RetryParams retryParams = RetryParams.DefaultBackOff(10);
             Assert.IsFalse(retryParams.ShouldRetry);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public async Task RetryParams_DelayOutOfBounds()
         {
             RetryParams retryParams = new RetryParams(TimeSpan.FromSeconds(11), true);
+
+            // RetryParams should enforce the upper bound on delay time
+            Assert.AreEqual(TimeSpan.FromSeconds(10), retryParams.RetryAfter);
         }
     }
 }

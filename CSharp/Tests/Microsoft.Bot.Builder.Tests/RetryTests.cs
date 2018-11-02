@@ -1,4 +1,7 @@
-﻿using Microsoft.Bot.Connector.Shared.Authentication;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Connector.Shared.Authentication;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -69,7 +72,7 @@ namespace Microsoft.Bot.Builder.Tests
             FaultyClass faultyClass = new FaultyClass()
             {
                 ExceptionToThrow = new ArgumentNullException(),
-                TriesUntilSuccess = 8
+                TriesUntilSuccess = 12
             };
 
             var result = await Retry.Run(

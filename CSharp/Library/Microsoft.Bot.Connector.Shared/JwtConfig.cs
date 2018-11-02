@@ -19,7 +19,7 @@
         public const string ToChannelFromBotOAuthScope = "https://api.botframework.com/.default";
 
         /// <summary>
-        /// OAuth resource URI for token acquiring
+        /// OAuth resource URI for token acquisition
         /// </summary>
         public const string OAuthResourceUri = "https://api.botframework.com/";
 

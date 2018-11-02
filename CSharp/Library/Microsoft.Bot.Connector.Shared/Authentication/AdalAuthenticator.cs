@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Collections.Generic;
@@ -14,7 +17,12 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
         private static readonly TimeSpan SemaphoreTimeout = TimeSpan.FromSeconds(1);
         private const int MaxRetries = 5;
 
+        // ADAL recommends having a single authentication context and reuse across requests.
+        // An authentication context also has an internal token cache which we can reuse.
         private static AuthenticationContext authContext = new AuthenticationContext(JwtConfig.ToChannelFromBotLoginUrl) { ExtendedLifeTimeEnabled = true };
+
+        // We limit concurrency when acquiring tokens. Experiments show that if we don't limit concurrency,
+        // when a token is refreshed we get throttled 20x more and also response times are 4x slower under load tests.
         private static SemaphoreSlim authContextSemaphore = new SemaphoreSlim(50, 50);
 
         private readonly ClientCredential clientCredential;
@@ -78,7 +86,7 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
         {
             if (ex is AdalServiceException)
             {
-                AdalServiceException adalServiceException = ex as AdalServiceException;
+                AdalServiceException adalServiceException = (AdalServiceException) ex;
 
                 // When the Service Token Server (STS) is too busy because of “too many requests”, 
                 // it returns an HTTP error 429 with a hint about when you can try again (Retry-After response field) as a delay in seconds
