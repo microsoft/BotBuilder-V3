@@ -185,7 +185,10 @@ namespace Microsoft.Bot.Connector
         
         public async Task<AuthenticationResult> GetTokenAsync()
         {
+            Stopwatch watch = Stopwatch.StartNew();
             var result =  await authenticator.GetTokenAsync().ConfigureAwait(false);
+            watch.Stop();
+            Debug.WriteLine(watch.ElapsedMilliseconds);
             return result;
         }
 

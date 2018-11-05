@@ -12,18 +12,31 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Bot.Connector.Shared.Authentication
 {
+    public class ThrottleException : Exception
+    {
+        public RetryParams RetryParams { get; set; }
+    }
+
     public class AdalAuthenticator 
     {
-        private static readonly TimeSpan SemaphoreTimeout = TimeSpan.FromSeconds(1);
-        private const int MaxRetries = 5;
+        private static readonly TimeSpan SemaphoreTimeout = TimeSpan.FromSeconds(5);
 
         // ADAL recommends having a single authentication context and reuse across requests.
         // An authentication context also has an internal token cache which we can reuse.
         private static AuthenticationContext authContext = new AuthenticationContext(JwtConfig.ToChannelFromBotLoginUrl) { ExtendedLifeTimeEnabled = true };
 
-        // We limit concurrency when acquiring tokens. Experiments show that if we don't limit concurrency,
-        // when a token is refreshed we get throttled 20x more and also response times are 4x slower under load tests.
-        private static SemaphoreSlim authContextSemaphore = new SemaphoreSlim(50, 50);
+        // We limit concurrency when acquiring tokens. ADAL requires us to limit concurrency. 
+        // In the (currently under preview) new version of ADAL called MSAL, the concurrency will be managed by MSAL. 
+        // We'll use the semaphore to make sure only one request sends a token request to the server at a given time,
+        // but the rest of the time requests will hit the local memory cache.
+        private static SemaphoreSlim authContextSemaphore = new SemaphoreSlim(1, 1);
+
+        // Depending on the responses we get from the service, we update a shared retry policy with the RetryAfter header
+        // from the HTTP 429 we receive.
+        // When everything seems to be OK, this retry policy will be empty.
+        // The reason for this is that if a request gets throttled, even if we wait to retry that, another thread will try again right away.
+        // With the shared retry policy, if a request gets throttled, we know that other threads have to wait as well.
+        private static volatile RetryParams currentRetryPolicy;
 
         private readonly ClientCredential clientCredential;
 
@@ -66,14 +79,38 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
                     // Given that this is a ClientCredential scenario, it will use the cache without the 
                     // need to call AcquireTokenSilentAsync (which is only for user credentials).
                     var res = await authContext.AcquireTokenAsync(JwtConfig.OAuthResourceUri, clientCredential).ConfigureAwait(false);
+
+                    // This means we acquired a valid token successfully. We can make our retry policy null.
+                    // Note that the retry policy is set under the semaphore so no additional synchronization is needed.
+                    if (currentRetryPolicy != null)
+                    {
+                        currentRetryPolicy = null;
+                    }
+
                     return res;
                 }
-
-                throw new TimeoutException("Timeout waiting for token acquisition.");
+                else
+                {
+                    // If the token is taken, it means that one thread is trying to acquire a token from the server.
+                    // If we already received information about how much to throttle, it will be in the currentRetryPolicy.
+                    // Use that to inform our next delay before trying.
+                    throw new ThrottleException() { RetryParams = currentRetryPolicy };
+                }
+            }
+            catch (Exception ex)
+            {
+                // If we are getting throttled, we set the retry policy according to the RetryAfter headers
+                // that we receive from the auth server.
+                // Note that the retry policy is set under the semaphore so no additional synchronization is needed.
+                if (IsAdalServiceUnavailable(ex))
+                {
+                    currentRetryPolicy = ComputeAdalRetry(ex);
+                }
+                throw ex;
             }
             finally
             {
-                // Always release the semaphore.
+                // Always release the semaphore if we acquired it.
                 if (acquired)
                 {
                     authContextSemaphore.Release();
@@ -84,9 +121,45 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
 
         private RetryParams HandleAdalException(Exception ex, int currentRetryCount)
         {
+            if (IsAdalServiceUnavailable(ex))
+            {
+                return ComputeAdalRetry(ex);
+            }
+            else if (ex is ThrottleException)
+            {
+                // This is an exception that we threw, with knowledge that 
+                // one of our threads is trying to acquire a token from the server
+                // Use the retry parameters recommended in the exception
+                ThrottleException throttlException = (ThrottleException)ex;
+                return throttlException.RetryParams ?? RetryParams.DefaultBackOff(currentRetryCount);
+            }
+            else
+            {
+                // We end up here is the exception is not an ADAL exception. An example, is under high traffic
+                // where we could have a timeout waiting to acquire a token, waiting on the semaphore.
+                // If we hit a timeout, we want to retry a reasonable number of times.
+                return RetryParams.DefaultBackOff(currentRetryCount);
+            }
+        }
+
+        private bool IsAdalServiceUnavailable(Exception ex)
+        {
+            AdalServiceException adalServiceException = ex as AdalServiceException;
+            if (adalServiceException == null)
+            {
+                return false;
+            }
+
+            // When the Service Token Server (STS) is too busy because of “too many requests”, 
+            // it returns an HTTP error 429
+            return adalServiceException.ErrorCode == AdalError.ServiceUnavailable || adalServiceException.StatusCode == 429;
+        }
+
+        private RetryParams ComputeAdalRetry(Exception ex)
+        {
             if (ex is AdalServiceException)
             {
-                AdalServiceException adalServiceException = (AdalServiceException) ex;
+                AdalServiceException adalServiceException = (AdalServiceException)ex;
 
                 // When the Service Token Server (STS) is too busy because of “too many requests”, 
                 // it returns an HTTP error 429 with a hint about when you can try again (Retry-After response field) as a delay in seconds
@@ -104,20 +177,10 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
                         return new RetryParams(retryAfter.Date.Value.Offset);
                     }
                     // We got a 429 but didn't get a specific back-off time. Use the default
-                    return RetryParams.DefaultBackOff(currentRetryCount);
-                }
-                else
-                {
-                    return RetryParams.DefaultBackOff(currentRetryCount);
+                    return RetryParams.DefaultBackOff(0);
                 }
             }
-            else
-            {
-                // We end up here is the exception is not an ADAL exception. An example, is under high traffic
-                // where we could have a timeout waiting to acquire a token, waiting on the semaphore.
-                // If we hit a timeout, we want to retry a reasonable number of times.
-                return RetryParams.DefaultBackOff(currentRetryCount);
-            }
+            return RetryParams.DefaultBackOff(0);
         }
     }
 }

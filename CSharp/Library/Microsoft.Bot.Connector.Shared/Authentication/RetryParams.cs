@@ -9,7 +9,7 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
 {
     public class RetryParams
     {
-        private const int maxRetries = 8;
+        private const int maxRetries = 10;
         private static readonly TimeSpan MaxDelay = TimeSpan.FromSeconds(10);
         private static readonly TimeSpan DefaultBackOffTime = TimeSpan.FromMilliseconds(50);
 
