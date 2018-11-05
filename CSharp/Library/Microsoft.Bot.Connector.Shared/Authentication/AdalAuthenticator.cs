@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
 
     public class AdalAuthenticator 
     {
-        private static readonly TimeSpan SemaphoreTimeout = TimeSpan.FromSeconds(5);
+        private static readonly TimeSpan SemaphoreTimeout = TimeSpan.FromSeconds(2);
 
         // ADAL recommends having a single authentication context and reuse across requests.
         // An authentication context also has an internal token cache which we can reuse.
