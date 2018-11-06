@@ -10,7 +10,7 @@ namespace Microsoft.Bot.Connector
     using System.Linq;
 
     /// <summary>
-    /// Object of schema.org types
+    /// Metadata object pertaining to an activity
     /// </summary>
     public partial class Entity
     {
@@ -25,8 +25,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the Entity class.
         /// </summary>
-        /// <param name="type">Entity Type (typically from schema.org
-        /// types)</param>
+        /// <param name="type">Type of this entity (RFC 3987 IRI)</param>
         public Entity(string type = default(string))
         {
             Type = type;
@@ -39,7 +38,7 @@ namespace Microsoft.Bot.Connector
         partial void CustomInit();
 
         /// <summary>
-        /// Gets or sets entity Type (typically from schema.org types)
+        /// Gets or sets type of this entity (RFC 3987 IRI)
         /// </summary>
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
