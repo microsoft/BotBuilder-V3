@@ -37,10 +37,8 @@ import { OpenIdMetadata } from './OpenIdMetadata';
 import * as utils from '../utils';
 import * as logger from '../logger';
 import * as consts from '../consts';
-import * as events from 'events';
 import * as request from 'request';
 import * as async from 'async';
-import * as url from 'url';
 import * as http from 'http';
 import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
@@ -438,6 +436,24 @@ export class ChatConnector implements IConnector, IBotStorage {
             json: true
         };
         this.authenticatedRequest(options, (err, response, body) => done(err));
+    }
+
+    public sendConversationHistory(serviceUrl: string, conversationId: string, transcript: ITranscript, done: (err: Error, results: any) => void): void {
+        // Calculate path
+        var path = '/v3/conversations/' + encodeURIComponent(conversationId) + '/activities/history';
+
+        var options: request.Options = {
+            method: 'POST',
+            // We use urlJoin to concatenate urls. url.resolve should not be used here,
+            // since it resolves urls as hrefs are resolved, which could result in losing
+            // the last fragment of the serviceUrl
+            url: urlJoin(serviceUrl, path),
+            body: transcript,
+            json: true
+        }
+
+        this.authenticatedRequest(options, (err, response, body) => done(err, body));
+
     }
 
     public exportBotStateData(serviceUrl: string, channelId: string, continuationToken: string|undefined, done: (err: Error, results: IBotStateDataResult) => void): void {

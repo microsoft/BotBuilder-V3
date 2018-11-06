@@ -53,6 +53,7 @@ interface IEvent {
 interface IMessage extends IEvent {
     timestamp?: string;              // UTC Time when message was sent (set by service)
     localTimestamp?: string;         // Local time when message was sent (set by client or bot, Ex: 2016-09-23T13:07:49.4714686-07:00)
+    localTimezone?: string;          // Contains the name of the timezone in which the message, in local time, expressed in IANA Time Zone database format. For example, America/Los_Angeles.
     summary?: string;                // Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations 
     text?: string;                   // Message text
     speak?: string;                  // Spoken message as Speech Synthesis Markup Language (SSML)
@@ -67,6 +68,14 @@ interface IMessage extends IEvent {
     name?: string;                   // Name of the operation to invoke or the name of the event.
     relatesTo?: IAddress;            // Reference to another conversation or message.
     code?: string;                   // Code indicating why the conversation has ended.
+    valueType?: string;              // The type of the activity's value object.
+    label?: string;                  // A descriptive label for the activity.
+    listenFor?: string[];            // List of phrases and references that speech and language priming systems should listen for.
+    semanticAction?: ISemanticAction; // An optional programmatic action accompanying this request.
+    textHighlights?: ITextHighlight[]; // The collection of text fragments to highlight when the activity contains a ReplyToId value.
+    expriation?: string;              // The time at which the activity should be considered to be "expired" and should not be presented to the recipient.
+    importance?: string;              // The importance of the activity.
+    deliveryMode?: string;            // A delivery hint to signal to the recipient alternate delivery paths for the activity. The default delivery mode is "default".
 }
 
 interface IIsMessage {
@@ -86,6 +95,8 @@ interface IIdentity {
     name?: string;                  // Friendly name for this identity
     isGroup?: boolean;              // If true the identity is a group. 
     conversationType?: string;      // Indicates the type of the conversation in channels that distinguish  
+    role?: string;                  // Role of the entity behind the account (Possible values include: 'user', 'bot')
+    aadObjectId?: string;           // This account's object ID within Azure Active Directory (AAD)
 }
 
 interface IConversationMembers {
@@ -171,10 +182,11 @@ interface IMediaCard extends IKeyboard{
     autostart: boolean;             // Should the media start automatically
     shareable: boolean;             // Should media be shareable
     value: any;                     // Supplementary parameter for this card.
+    duration: string;               // Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field.
+    aspect: string;                 // Hint of the aspect ratio of the video or animation. Allowed values are "16:9" and "4:3"
 }
 
 interface IVideoCard extends IMediaCard {
-    aspect: string;                 //Hint of the aspect ratio of the video or animation. (16:9)(4:3)
 }
 
 interface IAnimationCard extends IMediaCard {
@@ -224,6 +236,7 @@ interface ICardAction {
     image?: string;                 // (Optional) Picture which will appear on the button, next to text label. 
     text?: string;                  // (Optional) Text for this action.
     displayText?: string;           // (Optional) text to display in the chat feed if the button is clicked.
+    channelData?: any;              // (Optional) Channel-specific data associated with this action.
 }
 
 interface IIsCardAction {
@@ -331,4 +344,18 @@ interface ICompositeEntity<T> {
 interface ICompositeEntityChild<T> {
     type: string;
     value: string;
+}
+
+interface ITranscript {
+    activities: IMessage[];
+}
+
+interface ISemanticAction {
+    id: string;
+    entities: any;
+}
+
+interface ITextHighlight {
+    text: string;
+    occurrence: number;
 }

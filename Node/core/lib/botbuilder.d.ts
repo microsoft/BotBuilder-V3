@@ -182,6 +182,9 @@ export interface IMessage extends IEvent {
     /** Local time when message was sent (set by client or bot, Ex: 2016-09-23T13:07:49.4714686-07:00.) */
     localTimestamp?: string;
 
+    /** Contains the name of the timezone in which the message, in local time, expressed in IANA Time Zone database format. For example, America/Los_Angeles. */
+    localTimezone?: string;          
+
     /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */
     summary?: string;
 
@@ -220,6 +223,30 @@ export interface IMessage extends IEvent {
 
     /** Code indicating why the conversation has ended. */
     code?: string;
+
+    /** The type of the activity's value object. */
+    valueType?: string;
+
+    /** A descriptive label for the activity. */
+    label?: string;
+
+    /** List of phrases and references that speech and language priming systems should listen for. */
+    listenFor?: string[];
+
+    /** An optional programmatic action accompanying this request. */
+    semanticAction?: ISemanticAction;
+
+    /** The collection of text fragments to highlight when the activity contains a ReplyToId value. */
+    textHighlights?: ITextHighlight[];
+
+    /** The time at which the activity should be considered to be "expired" and should not be presented to the recipient. */
+    expriation?: string;
+
+    /** The importance of the activity. */
+    importance?: string;
+
+    /** A delivery hint to signal to the recipient alternate delivery paths for the activity. The default delivery mode is "default". */
+    deliveryMode?: string;
 }
 
 /**
@@ -275,6 +302,12 @@ export interface IIdentity {
 
     /** Indicates the type of the conversation in channels that distinguish. */
     conversationType?: string;
+
+    /** Role of the entity behind the account (Possible values include: 'user', 'bot') */
+    role?: string;
+
+    /** This account's object ID within Azure Active Directory (AAD) */
+    aadObjectId?: string;
 }
 
 /** List of members within a conversation. */
@@ -565,6 +598,9 @@ export interface ICardAction {
 
     /** (Optional) text to display in the chat feed if the button is clicked. */
     displayText?: string;
+
+    /** (Optional) Channel-specific data associated with this action. */
+    channelData?: any;
 }
 
 /** Implemented by classes that can be converted into a card action. */
@@ -1654,8 +1690,6 @@ export interface IDisambiguateRouteHandler {
 
 /** Interface definition for a video card */
 export interface IVideoCard extends IMediaCard {
-    /** Hint of the aspect ratio of the video or animation. (16:9)(4:3) */
-    aspect: string;
 }
 
 /** Interface definition for an audio card */
@@ -1697,6 +1731,12 @@ export interface IMediaCard {
 
     /** Supplementary parameter for this card. */
     value: any;
+
+    /** Describes the length of the media content without requiring a receiver to open the content. Formatted as an ISO 8601 Duration field. */
+    duration: string;
+
+    /** Hint of the aspect ratio of the video or animation. Allowed values are "16:9" and "4:3". */
+    aspect: string;
 }
 
 /** Url information describing media for a card */
@@ -1713,6 +1753,30 @@ export interface ICardMediaUrl {
 export interface IMediaEventValue {
     /** Callback parameter specified in the Value field of the MediaCard that originated this event. */
     cardValue: any;
+}
+
+/** An interface representing historic activities. */
+export interface ITranscript {
+    /** A collection of Activities that conforms to the Transcript schema. */
+    activities: IMessage[];
+}
+
+/** Represents a reference to a programmatic action. */
+export interface ISemanticAction {
+    /** ID of this action. */
+    id: string;
+
+    /** Entities associated with this action. */
+    entities: any;
+}
+
+/** An interface representing TextHighlight. Refers to a substring of content within another field. */
+export interface ITextHighlight {
+    /** Defines the snippet of text to highlight. */
+    text: string;
+
+    /** Occurence of the text field within the referenced text, if multiple exist. */
+    occurrence: number;
 }
 
 //=============================================================================
@@ -4306,6 +4370,15 @@ export class ChatConnector implements IConnector, IBotStorage {
      * @param done Callback invoked upon completion of the delete operation.
      */
     deleteConversationMember(serviceUrl: string, conversationId: string, memberId: string, done: (err: Error) => void): void;
+
+    /**
+     * This method allows you to upload the historic activities to the conversation. Sender must ensure that the historic activities have unique ids and appropriate timestamps.
+     * The ids are used by the client to deal with duplicate activities and the timestamps are used by the client to render the activities in the right order.
+     * @param serviceUrl The service url for the channel being queried. This can be found in the `address.serviceUrl` for a message sent to the bot.
+     * @param conversationId ID of the conversation with the history to send.
+     * @param done 
+     */
+    sendConversationHistory(serviceUrl: string, conversationId: string, transcript: ITranscript, done: (err: Error, results: any) => void): void;
 
     /**
      * Exports bot state data persisted for a given channel.

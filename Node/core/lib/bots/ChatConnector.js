@@ -322,6 +322,16 @@ var ChatConnector = (function () {
         };
         this.authenticatedRequest(options, function (err, response, body) { return done(err); });
     };
+    ChatConnector.prototype.sendConversationHistory = function (serviceUrl, conversationId, transcript, done) {
+        var path = '/v3/conversations/' + encodeURIComponent(conversationId) + '/activities/history';
+        var options = {
+            method: 'POST',
+            url: urlJoin(serviceUrl, path),
+            body: transcript,
+            json: true
+        };
+        this.authenticatedRequest(options, function (err, response, body) { return done(err, body); });
+    };
     ChatConnector.prototype.exportBotStateData = function (serviceUrl, channelId, continuationToken, done) {
         var path = '/v3/botstate/' + channelId + '/exportBotStateData';
         if (continuationToken) {
