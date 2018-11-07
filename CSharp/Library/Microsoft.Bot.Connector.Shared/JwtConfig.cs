@@ -9,9 +9,9 @@
     public static class JwtConfig
     {
         /// <summary>
-        /// TO CHANNEL FROM BOT: Login URL template string. Bot developer can optionally specify
-        /// which tenant to obtain an access token from. The default tenant is "botframework.com".
-        /// By default, the chanels only accept tokens from the default tenant.
+        /// TO CHANNEL FROM BOT: Login URL template string. Bot developer may specify
+        /// which tenant to obtain an access token from. By default, the channels only
+        /// accept tokens from "botframework.com".
         /// TODO: add doc link
         /// </summary>
         public const string ToChannelFromBotLoginUrlTemplate = "https://login.microsoftonline.com/{0}/oauth2/v2.0/token";
