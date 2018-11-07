@@ -90,9 +90,9 @@ namespace Microsoft.Bot.Connector
                 string tenant = null;
 #if NET45
                 // Advanced user only. TODO: add doc link.
-                tenant = SettingsUtils.GetAppSettings("ChannelAuthTenant").NullIfEmpty();
+                tenant = SettingsUtils.GetAppSettings("ChannelAuthTenant");
 #endif
-                return string.Format(JwtConfig.ToChannelFromBotLoginUrlFormat, tenant ?? "botframework.com");
+                return string.Format(JwtConfig.ToChannelFromBotLoginUrlTemplate, string.IsNullOrEmpty(tenant) ? "botframework.com" : tenant);
             }
         }
         public virtual string OAuthScope { get { return JwtConfig.ToChannelFromBotOAuthScope; } }
