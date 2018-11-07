@@ -89,10 +89,15 @@ namespace Microsoft.Bot.Connector
             {
                 string tenant = null;
 #if NET45
-                // Advanced user only. TODO: add doc link.
+                // Advanced user only, see https://aka.ms/bots/tenant-restriction
                 tenant = SettingsUtils.GetAppSettings("ChannelAuthTenant");
 #endif
-                return string.Format(JwtConfig.ToChannelFromBotLoginUrlTemplate, string.IsNullOrEmpty(tenant) ? "botframework.com" : tenant);
+                var endpointUrl = string.Format(JwtConfig.ToChannelFromBotLoginUrlTemplate, string.IsNullOrEmpty(tenant) ? "botframework.com" : tenant);
+
+                if (Uri.TryCreate(endpointUrl, UriKind.Absolute, out Uri result))
+                    return endpointUrl;
+
+                throw new Exception($"Invalid token endpoint: {endpointUrl}");
             }
         }
         public virtual string OAuthScope { get { return JwtConfig.ToChannelFromBotOAuthScope; } }

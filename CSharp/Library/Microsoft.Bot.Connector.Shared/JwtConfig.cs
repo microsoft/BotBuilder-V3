@@ -12,7 +12,7 @@
         /// TO CHANNEL FROM BOT: Login URL template string. Bot developer can optionally specify
         /// which tenant to obtain an access token from. The default tenant is "botframework.com".
         /// By default, the chanels only accept tokens from the default tenant.
-        /// TODO: add doc link
+        /// For more details see https://aka.ms/bots/tenant-restriction
         /// </summary>
         public const string ToChannelFromBotLoginUrlTemplate = "https://login.microsoftonline.com/{0}/oauth2/v2.0/token";
 
