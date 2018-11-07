@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
 
         // ADAL recommends having a single authentication context and reuse across requests.
         // An authentication context also has an internal token cache which we can reuse.
-        private static AuthenticationContext authContext = new AuthenticationContext(JwtConfig.ToChannelFromBotLoginUrl) { ExtendedLifeTimeEnabled = true };
+        private static AuthenticationContext authContext = new AuthenticationContext(MicrosoftAppCredentials.OAuthEndpoint) { ExtendedLifeTimeEnabled = true };
 
         // We limit concurrency when acquiring tokens. ADAL requires us to limit concurrency. 
         // In the (currently under preview) new version of ADAL called MSAL, the concurrency will be managed by MSAL. 

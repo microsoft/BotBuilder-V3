@@ -83,7 +83,7 @@ namespace Microsoft.Bot.Connector
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppPassword { get; set; }
 
-        public static string OAuthLoginEndpoint { get { return JwtConfig.ToChannelFromBotLoginUrl; } }
+        public static string OAuthEndpoint { get { return JwtConfig.ToChannelFromBotLoginUrl; } }
         public static string OAuthResourceUri { get { return JwtConfig.OAuthResourceUri; } }
 
 
