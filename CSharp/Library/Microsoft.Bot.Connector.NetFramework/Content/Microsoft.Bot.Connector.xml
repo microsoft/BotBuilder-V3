@@ -6570,9 +6570,11 @@
             Configuration for JWT tokens
             </summary>
         </member>
-        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotLoginUrl">
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotLoginUrlTemplate">
             <summary>
-            TO CHANNEL FROM BOT: Login URL
+            TO CHANNEL FROM BOT: Login URL template string. Bot developer may specify
+            which tenant to obtain an access token from. By default, the channels only
+            accept tokens from "botframework.com". For more details see https://aka.ms/bots/tenant-restriction
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotOAuthScope">
@@ -6582,7 +6584,7 @@
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.OAuthResourceUri">
             <summary>
-            OAuth resource URI for token acquiring
+            OAuth resource URI for token acquisition
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromChannelOpenIdMetadataUrl">

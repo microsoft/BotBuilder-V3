@@ -83,9 +83,24 @@ namespace Microsoft.Bot.Connector
         public string MicrosoftAppId { get; set; }
         public string MicrosoftAppPassword { get; set; }
 
-        public static string OAuthEndpoint { get { return JwtConfig.ToChannelFromBotLoginUrl; } }
-        public static string OAuthResourceUri { get { return JwtConfig.OAuthResourceUri; } }
+        public static string OAuthEndpoint
+        {
+            get
+            {
+                string tenant = null;
+#if NET45
+                // Advanced user only, see https://aka.ms/bots/tenant-restriction
+                tenant = SettingsUtils.GetAppSettings("ChannelAuthTenant");
+#endif
+                var endpointUrl = string.Format(JwtConfig.ToChannelFromBotLoginUrlTemplate, string.IsNullOrEmpty(tenant) ? "botframework.com" : tenant);
 
+                if (Uri.TryCreate(endpointUrl, UriKind.Absolute, out Uri result))
+                    return endpointUrl;
+
+                throw new Exception($"Invalid token endpoint: {endpointUrl}");
+            }
+        }
+        public static string OAuthResourceUri { get { return JwtConfig.OAuthResourceUri; } }
 
         /// <summary>
         /// TimeWindow which controlls how often the token will be automatically updated

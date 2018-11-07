@@ -6416,19 +6416,17 @@
             Configuration for JWT tokens
             </summary>
         </member>
-        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotLoginUrl">
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotLoginUrlFormat">
             <summary>
-            TO CHANNEL FROM BOT: Login URL
+            TO CHANNEL FROM BOT: Login URL format string. Bot developer can optionally specify
+            which tenant to obtain an access token from. The default tenant is "botframework.com".
+            Normally the chanels only accept tokens from the default tenant.
+            TODO: add doc link
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotOAuthScope">
             <summary>
             TO CHANNEL FROM BOT: OAuth scope to request
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.JwtConfig.OAuthResourceUri">
-            <summary>
-            OAuth resource URI for token acquiring
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromChannelOpenIdMetadataUrl">
@@ -6541,6 +6539,18 @@
             Apply the credentials to the HTTP request.
             </summary>
             <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials._getCurrentTokenTask(System.Boolean)">
+            <summary>
+            Do not call this except from GetTokenRefreshAsync() 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.RefreshTokenAsync">
+            <summary>
+            Return task which will try multiple times until it gets a valid token
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.OAuthApi">
             <summary>
