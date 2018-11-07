@@ -6583,6 +6583,11 @@
             TO CHANNEL FROM BOT: OAuth scope to request
             </summary>
         </member>
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.OAuthResourceUri">
+            <summary>
+            OAuth resource URI for token acquiring
+            </summary>
+        </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromChannelOpenIdMetadataUrl">
             <summary>
             TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA
@@ -6693,18 +6698,6 @@
             Apply the credentials to the HTTP request.
             </summary>
             <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials._getCurrentTokenTask(System.Boolean)">
-            <summary>
-            Do not call this except from GetTokenRefreshAsync() 
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.RefreshTokenAsync">
-            <summary>
-            Return task which will try multiple times until it gets a valid token
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.OAuthApi">
             <summary>

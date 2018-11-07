@@ -22,6 +22,11 @@
         public const string ToChannelFromBotOAuthScope = "https://api.botframework.com/.default";
 
         /// <summary>
+        /// OAuth resource URI for token acquisition
+        /// </summary>
+        public const string OAuthResourceUri = "https://api.botframework.com/";
+
+        /// <summary>
         /// TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA
         /// </summary>
         public const string ToBotFromChannelOpenIdMetadataUrl = "https://login.botframework.com/v1/.well-known/openidconfiguration";

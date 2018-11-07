@@ -1,25 +1,20 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Bot.Connector;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.Diagnostics;
 
 namespace Microsoft.Bot.Builder.Tests
 {
-    /// <summary>
-    /// Summary description for UnitTest1
-    /// </summary>
     [TestClass]
     public class GetTokenRefreshTests
     {
-        public GetTokenRefreshTests()
-        {
-            //
-            // TODO: Add constructor logic here
-            //
-        }
-
         private TestContext testContextInstance;
 
         /// <summary>
@@ -38,98 +33,88 @@ namespace Microsoft.Bot.Builder.Tests
             }
         }
 
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
         [TestMethod]
         public async Task TokenTests_GetCredentialsWorks()
         {
-            MicrosoftAppCredentials credentials = new MicrosoftAppCredentials("10c55330-7945-4008-b2c5-9e91cb5e5d34", "cPVCp1|l!8T=>-Fz");
+            MicrosoftAppCredentials credentials = new MicrosoftAppCredentials("a40e1db0-b7a2-4e6e-af0e-b4987f73228f", "sbF0902^}tyvpvEDXTMX9^|");
             var result = await credentials.GetTokenAsync();
             Assert.IsNotNull(result);
         }
 
-
         [TestMethod]
-        public async Task TokenTests_RefreshTokenWorks()
+        public async Task TokenTests_GetTokenTwice()
         {
-            MicrosoftAppCredentials credentials = new MicrosoftAppCredentials("10c55330-7945-4008-b2c5-9e91cb5e5d34", "cPVCp1|l!8T=>-Fz");
+            MicrosoftAppCredentials credentials = new MicrosoftAppCredentials("a40e1db0-b7a2-4e6e-af0e-b4987f73228f", "sbF0902^}tyvpvEDXTMX9^|");
             var result = await credentials.GetTokenAsync();
             Assert.IsNotNull(result);
             var result2 = await credentials.GetTokenAsync();
-            Assert.AreEqual(result, result2);
-            var result3 = await credentials.GetTokenAsync(true);
-            Assert.IsNotNull(result3);
-            Assert.AreNotEqual(result2, result3);
+            Assert.AreEqual(result2.AccessToken, result2.AccessToken);
+            Assert.AreEqual(result2.ExpiresOn, result2.ExpiresOn);
+        }
+
+        [TestMethod]
+        public async Task TokenTests_GetTokenWaitAndRefresh()
+        {
+            MicrosoftAppCredentials credentials = new MicrosoftAppCredentials("a40e1db0-b7a2-4e6e-af0e-b4987f73228f", "sbF0902^}tyvpvEDXTMX9^|");
+            var result = await credentials.GetTokenAsync();
+            Assert.IsNotNull(result);
+            credentials.ClearTokenCache();
+            var result2 = await credentials.GetTokenAsync();
+            Assert.AreNotEqual(result.ExpiresOn, result2.ExpiresOn);
+            Assert.AreNotEqual(result.AccessToken, result2.AccessToken);
         }
 
         [TestMethod]
         public async Task TokenTests_RefreshTestLoad()
         {
-            MicrosoftAppCredentials credentials = new MicrosoftAppCredentials("10c55330-7945-4008-b2c5-9e91cb5e5d34", "cPVCp1|l!8T=>-Fz");
-            List<Task<string>> tasks = new List<Task<string>>();
+            MicrosoftAppCredentials credentials = new MicrosoftAppCredentials("a40e1db0-b7a2-4e6e-af0e-b4987f73228f", "sbF0902^}tyvpvEDXTMX9^|");
+
+            List<Task<AuthenticationResult>> tasks = new List<Task<AuthenticationResult>>();
             for (int i = 0; i < 1000; i++)
             {
                 tasks.Add(credentials.GetTokenAsync());
             }
 
-            string prevResult = null;
             foreach (var item in tasks)
             {
-                string result = await item;
-                Assert.IsNotNull(result);
-                if (prevResult != null)
-                    Assert.AreEqual(prevResult, result);
-                prevResult = result;
+                Assert.IsFalse(item.IsFaulted);
+                Assert.IsFalse(item.IsCanceled);
+                AuthenticationResult result = await item;
+
+                Assert.IsTrue(result.ExpiresOn > DateTimeOffset.UtcNow);
             }
 
             tasks.Clear();
             for (int i = 0; i < 1000; i++)
             {
                 if (i % 100 == 50)
-                    tasks.Add(credentials.GetTokenAsync(true));
-                else
-                    tasks.Add(credentials.GetTokenAsync());
+                    credentials.ClearTokenCache();
+
+                tasks.Add(credentials.GetTokenAsync());
             }
 
-            HashSet<string> results = new HashSet<string>();
+            HashSet<AuthenticationResult> results = new HashSet<AuthenticationResult>(new AuthenticationResultEqualityComparer());
             for(int i=0; i < 1000; i++)
             {
-                string result = await tasks[i];
-                if (i == 0)
-                    results.Add(result);
-                Assert.IsNotNull(result);
-                if (prevResult != null)
-                {
-                    if (i % 100 == 50)
-                    {
-                        Assert.IsTrue(!results.Contains(result));
-                        results.Add(result);
-                    }
-                    else
-                        Assert.IsTrue(results.Contains(result));
-                }
-            }
+                Assert.IsFalse(tasks[i].IsFaulted);
+                Assert.IsFalse(tasks[i].IsCanceled);
+                AuthenticationResult result = await tasks[i];
 
+                Assert.IsTrue(result.ExpiresOn > DateTimeOffset.UtcNow);
+            }
+        }
+    }
+
+    class AuthenticationResultEqualityComparer : IEqualityComparer<AuthenticationResult>
+    {
+        public bool Equals(AuthenticationResult x, AuthenticationResult y)
+        {
+            return x.AccessToken == y.AccessToken;
+        }
+
+        public int GetHashCode(AuthenticationResult obj)
+        {
+            return obj.AccessToken.GetHashCode();
         }
     }
 }
