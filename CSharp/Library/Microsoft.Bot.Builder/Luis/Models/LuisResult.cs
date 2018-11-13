@@ -77,6 +77,15 @@ namespace Microsoft.Bot.Builder.Luis.Models
         public string AlteredQuery { get; set; }
 
         /// <summary>
+        /// Gets or sets the sentiment.
+        /// </summary>
+        /// <value>
+        /// The sentiment.
+        /// </value>
+        [JsonProperty(PropertyName = "sentimentAnalysis")]
+        public Sentiment Sentiment { get; set; }
+
+        /// <summary>
         /// Validate the object. Throws ValidationException if validation fails.
         /// </summary>
         public virtual void Validate()
