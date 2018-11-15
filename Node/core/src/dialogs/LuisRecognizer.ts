@@ -35,6 +35,7 @@ import { IntentRecognizer, IRecognizeContext, IIntentRecognizerResult } from './
 import * as utils from '../utils';
 import * as request from 'request';
 import * as url from 'url';
+const packageJSON = require('../../package.json');
 
 export interface ILuisModelMap {
     [local: string]: string;
@@ -117,7 +118,7 @@ export class LuisRecognizer extends IntentRecognizer {
             }
 
             // Call model
-            request.get(url.format(uri), (err: Error, res: any, body: string) => {
+            request.get(url.format(uri), {headers: LuisRecognizer.commonHeaders() }, (err: Error, res: any, body: string) => {
                 // Parse results
                 var result: ILuisResults;
                 try {
@@ -155,6 +156,13 @@ export class LuisRecognizer extends IntentRecognizer {
         } catch (err) {
             callback(err instanceof Error ? err : new Error(err.toString()));
         }
+    }
+
+    static commonHeaders() {
+        return {
+            'Content-Type': 'application/json',
+            'User-Agent': `botbuilder/v3-sdk/js/${packageJSON.version}`
+        };
     }
 }
 
