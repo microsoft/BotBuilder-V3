@@ -34,6 +34,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Internals.Fibers;
@@ -279,12 +280,15 @@ namespace Microsoft.Bot.Builder.Luis
         {
             string json;
             using (var client = new HttpClient())
-            using (var response = await client.GetAsync(uri, HttpCompletionOption.ResponseContentRead, token))
             {
-                response.EnsureSuccessStatusCode();
-                json = await response.Content.ReadAsStringAsync();
+                //cannot use DefaultRequestHeaders.UserAgent.ParseAdd for non-standard formatted User-Agent header
+                client.DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", $"botbuilder/v3-sdk/csharp/{GetAssemblyVersion(this)}");
+                using (var response = await client.GetAsync(uri, HttpCompletionOption.ResponseContentRead, token))
+                {
+                    response.EnsureSuccessStatusCode();
+                    json = await response.Content.ReadAsStringAsync();
+                }
             }
-
             try
             {
                 var result = JsonConvert.DeserializeObject<LuisResult>(json);
@@ -296,6 +300,13 @@ namespace Microsoft.Bot.Builder.Luis
             {
                 throw new ArgumentException("Unable to deserialize the LUIS response.", ex);
             }
+        }
+
+        internal static string GetAssemblyVersion<T>(T service) where T : ILuisService
+        {
+            var type = service.GetType();
+            var assembly = type.GetTypeInfo().Assembly;
+            return assembly.GetName().Version.ToString();
         }
     }
 
