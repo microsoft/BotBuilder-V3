@@ -359,3 +359,8 @@ interface ITextHighlight {
     text: string;
     occurrence: number;
 }
+
+interface ISentiment {
+    label: string;
+    score: number;
+}

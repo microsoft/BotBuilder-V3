@@ -67,6 +67,7 @@ export interface IIntentRecognizerResult extends IRecognizeResult {
     intents?: IIntent[];
     entities?: IEntity<any>[];
     compositeEntities?: ICompositeEntity<any>[];
+    sentiment?: ISentiment;
 }
 
 export type RecognizerEnabledHandler = (context: IRecognizeContext, callback: (err: Error, enabled: boolean) => void) => void;
