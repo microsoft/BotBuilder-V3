@@ -203,7 +203,7 @@
             Initializes a new instance of the Activity class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTimeOffset},System.Nullable{System.DateTimeOffset},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference,System.String,System.Nullable{System.DateTimeOffset},System.String,System.String,System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{Microsoft.Bot.Connector.TextHighlight},Microsoft.Bot.Connector.SemanticAction)">
+        <member name="M:Microsoft.Bot.Connector.Activity.#ctor(System.String,System.String,System.Nullable{System.DateTimeOffset},System.Nullable{System.DateTimeOffset},System.String,System.String,Microsoft.Bot.Connector.ChannelAccount,Microsoft.Bot.Connector.ConversationAccount,Microsoft.Bot.Connector.ChannelAccount,System.String,System.String,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.Collections.Generic.IList{Microsoft.Bot.Connector.MessageReaction},System.String,System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,Microsoft.Bot.Connector.SuggestedActions,System.Collections.Generic.IList{Microsoft.Bot.Connector.Attachment},System.Collections.Generic.IList{Microsoft.Bot.Connector.Entity},System.Object,System.String,System.String,System.String,System.String,System.Object,System.String,Microsoft.Bot.Connector.ConversationReference,System.String,System.Nullable{System.DateTimeOffset},System.String,System.String,System.Collections.Generic.IList{System.String},System.Collections.Generic.IList{Microsoft.Bot.Connector.TextHighlight},Microsoft.Bot.Connector.SemanticAction,System.String)">
             <summary>
             Initializes a new instance of the Activity class.
             </summary>
@@ -219,6 +219,10 @@
             <param name="localTimestamp">Contains the date and time that the
             message was sent, in local time, expressed in ISO-8601 format.
             For example, 2016-09-23T13:07:49.4714686-07:00.</param>
+            <param name="localTimezone">Contains the name of the timezone in
+            which the message, in local time, expressed in IANA Time Zone
+            database format.
+            For example, America/Los_Angeles.</param>
             <param name="serviceUrl">Contains the URL that specifies the
             channel's service endpoint. Set by the channel.</param>
             <param name="channelId">Contains an ID that uniquely identifies the
@@ -292,7 +296,7 @@
             recipient.</param>
             <param name="importance">The importance of the activity. Possible
             values include: 'low', 'normal', 'high'</param>
-            <param name="deliveryMode">A delivery hint to  signal to the
+            <param name="deliveryMode">A delivery hint to signal to the
             recipient alternate delivery paths for the activity.
             The default delivery mode is "default". Possible values include:
             'normal', 'notification'</param>
@@ -329,6 +333,14 @@
             Gets or sets contains the date and time that the message was sent,
             in local time, expressed in ISO-8601 format.
             For example, 2016-09-23T13:07:49.4714686-07:00.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.Activity.LocalTimezone">
+            <summary>
+            Gets or sets contains the name of the timezone in which the
+            message, in local time, expressed in IANA Time Zone database
+            format.
+            For example, America/Los_Angeles.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.ServiceUrl">
@@ -520,7 +532,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.DeliveryMode">
             <summary>
-            Gets or sets a delivery hint to  signal to the recipient alternate
+            Gets or sets a delivery hint to signal to the recipient alternate
             delivery paths for the activity.
             The default delivery mode is "default". Possible values include:
             'normal', 'notification'
@@ -660,7 +672,7 @@
             Initializes a new instance of the AnimationCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.AnimationCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Object)">
+        <member name="M:Microsoft.Bot.Connector.AnimationCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Object,System.String)">
             <summary>
             Initializes a new instance of the AnimationCard class.
             </summary>
@@ -668,7 +680,9 @@
             <param name="subtitle">Subtitle of this card</param>
             <param name="text">Text of this card</param>
             <param name="image">Thumbnail placeholder</param>
-            <param name="media">Media URLs for this card</param>
+            <param name="media">Media URLs for this card. When this field
+            contains more than one URL, each URL is an alternative format of
+            the same content.</param>
             <param name="buttons">Actions on this card</param>
             <param name="shareable">This content may be shared with others
             (default:true)</param>
@@ -676,8 +690,11 @@
             content (default:true)</param>
             <param name="autostart">Should the client automatically start
             playback of media in this card (default:true)</param>
-            <param name="aspect">Aspect ratio of thumbnail/media placeholder,
-            allowed values are "16:9" and "4:3"</param>
+            <param name="aspect">Aspect ratio of thumbnail/media placeholder.
+            Allowed values are "16:9" and "4:3"</param>
+            <param name="duration">Describes the length of the media content
+            without requiring a receiver to open the content. Formatted as an
+            ISO 8601 Duration field.</param>
             <param name="value">Supplementary parameter for this card</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.AnimationCard.Title">
@@ -702,7 +719,9 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.AnimationCard.Media">
             <summary>
-            Gets or sets media URLs for this card
+            Gets or sets media URLs for this card. When this field contains
+            more than one URL, each URL is an alternative format of the same
+            content.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.AnimationCard.Buttons">
@@ -729,8 +748,15 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.AnimationCard.Aspect">
             <summary>
-            Gets or sets aspect ratio of thumbnail/media placeholder, allowed
+            Gets or sets aspect ratio of thumbnail/media placeholder. Allowed
             values are "16:9" and "4:3"
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AnimationCard.Duration">
+            <summary>
+            Gets or sets describes the length of the media content without
+            requiring a receiver to open the content. Formatted as an ISO 8601
+            Duration field.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.AnimationCard.Value">
@@ -860,7 +886,7 @@
             Initializes a new instance of the AudioCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Object)">
+        <member name="M:Microsoft.Bot.Connector.AudioCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Object,System.String)">
             <summary>
             Initializes a new instance of the AudioCard class.
             </summary>
@@ -868,7 +894,9 @@
             <param name="subtitle">Subtitle of this card</param>
             <param name="text">Text of this card</param>
             <param name="image">Thumbnail placeholder</param>
-            <param name="media">Media URLs for this card</param>
+            <param name="media">Media URLs for this card. When this field
+            contains more than one URL, each URL is an alternative format of
+            the same content.</param>
             <param name="buttons">Actions on this card</param>
             <param name="shareable">This content may be shared with others
             (default:true)</param>
@@ -876,8 +904,11 @@
             content (default:true)</param>
             <param name="autostart">Should the client automatically start
             playback of media in this card (default:true)</param>
-            <param name="aspect">Aspect ratio of thumbnail/media placeholder,
-            allowed values are "16:9" and "4:3"</param>
+            <param name="aspect">Aspect ratio of thumbnail/media placeholder.
+            Allowed values are "16:9" and "4:3"</param>
+            <param name="duration">Describes the length of the media content
+            without requiring a receiver to open the content. Formatted as an
+            ISO 8601 Duration field.</param>
             <param name="value">Supplementary parameter for this card</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Title">
@@ -902,7 +933,9 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Media">
             <summary>
-            Gets or sets media URLs for this card
+            Gets or sets media URLs for this card. When this field contains
+            more than one URL, each URL is an alternative format of the same
+            content.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Buttons">
@@ -929,8 +962,15 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Aspect">
             <summary>
-            Gets or sets aspect ratio of thumbnail/media placeholder, allowed
+            Gets or sets aspect ratio of thumbnail/media placeholder. Allowed
             values are "16:9" and "4:3"
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.AudioCard.Duration">
+            <summary>
+            Gets or sets describes the length of the media content without
+            requiring a receiver to open the content. Formatted as an ISO 8601
+            Duration field.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.AudioCard.Value">
@@ -1087,13 +1127,15 @@
             Initializes a new instance of the ChannelAccount class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor(System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.ChannelAccount.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
             Initializes a new instance of the ChannelAccount class.
             </summary>
             <param name="id">Channel id for the user or bot on this channel
             (Example: joe@smith.com, or @joesmith or 123456)</param>
             <param name="name">Display friendly name</param>
+            <param name="aadObjectId">This account's object ID within Azure
+            Active Directory (AAD)</param>
             <param name="role">Role of the entity behind the account (Example:
             User, Bot, etc.). Possible values include: 'user', 'bot'</param>
         </member>
@@ -1106,6 +1148,12 @@
         <member name="P:Microsoft.Bot.Connector.ChannelAccount.Name">
             <summary>
             Gets or sets display friendly name
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ChannelAccount.AadObjectId">
+            <summary>
+            Gets or sets this account's object ID within Azure Active Directory
+            (AAD)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ChannelAccount.Role">
@@ -1297,6 +1345,16 @@
             Gets the IConversations.
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Net.Http.HttpClient,System.Boolean)">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='httpClient'>
+            HttpClient to be used
+            </param>
+            <param name='disposeHttpClient'>
+            True: will dispose the provided httpClient on calling ConnectorClient.Dispose(). False: will not dispose provided httpClient</param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(System.Net.Http.DelegatingHandler[])">
             <summary>
             Initializes a new instance of the ConnectorClient class.
@@ -1357,6 +1415,22 @@
             <param name='handlers'>
             Optional. The delegating handlers to add to the http client pipeline.
             </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.ConnectorClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClient,System.Boolean)">
+            <summary>
+            Initializes a new instance of the ConnectorClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='httpClient'>
+            HttpClient to be used
+            </param>
+            <param name='disposeHttpClient'>
+            True: will dispose the provided httpClient on calling ConnectorClient.Dispose(). False: will not dispose provided httpClient</param>
             <exception cref="T:System.ArgumentNullException">
             Thrown when a required parameter is null
             </exception>
@@ -1621,8 +1695,8 @@
              <param name='conversationId'>
              Conversation ID
              </param>
-             <param name='transcript'>
-             Transcript of activities
+             <param name='history'>
+             Historic activities
              </param>
              <param name='customHeaders'>
              Headers that will be added to request.
@@ -2190,8 +2264,8 @@
              <param name='conversationId'>
              Conversation ID
              </param>
-             <param name='transcript'>
-             Transcript of activities
+             <param name='history'>
+             Historic activities
              </param>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationsExtensions.SendConversationHistoryAsync(Microsoft.Bot.Connector.IConversations,System.String,Microsoft.Bot.Connector.Transcript,System.Threading.CancellationToken)">
@@ -2213,8 +2287,8 @@
              <param name='conversationId'>
              Conversation ID
              </param>
-             <param name='transcript'>
-             Transcript of activities
+             <param name='history'>
+             Historic activities
              </param>
              <param name='cancellationToken'>
              The cancellation token.
@@ -3021,8 +3095,8 @@
              <param name='conversationId'>
              Conversation ID
              </param>
-             <param name='transcript'>
-             Transcript of activities
+             <param name='history'>
+             Historic activities
              </param>
              <param name='customHeaders'>
              The headers that will be added to request.
@@ -3565,7 +3639,7 @@
             Initializes a new instance of the CardAction class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.CardAction.#ctor(System.String,System.String,System.String,System.Object,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.CardAction.#ctor(System.String,System.String,System.String,System.Object,System.String,System.String,System.Object)">
             <summary>
             Initializes a new instance of the CardAction class.
             </summary>
@@ -3582,6 +3656,8 @@
             feed if the button is clicked</param>
             <param name="value">Supplementary parameter for action. Content of
             this property depends on the ActionType</param>
+            <param name="channelData">Channel-specific data associated with
+            this action</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.CardAction.Type">
             <summary>
@@ -3617,6 +3693,11 @@
             <summary>
             Gets or sets supplementary parameter for action. Content of this
             property depends on the ActionType
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.CardAction.ChannelData">
+            <summary>
+            Gets or sets channel-specific data associated with this action
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.CardImage">
@@ -3669,7 +3750,7 @@
             Initializes a new instance of the ConversationAccount class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationAccount.#ctor(System.Nullable{System.Boolean},System.String,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationAccount.#ctor(System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Initializes a new instance of the ConversationAccount class.
             </summary>
@@ -3682,6 +3763,8 @@
             <param name="id">Channel id for the user or bot on this channel
             (Example: joe@smith.com, or @joesmith or 123456)</param>
             <param name="name">Display friendly name</param>
+            <param name="aadObjectId">This account's object ID within Azure
+            Active Directory (AAD)</param>
             <param name="role">Role of the entity behind the account (Example:
             User, Bot, etc.). Possible values include: 'user', 'bot'</param>
         </member>
@@ -3706,6 +3789,12 @@
         <member name="P:Microsoft.Bot.Connector.ConversationAccount.Name">
             <summary>
             Gets or sets display friendly name
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationAccount.AadObjectId">
+            <summary>
+            Gets or sets this account's object ID within Azure Active Directory
+            (AAD)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationAccount.Role">
@@ -3944,7 +4033,7 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.Entity">
             <summary>
-            Object of schema.org types
+            Metadata object pertaining to an activity
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Entity.#ctor">
@@ -3956,12 +4045,11 @@
             <summary>
             Initializes a new instance of the Entity class.
             </summary>
-            <param name="type">Entity Type (typically from schema.org
-            types)</param>
+            <param name="type">Type of this entity (RFC 3987 IRI)</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.Entity.Type">
             <summary>
-            Gets or sets entity Type (typically from schema.org types)
+            Gets or sets type of this entity (RFC 3987 IRI)
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Entity.Properties">
@@ -4258,7 +4346,7 @@
             Initializes a new instance of the MediaCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.MediaCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Object)">
+        <member name="M:Microsoft.Bot.Connector.MediaCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Object,System.String)">
             <summary>
             Initializes a new instance of the MediaCard class.
             </summary>
@@ -4266,7 +4354,9 @@
             <param name="subtitle">Subtitle of this card</param>
             <param name="text">Text of this card</param>
             <param name="image">Thumbnail placeholder</param>
-            <param name="media">Media URLs for this card</param>
+            <param name="media">Media URLs for this card. When this field
+            contains more than one URL, each URL is an alternative format of
+            the same content.</param>
             <param name="buttons">Actions on this card</param>
             <param name="shareable">This content may be shared with others
             (default:true)</param>
@@ -4274,8 +4364,11 @@
             content (default:true)</param>
             <param name="autostart">Should the client automatically start
             playback of media in this card (default:true)</param>
-            <param name="aspect">Aspect ratio of thumbnail/media placeholder,
-            allowed values are "16:9" and "4:3"</param>
+            <param name="aspect">Aspect ratio of thumbnail/media placeholder.
+            Allowed values are "16:9" and "4:3"</param>
+            <param name="duration">Describes the length of the media content
+            without requiring a receiver to open the content. Formatted as an
+            ISO 8601 Duration field.</param>
             <param name="value">Supplementary parameter for this card</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.MediaCard.Title">
@@ -4300,7 +4393,9 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.MediaCard.Media">
             <summary>
-            Gets or sets media URLs for this card
+            Gets or sets media URLs for this card. When this field contains
+            more than one URL, each URL is an alternative format of the same
+            content.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.MediaCard.Buttons">
@@ -4327,8 +4422,15 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.MediaCard.Aspect">
             <summary>
-            Gets or sets aspect ratio of thumbnail/media placeholder, allowed
+            Gets or sets aspect ratio of thumbnail/media placeholder. Allowed
             values are "16:9" and "4:3"
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.MediaCard.Duration">
+            <summary>
+            Gets or sets describes the length of the media content without
+            requiring a receiver to open the content. Formatted as an ISO 8601
+            Duration field.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.MediaCard.Value">
@@ -4441,7 +4543,7 @@
             Initializes a new instance of the SemanticAction class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.SemanticAction.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+        <member name="M:Microsoft.Bot.Connector.SemanticAction.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,Microsoft.Bot.Connector.Entity})">
             <summary>
             Initializes a new instance of the SemanticAction class.
             </summary>
@@ -4460,7 +4562,7 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.Transcript">
             <summary>
-            Conversation Transcript
+            Transcript
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.Transcript.#ctor">
@@ -4472,11 +4574,13 @@
             <summary>
             Initializes a new instance of the Transcript class.
             </summary>
-            <param name="activities">Array of conversation activities.</param>
+            <param name="activities">A collection of Activities that conforms
+            to the Transcript schema.</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.Transcript.Activities">
             <summary>
-            Gets or sets array of conversation activities.
+            Gets or sets a collection of Activities that conforms to the
+            Transcript schema.
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.ITraceActivity">
@@ -4533,8 +4637,7 @@
             <param name="mentioned">The mentioned user</param>
             <param name="text">Sub Text which represents the mention (can be
             null or empty)</param>
-            <param name="type">Entity Type (typically from schema.org
-            types)</param>
+            <param name="type">Type of this entity (RFC 3987 IRI)</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.Mention.Mentioned">
             <summary>
@@ -4549,7 +4652,7 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Mention.Type">
             <summary>
-            Gets or sets entity Type (typically from schema.org types)
+            Gets or sets type of this entity (RFC 3987 IRI)
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.MessageReaction">
@@ -5858,7 +5961,7 @@
             Initializes a new instance of the VideoCard class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Object)">
+        <member name="M:Microsoft.Bot.Connector.VideoCard.#ctor(System.String,System.String,System.String,Microsoft.Bot.Connector.ThumbnailUrl,System.Collections.Generic.IList{Microsoft.Bot.Connector.MediaUrl},System.Collections.Generic.IList{Microsoft.Bot.Connector.CardAction},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.Nullable{System.Boolean},System.String,System.Object,System.String)">
             <summary>
             Initializes a new instance of the VideoCard class.
             </summary>
@@ -5866,7 +5969,9 @@
             <param name="subtitle">Subtitle of this card</param>
             <param name="text">Text of this card</param>
             <param name="image">Thumbnail placeholder</param>
-            <param name="media">Media URLs for this card</param>
+            <param name="media">Media URLs for this card. When this field
+            contains more than one URL, each URL is an alternative format of
+            the same content.</param>
             <param name="buttons">Actions on this card</param>
             <param name="shareable">This content may be shared with others
             (default:true)</param>
@@ -5874,8 +5979,11 @@
             content (default:true)</param>
             <param name="autostart">Should the client automatically start
             playback of media in this card (default:true)</param>
-            <param name="aspect">Aspect ratio of thumbnail/media placeholder,
-            allowed values are "16:9" and "4:3"</param>
+            <param name="aspect">Aspect ratio of thumbnail/media placeholder.
+            Allowed values are "16:9" and "4:3"</param>
+            <param name="duration">Describes the length of the media content
+            without requiring a receiver to open the content. Formatted as an
+            ISO 8601 Duration field.</param>
             <param name="value">Supplementary parameter for this card</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.VideoCard.Title">
@@ -5900,7 +6008,9 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.VideoCard.Media">
             <summary>
-            Gets or sets media URLs for this card
+            Gets or sets media URLs for this card. When this field contains
+            more than one URL, each URL is an alternative format of the same
+            content.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.VideoCard.Buttons">
@@ -5927,8 +6037,15 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.VideoCard.Aspect">
             <summary>
-            Gets or sets aspect ratio of thumbnail/media placeholder, allowed
+            Gets or sets aspect ratio of thumbnail/media placeholder. Allowed
             values are "16:9" and "4:3"
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.VideoCard.Duration">
+            <summary>
+            Gets or sets describes the length of the media content without
+            requiring a receiver to open the content. Formatted as an ISO 8601
+            Duration field.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.VideoCard.Value">
@@ -6416,12 +6533,16 @@
             Configuration for JWT tokens
             </summary>
         </member>
-        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotLoginUrlFormat">
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotLoginUrlTemplate">
             <summary>
-            TO CHANNEL FROM BOT: Login URL format string. Bot developer can optionally specify
-            which tenant to obtain an access token from. The default tenant is "botframework.com".
-            Normally the chanels only accept tokens from the default tenant.
-            TODO: add doc link
+            TO CHANNEL FROM BOT: Login URL template string. Bot developer may specify
+            which tenant to obtain an access token from. By default, the channels only
+            accept tokens from "botframework.com". For more details see https://aka.ms/bots/tenant-restriction
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ConvergedAppAuthority">
+            <summary>
+            Bot framework authority for Microsoft Application authentication
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotOAuthScope">
@@ -6514,11 +6635,6 @@
             The key for Microsoft app Password.
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Connector.MicrosoftAppCredentials.AutoTokenRefreshTimeSpan">
-            <summary>
-            TimeWindow which controlls how often the token will be automatically updated
-            </summary>
-        </member>
         <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime)">
             <summary>
             Adds the host of service url to <see cref="T:Microsoft.Bot.Connector.MicrosoftAppCredentials"/> trusted hosts.
@@ -6539,18 +6655,6 @@
             Apply the credentials to the HTTP request.
             </summary>
             <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials._getCurrentTokenTask(System.Boolean)">
-            <summary>
-            Do not call this except from GetTokenRefreshAsync() 
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.RefreshTokenAsync">
-            <summary>
-            Return task which will try multiple times until it gets a valid token
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Microsoft.Bot.Connector.OAuthApi">
             <summary>
@@ -7988,6 +8092,16 @@
             Gets the IBotState.
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Net.Http.HttpClient,System.Boolean)">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='httpClient'>
+            HttpClient to be used
+            </param>
+            <param name='disposeHttpClient'>
+            True: will dispose the provided httpClient on calling StateClient.Dispose(). False: will not dispose provided httpClient</param>
+        </member>
         <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(System.Net.Http.DelegatingHandler[])">
             <summary>
             Initializes a new instance of the StateClient class.
@@ -8048,6 +8162,22 @@
             <param name='handlers'>
             Optional. The delegating handlers to add to the http client pipeline.
             </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.StateClient.#ctor(Microsoft.Rest.ServiceClientCredentials,System.Net.Http.HttpClient,System.Boolean)">
+            <summary>
+            Initializes a new instance of the StateClient class.
+            </summary>
+            <param name='credentials'>
+            Required. Subscription credentials which uniquely identify client subscription.
+            </param>
+            <param name='httpClient'>
+            HttpClient to be used
+            </param>
+            <param name='disposeHttpClient'>
+            True: will dispose the provided httpClient on calling StateClient.Dispose(). False: will not dispose provided httpClient</param>
             <exception cref="T:System.ArgumentNullException">
             Thrown when a required parameter is null
             </exception>

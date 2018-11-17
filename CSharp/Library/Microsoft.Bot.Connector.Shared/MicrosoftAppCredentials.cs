@@ -4,11 +4,12 @@
 using Microsoft.Bot.Connector.Shared.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.Identity.Client;
 using Microsoft.Rest;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -45,7 +46,7 @@ namespace Microsoft.Bot.Connector
         protected ILogger logger;
 #endif 
 
-        private readonly AdalAuthenticator authenticator;
+        private readonly Lazy<AdalAuthenticator> authenticator;
 
         public MicrosoftAppCredentials(string appId = null, string password = null)
         {
@@ -62,7 +63,7 @@ namespace Microsoft.Bot.Connector
                 MicrosoftAppPassword = ConfigurationManager.AppSettings[MicrosoftAppPasswordKey] ?? Environment.GetEnvironmentVariable(MicrosoftAppPasswordKey, EnvironmentVariableTarget.Process);
             }
 #endif
-            authenticator = new AdalAuthenticator(new ClientCredential(MicrosoftAppId, MicrosoftAppPassword));
+            authenticator = new Lazy<AdalAuthenticator>(() => new AdalAuthenticator(MicrosoftAppId, new ClientCredential(MicrosoftAppPassword)), LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
 #if !NET45
@@ -100,12 +101,26 @@ namespace Microsoft.Bot.Connector
                 throw new Exception($"Invalid token endpoint: {endpointUrl}");
             }
         }
-        public static string OAuthResourceUri { get { return JwtConfig.OAuthResourceUri; } }
 
-        /// <summary>
-        /// TimeWindow which controlls how often the token will be automatically updated
-        /// </summary>
-        public static TimeSpan AutoTokenRefreshTimeSpan { get; set; } = TimeSpan.FromMinutes(10);
+        public static string OAuthAuthority
+        {
+            get
+            {
+                string tenant = null;
+#if NET45
+                // Advanced user only, see https://aka.ms/bots/tenant-restriction
+                tenant = SettingsUtils.GetAppSettings("ChannelAuthTenant");
+#endif
+                var authority = string.Format(JwtConfig.ConvergedAppAuthority, string.IsNullOrEmpty(tenant) ? "botframework.com" : tenant);
+
+                if (Uri.TryCreate(authority, UriKind.Absolute, out Uri result))
+                    return authority;
+
+                throw new Exception($"Invalid token endpoint: {authority}");
+            }
+        }
+
+        public static string OAuthBotScope { get { return JwtConfig.ToChannelFromBotOAuthScope; } }
 
         /// <summary>
         /// Adds the host of service url to <see cref="MicrosoftAppCredentials"/> trusted hosts.
@@ -193,19 +208,15 @@ namespace Microsoft.Bot.Connector
             if (ShouldSetToken(request))
             {
                 var authResult = await GetTokenAsync().ConfigureAwait(false);
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authResult.AccessToken);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authResult);
             }
             await base.ProcessHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
-        }      
-        
-        public async Task<AuthenticationResult> GetTokenAsync()
-        {
-            return await authenticator.GetTokenAsync().ConfigureAwait(false);
         }
 
-        public void ClearTokenCache()
+        public async Task<string> GetTokenAsync(bool forceRefresh = false)
         {
-            authenticator.ClearTokenCache();
+            var token = await authenticator.Value.GetTokenAsync(forceRefresh).ConfigureAwait(false);
+            return token.AccessToken;
         }
 
         private void LogWarning(string warning)

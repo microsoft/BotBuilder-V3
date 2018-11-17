@@ -18,6 +18,7 @@
         <dependency id="Microsoft.Extensions.Configuration" version="2.0.0" />
         <dependency id="Microsoft.Extensions.Logging" version="2.0.0" />
         <dependency id="Microsoft.IdentityModel.Protocols.OpenIdConnect" version="2.1.4" />
+        <dependency id="Microsoft.Identity.Client" version="2.4.1-preview" />
         <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.11" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
       </group>
@@ -25,6 +26,7 @@
         <dependency id="Microsoft.Extensions.Configuration" version="2.0.0" />
         <dependency id="Microsoft.Extensions.Logging" version="2.0.0" />
         <dependency id="Microsoft.IdentityModel.Protocols.OpenIdConnect" version="2.1.4" />
+        <dependency id="Microsoft.Identity.Client" version="2.4.1-preview" />
         <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.11" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
       </group>
@@ -34,6 +36,7 @@
         <dependency id="Microsoft.IdentityModel.Logging" version="1.1.4" />
         <dependency id="Microsoft.IdentityModel.Protocols" version="2.1.4" />
         <dependency id="Microsoft.IdentityModel.Protocols.OpenIdConnect" version="2.1.4" />
+        <dependency id="Microsoft.Identity.Client" version="2.4.1-preview" />
         <dependency id="Microsoft.IdentityModel.Tokens" version="5.1.4" />
         <dependency id="System.IdentityModel.Tokens.Jwt" version="5.1.4" />
         <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.2" />

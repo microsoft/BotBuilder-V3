@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.Identity.Client;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
@@ -16,20 +17,22 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
     {
         public RetryParams RetryParams { get; set; }
     }
-
+    
     public class AdalAuthenticator 
     {
-        private static readonly TimeSpan SemaphoreTimeout = TimeSpan.FromSeconds(2);
+        // Our MSAL App. Acquires tokens and manages token caching for us.
+        private readonly ConfidentialClientApplication msalApp;
 
-        // ADAL recommends having a single authentication context and reuse across requests.
-        // An authentication context also has an internal token cache which we can reuse.
-        private static AuthenticationContext authContext = new AuthenticationContext(MicrosoftAppCredentials.OAuthEndpoint) { ExtendedLifeTimeEnabled = true };
+        // Internal token cache for MSAL client
+        private static TokenCache userTokenCache = new TokenCache();
+        private static TokenCache appTokenCAche = new TokenCache();
 
-        // We limit concurrency when acquiring tokens. ADAL requires us to limit concurrency. 
-        // In the (currently under preview) new version of ADAL called MSAL, the concurrency will be managed by MSAL. 
-        // We'll use the semaphore to make sure only one request sends a token request to the server at a given time,
-        // but the rest of the time requests will hit the local memory cache.
-        private static SemaphoreSlim authContextSemaphore = new SemaphoreSlim(1, 1);
+        // Semaphore to control concurrency while refreshing tokens from MSAL.
+        // Whenever a token expires, we want only one request to retrieve a token. 
+        // Cached requests take less than 0.1 millisecond to resolve, so the semaphore doesn't hurt performance under load tests
+        // unless we have more than 10,000 requests per second, but in that case other things would break first.
+        private static Semaphore tokenRefreshSemaphore = new Semaphore(1, 1);
+        private static readonly TimeSpan SemaphoreTimeout = TimeSpan.FromSeconds(10);
 
         // Depending on the responses we get from the service, we update a shared retry policy with the RetryAfter header
         // from the HTTP 429 we receive.
@@ -40,26 +43,26 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
         private static volatile RetryParams currentRetryPolicy;
 
         private readonly ClientCredential clientCredential;
+        private readonly string clientId;
 
-        public AdalAuthenticator(ClientCredential clientCredential)
+        private const string msalTemporarilyUnavailable = "temporarily_unavailable";
+        private const string msalReplyUrl = "localhost:8888"; // Ignored by MSAL in our auth flow
+
+        public AdalAuthenticator(string clientId, ClientCredential clientCredential)
         {
+            this.clientId = clientId ?? throw new ArgumentNullException(nameof(clientId));
             this.clientCredential = clientCredential ?? throw new ArgumentNullException(nameof(clientCredential));
+            msalApp = new ConfidentialClientApplication(clientId, MicrosoftAppCredentials.OAuthAuthority, msalReplyUrl, clientCredential, userTokenCache, appTokenCAche) { ValidateAuthority = false };
         }
 
-        public async Task<AuthenticationResult> GetTokenAsync()
+        public async Task<AuthenticationResult> GetTokenAsync(bool forceRefresh = false)
         {
             return await Retry.Run(
-                task: () => AcquireTokenAsync(),
+                task: () => AcquireTokenAsync(forceRefresh),
                 retryExceptionHandler: (ex, ct) => HandleAdalException(ex, ct)).ConfigureAwait(false);
         }
 
-        public void ClearTokenCache()
-        {
-            // To force a refresh, just clear the AuthenticationContext's internal token cache.
-            authContext.TokenCache.Clear();
-        }
-
-        private async Task<AuthenticationResult> AcquireTokenAsync()
+        private async Task<AuthenticationResult> AcquireTokenAsync(bool forceRefresh = false)
         {
             bool acquired = false;
 
@@ -70,16 +73,17 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
                 // with and without the semaphore (and different configs for the semaphore), not limiting concurrency actually
                 // results in higher response times overall. Without the use of this semaphore calls to AcquireTokenAsync can take up
                 // to 5 seconds under high concurrency scenarios.
-                acquired = await authContextSemaphore.WaitAsync(SemaphoreTimeout).ConfigureAwait(false);
+                acquired = tokenRefreshSemaphore.WaitOne(SemaphoreTimeout);
 
                 // If we are allowed to enter the semaphore, acquire the token.
                 if (acquired)
                 {
-                    // Acquire token async using ADAL.NET
+                    // Acquire token async using MSAL.NET
                     // https://github.com/AzureAD/azure-activedirectory-library-for-dotnet
                     // Given that this is a ClientCredential scenario, it will use the cache without the 
                     // need to call AcquireTokenSilentAsync (which is only for user credentials).
-                    var res = await authContext.AcquireTokenAsync(JwtConfig.OAuthResourceUri, clientCredential).ConfigureAwait(false);
+                    // Scenario details: https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Client-credential-flows#it-uses-the-application-token-cache
+                    var res = await msalApp.AcquireTokenForClientAsync(new[] { MicrosoftAppCredentials.OAuthBotScope }, forceRefresh).ConfigureAwait(false);
 
                     // This means we acquired a valid token successfully. We can make our retry policy null.
                     // Note that the retry policy is set under the semaphore so no additional synchronization is needed.
@@ -114,9 +118,8 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
                 // Always release the semaphore if we acquired it.
                 if (acquired)
                 {
-                    authContextSemaphore.Release();
+                    tokenRefreshSemaphore.Release();
                 }
-
             }
         }
 
@@ -145,7 +148,7 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
 
         private bool IsAdalServiceUnavailable(Exception ex)
         {
-            AdalServiceException adalServiceException = ex as AdalServiceException;
+            MsalServiceException adalServiceException = ex as MsalServiceException;
             if (adalServiceException == null)
             {
                 return false;
@@ -153,18 +156,18 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
 
             // When the Service Token Server (STS) is too busy because of “too many requests”, 
             // it returns an HTTP error 429
-            return adalServiceException.ErrorCode == AdalError.ServiceUnavailable || adalServiceException.StatusCode == 429;
+            return adalServiceException.ErrorCode == msalTemporarilyUnavailable || adalServiceException.StatusCode == 429;
         }
 
         private RetryParams ComputeAdalRetry(Exception ex)
         {
-            if (ex is AdalServiceException)
+            if (ex is MsalServiceException)
             {
-                AdalServiceException adalServiceException = (AdalServiceException)ex;
+                MsalServiceException adalServiceException = (MsalServiceException)ex;
 
                 // When the Service Token Server (STS) is too busy because of “too many requests”, 
                 // it returns an HTTP error 429 with a hint about when you can try again (Retry-After response field) as a delay in seconds
-                if (adalServiceException.ErrorCode == AdalError.ServiceUnavailable || adalServiceException.StatusCode == 429)
+                if (adalServiceException.ErrorCode == msalTemporarilyUnavailable || adalServiceException.StatusCode == 429)
                 {
                     RetryConditionHeaderValue retryAfter = adalServiceException.Headers.RetryAfter;
 

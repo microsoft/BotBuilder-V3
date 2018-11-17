@@ -16,14 +16,14 @@
         public const string ToChannelFromBotLoginUrlTemplate = "https://login.microsoftonline.com/{0}/oauth2/v2.0/token";
 
         /// <summary>
+        /// Bot framework authority for Microsoft Application authentication
+        /// </summary>
+        public const string ConvergedAppAuthority = "https://login.microsoftonline.com/{0}";
+
+        /// <summary>
         /// TO CHANNEL FROM BOT: OAuth scope to request
         /// </summary>
         public const string ToChannelFromBotOAuthScope = "https://api.botframework.com/.default";
-
-        /// <summary>
-        /// OAuth resource URI for token acquisition
-        /// </summary>
-        public const string OAuthResourceUri = "https://api.botframework.com/";
 
         /// <summary>
         /// TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA

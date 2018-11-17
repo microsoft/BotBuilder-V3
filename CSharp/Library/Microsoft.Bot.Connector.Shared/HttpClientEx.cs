@@ -19,7 +19,7 @@ namespace Microsoft.Bot.Connector
         public static async Task AddAPIAuthorization(this HttpClient client, string appId = null, string password = null)
         {
             var token = await new MicrosoftAppCredentials(appId, password).GetTokenAsync();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.AccessToken);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
     }
 }
