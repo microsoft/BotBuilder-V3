@@ -6577,14 +6577,14 @@
             accept tokens from "botframework.com". For more details see https://aka.ms/bots/tenant-restriction
             </summary>
         </member>
+        <member name="F:Microsoft.Bot.Connector.JwtConfig.ConvergedAppAuthority">
+            <summary>
+            Bot framework authority for Microsoft Application authentication
+            </summary>
+        </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.ToChannelFromBotOAuthScope">
             <summary>
             TO CHANNEL FROM BOT: OAuth scope to request
-            </summary>
-        </member>
-        <member name="F:Microsoft.Bot.Connector.JwtConfig.OAuthResourceUri">
-            <summary>
-            OAuth resource URI for token acquisition
             </summary>
         </member>
         <member name="F:Microsoft.Bot.Connector.JwtConfig.ToBotFromChannelOpenIdMetadataUrl">
@@ -6670,11 +6670,6 @@
         <member name="F:Microsoft.Bot.Connector.MicrosoftAppCredentials.MicrosoftAppPasswordKey">
             <summary>
             The key for Microsoft app Password.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.MicrosoftAppCredentials.AutoTokenRefreshTimeSpan">
-            <summary>
-            TimeWindow which controlls how often the token will be automatically updated
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime)">
