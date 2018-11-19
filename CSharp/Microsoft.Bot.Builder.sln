@@ -58,11 +58,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoBot", "EchoBot\EchoBot.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FormTest", "Tests\FormTest\FormTest.csproj", "{77BD8C61-FB06-4BF7-A346-D2C87284390A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E5E1CE6F-4A71-4F2F-8CD2-0EAE90F4C921}"
-	ProjectSection(SolutionItems) = preProject
-		Local.testsettings = Local.testsettings
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Library\Microsoft.Bot.Connector.Shared\Microsoft.Bot.Connector.Shared.projitems*{09c14ef5-f94a-480f-82ca-4d934a977c7f}*SharedItemsImports = 4
