@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,14 +20,10 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
     
     public class AdalAuthenticator 
     {
-        // Our MSAL App. Acquires tokens and manages token caching for us.
-        private readonly ConfidentialClientApplication msalApp;
+        // Our ADAL context. Acquires tokens and manages token caching for us.
+        private readonly AuthenticationContext authContext;
 
-        // Internal token cache for MSAL client
-        private static TokenCache userTokenCache = new TokenCache();
-        private static TokenCache appTokenCAche = new TokenCache();
-
-        // Semaphore to control concurrency while refreshing tokens from MSAL.
+        // Semaphore to control concurrency while refreshing tokens from ADAL.
         // Whenever a token expires, we want only one request to retrieve a token. 
         // Cached requests take less than 0.1 millisecond to resolve, so the semaphore doesn't hurt performance under load tests
         // unless we have more than 10,000 requests per second, but in that case other things would break first.
@@ -43,16 +39,13 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
         private static volatile RetryParams currentRetryPolicy;
 
         private readonly ClientCredential clientCredential;
-        private readonly string clientId;
 
         private const string msalTemporarilyUnavailable = "temporarily_unavailable";
-        private const string msalReplyUrl = "localhost:8888"; // Ignored by MSAL in our auth flow
 
-        public AdalAuthenticator(string clientId, ClientCredential clientCredential)
+        public AdalAuthenticator(ClientCredential clientCredential)
         {
-            this.clientId = clientId ?? throw new ArgumentNullException(nameof(clientId));
             this.clientCredential = clientCredential ?? throw new ArgumentNullException(nameof(clientCredential));
-            msalApp = new ConfidentialClientApplication(clientId, MicrosoftAppCredentials.OAuthAuthority, msalReplyUrl, clientCredential, userTokenCache, appTokenCAche) { ValidateAuthority = false };
+            this.authContext = new AuthenticationContext(MicrosoftAppCredentials.OAuthAuthority);
         }
 
         public async Task<AuthenticationResult> GetTokenAsync(bool forceRefresh = false)
@@ -65,6 +58,11 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
         private async Task<AuthenticationResult> AcquireTokenAsync(bool forceRefresh = false)
         {
             bool acquired = false;
+
+            if (forceRefresh)
+            {
+                authContext.TokenCache.Clear();
+            }
 
             try
             {
@@ -83,8 +81,7 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
                     // Given that this is a ClientCredential scenario, it will use the cache without the 
                     // need to call AcquireTokenSilentAsync (which is only for user credentials).
                     // Scenario details: https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Client-credential-flows#it-uses-the-application-token-cache
-                    var res = await msalApp.AcquireTokenForClientAsync(new[] { MicrosoftAppCredentials.OAuthBotScope }, forceRefresh).ConfigureAwait(false);
-
+                    var res = await authContext.AcquireTokenAsync(MicrosoftAppCredentials.OAuthBotScope, this.clientCredential).ConfigureAwait(false);
                     // This means we acquired a valid token successfully. We can make our retry policy null.
                     // Note that the retry policy is set under the semaphore so no additional synchronization is needed.
                     if (currentRetryPolicy != null)
@@ -148,7 +145,7 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
 
         private bool IsAdalServiceUnavailable(Exception ex)
         {
-            MsalServiceException adalServiceException = ex as MsalServiceException;
+            AdalServiceException adalServiceException = ex as AdalServiceException;
             if (adalServiceException == null)
             {
                 return false;
@@ -161,9 +158,9 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
 
         private RetryParams ComputeAdalRetry(Exception ex)
         {
-            if (ex is MsalServiceException)
+            if (ex is AdalServiceException)
             {
-                MsalServiceException adalServiceException = (MsalServiceException)ex;
+                AdalServiceException adalServiceException = (AdalServiceException)ex;
 
                 // When the Service Token Server (STS) is too busy because of “too many requests”, 
                 // it returns an HTTP error 429 with a hint about when you can try again (Retry-After response field) as a delay in seconds

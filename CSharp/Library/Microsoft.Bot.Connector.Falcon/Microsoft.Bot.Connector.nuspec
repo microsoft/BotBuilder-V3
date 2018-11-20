@@ -21,7 +21,7 @@
         <dependency id="Microsoft.IdentityModel.Protocols" version="2.1.4" />
         <dependency id="Microsoft.IdentityModel.Protocols.OpenIdConnect" version="2.1.4" />
         <dependency id="Microsoft.IdentityModel.Tokens" version="5.1.4" />
-        <dependency id="Microsoft.Identity.Client" version="2.4.1-preview" />
+        <dependency id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="4.4.0" />
         <dependency id="System.IdentityModel.Tokens.Jwt" version="5.1.4" />
         <dependency id="Newtonsoft.Json" version="9.0.1" />
         <dependency id="Microsoft.AspNetCore" version="1.1.3" />

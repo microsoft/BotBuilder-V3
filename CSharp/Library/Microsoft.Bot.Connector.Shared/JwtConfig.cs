@@ -23,7 +23,7 @@
         /// <summary>
         /// TO CHANNEL FROM BOT: OAuth scope to request
         /// </summary>
-        public const string ToChannelFromBotOAuthScope = "https://api.botframework.com/.default";
+        public const string ToChannelFromBotOAuthScope = "https://api.botframework.com";
 
         /// <summary>
         /// TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA

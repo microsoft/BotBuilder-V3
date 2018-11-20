@@ -4,7 +4,7 @@
 using Microsoft.Bot.Connector.Shared.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.Rest;
 using System;
 using System.Collections.Concurrent;
@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Connector
                 MicrosoftAppPassword = ConfigurationManager.AppSettings[MicrosoftAppPasswordKey] ?? Environment.GetEnvironmentVariable(MicrosoftAppPasswordKey, EnvironmentVariableTarget.Process);
             }
 #endif
-            authenticator = new Lazy<AdalAuthenticator>(() => new AdalAuthenticator(MicrosoftAppId, new ClientCredential(MicrosoftAppPassword)), LazyThreadSafetyMode.ExecutionAndPublication);
+            authenticator = new Lazy<AdalAuthenticator>(() => new AdalAuthenticator(new ClientCredential(MicrosoftAppId, MicrosoftAppPassword)), LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
 #if !NET45
