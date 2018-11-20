@@ -6,7 +6,6 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Bot.Connector;
-using Microsoft.Identity.Client;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
@@ -91,26 +90,12 @@ namespace Microsoft.Bot.Builder.Tests
                 tasks.Add(credentials.GetTokenAsync(forceRefresh));
             }
 
-            HashSet<AuthenticationResult> results = new HashSet<AuthenticationResult>(new AuthenticationResultEqualityComparer());
             for (int i = 0; i < 1000; i++)
             {
                 Assert.IsFalse(tasks[i].IsFaulted);
                 Assert.IsFalse(tasks[i].IsCanceled);
                 string result = await tasks[i];
             }
-        }
-    }
-
-    class AuthenticationResultEqualityComparer : IEqualityComparer<AuthenticationResult>
-    {
-        public bool Equals(AuthenticationResult x, AuthenticationResult y)
-        {
-            return x.AccessToken == y.AccessToken;
-        }
-
-        public int GetHashCode(AuthenticationResult obj)
-        {
-            return obj.AccessToken.GetHashCode();
         }
     }
 }

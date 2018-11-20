@@ -20,7 +20,7 @@
         <dependency id="Microsoft.AspNetCore.Mvc" version="2.0.0" />
         <dependency id="Microsoft.Rest.ClientRuntime" version="2.3.11" />
         <dependency id="Microsoft.Bot.Connector" version="3.16.1" />
-        <dependency id="Microsoft.Identity.Client" version="2.4.1-preview" />
+        <dependency id="Microsoft.IdentityModel.Clients.ActiveDirectory" version="4.4.0" />
       </group>
     </dependencies>
   </metadata>
