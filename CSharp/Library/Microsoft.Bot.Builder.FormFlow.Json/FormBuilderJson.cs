@@ -115,10 +115,6 @@ namespace Microsoft.Bot.Builder.FormFlow.Json
         public FormBuilderJson(JObject schema)
         {
             _schema = schema;
-            lock (_scripts)
-            {
-                _scripts.Clear();
-            }
             ProcessOptions();
             ProcessOnCompletion();
         }
