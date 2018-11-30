@@ -278,7 +278,7 @@ namespace Microsoft.Bot.Builder.Luis
         async Task<LuisResult> ILuisService.QueryAsync(Uri uri, CancellationToken token)
         {
             string json;
-            using (var client = new HttpClient(new LuisDelegatingHandler())) 
+            using (var client = new HttpClient(new LuisDelegatingHandler(), true)) 
             using (var response = await client.GetAsync(uri, HttpCompletionOption.ResponseContentRead, token))
             {
                 response.EnsureSuccessStatusCode();
