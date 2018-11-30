@@ -274,11 +274,11 @@ namespace Microsoft.Bot.Builder.Luis
             result.TopScoringIntent.Intent = "None";
             result.TopScoringIntent.Score = 1.0d;
         }
-
+        
         async Task<LuisResult> ILuisService.QueryAsync(Uri uri, CancellationToken token)
         {
             string json;
-            using (var client = new HttpClient())
+            using (var client = new HttpClient(new LuisDelegatingHandler())) 
             using (var response = await client.GetAsync(uri, HttpCompletionOption.ResponseContentRead, token))
             {
                 response.EnsureSuccessStatusCode();
