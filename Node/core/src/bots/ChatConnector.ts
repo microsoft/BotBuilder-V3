@@ -44,6 +44,7 @@ import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
 import * as Promise from 'promise';
 import urlJoin = require('url-join');
+import { URL } from 'url';
 
 var pjson = require('../../package.json');
 
@@ -61,6 +62,7 @@ export interface IChatConnectorSettings {
     stateEndpoint?: string;
     oAuthEndpoint?: string;
     openIdMetadata?: string;
+    channelAuthTenant?: string;
 }
 
 export interface IChatConnectorEndpoint {
@@ -104,7 +106,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     constructor(protected settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
-                refreshEndpoint: 'https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token',
+                refreshEndpoint: this.getRefreshEndpoint(this.settings.channelAuthTenant),
                 refreshScope: 'https://api.botframework.com/.default',
                 botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://login.botframework.com/v1/.well-known/openidconfiguration',
                 botConnectorIssuer: 'https://api.botframework.com',
@@ -148,6 +150,17 @@ export class ChatConnector implements IConnector, IBotStorage {
                 });
             }
         };
+    }
+
+    private getRefreshEndpoint(channelAuthTenant?: string): string {
+        var tenant = channelAuthTenant && channelAuthTenant.length > 0
+            ? channelAuthTenant
+            : "botframework.com";
+
+        var endpoint = 'https://login.microsoftonline.com/' + tenant + '/oauth2/v2.0/token';
+        new URL(endpoint); // will throw if endpoint is not a valid url
+
+        return endpoint;
     }
 
     private verifyBotFramework(req: IWebRequest, res: IWebResponse, next: Function): void {
