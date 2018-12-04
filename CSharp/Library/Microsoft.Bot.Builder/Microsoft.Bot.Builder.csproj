@@ -123,6 +123,7 @@
     <Compile Include="Luis\CalendarPlus.cs" />
     <Compile Include="Luis\EntityToType.cs" />
     <Compile Include="Luis\Extensions.cs" />
+    <Compile Include="Luis\LuisDelegatingHandler.cs" />
     <Compile Include="Luis\LuisModel.cs" />
     <Compile Include="Luis\LuisOptions.cs" />
     <Compile Include="Luis\Models\CompositeChild.cs" />
