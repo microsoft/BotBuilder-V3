@@ -176,6 +176,13 @@
         "alteredQuery": {
           "type": "string",
           "description": "The altered query used by LUIS to extract intent and entities. For example, when Bing spell check is enabled for a model, this field will contain the spell checked utterance."
+        },
+        "sentimentAnalysis": {
+          "type": "object",
+          "description": "LUIS Sentiment found in the query text.",
+          "items": {
+            "$ref": "#/definitions/Sentiment"
+          }
         }
       }
     },
@@ -196,6 +203,19 @@
           "items": {
             "$ref": "#/definitions/Action"
           }
+        }
+      }
+    },
+    "Sentiment": {
+      "description": "LUIS Sentiment. Look at https://www.luis.ai/Help for more",
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "The text sentiment label detected by LUIS service in response to a query."
+        },
+        "score": {
+          "type": "number",
+          "description": "The score for the sentiment label."
         }
       }
     },
