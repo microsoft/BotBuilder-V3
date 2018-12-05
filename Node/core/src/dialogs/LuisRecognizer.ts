@@ -35,6 +35,8 @@ import { IntentRecognizer, IRecognizeContext, IIntentRecognizerResult } from './
 import * as utils from '../utils';
 import * as request from 'request';
 import * as url from 'url';
+import * as os from 'os';
+const pjson = require('../../package.json');
 
 export interface ILuisModelMap {
     [local: string]: string;
@@ -117,7 +119,7 @@ export class LuisRecognizer extends IntentRecognizer {
             }
 
             // Call model
-            request.get(url.format(uri), (err: Error, res: any, body: string) => {
+            request.get(url.format(uri), { headers: {'User-Agent': LuisRecognizer.getUserAgent() } }, (err: Error, res: any, body: string) => {
                 // Parse results
                 var result: ILuisResults;
                 try {
@@ -155,6 +157,14 @@ export class LuisRecognizer extends IntentRecognizer {
         } catch (err) {
             callback(err instanceof Error ? err : new Error(err.toString()));
         }
+    }
+
+    static getUserAgent() : string {
+        const packageUserAgent = `${pjson.name}/${pjson.version}`;
+        const platformUserAgent = `(${os.arch()}-${os.type()}-${os.release()}; Node.js,Version=${process.version})`;
+        const userAgent = `${packageUserAgent} ${platformUserAgent}`;
+
+        return userAgent;
     }
 }
 
