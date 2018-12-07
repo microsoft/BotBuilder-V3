@@ -754,11 +754,9 @@ export class ChatConnector implements IConnector, IBotStorage {
                 } else if (body) {
                     res.send(status || 200, body);
                     res.end();
-                    next();
                 } else {
                     res.status(status || 200);
                     res.end();
-                    next();
                 }
             })
         } catch (e) {
