@@ -64,11 +64,13 @@ export class LuisRecognizer extends IntentRecognizer {
             const model = this.models[locale] || this.models[parentLocale] || this.models['*'];
             if (model) {
                 const utterance = context.message.text;
-                LuisRecognizer.recognize(utterance, model, (err, intents, entities, compositeEntities) => {
+                LuisRecognizer.recognize(utterance, model, (err, intents, entities, compositeEntities, sentiment, alteredQuery) => {
                     if (!err) {
                         result.intents = intents;
                         result.entities = entities;
                         result.compositeEntities = compositeEntities;
+                        result.sentiment = sentiment;
+                        result.alteredQuery = alteredQuery;
                         // Return top intent
                         var top: IIntent;
                         intents.forEach((intent) => {
@@ -109,7 +111,7 @@ export class LuisRecognizer extends IntentRecognizer {
         }
     }
 
-    static recognize(utterance: string, modelUrl: string, callback: (err: Error, intents?: IIntent[], entities?: IEntity<any>[], compositeEntities?: ICompositeEntity<any>[]) => void): void {
+    static recognize(utterance: string, modelUrl: string, callback: (err: Error, intents?: IIntent[], entities?: IEntity<any>[], compositeEntities?: ICompositeEntity<any>[], sentiment?: ISentiment, alteredQuery?: string) => void): void {
         try {
             // Format url
             var uri = url.parse(modelUrl, true);
@@ -128,6 +130,8 @@ export class LuisRecognizer extends IntentRecognizer {
                         result.intents = result.intents || [];
                         result.entities = result.entities || [];
                         result.compositeEntities = result.compositeEntities || [];
+                        result.sentimentAnalysis = result.sentimentAnalysis;
+                        result.alteredQuery = result.alteredQuery;
                         if (result.topScoringIntent && result.intents.length == 0) {
                             result.intents.push(result.topScoringIntent);
                         }
@@ -145,7 +149,7 @@ export class LuisRecognizer extends IntentRecognizer {
                 // Return result
                 try {
                     if (!err) {
-                        callback(null, result.intents, result.entities, result.compositeEntities);
+                        callback(null, result.intents, result.entities, result.compositeEntities, result.sentimentAnalysis, result.alteredQuery);
                     } else {
                         var m = err.toString();
                         callback(err instanceof Error ? err : new Error(m));
@@ -174,4 +178,6 @@ interface ILuisResults {
     intents: IIntent[];
     entities: IEntity<string>[];
     compositeEntities?: ICompositeEntity<any>[];
+    sentimentAnalysis?: ISentiment;
+    alteredQuery?: string;
 }
