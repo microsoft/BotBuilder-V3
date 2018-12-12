@@ -424,6 +424,11 @@ namespace Microsoft.Bot.Builder.Tests
                     {
                         ContextId = contextId,
                         Status = DialogResponse.DialogStatus.Finished
+                    },
+                    Sentiment = new Sentiment()
+                    {
+                        Label = "Postive",
+                        Score = 1.0
                     }
                 });
 
@@ -442,6 +447,11 @@ namespace Microsoft.Bot.Builder.Tests
                         ContextId = contextId,
                         Status = DialogResponse.DialogStatus.Question,
                         Prompt = prompt
+                    },
+                    Sentiment = new Sentiment()
+                    {
+                        Label = "Postive",
+                        Score = 1.0
                     }
                 });
 
