@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -13,6 +16,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var IntentRecognizer_1 = require("./IntentRecognizer");
 var request = require("request");
 var url = require("url");
+var os = require("os");
+var pjson = require('../../package.json');
 var LuisRecognizer = (function (_super) {
     __extends(LuisRecognizer, _super);
     function LuisRecognizer(models) {
@@ -34,11 +39,13 @@ var LuisRecognizer = (function (_super) {
             var model = this.models[locale] || this.models[parentLocale] || this.models['*'];
             if (model) {
                 var utterance = context.message.text;
-                LuisRecognizer.recognize(utterance, model, function (err, intents, entities, compositeEntities) {
+                LuisRecognizer.recognize(utterance, model, function (err, intents, entities, compositeEntities, sentiment, alteredQuery) {
                     if (!err) {
                         result.intents = intents;
                         result.entities = entities;
                         result.compositeEntities = compositeEntities;
+                        result.sentiment = sentiment;
+                        result.alteredQuery = alteredQuery;
                         var top;
                         intents.forEach(function (intent) {
                             if (top) {
@@ -82,7 +89,7 @@ var LuisRecognizer = (function (_super) {
             if (uri.search) {
                 delete uri.search;
             }
-            request.get(url.format(uri), function (err, res, body) {
+            request.get(url.format(uri), { headers: { 'User-Agent': LuisRecognizer.getUserAgent() } }, function (err, res, body) {
                 var result;
                 try {
                     if (res && res.statusCode === 200) {
@@ -90,6 +97,8 @@ var LuisRecognizer = (function (_super) {
                         result.intents = result.intents || [];
                         result.entities = result.entities || [];
                         result.compositeEntities = result.compositeEntities || [];
+                        result.sentimentAnalysis = result.sentimentAnalysis;
+                        result.alteredQuery = result.alteredQuery;
                         if (result.topScoringIntent && result.intents.length == 0) {
                             result.intents.push(result.topScoringIntent);
                         }
@@ -106,7 +115,7 @@ var LuisRecognizer = (function (_super) {
                 }
                 try {
                     if (!err) {
-                        callback(null, result.intents, result.entities, result.compositeEntities);
+                        callback(null, result.intents, result.entities, result.compositeEntities, result.sentimentAnalysis, result.alteredQuery);
                     }
                     else {
                         var m = err.toString();
@@ -121,6 +130,12 @@ var LuisRecognizer = (function (_super) {
         catch (err) {
             callback(err instanceof Error ? err : new Error(err.toString()));
         }
+    };
+    LuisRecognizer.getUserAgent = function () {
+        var packageUserAgent = pjson.name + "/" + pjson.version;
+        var platformUserAgent = "(" + os.arch() + "-" + os.type() + "-" + os.release() + "; Node.js,Version=" + process.version + ")";
+        var userAgent = packageUserAgent + " " + platformUserAgent;
+        return userAgent;
     };
     return LuisRecognizer;
 }(IntentRecognizer_1.IntentRecognizer));
