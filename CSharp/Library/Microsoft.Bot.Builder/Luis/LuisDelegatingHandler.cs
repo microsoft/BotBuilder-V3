@@ -44,6 +44,11 @@ namespace Microsoft.Bot.Builder.Luis
     // From https://github.com/Microsoft/botbuilder-dotnet/blob/master/libraries/Microsoft.Bot.Builder.AI.LUIS/LuisDelegatingHandler.cs
     internal class LuisDelegatingHandler : DelegatingHandler
     {
+        public LuisDelegatingHandler()
+        {
+            InnerHandler = new HttpClientHandler();
+        }
+
         protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             // Bot Builder Package name and version
