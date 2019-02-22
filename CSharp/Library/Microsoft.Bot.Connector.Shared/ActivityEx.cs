@@ -65,7 +65,7 @@ namespace Microsoft.Bot.Connector
             reply.ReplyToId = this.Id;
             reply.ServiceUrl = this.ServiceUrl;
             reply.ChannelId = this.ChannelId;
-            reply.Conversation = new ConversationAccount(isGroup: this.Conversation.IsGroup, id: this.Conversation.Id, name: this.Conversation.Name);
+            reply.Conversation = new ConversationAccount(isGroup: this.Conversation.IsGroup, id: this.Conversation.Id, name: this.Conversation.Name, tenantId: this.Conversation.TenantId);
             reply.Text = text ?? String.Empty;
             reply.Locale = locale ?? this.Locale;
             return reply;
