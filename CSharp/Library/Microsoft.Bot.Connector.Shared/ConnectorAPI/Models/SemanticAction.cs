@@ -29,8 +29,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         /// <param name="id">ID of this action</param>
         /// <param name="entities">Entities associated with this action</param>
-        public SemanticAction(string id = default(string), IDictionary<string, Entity> entities = default(IDictionary<string, Entity>))
+        /// <param name="state">State of this action. Allowed values: `start`,
+        /// `continue`, `done`. Possible values include: 'start', 'continue',
+        /// 'done'</param>
+        public SemanticAction(string id = default(string), IDictionary<string, Entity> entities = default(IDictionary<string, Entity>), string state = default(string))
         {
+            State = state;
             Id = id;
             Entities = entities;
             CustomInit();
@@ -40,6 +44,14 @@ namespace Microsoft.Bot.Connector
         /// An initialization method that performs custom operations like setting defaults
         /// </summary>
         partial void CustomInit();
+
+        /// <summary>
+        /// Gets or sets state of this action. Allowed values: `start`,
+        /// `continue`, `done`. Possible values include: 'start', 'continue',
+        /// 'done'
+        /// </summary>
+        [JsonProperty(PropertyName = "state")]
+        public string State { get; set; }
 
         /// <summary>
         /// Gets or sets ID of this action

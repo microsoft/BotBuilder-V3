@@ -29,8 +29,10 @@ namespace Microsoft.Bot.Connector
         /// <param name="token">The user token</param>
         /// <param name="expiration">Expiration for the token, in ISO 8601
         /// format (e.g. "2007-04-05T14:30Z")</param>
-        public TokenResponse(string connectionName = default(string), string token = default(string), string expiration = default(string))
+        /// <param name="channelId">The channelId of the TokenResponse</param>
+        public TokenResponse(string connectionName = default(string), string token = default(string), string expiration = default(string), string channelId = default(string))
         {
+            ChannelId = channelId;
             ConnectionName = connectionName;
             Token = token;
             Expiration = expiration;
@@ -41,6 +43,12 @@ namespace Microsoft.Bot.Connector
         /// An initialization method that performs custom operations like setting defaults
         /// </summary>
         partial void CustomInit();
+
+        /// <summary>
+        /// Gets or sets the channelId of the TokenResponse
+        /// </summary>
+        [JsonProperty(PropertyName = "channelId")]
+        public string ChannelId { get; set; }
 
         /// <summary>
         /// Gets or sets the connection name

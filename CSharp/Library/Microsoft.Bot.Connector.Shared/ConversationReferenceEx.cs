@@ -27,7 +27,8 @@ namespace Microsoft.Bot.Connector
                 {
                     Id = this.Conversation.Id, 
                     IsGroup = this.Conversation.IsGroup, 
-                    Name = this.Conversation.Name
+                    Name = this.Conversation.Name,
+                    TenantId = this.Conversation.TenantId
                 },
                 From = new ChannelAccount
                 {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -35,7 +36,7 @@ namespace EchoBot.Controllers
     public class MessagesController : ApiController
     {
 
-        public async Task Post([FromBody]Activity activity)
+        public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
             if (activity.Type == ActivityTypes.Message)
             {
@@ -45,6 +46,7 @@ namespace EchoBot.Controllers
                 //ConnectorClient client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
                 //await client.Conversations.ReplyToActivityAsync(activity.CreateReply(activity.Text));
             }
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }

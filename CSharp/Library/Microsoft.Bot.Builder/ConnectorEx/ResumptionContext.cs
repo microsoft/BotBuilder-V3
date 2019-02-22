@@ -150,7 +150,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
                 Bot = new ChannelAccount { Id = activity.Recipient.Id, Name = activity.Recipient.Name },
                 ChannelId = activity.ChannelId,
                 User = new ChannelAccount { Id = activity.From.Id, Name = activity.From.Name },
-                Conversation = new ConversationAccount { Id = activity.Conversation.Id, IsGroup = activity.Conversation.IsGroup, Name = activity.Conversation.Name },
+                Conversation = new ConversationAccount { Id = activity.Conversation.Id, IsGroup = activity.Conversation.IsGroup, Name = activity.Conversation.Name, TenantId = activity.Conversation.TenantId },
                 ServiceUrl = activity.ServiceUrl
             };
         }
