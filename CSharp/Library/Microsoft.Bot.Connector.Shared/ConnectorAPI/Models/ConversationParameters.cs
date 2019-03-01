@@ -37,12 +37,15 @@ namespace Microsoft.Bot.Connector
         /// conversation</param>
         /// <param name="channelData">Channel specific payload for creating the
         /// conversation</param>
-        public ConversationParameters(bool? isGroup = default(bool?), ChannelAccount bot = default(ChannelAccount), IList<ChannelAccount> members = default(IList<ChannelAccount>), string topicName = default(string), Activity activity = default(Activity), object channelData = default(object))
+        /// <param name="tenantId">(Optional) The tenant ID in which the
+        /// conversation should be created</param>
+        public ConversationParameters(bool? isGroup = default(bool?), ChannelAccount bot = default(ChannelAccount), IList<ChannelAccount> members = default(IList<ChannelAccount>), string topicName = default(string), Activity activity = default(Activity), object channelData = default(object), string tenantId = default(string))
         {
             IsGroup = isGroup;
             Bot = bot;
             Members = members;
             TopicName = topicName;
+            TenantId = tenantId;
             Activity = activity;
             ChannelData = channelData;
             CustomInit();
@@ -77,6 +80,13 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "topicName")]
         public string TopicName { get; set; }
+
+        /// <summary>
+        /// Gets or sets (Optional) The tenant ID in which the conversation
+        /// should be created
+        /// </summary>
+        [JsonProperty(PropertyName = "tenantId")]
+        public string TenantId { get; set; }
 
         /// <summary>
         /// Gets or sets (Optional) When creating a new conversation, use this

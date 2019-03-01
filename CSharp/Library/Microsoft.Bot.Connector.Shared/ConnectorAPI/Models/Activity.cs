@@ -37,12 +37,11 @@ namespace Microsoft.Bot.Connector
         /// activity on the channel.</param>
         /// <param name="timestamp">Contains the date and time that the message
         /// was sent, in UTC, expressed in ISO-8601 format.</param>
-        /// <param name="localTimestamp">Contains the date and time that the
-        /// message was sent, in local time, expressed in ISO-8601 format.
+        /// <param name="localTimestamp">Contains the local date and time of
+        /// the message, expressed in ISO-8601 format.
         /// For example, 2016-09-23T13:07:49.4714686-07:00.</param>
-        /// <param name="localTimezone">Contains the name of the timezone in
-        /// which the message, in local time, expressed in IANA Time Zone
-        /// database format.
+        /// <param name="localTimezone">Contains the name of the local timezone
+        /// of the message, expressed in IANA Time Zone database format.
         /// For example, America/Los_Angeles.</param>
         /// <param name="serviceUrl">Contains the URL that specifies the
         /// channel's service endpoint. Set by the channel.</param>
@@ -203,17 +202,16 @@ namespace Microsoft.Bot.Connector
         public System.DateTimeOffset? Timestamp { get; set; }
 
         /// <summary>
-        /// Gets or sets contains the date and time that the message was sent,
-        /// in local time, expressed in ISO-8601 format.
+        /// Gets or sets contains the local date and time of the message,
+        /// expressed in ISO-8601 format.
         /// For example, 2016-09-23T13:07:49.4714686-07:00.
         /// </summary>
         [JsonProperty(PropertyName = "localTimestamp")]
         public System.DateTimeOffset? LocalTimestamp { get; set; }
 
         /// <summary>
-        /// Gets or sets contains the name of the timezone in which the
-        /// message, in local time, expressed in IANA Time Zone database
-        /// format.
+        /// Gets or sets contains the name of the local timezone of the
+        /// message, expressed in IANA Time Zone database format.
         /// For example, America/Los_Angeles.
         /// </summary>
         [JsonProperty(PropertyName = "localTimezone")]

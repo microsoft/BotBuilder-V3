@@ -10,7 +10,8 @@ namespace Microsoft.Bot.Connector
     using System.Linq;
 
     /// <summary>
-    /// Channel account information for a conversation
+    /// Conversation account represents the identity of the conversation within
+    /// a channel
     /// </summary>
     public partial class ConversationAccount
     {
@@ -38,10 +39,12 @@ namespace Microsoft.Bot.Connector
         /// Active Directory (AAD)</param>
         /// <param name="role">Role of the entity behind the account (Example:
         /// User, Bot, etc.). Possible values include: 'user', 'bot'</param>
-        public ConversationAccount(bool? isGroup = default(bool?), string id = default(string), string name = default(string), string conversationType = default(string), string role = default(string),  string aadObjectId = default(string))
+        /// <param name="tenantId">This conversation's tenant ID</param>
+        public ConversationAccount(bool? isGroup = default(bool?), string id = default(string), string name = default(string), string conversationType = default(string), string role = default(string), string aadObjectId = default(string), string tenantId = default(string))
         {
             IsGroup = isGroup;
             ConversationType = conversationType;
+            TenantId = tenantId;
             Id = id;
             Name = name;
             AadObjectId = aadObjectId;
@@ -67,6 +70,12 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         [JsonProperty(PropertyName = "conversationType")]
         public string ConversationType { get; set; }
+
+        /// <summary>
+        /// Gets or sets this conversation's tenant ID
+        /// </summary>
+        [JsonProperty(PropertyName = "tenantId")]
+        public string TenantId { get; set; }
 
         /// <summary>
         /// Gets or sets channel id for the user or bot on this channel

@@ -253,12 +253,11 @@
             activity on the channel.</param>
             <param name="timestamp">Contains the date and time that the message
             was sent, in UTC, expressed in ISO-8601 format.</param>
-            <param name="localTimestamp">Contains the date and time that the
-            message was sent, in local time, expressed in ISO-8601 format.
+            <param name="localTimestamp">Contains the local date and time of
+            the message, expressed in ISO-8601 format.
             For example, 2016-09-23T13:07:49.4714686-07:00.</param>
-            <param name="localTimezone">Contains the name of the timezone in
-            which the message, in local time, expressed in IANA Time Zone
-            database format.
+            <param name="localTimezone">Contains the name of the local timezone
+            of the message, expressed in IANA Time Zone database format.
             For example, America/Los_Angeles.</param>
             <param name="serviceUrl">Contains the URL that specifies the
             channel's service endpoint. Set by the channel.</param>
@@ -367,16 +366,15 @@
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.LocalTimestamp">
             <summary>
-            Gets or sets contains the date and time that the message was sent,
-            in local time, expressed in ISO-8601 format.
+            Gets or sets contains the local date and time of the message,
+            expressed in ISO-8601 format.
             For example, 2016-09-23T13:07:49.4714686-07:00.
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.Activity.LocalTimezone">
             <summary>
-            Gets or sets contains the name of the timezone in which the
-            message, in local time, expressed in IANA Time Zone database
-            format.
+            Gets or sets contains the name of the local timezone of the
+            message, expressed in IANA Time Zone database format.
             For example, America/Los_Angeles.
             </summary>
         </member>
@@ -3779,7 +3777,8 @@
         </member>
         <member name="T:Microsoft.Bot.Connector.ConversationAccount">
             <summary>
-            Channel account information for a conversation
+            Conversation account represents the identity of the conversation within
+            a channel
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.ConversationAccount.#ctor">
@@ -3787,7 +3786,7 @@
             Initializes a new instance of the ConversationAccount class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationAccount.#ctor(System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.ConversationAccount.#ctor(System.Nullable{System.Boolean},System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Initializes a new instance of the ConversationAccount class.
             </summary>
@@ -3804,6 +3803,7 @@
             Active Directory (AAD)</param>
             <param name="role">Role of the entity behind the account (Example:
             User, Bot, etc.). Possible values include: 'user', 'bot'</param>
+            <param name="tenantId">This conversation's tenant ID</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationAccount.IsGroup">
             <summary>
@@ -3815,6 +3815,11 @@
             <summary>
             Gets or sets indicates the type of the conversation in channels
             that distinguish between conversation types
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationAccount.TenantId">
+            <summary>
+            Gets or sets this conversation's tenant ID
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationAccount.Id">
@@ -3882,7 +3887,7 @@
             Initializes a new instance of the ConversationParameters class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(System.Nullable{System.Boolean},Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,Microsoft.Bot.Connector.Activity,System.Object)">
+        <member name="M:Microsoft.Bot.Connector.ConversationParameters.#ctor(System.Nullable{System.Boolean},Microsoft.Bot.Connector.ChannelAccount,System.Collections.Generic.IList{Microsoft.Bot.Connector.ChannelAccount},System.String,Microsoft.Bot.Connector.Activity,System.Object,System.String)">
             <summary>
             Initializes a new instance of the ConversationParameters class.
             </summary>
@@ -3896,6 +3901,8 @@
             conversation</param>
             <param name="channelData">Channel specific payload for creating the
             conversation</param>
+            <param name="tenantId">(Optional) The tenant ID in which the
+            conversation should be created</param>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.IsGroup">
             <summary>
@@ -3916,6 +3923,12 @@
             <summary>
             Gets or sets (Optional) Topic of the conversation (if supported by
             the channel)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.ConversationParameters.TenantId">
+            <summary>
+            Gets or sets (Optional) The tenant ID in which the conversation
+            should be created
             </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.ConversationParameters.Activity">
@@ -4580,12 +4593,22 @@
             Initializes a new instance of the SemanticAction class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.SemanticAction.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,Microsoft.Bot.Connector.Entity})">
+        <member name="M:Microsoft.Bot.Connector.SemanticAction.#ctor(System.String,System.Collections.Generic.IDictionary{System.String,Microsoft.Bot.Connector.Entity},System.String)">
             <summary>
             Initializes a new instance of the SemanticAction class.
             </summary>
             <param name="id">ID of this action</param>
             <param name="entities">Entities associated with this action</param>
+            <param name="state">State of this action. Allowed values: `start`,
+            `continue`, `done`. Possible values include: 'start', 'continue',
+            'done'</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SemanticAction.State">
+            <summary>
+            Gets or sets state of this action. Allowed values: `start`,
+            `continue`, `done`. Possible values include: 'start', 'continue',
+            'done'
+            </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.SemanticAction.Id">
             <summary>
@@ -5963,7 +5986,7 @@
             Initializes a new instance of the TokenResponse class.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.TokenResponse.#ctor(System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Connector.TokenResponse.#ctor(System.String,System.String,System.String,System.String)">
             <summary>
             Initializes a new instance of the TokenResponse class.
             </summary>
@@ -5971,6 +5994,12 @@
             <param name="token">The user token</param>
             <param name="expiration">Expiration for the token, in ISO 8601
             format (e.g. "2007-04-05T14:30Z")</param>
+            <param name="channelId">The channelId of the TokenResponse</param>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.TokenResponse.ChannelId">
+            <summary>
+            Gets or sets the channelId of the TokenResponse
+            </summary>
         </member>
         <member name="P:Microsoft.Bot.Connector.TokenResponse.ConnectionName">
             <summary>

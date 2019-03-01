@@ -123,12 +123,14 @@
     <Compile Include="Luis\CalendarPlus.cs" />
     <Compile Include="Luis\EntityToType.cs" />
     <Compile Include="Luis\Extensions.cs" />
+    <Compile Include="Luis\LuisDelegatingHandler.cs" />
     <Compile Include="Luis\LuisModel.cs" />
     <Compile Include="Luis\LuisOptions.cs" />
     <Compile Include="Luis\Models\CompositeChild.cs" />
     <Compile Include="Luis\Models\CompositeEntity.cs" />
     <Compile Include="Luis\Models\DialogResponse.cs" />
     <Compile Include="Luis\Models\DialogResponseEx.cs" />
+    <Compile Include="Luis\Models\Sentiment.cs" />
     <Compile Include="Luis\Resolution.cs" />
     <Compile Include="Luis\LuisService.cs" />
     <Compile Include="Dialogs\PromptDialog.cs" />

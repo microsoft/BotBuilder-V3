@@ -134,7 +134,7 @@ export class IntentRecognizerSet extends IntentRecognizer {
             if (!err) {
                 done(null, result);
             } else {
-                done(err instanceof Error ? err : new Error(err.toString()), null);
+                done(err instanceof Error ? err : new Error((err as any).toString()), null);
             }
         });
     }
