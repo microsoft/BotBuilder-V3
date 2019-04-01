@@ -155,9 +155,9 @@ export class ChatConnector implements IConnector, IBotStorage {
     private getRefreshEndpoint(channelAuthTenant?: string): string {
         var tenant = channelAuthTenant && channelAuthTenant.length > 0
             ? channelAuthTenant
-            : "botframework.com";
+            : consts.defaultChannelAuthTenant;
 
-        var endpoint = 'https://login.microsoftonline.com/' + tenant + '/oauth2/v2.0/token';
+        var endpoint = consts.channelAuthEndpointPrefix + tenant + consts.channelAuthEndpointTokenPath;
         new URL(endpoint); // will throw if endpoint is not a valid url
 
         return endpoint;
