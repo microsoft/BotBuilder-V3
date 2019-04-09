@@ -4,7 +4,7 @@ var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
 describe('generator-botbuilder:app', function () {
-  before(function () {
+  beforeAll(function () {
     return helpers.run(path.join(__dirname, '../generators/app'))
       .withPrompts({botName: 'sample', description: 'sample', language: 'JavaScript'})
       .toPromise();
@@ -16,7 +16,7 @@ describe('generator-botbuilder:app', function () {
       'app.js',
       'bot.js',
       'package.json',
-      'README.md',
+      'README.md'
     ]);
   });
 });
