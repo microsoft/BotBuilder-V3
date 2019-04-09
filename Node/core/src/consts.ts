@@ -38,6 +38,9 @@ export const defaultConnector = '*';
 export const defaultLocale = '*';
 export const emulatorChannel = 'emulator';
 export const intentEntityType = 'intent';
+export const defaultChannelAuthTenant = 'botframework.com';
+export const channelAuthEndpointPrefix = 'https://login.microsoftonline.com/';
+export const channelAuthEndpointTokenPath = '/oauth2/v2.0/token';
 
 export const Errors = {
     EMSGSIZE: 'EMSGSIZE',
