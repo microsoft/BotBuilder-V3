@@ -23,6 +23,7 @@
     "eslint-config-xo-space": "^0.16.0",
     "jest": "^24.7.0",
     "jest-cli": "^24.7.0",
+    "rimraf": "^2.6.3",
     "yeoman-assert": "^3.0.0",
     "yeoman-test": "^2.0.0"
   },
