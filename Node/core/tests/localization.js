@@ -1,11 +1,22 @@
 var assert = require('assert');
 var builder = require('../');
 
+
+
 describe('localization', function() {
     this.timeout(5000);
+
+    var testLib;
+
+    before(function() {
+        testLib = new builder.Library('TestLib');
+        testLib.localePath('./tests/locale/');
+    });
+
     it('should return localized prompt when found', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             session.send('id1');
         });
@@ -19,6 +30,7 @@ describe('localization', function() {
     it('should return passed in text when not found', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             session.send('id0');
         });
@@ -32,6 +44,7 @@ describe('localization', function() {
     it('should return random prompt for arrays', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             session.send('id3');
         });
@@ -45,6 +58,7 @@ describe('localization', function() {
     it('should return prompt in users preferred local', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             session.preferredLocale('es', function (err) {
                 assert(err === null);
@@ -61,6 +75,7 @@ describe('localization', function() {
     it('should return prompt in bots default local', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector, { localizerSettings: { defaultLocale: 'es' } });
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             session.send('id1'); 
         });
@@ -74,6 +89,7 @@ describe('localization', function() {
     it('should return prompt in sub-local', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector, { localizerSettings: { defaultLocale: 'en-US' } });
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             session.send('id1'); 
         });
@@ -87,6 +103,7 @@ describe('localization', function() {
     it('should fallback to bots locale', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector, { localizerSettings: { defaultLocale: 'es' } });
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             session.preferredLocale('en', function (err) {
                 session.send('id5'); 
@@ -102,6 +119,7 @@ describe('localization', function() {
     it('should fallback to bots locale for invalid preferredLocale', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector, { localizerSettings: { defaultLocale: 'es' } });
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             session.preferredLocale('fr', function (err) {
                 session.send('id1'); 
@@ -117,8 +135,9 @@ describe('localization', function() {
     it('should fallback to "en" for missing bot locale', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector, { localizerSettings: { defaultLocale: 'fr' } });
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
-            session.send('id1'); 
+            session.send('id1');
         });
         bot.on('send', function (message) {
             assert(message.text === 'index-en1');
@@ -129,15 +148,15 @@ describe('localization', function() {
 
     it('library should return libraries prompt', function (done) { 
         var connector = new builder.ConsoleConnector();
-        var lib = new builder.Library('TestLib');       
-        lib.localePath('./libLocale/');
+        var lib = new builder.Library('TestLib');
+        lib.localePath('./tests/libLocale/');
         var bot = new builder.UniversalBot(connector);
         bot.library(lib);
         bot.dialog('/', function (session, args) {
             session.beginDialog('TestLib:/');
         });
         lib.dialog('/', function (session) {
-            session.send('lib2'); 
+            session.send('lib2');
         });
         bot.on('send', function (message) {
             assert(message.text === 'lib-en2');
@@ -146,17 +165,17 @@ describe('localization', function() {
         connector.processMessage('test');
     });
 
-    it('library should return bots overriden prompt', function (done) { 
+    it('library should return bots overriden prompt', function (done) {
         var connector = new builder.ConsoleConnector();
-        var lib = new builder.Library('TestLib');       
-        lib.localePath('./libLocale/');
+        var lib = new builder.Library('TestLib');  
+        lib.localePath('./tests/libLocale/');
         var bot = new builder.UniversalBot(connector);
         bot.library(lib);
         bot.dialog('/', function (session, args) {
             session.beginDialog('TestLib:/');
         });
         lib.dialog('/', function (session) {
-            session.send('lib1'); 
+            session.send('lib1bot');
         });
         bot.on('send', function (message) {
             assert(message.text === 'bot-en1');
@@ -176,11 +195,12 @@ describe('localization', function() {
         });
         lib.dialog('/', function (session) {
             session.preferredLocale('es', function (err) {
-                session.send('lib1'); 
+                session.send('lib1');
             });
         });
         bot.on('send', function (message) {
-            assert(message.text === 'bot-es1');
+            // pass through when locale not found
+            assert(message.text === 'lib1');
             done();
         });
         connector.processMessage('test');
@@ -189,6 +209,7 @@ describe('localization', function() {
     it('should use bots namespace for prompt', function (done) { 
         var connector = new builder.ConsoleConnector();
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             builder.Prompts.text(session, 'id1');
         });
@@ -202,6 +223,7 @@ describe('localization', function() {
     it('should use bots namespace for retryPrompt', function (done) { 
         var connector = new builder.ConsoleConnector();
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             builder.Prompts.number(session, 'id1', { retryPrompt: 'id2' });
         });
@@ -224,7 +246,7 @@ describe('localization', function() {
     it('should use libraries namespace for prompt', function (done) { 
         var connector = new builder.ConsoleConnector();
         var lib = new builder.Library('TestLib');       
-        lib.localePath('./libLocale/');
+        lib.localePath('./tests/libLocale/');
         var bot = new builder.UniversalBot(connector);
         bot.library(lib);
         bot.dialog('/', function (session, args) {
@@ -243,7 +265,7 @@ describe('localization', function() {
     it('should use libraries namespace for retryPrompt', function (done) { 
         var connector = new builder.ConsoleConnector();
         var lib = new builder.Library('TestLib');       
-        lib.localePath('./libLocale/');
+        lib.localePath('./tests/libLocale/');
         var bot = new builder.UniversalBot(connector);
         bot.library(lib);
         bot.dialog('/', function (session, args) {
@@ -271,6 +293,7 @@ describe('localization', function() {
     it('should use bots namespace for cancelAction', function (done) { 
         var connector = new builder.ConsoleConnector();
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             builder.Prompts.text(session, 'id1');
         }).cancelAction('cancelTest', 'id4', { 
@@ -300,6 +323,7 @@ describe('localization', function() {
         var reloaded = false;
         var connector = new builder.ConsoleConnector();
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.dialog('/', function (session, args) {
             builder.Prompts.text(session, 'id1');
         }).reloadAction('reloadTest', 'id2', { matches: /reload/i });
@@ -326,6 +350,7 @@ describe('localization', function() {
     it('should use bots namespace for endConversationAction', function (done) { 
         var connector = new builder.ConsoleConnector();
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.endConversationAction('goodbye', 'id2', { matches: /goodbye/i });
         bot.dialog('/', function (session, args) {
             builder.Prompts.text(session, 'id1');
