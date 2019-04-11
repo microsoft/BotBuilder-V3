@@ -6,7 +6,7 @@ describe('promptRecognizers', function() {
 
     var testLib;
 
-    before(function() {
+    before(() => {
         testLib = new builder.Library('TestLib');
         testLib.localePath('./tests/locale/');
     });
