@@ -1,7 +1,5 @@
 'use strict';
 const path = require('path');
-const util = require('util');
-const rimraf = require('rimraf');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 
@@ -18,7 +16,7 @@ describe('Creates a bot based on Javascript', () => {
       .withPrompts({botName: botName, description: description, language: 'JavaScript'}); // Mock the prompt answers
   });
 
-  afterAll((done) => {
+  afterAll(done => {
     process.chdir(__dirname);
     runContext.cleanTestDirectory();
 
