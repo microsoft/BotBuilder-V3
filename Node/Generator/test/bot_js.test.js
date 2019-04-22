@@ -13,7 +13,7 @@ describe('Creates a bot based on Javascript', () => {
   beforeAll(() => {
     // The object returned acts like a promise, so return it to wait until the process is done
     return runContext.inDir(path.join(__dirname, tmpDir))
-      .withPrompts({botName: botName, description: description, language: 'JavaScript'}); // Mock the prompt answers
+      .withPrompts({botName: botName, description: description, language: 'JavaScript', dialog: 'echo'}); // Mock the prompt answers
   });
 
   afterAll(done => {

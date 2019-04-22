@@ -23,7 +23,7 @@ module.exports = class extends Generator {
     const botName = this.props.botName;
     const extension = this.props.language === 'JavaScript' ? 'js' : 'ts';
     const launchSteps = extension === 'js' ? `node app.js` : `tsc\nnode app.js`;
-    const defaultDialog = this.props.dialog ? this.props.dialog.split(' ')[0].toLowerCase() : this.props.dialog;
+    const defaultDialog = this.props.dialog ? this.props.dialog.split(' ')[0].toLowerCase() : 'echo';
     const luisRegistration = (defaultDialog === 'luis') ? '\nbot.recognizer(new builder.LuisRecognizer(process.env.LUIS_MODEL_URL));\n' : '\n';
 
     if (path.basename(this.destinationPath()) !== directoryName) {
