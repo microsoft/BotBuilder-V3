@@ -3,9 +3,18 @@ var builder = require('../');
 
 describe('promptRecognizers', function() {
     this.timeout(5000);
+
+    var testLib;
+
+    before(() => {
+        testLib = new builder.Library('TestLib');
+        testLib.localePath('./tests/locale/');
+    });
+
     it('should recognize a localized RegExp', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -21,6 +30,7 @@ describe('promptRecognizers', function() {
     it('should NOT recognize a localized RegExp', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -35,6 +45,7 @@ describe('promptRecognizers', function() {
     it('should recognize localized choices', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -52,6 +63,7 @@ describe('promptRecognizers', function() {
     it('should recognize a localized choice using a synonym', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -68,6 +80,7 @@ describe('promptRecognizers', function() {
     it('should recognize a localized choice without any synonyms', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -84,6 +97,7 @@ describe('promptRecognizers', function() {
     it('should NOT recognize a localized choice when value ignored', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -99,6 +113,7 @@ describe('promptRecognizers', function() {
     it('should recognize a boolean true', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -114,6 +129,7 @@ describe('promptRecognizers', function() {
     it('should recognize a boolean false', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -129,6 +145,7 @@ describe('promptRecognizers', function() {
     it('should recognize multiple booleans', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -145,6 +162,7 @@ describe('promptRecognizers', function() {
     it('should recognize a cardinal number', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -160,6 +178,7 @@ describe('promptRecognizers', function() {
     it('should recognize a cardinal number using words', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -175,6 +194,7 @@ describe('promptRecognizers', function() {
     it('should recognize negative numbers', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -190,6 +210,7 @@ describe('promptRecognizers', function() {
     it('should recognize positive numbers', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -205,6 +226,7 @@ describe('promptRecognizers', function() {
     it('should recognize multiple numbers', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -221,6 +243,7 @@ describe('promptRecognizers', function() {
     it('should recognize only integers', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -238,6 +261,7 @@ describe('promptRecognizers', function() {
     it('should recognize within a range', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -254,6 +278,7 @@ describe('promptRecognizers', function() {
     it('should recognize an ordinal', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -269,6 +294,7 @@ describe('promptRecognizers', function() {
     it('should recognize a reverse ordinal', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector);
+        bot.library(testLib);
         bot.use({
             botbuilder: function (session, next) {
                 var ctx = session.toRecognizeContext();
@@ -281,4 +307,5 @@ describe('promptRecognizers', function() {
         });
         connector.processMessage("i'd like the second to last one");
     });
+    
 });

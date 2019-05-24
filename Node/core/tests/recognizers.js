@@ -3,6 +3,14 @@ var builder = require('../');
 
 describe('recognizers', function() {
     this.timeout(5000);
+
+    var testLib;
+
+    before(function() {
+        testLib = new builder.Library('TestLib');
+        testLib.localePath('./tests/locale/');
+    });
+
     it('should match a RegExpRecognizer', function (done) { 
         var connector = new builder.ConsoleConnector();       
         var bot = new builder.UniversalBot(connector, function (session, args) {
@@ -40,6 +48,7 @@ describe('recognizers', function() {
         var bot = new builder.UniversalBot(connector, function (session, args) {
             session.send('Not Matched').endDialog();
         });
+        bot.library(testLib);
         bot.recognizer(new builder.LocalizedRegExpRecognizer('HelpIntent', "exp1"));
         bot.dialog('testDialog', function (session) {
             session.send('Matched').endDialog();
