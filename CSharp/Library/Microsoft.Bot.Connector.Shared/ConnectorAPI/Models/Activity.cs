@@ -126,7 +126,12 @@ namespace Microsoft.Bot.Connector
         /// highlight when the activity contains a ReplyToId value.</param>
         /// <param name="semanticAction">An optional programmatic action
         /// accompanying this request</param>
-        public Activity(string type = default(string), string id = default(string), System.DateTimeOffset? timestamp = default(System.DateTimeOffset?), System.DateTimeOffset? localTimestamp = default(System.DateTimeOffset?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), IList<MessageReaction> reactionsAdded = default(IList<MessageReaction>), IList<MessageReaction> reactionsRemoved = default(IList<MessageReaction>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string speak = default(string), string inputHint = default(string), string summary = default(string), SuggestedActions suggestedActions = default(SuggestedActions), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), string label = default(string), string valueType = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference), string code = default(string), System.DateTimeOffset? expiration = default(System.DateTimeOffset?), string importance = default(string), string deliveryMode = default(string), IList<string> listenFor = default(IList<string>), IList<TextHighlight> textHighlights = default(IList<TextHighlight>), SemanticAction semanticAction = default(SemanticAction), string localTimezone = default(string))
+        /// <param name="callerId">A string containing an IRI identifying the 
+        /// caller of a bot. This field is not intended to be transmitted
+        /// over the wire, but is instead populated by bots and clients based on 
+        /// cryptographically verifiable data that asserts the identity of 
+        /// the callers (e.g. tokens).</param>
+        public Activity(string type = default(string), string id = default(string), System.DateTimeOffset? timestamp = default(System.DateTimeOffset?), System.DateTimeOffset? localTimestamp = default(System.DateTimeOffset?), string serviceUrl = default(string), string channelId = default(string), ChannelAccount from = default(ChannelAccount), ConversationAccount conversation = default(ConversationAccount), ChannelAccount recipient = default(ChannelAccount), string textFormat = default(string), string attachmentLayout = default(string), IList<ChannelAccount> membersAdded = default(IList<ChannelAccount>), IList<ChannelAccount> membersRemoved = default(IList<ChannelAccount>), IList<MessageReaction> reactionsAdded = default(IList<MessageReaction>), IList<MessageReaction> reactionsRemoved = default(IList<MessageReaction>), string topicName = default(string), bool? historyDisclosed = default(bool?), string locale = default(string), string text = default(string), string speak = default(string), string inputHint = default(string), string summary = default(string), SuggestedActions suggestedActions = default(SuggestedActions), IList<Attachment> attachments = default(IList<Attachment>), IList<Entity> entities = default(IList<Entity>), object channelData = default(object), string action = default(string), string replyToId = default(string), string label = default(string), string valueType = default(string), object value = default(object), string name = default(string), ConversationReference relatesTo = default(ConversationReference), string code = default(string), System.DateTimeOffset? expiration = default(System.DateTimeOffset?), string importance = default(string), string deliveryMode = default(string), IList<string> listenFor = default(IList<string>), IList<TextHighlight> textHighlights = default(IList<TextHighlight>), SemanticAction semanticAction = default(SemanticAction), string localTimezone = default(string), string callerId = default(string))
         {
             Type = type;
             Id = id;
@@ -169,6 +174,7 @@ namespace Microsoft.Bot.Connector
             ListenFor = listenFor;
             TextHighlights = textHighlights;
             SemanticAction = semanticAction;
+            CallerId = callerId;
             CustomInit();
         }
 
@@ -466,5 +472,13 @@ namespace Microsoft.Bot.Connector
         [JsonProperty(PropertyName = "semanticAction")]
         public SemanticAction SemanticAction { get; set; }
 
+        /// <summary>
+        /// Gets or sets an optional string containing an IRI identifying the 
+        /// caller of a bot. This field is not intended to be transmitted over the wire, 
+        /// but is instead populated by bots and clients based on cryptographically 
+        /// verifiable data that asserts the identity of the callers (e.g. tokens).
+        /// </summary>
+        [JsonProperty(PropertyName = "callerId")]
+        public string CallerId { get; set; }
     }
 }
