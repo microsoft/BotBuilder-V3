@@ -10,7 +10,6 @@ var jwt = require("jsonwebtoken");
 var zlib = require("zlib");
 var Promise = require("promise");
 var urlJoin = require("url-join");
-var url_1 = require("url");
 var pjson = require('../../package.json');
 var MAX_DATA_LENGTH = 65000;
 var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/" + pjson.version + ")";
@@ -21,7 +20,7 @@ var ChatConnector = (function () {
         this.settings = settings;
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
-                refreshEndpoint: this.getRefreshEndpoint(this.settings.channelAuthTenant),
+                refreshEndpoint: 'https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token',
                 refreshScope: 'https://api.botframework.com/.default',
                 botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://login.botframework.com/v1/.well-known/openidconfiguration',
                 botConnectorIssuer: 'https://api.botframework.com',
@@ -65,14 +64,6 @@ var ChatConnector = (function () {
                 });
             }
         };
-    };
-    ChatConnector.prototype.getRefreshEndpoint = function (channelAuthTenant) {
-        var tenant = channelAuthTenant && channelAuthTenant.length > 0
-            ? channelAuthTenant
-            : consts.defaultChannelAuthTenant;
-        var endpoint = consts.channelAuthEndpointPrefix + tenant + consts.channelAuthEndpointTokenPath;
-        new url_1.URL(endpoint);
-        return endpoint;
     };
     ChatConnector.prototype.verifyBotFramework = function (req, res, next) {
         var _this = this;
