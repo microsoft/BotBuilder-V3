@@ -847,6 +847,9 @@ export class ChatConnector implements IConnector, IBotStorage {
                             case 403:
                                 if (!refresh && this.settings.appId && this.settings.appPassword) {
                                     this.authenticatedRequest(options, callback, true);
+                                } else if (body && body.error){
+                                    var txt = options.method + " to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    callback(new Error(txt), response, null);
                                 } else {
                                     callback(null, response, body);
                                 }
