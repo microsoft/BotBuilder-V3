@@ -10,6 +10,7 @@ var jwt = require("jsonwebtoken");
 var zlib = require("zlib");
 var Promise = require("promise");
 var urlJoin = require("url-join");
+var url_1 = require("url");
 var pjson = require('../../package.json');
 var MAX_DATA_LENGTH = 65000;
 var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/" + pjson.version + ")";
@@ -20,7 +21,7 @@ var ChatConnector = (function () {
         this.settings = settings;
         if (!this.settings.endpoint) {
             this.settings.endpoint = {
-                refreshEndpoint: 'https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token',
+                refreshEndpoint: this.getRefreshEndpoint(this.settings.channelAuthTenant),
                 refreshScope: 'https://api.botframework.com/.default',
                 botConnectorOpenIdMetadata: this.settings.openIdMetadata || 'https://login.botframework.com/v1/.well-known/openidconfiguration',
                 botConnectorIssuer: 'https://api.botframework.com',
@@ -64,6 +65,14 @@ var ChatConnector = (function () {
                 });
             }
         };
+    };
+    ChatConnector.prototype.getRefreshEndpoint = function (channelAuthTenant) {
+        var tenant = channelAuthTenant && channelAuthTenant.length > 0
+            ? channelAuthTenant
+            : consts.defaultChannelAuthTenant;
+        var endpoint = consts.channelAuthEndpointPrefix + tenant + consts.channelAuthEndpointTokenPath;
+        new url_1.URL(endpoint);
+        return endpoint;
     };
     ChatConnector.prototype.verifyBotFramework = function (req, res, next) {
         var _this = this;
@@ -226,6 +235,9 @@ var ChatConnector = (function () {
             }
             if (address.topicName) {
                 options.body.topicName = address.topicName;
+            }
+            if (address.tenantId) {
+                options.body.tenantId = address.tenantId;
             }
             this.authenticatedRequest(options, function (err, response, body) {
                 var adr;
@@ -662,10 +674,7 @@ var ChatConnector = (function () {
                                 if (!refresh && _this.settings.appId && _this.settings.appPassword) {
                                     _this.authenticatedRequest(options, callback, true);
                                 }
-                                else if (body && body.error) {
-                                    const errorMsg = `${options.method} to '${options.url}' failed: [${response.statusCode}] ${response.statusMessage}`;
-                                    callback(new Error(errorMsg), response, null);
-                                } else {
+                                else {
                                     callback(null, response, body);
                                 }
                                 break;
@@ -674,8 +683,8 @@ var ChatConnector = (function () {
                                     callback(null, response, body);
                                 }
                                 else {
-                                    const errorMsg = `${options.method} to '${options.url}' failed: [${response.statusCode}] ${response.statusMessage}`;
-                                    callback(new Error(errorMsg), response, null);
+                                    var txt = options.method + " to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    callback(new Error(txt), response, null);
                                 }
                                 break;
                         }

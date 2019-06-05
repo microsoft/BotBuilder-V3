@@ -230,17 +230,44 @@ describe('actions', function() {
 
         // stub authenticatedRequest function and make it return the test token object
         const authenticatedRequestStub = (options, callback) => {
-            callback(null, tokenResponse, tokenResponse);
+            callback(null, null, tokenResponse);
         }
 
         const stub = sinon.stub(connector, "authenticatedRequest");
         stub.callsFake(authenticatedRequestStub);
 
         connector.getUserToken(address, name, magicCode, (err, tokenResp) => {
+            stub.restore();
             if (err) return done(err);
             assert(tokenResp.channelId === "123");
             done();
         });
         
+    });
+
+    it('should allow a tenantId property to be added to the address object when starting a conversation', done => { 
+        const connector = new builder.ChatConnector();
+        const address = {
+            id: "123",
+            user: "foo",
+            bot: "bar",
+            serviceUrl: "baz",
+            tenantId: "foo"
+        };
+
+        // stub authenticatedRequest function and make it return the test token object
+        const authenticatedRequestStub = (options, callback) => {
+            callback(null, null, address);
+        }
+
+        const stub = sinon.stub(connector, "authenticatedRequest");
+        stub.callsFake(authenticatedRequestStub);
+        
+        connector.startConversation(address, (err, resp) => {
+            stub.restore();
+            if (err) return done(err);
+            assert(resp.tenantId === "foo");
+            done();
+        });
     });
 });
