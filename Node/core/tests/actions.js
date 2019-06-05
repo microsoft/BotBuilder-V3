@@ -1,5 +1,6 @@
 var assert = require('assert');
 var builder = require('../');
+const sinon = require('sinon');
 
 describe('actions', function() {
     this.timeout(5000);
@@ -183,5 +184,61 @@ describe('actions', function() {
             }
         });
         connector.processMessage('test');
+    });
+
+    it('should allow a semanticAction property specifiying an optional programmatic action to be added to the message object', done => { 
+        const connector = new builder.ConsoleConnector();       
+        const bot = new builder.UniversalBot(connector);
+        bot.dialog('/', [
+            session => {
+                builder.Prompts.text(session, 'enter text');
+            }
+        ]);
+        bot.on('send', message => {
+            if (message.text == 'enter text') {
+                const semanticAction = {
+                    id: 'foo',
+                    state: 'continue',
+                    entities: 'bar'
+                };
+                const msg = new builder.Message().address(message.address).semanticAction(semanticAction).text('my reply');
+                bot.send(msg, err => {
+                    if (err) return done(err);
+                    assert(err === null);
+                    done();
+                });
+            }
+        });
+        connector.processMessage('start');
+    });
+
+    it('should return a user Token', done => {
+        const id = "abc",
+              address = "foo",
+              name = "bar",
+              magicCode = "baz";
+        const token = {
+            connectionName: "abc",
+            token: "foo",
+            expiration: "bar",
+            channelId: "123"
+        }
+        const connector = new builder.ChatConnector();       
+        const bot = new builder.UniversalBot(connector);
+
+        // stub getUserToken function and make it return the test token object
+        const getUserTokenStub = (address, name, magicCode, cb) => {
+            cb(null, token);
+        };
+
+        const stub = sinon.stub(connector, "getUserToken");
+        stub.callsFake(getUserTokenStub);
+
+        connector.getUserToken(address, name, magicCode, (err, tokenResponse) => {
+            if (err) return done(err);
+            assert(tokenResponse.channelId === "123");
+            done();
+        });
+        
     });
 });

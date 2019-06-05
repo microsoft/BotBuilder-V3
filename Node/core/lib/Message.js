@@ -140,6 +140,12 @@ var Message = (function () {
         }
         return this;
     };
+    Message.prototype.semanticAction = function (semanticAction) {
+        if (semanticAction) {
+            this.data.semanticAction = semanticAction;
+        }
+        return this;
+    };
     Message.prototype.entities = function (list) {
         this.data.entities = list || [];
         return this;

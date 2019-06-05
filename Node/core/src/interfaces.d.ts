@@ -39,7 +39,7 @@ type CardImageType = ICardImage|IIsCardImage;
 type AttachmentType = IAttachment|IIsAttachment;
 type MatchType = RegExp|string|(RegExp|string)[];
 type ValueListType = string|string[];
-
+type SemanticActionStates = 'start' | 'continue' | 'done';
 
 interface IEvent {
     type: string;
@@ -52,8 +52,8 @@ interface IEvent {
 
 interface IMessage extends IEvent {
     timestamp?: string;              // UTC Time when message was sent (set by service)
-    localTimestamp?: string;         // Local time when message was sent (set by client or bot, Ex: 2016-09-23T13:07:49.4714686-07:00)
-    localTimezone?: string;          // Contains the name of the timezone in which the message, in local time, expressed in IANA Time Zone database format. For example, America/Los_Angeles.
+    localTimestamp?: string;         // Contains the local date and time of the message, expressed in ISO-8601 format. For example, 2016-09-23T13:07:49.4714686-07:00.
+    localTimezone?: string;          // Contains the name of the local timezone of the message, expressed in IANA Time Zone database format. For example, America/Los_Angeles.
     summary?: string;                // Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations 
     text?: string;                   // Message text
     speak?: string;                  // Spoken message as Speech Synthesis Markup Language (SSML)
@@ -97,6 +97,7 @@ interface IIdentity {
     conversationType?: string;      // Indicates the type of the conversation in channels that distinguish  
     role?: string;                  // Role of the entity behind the account (Possible values include: 'user', 'bot')
     aadObjectId?: string;           // This account's object ID within Azure Active Directory (AAD)
+    tenantId?: string;              // This conversation's tenant ID, for conversation identities */
 }
 
 interface IConversationMembers {
@@ -130,6 +131,7 @@ interface ITokenResponse {
     connectionName: string;         // The connection name.
     token: string;                  // The user token.
     expiration: string;             // Expiration for the token, in ISO 8601 format.
+    channelId: string               // The channelId of the TokenResponse
 }
 
 interface IAddress {
@@ -352,6 +354,7 @@ interface ITranscript {
 
 interface ISemanticAction {
     id: string;
+    state?: SemanticActionStates;
     entities: any;
 }
 
