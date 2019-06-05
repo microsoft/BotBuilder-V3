@@ -213,30 +213,32 @@ describe('actions', function() {
     });
 
     it('should return a user Token', done => {
-        const id = "abc",
-              address = "foo",
-              name = "bar",
-              magicCode = "baz";
-        const token = {
+        const address = {
+            user: {
+                id: "123"
+            }
+        };
+        const name = "bar";
+        const magicCode = "baz";
+        const tokenResponse = {
             connectionName: "abc",
             token: "foo",
             expiration: "bar",
             channelId: "123"
         }
-        const connector = new builder.ChatConnector();       
-        const bot = new builder.UniversalBot(connector);
+        const connector = new builder.ChatConnector();
 
-        // stub getUserToken function and make it return the test token object
-        const getUserTokenStub = (address, name, magicCode, cb) => {
-            cb(null, token);
-        };
+        // stub authenticatedRequest function and make it return the test token object
+        const authenticatedRequestStub = (options, callback) => {
+            callback(null, tokenResponse, tokenResponse);
+        }
 
-        const stub = sinon.stub(connector, "getUserToken");
-        stub.callsFake(getUserTokenStub);
+        const stub = sinon.stub(connector, "authenticatedRequest");
+        stub.callsFake(authenticatedRequestStub);
 
-        connector.getUserToken(address, name, magicCode, (err, tokenResponse) => {
+        connector.getUserToken(address, name, magicCode, (err, tokenResp) => {
             if (err) return done(err);
-            assert(tokenResponse.channelId === "123");
+            assert(tokenResp.channelId === "123");
             done();
         });
         
