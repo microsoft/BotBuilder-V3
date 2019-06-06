@@ -212,7 +212,7 @@ describe('actions', function() {
         connector.processMessage('start');
     });
 
-    it('should return a user Token', done => {
+    it('should return a user Token with a channelId property', done => {
         const address = {
             user: {
                 id: "123"
