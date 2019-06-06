@@ -7,6 +7,9 @@ exports.defaultConnector = '*';
 exports.defaultLocale = '*';
 exports.emulatorChannel = 'emulator';
 exports.intentEntityType = 'intent';
+exports.defaultChannelAuthTenant = 'botframework.com';
+exports.channelAuthEndpointPrefix = 'https://login.microsoftonline.com/';
+exports.channelAuthEndpointTokenPath = '/oauth2/v2.0/token';
 exports.Errors = {
     EMSGSIZE: 'EMSGSIZE',
     EBADMSG: 'EBADMSG'
