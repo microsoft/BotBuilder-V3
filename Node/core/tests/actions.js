@@ -202,6 +202,7 @@ describe('actions', function() {
                     entities: 'bar'
                 };
                 const msg = new builder.Message().address(message.address).semanticAction(semanticAction).text('my reply');
+                assert(msg.data.semanticAction.state === 'continue');
                 bot.send(msg, err => {
                     if (err) return done(err);
                     assert(err === null);
