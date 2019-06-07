@@ -224,6 +224,7 @@ describe('actions', function() {
             if (message.text == 'enter text') {
                 const callerId = 'foo';
                 const msg = new builder.Message().address(message.address).callerId(callerId).text('my reply');
+                assert(msg.data.callerId === 'foo');
                 bot.send(msg, err => {
                     if (err) return done(err);
                     assert(err === null);
