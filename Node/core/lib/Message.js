@@ -146,6 +146,12 @@ var Message = (function () {
         }
         return this;
     };
+    Message.prototype.callerId = function (callerId) {
+        if (callerId) {
+            this.data.callerId = callerId;
+        }
+        return this;
+    };
     Message.prototype.entities = function (list) {
         this.data.entities = list || [];
         return this;

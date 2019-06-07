@@ -236,9 +236,6 @@ var ChatConnector = (function () {
             if (address.topicName) {
                 options.body.topicName = address.topicName;
             }
-            if (address.tenantId) {
-                options.body.tenantId = address.tenantId;
-            }
             this.authenticatedRequest(options, function (err, response, body) {
                 var adr;
                 if (!err) {

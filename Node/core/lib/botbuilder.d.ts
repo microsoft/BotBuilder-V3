@@ -252,6 +252,10 @@ export interface IMessage extends IEvent {
 
     /** A delivery hint to signal to the recipient alternate delivery paths for the activity. The default delivery mode is "default". */
     deliveryMode?: string;
+
+    /** A string containing an IRI identifying the caller of a bot. This field is not intended to be transmitted over the wire, but is instead populated by bots and clients based on cryptographically verifiable data that asserts the identity of the callers (e.g. tokens). */
+    callerId?: string
+
 }
 
 /**

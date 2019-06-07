@@ -212,6 +212,28 @@ describe('actions', function() {
         connector.processMessage('start');
     });
 
+    it('should allow a callerId to be added to the message object', done => { 
+        const connector = new builder.ConsoleConnector();       
+        const bot = new builder.UniversalBot(connector);
+        bot.dialog('/', [
+            session => {
+                builder.Prompts.text(session, 'enter text');
+            }
+        ]);
+        bot.on('send', message => {
+            if (message.text == 'enter text') {
+                const callerId = 'foo';
+                const msg = new builder.Message().address(message.address).callerId(callerId).text('my reply');
+                bot.send(msg, err => {
+                    if (err) return done(err);
+                    assert(err === null);
+                    done();
+                });
+            }
+        });
+        connector.processMessage('start');
+    });
+
     it('should return a user Token with a channelId property', done => {
         const address = {
             user: {

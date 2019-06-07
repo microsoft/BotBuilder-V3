@@ -76,6 +76,7 @@ interface IMessage extends IEvent {
     expriation?: string;              // The time at which the activity should be considered to be "expired" and should not be presented to the recipient.
     importance?: string;              // The importance of the activity.
     deliveryMode?: string;            // A delivery hint to signal to the recipient alternate delivery paths for the activity. The default delivery mode is "default".
+    callerId?: string                // A string containing an IRI identifying the caller of a bot. This field is not intended to be transmitted over the wire, but is instead populated by bots and clients based on cryptographically verifiable data that asserts the identity of the callers (e.g. tokens).
 }
 
 interface IIsMessage {
