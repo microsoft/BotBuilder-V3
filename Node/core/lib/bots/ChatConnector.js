@@ -663,9 +663,10 @@ var ChatConnector = (function () {
                                     _this.authenticatedRequest(options, callback, true);
                                 }
                                 else if (body && body.error) {
-                                    const errorMsg = `${options.method} to '${options.url}' failed: [${response.statusCode}] ${response.statusMessage}`;
-                                    callback(new Error(errorMsg), response, null);
-                                } else {
+                                    var txt = options.method + " to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    callback(new Error(txt), response, null);
+                                }
+                                else {
                                     callback(null, response, body);
                                 }
                                 break;
@@ -674,8 +675,8 @@ var ChatConnector = (function () {
                                     callback(null, response, body);
                                 }
                                 else {
-                                    const errorMsg = `${options.method} to '${options.url}' failed: [${response.statusCode}] ${response.statusMessage}`;
-                                    callback(new Error(errorMsg), response, null);
+                                    var txt = options.method + " to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    callback(new Error(txt), response, null);
                                 }
                                 break;
                         }
