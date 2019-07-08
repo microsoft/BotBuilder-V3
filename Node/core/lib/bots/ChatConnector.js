@@ -671,6 +671,10 @@ var ChatConnector = (function () {
                                 if (!refresh && _this.settings.appId && _this.settings.appPassword) {
                                     _this.authenticatedRequest(options, callback, true);
                                 }
+                                else if (body && body.error) {
+                                    var txt = options.method + " to '" + options.url + "' failed: [" + response.statusCode + "] " + response.statusMessage;
+                                    callback(new Error(txt), response, null);
+                                }
                                 else {
                                     callback(null, response, body);
                                 }
