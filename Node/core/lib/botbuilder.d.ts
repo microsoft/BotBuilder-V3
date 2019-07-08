@@ -47,6 +47,11 @@ export type MatchType = RegExp | string | (RegExp | string)[];
  */
 export type ValueListType = string | string[];
 
+/**
+ * Defines values for SemanticActionStates. Possible values include: 'start', 'continue', 'done'
+ */
+export type SemanticActionStates = 'start' | 'continue' | 'done';
+
 //=============================================================================
 //
 // INTERFACES
@@ -179,10 +184,10 @@ export interface IMessage extends IEvent {
     /** UTC Time when message was sent (set by service.) */
     timestamp?: string;
 
-    /** Local time when message was sent (set by client or bot, Ex: 2016-09-23T13:07:49.4714686-07:00.) */
+    /**  Contains the local date and time of the message, expressed in ISO-8601 format. For example, 2016-09-23T13:07:49.4714686-07:00. **/
     localTimestamp?: string;
 
-    /** Contains the name of the timezone in which the message, in local time, expressed in IANA Time Zone database format. For example, America/Los_Angeles. */
+    /** Contains the name of the local timezone of the message, expressed in IANA Time Zone database format. For example, America/Los_Angeles. **/
     localTimezone?: string;          
 
     /** Text to be displayed by as fall-back and as short description of the message content in e.g. list of recent conversations. */
@@ -247,6 +252,10 @@ export interface IMessage extends IEvent {
 
     /** A delivery hint to signal to the recipient alternate delivery paths for the activity. The default delivery mode is "default". */
     deliveryMode?: string;
+
+    /** A string containing an IRI identifying the caller of a bot. This field is not intended to be transmitted over the wire, but is instead populated by bots and clients based on cryptographically verifiable data that asserts the identity of the callers (e.g. tokens). */
+    callerId?: string
+
 }
 
 /**
@@ -308,6 +317,9 @@ export interface IIdentity {
 
     /** This account's object ID within Azure Active Directory (AAD) */
     aadObjectId?: string;
+
+    /** This conversation's tenant ID, for conversation identities */
+    tenantId?: string;
 }
 
 /** List of members within a conversation. */
@@ -356,6 +368,11 @@ export interface ITokenResponse {
      * (e.g. "2007-04-05T14:30Z")
      */
     expiration: string;
+
+    /**
+     * The channelId of the TokenResponse
+     */
+    channelId: string
 }
 
 
@@ -1766,6 +1783,9 @@ export interface ISemanticAction {
     /** ID of this action. */
     id: string;
 
+    /** State of this action. Allowed values: 'start', 'continue', 'done' */
+    state?: SemanticActionStates;
+
     /** Entities associated with this action. */
     entities: any;
 }
@@ -2369,6 +2389,9 @@ export class Message implements IIsMessage {
 
     /** Optional suggested actions to send to the user. Suggested actions will be displayed only on the channels that support suggested actions. */
     suggestedActions(suggestedActions: ISuggestedActions | IIsSuggestedActions): Message;
+
+    /** An optional programmatic action accompanying this request. */
+    semanticAction(semanticAction: ISemanticAction): Message;
 
     /** Structured objects passed to the bot or user. */
     entities(list: Object[]): Message;

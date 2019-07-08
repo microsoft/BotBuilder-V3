@@ -92,6 +92,7 @@ export interface IStartConversationAddress extends IChatConnectorAddress {
     isGroup?: boolean;
     members?: IIdentity[];
     topicName?: string;
+    tenantId?: string; // (Optional) The tenant ID in which the conversation should be created
 }
 
 export class ChatConnector implements IConnector, IBotStorage {

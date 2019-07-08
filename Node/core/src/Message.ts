@@ -181,6 +181,20 @@ export class Message implements IIsMessage {
         }
         return this;
     }
+
+    public semanticAction(semanticAction: ISemanticAction): this {
+        if (semanticAction) {
+            this.data.semanticAction = semanticAction;
+        }
+        return this;
+    }
+
+    public callerId(callerId: string): this {
+        if (callerId) {
+            this.data.callerId = callerId;
+        }
+        return this;
+    }
     
     public entities(list: Object[]): this {
         this.data.entities = list || [];

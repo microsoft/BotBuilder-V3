@@ -1,5 +1,6 @@
 var assert = require('assert');
 var builder = require('../');
+const sinon = require('sinon');
 
 describe('actions', function() {
     this.timeout(5000);
@@ -183,5 +184,114 @@ describe('actions', function() {
             }
         });
         connector.processMessage('test');
+    });
+
+    it('should allow a semanticAction property specifiying an optional programmatic action to be added to the message object', done => { 
+        const connector = new builder.ConsoleConnector();       
+        const bot = new builder.UniversalBot(connector);
+        bot.dialog('/', [
+            session => {
+                builder.Prompts.text(session, 'enter text');
+            }
+        ]);
+        bot.on('send', message => {
+            if (message.text == 'enter text') {
+                const semanticAction = {
+                    id: 'foo',
+                    state: 'continue',
+                    entities: 'bar'
+                };
+                const msg = new builder.Message().address(message.address).semanticAction(semanticAction).text('my reply');
+                assert(msg.data.semanticAction.state === 'continue');
+                bot.send(msg, err => {
+                    if (err) return done(err);
+                    assert(err === null);
+                    done();
+                });
+            }
+        });
+        connector.processMessage('start');
+    });
+
+    it('should allow a callerId to be added to the message object', done => { 
+        const connector = new builder.ConsoleConnector();       
+        const bot = new builder.UniversalBot(connector);
+        bot.dialog('/', [
+            session => {
+                builder.Prompts.text(session, 'enter text');
+            }
+        ]);
+        bot.on('send', message => {
+            if (message.text == 'enter text') {
+                const callerId = 'foo';
+                const msg = new builder.Message().address(message.address).callerId(callerId).text('my reply');
+                assert(msg.data.callerId === 'foo');
+                bot.send(msg, err => {
+                    if (err) return done(err);
+                    assert(err === null);
+                    done();
+                });
+            }
+        });
+        connector.processMessage('start');
+    });
+
+    it('should return a user Token with a channelId property', done => {
+        const address = {
+            user: {
+                id: "123"
+            }
+        };
+        const name = "bar";
+        const magicCode = "baz";
+        const tokenResponse = {
+            connectionName: "abc",
+            token: "foo",
+            expiration: "bar",
+            channelId: "123"
+        }
+        const connector = new builder.ChatConnector();
+
+        // stub authenticatedRequest function and make it return the test token object
+        const authenticatedRequestStub = (options, callback) => {
+            callback(null, null, tokenResponse);
+        }
+
+        const stub = sinon.stub(connector, "authenticatedRequest");
+        stub.callsFake(authenticatedRequestStub);
+
+        connector.getUserToken(address, name, magicCode, (err, tokenResp) => {
+            stub.restore();
+            if (err) return done(err);
+            assert(tokenResp.channelId === "123");
+            done();
+        });
+        
+    });
+
+    it('should allow a tenantId property to be added to the address object when starting a conversation', done => { 
+        const connector = new builder.ChatConnector();
+        const address = {
+            id: "123",
+            user: "foo",
+            bot: "bar",
+            serviceUrl: "baz",
+            tenantId: "foo"
+        };
+
+        // stub authenticatedRequest function and make it return the test token object
+        const authenticatedRequestStub = (options, callback) => {
+            callback(null, null, address);
+        }
+
+        const stub = sinon.stub(connector, "authenticatedRequest");
+        stub.callsFake(authenticatedRequestStub);
+        
+        connector.startConversation(address, (err, resp) => {
+            stub.restore();
+            if (err) return done(err);
+            assert(resp.tenantId === "foo");
+            done();
+        });
     });
 });
