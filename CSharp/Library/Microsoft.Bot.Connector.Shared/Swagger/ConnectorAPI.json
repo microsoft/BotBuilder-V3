@@ -811,12 +811,12 @@
       "type": "object",
       "properties": {
         "viewId": {
-          "description": "Content type of the attachment",
+          "description": "Id of the attachment",
           "type": "string"
         },
         "size": {
           "format": "int32",
-          "description": "Name of the attachment",
+          "description": "Size of the attachment",
           "type": "integer"
         }
       }
@@ -947,6 +947,10 @@
         },
         "localTimezone": {
           "description": "Contains the name of the local timezone of the message, expressed in IANA Time Zone database format.\r\nFor example, America/Los_Angeles.",
+          "type": "string"
+        },
+        "callerId": {
+          "description": "A string containing an IRI identifying the caller of a bot. This field is not intended to be transmitted\r\nover the wire, but is instead populated by bots and clients based on cryptographically verifiable data\r\nthat asserts the identity of the callers (e.g. tokens).",
           "type": "string"
         },
         "serviceUrl": {

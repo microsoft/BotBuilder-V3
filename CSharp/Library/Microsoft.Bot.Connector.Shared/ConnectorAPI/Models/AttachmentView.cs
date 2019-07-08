@@ -25,8 +25,8 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Initializes a new instance of the AttachmentView class.
         /// </summary>
-        /// <param name="viewId">Content type of the attachment</param>
-        /// <param name="size">Name of the attachment</param>
+        /// <param name="viewId">Id of the attachment</param>
+        /// <param name="size">Size of the attachment</param>
         public AttachmentView(string viewId = default(string), int? size = default(int?))
         {
             ViewId = viewId;
@@ -40,13 +40,13 @@ namespace Microsoft.Bot.Connector
         partial void CustomInit();
 
         /// <summary>
-        /// Gets or sets content type of the attachment
+        /// Gets or sets Id of the attachment
         /// </summary>
         [JsonProperty(PropertyName = "viewId")]
         public string ViewId { get; set; }
 
         /// <summary>
-        /// Gets or sets name of the attachment
+        /// Gets or sets Size of the attachment
         /// </summary>
         [JsonProperty(PropertyName = "size")]
         public int? Size { get; set; }
