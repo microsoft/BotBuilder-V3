@@ -170,9 +170,8 @@ namespace Microsoft.Bot.Sample.AadV2Bot.Dialogs
             var client = new SimpleGraphClient(token.Token);
 
             var me = await client.GetMe();
-            var manager = await client.GetManager();
-
-            await context.PostAsync($"You are {me.DisplayName} and you report to {manager.DisplayName}.");
+            
+            await context.PostAsync($"You are {me.DisplayName}.");
         }
         #endregion
     }

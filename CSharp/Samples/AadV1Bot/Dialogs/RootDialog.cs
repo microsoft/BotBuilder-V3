@@ -54,7 +54,8 @@ namespace Microsoft.Bot.Sample.AadV1Bot.Dialogs
                 var recipient = message.ToLowerInvariant().Split(' ');
                 if (recipient.Length == 2)
                 {
-                    context.Call(CreateGetTokenDialog(), async (IDialogContext ctx, IAwaitable<GetTokenResponse> tokenResponse) => {
+                    context.Call(CreateGetTokenDialog(), async (IDialogContext ctx, IAwaitable<GetTokenResponse> tokenResponse) =>
+                    {
                         await SendMail(context, tokenResponse, recipient[1]);
                     });
                 }
@@ -170,9 +171,8 @@ namespace Microsoft.Bot.Sample.AadV1Bot.Dialogs
             var client = new SimpleGraphClient(token.Token);
 
             var me = await client.GetMe();
-            var manager = await client.GetManager();
-
-            await context.PostAsync($"You are {me.DisplayName} and you report to {manager.DisplayName}.");
+            
+            await context.PostAsync($"You are {me.DisplayName}.");
         }
         #endregion
     }
