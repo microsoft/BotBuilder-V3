@@ -17,7 +17,8 @@ namespace Microsoft.Bot.Sample.AadV2Bot.Controllers
         /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            if (activity.Type == ActivityTypes.Message)
+            if (activity.Type == ActivityTypes.Message ||
+                (activity.Type == ActivityTypes.Invoke && activity.ChannelId == ChannelIds.Msteams))
             {
                 await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
             }

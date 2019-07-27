@@ -17,7 +17,8 @@ namespace Microsoft.Bot.Sample.AadV1Bot.Controllers
         /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            if (activity.Type == ActivityTypes.Message)
+            if (activity.Type == ActivityTypes.Message ||
+               (activity.Type == ActivityTypes.Invoke && activity.ChannelId == ChannelIds.Msteams))
             {
                 await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
             }
@@ -54,7 +55,7 @@ namespace Microsoft.Bot.Sample.AadV1Bot.Controllers
             else if (message.Type == ActivityTypes.Ping)
             {
             }
-            else if(message.Type == ActivityTypes.Event)
+            else if (message.Type == ActivityTypes.Event)
             {
                 // Send TokenResponse Events along to the Dialog stack
                 if (message.IsTokenResponseEvent())
