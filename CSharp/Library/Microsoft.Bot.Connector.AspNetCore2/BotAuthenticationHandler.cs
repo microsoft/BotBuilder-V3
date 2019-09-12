@@ -12,7 +12,7 @@ using Microsoft.Extensions.Options;
 namespace Microsoft.Bot.Connector
 {
     /// <summary>
-    /// Bot authentication hanlder used by <see cref="BotAuthenticationMiddleware"/>.
+    /// Bot authentication handler used by <see cref="BotAuthenticationMiddleware"/>.
     /// </summary>
     public class BotAuthenticationHandler : AuthenticationHandler<BotAuthenticationOptions>
     {
