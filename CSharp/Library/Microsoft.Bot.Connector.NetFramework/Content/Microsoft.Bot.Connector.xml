@@ -6735,6 +6735,11 @@
             </summary>
             <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
         </member>
+        <member name="T:Microsoft.Bot.Connector.IOAuthApiEx">
+            <summary>
+            OAuth API operations.
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Connector.OAuthApi">
             <summary>
             OAuthClient operations.
@@ -6856,6 +6861,11 @@
         <member name="P:Microsoft.Bot.Connector.OAuthClient.OAuthApi">
             <summary>
             Gets the IOAuthApi.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.OAuthClient.OAuthApiEx">
+            <summary>
+            Gets the IOAuthApiEx.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.OAuthClient.#ctor(System.Net.Http.DelegatingHandler[])">
