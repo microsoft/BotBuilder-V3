@@ -38,6 +38,11 @@ namespace Microsoft.Bot.Connector
         public virtual IOAuthApi OAuthApi { get; private set; }
 
         /// <summary>
+        /// Gets the IOAuthApiEx.
+        /// </summary>
+        public virtual IOAuthApiEx OAuthApiEx { get; private set; }
+
+        /// <summary>
         /// Initializes a new instance of the OAuthClient class.
         /// </summary>
         /// <param name='handlers'>
@@ -238,7 +243,8 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         private void Initialize()
         {
-            OAuthApi = new OAuthApi(this);
+            OAuthApiEx = new OAuthApi(this);
+            OAuthApi = OAuthApiEx;
             BaseUri = new System.Uri("https://api.botframework.com");
             SerializationSettings = new JsonSerializerSettings
             {

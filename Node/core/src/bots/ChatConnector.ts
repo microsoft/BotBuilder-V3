@@ -491,6 +491,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         // Calculate path
         var path = 'api/usertoken/GetToken?userId=' + encodeURIComponent(address.user.id);
         path += '&connectionName=' + encodeURIComponent(connectionName);
+        path += '&channelId=' + encodeURIComponent(address.channelId);
         if (magicCode) { path += '&code=' + encodeURIComponent(magicCode) }
 
         // Issue request
@@ -509,6 +510,7 @@ export class ChatConnector implements IConnector, IBotStorage {
         // Calculate path
         var path = 'api/usertoken/SignOut?userId=' + encodeURIComponent(address.user.id);
         path += '&connectionName=' + encodeURIComponent(connectionName);
+        path += '&channelId=' + encodeURIComponent(address.channelId);
 
         // Issue request
         var options: request.Options = {
