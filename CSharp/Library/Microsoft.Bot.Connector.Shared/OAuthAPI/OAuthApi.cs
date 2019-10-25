@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Connector
     /// <summary>
     /// OAuthClient operations.
     /// </summary>
-    public partial class OAuthApi : IServiceOperations<OAuthClient>, IOAuthApiEx
+    public partial class OAuthApi : IServiceOperations<OAuthClient>, IOAuthApi, IOAuthApiEx
     {
         /// <summary>
         /// Initializes a new instance of the OAuthApi class.

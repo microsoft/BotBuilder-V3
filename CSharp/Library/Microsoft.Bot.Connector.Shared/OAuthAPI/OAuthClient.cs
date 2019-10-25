@@ -4,6 +4,7 @@ namespace Microsoft.Bot.Connector
     using Microsoft.Rest.Serialization;
     
     using Newtonsoft.Json;
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Net;
@@ -35,6 +36,7 @@ namespace Microsoft.Bot.Connector
         /// <summary>
         /// Gets the IOAuthApi.
         /// </summary>
+        [Obsolete("Use OAuthApiEx instead")]
         public virtual IOAuthApi OAuthApi { get; private set; }
 
         /// <summary>
@@ -243,8 +245,9 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         private void Initialize()
         {
-            OAuthApiEx = new OAuthApi(this);
-            OAuthApi = OAuthApiEx;
+            var api = new OAuthApi(this);
+            OAuthApiEx = api;
+            OAuthApi = api;
             BaseUri = new System.Uri("https://api.botframework.com");
             SerializationSettings = new JsonSerializerSettings
             {

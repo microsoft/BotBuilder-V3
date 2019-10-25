@@ -11,10 +11,14 @@ namespace Microsoft.Bot.Connector
     /// <summary>
     /// OAuth API operations.
     /// </summary>
-    public partial interface IOAuthApiEx : IOAuthApi
+    public partial interface IOAuthApiEx
     {
         Task<TokenResponse> GetUserTokenAsync(string channelId, string userId, string connectionName, string magicCode = null, CancellationToken cancellationToken = default(CancellationToken));
         
         Task<bool> SignOutUserAsync(string channelId, string userId, string connectionName, CancellationToken cancellationToken = default(CancellationToken));
+
+        Task<string> GetSignInLinkAsync(IActivity activity, string connectionName, CancellationToken cancellationToken = default(CancellationToken));
+
+        Task SendEmulateOAuthCardsAsync(bool emulateOAuthCards);
     }
 }
