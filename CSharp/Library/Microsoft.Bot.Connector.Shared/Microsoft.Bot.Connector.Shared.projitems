@@ -137,11 +137,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Mention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MicrosoftAppCredentials.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachmentEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\IOAuthApiEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\OAuthApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\IOAuthApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\IOAuthClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\Models\TokenExchangeState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\Models\TokenOperations.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\OAuthClientExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OAuthAPI\OAuthClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Payments\MicrosoftPayMethodDataEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentOperations.cs" />

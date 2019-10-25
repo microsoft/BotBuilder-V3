@@ -198,8 +198,8 @@ namespace Microsoft.Bot.Builder.Tests
                     return "http://www.cnn.com";
                 });
 
-            botsClient.Setup(d => d.OAuthApi.GetUserTokenAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .Returns<string, string, CancellationToken>(async (userId, connectionName, token) =>
+            botsClient.Setup(d => d.GetOAuthApiEx().GetUserTokenAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns<string, string, string, string, CancellationToken>(async (channelId, userId, connectionName, magicCode, token) =>
                 {
                     return new TokenResponse() { Token = "HappyToken", ConnectionName = connectionName };
                 });
@@ -209,8 +209,8 @@ namespace Microsoft.Bot.Builder.Tests
                 {
                 });
 
-            botsClient.Setup(d => d.OAuthApi.SignOutUserAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .Returns<string, string, CancellationToken>(async (userId, connectionName, token) =>
+            botsClient.Setup(d => d.GetOAuthApiEx().SignOutUserAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns<string, string, string, CancellationToken>(async (channelId, userId, connectionName, token) =>
                 {
                     return true;
                 });

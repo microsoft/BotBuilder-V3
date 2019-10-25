@@ -23,7 +23,7 @@ namespace Microsoft.Bot.Connector
     /// <summary>
     /// OAuthClient operations.
     /// </summary>
-    public partial class OAuthApi : IServiceOperations<OAuthClient>, IOAuthApi
+    public partial class OAuthApi : IServiceOperations<OAuthClient>, IOAuthApi, IOAuthApiEx
     {
         /// <summary>
         /// Initializes a new instance of the OAuthApi class.
@@ -48,12 +48,19 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         public OAuthClient Client { get; private set; }
 
+        [Obsolete("Use IOAuthApiEx.GetUserTokenAsync")]
         public Task<TokenResponse> GetUserTokenAsync(string userId, string connectionName, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return GetUserTokenAsync(userId, connectionName, null, cancellationToken);
+            return GetUserTokenAsync(null, userId, connectionName, null, cancellationToken);
         }
-
-        public async Task<TokenResponse> GetUserTokenAsync(string userId, string connectionName, string magicCode, CancellationToken cancellationToken = default(CancellationToken))
+        
+        [Obsolete("Use IOAuthApiEx.GetUserTokenAsync")]
+        public Task<TokenResponse> GetUserTokenAsync(string userId, string connectionName, string magicCode, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return GetUserTokenAsync(null, userId, connectionName, magicCode, cancellationToken);
+        }
+        
+        public async Task<TokenResponse> GetUserTokenAsync(string channelId, string userId, string connectionName, string magicCode = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (connectionName == null)
             {
@@ -70,6 +77,7 @@ namespace Microsoft.Bot.Connector
             {
                 _invocationId = ServiceClientTracing.NextInvocationId.ToString();
                 Dictionary<string, object> tracingParameters = new Dictionary<string, object>();
+                tracingParameters.Add("channelId", channelId);
                 tracingParameters.Add("userId", userId);
                 tracingParameters.Add("connectionName", connectionName);
                 tracingParameters.Add("magicCode", magicCode);
@@ -79,7 +87,7 @@ namespace Microsoft.Bot.Connector
 
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/usertoken/GetToken?userId={userId}&connectionName={connectionName}{magicCodeParam}").ToString();
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/usertoken/GetToken?userId={userId}&connectionName={connectionName}{magicCodeParam}{channelIdParam}").ToString();
             _url = _url.Replace("{connectionName}", System.Uri.EscapeDataString(connectionName));
             _url = _url.Replace("{userId}", System.Uri.EscapeDataString(userId));
             if (!string.IsNullOrEmpty(magicCode))
@@ -89,6 +97,15 @@ namespace Microsoft.Bot.Connector
             else
             {
                 _url = _url.Replace("{magicCodeParam}", String.Empty);
+            }
+
+            if (!string.IsNullOrEmpty(channelId))
+            {
+                _url = _url.Replace("{channelIdParam}", $"&channelId={System.Uri.EscapeDataString(channelId)}");
+            }
+            else
+            {
+                _url = _url.Replace("{channelIdParam}", String.Empty);
             }
 
             // Create HTTP transport objects
@@ -145,7 +162,13 @@ namespace Microsoft.Bot.Connector
             }
         }
 
-        public async Task<bool> SignOutUserAsync(string userId, string connectionName, CancellationToken cancellationToken = default(CancellationToken))
+        [Obsolete("Use IOAuthApiEx.SignOutUserAsync")]
+        public Task<bool> SignOutUserAsync(string userId, string connectionName, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            return SignOutUserAsync(null, userId, connectionName, cancellationToken);
+        }
+
+        public async Task<bool> SignOutUserAsync(string channelId, string userId, string connectionName, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (connectionName == null)
             {
@@ -170,10 +193,18 @@ namespace Microsoft.Bot.Connector
 
             // Construct URL
             var _baseUrl = Client.BaseUri.AbsoluteUri;
-            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/usertoken/SignOut?&userId={userId}&connectionName={connectionName}").ToString();
+            var _url = new System.Uri(new System.Uri(_baseUrl + (_baseUrl.EndsWith("/") ? "" : "/")), "api/usertoken/SignOut?&userId={userId}&connectionName={connectionName}{channelIdParam}").ToString();
             _url = _url.Replace("{connectionName}", System.Uri.EscapeDataString(connectionName));
             _url = _url.Replace("{userId}", System.Uri.EscapeDataString(userId));
-
+            if (!string.IsNullOrEmpty(channelId))
+            {
+                _url = _url.Replace("{channelIdParam}", $"&channelId={System.Uri.EscapeDataString(channelId)}");
+            }
+            else
+            {
+                _url = _url.Replace("{channelIdParam}", String.Empty);
+            }
+            
             // Create HTTP transport objects
             var _httpRequest = new HttpRequestMessage();
             HttpResponseMessage _httpResponse = null;
