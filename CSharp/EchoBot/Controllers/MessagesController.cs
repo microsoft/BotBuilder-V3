@@ -1,4 +1,5 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿using EchoBot.Authentication;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using System;
 using System.Net;
@@ -25,14 +26,27 @@ namespace EchoBot.Controllers
             // calculate something for us to return
             int length = (activity.Text ?? string.Empty).Length;
 
-            // return our reply to the user
-            await context.PostAsync($"You sent {activity.Text} which was {length} characters");
+
+            if (activity.Text.Contains("end") || activity.Text.Contains("stop"))
+            {
+                // Send End of conversation at the end.
+                await context.PostAsync($"ending conversation from the skill...");
+                var endOfConversation = activity.CreateReply();
+                endOfConversation.Type = ActivityTypes.EndOfConversation;
+                endOfConversation.Code = EndOfConversationCodes.CompletedSuccessfully;
+                await context.PostAsync(endOfConversation);
+            }
+            else
+            {
+                await context.PostAsync($"You sent {activity.Text} which was {length} characters");
+            }
 
             context.Wait(MessageReceivedAsync);
         }
     }
 
-    [BotAuthentication]
+    //[SkillAuthentication]
+    [SkillAuthentication(AuthenticationConfigurationProviderType=typeof(SkillAuthenticationConfiguration))]
     public class MessagesController : ApiController
     {
 
@@ -41,10 +55,6 @@ namespace EchoBot.Controllers
             if (activity.Type == ActivityTypes.Message)
             {
                 await Conversation.SendAsync(activity, () => new RootDialog());
-                //MicrosoftAppCredentials.AutoTokenRefreshTimeSpan = TimeSpan.FromSeconds(30);
-
-                //ConnectorClient client = new ConnectorClient(new Uri(activity.ServiceUrl), new MicrosoftAppCredentials());
-                //await client.Conversations.ReplyToActivityAsync(activity.CreateReply(activity.Text));
             }
             return Request.CreateResponse(HttpStatusCode.OK);
         }
