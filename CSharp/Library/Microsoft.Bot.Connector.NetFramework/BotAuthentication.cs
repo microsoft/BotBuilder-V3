@@ -77,7 +77,12 @@ namespace Microsoft.Bot.Connector
             await base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
 
-        private IList<Activity> GetActivities(HttpActionContext actionContext)
+        protected async Task BaseOnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+        {
+            await base.OnActionExecutingAsync(actionContext, cancellationToken);
+        }
+
+        protected IList<Activity> GetActivities(HttpActionContext actionContext)
         {
             var activties = actionContext.ActionArguments.Select(t => t.Value).OfType<Activity>().ToList();
             if (activties.Any())
@@ -101,7 +106,7 @@ namespace Microsoft.Bot.Connector
             return activties;
         }
 
-        private ICredentialProvider GetCredentialProvider()
+        protected ICredentialProvider GetCredentialProvider()
         {
             ICredentialProvider credentialProvider = null;
             if (CredentialProviderType != null)

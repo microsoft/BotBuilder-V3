@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.IdentityModel.Protocols;
 #if NET45
 using System.Diagnostics;
@@ -20,6 +21,8 @@ namespace Microsoft.Bot.Connector
 
     public sealed class BotAuthenticator
     {
+        private static readonly HttpClient _httpClient = new HttpClient();
+
         /// <summary>
         /// The endorsements validator delegate. 
         /// </summary>
@@ -171,7 +174,8 @@ namespace Microsoft.Bot.Connector
             var authorizationHeader = request.Headers.Authorization;
             if (authorizationHeader != null)
             {
-                var toBotFromChannelExtractor = GetTokenExtractor(JwtConfig.ToBotFromChannelTokenValidationParameters, this.openIdConfigurationUrl, endorsements => this.validator(activities, endorsements));
+                // TODO: fix or remove validator
+                var toBotFromChannelExtractor = GetTokenExtractor(JwtConfig.ToBotFromChannelTokenValidationParameters, this.openIdConfigurationUrl);//, endorsements => validator(activities, endorsements));
                 return await TryAuthenticateAsync(toBotFromChannelExtractor, GetToBotFromEmulatorTokenExtractor(), authorizationHeader.Scheme, authorizationHeader.Parameter, token);
             }
             else if (await this.credentialProvider.IsAuthenticationDisabledAsync())
@@ -196,7 +200,8 @@ namespace Microsoft.Bot.Connector
 
             ClaimsIdentity identity = null;
             string appId = null;
-            identity = await toBotFromChannelExtractor.GetIdentityAsync(scheme, token);
+            // TODO: Add channel
+            identity = await toBotFromChannelExtractor.GetIdentityAsync($"{scheme} {token}", string.Empty);
             if (identity != null)
                 appId = toBotFromChannelExtractor.GetAppIdFromClaimsIdentity(identity);
 
@@ -204,7 +209,8 @@ namespace Microsoft.Bot.Connector
             // This code path is used by the emulator
             if (identity == null && !this.disableEmulatorTokens)
             {
-                identity = await toBotFromEmulatorExtractor.GetIdentityAsync(scheme, token);
+                // TODO: Add channel param?
+                identity = await toBotFromEmulatorExtractor.GetIdentityAsync($"{scheme} {token}", string.Empty);
 
                 if (identity != null)
                     appId = toBotFromEmulatorExtractor.GetAppIdFromEmulatorClaimsIdentity(identity);
@@ -249,12 +255,13 @@ namespace Microsoft.Bot.Connector
         {
             return GetTokenExtractor(JwtConfig.ToBotFromEmulatorTokenValidationParameters, JwtConfig.ToBotFromEmulatorOpenIdMetadataUrl);
         }
-
+        
         private static JwtTokenExtractor GetTokenExtractor(TokenValidationParameters parameters,
-            string openIdConfigurationUrl,
-            JwtTokenExtractor.EndorsementsValidator validator = null)
+            string openIdConfigurationUrl,            
+            EndorsementsValidator validator = null)
         {
-            return new JwtTokenExtractor(parameters, openIdConfigurationUrl, JwtConfig.ToBotFromChannelAllowedSigningAlgorithms, validator);
+            //TODO: fix or remove validator
+            return new JwtTokenExtractor(_httpClient, parameters, openIdConfigurationUrl, new HashSet<string>(JwtConfig.ToBotFromChannelAllowedSigningAlgorithms));//, validator);
         }
 
     }

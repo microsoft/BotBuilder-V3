@@ -13,7 +13,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)AnimationCardEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AttachmentsEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)AudioCardEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\AuthenticationConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Authentication\AdalAuthenticator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\AuthenticationConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\ChannelValidation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\ClaimsValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\EmulatorValidation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\EndorsementsRetriever.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\EndorsementsValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Authentication\Retry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Authentication\RetryParams.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BotAuthenticator.cs" />
@@ -71,6 +78,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Transcript.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ITraceActivity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IHandoffActivity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\JwtTokenValidation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MediaUrlEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\Mention.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConnectorAPI\Models\MessageReaction.cs" />
@@ -148,6 +156,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentRequestEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentShippingTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SigninCardEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Authentication\SkillValidation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\BotState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\BotStateExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\IBotState.cs" />
