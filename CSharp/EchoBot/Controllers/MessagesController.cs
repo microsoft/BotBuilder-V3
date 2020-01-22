@@ -38,15 +38,16 @@ namespace EchoBot.Controllers
             }
             else
             {
-                await context.PostAsync($"You sent {activity.Text} which was {length} characters");
+                await context.PostAsync($"Echo (dotnet V3): {activity.Text}");
+                await context.PostAsync($"Say 'end' or 'stop' and I'll end the conversation and back to the parent.");
             }
 
             context.Wait(MessageReceivedAsync);
         }
     }
 
-    //[SkillAuthentication]
-    [SkillAuthentication(AuthenticationConfigurationProviderType=typeof(SkillAuthenticationConfiguration))]
+    [SkillAuthentication]
+    //[SkillAuthentication(AuthenticationConfigurationProviderType=typeof(SkillAuthenticationConfiguration))]
     public class MessagesController : ApiController
     {
 
