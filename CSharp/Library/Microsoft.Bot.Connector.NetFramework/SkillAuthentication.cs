@@ -33,16 +33,27 @@ namespace Microsoft.Bot.Connector
                 if (activities.Any())
                 {
                     var authConfiguration = GetAuthenticationConfiguration();
-
                     var credentialProvider = this.GetCredentialProvider();
 
-                    foreach (var activity in activities)
+                    try
                     {
-                        var identity = await JwtTokenValidation.AuthenticateRequest(activity, authorizationHeader.ToString(), credentialProvider, authConfiguration, _httpClient).ConfigureAwait(false);
-
-                        // this is done in JwtTokenValidation.AuthenticateRequest, but the oauthScope is not set
-                        // so we update it here
-                        MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl, oauthScope: JwtTokenValidation.GetAppIdFromClaims(identity.Claims));
+                        foreach (var activity in activities)
+                        {
+                            var claimsIdentity = await JwtTokenValidation.AuthenticateRequest(activity, authorizationHeader.ToString(), credentialProvider, authConfiguration, _httpClient).ConfigureAwait(false);
+                            // If the request is not authenticated, fail with 401.
+                            if (claimsIdentity == null)
+                            {
+                                actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request, "BotAuthenticator failed to authenticate incoming request!");
+                                return;
+                            }
+                            // this is done in JwtTokenValidation.AuthenticateRequest, but the oauthScope is not set so we update it here
+                            MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl, oauthScope: JwtTokenValidation.GetAppIdFromClaims(claimsIdentity.Claims));
+                        }
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request, "BotAuthenticator failed to authenticate incoming request!");
+                        return;
                     }
                     
                     await base.BaseOnActionExecutingAsync(actionContext, cancellationToken);
