@@ -36,10 +36,15 @@ namespace Microsoft.Bot.Connector
 
                     var credentialProvider = this.GetCredentialProvider();
 
-                    var identity = await JwtTokenValidation.AuthenticateRequest(activities[0], authorizationHeader.ToString(), credentialProvider, authConfiguration, _httpClient).ConfigureAwait(false);
+                    foreach (var activity in activities)
+                    {
+                        var identity = await JwtTokenValidation.AuthenticateRequest(activity, authorizationHeader.ToString(), credentialProvider, authConfiguration, _httpClient).ConfigureAwait(false);
 
-                    MicrosoftAppCredentials.TrustServiceUrl(activities[0].ServiceUrl, oauthScope: JwtTokenValidation.GetAppIdFromClaims(identity.Claims));
-                   
+                        // this is done in JwtTokenValidation.AuthenticateRequest, but the oauthScope is not set
+                        // so we update it here
+                        MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl, oauthScope: JwtTokenValidation.GetAppIdFromClaims(identity.Claims));
+                    }
+                    
                     await base.BaseOnActionExecutingAsync(actionContext, cancellationToken);
                     return;
                 }
