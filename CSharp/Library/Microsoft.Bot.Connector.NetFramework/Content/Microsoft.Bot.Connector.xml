@@ -519,20 +519,6 @@
             </summary>
             <returns>True if this channel provider represents a channel on Public Azure.</returns>
         </member>
-        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.IServiceClientCredentialProvider">
-            <summary>
-            ServiceClientCredentialProvider interface. This interface allows Bots to provide their own
-            proof of service identity for the purpose of making service calls from the bot to 
-            channels. The implementor should return ServiceClientCredentails from GetCredentials 
-            method.
-            </summary>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.IServiceClientCredentialProvider.GetCredentials">
-            <summary>
-            Get the credential necessary to provide identity/authorization to use.
-            </summary>
-            <returns>ServiceClientCedentials.</returns>
-        </member>
         <member name="F:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor._openIdMetadataCache">
             <summary>
             Cache for OpenIdConnect configuration managers (one per metadata URL).
