@@ -24,7 +24,6 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// <param name="activity">The activity.</param>
         /// <param name="authHeader">The authentication header.</param>
         /// <param name="credentials">The bot's credential provider.</param>
-        /// <param name="provider">The bot's channel service provider.</param>
         /// <param name="httpClient">The HTTP client.</param>
         /// <returns>A task that represents the work queued to execute.</returns>
         /// <remarks>If the task completes successfully, the result contains the claims-based
@@ -41,7 +40,6 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// <param name="activity">The activity.</param>
         /// <param name="authHeader">The authentication header.</param>
         /// <param name="credentials">The bot's credential provider.</param>
-        /// <param name="provider">The bot's channel service provider.</param>
         /// <param name="authConfig">The optional authentication configuration.</param>
         /// <param name="httpClient">The HTTP client.</param>
         /// <returns>A task that represents the work queued to execute.</returns>
