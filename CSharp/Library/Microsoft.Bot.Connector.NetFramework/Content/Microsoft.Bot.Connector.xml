@@ -673,27 +673,6 @@
             Authenticates the auth header token from the request.
             </summary>
         </member>
-        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.OAuthConfiguration">
-            <summary>
-            Configuration for OAuth client credential authentication.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.SkillAuthentication.OAuthConfiguration.Authority">
-            <summary>
-            Gets or sets oAuth Authority for authentication.
-            </summary>
-            <value>
-            OAuth Authority for authentication.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.SkillAuthentication.OAuthConfiguration.Scope">
-            <summary>
-            Gets or sets oAuth scope for authentication.
-            </summary>
-            <value>
-            OAuth scope for authentication.
-            </value>
-        </member>
         <member name="M:Microsoft.Bot.Connector.SkillAuthentication.SimpleChannelProvider.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Bot.Connector.SkillAuthentication.SimpleChannelProvider"/> class.
