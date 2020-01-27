@@ -113,7 +113,6 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// </summary>
         /// <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
         /// <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
-        /// <param name="channelProvider">The channelService value that distinguishes public Azure from US Government Azure.</param>
         /// <param name="httpClient">
         /// Authentication of tokens requires calling out to validate Endorsements and related documents. The
         /// HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
@@ -122,16 +121,14 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// <param name="channelId">The ID of the channel to validate.</param>
         /// <param name="authConfig">The authentication configuration.</param>
         /// <returns>A <see cref="ClaimsIdentity"/> instance if the validation is successful.</returns>
-        public static async Task<ClaimsIdentity> AuthenticateChannelToken(string authHeader, ICredentialProvider credentials, IChannelProvider channelProvider, HttpClient httpClient, string channelId, AuthenticationConfiguration authConfig)
+        public static async Task<ClaimsIdentity> AuthenticateChannelToken(string authHeader, ICredentialProvider credentials, HttpClient httpClient, string channelId, AuthenticationConfiguration authConfig)
         {
             if (authConfig == null)
             {
                 throw new ArgumentNullException(nameof(authConfig));
             }
 
-            var openIdMetadataUrl = channelProvider != null && channelProvider.IsGovernment() ?
-                GovernmentAuthenticationConstants.ToBotFromEmulatorOpenIdMetadataUrl : 
-                AuthenticationConstants.ToBotFromEmulatorOpenIdMetadataUrl;
+            var openIdMetadataUrl = AuthenticationConstants.ToBotFromEmulatorOpenIdMetadataUrl;
 
             var tokenExtractor = new JwtTokenExtractor(
                 httpClient,

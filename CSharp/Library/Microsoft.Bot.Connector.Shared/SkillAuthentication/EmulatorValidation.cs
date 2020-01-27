@@ -81,7 +81,6 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// </summary>
         /// <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
         /// <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
-        /// <param name="channelProvider">The channelService value that distinguishes public Azure from US Government Azure.</param>
         /// <param name="httpClient">Authentication of tokens requires calling out to validate Endorsements and related documents. The
         /// HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
         /// setup and teardown, so a shared HttpClient is recommended.</param>
@@ -92,9 +91,9 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// <remarks>
         /// A token issued by the Bot Framework will FAIL this check. Only Emulator tokens will pass.
         /// </remarks>
-        public static async Task<ClaimsIdentity> AuthenticateEmulatorToken(string authHeader, ICredentialProvider credentials, IChannelProvider channelProvider, HttpClient httpClient, string channelId)
+        public static async Task<ClaimsIdentity> AuthenticateEmulatorToken(string authHeader, ICredentialProvider credentials, HttpClient httpClient, string channelId)
         {
-            return await AuthenticateEmulatorToken(authHeader, credentials, channelProvider, httpClient, channelId, new AuthenticationConfiguration()).ConfigureAwait(false);
+            return await AuthenticateEmulatorToken(authHeader, credentials, httpClient, channelId, new AuthenticationConfiguration()).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -102,7 +101,6 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// </summary>
         /// <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
         /// <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
-        /// <param name="channelProvider">The channelService value that distinguishes public Azure from US Government Azure.</param>
         /// <param name="httpClient">Authentication of tokens requires calling out to validate Endorsements and related documents. The
         /// HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
         /// setup and teardown, so a shared HttpClient is recommended.</param>
@@ -114,16 +112,14 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// <remarks>
         /// A token issued by the Bot Framework will FAIL this check. Only Emulator tokens will pass.
         /// </remarks>
-        public static async Task<ClaimsIdentity> AuthenticateEmulatorToken(string authHeader, ICredentialProvider credentials, IChannelProvider channelProvider, HttpClient httpClient, string channelId, AuthenticationConfiguration authConfig)
+        public static async Task<ClaimsIdentity> AuthenticateEmulatorToken(string authHeader, ICredentialProvider credentials, HttpClient httpClient, string channelId, AuthenticationConfiguration authConfig)
         {
             if (authConfig == null)
             {
                 throw new ArgumentNullException(nameof(authConfig));
             }
 
-            var openIdMetadataUrl = (channelProvider != null && channelProvider.IsGovernment()) ?
-                GovernmentAuthenticationConstants.ToBotFromEmulatorOpenIdMetadataUrl :
-                AuthenticationConstants.ToBotFromEmulatorOpenIdMetadataUrl;
+            var openIdMetadataUrl = AuthenticationConstants.ToBotFromEmulatorOpenIdMetadataUrl;
 
             var tokenExtractor = new JwtTokenExtractor(
                     httpClient,

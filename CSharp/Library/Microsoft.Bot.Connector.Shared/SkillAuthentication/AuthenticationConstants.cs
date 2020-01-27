@@ -11,53 +11,9 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
     public static class AuthenticationConstants
     {
         /// <summary>
-        /// TO CHANNEL FROM BOT: Login URL.
-        ///
-        /// DEPRECATED. For binary compat only.
-        /// </summary>
-        public const string ToChannelFromBotLoginUrl = "https://login.microsoftonline.com/botframework.com";
-
-        /// <summary>
-        /// TO CHANNEL FROM BOT: Login URL template string. Bot developer may specify
-        /// which tenant to obtain an access token from. By default, the channels only
-        /// accept tokens from "botframework.com". For more details see https://aka.ms/bots/tenant-restriction.
-        /// </summary>
-        public const string ToChannelFromBotLoginUrlTemplate = "https://login.microsoftonline.com/{0}";
-
-        /// <summary>
-        /// The default tenant to acquire bot to channel token from.
-        /// </summary>
-        public const string DefaultChannelAuthTenant = "botframework.com";
-
-        /// <summary>
-        /// TO CHANNEL FROM BOT: OAuth scope to request.
-        /// </summary>
-        public const string ToChannelFromBotOAuthScope = "https://api.botframework.com";
-
-        /// <summary>
         /// TO BOT FROM CHANNEL: Token issuer.
         /// </summary>
         public const string ToBotFromChannelTokenIssuer = "https://api.botframework.com";
-
-        /// <summary>
-        /// OAuth Url used to get a token from OAuthApiClient.
-        /// </summary>
-        public const string OAuthUrl = "https://api.botframework.com";
-
-        /// <summary>
-        /// Application Setting Key for the OpenIdMetadataUrl value.
-        /// </summary>
-        public const string BotOpenIdMetadataKey = "BotOpenIdMetadata";
-
-        /// <summary>
-        /// Application Setting Key for the OAuthUrl value.
-        /// </summary>
-        public const string OAuthUrlKey = "OAuthApiEndpoint";
-
-        /// <summary>
-        /// Application Settings Key for whether to emulate OAuthCards when using the emulator.
-        /// </summary>
-        public const string EmulateOAuthCardsKey = "EmulateOAuthCards";
 
         /// <summary>
         /// TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA.
@@ -68,11 +24,6 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// TO BOT FROM EMULATOR: OpenID metadata document for tokens coming from MSA.
         /// </summary>
         public const string ToBotFromEmulatorOpenIdMetadataUrl = "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration";
-
-        /// <summary>
-        /// TO BOT FROM ENTERPRISE CHANNEL: OpenID metadata document for tokens coming from MSA.
-        /// </summary>
-        public const string ToBotFromEnterpriseChannelOpenIdMetadataUrlFormat = "https://{0}.enterprisechannel.botframework.com/v1/.well-known/openidconfiguration";
 
         /// <summary>
         /// "azp" Claim.
