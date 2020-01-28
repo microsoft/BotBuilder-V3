@@ -58,30 +58,28 @@ namespace Microsoft.Bot.Connector
 
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
-            var provider = this.GetCredentialProvider();
-            var botAuthenticator = new BotAuthenticator(provider, GetOpenIdConfigurationUrl(), DisableEmulatorTokens);
-            try
+            if (!actionContext.Request.Properties.ContainsKey("IsSkill"))
             {
-                var identityToken = await botAuthenticator.AuthenticateAsync(actionContext.Request, GetActivities(actionContext), cancellationToken);
-                // the request is not authenticated, fail with 401.
-                if (!identityToken.Authenticated)
+                var provider = this.GetCredentialProvider();
+                var botAuthenticator = new BotAuthenticator(provider, GetOpenIdConfigurationUrl(), DisableEmulatorTokens);
+                try
                 {
-                    actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request, "BotAuthenticator failed to authenticate incoming request!");
+                    var identityToken = await botAuthenticator.AuthenticateAsync(actionContext.Request, GetActivities(actionContext), cancellationToken);
+                    // the request is not authenticated, fail with 401.
+                    if (!identityToken.Authenticated)
+                    {
+                        actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request, "BotAuthenticator failed to authenticate incoming request!");
+                        return;
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request, $"Failed authenticating incoming request: {e.ToString()}");
                     return;
                 }
-
-            }
-            catch (Exception e)
-            {
-                actionContext.Response = BotAuthenticator.GenerateUnauthorizedResponse(actionContext.Request, $"Failed authenticating incoming request: {e.ToString()}");
-                return;
             }
 
-            await base.OnActionExecutingAsync(actionContext, cancellationToken);
-        }
-
-        protected async Task BaseOnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
-        {
             await base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
 
