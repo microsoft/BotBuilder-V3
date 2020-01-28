@@ -77,7 +77,7 @@ namespace Microsoft.Bot.Connector
             await base.OnActionExecutingAsync(actionContext, cancellationToken);
         }
 
-        protected async Task BaseOnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
+        protected async Task ContinueOnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
         {
             await base.OnActionExecutingAsync(actionContext, cancellationToken);
         }

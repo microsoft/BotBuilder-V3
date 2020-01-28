@@ -46,7 +46,7 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
                         return;
                     }
 
-                    await base.BaseOnActionExecutingAsync(actionContext, cancellationToken);
+                    await base.ContinueOnActionExecutingAsync(actionContext, cancellationToken);
                     return;
                 }
             }
