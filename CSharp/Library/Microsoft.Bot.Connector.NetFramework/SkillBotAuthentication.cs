@@ -46,8 +46,8 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
                         return;
                     }
 
-                    // Add an IsSkill property to the request, so the base.OnActionExecutingAsync is aware
-                    actionContext.Request.Properties.Add("IsSkill", true);
+                    await base.BaseOnActionExecutingAsync(actionContext, cancellationToken);
+                    return;
                 }
             }
 
