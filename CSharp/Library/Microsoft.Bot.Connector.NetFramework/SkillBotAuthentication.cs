@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http.Controllers;
-using System.Web.Http.Filters;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Connector.SkillAuthentication
 {
