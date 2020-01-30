@@ -12,7 +12,7 @@ go to [BotBuilder-Samples](https://github.com/Microsoft/botbuilder-samples)
 ## Overview
 Bot Builder for Node.js examples are organized into groups and designed to illustrate the techniques needed to build great bots. To use the samples clone our GitHub repository using Git.
 
-    git clone https://github.com/Microsoft/BotBuilder.git
+    git clone https://github.com/Microsoft/BotBuilder-V3.git
     cd BotBuilder/Node
     npm install
     cd core

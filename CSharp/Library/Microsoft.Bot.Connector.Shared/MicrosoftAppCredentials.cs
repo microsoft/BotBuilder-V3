@@ -35,12 +35,17 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         public const string MicrosoftAppPasswordKey = "MicrosoftAppPassword";
 
-        protected static readonly ConcurrentDictionary<string, DateTime> TrustedHostNames = new ConcurrentDictionary<string, DateTime>(
-                                                                                        new Dictionary<string, DateTime>() {
-                                                                                            { "state.botframework.com", DateTime.MaxValue },
-                                                                                            { "api.botframework.com", DateTime.MaxValue },
-                                                                                            { "token.botframework.com", DateTime.MaxValue }
+        protected static readonly ConcurrentDictionary<string, TrustedHostInfo> TrustedHostNames = new ConcurrentDictionary<string, TrustedHostInfo>(
+                                                                                        new Dictionary<string, TrustedHostInfo>() {
+                                                                                            { "state.botframework.com", new TrustedHostInfo() { DateTime = DateTime.MaxValue } },
+                                                                                            { "api.botframework.com", new TrustedHostInfo() { DateTime = DateTime.MaxValue } },
+                                                                                            { "token.botframework.com", new TrustedHostInfo() { DateTime = DateTime.MaxValue } }
                                                                                         });
+        protected class TrustedHostInfo
+        {
+            public DateTime DateTime { get; set; }
+            public string OAuthScope { get; set; }
+        }
 
 #if !NET45
         protected ILogger logger;
@@ -127,8 +132,10 @@ namespace Microsoft.Bot.Connector
         /// </summary>
         /// <param name="serviceUrl">The service url</param>
         /// <param name="expirationTime">The expiration time after which this service url is not trusted anymore</param>
+        /// <param name="oauthScope">(optional) The scope to use while retrieving the token.  If Null, 
+        /// MicrosoftAppCredentials.OAuthBotScope will be used.</param>
         /// <remarks>If expiration time is not provided, the expiration time will DateTime.UtcNow.AddDays(1).</remarks>
-        public static void TrustServiceUrl(string serviceUrl, DateTime expirationTime = default(DateTime))
+        public static void TrustServiceUrl(string serviceUrl, DateTime expirationTime = default(DateTime), string oauthScope = null)
         {
             try
             {
@@ -136,29 +143,38 @@ namespace Microsoft.Bot.Connector
                 {
                     // by default the service url is valid for one day
                     var extensionPeriod = TimeSpan.FromDays(1);
-                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host, DateTime.UtcNow.Add(extensionPeriod), (key, oldValue) =>
+                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host,
+                                                new TrustedHostInfo()
+                                                {
+                                                    DateTime = DateTime.UtcNow.Add(extensionPeriod),
+                                                    OAuthScope = oauthScope
+                                                }, (key, currentValue) =>
                     {
                         var newExpiration = DateTime.UtcNow.Add(extensionPeriod);
                         // try not to override expirations that are greater than one day from now
-                        if (oldValue > newExpiration)
+                        if (currentValue.DateTime > newExpiration)
                         {
                             // make sure that extension can be added to oldValue and ArgumentOutOfRangeException
                             // is not thrown
-                            if (oldValue >= DateTime.MaxValue.Subtract(extensionPeriod))
+                            if (currentValue.DateTime >= DateTime.MaxValue.Subtract(extensionPeriod))
                             {
-                                newExpiration = oldValue;
+                                newExpiration = currentValue.DateTime;
                             }
                             else
                             {
-                                newExpiration = oldValue.Add(extensionPeriod);
+                                newExpiration = currentValue.DateTime.Add(extensionPeriod);
                             }
+                            currentValue.DateTime = newExpiration;
                         }
-                        return newExpiration;
+
+                        currentValue.OAuthScope = oauthScope ?? currentValue.OAuthScope;
+
+                        return currentValue;
                     });
                 }
                 else
                 {
-                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host, expirationTime, (key, oldValue) => expirationTime);
+                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host, new TrustedHostInfo { DateTime = expirationTime, OAuthScope = oauthScope }, (key, oldValue) => new TrustedHostInfo { DateTime = expirationTime, OAuthScope = oauthScope });
                 }
             }
             catch (Exception)
@@ -207,15 +223,22 @@ namespace Microsoft.Bot.Connector
         {
             if (ShouldSetToken(request))
             {
-                var authResult = await GetTokenAsync().ConfigureAwait(false);
+                string oauthScope = null;
+                TrustedHostInfo trustedHostInfo;
+                if (TrustedHostNames.TryGetValue(request.RequestUri.Host, out trustedHostInfo))
+                {
+                    oauthScope = trustedHostInfo.OAuthScope;
+                }
+                
+                var authResult = await GetTokenAsync(oauthScope: oauthScope).ConfigureAwait(false);
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authResult);
             }
             await base.ProcessHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<string> GetTokenAsync(bool forceRefresh = false)
+        public async Task<string> GetTokenAsync(bool forceRefresh = false, string oauthScope = null)
         {
-            var token = await authenticator.Value.GetTokenAsync(forceRefresh).ConfigureAwait(false);
+            var token = await authenticator.Value.GetTokenAsync(forceRefresh, oauthScope).ConfigureAwait(false);
             return token.AccessToken;
         }
 
@@ -239,11 +262,11 @@ namespace Microsoft.Bot.Connector
 
         private static bool TrustedUri(Uri uri)
         {
-            DateTime trustedServiceUrlExpiration;
-            if (TrustedHostNames.TryGetValue(uri.Host, out trustedServiceUrlExpiration))
+            TrustedHostInfo trustedHostInfo;
+            if (TrustedHostNames.TryGetValue(uri.Host, out trustedHostInfo))
             {
                 // check if the trusted service url is still valid
-                if (trustedServiceUrlExpiration > DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5)))
+                if (trustedHostInfo.DateTime > DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5)))
                 {
                     return true;
                 }
