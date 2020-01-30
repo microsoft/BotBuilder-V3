@@ -148,6 +148,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentRequestEx.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Payments\PaymentShippingTypes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SigninCardEx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\AuthenticationConfiguration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\AuthenticationConstants.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\ChannelValidation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\ClaimsValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\EmulatorValidation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\EndorsementsRetriever.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\EndorsementsValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\JwtTokenExtractor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\JwtTokenValidation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\SkillValidation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\BotState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\BotStateExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StateAPI\IBotState.cs" />

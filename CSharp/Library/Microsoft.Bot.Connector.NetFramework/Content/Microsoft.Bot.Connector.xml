@@ -4,6 +4,532 @@
         <name>Microsoft.Bot.Connector</name>
     </assembly>
     <members>
+        <member name="P:Microsoft.Bot.Connector.SkillAuthentication.SkillBotAuthentication.AuthenticationConfigurationProviderType">
+            <summary>
+            Type which implements AuthenticationConfiguration to allow validation for Skills 
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration">
+            <summary>
+            General configuration settings for authentication.
+            </summary>
+            <remarks>
+            Note that this is explicitly a class and not an interface,
+            since interfaces don't support default values, after the initial release any change would break backwards compatibility.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration.ClaimsValidator">
+            <summary>
+            Gets or sets an <see cref="P:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration.ClaimsValidator"/> instance used to validate the identity claims.
+            </summary>
+            <value>
+            An <see cref="P:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration.ClaimsValidator"/> instance used to validate the identity claims.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants">
+            <summary>
+            Values and Constants used for Authentication and Authrization by the Bot Framework Protocol.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.ToBotFromChannelTokenIssuer">
+            <summary>
+            TO BOT FROM CHANNEL: Token issuer.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.ToBotFromChannelOpenIdMetadataUrl">
+            <summary>
+            TO BOT FROM CHANNEL: OpenID metadata document for tokens coming from MSA.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.ToBotFromEmulatorOpenIdMetadataUrl">
+            <summary>
+            TO BOT FROM EMULATOR: OpenID metadata document for tokens coming from MSA.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AuthorizedParty">
+            <summary>
+            "azp" Claim.
+            Authorized party - the party to which the ID Token was issued.
+            This claim follows the general format set forth in the OpenID Spec.
+                http://openid.net/specs/openid-connect-core-1_0.html#IDToken.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AudienceClaim">
+            <summary>
+            Audience Claim. From RFC 7519.
+                https://tools.ietf.org/html/rfc7519#section-4.1.3
+            The "aud" (audience) claim identifies the recipients that the JWT is
+            intended for. Each principal intended to process the JWT MUST
+            identify itself with a value in the audience claim. If the principal
+            processing the claim does not identify itself with a value in the
+            "aud" claim when this claim is present, then the JWT MUST be
+            rejected. In the general case, the "aud" value is an array of case-
+            sensitive strings, each containing a StringOrURI value. In the
+            special case when the JWT has one audience, the "aud" value MAY be a
+            single case-sensitive string containing a StringOrURI value. The
+            interpretation of audience values is generally application specific.
+            Use of this claim is OPTIONAL.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.KeyIdHeader">
+            <summary>
+            From RFC 7515
+                https://tools.ietf.org/html/rfc7515#section-4.1.4
+            The "kid" (key ID) Header Parameter is a hint indicating which key
+            was used to secure the JWS. This parameter allows originators to
+            explicitly signal a change of key to recipients. The structure of
+            the "kid" value is unspecified. Its value MUST be a case-sensitive
+            string. Use of this Header Parameter is OPTIONAL.
+            When used with a JWK, the "kid" value is used to match a JWK "kid"
+            parameter value.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.VersionClaim">
+            <summary>
+            Token version claim name. As used in Microsoft AAD tokens.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AppIdClaim">
+            <summary>
+            App ID claim name. As used in Microsoft AAD 1.0 tokens.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.ServiceUrlClaim">
+            <summary>
+            Service URL claim name. As used in Microsoft Bot Framework v3.1 auth.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AllowedSigningAlgorithms">
+            <summary>
+            Allowed token signing algorithms. Tokens come from channels to the bot. The code
+            that uses this also supports tokens coming from the emulator.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.ChannelValidation.ToBotFromChannelTokenValidationParameters">
+            <summary>
+            TO BOT FROM CHANNEL: Token validation parameters when connecting to a bot.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Connector.SkillAuthentication.ChannelValidation.OpenIdMetadataUrl">
+            <summary>
+            Gets or sets the default endpoint that is used for Open ID Metadata requests.
+            </summary>
+            <value>
+            The default endpoint that is used for Open ID Metadata requests.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.ChannelValidation.AuthenticateChannelToken(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.Net.Http.HttpClient,System.String)">
+            <summary>
+            Validate the incoming Auth Header as a token sent from the Bot Framework Service.
+            </summary>
+            <remarks>
+            A token issued by the Bot Framework emulator will FAIL this check.
+            </remarks>
+            <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
+            <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
+            <param name="httpClient">Authentication of tokens requires calling out to validate Endorsements and related documents. The
+            HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
+            setup and teardown, so a shared HttpClient is recommended.</param>
+            <param name="channelId">The ID of the channel to validate.</param>
+            <returns>
+            A valid ClaimsIdentity.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.ChannelValidation.AuthenticateChannelToken(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.Net.Http.HttpClient,System.String,Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration)">
+            <summary>
+            Validate the incoming Auth Header as a token sent from the Bot Framework Service.
+            </summary>
+            <remarks>
+            A token issued by the Bot Framework emulator will FAIL this check.
+            </remarks>
+            <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
+            <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
+            <param name="httpClient">Authentication of tokens requires calling out to validate Endorsements and related documents. The
+            HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
+            setup and teardown, so a shared HttpClient is recommended.</param>
+            <param name="channelId">The ID of the channel to validate.</param>
+            <param name="authConfig">The authentication configuration.</param>
+            <returns>
+            A valid ClaimsIdentity.
+            </returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.ChannelValidation.AuthenticateChannelToken(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.String,System.Net.Http.HttpClient,System.String)">
+            <summary>
+            Validate the incoming Auth Header as a token sent from the Bot Framework Service.
+            </summary>
+            <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
+            <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
+            <param name="serviceUrl">Service url.</param>
+            <param name="httpClient">Authentication of tokens requires calling out to validate Endorsements and related documents. The
+            HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
+            setup and teardown, so a shared HttpClient is recommended.</param>
+            <param name="channelId">The ID of the channel to validate.</param>
+            <returns>ClaimsIdentity.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.ChannelValidation.AuthenticateChannelToken(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.String,System.Net.Http.HttpClient,System.String,Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration)">
+            <summary>
+            Validate the incoming Auth Header as a token sent from the Bot Framework Service.
+            </summary>
+            <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
+            <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
+            <param name="serviceUrl">Service url.</param>
+            <param name="httpClient">Authentication of tokens requires calling out to validate Endorsements and related documents. The
+            HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
+            setup and teardown, so a shared HttpClient is recommended.</param>
+            <param name="channelId">The ID of the channel to validate.</param>
+            <param name="authConfig">The authentication configuration.</param>
+            <returns>ClaimsIdentity.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.ClaimsValidator">
+            <summary>
+            An interface used to validate identity <see cref="T:System.Security.Claims.Claim"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.ClaimsValidator.ValidateClaimsAsync(System.Collections.Generic.IList{System.Security.Claims.Claim})">
+            <summary>
+            Validates a list of <see cref="T:System.Security.Claims.Claim"/> and should throw an exception if the validation fails.
+            </summary>
+            <param name="claims">The list of claims to validate.</param>
+            <returns>true if the validation is successful, false if not.</returns>
+            <exception cref="T:System.UnauthorizedAccessException">Throw this exception if the validation fails.</exception>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.EmulatorValidation">
+            <summary>
+            Validates and Examines JWT tokens from the Bot Framework Emulator.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.EmulatorValidation.ToBotFromEmulatorTokenValidationParameters">
+            <summary>
+            TO BOT FROM EMULATOR: Token validation parameters when connecting to a channel.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.EmulatorValidation.IsTokenFromEmulator(System.String)">
+            <summary>
+            Determines if a given Auth header is from the Bot Framework Emulator.
+            </summary>
+            <param name="authHeader">Bearer Token, in the "Bearer [Long String]" Format.</param>
+            <returns>True, if the token was issued by the Emulator. Otherwise, false.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.EmulatorValidation.AuthenticateEmulatorToken(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.Net.Http.HttpClient,System.String)">
+            <summary>
+            Validate the incoming Auth Header as a token sent from the Bot Framework Emulator.
+            </summary>
+            <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
+            <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
+            <param name="httpClient">Authentication of tokens requires calling out to validate Endorsements and related documents. The
+            HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
+            setup and teardown, so a shared HttpClient is recommended.</param>
+            <param name="channelId">The ID of the channel to validate.</param>
+            <returns>
+            A valid ClaimsIdentity.
+            </returns>
+            <remarks>
+            A token issued by the Bot Framework will FAIL this check. Only Emulator tokens will pass.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.EmulatorValidation.AuthenticateEmulatorToken(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.Net.Http.HttpClient,System.String,Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration)">
+            <summary>
+            Validate the incoming Auth Header as a token sent from the Bot Framework Emulator.
+            </summary>
+            <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
+            <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
+            <param name="httpClient">Authentication of tokens requires calling out to validate Endorsements and related documents. The
+            HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
+            setup and teardown, so a shared HttpClient is recommended.</param>
+            <param name="channelId">The ID of the channel to validate.</param>
+            <param name="authConfig">The authentication configuration.</param>
+            <returns>
+            A valid ClaimsIdentity.
+            </returns>
+            <remarks>
+            A token issued by the Bot Framework will FAIL this check. Only Emulator tokens will pass.
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.EndorsementsRetriever">
+            <summary>
+            The endorsements property within each key contains one or more endorsement
+            strings which you can use to verify that the channel ID specified in the channelId
+            property within the Activity object of the incoming request is authentic.
+            More details at:
+                https://docs.microsoft.com/bot-framework/rest-api/bot-framework-rest-connector-authentication.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.EndorsementsRetriever.JsonWebKeySetUri">
+            <summary>
+            JSON Web Key Set Metadata value
+            From the OpenID Spec at
+                https://openid.net/specs/openid-connect-discovery-1_0.html
+                URL of the OP's JSON Web Key Set [JWK] document. This contains the signing key(s)
+                the RP uses to validate signatures from the OP. The JWK Set MAY also contain the
+                Server's encryption key(s), which are used by RPs to encrypt requests to the
+                Server. When both signing and encryption keys are made available, a use (Key Use)
+                parameter value is REQUIRED for all keys in the referenced JWK Set to indicate
+                each key's intended usage. Although some algorithms allow the same key to be
+                used for both signatures and encryption, doing so is NOT RECOMMENDED, as it
+                is less secure. The JWK x5c parameter MAY be used to provide X.509 representations
+                of keys provided. When used, the bare key values MUST still be present and MUST
+                match those in the certificate.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.EndorsementsRetriever.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Connector.SkillAuthentication.EndorsementsRetriever"/> class.
+            </summary>
+            <param name="httpClient">Allow the calling layer to manage the lifetime of the HttpClient, complete with
+            timeouts, pooling, instancing and so on. This is to avoid having to Use/Dispose a new instance
+            of the client on each call, which may be very expensive in terms of latency, TLS connections
+            and related issues.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.EndorsementsRetriever.GetConfigurationAsync(System.String,Microsoft.IdentityModel.Protocols.IDocumentRetriever,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves a populated configuration given an address and a document retriever.
+            </summary>
+            <param name="address">Address of the discovery document.</param>
+            <param name="retriever">The document retriever to use to read the discovery document.</param>
+            <param name="cancellationToken">A cancellation token that can be used by other objects
+            or threads to receive notice of cancellation.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>If the activities are successfully sent, the task result contains
+            a populated configuration.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.EndorsementsRetriever.GetDocumentAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Obtains a document from an address.
+            </summary>
+            <param name="address">location of document.</param>
+            <param name="cancellationToken">A cancellation token that can be used by other objects
+            or threads to receive notice of cancellation.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>If the activities are successfully sent, the task result contains
+            the document as a string.</remarks>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.EndorsementsValidator">
+            <summary>
+            Contains helper methods for verifying JWT endorsements.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.EndorsementsValidator.Validate(System.String,System.Collections.Generic.HashSet{System.String})">
+            <summary>
+            Verify that the specified endorsement exists on the JWT token. Call this method multiple times to validate multiple endorsements.
+            For example, if an <see cref="!:Schema.Activity"/> comes from WebChat, that activity's
+            <see cref="!:Schema.Activity.ChannelId"/> property is set to "webchat" and the signing party
+            of the JWT token must have a corresponding endorsement of “Webchat”.
+            </summary>
+            <remarks>
+            JWT token signing keys contain endorsements matching the IDs of the channels they are approved to sign for.
+            They also contain keywords representing compliance certifications. This code ensures that a channel ID or compliance
+            certification is present on the signing key used for the request's token.
+            </remarks>
+            <param name="expectedEndorsement">The expected endorsement. Generally the ID of the channel to validate, typically extracted from the activity's
+            <see cref="!:Schema.Activity.ChannelId"/> property, that to which the Activity is affinitized. Alternatively, it could represent a compliance certification that is required.</param>
+            <param name="endorsements">The JWT token’s signing party is permitted to send activities only for
+            specific channels. That list, the set of channels the service can sign for, is called the endorsement list.
+            The activity’s <see cref="!:Schema.Activity.ChannelId"/> MUST be found in the endorsement list, or the incoming
+            activity is not considered valid.</param>
+            <returns>True if the channel ID is found in the endorsements list; otherwise, false.</returns>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor._openIdMetadataCache">
+            <summary>
+            Cache for OpenIdConnect configuration managers (one per metadata URL).
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor._endorsementsCache">
+            <summary>
+            Cache for Endorsement configuration managers (one per metadata URL).
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor._tokenValidationParameters">
+            <summary>
+            Token validation parameters for this instance.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor._openIdMetadata">
+            <summary>
+            OpenIdConnect configuration manager for this instance.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor._endorsementsData">
+            <summary>
+            Endorsements configuration manager for this instance.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor._allowedSigningAlgorithms">
+            <summary>
+            Allowed signing algorithms.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor.#ctor(System.Net.Http.HttpClient,Microsoft.IdentityModel.Tokens.TokenValidationParameters,System.String,System.Collections.Generic.HashSet{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor"/> class.
+            Extracts relevant data from JWT Tokens.
+            </summary>
+            <param name="httpClient">As part of validating JWT Tokens, endorsements need to be fetched from
+            sources specified by the relevant security URLs. This HttpClient is used to allow for resource
+            pooling around those retrievals. As those resources require TLS sharing the HttpClient is
+            important to overall performance.</param>
+            <param name="tokenValidationParameters">tokenValidationParameters.</param>
+            <param name="metadataUrl">metadataUrl.</param>
+            <param name="allowedSigningAlgorithms">allowedSigningAlgorithms.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor.#ctor(System.Net.Http.HttpClient,Microsoft.IdentityModel.Tokens.TokenValidationParameters,System.String,System.Collections.Generic.HashSet{System.String},Microsoft.IdentityModel.Protocols.ConfigurationManager{System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.HashSet{System.String}}})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenExtractor"/> class.
+            Extracts relevant data from JWT Tokens.
+            </summary>
+            <param name="httpClient">As part of validating JWT Tokens, endorsements need to be fetched from
+            sources specified by the relevant security URLs. This HttpClient is used to allow for resource
+            pooling around those retrievals. As those resources require TLS sharing the HttpClient is
+            important to overall performance.</param>
+            <param name="tokenValidationParameters">tokenValidationParameters.</param>
+            <param name="metadataUrl">metadataUrl.</param>
+            <param name="allowedSigningAlgorithms">allowedSigningAlgorithms.</param>
+            <param name="customEndorsementsConfig">Custom endorsement configuration to be used by the JwtTokenExtractor.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation">
+            <summary>
+            Contains helper methods for authenticating incoming HTTP requests.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.AuthenticateRequest(Microsoft.Bot.Connector.IActivity,System.String,Microsoft.Bot.Connector.ICredentialProvider,System.Net.Http.HttpClient)">
+            <summary>
+            Authenticates the request and adds the activity's <see cref="P:Microsoft.Bot.Connector.Activity.ServiceUrl"/>
+            to the set of trusted URLs.
+            </summary>
+            <param name="activity">The activity.</param>
+            <param name="authHeader">The authentication header.</param>
+            <param name="credentials">The bot's credential provider.</param>
+            <param name="httpClient">The HTTP client.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>If the task completes successfully, the result contains the claims-based
+            identity for the request.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.AuthenticateRequest(Microsoft.Bot.Connector.IActivity,System.String,Microsoft.Bot.Connector.ICredentialProvider,Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration,System.Net.Http.HttpClient)">
+            <summary>
+            Authenticates the request and adds the activity's <see cref="P:Microsoft.Bot.Connector.Activity.ServiceUrl"/>
+            to the set of trusted URLs.
+            </summary>
+            <param name="activity">The activity.</param>
+            <param name="authHeader">The authentication header.</param>
+            <param name="credentials">The bot's credential provider.</param>
+            <param name="authConfig">The optional authentication configuration.</param>
+            <param name="httpClient">The HTTP client.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>If the task completes successfully, the result contains the claims-based
+            identity for the request.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.ValidateAuthHeader(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.String,System.String,System.Net.Http.HttpClient)">
+            <summary>
+            Validates the authentication header of an incoming request.
+            </summary>
+            <param name="authHeader">The authentication header to validate.</param>
+            <param name="credentials">The bot's credential provider.</param>
+            <param name="channelId">The ID of the channel that sent the request.</param>
+            <param name="serviceUrl">The service URL for the activity.</param>
+            <param name="httpClient">The HTTP client.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>If the task completes successfully, the result contains the claims-based
+            identity for the request.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.ValidateAuthHeader(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.String,Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration,System.String,System.Net.Http.HttpClient)">
+            <summary>
+            Validates the authentication header of an incoming request.
+            </summary>
+            <param name="authHeader">The authentication header to validate.</param>
+            <param name="credentials">The bot's credential provider.</param>
+            <param name="channelId">The ID of the channel that sent the request.</param>
+            <param name="authConfig">The authentication configuration.</param>
+            <param name="serviceUrl">The service URL for the activity.</param>
+            <param name="httpClient">The HTTP client.</param>
+            <returns>A task that represents the work queued to execute.</returns>
+            <remarks>If the task completes successfully, the result contains the claims-based
+            identity for the request.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.GetAppIdFromClaims(System.Collections.Generic.IEnumerable{System.Security.Claims.Claim})">
+            <summary>
+            Gets the AppId from a claims list.
+            </summary>
+            <remarks>
+            In v1 tokens the AppId is in the the <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AppIdClaim"/> claim.
+            In v2 tokens the AppId is in the azp <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AuthorizedParty"/> claim.
+            If the <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.VersionClaim"/> is not present, this method will attempt to
+            obtain the attribute from the <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AppIdClaim"/> or if present.
+            </remarks>
+            <param name="claims">A list of <see cref="T:System.Security.Claims.Claim"/> instances.</param>
+            <returns>The value of the appId claim if found (null if it can't find a suitable claim).</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.ValidateClaimsAsync(Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration,System.Collections.Generic.IEnumerable{System.Security.Claims.Claim})">
+            <summary>
+            Validates the identity claims against the <see cref="T:Microsoft.Bot.Connector.SkillAuthentication.ClaimsValidator"/> in <see cref="T:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration"/> if present. 
+            </summary>
+            <param name="authConfig">An <see cref="T:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration"/> instance.</param>
+            <param name="claims">The list of claims to validate.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+            <exception cref="T:System.UnauthorizedAccessException">If the validation returns false.</exception>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.IsValidTokenFormat(System.String)">
+            <summary>
+            Internal helper to check if the token has the shape we expect "Bearer [big long string]".
+            </summary>
+            <param name="authHeader">A string containing the token header.</param>
+            <returns>True if the token is valid, false if not.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.AuthenticateToken(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.String,Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration,System.String,System.Net.Http.HttpClient)">
+            <summary>
+            Authenticates the auth header token from the request.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.SkillValidation">
+            <summary>
+            Validates JWT tokens sent to and from a Skill.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Connector.SkillAuthentication.SkillValidation._tokenValidationParameters">
+            <summary>
+            TO SKILL FROM BOT and TO BOT FROM SKILL: Token validation parameters when connecting a bot to a skill.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.SkillValidation.IsSkillToken(System.String)">
+            <summary>
+            Determines if a given Auth header is from from a skill to bot or bot to skill request.
+            </summary>
+            <param name="authHeader">Bearer Token, in the "Bearer [Long String]" Format.</param>
+            <returns>True, if the token was issued for a skill to bot communication. Otherwise, false.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.SkillValidation.IsSkillClaim(System.Collections.Generic.IEnumerable{System.Security.Claims.Claim})">
+            <summary>
+            Checks if the given list of claims represents a skill.
+            </summary>
+            <remarks>
+            A skill claim should contain:
+                An <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.VersionClaim"/> claim.
+                An <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AudienceClaim"/> claim.
+                An <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AppIdClaim"/> claim (v1) or an a <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AuthorizedParty"/> claim (v2).
+            And the appId claim should be different than the audience claim.
+            When a channel (webchat, teams, etc.) invokes a bot, the <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AudienceClaim"/>
+            is set to <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.ToBotFromChannelTokenIssuer"/> but when a bot calls another bot,
+            the audience claim is set to the appId of the bot being invoked.
+            The protocol supports v1 and v2 tokens:
+            For v1 tokens, the  <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AppIdClaim"/> is present and set to the app Id of the calling bot.
+            For v2 tokens, the  <see cref="F:Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConstants.AuthorizedParty"/> is present and set to the app Id of the calling bot.
+            </remarks>
+            <param name="claims">A list of claims.</param>
+            <returns>True if the list of claims is a skill claim, false if is not.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.SkillValidation.AuthenticateChannelToken(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.Net.Http.HttpClient,System.String,Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration)">
+            <summary>
+            Validates that the incoming Auth Header is a token sent from a bot to a skill or from a skill to a bot.
+            </summary>
+            <param name="authHeader">The raw HTTP header in the format: "Bearer [longString]".</param>
+            <param name="credentials">The user defined set of valid credentials, such as the AppId.</param>
+            <param name="httpClient">
+            Authentication of tokens requires calling out to validate Endorsements and related documents. The
+            HttpClient is used for making those calls. Those calls generally require TLS connections, which are expensive to
+            setup and teardown, so a shared HttpClient is recommended.
+            </param>
+            <param name="channelId">The ID of the channel to validate.</param>
+            <param name="authConfig">The authentication configuration.</param>
+            <returns>A <see cref="T:System.Security.Claims.ClaimsIdentity"/> instance if the validation is successful.</returns>
+        </member>
         <member name="P:Microsoft.Bot.Connector.BotAuthentication.MicrosoftAppId">
             <summary>
             Microsoft AppId for the bot 
@@ -6714,12 +7240,14 @@
             The key for Microsoft app Password.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime)">
+        <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.TrustServiceUrl(System.String,System.DateTime,System.String)">
             <summary>
             Adds the host of service url to <see cref="T:Microsoft.Bot.Connector.MicrosoftAppCredentials"/> trusted hosts.
             </summary>
             <param name="serviceUrl">The service url</param>
             <param name="expirationTime">The expiration time after which this service url is not trusted anymore</param>
+            <param name="oauthScope">(optional) The scope to use while retrieving the token.  If Null, 
+            MicrosoftAppCredentials.OAuthBotScope will be used.</param>
             <remarks>If expiration time is not provided, the expiration time will DateTime.UtcNow.AddDays(1).</remarks>
         </member>
         <member name="M:Microsoft.Bot.Connector.MicrosoftAppCredentials.IsTrustedServiceUrl(System.String)">

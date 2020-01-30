@@ -48,14 +48,14 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
             this.authContext = new AuthenticationContext(MicrosoftAppCredentials.OAuthAuthority);
         }
 
-        public async Task<AuthenticationResult> GetTokenAsync(bool forceRefresh = false)
+        public async Task<AuthenticationResult> GetTokenAsync(bool forceRefresh = false, string oauthScope = null)
         {
             return await Retry.Run(
-                task: () => AcquireTokenAsync(forceRefresh),
+                task: () => AcquireTokenAsync(forceRefresh, oauthScope),
                 retryExceptionHandler: (ex, ct) => HandleAdalException(ex, ct)).ConfigureAwait(false);
         }
 
-        private async Task<AuthenticationResult> AcquireTokenAsync(bool forceRefresh = false)
+        private async Task<AuthenticationResult> AcquireTokenAsync(bool forceRefresh = false, string oauthScope = null)
         {
             bool acquired = false;
 
@@ -81,7 +81,7 @@ namespace Microsoft.Bot.Connector.Shared.Authentication
                     // Given that this is a ClientCredential scenario, it will use the cache without the 
                     // need to call AcquireTokenSilentAsync (which is only for user credentials).
                     // Scenario details: https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/Client-credential-flows#it-uses-the-application-token-cache
-                    var res = await authContext.AcquireTokenAsync(MicrosoftAppCredentials.OAuthBotScope, this.clientCredential).ConfigureAwait(false);
+                    var res = await authContext.AcquireTokenAsync(oauthScope ?? MicrosoftAppCredentials.OAuthBotScope, this.clientCredential).ConfigureAwait(false);
                     // This means we acquired a valid token successfully. We can make our retry policy null.
                     // Note that the retry policy is set under the semaphore so no additional synchronization is needed.
                     if (currentRetryPolicy != null)
