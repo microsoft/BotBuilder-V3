@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
                 var activities = base.GetActivities(actionContext);
                 if (activities.Any())
                 {
-                    var authConfiguration = GetAuthenticationConfiguration();
+                    var authConfiguration = this.GetAuthenticationConfiguration();
                     var credentialProvider = this.GetCredentialProvider();
                     
                     try
