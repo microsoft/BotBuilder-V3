@@ -102,23 +102,26 @@ namespace Microsoft.Bot.Builder.Dialogs
 
         public static Task<TokenResponse> GetUserTokenAsync(this IDialogContext context, string connectionName)
         {
+            var channelId = context.Activity.Conversation.Id;
             var userId = context.Activity.From.Id;
             IConnectorClientFactory factory = new ConnectorClientFactory(Address.FromActivity(context.Activity), new MicrosoftAppCredentials());
-            return factory.MakeOAuthClient().OAuthApi.GetUserTokenAsync(userId, connectionName);
+            return factory.MakeOAuthClient().GetOAuthApiEx().GetUserTokenAsync(channelId, userId, connectionName, null, default(CancellationToken));
         }
 
         public static Task<TokenResponse> GetUserTokenAsync(this IDialogContext context, string connectionName, string magicCode)
         {
+            var channelId = context.Activity.Conversation.Id;
             var userId = context.Activity.From.Id;
             IConnectorClientFactory factory = new ConnectorClientFactory(Address.FromActivity(context.Activity), new MicrosoftAppCredentials());
-            return factory.MakeOAuthClient().OAuthApi.GetUserTokenAsync(userId, connectionName, magicCode);
+            return factory.MakeOAuthClient().GetOAuthApiEx().GetUserTokenAsync(channelId, userId, connectionName, magicCode);
         }
 
         public static Task<bool> SignOutUserAsync(this IDialogContext context, string connectionName)
         {
+            var channelId = context.Activity.Conversation.Id;
             var userId = context.Activity.From.Id;
             IConnectorClientFactory factory = new ConnectorClientFactory(Address.FromActivity(context.Activity), new MicrosoftAppCredentials());
-            return factory.MakeOAuthClient().OAuthApi.SignOutUserAsync(userId, connectionName);
+            return factory.MakeOAuthClient().GetOAuthApiEx().SignOutUserAsync(channelId, userId, connectionName);
         }
 
         public static Task<string> GetSignInUrlAsync(this IDialogContext context, string connectionName)

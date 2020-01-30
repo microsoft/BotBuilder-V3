@@ -2,7 +2,7 @@
 namespace Microsoft.Bot.Connector
 {
     using Microsoft.Rest;
-    
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Threading;
@@ -13,10 +13,13 @@ namespace Microsoft.Bot.Connector
     /// </summary>
     public partial interface IOAuthApi
     {
+        [Obsolete("Use IOAuthApiEx.GetUserTokenAsync")]
         Task<TokenResponse> GetUserTokenAsync(string userId, string connectionName, CancellationToken cancellationToken = default(CancellationToken));
 
+        [Obsolete("Use IOAuthApiEx.GetUserTokenAsync")]
         Task<TokenResponse> GetUserTokenAsync(string userId, string connectionName, string magicCode, CancellationToken cancellationToken = default(CancellationToken));
 
+        [Obsolete("Use IOAuthApiEx.SignOutUserAsync")]
         Task<bool> SignOutUserAsync(string userId, string connectionName, CancellationToken cancellationToken = default(CancellationToken));
 
         Task<string> GetSignInLinkAsync(IActivity activity, string connectionName, CancellationToken cancellationToken = default(CancellationToken));
