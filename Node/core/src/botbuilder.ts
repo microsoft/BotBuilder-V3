@@ -30,7 +30,6 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
-
 export { Session } from './Session';
 export { Message, AttachmentLayout, TextFormat, InputHint } from './Message';
 export { ChatConnector } from './bots/ChatConnector';
