@@ -5,7 +5,6 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-import * as msrest from '@azure/ms-rest-js';
 import * as url from 'url';
 import * as adal from 'adal-node'
 import { AuthenticationConstants } from './authenticationConstants';
@@ -14,7 +13,7 @@ import { AuthenticationConstants } from './authenticationConstants';
  * General AppCredentials auth implementation and cache. Supports any ADAL client credential flow.
  * Subclasses can implement refreshToken to acquire the token.
  */
-export abstract class AppCredentials implements msrest.ServiceClientCredentials {
+export abstract class AppCredentials {
 
     private static readonly trustedHostNames: Map<string, Date> = new Map<string, Date>([
         ['state.botframework.com', new Date(8640000000000000)],              // Date.MAX_VALUE,
@@ -102,11 +101,15 @@ export abstract class AppCredentials implements msrest.ServiceClientCredentials 
         return false;
     }
 
-    public async signRequest(webResource: msrest.WebResource): Promise<msrest.WebResource> {
+    public static signRequest(token: any, webResource: any, authorizationScheme: string = 'Bearer') {
+        
+      }
+
+    public async signRequest(webResource: any, authorizationScheme: string = 'Bearer'): Promise<any> {
         if (this.shouldSetToken(webResource)) {
             const token: string = await this.getToken();
-
-            return new msrest.TokenCredentials(token).signRequest(webResource);
+            webResource.headers = {'authorization': `${authorizationScheme} ${token}`};
+            return Promise.resolve(webResource);
         }
 
         return webResource;
@@ -152,7 +155,7 @@ export abstract class AppCredentials implements msrest.ServiceClientCredentials 
 
     protected abstract async refreshToken(): Promise<adal.TokenResponse>;
 
-    private shouldSetToken(webResource: msrest.WebResource): boolean {
+    private shouldSetToken(webResource: any): boolean {
         return AppCredentials.isTrustedServiceUrl(webResource.url);
     }
 }
