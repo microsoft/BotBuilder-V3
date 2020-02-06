@@ -160,8 +160,6 @@ export class DefaultLocalizer implements ILocalizer {
         return this.defaultLocale();
     }
     private loadLocale(locale: string): Promise<boolean> {
-        const asyncEachSeries = util.promisify(async.eachSeries);
-
         // Load local on first access
         if (!this.locales.hasOwnProperty(locale)) {
             var entry: ILocaleEntry;
@@ -169,10 +167,11 @@ export class DefaultLocalizer implements ILocalizer {
             entry.loaded = new Promise((resolve, reject) => {
                 this.loadSystemResources(locale)
                     .then(() => {
-                        return asyncEachSeries(this.localePaths, (localePath: string, cb: (err?: Error) => void) => {
+                        return async.eachSeries(this.localePaths, (localePath: string, cb: (err?: Error) => void) => {
                             this.loadLocalePath(locale, localePath).then(() => cb(), (err) => cb(err));
-                        }, null);
-                    }).then(() => resolve(true), (err: any) => reject(err));
+                        });
+                    })
+                    .then(() => resolve(true), (err: any) => reject(err));
             });
         } 
         return this.locales[locale].loaded;
@@ -184,7 +183,6 @@ export class DefaultLocalizer implements ILocalizer {
         var p = new Promise<number>((resolve, reject) => {
             var access = util.promisify(fs.access);
             var readdir = util.promisify(fs.readdir);
-            var asyncEach = util.promisify(async.each);
             access(dir)
                 .then(() =>{
                     // Directory exists
@@ -192,7 +190,7 @@ export class DefaultLocalizer implements ILocalizer {
                 })
                 .then((files: string[]) => {
                     // List of files retreived
-                    return asyncEach(files, (file: string, cb: async.ErrorCallback<any>) => {
+                    return async.each(files, (file: string, cb: async.ErrorCallback<any>) => {
                         if (file.substring(file.length - 5).toLowerCase() == ".json") {
                             logger.debug("localizer.load(%s) - Loading %s/%s", locale, dir, file);
                             this.parseFile(locale, dir, file)
@@ -206,7 +204,7 @@ export class DefaultLocalizer implements ILocalizer {
                         } else {
                             cb();
                         }
-                    }, null);
+                    });
                 })
                 .then(() => {
                     // Files successfully added
