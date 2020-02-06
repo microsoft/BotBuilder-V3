@@ -47,8 +47,8 @@ namespace EchoBot.Controllers
         }
     }
 
-    //[SkillBotAuthentication]
-    [SkillBotAuthentication(AuthenticationConfigurationProviderType=typeof(SkillAuthenticationConfiguration))]
+    [SkillBotAuthentication]
+    //[SkillBotAuthentication(AuthenticationConfigurationProviderType=typeof(CustomSkillAuthenticationConfiguration))]
     public class MessagesController : ApiController
     {
 

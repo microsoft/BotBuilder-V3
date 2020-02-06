@@ -95,8 +95,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Authentication\AllowedCallersClaimsValidator.cs" />
-    <Compile Include="Authentication\SkillAuthenticationConfiguration.cs" />
+    <Compile Include="Authentication\CustomAllowedCallersClaimsValidator.cs" />
+    <Compile Include="Authentication\CustomSkillAuthenticationConfiguration.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -147,7 +147,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>46395</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:39783</IISUrl>
+          <IISUrl>http://localhost:3980</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
