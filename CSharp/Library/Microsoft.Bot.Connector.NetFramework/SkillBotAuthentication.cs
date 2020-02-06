@@ -63,7 +63,7 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
                     throw new ArgumentNullException($"The AuthenticationConfigurationProviderType {AuthenticationConfigurationProviderType.Name} couldn't be instantiated with no params or doesn't implement AuthenticationConfiguration");
             }
 
-            return authenticationConfigurationProvider ?? new AuthenticationConfiguration();
+            return authenticationConfigurationProvider ?? new SettingsSkillAuthenticationConfiguration();
         }
     }
 }
