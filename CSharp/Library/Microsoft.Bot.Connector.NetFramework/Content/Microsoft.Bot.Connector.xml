@@ -4,6 +4,15 @@
         <name>Microsoft.Bot.Connector</name>
     </assembly>
     <members>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.SkillAuthenticationConfiguration">
+            <summary>
+            AllowedCallers is a comma delimited setting in web.config file that consists of the parent bot ids 
+            which are allowed to access the skill.
+            To add a new parent bot simply go to the AllowedCallers and add the parent bot's MicrosoftAppId
+            to the string.
+            To allow all bots to call the skill, place only an '*' in the AllowedCallers.
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Connector.SkillAuthentication.SkillBotAuthentication.AuthenticationConfigurationProviderType">
             <summary>
             Type which implements AuthenticationConfiguration to allow validation for Skills 
@@ -192,6 +201,11 @@
             <param name="claims">The list of claims to validate.</param>
             <returns>true if the validation is successful, false if not.</returns>
             <exception cref="T:System.UnauthorizedAccessException">Throw this exception if the validation fails.</exception>
+        </member>
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.DefaultAllowedCallersClaimsValidator">
+            <summary>
+            Claims validator which checks that requests are coming only from allowed parent bots.
+            </summary>
         </member>
         <member name="T:Microsoft.Bot.Connector.SkillAuthentication.EmulatorValidation">
             <summary>

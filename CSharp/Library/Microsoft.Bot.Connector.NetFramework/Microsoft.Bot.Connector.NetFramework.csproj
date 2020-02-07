@@ -115,6 +115,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SkillAuthenticationConfiguration.cs" />
     <Compile Include="SkillBotAuthentication.cs" />
     <Compile Include="BotAuthentication.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

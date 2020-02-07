@@ -154,6 +154,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\AuthenticationConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\ChannelValidation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\ClaimsValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\DefaultAllowedCallersClaimsValidator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\EmulatorValidation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\EndorsementsRetriever.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SkillAuthentication\EndorsementsValidator.cs" />

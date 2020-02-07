@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace EchoBot.Authentication
 {
-    public class SkillAuthenticationConfiguration : AuthenticationConfiguration
+    public class CustomSkillAuthenticationConfiguration : AuthenticationConfiguration
     {
         private const string AllowedCallersConfigKey = "AllowedCallers";
-        public SkillAuthenticationConfiguration()
+        public CustomSkillAuthenticationConfiguration()
         {
             var allowedCallers = ConfigurationManager.AppSettings[AllowedCallersConfigKey].Split(',').Select(s=>s.Trim()).ToList();
-            ClaimsValidator = new AllowedCallersClaimsValidator(allowedCallers);
+            ClaimsValidator = new CustomAllowedCallersClaimsValidator(allowedCallers);
         }
         
         public override ClaimsValidator ClaimsValidator { get => base.ClaimsValidator; set => base.ClaimsValidator = value; }
