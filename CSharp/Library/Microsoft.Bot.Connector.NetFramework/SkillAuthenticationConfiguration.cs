@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Configuration;
 using System.Linq;
 using System.Security.Authentication;
@@ -15,11 +14,11 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
     /// to the string.
     /// To allow all bots to call the skill, place only an '*' in the AllowedCallers.
     /// </summary>
-    public class SettingsSkillAuthenticationConfiguration : AuthenticationConfiguration
+    public class SkillAuthenticationConfiguration : AuthenticationConfiguration
     {
         private const string AllowedCallersConfigKey = "AllowedCallers";
 
-        public SettingsSkillAuthenticationConfiguration()
+        public SkillAuthenticationConfiguration()
         {
             if (string.IsNullOrEmpty(ConfigurationManager.AppSettings[AllowedCallersConfigKey]))
             {
@@ -31,7 +30,5 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
 
             ClaimsValidator = new DefaultAllowedCallersClaimsValidator(allowedCallers);
         }
-
-        public override ClaimsValidator ClaimsValidator { get => base.ClaimsValidator; set => base.ClaimsValidator = value; }
     }
 }

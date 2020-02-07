@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
             // To allow all Parent bots, AllowedCallers should have one element of '*'
 
             _allowedCallers = allowedCallers ?? throw new ArgumentNullException(nameof(allowedCallers));
-            if (_allowedCallers.Count == 0)
+            if (!_allowedCallers.Any())
             {
                 throw new ArgumentNullException(nameof(allowedCallers), "AllowedCallers must contain at least one element of '*' or valid MicrosoftAppId(s).");
             }

@@ -4,7 +4,7 @@
         <name>Microsoft.Bot.Connector</name>
     </assembly>
     <members>
-        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.SettingsSkillAuthenticationConfiguration">
+        <member name="T:Microsoft.Bot.Connector.SkillAuthentication.SkillAuthenticationConfiguration">
             <summary>
             AllowedCallers is a comma delimited setting in web.config file that consists of the parent bot ids 
             which are allowed to access the skill.
