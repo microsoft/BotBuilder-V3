@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
             }
 
             var allowedCallersValue = SettingsUtils.GetAppSettings(AllowedCallersConfigKey);
-            var allowedCallers = allowedCallersValue.Split(',').Select(s => s.Trim()).ToList();
+            var allowedCallers = allowedCallersValue.Split(',').Select(s => s.Trim().ToUpperInvariant()).ToList();
 
             ClaimsValidator = new DefaultAllowedCallersClaimsValidator(allowedCallers);
         }
