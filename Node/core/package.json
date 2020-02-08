@@ -35,7 +35,8 @@
     "request": "^2.88.0",
     "rsa-pem-from-mod-exp": "^0.8.4",
     "sprintf-js": "^1.0.3",
-    "url-join": "^1.1.0"
+    "url-join": "^1.1.0",
+    "skills-adapter": "./skills-adapter"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
