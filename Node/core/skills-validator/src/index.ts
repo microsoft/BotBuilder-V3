@@ -1,5 +1,5 @@
 /**
- * @module skills-adapter
+ * @module skills-validator
  */
 /**
  * Copyright (c) Microsoft Corporation. All rights reserved.

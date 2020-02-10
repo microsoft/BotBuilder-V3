@@ -45,7 +45,7 @@ import * as zlib from 'zlib';
 import urlJoin = require('url-join');
 import * as Promise from 'promise';
 import { URL } from 'url';
-import { AuthenticationConfiguration, JwtTokenValidation, SimpleCredentialProvider, SkillValidation } from 'skills-adapter';
+import { AuthenticationConfiguration, JwtTokenValidation, SimpleCredentialProvider, SkillValidation } from 'skills-validator';
 
 var pjson = require('../../package.json');
 

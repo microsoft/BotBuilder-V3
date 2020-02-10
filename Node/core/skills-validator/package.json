@@ -1,5 +1,5 @@
 {
-  "name": "skills-adapter",
+  "name": "skills-validator",
   "version": "1.0.0",
   "description": "This package allows a v3 bot to be consumed as a skill from another bot.",
   "main": "./lib/index.js",

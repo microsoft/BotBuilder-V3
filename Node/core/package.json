@@ -36,7 +36,7 @@
     "rsa-pem-from-mod-exp": "^0.8.4",
     "sprintf-js": "^1.0.3",
     "url-join": "^1.1.0",
-    "skills-adapter": "./skills-adapter"
+    "skills-validator": "./skills-validator"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
@@ -44,8 +44,8 @@
   },
   "scripts": {
     "test": "mocha tests/*.js",
-    "build": "npm install && cd skills-adapter && npm install",
-    "tsc-build": "cd src && tsc -b && cd ../skills-adapter/src && tsc -b",
+    "build": "npm install && cd skills-validator && npm install",
+    "tsc-build": "cd src && tsc -b && cd ../skills-validator/src && tsc -b",
     "build-all": "npm run build && npm run tsc-build"
   }
 }

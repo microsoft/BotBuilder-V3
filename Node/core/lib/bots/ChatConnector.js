@@ -11,7 +11,7 @@ var zlib = require("zlib");
 var urlJoin = require("url-join");
 var Promise = require("promise");
 var url_1 = require("url");
-var skills_adapter_1 = require("skills-adapter");
+var skills_validator_1 = require("skills-validator");
 var pjson = require('../../package.json');
 var MAX_DATA_LENGTH = 65000;
 var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/" + pjson.version + ")";
@@ -91,8 +91,8 @@ var ChatConnector = (function () {
             var verifyOptions;
             var openIdMetadata;
             var algorithms = ['RS256', 'RS384', 'RS512'];
-            if (this.settings.enableSkills && skills_adapter_1.SkillValidation.isSkillToken(authHeaderValue)) {
-                skills_adapter_1.JwtTokenValidation.authenticateRequest(req.body, authHeaderValue, new skills_adapter_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, this.settings.authConfiguration).then(function (claims) {
+            if (this.settings.enableSkills && skills_validator_1.SkillValidation.isSkillToken(authHeaderValue)) {
+                skills_validator_1.JwtTokenValidation.authenticateRequest(req.body, authHeaderValue, new skills_validator_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, this.settings.authConfiguration).then(function (claims) {
                     if (!claims || !claims.isAuthenticated) {
                         logger.error('ChatConnector: receive - invalid skill token.');
                         res.send(403);
