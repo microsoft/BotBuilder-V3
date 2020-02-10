@@ -92,7 +92,9 @@ var ChatConnector = (function () {
             var openIdMetadata;
             var algorithms = ['RS256', 'RS384', 'RS512'];
             if (this.settings.enableSkills && skills_validator_1.SkillValidation.isSkillToken(authHeaderValue)) {
-                skills_validator_1.JwtTokenValidation.authenticateRequest(req.body, authHeaderValue, new skills_validator_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, this.settings.authConfiguration).then(function (claims) {
+                var skillMsg = utils.clone(req.body);
+                this.prepIncomingMessage(skillMsg);
+                skills_validator_1.JwtTokenValidation.authenticateRequest(skillMsg, authHeaderValue, new skills_validator_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, this.settings.authConfiguration).then(function (claims) {
                     if (!claims || !claims.isAuthenticated) {
                         logger.error('ChatConnector: receive - invalid skill token.');
                         res.send(403);

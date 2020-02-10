@@ -187,8 +187,11 @@ export class ChatConnector implements IConnector, IBotStorage {
             const algorithms: string[] = ['RS256', 'RS384', 'RS512'];
             
             if(this.settings.enableSkills && SkillValidation.isSkillToken(authHeaderValue)) {
+                const skillMsg = utils.clone(req.body);
+                this.prepIncomingMessage(skillMsg);
+
                 JwtTokenValidation.authenticateRequest(
-                    req.body, 
+                    skillMsg, 
                     authHeaderValue,
                     new SimpleCredentialProvider(this.settings.appId, this.settings.appPassword),
                     req.body.serviceUrl,
