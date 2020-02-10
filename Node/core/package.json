@@ -43,6 +43,9 @@
     "sinon": "^7.3.2"
   },
   "scripts": {
-    "test": "mocha tests/*.js"
+    "test": "mocha tests/*.js",
+    "build": "npm install && cd skills-adapter && npm install",
+    "tsc-build": "cd src && tsc -b && cd ../skills-adapter/src && tsc -b",
+    "build-all": "npm run build && npm run tsc-build"
   }
 }
