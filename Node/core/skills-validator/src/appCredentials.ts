@@ -35,11 +35,9 @@ export abstract class AppCredentials {
     protected refreshingToken: Promise<adal.TokenResponse> | null = null;
     protected readonly authenticationContext: adal.AuthenticationContext;
 
-    constructor(appId: string, channelAuthTenant?: string, oAuthScope: string = AuthenticationConstants.ToBotFromChannelTokenIssuer) {
+    constructor(appId: string, oAuthScope: string = AuthenticationConstants.ToBotFromChannelTokenIssuer) {
         this.appId = appId;
-        const tenant = channelAuthTenant && channelAuthTenant.length > 0
-            ? channelAuthTenant
-            : AuthenticationConstants.DefaultChannelAuthTenant;
+        const tenant = AuthenticationConstants.DefaultChannelAuthTenant;
         this.oAuthEndpoint = AuthenticationConstants.ToChannelFromBotLoginUrlPrefix + tenant;
         this.oAuthScope = oAuthScope;
         // aadApiVersion is set to '1.5' to avoid the "spn:" concatenation on the audience claim

@@ -15,8 +15,8 @@ import { AppCredentials } from './appCredentials';
 export class MicrosoftAppCredentials extends AppCredentials {
     public appPassword: string;
 
-    constructor(appId: string, appPassword: string, channelAuthTenant?: string, oAuthScope?: string) {
-        super(appId, channelAuthTenant, oAuthScope);
+    constructor(appId: string, appPassword: string, oAuthScope?: string) {
+        super(appId, oAuthScope);
         this.appPassword = appPassword;
     }
 
