@@ -801,13 +801,6 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.addAccessToken = function (options, cb) {
         if (this.settings.appId && this.settings.appPassword) {
-            var setHeader_1 = function (token) {
-                if (!options.headers) {
-                    options.headers = {};
-                }
-                options.headers['Authorization'] = 'Bearer ' + token;
-                cb(null);
-            };
             if (this.settings.enableSkills) {
                 var credKeys = Object.keys(this.credentialsCache);
                 var matchingKey = credKeys.filter(function (key) {
@@ -815,14 +808,18 @@ var ChatConnector = (function () {
                 });
                 if (matchingKey[0]) {
                     var creds = this.credentialsCache[matchingKey[0]];
-                    return creds.signRequest().then(function (token) {
-                        return setHeader_1(token);
+                    return creds.signRequest(options).then(function () {
+                        return cb(null);
                     });
                 }
             }
             this.getAccessToken(function (err, token) {
                 if (!err && token) {
-                    setHeader_1(token);
+                    if (!options.headers) {
+                        options.headers = {};
+                    }
+                    options.headers['Authorization'] = 'Bearer ' + token;
+                    cb(null);
                 }
                 else {
                     cb(err);

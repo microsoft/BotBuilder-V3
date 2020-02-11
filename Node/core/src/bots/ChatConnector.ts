@@ -991,33 +991,27 @@ export class ChatConnector implements IConnector, IBotStorage {
 
     private addAccessToken(options: request.Options | any, cb: (err: Error) => void): void {
         if (this.settings.appId && this.settings.appPassword) {
-
-            const setHeader = (token: string) => {
-                if (!options.headers) {
-                    options.headers = {};
-                }
-                options.headers['Authorization'] = 'Bearer ' + token
-                cb(null);
-            }
-
             if (this.settings.enableSkills) {
                 const credKeys = Object.keys(this.credentialsCache)
                 const matchingKey = credKeys.filter((key: string) => {
                     return options.url.indexOf(key) >= 0
                 })
-                // TODO: get MicrosoftAppCredentials based on options.baseUrl and use it to retrieve the token (getToken)
-                // is this a skill? is baseUrl in dictionary? Y - skill
+                // get MicrosoftAppCredentials based on options.url and use it to retrieve the token (getToken)
                 if (matchingKey[0]) {
                     const creds = this.credentialsCache[matchingKey[0]]
-                    creds.signRequest().then((token: string) => {
-                        return setHeader(token)
+                    return creds.signRequest(options).then(() => {
+                        return cb(null);
                     })
                 }
             }
 
             this.getAccessToken((err, token) => {
                 if (!err && token) {
-                    setHeader(token)
+                    if (!options.headers) {
+                        options.headers = {};
+                    }
+                    options.headers['Authorization'] = 'Bearer ' + token
+                    cb(null);
                 } else {
                     cb(err);
                 }
