@@ -91,7 +91,7 @@ var SkillValidation;
     SkillValidation.isSkillClaim = isSkillClaim;
     function authenticateChannelToken(authHeader, credentials, channelId, authConfig) {
         return __awaiter(this, void 0, void 0, function () {
-            var openIdMetadataUrl, tokenExtractor, parts, identity;
+            var openIdMetadataUrl, tokenExtractor, parts, identity, err_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -101,13 +101,20 @@ var SkillValidation;
                         openIdMetadataUrl = authenticationConstants_1.AuthenticationConstants.ToBotFromEmulatorOpenIdMetadataUrl;
                         tokenExtractor = new jwtTokenExtractor_1.JwtTokenExtractor(_tokenValidationParameters, openIdMetadataUrl, authenticationConstants_1.AuthenticationConstants.AllowedSigningAlgorithms);
                         parts = authHeader.split(' ');
-                        return [4, tokenExtractor.getIdentity(parts[0], parts[1], channelId, authConfig.requiredEndorsements)];
+                        _a.label = 1;
                     case 1:
+                        _a.trys.push([1, 4, , 5]);
+                        return [4, tokenExtractor.getIdentity(parts[0], parts[1], channelId, authConfig.requiredEndorsements)];
+                    case 2:
                         identity = _a.sent();
                         return [4, validateIdentity(identity, credentials)];
-                    case 2:
+                    case 3:
                         _a.sent();
                         return [2, identity];
+                    case 4:
+                        err_1 = _a.sent();
+                        throw new Error(err_1);
+                    case 5: return [2];
                 }
             });
         });
@@ -115,7 +122,7 @@ var SkillValidation;
     SkillValidation.authenticateChannelToken = authenticateChannelToken;
     function validateIdentity(identity, credentials) {
         return __awaiter(this, void 0, void 0, function () {
-            var versionClaim, audienceClaim, appId;
+            var versionClaim, audienceClaim, isValid, err_2, appId;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -133,11 +140,19 @@ var SkillValidation;
                         if (!audienceClaim) {
                             throw new Error("SkillValidation.validateIdentity(): '" + authenticationConstants_1.AuthenticationConstants.AudienceClaim + "' claim is required on skill Tokens.");
                         }
-                        return [4, credentials.isValidAppId(audienceClaim)];
+                        _a.label = 1;
                     case 1:
-                        if (!(_a.sent())) {
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, credentials.isValidAppId(audienceClaim)];
+                    case 2:
+                        isValid = _a.sent();
+                        if (!isValid)
                             throw new Error('SkillValidation.validateIdentity(): Invalid audience.');
-                        }
+                        return [3, 4];
+                    case 3:
+                        err_2 = _a.sent();
+                        throw new Error(err_2);
+                    case 4:
                         appId = jwtTokenValidation_1.JwtTokenValidation.getAppIdFromClaims(identity.claims);
                         if (!appId) {
                             throw new Error('SkillValidation.validateIdentity(): Invalid appId.');

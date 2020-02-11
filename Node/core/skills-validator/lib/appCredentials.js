@@ -39,13 +39,11 @@ var url = require("url");
 var adal = require("adal-node");
 var authenticationConstants_1 = require("./authenticationConstants");
 var AppCredentials = (function () {
-    function AppCredentials(appId, channelAuthTenant, oAuthScope) {
+    function AppCredentials(appId, oAuthScope) {
         if (oAuthScope === void 0) { oAuthScope = authenticationConstants_1.AuthenticationConstants.ToBotFromChannelTokenIssuer; }
         this.refreshingToken = null;
         this.appId = appId;
-        var tenant = channelAuthTenant && channelAuthTenant.length > 0
-            ? channelAuthTenant
-            : authenticationConstants_1.AuthenticationConstants.DefaultChannelAuthTenant;
+        var tenant = authenticationConstants_1.AuthenticationConstants.DefaultChannelAuthTenant;
         this.oAuthEndpoint = authenticationConstants_1.AuthenticationConstants.ToChannelFromBotLoginUrlPrefix + tenant;
         this.oAuthScope = oAuthScope;
         this.authenticationContext = new adal.AuthenticationContext(this.oAuthEndpoint, true, undefined, '1.5');
@@ -88,9 +86,6 @@ var AppCredentials = (function () {
             return expiration.getTime() > (Date.now() - 300000);
         }
         return false;
-    };
-    AppCredentials.signRequest = function (token, webResource, authorizationScheme) {
-        if (authorizationScheme === void 0) { authorizationScheme = 'Bearer'; }
     };
     AppCredentials.prototype.signRequest = function (webResource, authorizationScheme) {
         if (authorizationScheme === void 0) { authorizationScheme = 'Bearer'; }

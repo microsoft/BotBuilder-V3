@@ -51,8 +51,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var appCredentials_1 = require("./appCredentials");
 var MicrosoftAppCredentials = (function (_super) {
     __extends(MicrosoftAppCredentials, _super);
-    function MicrosoftAppCredentials(appId, appPassword, channelAuthTenant, oAuthScope) {
-        var _this = _super.call(this, appId, channelAuthTenant, oAuthScope) || this;
+    function MicrosoftAppCredentials(appId, appPassword, oAuthScope) {
+        var _this = _super.call(this, appId, oAuthScope) || this;
         _this.appPassword = appPassword;
         return _this;
     }

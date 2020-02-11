@@ -45,7 +45,7 @@ import * as zlib from 'zlib';
 import urlJoin = require('url-join');
 import * as Promise from 'promise';
 import { URL } from 'url';
-import { AuthenticationConfiguration, JwtTokenValidation, SimpleCredentialProvider, SkillValidation } from 'skills-validator';
+import { AuthenticationConfiguration, MicrosoftAppCredentials, JwtTokenValidation, SimpleCredentialProvider, SkillValidation } from 'skills-validator';
 
 var pjson = require('../../package.json');
 
@@ -65,7 +65,6 @@ export interface IChatConnectorSettings {
     openIdMetadata?: string;
     channelAuthTenant?: string;
     enableSkills?: boolean;
-    // authConfiguration?: AuthenticationConfiguration;
     authConfiguration?: any
 }
 
@@ -107,6 +106,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     private botConnectorOpenIdMetadata: OpenIdMetadata;
     private emulatorOpenIdMetadata: OpenIdMetadata;
     private refreshingToken: Promise.IThenable<string>;
+    private credentialsCache: any;
 
     constructor(protected settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
@@ -129,6 +129,7 @@ export class ChatConnector implements IConnector, IBotStorage {
 
         this.botConnectorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
+        this.credentialsCache = {}
     }
 
     public listen(): IWebMiddleware {
@@ -196,15 +197,21 @@ export class ChatConnector implements IConnector, IBotStorage {
                     new SimpleCredentialProvider(this.settings.appId, this.settings.appPassword),
                     req.body.serviceUrl,
                     this.settings.authConfiguration
-                ).then((claims: any) =>{
-                    if (!claims || !claims.isAuthenticated) { 
+                ).then((claimsIdentity: any) =>{
+                    if (!claimsIdentity || !claimsIdentity.isAuthenticated) {
                         logger.error('ChatConnector: receive - invalid skill token.');
                         res.send(403);
                         res.end();
                         next();
                         return; 
                     }
+                    const oauthScope = JwtTokenValidation.getAppIdFromClaims(claimsIdentity.claims);
+                    const creds = new MicrosoftAppCredentials(this.settings.appId, this.settings.appPassword, oauthScope);
+                    // cache creds in memory
+                    this.credentialsCache[req.body.serviceUrl] = creds
                     this.dispatch(req.body, res, next);
+                }).catch((err: any) => {
+                    return logger.error(`Error authenticating request: ${err}`)
                 });
             }
             else {
@@ -982,15 +989,35 @@ export class ChatConnector implements IConnector, IBotStorage {
         options.headers['User-Agent'] = USER_AGENT;
     }
 
-    private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
+    private addAccessToken(options: request.Options | any, cb: (err: Error) => void): void {
         if (this.settings.appId && this.settings.appPassword) {
+
+            const setHeader = (token: string) => {
+                if (!options.headers) {
+                    options.headers = {};
+                }
+                options.headers['Authorization'] = 'Bearer ' + token
+                cb(null);
+            }
+
+            if (this.settings.enableSkills) {
+                const credKeys = Object.keys(this.credentialsCache)
+                const matchingKey = credKeys.filter((key: string) => {
+                    return options.url.indexOf(key) >= 0
+                })
+                // TODO: get MicrosoftAppCredentials based on options.baseUrl and use it to retrieve the token (getToken)
+                // is this a skill? is baseUrl in dictionary? Y - skill
+                if (matchingKey[0]) {
+                    const creds = this.credentialsCache[matchingKey[0]]
+                    creds.signRequest().then((token: string) => {
+                        return setHeader(token)
+                    })
+                }
+            }
+
             this.getAccessToken((err, token) => {
                 if (!err && token) {
-                    if (!options.headers) {
-                        options.headers = {};
-                    }
-                    options.headers['Authorization'] = 'Bearer ' + token
-                    cb(null);
+                    setHeader(token)
                 } else {
                     cb(err);
                 }

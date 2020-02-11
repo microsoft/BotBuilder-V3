@@ -131,11 +131,15 @@ export namespace SkillValidation {
             AuthenticationConstants.AllowedSigningAlgorithms);
 
         const parts: string[] = authHeader.split(' ');
-        const identity = await tokenExtractor.getIdentity(parts[0], parts[1], channelId, authConfig.requiredEndorsements);
 
-        await validateIdentity(identity, credentials);
-
-        return identity;
+        try {
+          const identity = await tokenExtractor.getIdentity(parts[0], parts[1], channelId, authConfig.requiredEndorsements);
+          await validateIdentity(identity, credentials);
+          return identity;
+        } catch (err) {
+          throw new Error(err)
+        }
+        
     }
 
     /**
@@ -169,9 +173,12 @@ export namespace SkillValidation {
             throw new Error(`SkillValidation.validateIdentity(): '${AuthenticationConstants.AudienceClaim}' claim is required on skill Tokens.`);
         }
 
-        if (!await credentials.isValidAppId(audienceClaim)) {
+        try {
+            const isValid = await credentials.isValidAppId(audienceClaim)
             // The AppId is not valid. Not Authorized.
-            throw new Error('SkillValidation.validateIdentity(): Invalid audience.');
+            if (!isValid) throw new Error('SkillValidation.validateIdentity(): Invalid audience.');
+        } catch (err) {
+            throw new Error(err)
         }
         
         const appId = JwtTokenValidation.getAppIdFromClaims(identity.claims);

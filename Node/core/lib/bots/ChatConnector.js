@@ -39,6 +39,7 @@ var ChatConnector = (function () {
         }
         this.botConnectorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
+        this.credentialsCache = {};
     }
     ChatConnector.prototype.listen = function () {
         var _this = this;
@@ -94,15 +95,20 @@ var ChatConnector = (function () {
             if (this.settings.enableSkills && skills_validator_1.SkillValidation.isSkillToken(authHeaderValue)) {
                 var skillMsg = utils.clone(req.body);
                 this.prepIncomingMessage(skillMsg);
-                skills_validator_1.JwtTokenValidation.authenticateRequest(skillMsg, authHeaderValue, new skills_validator_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, this.settings.authConfiguration).then(function (claims) {
-                    if (!claims || !claims.isAuthenticated) {
+                skills_validator_1.JwtTokenValidation.authenticateRequest(skillMsg, authHeaderValue, new skills_validator_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, this.settings.authConfiguration).then(function (claimsIdentity) {
+                    if (!claimsIdentity || !claimsIdentity.isAuthenticated) {
                         logger.error('ChatConnector: receive - invalid skill token.');
                         res.send(403);
                         res.end();
                         next();
                         return;
                     }
+                    var oauthScope = skills_validator_1.JwtTokenValidation.getAppIdFromClaims(claimsIdentity.claims);
+                    var creds = new skills_validator_1.MicrosoftAppCredentials(_this.settings.appId, _this.settings.appPassword, oauthScope);
+                    _this.credentialsCache[req.body.serviceUrl] = creds;
                     _this.dispatch(req.body, res, next);
+                }).catch(function (err) {
+                    return logger.error("Error authenticating request: " + err);
                 });
             }
             else {
@@ -795,13 +801,28 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.addAccessToken = function (options, cb) {
         if (this.settings.appId && this.settings.appPassword) {
+            var setHeader_1 = function (token) {
+                if (!options.headers) {
+                    options.headers = {};
+                }
+                options.headers['Authorization'] = 'Bearer ' + token;
+                cb(null);
+            };
+            if (this.settings.enableSkills) {
+                var credKeys = Object.keys(this.credentialsCache);
+                var matchingKey = credKeys.filter(function (key) {
+                    return options.url.indexOf(key) >= 0;
+                });
+                if (matchingKey[0]) {
+                    var creds = this.credentialsCache[matchingKey[0]];
+                    return creds.signRequest().then(function (token) {
+                        return setHeader_1(token);
+                    });
+                }
+            }
             this.getAccessToken(function (err, token) {
                 if (!err && token) {
-                    if (!options.headers) {
-                        options.headers = {};
-                    }
-                    options.headers['Authorization'] = 'Bearer ' + token;
-                    cb(null);
+                    setHeader_1(token);
                 }
                 else {
                     cb(err);

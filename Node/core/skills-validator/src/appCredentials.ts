@@ -100,9 +100,9 @@ export abstract class AppCredentials {
         return false;
     }
 
-    public static signRequest(token: any, webResource: any, authorizationScheme: string = 'Bearer') {
+    // public static signRequest(token: any, webResource: any, authorizationScheme: string = 'Bearer') {
         
-      }
+    //   }
 
     public async signRequest(webResource: any, authorizationScheme: string = 'Bearer'): Promise<any> {
         if (this.shouldSetToken(webResource)) {
