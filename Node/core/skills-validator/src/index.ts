@@ -16,3 +16,4 @@ export * from './claimsIdentity';
 export * from './authenticationConfiguration';
 export * from './authenticationConstants';
 export * from './skillValidation';
+export * from './defaultAuthenticationConfiguration';

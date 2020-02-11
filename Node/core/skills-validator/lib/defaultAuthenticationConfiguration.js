@@ -49,34 +49,31 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var appCredentials_1 = require("./appCredentials");
-var MicrosoftAppCredentials = (function (_super) {
-    __extends(MicrosoftAppCredentials, _super);
-    function MicrosoftAppCredentials(appId, appPassword, oAuthScope) {
-        var _this = _super.call(this, appId, oAuthScope) || this;
-        _this.appPassword = appPassword;
+var authenticationConfiguration_1 = require("./authenticationConfiguration");
+var skillValidation_1 = require("./skillValidation");
+var jwtTokenValidation_1 = require("./jwtTokenValidation");
+var DefaultAuthenticationConfiguration = (function (_super) {
+    __extends(DefaultAuthenticationConfiguration, _super);
+    function DefaultAuthenticationConfiguration(allowedCallers) {
+        var _this = _super.call(this) || this;
+        _this.validateClaims = function (claims) { return __awaiter(_this, void 0, void 0, function () {
+            var appId;
+            return __generator(this, function (_a) {
+                if (skillValidation_1.SkillValidation.isSkillClaim(claims) && this.allowedCallers[0] !== '*') {
+                    appId = jwtTokenValidation_1.JwtTokenValidation.getAppIdFromClaims(claims);
+                    if (!this.allowedCallers.includes(appId)) {
+                        throw new Error("Received a request from a bot with an app ID of \"" + appId + "\". To enable requests from this caller, add the app ID to your configuration file.");
+                    }
+                }
+                return [2];
+            });
+        }); };
+        if (!allowedCallers || allowedCallers.length == 0) {
+            throw new Error("DefaultAuthenticationConfiguration allowedCallers must contain at least one element of '*' or valid MicrosoftAppId(s).");
+        }
+        _this.allowedCallers = allowedCallers;
         return _this;
     }
-    MicrosoftAppCredentials.prototype.refreshToken = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                if (!this.refreshingToken) {
-                    this.refreshingToken = new Promise(function (resolve, reject) {
-                        _this.authenticationContext.acquireTokenWithClientCredentials(_this.oAuthScope, _this.appId, _this.appPassword, function (err, tokenResponse) {
-                            if (err) {
-                                reject(err);
-                            }
-                            else {
-                                resolve(tokenResponse);
-                            }
-                        });
-                    });
-                }
-                return [2, this.refreshingToken];
-            });
-        });
-    };
-    return MicrosoftAppCredentials;
-}(appCredentials_1.AppCredentials));
-exports.MicrosoftAppCredentials = MicrosoftAppCredentials;
+    return DefaultAuthenticationConfiguration;
+}(authenticationConfiguration_1.AuthenticationConfiguration));
+exports.DefaultAuthenticationConfiguration = DefaultAuthenticationConfiguration;

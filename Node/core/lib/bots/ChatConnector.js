@@ -40,6 +40,9 @@ var ChatConnector = (function () {
         this.botConnectorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
         this.credentialsCache = {};
+        if (this.settings.authConfiguration && this.settings.allowedCallers) {
+            throw new Error("authConfiguration and allowedCallers cannot both be supplied to ChatConnector.");
+        }
     }
     ChatConnector.prototype.listen = function () {
         var _this = this;
@@ -95,7 +98,11 @@ var ChatConnector = (function () {
             if (this.settings.enableSkills && skills_validator_1.SkillValidation.isSkillToken(authHeaderValue)) {
                 var skillMsg = utils.clone(req.body);
                 this.prepIncomingMessage(skillMsg);
-                skills_validator_1.JwtTokenValidation.authenticateRequest(skillMsg, authHeaderValue, new skills_validator_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, this.settings.authConfiguration).then(function (claimsIdentity) {
+                var authConfiguration = this.settings.authConfiguration;
+                if (!authConfiguration) {
+                    authConfiguration = new skills_validator_1.DefaultAuthenticationConfiguration(this.settings.allowedCallers);
+                }
+                skills_validator_1.JwtTokenValidation.authenticateRequest(skillMsg, authHeaderValue, new skills_validator_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, authConfiguration).then(function (claimsIdentity) {
                     if (!claimsIdentity || !claimsIdentity.isAuthenticated) {
                         logger.error('ChatConnector: receive - invalid skill token.');
                         res.send(403);

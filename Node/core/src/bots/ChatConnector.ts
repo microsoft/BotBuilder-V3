@@ -45,7 +45,7 @@ import * as zlib from 'zlib';
 import urlJoin = require('url-join');
 import * as Promise from 'promise';
 import { URL } from 'url';
-import { AuthenticationConfiguration, MicrosoftAppCredentials, JwtTokenValidation, SimpleCredentialProvider, SkillValidation } from 'skills-validator';
+import { DefaultAuthenticationConfiguration, MicrosoftAppCredentials, JwtTokenValidation, SimpleCredentialProvider, SkillValidation } from 'skills-validator';
 
 var pjson = require('../../package.json');
 
@@ -65,7 +65,8 @@ export interface IChatConnectorSettings {
     openIdMetadata?: string;
     channelAuthTenant?: string;
     enableSkills?: boolean;
-    authConfiguration?: any
+    authConfiguration?: any;
+    allowedCallers?: string[];
 }
 
 export interface IChatConnectorEndpoint {
@@ -130,6 +131,10 @@ export class ChatConnector implements IConnector, IBotStorage {
         this.botConnectorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
         this.credentialsCache = {}
+        
+        if(this.settings.authConfiguration && this.settings.allowedCallers){
+            throw new Error(`authConfiguration and allowedCallers cannot both be supplied to ChatConnector.`);
+        }
     }
 
     public listen(): IWebMiddleware {
@@ -191,12 +196,19 @@ export class ChatConnector implements IConnector, IBotStorage {
                 const skillMsg = utils.clone(req.body);
                 this.prepIncomingMessage(skillMsg);
 
+                let authConfiguration = this.settings.authConfiguration;
+                if(!authConfiguration){
+                    // If the user has not provided an authConfiguration, use the default.
+                    // If the user has not provided allowedCallers then this will throw
+                    authConfiguration = new DefaultAuthenticationConfiguration(this.settings.allowedCallers);
+                }
+
                 JwtTokenValidation.authenticateRequest(
                     skillMsg, 
                     authHeaderValue,
                     new SimpleCredentialProvider(this.settings.appId, this.settings.appPassword),
                     req.body.serviceUrl,
-                    this.settings.authConfiguration
+                    authConfiguration
                 ).then((claimsIdentity: any) =>{
                     if (!claimsIdentity || !claimsIdentity.isAuthenticated) {
                         logger.error('ChatConnector: receive - invalid skill token.');

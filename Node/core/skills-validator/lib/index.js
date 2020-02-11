@@ -14,3 +14,4 @@ __export(require("./claimsIdentity"));
 __export(require("./authenticationConfiguration"));
 __export(require("./authenticationConstants"));
 __export(require("./skillValidation"));
+__export(require("./defaultAuthenticationConfiguration"));
