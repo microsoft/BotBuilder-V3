@@ -104,10 +104,8 @@ export abstract class AppCredentials {
         if (this.shouldSetToken(webResource)) {
             const token: string = await this.getToken();
             webResource.headers = {'authorization': `${authorizationScheme} ${token}`};
-            return Promise.resolve(webResource);
         }
-
-        return webResource;
+        return Promise.resolve(webResource);
     }
 
     public async getToken(forceRefresh: boolean = false): Promise<string> {

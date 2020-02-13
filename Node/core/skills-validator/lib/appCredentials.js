@@ -99,8 +99,8 @@ var AppCredentials = (function () {
                     case 1:
                         token = _a.sent();
                         webResource.headers = { 'authorization': authorizationScheme + " " + token };
-                        return [2, Promise.resolve(webResource)];
-                    case 2: return [2, webResource];
+                        _a.label = 2;
+                    case 2: return [2, Promise.resolve(webResource)];
                 }
             });
         });

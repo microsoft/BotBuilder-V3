@@ -45,6 +45,7 @@ import * as zlib from 'zlib';
 import urlJoin = require('url-join');
 import * as Promise from 'promise';
 import { URL } from 'url';
+import cloneDeep = require('clone-deep');
 import { DefaultAuthenticationConfiguration, MicrosoftAppCredentials, JwtTokenValidation, SimpleCredentialProvider, SkillValidation } from 'skills-validator';
 
 var pjson = require('../../package.json');
@@ -85,7 +86,18 @@ export interface IChatConnectorEndpoint {
     oAuthEndpoint: string;
 }
 
-export interface IChatConnectorAddress extends IAddress {
+interface Claim {
+    readonly type: string;
+    readonly value: string;
+}
+
+interface IClaimIdentity {
+    claims: Claim[],
+    isAuthenticated: boolean,
+    getClaimValue(claimType: string): string | null
+}
+
+interface IChatConnectorAddress extends IAddress {
     id?: string;            // Incoming Message ID
     serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete
 }
@@ -99,6 +111,23 @@ export interface IStartConversationAddress extends IChatConnectorAddress {
     tenantId?: string; // (Optional) The tenant ID in which the conversation should be created
 }
 
+
+export interface MSAppCreds {
+    _oAuthScope: string,
+    appId: string,
+    appPassword: string,
+    authenticationContext: any,
+    oAuthEndpoint: string,
+    oAuthScope: string,
+    refreshingToken: string | null
+    tokenCacheKey: string,
+    signRequest(options: any): Promise<any>
+}
+
+export interface ICredentialsCache {
+    [_: string]: MSAppCreds
+}
+
 export class ChatConnector implements IConnector, IBotStorage {
     private onEventHandler: (events: IEvent[], cb?: (err: Error) => void) => void;
     private onInvokeHandler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void;
@@ -107,7 +136,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     private botConnectorOpenIdMetadata: OpenIdMetadata;
     private emulatorOpenIdMetadata: OpenIdMetadata;
     private refreshingToken: Promise.IThenable<string>;
-    private credentialsCache: any;
+    private credentialsCache: ICredentialsCache;
 
     constructor(protected settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
@@ -130,10 +159,10 @@ export class ChatConnector implements IConnector, IBotStorage {
 
         this.botConnectorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
-        this.credentialsCache = {}
+        this.credentialsCache = {} as ICredentialsCache
         
         if(this.settings.authConfiguration && this.settings.allowedCallers){
-            throw new Error(`authConfiguration and allowedCallers cannot both be supplied to ChatConnector.`);
+            throw new Error(`settings.authConfiguration and settings.allowedCallers cannot both be supplied to ChatConnector.`);
         }
     }
 
@@ -192,16 +221,13 @@ export class ChatConnector implements IConnector, IBotStorage {
             var openIdMetadata: OpenIdMetadata;
             const algorithms: string[] = ['RS256', 'RS384', 'RS512'];
             
-            if(this.settings.enableSkills && SkillValidation.isSkillToken(authHeaderValue)) {
-                const skillMsg = utils.clone(req.body);
+            if(this.settings.enableSkills === true && SkillValidation.isSkillToken(authHeaderValue)) {
+                const skillMsg = cloneDeep(req.body);
                 this.prepIncomingMessage(skillMsg);
 
-                let authConfiguration = this.settings.authConfiguration;
-                if(!authConfiguration){
-                    // If the user has not provided an authConfiguration, use the default.
-                    // If the user has not provided allowedCallers then this will throw
-                    authConfiguration = new DefaultAuthenticationConfiguration(this.settings.allowedCallers);
-                }
+                // If the user has not provided an authConfiguration, use the default.
+                // If the user has not provided allowedCallers then this will throw
+                const authConfiguration = this.settings.authConfiguration || new DefaultAuthenticationConfiguration(this.settings.allowedCallers);
 
                 JwtTokenValidation.authenticateRequest(
                     skillMsg, 
@@ -209,7 +235,7 @@ export class ChatConnector implements IConnector, IBotStorage {
                     new SimpleCredentialProvider(this.settings.appId, this.settings.appPassword),
                     req.body.serviceUrl,
                     authConfiguration
-                ).then((claimsIdentity: any) =>{
+                ).then((claimsIdentity: IClaimIdentity) =>{
                     if (!claimsIdentity || !claimsIdentity.isAuthenticated) {
                         logger.error('ChatConnector: receive - invalid skill token.');
                         res.send(403);
@@ -223,7 +249,11 @@ export class ChatConnector implements IConnector, IBotStorage {
                     this.credentialsCache[req.body.serviceUrl] = creds
                     this.dispatch(req.body, res, next);
                 }).catch((err: any) => {
-                    return logger.error(`Error authenticating request: ${err}`)
+                    logger.error(`Unable to authenticate request: ${err}`)
+                    res.send(401);
+                    res.end();
+                    next();
+                    return; 
                 });
             }
             else {
@@ -1001,33 +1031,36 @@ export class ChatConnector implements IConnector, IBotStorage {
         options.headers['User-Agent'] = USER_AGENT;
     }
 
-    private addAccessToken(options: request.Options | any, cb: (err: Error) => void): void {
+    private addAccessToken(options: request.OptionsWithUrl, cb: (err: Error) => void): void {
         if (this.settings.appId && this.settings.appPassword) {
-            if (this.settings.enableSkills) {
+            if (this.settings.enableSkills === true) {
                 const credKeys = Object.keys(this.credentialsCache)
                 const matchingKey = credKeys.filter((key: string) => {
-                    return options.url.indexOf(key) >= 0
+                    const strUrl = JSON.stringify(options.url)
+                    return strUrl.indexOf(key) >= 0
                 })
                 // get MicrosoftAppCredentials based on options.url and use it to retrieve the token (getToken)
                 if (matchingKey[0]) {
                     const creds = this.credentialsCache[matchingKey[0]]
-                    return creds.signRequest(options).then(() => {
-                        return cb(null);
+                    creds.signRequest(options).then(() => {
+                        cb(null);
+                    }).catch(err => {
+                        cb(err);
                     })
                 }
-            }
-
-            this.getAccessToken((err, token) => {
-                if (!err && token) {
-                    if (!options.headers) {
-                        options.headers = {};
+            } else {
+                this.getAccessToken((err, token) => {
+                    if (!err && token) {
+                        if (!options.headers) {
+                            options.headers = {};
+                        }
+                        options.headers['Authorization'] = 'Bearer ' + token
+                        cb(null);
+                    } else {
+                        cb(err);
                     }
-                    options.headers['Authorization'] = 'Bearer ' + token
-                    cb(null);
-                } else {
-                    cb(err);
-                }
-            });
+                });
+            }
         } else {
             cb(null);
         }
