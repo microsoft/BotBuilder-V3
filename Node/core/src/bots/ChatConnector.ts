@@ -42,9 +42,11 @@ import * as async from 'async';
 import * as http from 'http';
 import * as jwt from 'jsonwebtoken';
 import * as zlib from 'zlib';
-import * as Promise from 'promise';
 import urlJoin = require('url-join');
+import * as Promise from 'promise';
 import { URL } from 'url';
+import cloneDeep = require('clone-deep');
+import { DefaultAuthenticationConfiguration, MicrosoftAppCredentials, JwtTokenValidation, SimpleCredentialProvider, SkillValidation } from 'skills-validator';
 
 var pjson = require('../../package.json');
 
@@ -63,6 +65,9 @@ export interface IChatConnectorSettings {
     oAuthEndpoint?: string;
     openIdMetadata?: string;
     channelAuthTenant?: string;
+    enableSkills?: boolean;
+    authConfiguration?: any;
+    allowedCallers?: string[];
 }
 
 export interface IChatConnectorEndpoint {
@@ -81,7 +86,18 @@ export interface IChatConnectorEndpoint {
     oAuthEndpoint: string;
 }
 
-export interface IChatConnectorAddress extends IAddress {
+interface Claim {
+    readonly type: string;
+    readonly value: string;
+}
+
+interface IClaimIdentity {
+    claims: Claim[],
+    isAuthenticated: boolean,
+    getClaimValue(claimType: string): string | null
+}
+
+interface IChatConnectorAddress extends IAddress {
     id?: string;            // Incoming Message ID
     serviceUrl?: string;    // Specifies the URL to: post messages back, comment, annotate, delete
 }
@@ -95,6 +111,23 @@ export interface IStartConversationAddress extends IChatConnectorAddress {
     tenantId?: string; // (Optional) The tenant ID in which the conversation should be created
 }
 
+
+export interface MSAppCreds {
+    _oAuthScope: string,
+    appId: string,
+    appPassword: string,
+    authenticationContext: any,
+    oAuthEndpoint: string,
+    oAuthScope: string,
+    refreshingToken: string | null
+    tokenCacheKey: string,
+    signRequest(options: any): Promise<any>
+}
+
+export interface ICredentialsCache {
+    [_: string]: MSAppCreds
+}
+
 export class ChatConnector implements IConnector, IBotStorage {
     private onEventHandler: (events: IEvent[], cb?: (err: Error) => void) => void;
     private onInvokeHandler: (event: IEvent, cb?: (err: Error, body: any, status?: number) => void) => void;
@@ -103,6 +136,7 @@ export class ChatConnector implements IConnector, IBotStorage {
     private botConnectorOpenIdMetadata: OpenIdMetadata;
     private emulatorOpenIdMetadata: OpenIdMetadata;
     private refreshingToken: Promise.IThenable<string>;
+    private credentialsCache: ICredentialsCache;
 
     constructor(protected settings: IChatConnectorSettings = {}) {
         if (!this.settings.endpoint) {
@@ -125,6 +159,11 @@ export class ChatConnector implements IConnector, IBotStorage {
 
         this.botConnectorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
+        this.credentialsCache = {} as ICredentialsCache
+        
+        if(this.settings.authConfiguration && this.settings.allowedCallers){
+            throw new Error(`settings.authConfiguration and settings.allowedCallers cannot both be supplied to ChatConnector.`);
+        }
     }
 
     public listen(): IWebMiddleware {
@@ -181,95 +220,132 @@ export class ChatConnector implements IConnector, IBotStorage {
             var verifyOptions: jwt.VerifyOptions;
             var openIdMetadata: OpenIdMetadata;
             const algorithms: string[] = ['RS256', 'RS384', 'RS512'];
+            
+            if(this.settings.enableSkills === true && SkillValidation.isSkillToken(authHeaderValue)) {
+                const skillMsg = cloneDeep(req.body);
+                this.prepIncomingMessage(skillMsg);
 
-            if (isEmulator) {
+                // If the user has not provided an authConfiguration, use the default.
+                // If the user has not provided allowedCallers then this will throw
+                const authConfiguration = this.settings.authConfiguration || new DefaultAuthenticationConfiguration(this.settings.allowedCallers);
 
-                // validate the claims from the emulator
-                if ((decoded.payload.ver === '2.0' && decoded.payload.azp !== this.settings.appId) ||
-                    (decoded.payload.ver !== '2.0' && decoded.payload.appid !== this.settings.appId)) {
-                    logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
-                    res.status(403);
+                JwtTokenValidation.authenticateRequest(
+                    skillMsg, 
+                    authHeaderValue,
+                    new SimpleCredentialProvider(this.settings.appId, this.settings.appPassword),
+                    req.body.serviceUrl,
+                    authConfiguration
+                ).then((claimsIdentity: IClaimIdentity) =>{
+                    if (!claimsIdentity || !claimsIdentity.isAuthenticated) {
+                        logger.error('ChatConnector: receive - invalid skill token.');
+                        res.send(403);
+                        res.end();
+                        next();
+                        return; 
+                    }
+                    const oauthScope = JwtTokenValidation.getAppIdFromClaims(claimsIdentity.claims);
+                    const creds = new MicrosoftAppCredentials(this.settings.appId, this.settings.appPassword, oauthScope);
+                    // cache creds in memory
+                    this.credentialsCache[req.body.serviceUrl] = creds
+                    this.dispatch(req.body, res, next);
+                }).catch((err: any) => {
+                    logger.error(`Unable to authenticate request: ${err}`)
+                    res.send(401);
                     res.end();
                     next();
-                    return;
-                }
-
-                // the token came from the emulator, so ensure the correct issuer is used
-                let issuer: string;
-                if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
-                    // This token came from the emulator as a v1 token using the Auth v3.1 issuer
-                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
-                } else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
-                    // This token came from the emulator as a v2 token using the Auth v3.1 issuer
-                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
-                } else if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
-                    // This token came from the emulator as a v1 token using the Auth v3.2 issuer
-                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
-                } else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
-                    // This token came from the emulator as a v2 token using the Auth v3.2 issuer
-                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
-                }
-
-                if (issuer) {
-                    openIdMetadata = this.emulatorOpenIdMetadata;
-                    verifyOptions = {
-                        algorithms: algorithms,
-                        issuer: issuer,
-                        audience: this.settings.endpoint.emulatorAudience,
-                        clockTolerance: 300
-                    };
-                }
+                    return; 
+                });
             }
+            else {
+                if (isEmulator) {
 
-            if (!verifyOptions) {
-                // This is a normal token, so use our Bot Connector verification
-                openIdMetadata = this.botConnectorOpenIdMetadata;
-                verifyOptions = {
-                    issuer: this.settings.endpoint.botConnectorIssuer,
-                    audience: this.settings.endpoint.botConnectorAudience,
-                    clockTolerance: 300
-                };
-            }
-
-            openIdMetadata.getKey(decoded.header.kid, key => {
-                if (key) {
-                    try {
-                        jwt.verify(token, key.key, verifyOptions);
-
-                        // enforce endorsements in openIdMetadadata if there is any endorsements associated with the key
-                        if (typeof req.body.channelId !== 'undefined' &&
-                            typeof key.endorsements !== 'undefined' &&
-                            key.endorsements.lastIndexOf(req.body.channelId) === -1) {
-                            const errorDescription: string = `channelId in req.body: ${req.body.channelId} didn't match the endorsements: ${key.endorsements.join(',')}.`;
-                            logger.error(`ChatConnector: receive - endorsements validation failure. ${errorDescription}`);
-                            throw new Error(errorDescription);
-                        }
-
-                        // validate service url using token's serviceurl payload
-                        if (typeof decoded.payload.serviceurl !== 'undefined' &&
-                            typeof req.body.serviceUrl !== 'undefined' &&
-                            decoded.payload.serviceurl !== req.body.serviceUrl) {
-                            const errorDescription: string = `ServiceUrl in payload of token: ${decoded.payload.serviceurl} didn't match the request's serviceurl: ${req.body.serviceUrl}.`;
-                            logger.error(`ChatConnector: receive - serviceurl mismatch. ${errorDescription}`);
-                            throw new Error(errorDescription);
-                        }
-                    } catch (err) {
-                        logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
-                        res.send(403, err);
+                    // validate the claims from the emulator
+                    if ((decoded.payload.ver === '2.0' && decoded.payload.azp !== this.settings.appId) ||
+                        (decoded.payload.ver !== '2.0' && decoded.payload.appid !== this.settings.appId)) {
+                        logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
+                        res.status(403);
                         res.end();
                         next();
                         return;
                     }
 
-                    this.dispatch(req.body, res, next);
-                } else {
-                    logger.error('ChatConnector: receive - invalid signing key or OpenId metadata document.');
-                    res.status(500);
-                    res.end();
-                    next();
-                    return;
+                    // the token came from the emulator, so ensure the correct issuer is used
+                    let issuer: string;
+                    if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
+                        // This token came from the emulator as a v1 token using the Auth v3.1 issuer
+                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
+                    } else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
+                        // This token came from the emulator as a v2 token using the Auth v3.1 issuer
+                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
+                    } else if (decoded.payload.ver === '1.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
+                        // This token came from the emulator as a v1 token using the Auth v3.2 issuer
+                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
+                    } else if (decoded.payload.ver === '2.0' && decoded.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
+                        // This token came from the emulator as a v2 token using the Auth v3.2 issuer
+                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
+                    }
+
+                    if (issuer) {
+                        openIdMetadata = this.emulatorOpenIdMetadata;
+                        verifyOptions = {
+                            algorithms: algorithms,
+                            issuer: issuer,
+                            audience: this.settings.endpoint.emulatorAudience,
+                            clockTolerance: 300
+                        };
+                    }
                 }
-            });
+
+                if (!verifyOptions) {
+                    // This is a normal token, so use our Bot Connector verification
+                    openIdMetadata = this.botConnectorOpenIdMetadata;
+                    verifyOptions = {
+                        issuer: this.settings.endpoint.botConnectorIssuer,
+                        audience: this.settings.endpoint.botConnectorAudience,
+                        clockTolerance: 300
+                    };
+                }
+
+                openIdMetadata.getKey(decoded.header.kid, key => {
+                    if (key) {
+                        try {
+                            jwt.verify(token, key.key, verifyOptions);
+
+                            // enforce endorsements in openIdMetadadata if there is any endorsements associated with the key
+                            if (typeof req.body.channelId !== 'undefined' &&
+                                typeof key.endorsements !== 'undefined' &&
+                                key.endorsements.lastIndexOf(req.body.channelId) === -1) {
+                                const errorDescription: string = `channelId in req.body: ${req.body.channelId} didn't match the endorsements: ${key.endorsements.join(',')}.`;
+                                logger.error(`ChatConnector: receive - endorsements validation failure. ${errorDescription}`);
+                                throw new Error(errorDescription);
+                            }
+
+                            // validate service url using token's serviceurl payload
+                            if (typeof decoded.payload.serviceurl !== 'undefined' &&
+                                typeof req.body.serviceUrl !== 'undefined' &&
+                                decoded.payload.serviceurl !== req.body.serviceUrl) {
+                                const errorDescription: string = `ServiceUrl in payload of token: ${decoded.payload.serviceurl} didn't match the request's serviceurl: ${req.body.serviceUrl}.`;
+                                logger.error(`ChatConnector: receive - serviceurl mismatch. ${errorDescription}`);
+                                throw new Error(errorDescription);
+                            }
+                        } catch (err) {
+                            logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
+                            res.send(403, err);
+                            res.end();
+                            next();
+                            return;
+                        }
+
+                        this.dispatch(req.body, res, next);
+                    } else {
+                        logger.error('ChatConnector: receive - invalid signing key or OpenId metadata document.');
+                        res.status(500);
+                        res.end();
+                        next();
+                        return;
+                    }
+                });
+            }
         } else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
             // Emulator running without auth enabled
             logger.warn(req.body, 'ChatConnector: receive - emulator running without security enabled.');
@@ -955,19 +1031,36 @@ export class ChatConnector implements IConnector, IBotStorage {
         options.headers['User-Agent'] = USER_AGENT;
     }
 
-    private addAccessToken(options: request.Options, cb: (err: Error) => void): void {
+    private addAccessToken(options: request.OptionsWithUrl, cb: (err: Error) => void): void {
         if (this.settings.appId && this.settings.appPassword) {
-            this.getAccessToken((err, token) => {
-                if (!err && token) {
-                    if (!options.headers) {
-                        options.headers = {};
-                    }
-                    options.headers['Authorization'] = 'Bearer ' + token
-                    cb(null);
-                } else {
-                    cb(err);
+            if (this.settings.enableSkills === true) {
+                const credKeys = Object.keys(this.credentialsCache)
+                const matchingKey = credKeys.filter((key: string) => {
+                    const strUrl = JSON.stringify(options.url)
+                    return strUrl.indexOf(key) >= 0
+                })
+                // get MicrosoftAppCredentials based on options.url and use it to retrieve the token (getToken)
+                if (matchingKey[0]) {
+                    const creds = this.credentialsCache[matchingKey[0]]
+                    creds.signRequest(options).then(() => {
+                        cb(null);
+                    }).catch(err => {
+                        cb(err);
+                    })
                 }
-            });
+            } else {
+                this.getAccessToken((err, token) => {
+                    if (!err && token) {
+                        if (!options.headers) {
+                            options.headers = {};
+                        }
+                        options.headers['Authorization'] = 'Bearer ' + token
+                        cb(null);
+                    } else {
+                        cb(err);
+                    }
+                });
+            }
         } else {
             cb(null);
         }

@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["es2017"],
+        "module": "commonjs",
+        "sourceMap": false,
+        "noImplicitAny": true,
+        "outDir": "../lib",
+        "noEmitOnError": true,
+        "removeComments": true,
+        "forceConsistentCasingInFileNames": true
+    }
+}

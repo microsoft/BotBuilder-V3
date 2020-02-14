@@ -1,0 +1,16 @@
+{
+  "name": "skills-validator",
+  "version": "1.0.0",
+  "description": "This package allows a v3 bot to be consumed as a skill from another bot.",
+  "main": "./lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node-fetch": "^2.5.4",
+    "adal-node": "^0.2.1",
+    "node-fetch": "^2.6.0"
+  }
+}

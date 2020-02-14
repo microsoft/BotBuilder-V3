@@ -8,9 +8,11 @@ var request = require("request");
 var async = require("async");
 var jwt = require("jsonwebtoken");
 var zlib = require("zlib");
-var Promise = require("promise");
 var urlJoin = require("url-join");
+var Promise = require("promise");
 var url_1 = require("url");
+var cloneDeep = require("clone-deep");
+var skills_validator_1 = require("skills-validator");
 var pjson = require('../../package.json');
 var MAX_DATA_LENGTH = 65000;
 var USER_AGENT = "Microsoft-BotFramework/3.1 (BotBuilder Node.js/" + pjson.version + ")";
@@ -38,6 +40,10 @@ var ChatConnector = (function () {
         }
         this.botConnectorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.botConnectorOpenIdMetadata);
         this.emulatorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
+        this.credentialsCache = {};
+        if (this.settings.authConfiguration && this.settings.allowedCallers) {
+            throw new Error("settings.authConfiguration and settings.allowedCallers cannot both be supplied to ChatConnector.");
+        }
     }
     ChatConnector.prototype.listen = function () {
         var _this = this;
@@ -90,82 +96,108 @@ var ChatConnector = (function () {
             var verifyOptions;
             var openIdMetadata;
             var algorithms = ['RS256', 'RS384', 'RS512'];
-            if (isEmulator) {
-                if ((decoded_1.payload.ver === '2.0' && decoded_1.payload.azp !== this.settings.appId) ||
-                    (decoded_1.payload.ver !== '2.0' && decoded_1.payload.appid !== this.settings.appId)) {
-                    logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
-                    res.status(403);
-                    res.end();
-                    next();
-                    return;
-                }
-                var issuer = void 0;
-                if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
-                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
-                }
-                else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
-                    issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
-                }
-                else if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
-                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
-                }
-                else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
-                    issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
-                }
-                if (issuer) {
-                    openIdMetadata = this.emulatorOpenIdMetadata;
-                    verifyOptions = {
-                        algorithms: algorithms,
-                        issuer: issuer,
-                        audience: this.settings.endpoint.emulatorAudience,
-                        clockTolerance: 300
-                    };
-                }
-            }
-            if (!verifyOptions) {
-                openIdMetadata = this.botConnectorOpenIdMetadata;
-                verifyOptions = {
-                    issuer: this.settings.endpoint.botConnectorIssuer,
-                    audience: this.settings.endpoint.botConnectorAudience,
-                    clockTolerance: 300
-                };
-            }
-            openIdMetadata.getKey(decoded_1.header.kid, function (key) {
-                if (key) {
-                    try {
-                        jwt.verify(token, key.key, verifyOptions);
-                        if (typeof req.body.channelId !== 'undefined' &&
-                            typeof key.endorsements !== 'undefined' &&
-                            key.endorsements.lastIndexOf(req.body.channelId) === -1) {
-                            var errorDescription = "channelId in req.body: " + req.body.channelId + " didn't match the endorsements: " + key.endorsements.join(',') + ".";
-                            logger.error("ChatConnector: receive - endorsements validation failure. " + errorDescription);
-                            throw new Error(errorDescription);
-                        }
-                        if (typeof decoded_1.payload.serviceurl !== 'undefined' &&
-                            typeof req.body.serviceUrl !== 'undefined' &&
-                            decoded_1.payload.serviceurl !== req.body.serviceUrl) {
-                            var errorDescription = "ServiceUrl in payload of token: " + decoded_1.payload.serviceurl + " didn't match the request's serviceurl: " + req.body.serviceUrl + ".";
-                            logger.error("ChatConnector: receive - serviceurl mismatch. " + errorDescription);
-                            throw new Error(errorDescription);
-                        }
-                    }
-                    catch (err) {
-                        logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
-                        res.send(403, err);
+            if (this.settings.enableSkills === true && skills_validator_1.SkillValidation.isSkillToken(authHeaderValue)) {
+                var skillMsg = cloneDeep(req.body);
+                this.prepIncomingMessage(skillMsg);
+                var authConfiguration = this.settings.authConfiguration || new skills_validator_1.DefaultAuthenticationConfiguration(this.settings.allowedCallers);
+                skills_validator_1.JwtTokenValidation.authenticateRequest(skillMsg, authHeaderValue, new skills_validator_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, authConfiguration).then(function (claimsIdentity) {
+                    if (!claimsIdentity || !claimsIdentity.isAuthenticated) {
+                        logger.error('ChatConnector: receive - invalid skill token.');
+                        res.send(403);
                         res.end();
                         next();
                         return;
                     }
+                    var oauthScope = skills_validator_1.JwtTokenValidation.getAppIdFromClaims(claimsIdentity.claims);
+                    var creds = new skills_validator_1.MicrosoftAppCredentials(_this.settings.appId, _this.settings.appPassword, oauthScope);
+                    _this.credentialsCache[req.body.serviceUrl] = creds;
                     _this.dispatch(req.body, res, next);
-                }
-                else {
-                    logger.error('ChatConnector: receive - invalid signing key or OpenId metadata document.');
-                    res.status(500);
+                }).catch(function (err) {
+                    logger.error("Unable to authenticate request: " + err);
+                    res.send(401);
                     res.end();
                     next();
                     return;
+                });
+            }
+            else {
+                if (isEmulator) {
+                    if ((decoded_1.payload.ver === '2.0' && decoded_1.payload.azp !== this.settings.appId) ||
+                        (decoded_1.payload.ver !== '2.0' && decoded_1.payload.appid !== this.settings.appId)) {
+                        logger.error('ChatConnector: receive - invalid token. Requested by unexpected app ID.');
+                        res.status(403);
+                        res.end();
+                        next();
+                        return;
+                    }
+                    var issuer = void 0;
+                    if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV1) {
+                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV1;
+                    }
+                    else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV31IssuerV2) {
+                        issuer = this.settings.endpoint.emulatorAuthV31IssuerV2;
+                    }
+                    else if (decoded_1.payload.ver === '1.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV1) {
+                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV1;
+                    }
+                    else if (decoded_1.payload.ver === '2.0' && decoded_1.payload.iss == this.settings.endpoint.emulatorAuthV32IssuerV2) {
+                        issuer = this.settings.endpoint.emulatorAuthV32IssuerV2;
+                    }
+                    if (issuer) {
+                        openIdMetadata = this.emulatorOpenIdMetadata;
+                        verifyOptions = {
+                            algorithms: algorithms,
+                            issuer: issuer,
+                            audience: this.settings.endpoint.emulatorAudience,
+                            clockTolerance: 300
+                        };
+                    }
                 }
-            });
+                if (!verifyOptions) {
+                    openIdMetadata = this.botConnectorOpenIdMetadata;
+                    verifyOptions = {
+                        issuer: this.settings.endpoint.botConnectorIssuer,
+                        audience: this.settings.endpoint.botConnectorAudience,
+                        clockTolerance: 300
+                    };
+                }
+                openIdMetadata.getKey(decoded_1.header.kid, function (key) {
+                    if (key) {
+                        try {
+                            jwt.verify(token, key.key, verifyOptions);
+                            if (typeof req.body.channelId !== 'undefined' &&
+                                typeof key.endorsements !== 'undefined' &&
+                                key.endorsements.lastIndexOf(req.body.channelId) === -1) {
+                                var errorDescription = "channelId in req.body: " + req.body.channelId + " didn't match the endorsements: " + key.endorsements.join(',') + ".";
+                                logger.error("ChatConnector: receive - endorsements validation failure. " + errorDescription);
+                                throw new Error(errorDescription);
+                            }
+                            if (typeof decoded_1.payload.serviceurl !== 'undefined' &&
+                                typeof req.body.serviceUrl !== 'undefined' &&
+                                decoded_1.payload.serviceurl !== req.body.serviceUrl) {
+                                var errorDescription = "ServiceUrl in payload of token: " + decoded_1.payload.serviceurl + " didn't match the request's serviceurl: " + req.body.serviceUrl + ".";
+                                logger.error("ChatConnector: receive - serviceurl mismatch. " + errorDescription);
+                                throw new Error(errorDescription);
+                            }
+                        }
+                        catch (err) {
+                            logger.error('ChatConnector: receive - invalid token. Check bot\'s app ID & Password.');
+                            res.send(403, err);
+                            res.end();
+                            next();
+                            return;
+                        }
+                        _this.dispatch(req.body, res, next);
+                    }
+                    else {
+                        logger.error('ChatConnector: receive - invalid signing key or OpenId metadata document.');
+                        res.status(500);
+                        res.end();
+                        next();
+                        return;
+                    }
+                });
+            }
         }
         else if (isEmulator && !this.settings.appId && !this.settings.appPassword) {
             logger.warn(req.body, 'ChatConnector: receive - emulator running without security enabled.');
@@ -356,6 +388,7 @@ var ChatConnector = (function () {
     ChatConnector.prototype.getUserToken = function (address, connectionName, magicCode, done) {
         var path = 'api/usertoken/GetToken?userId=' + encodeURIComponent(address.user.id);
         path += '&connectionName=' + encodeURIComponent(connectionName);
+        path += '&channelId=' + encodeURIComponent(address.channelId);
         if (magicCode) {
             path += '&code=' + encodeURIComponent(magicCode);
         }
@@ -369,6 +402,7 @@ var ChatConnector = (function () {
     ChatConnector.prototype.signOutUser = function (address, connectionName, done) {
         var path = 'api/usertoken/SignOut?userId=' + encodeURIComponent(address.user.id);
         path += '&connectionName=' + encodeURIComponent(connectionName);
+        path += '&channelId=' + encodeURIComponent(address.channelId);
         var options = {
             method: 'DELETE',
             url: urlJoin(this.getOAuthPath(address), path),
@@ -776,18 +810,35 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.addAccessToken = function (options, cb) {
         if (this.settings.appId && this.settings.appPassword) {
-            this.getAccessToken(function (err, token) {
-                if (!err && token) {
-                    if (!options.headers) {
-                        options.headers = {};
+            if (this.settings.enableSkills === true) {
+                var credKeys = Object.keys(this.credentialsCache);
+                var matchingKey = credKeys.filter(function (key) {
+                    var strUrl = JSON.stringify(options.url);
+                    return strUrl.indexOf(key) >= 0;
+                });
+                if (matchingKey[0]) {
+                    var creds = this.credentialsCache[matchingKey[0]];
+                    creds.signRequest(options).then(function () {
+                        cb(null);
+                    }).catch(function (err) {
+                        cb(err);
+                    });
+                }
+            }
+            else {
+                this.getAccessToken(function (err, token) {
+                    if (!err && token) {
+                        if (!options.headers) {
+                            options.headers = {};
+                        }
+                        options.headers['Authorization'] = 'Bearer ' + token;
+                        cb(null);
                     }
-                    options.headers['Authorization'] = 'Bearer ' + token;
-                    cb(null);
-                }
-                else {
-                    cb(err);
-                }
-            });
+                    else {
+                        cb(err);
+                    }
+                });
+            }
         }
         else {
             cb(null);

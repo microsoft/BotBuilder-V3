@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var AuthenticationConstants;
+(function (AuthenticationConstants) {
+    AuthenticationConstants.ToChannelFromBotLoginUrl = 'https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token';
+    AuthenticationConstants.ToChannelFromBotLoginUrlPrefix = 'https://login.microsoftonline.com/';
+    AuthenticationConstants.ToChannelFromBotTokenEndpointPath = '/oauth2/v2.0/token';
+    AuthenticationConstants.DefaultChannelAuthTenant = 'botframework.com';
+    AuthenticationConstants.ToChannelFromBotOAuthScope = 'https://api.botframework.com/.default';
+    AuthenticationConstants.ToBotFromChannelTokenIssuer = 'https://api.botframework.com';
+    AuthenticationConstants.BotOpenIdMetadataKey = 'BotOpenIdMetadata';
+    AuthenticationConstants.OAuthUrlKey = 'OAuthApiEndpoint';
+    AuthenticationConstants.EmulateOAuthCardsKey = 'EmulateOAuthCards';
+    AuthenticationConstants.ToBotFromChannelOpenIdMetadataUrl = 'https://login.botframework.com/v1/.well-known/openidconfiguration';
+    AuthenticationConstants.ToBotFromEmulatorOpenIdMetadataUrl = 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration';
+    AuthenticationConstants.AllowedSigningAlgorithms = ['RS256', 'RS384', 'RS512'];
+    AuthenticationConstants.AuthorizedParty = 'azp';
+    AuthenticationConstants.AudienceClaim = 'aud';
+    AuthenticationConstants.IssuerClaim = 'iss';
+    AuthenticationConstants.KeyIdHeader = 'kid';
+    AuthenticationConstants.VersionClaim = 'ver';
+    AuthenticationConstants.AppIdClaim = 'appid';
+    AuthenticationConstants.ServiceUrlClaim = 'serviceurl';
+})(AuthenticationConstants = exports.AuthenticationConstants || (exports.AuthenticationConstants = {}));
