@@ -11,6 +11,7 @@ var zlib = require("zlib");
 var urlJoin = require("url-join");
 var Promise = require("promise");
 var url_1 = require("url");
+var cloneDeep = require("clone-deep");
 var skills_validator_1 = require("skills-validator");
 var pjson = require('../../package.json');
 var MAX_DATA_LENGTH = 65000;
@@ -41,7 +42,7 @@ var ChatConnector = (function () {
         this.emulatorOpenIdMetadata = new OpenIdMetadata_1.OpenIdMetadata(this.settings.endpoint.emulatorOpenIdMetadata);
         this.credentialsCache = {};
         if (this.settings.authConfiguration && this.settings.allowedCallers) {
-            throw new Error("authConfiguration and allowedCallers cannot both be supplied to ChatConnector.");
+            throw new Error("settings.authConfiguration and settings.allowedCallers cannot both be supplied to ChatConnector.");
         }
     }
     ChatConnector.prototype.listen = function () {
@@ -95,13 +96,10 @@ var ChatConnector = (function () {
             var verifyOptions;
             var openIdMetadata;
             var algorithms = ['RS256', 'RS384', 'RS512'];
-            if (this.settings.enableSkills && skills_validator_1.SkillValidation.isSkillToken(authHeaderValue)) {
-                var skillMsg = utils.clone(req.body);
+            if (this.settings.enableSkills === true && skills_validator_1.SkillValidation.isSkillToken(authHeaderValue)) {
+                var skillMsg = cloneDeep(req.body);
                 this.prepIncomingMessage(skillMsg);
-                var authConfiguration = this.settings.authConfiguration;
-                if (!authConfiguration) {
-                    authConfiguration = new skills_validator_1.DefaultAuthenticationConfiguration(this.settings.allowedCallers);
-                }
+                var authConfiguration = this.settings.authConfiguration || new skills_validator_1.DefaultAuthenticationConfiguration(this.settings.allowedCallers);
                 skills_validator_1.JwtTokenValidation.authenticateRequest(skillMsg, authHeaderValue, new skills_validator_1.SimpleCredentialProvider(this.settings.appId, this.settings.appPassword), req.body.serviceUrl, authConfiguration).then(function (claimsIdentity) {
                     if (!claimsIdentity || !claimsIdentity.isAuthenticated) {
                         logger.error('ChatConnector: receive - invalid skill token.');
@@ -115,7 +113,11 @@ var ChatConnector = (function () {
                     _this.credentialsCache[req.body.serviceUrl] = creds;
                     _this.dispatch(req.body, res, next);
                 }).catch(function (err) {
-                    return logger.error("Error authenticating request: " + err);
+                    logger.error("Unable to authenticate request: " + err);
+                    res.send(401);
+                    res.end();
+                    next();
+                    return;
                 });
             }
             else {
@@ -808,30 +810,35 @@ var ChatConnector = (function () {
     };
     ChatConnector.prototype.addAccessToken = function (options, cb) {
         if (this.settings.appId && this.settings.appPassword) {
-            if (this.settings.enableSkills) {
+            if (this.settings.enableSkills === true) {
                 var credKeys = Object.keys(this.credentialsCache);
                 var matchingKey = credKeys.filter(function (key) {
-                    return options.url.indexOf(key) >= 0;
+                    var strUrl = JSON.stringify(options.url);
+                    return strUrl.indexOf(key) >= 0;
                 });
                 if (matchingKey[0]) {
                     var creds = this.credentialsCache[matchingKey[0]];
-                    return creds.signRequest(options).then(function () {
-                        return cb(null);
+                    creds.signRequest(options).then(function () {
+                        cb(null);
+                    }).catch(function (err) {
+                        cb(err);
                     });
                 }
             }
-            this.getAccessToken(function (err, token) {
-                if (!err && token) {
-                    if (!options.headers) {
-                        options.headers = {};
+            else {
+                this.getAccessToken(function (err, token) {
+                    if (!err && token) {
+                        if (!options.headers) {
+                            options.headers = {};
+                        }
+                        options.headers['Authorization'] = 'Bearer ' + token;
+                        cb(null);
                     }
-                    options.headers['Authorization'] = 'Bearer ' + token;
-                    cb(null);
-                }
-                else {
-                    cb(err);
-                }
-            });
+                    else {
+                        cb(err);
+                    }
+                });
+            }
         }
         else {
             cb(null);
