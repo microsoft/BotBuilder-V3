@@ -34,7 +34,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
     {
 
         /// <summary>
-        /// The key for <see cref="ResumptionData"/> in <see cref="botDataBag"/>.
+        /// The key for <see cref="ResumptionData"/> in the resumption context's data bag.
         /// </summary>
         public const string RESUMPTION_CONTEXT_KEY = "ResumptionContext";
 
@@ -50,7 +50,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
         }
 
         /// <summary>
-        /// Load <see cref="ResumptionData"/> from <see cref="botDataBag"/>.
+        /// Loads the <see cref="ResumptionData"/> from the resumption context's data bag.
         /// </summary>
         /// <param name="token"> The cancellation token.</param>
         public async Task<ResumptionData> LoadDataAsync(CancellationToken token)
@@ -61,7 +61,7 @@ namespace Microsoft.Bot.Builder.ConnectorEx
         }
 
         /// <summary>
-        /// Save the <paramref name="data"/> in <see cref="botDataBag"/>.
+        /// Saves the <paramref name="data"/> in the resumption context's data bag.
         /// </summary>
         /// <param name="data"> The <see cref="ResumptionData"/>.</param>
         /// <param name="token"> The cancellation token.</param>
