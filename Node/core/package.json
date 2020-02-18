@@ -48,7 +48,7 @@
     "test": "mocha tests/*.js",
     "build": "npm install && cd skills-validator && npm install",
     "tsc-build": "cd src && tsc -b && cd ../skills-validator/src && tsc -b",
-    "build-all": "npm-run-all -s build tsc-build",
-    "postinstall": "npm install --no-save ./skills-validator"
+    "build-all": "npm i & npm-run-all -s build tsc-build",
+    "postinstall": "npm install --no-save ./skills-validator/skills-validator-1.0.0.tgz"
   }
 }
