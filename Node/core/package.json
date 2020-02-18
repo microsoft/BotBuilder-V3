@@ -36,7 +36,6 @@
     "promise": "^7.1.1",
     "request": "^2.88.0",
     "rsa-pem-from-mod-exp": "^0.8.4",
-    "skills-validator": "./skills-validator",
     "sprintf-js": "^1.0.3",
     "url-join": "^1.1.0"
   },
@@ -49,6 +48,7 @@
     "test": "mocha tests/*.js",
     "build": "npm install && cd skills-validator && npm install",
     "tsc-build": "cd src && tsc -b && cd ../skills-validator/src && tsc -b",
-    "build-all": "npm-run-all -s build tsc-build"
+    "build-all": "npm-run-all -s build tsc-build",
+    "postinstall": "npm install --no-save ./skills-validator"
   }
 }
