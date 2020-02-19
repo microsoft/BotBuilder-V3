@@ -809,34 +809,37 @@ var ChatConnector = (function () {
         options.headers['User-Agent'] = USER_AGENT;
     };
     ChatConnector.prototype.addAccessToken = function (options, cb) {
+        var matchingKey = [];
         if (this.settings.appId && this.settings.appPassword) {
             if (this.settings.enableSkills === true) {
                 var credKeys = Object.keys(this.credentialsCache);
-                var matchingKey = credKeys.filter(function (key) {
+                matchingKey = credKeys.filter(function (key) {
                     var strUrl = JSON.stringify(options.url);
                     return strUrl.indexOf(key) >= 0;
                 });
                 if (matchingKey[0]) {
                     var creds = this.credentialsCache[matchingKey[0]];
                     creds.signRequest(options).then(function () {
-                        return cb(null);
+                        cb(null);
                     }).catch(function (err) {
-                        return cb(err);
+                        cb(err);
                     });
                 }
             }
-            this.getAccessToken(function (err, token) {
-                if (!err && token) {
-                    if (!options.headers) {
-                        options.headers = {};
+            if (this.settings.enableSkills !== true || !matchingKey[0]) {
+                this.getAccessToken(function (err, token) {
+                    if (!err && token) {
+                        if (!options.headers) {
+                            options.headers = {};
+                        }
+                        options.headers['Authorization'] = 'Bearer ' + token;
+                        cb(null);
                     }
-                    options.headers['Authorization'] = 'Bearer ' + token;
-                    cb(null);
-                }
-                else {
-                    cb(err);
-                }
-            });
+                    else {
+                        cb(err);
+                    }
+                });
+            }
         }
         else {
             cb(null);
