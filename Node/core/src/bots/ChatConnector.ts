@@ -1032,10 +1032,11 @@ export class ChatConnector implements IConnector, IBotStorage {
     }
 
     private addAccessToken(options: request.OptionsWithUrl, cb: (err: Error) => void): void {
+        let matchingKey: string[] = [];
         if (this.settings.appId && this.settings.appPassword) {
             if (this.settings.enableSkills === true) {
                 const credKeys = Object.keys(this.credentialsCache)
-                const matchingKey = credKeys.filter((key: string) => {
+                matchingKey = credKeys.filter((key: string) => {
                     const strUrl = JSON.stringify(options.url)
                     return strUrl.indexOf(key) >= 0
                 })
@@ -1043,25 +1044,25 @@ export class ChatConnector implements IConnector, IBotStorage {
                 if (matchingKey[0]) {
                     const creds = this.credentialsCache[matchingKey[0]]
                     creds.signRequest(options).then(() => {
-                        return cb(null);
+                        cb(null);
                     }).catch(err => {
-                        return cb(err);
+                        cb(err);
                     })
                 }
             }
-            
-            this.getAccessToken((err, token) => {
-                if (!err && token) {
-                    if (!options.headers) {
-                        options.headers = {};
+            if(this.settings.enableSkills !== true || !matchingKey[0]) {
+                this.getAccessToken((err, token) => {
+                    if (!err && token) {
+                        if (!options.headers) {
+                            options.headers = {};
+                        }
+                        options.headers['Authorization'] = 'Bearer ' + token
+                        cb(null);
+                    } else {
+                        cb(err);
                     }
-                    options.headers['Authorization'] = 'Bearer ' + token
-                    cb(null);
-                } else {
-                    cb(err);
-                }
-            });    
-            
+                });    
+            }
         } else {
             cb(null);
         }
