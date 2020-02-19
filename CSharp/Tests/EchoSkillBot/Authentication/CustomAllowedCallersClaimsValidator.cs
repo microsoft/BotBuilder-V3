@@ -17,14 +17,10 @@ namespace EchoBot.Authentication
 
         public CustomAllowedCallersClaimsValidator(IList<string> allowedCallers)
         {
-            // AllowedCallers is the setting in web.config file
-            // that consists of the parent bot ids that are allowed to access the skill
-            // to add a new parent bot simply go to the AllowedCallers and add
-            // the parent bot's microsoft app id to the list
             // To allow all Parent bots, AllowedCallers should have one element of '*'
 
             _allowedCallers = allowedCallers ?? throw new ArgumentNullException(nameof(allowedCallers));
-            if(_allowedCallers.Count == 0)
+            if (!_allowedCallers.Any())
             {
                 throw new ArgumentNullException(nameof(allowedCallers), "AllowedCallers must contain at least one element of '*' or valid MicrosoftAppId(s).");
             }
@@ -32,18 +28,35 @@ namespace EchoBot.Authentication
 
         public override Task ValidateClaimsAsync(IList<Claim> claims)
         {
-            // if _allowedCallers has one item of '*', allow all parent bot calls and do not validate the appid from claims
-            if (SkillValidation.IsSkillClaim(claims) && !(_allowedCallers.Count == 1 && _allowedCallers[0] == "*"))
+            if (claims == null)
             {
-                // Check that the appId claim in the skill request is in the list of skills configured for this bot.
-                var appId = JwtTokenValidation.GetAppIdFromClaims(claims);
-                if (!_allowedCallers.Contains(appId))
-                {
-                    throw new UnauthorizedAccessException($"Received a request from a bot with an app ID of \"{appId}\". To enable requests from this caller, add the app ID to your configuration file.");
-                }
+                throw new ArgumentNullException(nameof(claims));
             }
 
-            return Task.CompletedTask;
+            if (!claims.Any())
+            {
+                throw new UnauthorizedAccessException("ValidateClaimsAsync.claims parameter must contain at least one element.");
+            }
+
+            if (SkillValidation.IsSkillClaim(claims))
+            {
+                // if _allowedCallers has one item of '*', allow all parent bot calls and do not validate the appid from claims
+                if (_allowedCallers.Count == 1 && _allowedCallers[0] == "*")
+                {
+                    return Task.CompletedTask;
+                }
+
+                // Check that the appId claim in the skill request is in the list of skills configured for this bot.
+                var appId = JwtTokenValidation.GetAppIdFromClaims(claims).ToUpperInvariant();
+                if (_allowedCallers.Contains(appId))
+                {
+                    return Task.CompletedTask;
+                }
+
+                throw new UnauthorizedAccessException($"Received a request from a bot with an app ID of \"{appId}\". To enable requests from this caller, add the app ID to your configuration file.");
+            }
+
+            throw new UnauthorizedAccessException($"ValidateClaimsAsync called without a Skill claim in claims.");
         }
     }
 }
