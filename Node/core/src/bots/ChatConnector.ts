@@ -1043,24 +1043,25 @@ export class ChatConnector implements IConnector, IBotStorage {
                 if (matchingKey[0]) {
                     const creds = this.credentialsCache[matchingKey[0]]
                     creds.signRequest(options).then(() => {
-                        cb(null);
+                        return cb(null);
                     }).catch(err => {
-                        cb(err);
+                        return cb(err);
                     })
                 }
-            } else {
-                this.getAccessToken((err, token) => {
-                    if (!err && token) {
-                        if (!options.headers) {
-                            options.headers = {};
-                        }
-                        options.headers['Authorization'] = 'Bearer ' + token
-                        cb(null);
-                    } else {
-                        cb(err);
-                    }
-                });
             }
+            
+            this.getAccessToken((err, token) => {
+                if (!err && token) {
+                    if (!options.headers) {
+                        options.headers = {};
+                    }
+                    options.headers['Authorization'] = 'Bearer ' + token
+                    cb(null);
+                } else {
+                    cb(err);
+                }
+            });    
+            
         } else {
             cb(null);
         }

@@ -819,26 +819,24 @@ var ChatConnector = (function () {
                 if (matchingKey[0]) {
                     var creds = this.credentialsCache[matchingKey[0]];
                     creds.signRequest(options).then(function () {
-                        cb(null);
+                        return cb(null);
                     }).catch(function (err) {
-                        cb(err);
+                        return cb(err);
                     });
                 }
             }
-            else {
-                this.getAccessToken(function (err, token) {
-                    if (!err && token) {
-                        if (!options.headers) {
-                            options.headers = {};
-                        }
-                        options.headers['Authorization'] = 'Bearer ' + token;
-                        cb(null);
+            this.getAccessToken(function (err, token) {
+                if (!err && token) {
+                    if (!options.headers) {
+                        options.headers = {};
                     }
-                    else {
-                        cb(err);
-                    }
-                });
-            }
+                    options.headers['Authorization'] = 'Bearer ' + token;
+                    cb(null);
+                }
+                else {
+                    cb(err);
+                }
+            });
         }
         else {
             cb(null);
