@@ -151,19 +151,9 @@ namespace Microsoft.Bot.Connector
                                                 }, (key, currentValue) =>
                     {
                         var newExpiration = DateTime.UtcNow.Add(extensionPeriod);
-                        // try not to override expirations that are greater than one day from now
-                        if (currentValue.DateTime > newExpiration)
+                        // do not overwrite expirations that are greater than one day from now
+                        if (currentValue.DateTime < newExpiration)
                         {
-                            // make sure that extension can be added to oldValue and ArgumentOutOfRangeException
-                            // is not thrown
-                            if (currentValue.DateTime >= DateTime.MaxValue.Subtract(extensionPeriod))
-                            {
-                                newExpiration = currentValue.DateTime;
-                            }
-                            else
-                            {
-                                newExpiration = currentValue.DateTime.Add(extensionPeriod);
-                            }
                             currentValue.DateTime = newExpiration;
                         }
 
