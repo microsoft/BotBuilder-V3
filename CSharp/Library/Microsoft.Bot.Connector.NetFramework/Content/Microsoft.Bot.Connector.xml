@@ -404,19 +404,6 @@
             Contains helper methods for authenticating incoming HTTP requests.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.AuthenticateRequest(Microsoft.Bot.Connector.IActivity,System.String,Microsoft.Bot.Connector.ICredentialProvider,System.Net.Http.HttpClient)">
-            <summary>
-            Authenticates the request and adds the activity's <see cref="P:Microsoft.Bot.Connector.Activity.ServiceUrl"/>
-            to the set of trusted URLs.
-            </summary>
-            <param name="activity">The activity.</param>
-            <param name="authHeader">The authentication header.</param>
-            <param name="credentials">The bot's credential provider.</param>
-            <param name="httpClient">The HTTP client.</param>
-            <returns>A task that represents the work queued to execute.</returns>
-            <remarks>If the task completes successfully, the result contains the claims-based
-            identity for the request.</remarks>
-        </member>
         <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.AuthenticateRequest(Microsoft.Bot.Connector.IActivity,System.String,Microsoft.Bot.Connector.ICredentialProvider,Microsoft.Bot.Connector.SkillAuthentication.AuthenticationConfiguration,System.Net.Http.HttpClient)">
             <summary>
             Authenticates the request and adds the activity's <see cref="P:Microsoft.Bot.Connector.Activity.ServiceUrl"/>
@@ -426,19 +413,6 @@
             <param name="authHeader">The authentication header.</param>
             <param name="credentials">The bot's credential provider.</param>
             <param name="authConfig">The optional authentication configuration.</param>
-            <param name="httpClient">The HTTP client.</param>
-            <returns>A task that represents the work queued to execute.</returns>
-            <remarks>If the task completes successfully, the result contains the claims-based
-            identity for the request.</remarks>
-        </member>
-        <member name="M:Microsoft.Bot.Connector.SkillAuthentication.JwtTokenValidation.ValidateAuthHeader(System.String,Microsoft.Bot.Connector.ICredentialProvider,System.String,System.String,System.Net.Http.HttpClient)">
-            <summary>
-            Validates the authentication header of an incoming request.
-            </summary>
-            <param name="authHeader">The authentication header to validate.</param>
-            <param name="credentials">The bot's credential provider.</param>
-            <param name="channelId">The ID of the channel that sent the request.</param>
-            <param name="serviceUrl">The service URL for the activity.</param>
             <param name="httpClient">The HTTP client.</param>
             <returns>A task that represents the work queued to execute.</returns>
             <remarks>If the task completes successfully, the result contains the claims-based
