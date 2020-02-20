@@ -24,22 +24,6 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// <param name="activity">The activity.</param>
         /// <param name="authHeader">The authentication header.</param>
         /// <param name="credentials">The bot's credential provider.</param>
-        /// <param name="httpClient">The HTTP client.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
-        /// <remarks>If the task completes successfully, the result contains the claims-based
-        /// identity for the request.</remarks>
-        public static async Task<ClaimsIdentity> AuthenticateRequest(IActivity activity, string authHeader, ICredentialProvider credentials, HttpClient httpClient = null)
-        {
-            return await AuthenticateRequest(activity, authHeader, credentials, new AuthenticationConfiguration(), httpClient).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Authenticates the request and adds the activity's <see cref="Activity.ServiceUrl"/>
-        /// to the set of trusted URLs.
-        /// </summary>
-        /// <param name="activity">The activity.</param>
-        /// <param name="authHeader">The authentication header.</param>
-        /// <param name="credentials">The bot's credential provider.</param>
         /// <param name="authConfig">The optional authentication configuration.</param>
         /// <param name="httpClient">The HTTP client.</param>
         /// <returns>A task that represents the work queued to execute.</returns>
@@ -72,22 +56,6 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
             MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl);
 
             return claimsIdentity;
-        }
-
-        /// <summary>
-        /// Validates the authentication header of an incoming request.
-        /// </summary>
-        /// <param name="authHeader">The authentication header to validate.</param>
-        /// <param name="credentials">The bot's credential provider.</param>
-        /// <param name="channelId">The ID of the channel that sent the request.</param>
-        /// <param name="serviceUrl">The service URL for the activity.</param>
-        /// <param name="httpClient">The HTTP client.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
-        /// <remarks>If the task completes successfully, the result contains the claims-based
-        /// identity for the request.</remarks>
-        public static async Task<ClaimsIdentity> ValidateAuthHeader(string authHeader, ICredentialProvider credentials, string channelId, string serviceUrl = null, HttpClient httpClient = null)
-        {
-            return await ValidateAuthHeader(authHeader, credentials, channelId, new AuthenticationConfiguration(), serviceUrl, httpClient).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -173,12 +141,19 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// <exception cref="UnauthorizedAccessException">If the validation returns false.</exception>
         internal static async Task ValidateClaimsAsync(AuthenticationConfiguration authConfig, IEnumerable<Claim> claims)
         {
-            if (authConfig.ClaimsValidator != null)
+            if (authConfig.ClaimsValidator == null)
             {
-                // Call the validation method if defined (it should throw an exception if the validation fails)
-                var claimsList = claims as IList<Claim> ?? claims.ToList();
-                await authConfig.ClaimsValidator.ValidateClaimsAsync(claimsList).ConfigureAwait(false);
+                throw new UnauthorizedAccessException("JwtTokenValidation.ValidateClaimsAsync.authConfig must have a ClaimsValidator.");
             }
+
+            var claimsList = claims as IList<Claim> ?? claims.ToList();
+            if (!claims.Any())
+            {
+                throw new UnauthorizedAccessException("JwtTokenValidation.ValidateClaimsAsync.claims parameter must contain at least one element.");
+            }
+
+            // Call the validation method (it should throw an exception if the validation fails)
+            await authConfig.ClaimsValidator.ValidateClaimsAsync(claimsList).ConfigureAwait(false);
         }
 
         /// <summary>

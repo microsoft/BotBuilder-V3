@@ -82,6 +82,16 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// <returns>True if the list of claims is a skill claim, false if is not.</returns>
         public static bool IsSkillClaim(IEnumerable<Claim> claims)
         {
+            if (claims == null)
+            {
+                throw new ArgumentNullException(nameof(claims));
+            }
+
+            if (!claims.Any())
+            {
+                throw new UnauthorizedAccessException("SkillValidation.IsSkillClaim.claims parameter must contain at least one element.");
+            }
+
             var claimsList = claims.ToList();
 
             var version = claimsList.FirstOrDefault(claim => claim.Type == AuthenticationConstants.VersionClaim);
