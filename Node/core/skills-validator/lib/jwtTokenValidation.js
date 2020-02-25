@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -124,12 +125,13 @@ var JwtTokenValidation;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!authConfig.validateClaims) return [3, 2];
+                        if (!authConfig.validateClaims) {
+                            throw new Error("JwtTokenValidation.ValidateClaimsAsync.authConfig must have a ClaimsValidator.");
+                        }
                         return [4, authConfig.validateClaims(claims)];
                     case 1:
                         _a.sent();
-                        _a.label = 2;
-                    case 2: return [2];
+                        return [2];
                 }
             });
         });

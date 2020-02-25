@@ -96,10 +96,11 @@ export namespace JwtTokenValidation {
      * @param claims The list of claims to validate.
      */
     async function validateClaims(authConfig: AuthenticationConfiguration, claims: Claim[] = []): Promise<void> {
-        if (authConfig.validateClaims) {
-            // Call the validation method if defined (it should throw an exception if the validation fails)
-            await authConfig.validateClaims(claims);
+        if (!authConfig.validateClaims) {
+            throw new Error(`JwtTokenValidation.ValidateClaimsAsync.authConfig must have a ClaimsValidator.`);
         }
+        // Call the validation method (it should throw an exception if the validation fails)
+        await authConfig.validateClaims(claims);
     }
 
     /**

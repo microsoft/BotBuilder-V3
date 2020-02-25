@@ -13,10 +13,11 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -58,13 +59,20 @@ var DefaultAuthenticationConfiguration = (function (_super) {
         _this.validateClaims = function (claims) { return __awaiter(_this, void 0, void 0, function () {
             var appId;
             return __generator(this, function (_a) {
-                if (skillValidation_1.SkillValidation.isSkillClaim(claims) && this.allowedCallers[0] !== '*') {
-                    appId = jwtTokenValidation_1.JwtTokenValidation.getAppIdFromClaims(claims);
-                    if (!this.allowedCallers.includes(appId)) {
-                        throw new Error("Received a request from a bot with an app ID of \"" + appId + "\". To enable requests from this caller, add the app ID to your configuration file.");
-                    }
+                if (!claims || claims.length < 1) {
+                    throw new Error("DefaultAuthenticationConfiguration.validateClaims.claims parameter must contain at least one element.");
                 }
-                return [2];
+                if (skillValidation_1.SkillValidation.isSkillClaim(claims)) {
+                    if (this.allowedCallers[0] === '*') {
+                        return [2];
+                    }
+                    appId = jwtTokenValidation_1.JwtTokenValidation.getAppIdFromClaims(claims);
+                    if (this.allowedCallers.includes(appId)) {
+                        return [2];
+                    }
+                    throw new Error("Received a request from a bot with an app ID of \"" + appId + "\". To enable requests from this caller, add the app ID to your configuration file.");
+                }
+                throw new Error("DefaultAuthenticationConfiguration.validateClaims called without a Skill claim in claims.");
             });
         }); };
         if (!allowedCallers || allowedCallers.length == 0) {
