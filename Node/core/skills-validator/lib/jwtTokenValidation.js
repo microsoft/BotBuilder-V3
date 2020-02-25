@@ -47,14 +47,12 @@ var JwtTokenValidation;
 (function (JwtTokenValidation) {
     function authenticateRequest(activity, authHeader, credentials, serviceUrl, authConfig) {
         return __awaiter(this, void 0, void 0, function () {
-            var xyz, isAuthDisabled, claimsIdentity;
+            var isAuthDisabled, claimsIdentity;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!authConfig) {
                             authConfig = new authenticationConfiguration_1.AuthenticationConfiguration();
-                            xyz = 'test';
-                            console.log(xyz);
                         }
                         if (!!authHeader.trim()) return [3, 2];
                         return [4, credentials.isAuthenticationDisabled()];
@@ -127,12 +125,13 @@ var JwtTokenValidation;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!authConfig.validateClaims) return [3, 2];
+                        if (!authConfig.validateClaims) {
+                            throw new Error("JwtTokenValidation.ValidateClaimsAsync.authConfig must have a ClaimsValidator.");
+                        }
                         return [4, authConfig.validateClaims(claims)];
                     case 1:
                         _a.sent();
-                        _a.label = 2;
-                    case 2: return [2];
+                        return [2];
                 }
             });
         });
