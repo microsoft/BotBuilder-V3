@@ -27,13 +27,22 @@ export class DefaultAuthenticationConfiguration extends AuthenticationConfigurat
         }
 
         public validateClaims: ValidateClaims = async (claims: Claim[]) => {
+            if (!claims || claims.length < 1) {
+                throw new Error(`DefaultAuthenticationConfiguration.validateClaims.claims parameter must contain at least one element.`);
+            }
             // If allowedCallers contains '*' we allow all callers
-            if (SkillValidation.isSkillClaim(claims) && this.allowedCallers[0] !== '*') {
+            if (SkillValidation.isSkillClaim(claims)) {
+                
+                if(this.allowedCallers[0] === '*') {
+                    return;
+                }
                 // Check that the appId claim in the skill request is in the list of skills configured for this bot.
                 const appId = JwtTokenValidation.getAppIdFromClaims(claims);
-                if (!this.allowedCallers.includes(appId)) {
-                    throw new Error(`Received a request from a bot with an app ID of "${ appId }". To enable requests from this caller, add the app ID to your configuration file.`);
+                if (this.allowedCallers.includes(appId)) {
+                    return;
                 }
+                throw new Error(`Received a request from a bot with an app ID of "${ appId }". To enable requests from this caller, add the app ID to your configuration file.`);
             }
+            throw new Error(`DefaultAuthenticationConfiguration.validateClaims called without a Skill claim in claims.`);
         };
 }

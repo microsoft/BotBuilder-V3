@@ -124,12 +124,13 @@ var JwtTokenValidation;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        if (!authConfig.validateClaims) return [3, 2];
+                        if (!authConfig.validateClaims) {
+                            throw new Error("JwtTokenValidation.ValidateClaimsAsync.authConfig must have a ClaimsValidator.");
+                        }
                         return [4, authConfig.validateClaims(claims)];
                     case 1:
                         _a.sent();
-                        _a.label = 2;
-                    case 2: return [2];
+                        return [2];
                 }
             });
         });
