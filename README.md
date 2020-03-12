@@ -6,7 +6,7 @@ Accordingly, there will be no more development in this repo. **Existing V3 bot w
 We highly recommend that you start migrating your V3 bots to V4. In order to support this migration we have produced migration documentation and will provide extended support for migration initiatives (via standard channels such as Stack Overflow and Microsoft Customer Support).
 
 For more information please refer to the following references:
-* Migration Documentation: https://aka.ms/v3v4-bot-migration
+* Migration Documentation: https://aka.ms/bf-migration-overview
 * End of lifetime support announcement: https://aka.ms/bfmigfaq
 * Primary V4 Repositories to develop Bot Framework bots
   * [Botbuilder for dotnet](https://github.com/microsoft/botbuilder-dotnet)
