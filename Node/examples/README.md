@@ -5,7 +5,7 @@
 These samples are now **deprecated** and will no longer be maintained.
 
 If you are looking for the most updated Bot Builder SDK V3 samples for both C# and JavaScript (node), 
-go to [BotBuilder-Samples](https://github.com/Microsoft/botbuilder-samples)
+go to [BotBuilder-Samples](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples)
 
 ***
 
