@@ -37,6 +37,9 @@ var QnAMakerDialog = (function (_super) {
         }
         return _this;
     }
+    QnAMakerDialog.prototype.begin = function (session, recognizeResult) {
+        this.replyReceived(session, recognizeResult);
+    };
     QnAMakerDialog.prototype.replyReceived = function (session, recognizeResult) {
         var _this = this;
         var threshold = this.answerThreshold;

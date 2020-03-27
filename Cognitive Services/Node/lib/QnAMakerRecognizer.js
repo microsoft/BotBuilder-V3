@@ -58,6 +58,7 @@ var QnAMakerRecognizer = (function () {
         }
     };
     QnAMakerRecognizer.recognize = function (utterance, kbUrl, authkey, authHeader, top, intentName, callback) {
+        var _a;
         try {
             request({
                 url: kbUrl,
@@ -119,7 +120,6 @@ var QnAMakerRecognizer = (function () {
         catch (e) {
             callback(e instanceof Error ? e : new Error(e.toString()));
         }
-        var _a;
     };
     return QnAMakerRecognizer;
 }());
