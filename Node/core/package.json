@@ -36,6 +36,7 @@
     "promise": "^7.1.1",
     "request": "^2.88.0",
     "rsa-pem-from-mod-exp": "^0.8.4",
+    "skills-validator": "file:skills-validator/skills-validator-1.0.0.tgz",
     "sprintf-js": "^1.0.3",
     "url-join": "^1.1.0"
   },
