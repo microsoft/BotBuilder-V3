@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Connector
         protected class TrustedHostInfo
         {
             public DateTime DateTime { get; set; }
-            public HashSet<string> OAuthScopes { get; set; }
+            public ConcurrentDictionary<string, byte> OAuthScopes { get; set; }
         }
 
 #if !NET45
@@ -140,10 +140,10 @@ namespace Microsoft.Bot.Connector
         {
             try
             {
-                var scopeHashset = new HashSet<string>();
+                var scopeHashset = new ConcurrentDictionary<string, byte>();
                 if (!string.IsNullOrEmpty(oauthScope))
                 {
-                    scopeHashset.Add(oauthScope);
+                    scopeHashset.TryAdd(oauthScope, 0);
                 }
 
                 if (expirationTime == default(DateTime))
@@ -166,7 +166,7 @@ namespace Microsoft.Bot.Connector
 
                         if (!string.IsNullOrEmpty(oauthScope))
                         {
-                            currentValue.OAuthScopes.Add(oauthScope);
+                            currentValue.OAuthScopes.TryAdd(oauthScope, 0);
                         }
 
                         return currentValue;
@@ -185,7 +185,7 @@ namespace Microsoft.Bot.Connector
                         currentValue.DateTime = expirationTime;
                         if (!string.IsNullOrEmpty(oauthScope))
                         {
-                            currentValue.OAuthScopes.Add(oauthScope);
+                            currentValue.OAuthScopes.TryAdd(oauthScope, 0);
                         }
 
                         return currentValue;
@@ -255,9 +255,9 @@ namespace Microsoft.Bot.Connector
                             string requestUriPath = request.RequestUri.AbsolutePath;
                             foreach(var scope in scopes)
                             {
-                                if (requestUriPath.Contains(scope))
+                                if (requestUriPath.Contains(scope.Key))
                                 {
-                                    oauthScope = scope;
+                                    oauthScope = scope.Key;
                                     break;
                                 }
                             }
@@ -265,7 +265,7 @@ namespace Microsoft.Bot.Connector
 
                         if (string.IsNullOrEmpty(oauthScope))
                         {
-                            oauthScope = scopes.First();
+                            oauthScope = scopes.First().Key;
                         }
                     }
                 }

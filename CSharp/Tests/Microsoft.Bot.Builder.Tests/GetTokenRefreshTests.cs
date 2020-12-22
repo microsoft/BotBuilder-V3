@@ -2,14 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Bot.Connector;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using System.Threading;
-using System.Linq;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -41,9 +37,9 @@ namespace Microsoft.Bot.Builder.Tests
             {
             }
 
-            public KeyValuePair<string, HashSet<string>> GetServiceUrlsAndScopes(string host)
+            public KeyValuePair<string, ICollection<string>> GetServiceUrlsAndScopes(string host)
             {
-                return new KeyValuePair<string, HashSet<string>>(host, TrustedHostNames[host].OAuthScopes);
+                return new KeyValuePair<string, ICollection<string>>(host, TrustedHostNames[host].OAuthScopes.Keys);
             }
         }
 
@@ -55,6 +51,8 @@ namespace Microsoft.Bot.Builder.Tests
             string scope1 = "testscope1";
             string scope2 = "testscope2";
 
+            // Add the first path twice (to ensure duplicates are not added)
+            MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope2}", DateTime.Now.AddDays(1), scope2);
             MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope2}", DateTime.Now.AddDays(1), scope2);
             MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope1}", DateTime.Now.AddDays(1), scope1);
             MicrosoftAppCredentials.TrustServiceUrl($"SomeOtherBaseUrl/{scope1}", DateTime.Now.AddDays(1), scope1);
@@ -71,7 +69,8 @@ namespace Microsoft.Bot.Builder.Tests
             string baseUrl = $"http://{host}/";
             string scope1 = "testscope1";
             string scope2 = "testscope2";
-
+            // Add the first path twice (to ensure duplicates are not added)
+            MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope2}", oauthScope: scope2);
             MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope2}", oauthScope: scope2);
             MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope1}", oauthScope: scope1);
             MicrosoftAppCredentials.TrustServiceUrl($"SomeOtherBaseUrl/{scope1}", oauthScope: scope1);
