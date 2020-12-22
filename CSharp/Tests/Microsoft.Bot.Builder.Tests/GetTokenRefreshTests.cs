@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Bot.Connector;
 using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -30,6 +28,56 @@ namespace Microsoft.Bot.Builder.Tests
             {
                 testContextInstance = value;
             }
+        }
+
+        public class TestMicrosoftAppCredentials : MicrosoftAppCredentials
+        {
+            public TestMicrosoftAppCredentials(string appId, string appPassword)
+                : base(appId, appPassword)
+            {
+            }
+
+            public KeyValuePair<string, ICollection<string>> GetServiceUrlsAndScopes(string host)
+            {
+                return new KeyValuePair<string, ICollection<string>>(host, TrustedHostNames[host].OAuthScopes.Keys);
+            }
+        }
+
+        [TestMethod]
+        public async Task TokenTests_OAuthScopeWorks()
+        {
+            string host = "testurl.com";
+            string baseUrl = $"http://{host}/";
+            string scope1 = "testscope1";
+            string scope2 = "testscope2";
+
+            // Add the first path twice (to ensure duplicates are not added)
+            MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope2}", DateTime.Now.AddDays(1), scope2);
+            MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope2}", DateTime.Now.AddDays(1), scope2);
+            MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope1}", DateTime.Now.AddDays(1), scope1);
+            MicrosoftAppCredentials.TrustServiceUrl($"SomeOtherBaseUrl/{scope1}", DateTime.Now.AddDays(1), scope1);
+
+            var scopes = new TestMicrosoftAppCredentials(string.Empty, string.Empty).GetServiceUrlsAndScopes(host);
+
+            Assert.AreEqual(2, scopes.Value.Count);
+        }
+        
+        [TestMethod]
+        public async Task TokenTests_OAuthScopeNoDateWorks()
+        {
+            string host = "testurl.com";
+            string baseUrl = $"http://{host}/";
+            string scope1 = "testscope1";
+            string scope2 = "testscope2";
+            // Add the first path twice (to ensure duplicates are not added)
+            MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope2}", oauthScope: scope2);
+            MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope2}", oauthScope: scope2);
+            MicrosoftAppCredentials.TrustServiceUrl($"{baseUrl}{scope1}", oauthScope: scope1);
+            MicrosoftAppCredentials.TrustServiceUrl($"SomeOtherBaseUrl/{scope1}", oauthScope: scope1);
+
+            var scopes = new TestMicrosoftAppCredentials(string.Empty, string.Empty).GetServiceUrlsAndScopes(host);
+
+            Assert.AreEqual(2, scopes.Value.Count);
         }
 
         [TestMethod]
