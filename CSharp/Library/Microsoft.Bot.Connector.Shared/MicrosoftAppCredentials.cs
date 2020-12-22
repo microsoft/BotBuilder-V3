@@ -140,10 +140,10 @@ namespace Microsoft.Bot.Connector
         {
             try
             {
-                var scopeHashset = new ConcurrentDictionary<string, byte>();
+                var scopes = new ConcurrentDictionary<string, byte>();
                 if (!string.IsNullOrEmpty(oauthScope))
                 {
-                    scopeHashset.TryAdd(oauthScope, 0);
+                    scopes.TryAdd(oauthScope, 0);
                 }
 
                 if (expirationTime == default(DateTime))
@@ -154,7 +154,7 @@ namespace Microsoft.Bot.Connector
                                                 new TrustedHostInfo
                                                 {
                                                     DateTime = DateTime.UtcNow.Add(extensionPeriod),
-                                                    OAuthScopes = scopeHashset
+                                                    OAuthScopes = scopes
                                                 }, (key, currentValue) =>
                     {
                         var newExpiration = DateTime.UtcNow.Add(extensionPeriod);
@@ -178,7 +178,7 @@ namespace Microsoft.Bot.Connector
                                                 new TrustedHostInfo
                                                 {
                                                     DateTime = expirationTime,
-                                                    OAuthScopes = scopeHashset
+                                                    OAuthScopes = scopes
                                                 }, (key, currentValue) => 
                     {                      
                         // The developer has provided the expiration, so use it.
