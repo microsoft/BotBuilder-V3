@@ -45,7 +45,7 @@ namespace Microsoft.Bot.Connector
         protected class TrustedHostInfo
         {
             public DateTime DateTime { get; set; }
-            public ConcurrentDictionary<string, byte> OAuthScopes { get; set; }
+            public ConcurrentDictionary<string, string> OAuthScopes { get; set; }
         }
 
 #if !NET45
@@ -135,15 +135,16 @@ namespace Microsoft.Bot.Connector
         /// <param name="expirationTime">The expiration time after which this service url is not trusted anymore</param>
         /// <param name="oauthScope">(optional) The scope to use while retrieving the token.  If Null, 
         /// MicrosoftAppCredentials.OAuthBotScope will be used.</param>
+        /// <param name="conversationId">(optional)Conversation Id for the conversation.</param>
         /// <remarks>If expiration time is not provided, the expiration time will DateTime.UtcNow.AddDays(1).</remarks>
-        public static void TrustServiceUrl(string serviceUrl, DateTime expirationTime = default(DateTime), string oauthScope = null)
+        public static void TrustServiceUrl(string serviceUrl, DateTime expirationTime = default(DateTime), string oauthScope = null, string conversationId = null)
         {
             try
             {
-                var scopes = new ConcurrentDictionary<string, byte>();
+                var scopes = new ConcurrentDictionary<string, string>();
                 if (!string.IsNullOrEmpty(oauthScope))
                 {
-                    scopes.TryAdd(oauthScope, 0);
+                    scopes.TryAdd(oauthScope, conversationId);
                 }
 
                 if (expirationTime == default(DateTime))
@@ -166,7 +167,7 @@ namespace Microsoft.Bot.Connector
 
                         if (!string.IsNullOrEmpty(oauthScope))
                         {
-                            currentValue.OAuthScopes.TryAdd(oauthScope, 0);
+                            currentValue.OAuthScopes.TryAdd(oauthScope, conversationId);
                         }
 
                         return currentValue;
@@ -185,7 +186,7 @@ namespace Microsoft.Bot.Connector
                         currentValue.DateTime = expirationTime;
                         if (!string.IsNullOrEmpty(oauthScope))
                         {
-                            currentValue.OAuthScopes.TryAdd(oauthScope, 0);
+                            currentValue.OAuthScopes.TryAdd(oauthScope, conversationId);
                         }
 
                         return currentValue;
@@ -243,10 +244,10 @@ namespace Microsoft.Bot.Connector
                 if (TrustedHostNames.TryGetValue(request.RequestUri.Host, out trustedHostInfo))
                 {
                     // Some parent bot hosting environments have the same baseurl for multiple parent bots 
-                    // and route with an additional botid in the ServiceUrl of the activity sent.
+                    // and must be routed with the conversation.id in the ServiceUrl of the activity being sent.
 
                     // This code determines the correct parent bot id, or OAuthScope, by checking known scopes
-                    // for the one in the path of the response.
+                    // for the one containing the conversation.id.
                     var scopes = trustedHostInfo.OAuthScopes;
                     if (scopes.Count > 0)
                     {
@@ -255,7 +256,7 @@ namespace Microsoft.Bot.Connector
                             string requestUriPath = request.RequestUri.AbsolutePath;
                             foreach(var scope in scopes)
                             {
-                                if (requestUriPath.Contains(scope.Key))
+                                if (requestUriPath.Contains(scope.Value))
                                 {
                                     oauthScope = scope.Key;
                                     break;
