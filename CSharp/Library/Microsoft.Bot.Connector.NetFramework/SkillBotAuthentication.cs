@@ -47,8 +47,7 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
                             string extendedHost = null;
                             if (ExtendTrustServiceUrlHost)
                             {
-                                var conversationsIndex = activity.ServiceUrl.IndexOf("/v3/conversations");
-                                extendedHost = activity.ServiceUrl.Substring(0, conversationsIndex);
+                                extendedHost = activity.ServiceUrl;
                             }
 
                             MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl, oauthScope: JwtTokenValidation.GetAppIdFromClaims(claimsIdentity.Claims), extendedHost: extendedHost);
