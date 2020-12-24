@@ -233,10 +233,10 @@ namespace Microsoft.Bot.Connector
                 if (TrustedHostNames.TryGetValue(request.RequestUri.Host, out trustedHostInfo))
                 {
                     // Some parent bot hosting environments have the same baseurl for multiple parent bots 
-                    // and must be routed with the conversation.id in the ServiceUrl of the activity being sent.
+                    // and must be routed with an extended url.
 
                     // This code determines the correct parent bot id, or OAuthScope, by checking known scopes
-                    // for the one containing the conversation.id.
+                    // for the one containing the extended path comparison.
                     var scopes = trustedHostInfo.OAuthScopes;
                     if (scopes.Count > 0)
                     {
