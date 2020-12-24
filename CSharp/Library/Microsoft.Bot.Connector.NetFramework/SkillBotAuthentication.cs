@@ -17,7 +17,14 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
         /// Type which implements AuthenticationConfiguration to allow validation for Skills 
         /// </summary>
         public Type AuthenticationConfigurationProviderType { get; set; }
-        
+
+        /// <summary>
+        /// Used for environments where multiple parent bots are hosted at the same base url.
+        /// Setting this to 'true' will extend the trusted serviceurl beyond Host, and up to
+        /// '/v3/conversations'.
+        /// </summary>
+        public bool ExtendTrustServiceUrlHost { get; set; } = false;
+
         private static HttpClient _httpClient = new HttpClient();
 
         public override async Task OnActionExecutingAsync(HttpActionContext actionContext, CancellationToken cancellationToken)
@@ -37,7 +44,14 @@ namespace Microsoft.Bot.Connector.SkillAuthentication
                         {
                             var claimsIdentity = await JwtTokenValidation.AuthenticateRequest(activity, authorizationHeader.ToString(), credentialProvider, authConfiguration, _httpClient).ConfigureAwait(false);
                             // this is done in JwtTokenValidation.AuthenticateRequest, but the oauthScope is not set so we update it here
-                            MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl, oauthScope: JwtTokenValidation.GetAppIdFromClaims(claimsIdentity.Claims));
+                            string extendedHost = null;
+                            if (ExtendTrustServiceUrlHost)
+                            {
+                                var conversationsIndex = activity.ServiceUrl.IndexOf("/v3/conversations");
+                                extendedHost = activity.ServiceUrl.Substring(0, conversationsIndex);
+                            }
+
+                            MicrosoftAppCredentials.TrustServiceUrl(activity.ServiceUrl, oauthScope: JwtTokenValidation.GetAppIdFromClaims(claimsIdentity.Claims), extendedHost: extendedHost);
                         }
                     }
                     catch (UnauthorizedAccessException)

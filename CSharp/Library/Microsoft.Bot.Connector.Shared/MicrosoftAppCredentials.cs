@@ -45,6 +45,11 @@ namespace Microsoft.Bot.Connector
         protected class TrustedHostInfo
         {
             public DateTime DateTime { get; set; }
+            /// <summary>
+            /// OAuthScopes is a ConcurrentDictionary because they live within a public, static class
+            /// container, and values are written during incoming  activity processing, and read during
+            /// outgoing activity processing.
+            /// </summary>
             public ConcurrentDictionary<string, string> OAuthScopes { get; set; }
         }
 
@@ -135,63 +140,47 @@ namespace Microsoft.Bot.Connector
         /// <param name="expirationTime">The expiration time after which this service url is not trusted anymore</param>
         /// <param name="oauthScope">(optional) The scope to use while retrieving the token.  If Null, 
         /// MicrosoftAppCredentials.OAuthBotScope will be used.</param>
-        /// <param name="conversationId">(optional)Conversation Id for the conversation.</param>
+        /// <param name="extendedHost">(optional)Extend the required match to include this, beyon the host..</param>
         /// <remarks>If expiration time is not provided, the expiration time will DateTime.UtcNow.AddDays(1).</remarks>
-        public static void TrustServiceUrl(string serviceUrl, DateTime expirationTime = default(DateTime), string oauthScope = null, string conversationId = null)
+        public static void TrustServiceUrl(string serviceUrl, DateTime expirationTime = default(DateTime), string oauthScope = null, string extendedHost = null)
         {
             try
             {
                 var scopes = new ConcurrentDictionary<string, string>();
                 if (!string.IsNullOrEmpty(oauthScope))
                 {
-                    scopes.TryAdd(oauthScope, conversationId);
+                    scopes.TryAdd(oauthScope, extendedHost);
                 }
 
+                var setExpirationTime = expirationTime;
                 if (expirationTime == default(DateTime))
                 {
                     // by default the service url is valid for one day
-                    var extensionPeriod = TimeSpan.FromDays(1);
-                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host,
-                                                new TrustedHostInfo
-                                                {
-                                                    DateTime = DateTime.UtcNow.Add(extensionPeriod),
-                                                    OAuthScopes = scopes
-                                                }, (key, currentValue) =>
+                    setExpirationTime = DateTime.UtcNow.Add(TimeSpan.FromDays(1));
+                }
+                
+                TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host,
+                                            new TrustedHostInfo
+                                            {
+                                                DateTime = setExpirationTime,
+                                                OAuthScopes = scopes
+                                            }, (key, currentValue) => 
+                {                      
+                    // If the developer has provided the expiration, use it.
+                    // Otherwise, do not overwite newer dates with older dates.
+                    if (expirationTime != default(DateTime) || currentValue.DateTime < setExpirationTime)
                     {
-                        var newExpiration = DateTime.UtcNow.Add(extensionPeriod);
-                        // do not overwrite expirations that are greater than one day from now
-                        if (currentValue.DateTime < newExpiration)
-                        {
-                            currentValue.DateTime = newExpiration;
-                        }
+                        currentValue.DateTime = setExpirationTime;
+                    }
 
-                        if (!string.IsNullOrEmpty(oauthScope))
-                        {
-                            currentValue.OAuthScopes.TryAdd(oauthScope, conversationId);
-                        }
+                    if (!string.IsNullOrEmpty(oauthScope))
+                    {
+                        currentValue.OAuthScopes.AddOrUpdate(oauthScope, extendedHost, (wasExtendedHost, newExtendedHost) => { return wasExtendedHost ?? newExtendedHost; });
+                    }
 
-                        return currentValue;
-                    });
-                }
-                else
-                {
-                    TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host,
-                                                new TrustedHostInfo
-                                                {
-                                                    DateTime = expirationTime,
-                                                    OAuthScopes = scopes
-                                                }, (key, currentValue) => 
-                    {                      
-                        // The developer has provided the expiration, so use it.
-                        currentValue.DateTime = expirationTime;
-                        if (!string.IsNullOrEmpty(oauthScope))
-                        {
-                            currentValue.OAuthScopes.TryAdd(oauthScope, conversationId);
-                        }
-
-                        return currentValue;
-                    });
-                }
+                    return currentValue;
+                });
+                
             }
             catch (Exception)
             {
