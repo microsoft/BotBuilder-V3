@@ -256,7 +256,7 @@ namespace Microsoft.Bot.Connector
                             string requestUriPath = request.RequestUri.AbsolutePath;
                             foreach(var scope in scopes)
                             {
-                                if (!string.IsNullOrEmpty(scope.Value) && requestUriPath.Contains(scope.Value))
+                                if (requestUriPath.Contains(scope.Value))
                                 {
                                     oauthScope = scope.Key;
                                     break;
