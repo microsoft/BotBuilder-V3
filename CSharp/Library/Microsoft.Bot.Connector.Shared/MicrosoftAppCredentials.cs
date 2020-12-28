@@ -45,12 +45,8 @@ namespace Microsoft.Bot.Connector
         protected class TrustedHostInfo
         {
             public DateTime DateTime { get; set; }
-            /// <summary>
-            /// OAuthScopes is a ConcurrentDictionary because they live within a public, static class
-            /// container, and values are written during incoming  activity processing, and read during
-            /// outgoing activity processing.
-            /// </summary>
-            public ConcurrentDictionary<string, string> OAuthScopes { get; set; }
+
+            public string OAuthScope { get; set; }
         }
 
 #if !NET45
@@ -140,18 +136,11 @@ namespace Microsoft.Bot.Connector
         /// <param name="expirationTime">The expiration time after which this service url is not trusted anymore</param>
         /// <param name="oauthScope">(optional) The scope to use while retrieving the token.  If Null, 
         /// MicrosoftAppCredentials.OAuthBotScope will be used.</param>
-        /// <param name="extendedHost">(optional)Extend the required match to include this, beyon the host..</param>
         /// <remarks>If expiration time is not provided, the expiration time will DateTime.UtcNow.AddDays(1).</remarks>
-        public static void TrustServiceUrl(string serviceUrl, DateTime expirationTime = default(DateTime), string oauthScope = null, string extendedHost = null)
+        public static void TrustServiceUrl(string serviceUrl, DateTime expirationTime = default(DateTime), string oauthScope = null)
         {
             try
             {
-                var scopes = new ConcurrentDictionary<string, string>();
-                if (!string.IsNullOrEmpty(oauthScope))
-                {
-                    scopes.TryAdd(oauthScope, extendedHost);
-                }
-
                 var setExpirationTime = expirationTime;
                 if (expirationTime == default(DateTime))
                 {
@@ -159,11 +148,11 @@ namespace Microsoft.Bot.Connector
                     setExpirationTime = DateTime.UtcNow.Add(TimeSpan.FromDays(1));
                 }
                 
-                TrustedHostNames.AddOrUpdate(new Uri(serviceUrl).Host,
+                TrustedHostNames.AddOrUpdate(serviceUrl,
                                             new TrustedHostInfo
                                             {
                                                 DateTime = setExpirationTime,
-                                                OAuthScopes = scopes
+                                                OAuthScope = oauthScope
                                             }, (key, currentValue) => 
                 {                      
                     // If the developer has provided the expiration, use it.
@@ -175,7 +164,7 @@ namespace Microsoft.Bot.Connector
 
                     if (!string.IsNullOrEmpty(oauthScope))
                     {
-                        currentValue.OAuthScopes.AddOrUpdate(oauthScope, extendedHost, (wasExtendedHost, newExtendedHost) => { return wasExtendedHost ?? newExtendedHost; });
+                        currentValue.OAuthScope = oauthScope;
                     }
 
                     return currentValue;
@@ -226,43 +215,22 @@ namespace Microsoft.Bot.Connector
         /// <param name="request">The HTTP request.</param><param name="cancellationToken">Cancellation token.</param>
         public override async Task ProcessHttpRequestAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            if (ShouldSetToken(request))
+            var trustedHostInfo = GetTrustedHostInfo(request.RequestUri);
+            if (trustedHostInfo != null)
             {
-                string oauthScope = null;
-                TrustedHostInfo trustedHostInfo;
-                if (TrustedHostNames.TryGetValue(request.RequestUri.Host, out trustedHostInfo))
-                {
-                    // Some parent bot hosting environments have the same baseurl for multiple parent bots 
-                    // and must be routed with an extended url.
-
-                    // This code determines the correct parent bot id, or OAuthScope, by checking known scopes
-                    // for the one containing the extended path comparison.
-                    var scopes = trustedHostInfo.OAuthScopes;
-                    if (scopes.Count > 0)
-                    {
-                        if (scopes.Count > 1)
-                        {
-                            string requestUriPath = request.RequestUri.AbsolutePath;
-                            foreach(var scope in scopes)
-                            {
-                                if (requestUriPath.Contains(scope.Value))
-                                {
-                                    oauthScope = scope.Key;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (string.IsNullOrEmpty(oauthScope))
-                        {
-                            oauthScope = scopes.First().Key;
-                        }
-                    }
-                }
-                
+                var oauthScope = trustedHostInfo.OAuthScope;
                 var authResult = await GetTokenAsync(oauthScope: oauthScope).ConfigureAwait(false);
                 request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authResult);
             }
+            else
+            {
+#if NET45
+                Trace.TraceWarning($"Service url {request.RequestUri.Authority} is not trusted and JwtToken cannot be sent to it.");
+#else
+            logger?.LogWarning($"Service url {request.RequestUri.Authority} is not trusted and JwtToken cannot be sent to it.");
+#endif
+            }
+
             await base.ProcessHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
         }
 
@@ -290,7 +258,7 @@ namespace Microsoft.Bot.Connector
 #endif
         }
 
-        private static bool TrustedUri(Uri uri)
+        private static TrustedHostInfo GetTrustedHostInfo(Uri uri)
         {
             TrustedHostInfo trustedHostInfo;
             if (TrustedHostNames.TryGetValue(uri.Host, out trustedHostInfo))
@@ -298,10 +266,31 @@ namespace Microsoft.Bot.Connector
                 // check if the trusted service url is still valid
                 if (trustedHostInfo.DateTime > DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5)))
                 {
-                    return true;
+                    return trustedHostInfo;
                 }
             }
-            return false;
+
+            var endOfBaseUrl = uri.AbsoluteUri.IndexOf("v3/conversations", StringComparison.InvariantCultureIgnoreCase);
+            if (endOfBaseUrl > 0)
+            {
+                var serviceUrl = uri.AbsoluteUri.Substring(0, endOfBaseUrl);
+                if (TrustedHostNames.TryGetValue(serviceUrl, out trustedHostInfo))
+                {
+                    // check if the trusted service url is still valid
+                    if (trustedHostInfo.DateTime > DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5)))
+                    {
+                        return trustedHostInfo;
+                    }
+                }
+
+            }
+
+            return null;
+        }
+
+        private static bool TrustedUri(Uri uri)
+        {
+            return GetTrustedHostInfo(uri) != null;
         }
 
 #if NET45
