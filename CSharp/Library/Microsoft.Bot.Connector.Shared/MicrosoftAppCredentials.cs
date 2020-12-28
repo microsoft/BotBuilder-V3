@@ -270,7 +270,7 @@ namespace Microsoft.Bot.Connector
                 }
             }
 
-            var endOfBaseUrl = uri.AbsoluteUri.IndexOf("v3/conversations", StringComparison.InvariantCultureIgnoreCase);
+            var endOfBaseUrl = uri.AbsoluteUri.IndexOf("v3/conversations", StringComparison.OrdinalIgnoreCase);
             if (endOfBaseUrl > 0)
             {
                 var serviceUrl = uri.AbsoluteUri.Substring(0, endOfBaseUrl);

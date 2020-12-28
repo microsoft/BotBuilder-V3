@@ -77,7 +77,7 @@ namespace Microsoft.Bot.Builder.Tests
             } 
             catch (Exception ex)
             {
-                if (!ex.Message.Equals("ignore", StringComparison.InvariantCultureIgnoreCase)) 
+                if (!ex.Message.Equals("ignore", StringComparison.OrdinalIgnoreCase)) 
                 {
                     Assert.Fail("Test did not throw 'ignore' exception as expected");
                 }
