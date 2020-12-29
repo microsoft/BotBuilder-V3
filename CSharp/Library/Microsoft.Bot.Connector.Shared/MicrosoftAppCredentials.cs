@@ -147,7 +147,12 @@ namespace Microsoft.Bot.Connector
                     // by default the service url is valid for one day
                     setExpirationTime = DateTime.UtcNow.Add(TimeSpan.FromDays(1));
                 }
-                
+
+                if (!serviceUrl.EndsWith("/"))
+                {
+                    serviceUrl += "/";
+                }
+
                 TrustedHostNames.AddOrUpdate(serviceUrl,
                                             new TrustedHostInfo
                                             {
@@ -191,21 +196,6 @@ namespace Microsoft.Bot.Connector
             {
                 return TrustedUri(uri);
             }
-            return false;
-        }
-
-        private bool ShouldSetToken(HttpRequestMessage request)
-        {
-            if (TrustedUri(request.RequestUri))
-            {
-                return true;
-            }
-
-#if NET45
-            Trace.TraceWarning($"Service url {request.RequestUri.Authority} is not trusted and JwtToken cannot be sent to it.");
-#else
-            logger?.LogWarning($"Service url {request.RequestUri.Authority} is not trusted and JwtToken cannot be sent to it.");
-#endif
             return false;
         }
 
