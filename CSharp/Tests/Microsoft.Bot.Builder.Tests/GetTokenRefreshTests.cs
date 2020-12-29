@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
+using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Builder.Tests
 {
@@ -64,29 +65,32 @@ namespace Microsoft.Bot.Builder.Tests
         {
             string host = "testurl.com";
             string baseUrl = $"http://{host}/morehere/extended/";
-            
+            const string scopeId = "3851a47b-53ed-4d29-b878-6e941da61e98";
+
             var credentials = new TestMicrosoftAppCredentials("a40e1db0-b7a2-4e6e-af0e-b4987f73228f", "sbF0902^}tyvpvEDXTMX9^|");
-            MicrosoftAppCredentials.TrustServiceUrl(baseUrl, oauthScope: "3851a47b-53ed-4d29-b878-6e941da61e98");
+            MicrosoftAppCredentials.TrustServiceUrl(baseUrl, oauthScope: scopeId);
 
             var connectorClient = new ConnectorClient(new Uri(baseUrl), credentials, addJwtTokenRefresher: false);
             var activity = new Activity() { Type = ActivityTypes.Message, Text = "test" };
 
+            Exception expectedException = null;
             try
             {
                 var response = connectorClient.Conversations.SendToConversation("testConversationId", activity);
             } 
             catch (Exception ex)
             {
-                if (!ex.Message.Equals("ignore", StringComparison.OrdinalIgnoreCase)) 
-                {
-                    Assert.Fail("Test did not throw 'ignore' exception as expected");
-                }
+                expectedException = ex;
 
-                var oauthScope = "3851a47b-53ed-4d29-b878-6e941da61e98";
-                var authResult = await credentials.GetTokenAsync(oauthScope: oauthScope).ConfigureAwait(false);
+                var authResult = await credentials.GetTokenAsync(oauthScope: scopeId).ConfigureAwait(false);
                 var credentialsHeader = credentials.RequestMessage.Headers.Authorization.ToString();
 
                 Assert.AreEqual("Bearer " + authResult, credentialsHeader);
+            }
+
+            if (expectedException == null || !expectedException.Message.Equals("ignore", StringComparison.OrdinalIgnoreCase))
+            {
+                Assert.Fail("Test did not throw 'ignore' exception as expected");
             }
         }
 

@@ -260,19 +260,25 @@ namespace Microsoft.Bot.Connector
                 }
             }
 
-            var endOfBaseUrl = uri.AbsoluteUri.IndexOf("v3/conversations", StringComparison.OrdinalIgnoreCase);
-            if (endOfBaseUrl > 0)
+            // Iterate known protocol url pieces, and look for a valid ServiceUrl derived from AbsoluteURl parsed.
+            foreach(var v3ProtocolUrl in new[] { "v3/conversations", "v3/attachments", "api/usertoken", "api/botsignin", "v3/botstate"})
             {
-                var serviceUrl = uri.AbsoluteUri.Substring(0, endOfBaseUrl);
-                if (TrustedHostNames.TryGetValue(serviceUrl, out trustedHostInfo))
+                var endofV3UrlBase = uri.AbsoluteUri.IndexOf(v3ProtocolUrl, StringComparison.OrdinalIgnoreCase);
+                if (endofV3UrlBase > 0)
                 {
-                    // check if the trusted service url is still valid
-                    if (trustedHostInfo.DateTime > DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5)))
+                    var serviceUrl = uri.AbsoluteUri.Substring(0, endofV3UrlBase);
+                    if (TrustedHostNames.TryGetValue(serviceUrl, out trustedHostInfo))
                     {
-                        return trustedHostInfo;
+                        // check if the trusted service url is still valid
+                        if (trustedHostInfo.DateTime > DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(5)))
+                        {
+                            return trustedHostInfo;
+                        }
                     }
-                }
 
+                    // The correct protocol was identified, but the url is not trusted.
+                    return null;
+                }
             }
 
             return null;
