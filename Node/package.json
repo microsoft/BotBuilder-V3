@@ -8,7 +8,7 @@
     "async": "^1.5.2",
     "base64url": "^3.0.0",
     "busboy": "^0.2.13",
-    "chrono-node": "^1.2.5",
+    "chrono-node": "^2.2.4",
     "jsonwebtoken": "^8.2.2",
     "node-uuid": "^1.4.7",
     "promise": "^7.1.1",
