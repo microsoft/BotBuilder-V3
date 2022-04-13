@@ -5,7 +5,7 @@
   "author": "Microsoft Corp.",
   "license": "MIT",
   "dependencies": {
-    "async": "^1.5.2",
+    "async": "^3.2.2",
     "base64url": "^3.0.0",
     "busboy": "^0.2.13",
     "chrono-node": "^1.2.5",
